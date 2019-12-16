@@ -13,12 +13,14 @@ view: account {
     type: string
     sql: ${TABLE}."_hc_err" ;;
     group_label: "System"
+    label: "HC Error"
   }
 
   dimension: _hc_lastop {
     type: string
     sql: ${TABLE}."_hc_lastop" ;;
     group_label: "System"
+    label: "HC Last Op"
   }
 
   dimension: account_arr__c {
@@ -30,23 +32,11 @@ view: account {
   dimension: account_arr_summary__c {
     type: number
     sql: ${TABLE}."account_arr_summary__c" ;;
+    label: "ARR"
     group_label: "Amounts"
   }
 
-  dimension_group: account_end_date__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."account_end_date__c" ;;
-  }
+
 
   dimension: account_number__c {
     type: string
@@ -60,39 +50,43 @@ view: account {
     hidden:  yes
   }
 
-  dimension_group: account_start_date__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: account_end_date__c {
+    type: date
+    sql: ${TABLE}."account_end_date__c" ;;
+    label: "Account End Date"
+  }
+
+  dimension: account_start_date__c {
+    type: date
     sql: ${TABLE}."account_start_date__c" ;;
+    label: "Account Start Date"
   }
 
   dimension: accountsource {
     type: string
     sql: ${TABLE}."accountsource" ;;
+    label: "Account Source"
   }
 
   dimension: annualrevenue {
     type: number
     sql: ${TABLE}."annualrevenue" ;;
+    label: "Annual Revenue"
   }
 
   dimension: api_id__c {
     type: string
     sql: ${TABLE}."api_id__c" ;;
+    group_label: "System"
+    label: "API ID"
   }
 
   dimension: assigned_once_with_workflow__c {
     type: yesno
     sql: ${TABLE}."assigned_once_with_workflow__c" ;;
+    group_label: "System"
+    label: "Assigned Once with WF"
+
   }
 
   dimension: assigned_owner__c {
@@ -183,6 +177,9 @@ view: account {
   dimension: cleaned_up_website__c {
     type: string
     sql: ${TABLE}."cleaned_up_website__c" ;;
+    group_label: "System"
+    label: "Cleaned up Website"
+
   }
 
   dimension: commercial_rep__c {
@@ -207,21 +204,14 @@ view: account {
   dimension: createdbyid {
     type: string
     sql: ${TABLE}."createdbyid" ;;
+    group_label: "System"
     label: "Created By ID"
   }
 
-  dimension_group: createddate {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: createddate {
+    type: date
     sql: ${TABLE}."createddate" ;;
+    label: "Create Date"
   }
 
   dimension: csm__c {
