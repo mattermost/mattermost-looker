@@ -170,12 +170,14 @@ view: account {
 
   dimension: case_study_date__c {
     sql: ${TABLE}."case_study_date__c" ;;
+    group_label: "Marketing"
     label: "Case Study"
   }
 
   dimension: case_study_link__c {
     type: string
     sql: ${TABLE}."case_study_link__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: cleaned_up_website__c {
