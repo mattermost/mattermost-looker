@@ -112,21 +112,25 @@ view: product2 {
   dimension: name {
     type: string
     sql: ${TABLE}."name" ;;
+    label: "Product Name"
   }
 
   dimension: product_id_18_digit__c {
     type: string
     sql: ${TABLE}."product_id_18_digit__c" ;;
+    label: "Product SF ID"
   }
 
   dimension: product_id__c {
     type: string
     sql: ${TABLE}."product_id__c" ;;
+    label: "Product ID"
   }
 
   dimension: productcode {
     type: string
     sql: ${TABLE}."productcode" ;;
+    label: "Product Code"
   }
 
   dimension: quantityunitofmeasure {
@@ -161,5 +165,6 @@ view: product2 {
   measure: count {
     type: count
     drill_fields: [id, name]
+    label: "# of Products"
   }
 }
