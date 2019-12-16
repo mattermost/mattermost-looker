@@ -1,4 +1,5 @@
 view: account {
+  view_label: ""
   sql_table_name: orgm.account ;;
   drill_fields: [account_id_18_digit__c]
 
@@ -11,21 +12,25 @@ view: account {
   dimension: _hc_err {
     type: string
     sql: ${TABLE}."_hc_err" ;;
+    group_label: "System"
   }
 
   dimension: _hc_lastop {
     type: string
     sql: ${TABLE}."_hc_lastop" ;;
+    group_label: "System"
   }
 
   dimension: account_arr__c {
     type: number
     sql: ${TABLE}."account_arr__c" ;;
+    group_label: "Amounts"
   }
 
   dimension: account_arr_summary__c {
     type: number
     sql: ${TABLE}."account_arr_summary__c" ;;
+    group_label: "Amounts"
   }
 
   dimension_group: account_end_date__c {
@@ -46,11 +51,13 @@ view: account {
   dimension: account_number__c {
     type: string
     sql: ${TABLE}."account_number__c" ;;
+    label: "Account #"
   }
 
   dimension: account_number_int__c {
     type: number
     sql: ${TABLE}."account_number_int__c" ;;
+    hidden:  yes
   }
 
   dimension_group: account_start_date__c {
@@ -91,12 +98,15 @@ view: account {
   dimension: assigned_owner__c {
     type: string
     sql: ${TABLE}."assigned_owner__c" ;;
+    group_label: "Owner"
+    label: "Assigned Owner"
   }
 
   dimension: assigned_owner_id__c {
     type: string
     sql: ${TABLE}."assigned_owner_id__c" ;;
-  }
+    group_label: "Owner"
+    label: "Assigned Owner ID"  }
 
   dimension: billingcity {
     type: string
@@ -158,19 +168,9 @@ view: account {
     group_label: "Billings"
     }
 
-  dimension_group: case_study_date__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: case_study_date__c {
     sql: ${TABLE}."case_study_date__c" ;;
+    label: "Case Study"
   }
 
   dimension: case_study_link__c {
@@ -186,21 +186,26 @@ view: account {
   dimension: commercial_rep__c {
     type: string
     sql: ${TABLE}."commercial_rep__c" ;;
+    group_label: "Owners"
+    label: "Commercial Rep"
   }
 
   dimension: company_type__c {
     type: string
     sql: ${TABLE}."company_type__c" ;;
+    label: "Company Type"
   }
 
   dimension: cosize__c {
     type: string
     sql: ${TABLE}."cosize__c" ;;
+    label: "Company Size"
   }
 
   dimension: createdbyid {
     type: string
     sql: ${TABLE}."createdbyid" ;;
+    label: "Created By ID"
   }
 
   dimension_group: createddate {
@@ -220,36 +225,47 @@ view: account {
   dimension: csm__c {
     type: string
     sql: ${TABLE}."csm__c" ;;
+    group_label: "Owners"
+    label: "CSM Name"
   }
 
   dimension: csm_auto_assigned__c {
     type: string
     sql: ${TABLE}."csm_auto_assigned__c" ;;
+    group_label: "CS"
+    label: "CSM Auto-assigned"
   }
 
   dimension: csm_id__c {
     type: string
     sql: ${TABLE}."csm_id__c" ;;
-  }
+    group_label: "Owners"
+    label: "CSM ID"
+    }
 
   dimension: csm_override__c {
     type: string
     sql: ${TABLE}."csm_override__c" ;;
+    group_label: "CS"
+    label: "CSM Override"
   }
 
   dimension: csm_territory__c {
     type: string
     sql: ${TABLE}."csm_territory__c" ;;
-  }
+    group_label: "CS"
+    label: "CS Territory"}
 
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
+    label: "CS"
   }
 
   dimension: customer_segmentation_tier__c {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
+    label: "CS"
   }
 
   dimension_group: date_of_issue__c {
@@ -270,6 +286,7 @@ view: account {
   dimension: days_past_renewal__c {
     type: number
     sql: ${TABLE}."days_past_renewal__c" ;;
+    label: "CS"
   }
 
   dimension_group: demo_req_date__c {
@@ -304,6 +321,7 @@ view: account {
   dimension: description {
     type: string
     sql: ${TABLE}."description" ;;
+    label: "Account Description"
   }
 
   dimension_group: e_purchase_date__c {
@@ -328,16 +346,20 @@ view: account {
   dimension: field_rep__c {
     type: string
     sql: ${TABLE}."field_rep__c" ;;
+    group_label: "Owners"
+    label: "Field Rep"
   }
 
   dimension: first_channel__c {
     type: string
     sql: ${TABLE}."first_channel__c" ;;
+    label: "First Channel"
   }
 
   dimension: first_channel_detail__c {
     type: string
     sql: ${TABLE}."first_channel_detail__c" ;;
+    label: "First Channel"
   }
 
   dimension_group: first_created_date__c {
@@ -393,6 +415,8 @@ view: account {
   dimension: former_owner__c {
     type: string
     sql: ${TABLE}."former_owner__c" ;;
+    group_label: "Owners"
+    label: "Former Owner"
   }
 
   dimension: g2k_rank__c {
@@ -433,11 +457,15 @@ view: account {
   dimension: imported_case_study_note__c {
     type: string
     sql: ${TABLE}."imported_case_study_note__c" ;;
+    group_label: "Imported"
+    label: "Case Study Note"
   }
 
   dimension: imported_industry__c {
     type: string
     sql: ${TABLE}."imported_industry__c" ;;
+    group_label: "Imported"
+    label: "Industry"
   }
 
   dimension: inbound_outbound__c {
@@ -448,6 +476,7 @@ view: account {
   dimension: industry {
     type: string
     sql: ${TABLE}."industry" ;;
+    label: "Industry"
   }
 
   dimension: isdeleted {
@@ -563,27 +592,32 @@ view: account {
   dimension: legal_contact__c {
     type: string
     sql: ${TABLE}."legal_contact__c" ;;
+    group_label: "Legal"
   }
 
   dimension: legal_right_for_case_studies__c {
     type: string
     sql: ${TABLE}."legal_right_for_case_studies__c" ;;
-  }
+    group_label: "Legal"
+    }
 
   dimension: legal_right_to_use_name_logo__c {
     type: string
     sql: ${TABLE}."legal_right_to_use_name_logo__c" ;;
-  }
+    group_label: "Legal"
+    }
 
   dimension: legally_agreed_to_joint_pr__c {
     type: string
     sql: ${TABLE}."legally_agreed_to_joint_pr__c" ;;
-  }
+    group_label: "Legal"
+    }
 
   dimension: legally_agreed_to_pr__c {
     type: string
     sql: ${TABLE}."legally_agreed_to_pr__c" ;;
-  }
+    group_label: "Legal"
+    }
 
   dimension: logo_sales_logos_dropbox__c {
     type: string
@@ -603,6 +637,8 @@ view: account {
   dimension: mattermost_rep__c {
     type: string
     sql: ${TABLE}."mattermost_rep__c" ;;
+    group_label: "Owners"
+    label: "Mattermost Rep"
   }
 
   dimension_group: max_closed_won_date__c {
@@ -646,21 +682,25 @@ view: account {
       year
     ]
     sql: ${TABLE}."mql_date__c" ;;
+    group_label: "Funnel"
   }
 
   dimension: name {
     type: string
     sql: ${TABLE}."name" ;;
+    label: "Account Name"
   }
 
   dimension: named_account__c {
     type: yesno
     sql: ${TABLE}."named_account__c" ;;
+    label: "Named Account"
   }
 
   dimension: named_account_tier__c {
     type: string
     sql: ${TABLE}."named_account_tier__c" ;;
+    label: "Named Account Tier"
   }
 
   dimension_group: nda_expiration_date__c {
@@ -809,21 +849,29 @@ view: account {
   dimension: ownerid {
     type: string
     sql: ${TABLE}."ownerid" ;;
+    group_label: "Owners"
+    label: "Owner ID"
   }
 
   dimension: ownership {
     type: string
     sql: ${TABLE}."ownership" ;;
+    group_label: "Owners"
+    label: "Ownership"
   }
 
   dimension: parent_s_parent_acount__c {
     type: string
     sql: ${TABLE}."parent_s_parent_acount__c" ;;
+    group_label: "Parent"
+    label: "Parent Account Name"
   }
 
   dimension: parentid {
     type: string
     sql: ${TABLE}."parentid" ;;
+    group_label: "Parent"
+    label: "Parent Account ID"
   }
 
   dimension: phone {
@@ -897,6 +945,8 @@ view: account {
   dimension: renewal_rep__c {
     type: string
     sql: ${TABLE}."renewal_rep__c" ;;
+    group_label: "Owners"
+    label: "Renewal Rep"
   }
 
   dimension_group: request_a_quote_date__c {
@@ -935,56 +985,68 @@ view: account {
   dimension: sfid {
     type: string
     sql: ${TABLE}."sfid" ;;
+    group_label: "System"
+    label: "SFDC ID"
   }
 
   dimension: shippingcity {
     type: string
     sql: ${TABLE}."shippingcity" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingcountry {
     type: string
     sql: ${TABLE}."shippingcountry" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingcountrycode {
     type: string
     sql: ${TABLE}."shippingcountrycode" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippinggeocodeaccuracy {
     type: string
     sql: ${TABLE}."shippinggeocodeaccuracy" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippinglatitude {
     type: number
     sql: ${TABLE}."shippinglatitude" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippinglongitude {
     type: number
     sql: ${TABLE}."shippinglongitude" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingpostalcode {
     type: string
     sql: ${TABLE}."shippingpostalcode" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingstate {
     type: string
     sql: ${TABLE}."shippingstate" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingstatecode {
     type: string
     sql: ${TABLE}."shippingstatecode" ;;
+    group_label: "Shipping"
   }
 
   dimension: shippingstreet {
     type: string
     sql: ${TABLE}."shippingstreet" ;;
+    group_label: "Shipping"
   }
 
   dimension: sic {
@@ -1034,36 +1096,45 @@ view: account {
       year
     ]
     sql: ${TABLE}."systemmodstamp" ;;
+    group_label: "System"
   }
 
   dimension: territory__c {
     type: string
     sql: ${TABLE}."territory__c" ;;
+    group_label: "Region and Territory"
+    label: "Territory Name"
   }
 
   dimension: territoryid__c {
     type: string
     sql: ${TABLE}."territoryid__c" ;;
+    group_label: "Region and Territory"
+    label: "Territory ID"
   }
 
   dimension: testimonial1_from__c {
     type: string
     sql: ${TABLE}."testimonial1_from__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: testimonial_1__c {
     type: string
     sql: ${TABLE}."testimonial_1__c" ;;
-  }
+    group_label: "Marketing"
+    }
 
   dimension: testimonial_2__c {
     type: string
     sql: ${TABLE}."testimonial_2__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: testimonial_2_from__c {
     type: string
     sql: ${TABLE}."testimonial_2_from__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: tickersymbol {
@@ -1098,6 +1169,7 @@ view: account {
   dimension: type {
     type: string
     sql: ${TABLE}."type" ;;
+    label: "Account Type"
   }
 
   dimension: unique_accounts__c {
@@ -1161,17 +1233,20 @@ view: account {
   dimension: zendesk__create_in_zendesk__c {
     type: yesno
     sql: ${TABLE}."zendesk__create_in_zendesk__c" ;;
+    group_label: "Zendesk"
   }
 
   dimension: zendesk__createdupdatedflag__c {
     type: yesno
     sql: ${TABLE}."zendesk__createdupdatedflag__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__domain_mapping__c {
     type: string
     sql: ${TABLE}."zendesk__domain_mapping__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension_group: zendesk__last_sync_date__c {
     type: time
@@ -1185,47 +1260,56 @@ view: account {
       year
     ]
     sql: ${TABLE}."zendesk__last_sync_date__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__last_sync_status__c {
     type: string
     sql: ${TABLE}."zendesk__last_sync_status__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__notes__c {
     type: string
     sql: ${TABLE}."zendesk__notes__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__result__c {
     type: string
     sql: ${TABLE}."zendesk__result__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__tags__c {
     type: string
     sql: ${TABLE}."zendesk__tags__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_oldtags__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_oldtags__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_organization__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_organization_id__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization_id__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_outofsync__c {
     type: yesno
     sql: ${TABLE}."zendesk__zendesk_outofsync__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   measure: count {
     type: count
