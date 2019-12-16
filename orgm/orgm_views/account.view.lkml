@@ -12,21 +12,25 @@ view: account {
   dimension: _hc_err {
     type: string
     sql: ${TABLE}."_hc_err" ;;
+    group_label: "System"
   }
 
   dimension: _hc_lastop {
     type: string
     sql: ${TABLE}."_hc_lastop" ;;
+    group_label: "System"
   }
 
   dimension: account_arr__c {
     type: number
     sql: ${TABLE}."account_arr__c" ;;
+    group_label: "Amounts"
   }
 
   dimension: account_arr_summary__c {
     type: number
     sql: ${TABLE}."account_arr_summary__c" ;;
+    group_label: "Amounts"
   }
 
   dimension_group: account_end_date__c {
@@ -47,11 +51,13 @@ view: account {
   dimension: account_number__c {
     type: string
     sql: ${TABLE}."account_number__c" ;;
+    label: "Account #"
   }
 
   dimension: account_number_int__c {
     type: number
     sql: ${TABLE}."account_number_int__c" ;;
+    hidden:  yes
   }
 
   dimension_group: account_start_date__c {
@@ -92,12 +98,14 @@ view: account {
   dimension: assigned_owner__c {
     type: string
     sql: ${TABLE}."assigned_owner__c" ;;
+    group_label: "Owner"
     label: "Assigned Owner"
   }
 
   dimension: assigned_owner_id__c {
     type: string
     sql: ${TABLE}."assigned_owner_id__c" ;;
+    group_label: "Owner"
     label: "Assigned Owner ID"  }
 
   dimension: billingcity {
@@ -179,7 +187,7 @@ view: account {
     type: string
     sql: ${TABLE}."commercial_rep__c" ;;
     group_label: "Owners"
-    label: "COmmercial Rep"
+    label: "Commercial Rep"
   }
 
   dimension: company_type__c {
@@ -217,45 +225,47 @@ view: account {
   dimension: csm__c {
     type: string
     sql: ${TABLE}."csm__c" ;;
-    group_label: "CSM"
+    group_label: "Owners"
     label: "CSM Name"
   }
 
   dimension: csm_auto_assigned__c {
     type: string
     sql: ${TABLE}."csm_auto_assigned__c" ;;
-    group_label: "CSM"
+    group_label: "CS"
     label: "CSM Auto-assigned"
   }
 
   dimension: csm_id__c {
     type: string
     sql: ${TABLE}."csm_id__c" ;;
-    group_label: "CSM"
-    label: "CSM Name"
+    group_label: "Owners"
+    label: "CSM ID"
     }
 
   dimension: csm_override__c {
     type: string
     sql: ${TABLE}."csm_override__c" ;;
-    group_label: "CSM"
-    label: "CSM Name"
+    group_label: "CS"
+    label: "CSM Override"
   }
 
   dimension: csm_territory__c {
     type: string
     sql: ${TABLE}."csm_territory__c" ;;
-    group_label: "CSM"
-    label: "CSM Territory"}
+    group_label: "CS"
+    label: "CS Territory"}
 
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
+    label: "CS"
   }
 
   dimension: customer_segmentation_tier__c {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
+    label: "CS"
   }
 
   dimension_group: date_of_issue__c {
@@ -276,6 +286,7 @@ view: account {
   dimension: days_past_renewal__c {
     type: number
     sql: ${TABLE}."days_past_renewal__c" ;;
+    label: "CS"
   }
 
   dimension_group: demo_req_date__c {
@@ -342,11 +353,13 @@ view: account {
   dimension: first_channel__c {
     type: string
     sql: ${TABLE}."first_channel__c" ;;
+    label: "First Channel"
   }
 
   dimension: first_channel_detail__c {
     type: string
     sql: ${TABLE}."first_channel_detail__c" ;;
+    label: "First Channel"
   }
 
   dimension_group: first_created_date__c {
@@ -972,6 +985,8 @@ view: account {
   dimension: sfid {
     type: string
     sql: ${TABLE}."sfid" ;;
+    group_label: "System"
+    label: "SFDC ID"
   }
 
   dimension: shippingcity {
