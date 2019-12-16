@@ -1081,36 +1081,45 @@ view: account {
       year
     ]
     sql: ${TABLE}."systemmodstamp" ;;
+    group_label: "System"
   }
 
   dimension: territory__c {
     type: string
     sql: ${TABLE}."territory__c" ;;
+    group_label: "Region and Territory"
+    label: "Territory Name"
   }
 
   dimension: territoryid__c {
     type: string
     sql: ${TABLE}."territoryid__c" ;;
+    group_label: "Region and Territory"
+    label: "Territory ID"
   }
 
   dimension: testimonial1_from__c {
     type: string
     sql: ${TABLE}."testimonial1_from__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: testimonial_1__c {
     type: string
     sql: ${TABLE}."testimonial_1__c" ;;
-  }
+    group_label: "Marketing"
+    }
 
   dimension: testimonial_2__c {
     type: string
     sql: ${TABLE}."testimonial_2__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: testimonial_2_from__c {
     type: string
     sql: ${TABLE}."testimonial_2_from__c" ;;
+    group_label: "Marketing"
   }
 
   dimension: tickersymbol {
@@ -1209,17 +1218,20 @@ view: account {
   dimension: zendesk__create_in_zendesk__c {
     type: yesno
     sql: ${TABLE}."zendesk__create_in_zendesk__c" ;;
+    group_label: "Zendesk"
   }
 
   dimension: zendesk__createdupdatedflag__c {
     type: yesno
     sql: ${TABLE}."zendesk__createdupdatedflag__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__domain_mapping__c {
     type: string
     sql: ${TABLE}."zendesk__domain_mapping__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension_group: zendesk__last_sync_date__c {
     type: time
@@ -1233,47 +1245,56 @@ view: account {
       year
     ]
     sql: ${TABLE}."zendesk__last_sync_date__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__last_sync_status__c {
     type: string
     sql: ${TABLE}."zendesk__last_sync_status__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__notes__c {
     type: string
     sql: ${TABLE}."zendesk__notes__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__result__c {
     type: string
     sql: ${TABLE}."zendesk__result__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__tags__c {
     type: string
     sql: ${TABLE}."zendesk__tags__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_oldtags__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_oldtags__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_organization__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_organization_id__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization_id__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   dimension: zendesk__zendesk_outofsync__c {
     type: yesno
     sql: ${TABLE}."zendesk__zendesk_outofsync__c" ;;
-  }
+    group_label: "Zendesk"
+    }
 
   measure: count {
     type: count
