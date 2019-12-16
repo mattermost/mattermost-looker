@@ -101,52 +101,62 @@ view: account {
   dimension: billingcity {
     type: string
     sql: ${TABLE}."billingcity" ;;
+    group_label: "Billings"
   }
 
   dimension: billingcountry {
     type: string
     sql: ${TABLE}."billingcountry" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billingcountrycode {
     type: string
     sql: ${TABLE}."billingcountrycode" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billinggeocodeaccuracy {
     type: string
     sql: ${TABLE}."billinggeocodeaccuracy" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billinglatitude {
     type: number
     sql: ${TABLE}."billinglatitude" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billinglongitude {
     type: number
     sql: ${TABLE}."billinglongitude" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billingpostalcode {
     type: string
     sql: ${TABLE}."billingpostalcode" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billingstate {
     type: string
     sql: ${TABLE}."billingstate" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billingstatecode {
     type: string
     sql: ${TABLE}."billingstatecode" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension: billingstreet {
     type: string
     sql: ${TABLE}."billingstreet" ;;
-  }
+    group_label: "Billings"
+    }
 
   dimension_group: case_study_date__c {
     type: time
@@ -671,67 +681,80 @@ view: account {
   dimension: netsuite_conn__account_balance__c {
     type: number
     sql: ${TABLE}."netsuite_conn__account_balance__c" ;;
+    group_label: "Netsuite"
   }
 
   dimension: netsuite_conn__account_overdue_balance__c {
     type: number
     sql: ${TABLE}."netsuite_conn__account_overdue_balance__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__celigo_update__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__celigo_update__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__channel_tier__c {
     type: string
     sql: ${TABLE}."netsuite_conn__channel_tier__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__credit_hold__c {
     type: string
     sql: ${TABLE}."netsuite_conn__credit_hold__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__credit_limit__c {
     type: number
     sql: ${TABLE}."netsuite_conn__credit_limit__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__days_overdue__c {
     type: number
     sql: ${TABLE}."netsuite_conn__days_overdue__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__netsuite_id__c {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_id__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__netsuite_sync_err__c {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_sync_err__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__push_to_netsuite__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__push_to_netsuite__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__pushed_from_opportunity__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__pushed_from_opportunity__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__sync_in_progress__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__sync_in_progress__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: netsuite_conn__unbilled_orders__c {
     type: number
     sql: ${TABLE}."netsuite_conn__unbilled_orders__c" ;;
-  }
+    group_label: "Netsuite"
+    }
 
   dimension: number_of_open_opportunities__c {
     type: number
