@@ -860,18 +860,16 @@ view: account {
     label: "Ownership"
   }
 
-  dimension: parent_s_parent_acount__c {
-    type: string
-    sql: ${TABLE}."parent_s_parent_acount__c" ;;
-    group_label: "Parent"
-    label: "Parent Account Name"
-  }
-
   dimension: parentid {
     type: string
     sql: ${TABLE}."parentid" ;;
     group_label: "Parent"
     label: "Parent Account ID"
+  }
+
+  dimension: parent_account_name {
+    type: string
+    sql: coalesce(${parent_account.name},${name}) ;;
   }
 
   dimension: phone {
