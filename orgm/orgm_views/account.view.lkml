@@ -251,13 +251,13 @@ view: account {
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension: customer_segmentation_tier__c {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: date_of_issue__c {
@@ -278,7 +278,7 @@ view: account {
   dimension: days_past_renewal__c {
     type: number
     sql: ${TABLE}."days_past_renewal__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: demo_req_date__c {
