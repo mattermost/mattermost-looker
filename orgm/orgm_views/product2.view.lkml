@@ -112,25 +112,66 @@ view: product2 {
   dimension: name {
     type: string
     sql: ${TABLE}."name" ;;
-    label: "Product Name"
+  }
+
+  dimension: netsuite_conn__celigo_update__c {
+    type: yesno
+    sql: ${TABLE}."netsuite_conn__celigo_update__c" ;;
+  }
+
+  dimension: netsuite_conn__item_category__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__item_category__c" ;;
+  }
+
+  dimension: netsuite_conn__netsuite_id__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__netsuite_id__c" ;;
+  }
+
+  dimension: netsuite_conn__netsuite_item_type__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__netsuite_item_type__c" ;;
+  }
+
+  dimension: netsuite_conn__netsuite_sync_err__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__netsuite_sync_err__c" ;;
+  }
+
+  dimension: netsuite_conn__push_to_netsuite__c {
+    type: yesno
+    sql: ${TABLE}."netsuite_conn__push_to_netsuite__c" ;;
+  }
+
+  dimension: netsuite_conn__sub_type__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__sub_type__c" ;;
+  }
+
+  dimension: netsuite_conn__sync_in_progress__c {
+    type: yesno
+    sql: ${TABLE}."netsuite_conn__sync_in_progress__c" ;;
+  }
+
+  dimension: netsuite_conn__term_contract_pricing_type__c {
+    type: string
+    sql: ${TABLE}."netsuite_conn__term_contract_pricing_type__c" ;;
   }
 
   dimension: product_id_18_digit__c {
     type: string
     sql: ${TABLE}."product_id_18_digit__c" ;;
-    label: "Product SF ID"
   }
 
   dimension: product_id__c {
     type: string
     sql: ${TABLE}."product_id__c" ;;
-    label: "Product ID"
   }
 
   dimension: productcode {
     type: string
     sql: ${TABLE}."productcode" ;;
-    label: "Product Code"
   }
 
   dimension: quantityunitofmeasure {
@@ -164,7 +205,6 @@ view: product2 {
 
   measure: count {
     type: count
-    drill_fields: [id, name]
-    label: "# of Products"
+    drill_fields: [id, name, opportunitylineitem.count]
   }
 }

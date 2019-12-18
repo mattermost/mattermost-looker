@@ -1,7 +1,43 @@
 connection: "orgm"
 
-include: "/orgm/orgm_views/*.view.lkml"                       # include all views in this project
-# include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
+include: "/orgm/orgm_views/*.view.lkml"
+fiscal_month_offset: 1
 
-explore: account {}
+explore: account {
+  fields: [ALL_FIELDS*, -account.parent_account_name]
+}
 explore: product2 {}
+
+explore: product_line_item {
+  from: opportunitylineitem
+  view_name: opportunitylineitem
+  group_label: "Favorite Explores"
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+
+  join: account {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: parent_account {
+    from: account
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${account.parentid} ;;
+    relationship: many_to_one
+  }
+
+  join: product2 {
+    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+    relationship: many_to_one
+  }
+
+  join: util_dates {
+    sql_on: ${util_dates.date_date} >= ${opportunitylineitem.start_date} and ${util_dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    relationship: many_to_many
+  }
+}

@@ -22,7 +22,6 @@ view: oli_level_arr {
       year,
       fiscal_year
     ]
-    convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;
   }
@@ -42,7 +41,6 @@ view: oli_level_arr {
       year,
       fiscal_year
     ]
-    convert_tz: no
     datatype: date
     sql: ${TABLE}."START_DATE" ;;
     description: "Product start date"
@@ -57,7 +55,6 @@ view: oli_level_arr {
       year,
       fiscal_year
     ]
-    convert_tz: no
     datatype: date
     sql: ${TABLE}."END_DATE" ;;
     description: "Product end date"
