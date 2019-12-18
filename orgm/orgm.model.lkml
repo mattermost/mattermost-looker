@@ -1,6 +1,6 @@
 connection: "orgm"
 
-include: "/orgm/orgm_views/*.view.lkml"
+include: "/orgm/orgm_views/orgm/*.view.lkml"
 fiscal_month_offset: 1
 
 explore: account {

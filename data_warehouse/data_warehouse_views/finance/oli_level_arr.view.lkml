@@ -5,6 +5,11 @@ view: oli_level_arr {
     type: string
     sql: ${TABLE}."ACCOUNT_NAME" ;;
     description: "Account Name in Salesforce"
+    link: {
+      label: "Salesforce"
+      url: "https://na82.lightning.force.com/lightning/r/Account/{{account_sfid}}/view"
+      icon_url: "https://cdn.worldvectorlogo.com/logos/salesforce-2.svg"
+    }
   }
 
   dimension: account_sfid {
@@ -95,6 +100,11 @@ view: oli_level_arr {
     type: string
     sql: ${TABLE}."PARENT_ACCOUNT_NAME" ;;
     description: "Parent Account Name in Salesforce"
+    link: {
+      label: "Salesforce"
+      url: "https://na82.lightning.force.com/lightning/r/Account/{{parent_account_sfid}}/view"
+      icon_url: "https://cdn.worldvectorlogo.com/logos/salesforce-2.svg"
+    }
   }
 
   dimension: parent_account_sfid {
@@ -113,6 +123,21 @@ view: oli_level_arr {
     type: string
     sql: ${TABLE}."PRODUCT_NAME" ;;
     description: "Product name of opportunity line item"
+  }
+
+  dimension: is_seat {
+    type: yesno
+    sql: (${product_name} like '%E10%' or ${product_name} like '%E20%' or ${product_name} like '%E25%') AND ${product_name} not like '%Support%';;
+  }
+
+  dimension: is_support {
+    type: yesno
+    sql: ${product_name} like '%Support%' AND  (${product_name} not like '%E10%' and ${product_name} not like '%E20%' and ${product_name} not like '%E25%');;
+  }
+
+  dimension: is_seat_w_support {
+    type: yesno
+    sql: (${product_name} like '%E10%' or ${product_name} like '%E20%' or ${product_name} like '%E25%') AND ${product_name} like '%Support%' ;;
   }
 
   dimension: product_type {

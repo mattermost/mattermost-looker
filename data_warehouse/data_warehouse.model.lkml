@@ -1,6 +1,7 @@
 connection: "snowflake"
 
-include: "/data_warehouse/data_warehouse_views/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 fiscal_month_offset: 1
 
 explore: oli_level_arr {
