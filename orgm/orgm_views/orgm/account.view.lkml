@@ -112,55 +112,55 @@ view: account {
     type: string
     sql: ${TABLE}."billingcountry" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billingcountrycode {
     type: string
     sql: ${TABLE}."billingcountrycode" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billinggeocodeaccuracy {
     type: string
     sql: ${TABLE}."billinggeocodeaccuracy" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billinglatitude {
     type: number
     sql: ${TABLE}."billinglatitude" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billinglongitude {
     type: number
     sql: ${TABLE}."billinglongitude" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billingpostalcode {
     type: string
     sql: ${TABLE}."billingpostalcode" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billingstate {
     type: string
     sql: ${TABLE}."billingstate" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billingstatecode {
     type: string
     sql: ${TABLE}."billingstatecode" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: billingstreet {
     type: string
     sql: ${TABLE}."billingstreet" ;;
     group_label: "Billings"
-    }
+  }
 
   dimension: case_study_date__c {
     sql: ${TABLE}."case_study_date__c" ;;
@@ -233,7 +233,7 @@ view: account {
     sql: ${TABLE}."csm_id__c" ;;
     group_label: "Owners"
     label: "CSM ID"
-    }
+  }
 
   dimension: csm_override__c {
     type: string
@@ -251,13 +251,13 @@ view: account {
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension: customer_segmentation_tier__c {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: date_of_issue__c {
@@ -278,7 +278,7 @@ view: account {
   dimension: days_past_renewal__c {
     type: number
     sql: ${TABLE}."days_past_renewal__c" ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: demo_req_date__c {
@@ -591,25 +591,25 @@ view: account {
     type: string
     sql: ${TABLE}."legal_right_for_case_studies__c" ;;
     group_label: "Legal"
-    }
+  }
 
   dimension: legal_right_to_use_name_logo__c {
     type: string
     sql: ${TABLE}."legal_right_to_use_name_logo__c" ;;
     group_label: "Legal"
-    }
+  }
 
   dimension: legally_agreed_to_joint_pr__c {
     type: string
     sql: ${TABLE}."legally_agreed_to_joint_pr__c" ;;
     group_label: "Legal"
-    }
+  }
 
   dimension: legally_agreed_to_pr__c {
     type: string
     sql: ${TABLE}."legally_agreed_to_pr__c" ;;
     group_label: "Legal"
-    }
+  }
 
   dimension: logo_sales_logos_dropbox__c {
     type: string
@@ -720,73 +720,73 @@ view: account {
     type: number
     sql: ${TABLE}."netsuite_conn__account_overdue_balance__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__celigo_update__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__celigo_update__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__channel_tier__c {
     type: string
     sql: ${TABLE}."netsuite_conn__channel_tier__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__credit_hold__c {
     type: string
     sql: ${TABLE}."netsuite_conn__credit_hold__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__credit_limit__c {
     type: number
     sql: ${TABLE}."netsuite_conn__credit_limit__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__days_overdue__c {
     type: number
     sql: ${TABLE}."netsuite_conn__days_overdue__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__netsuite_id__c {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_id__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__netsuite_sync_err__c {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_sync_err__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__push_to_netsuite__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__push_to_netsuite__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__pushed_from_opportunity__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__pushed_from_opportunity__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__sync_in_progress__c {
     type: yesno
     sql: ${TABLE}."netsuite_conn__sync_in_progress__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: netsuite_conn__unbilled_orders__c {
     type: number
     sql: ${TABLE}."netsuite_conn__unbilled_orders__c" ;;
     group_label: "Netsuite"
-    }
+  }
 
   dimension: number_of_open_opportunities__c {
     type: number
@@ -1113,7 +1113,7 @@ view: account {
     type: string
     sql: ${TABLE}."testimonial_1__c" ;;
     group_label: "Marketing"
-    }
+  }
 
   dimension: testimonial_2__c {
     type: string
@@ -1230,13 +1230,13 @@ view: account {
     type: yesno
     sql: ${TABLE}."zendesk__createdupdatedflag__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__domain_mapping__c {
     type: string
     sql: ${TABLE}."zendesk__domain_mapping__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension_group: zendesk__last_sync_date__c {
     type: time
@@ -1251,55 +1251,55 @@ view: account {
     ]
     sql: ${TABLE}."zendesk__last_sync_date__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__last_sync_status__c {
     type: string
     sql: ${TABLE}."zendesk__last_sync_status__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__notes__c {
     type: string
     sql: ${TABLE}."zendesk__notes__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__result__c {
     type: string
     sql: ${TABLE}."zendesk__result__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__tags__c {
     type: string
     sql: ${TABLE}."zendesk__tags__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__zendesk_oldtags__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_oldtags__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__zendesk_organization__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__zendesk_organization_id__c {
     type: string
     sql: ${TABLE}."zendesk__zendesk_organization_id__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   dimension: zendesk__zendesk_outofsync__c {
     type: yesno
     sql: ${TABLE}."zendesk__zendesk_outofsync__c" ;;
     group_label: "Zendesk"
-    }
+  }
 
   measure: count {
     type: count
