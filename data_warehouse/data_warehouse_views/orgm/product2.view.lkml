@@ -5,22 +5,22 @@ view: product2 {
   dimension: id {
     primary_key: yes
     type: number
-    sql: ${TABLE}."id" ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: _hc_err {
     type: string
-    sql: ${TABLE}."_hc_err" ;;
+    sql: ${TABLE}._hc_err ;;
   }
 
   dimension: _hc_lastop {
     type: string
-    sql: ${TABLE}."_hc_lastop" ;;
+    sql: ${TABLE}._hc_lastop ;;
   }
 
   dimension: createdbyid {
     type: string
-    sql: ${TABLE}."createdbyid" ;;
+    sql: ${TABLE}.createdbyid ;;
   }
 
   dimension_group: createddate {
@@ -34,37 +34,37 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}."createddate" ;;
+    sql: ${TABLE}.createddate ;;
   }
 
   dimension: description {
     type: string
-    sql: ${TABLE}."description" ;;
+    sql: ${TABLE}.description ;;
   }
 
   dimension: displayurl {
     type: string
-    sql: ${TABLE}."displayurl" ;;
+    sql: ${TABLE}.displayurl ;;
   }
 
   dimension: family {
     type: string
-    sql: ${TABLE}."family" ;;
+    sql: ${TABLE}.family ;;
   }
 
   dimension: isactive {
     type: yesno
-    sql: ${TABLE}."isactive" ;;
+    sql: ${TABLE}.isactive ;;
   }
 
   dimension: isdeleted {
     type: yesno
-    sql: ${TABLE}."isdeleted" ;;
+    sql: ${TABLE}.isdeleted ;;
   }
 
   dimension: lastmodifiedbyid {
     type: string
-    sql: ${TABLE}."lastmodifiedbyid" ;;
+    sql: ${TABLE}.lastmodifiedbyid ;;
   }
 
   dimension_group: lastmodifieddate {
@@ -78,7 +78,7 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}."lastmodifieddate" ;;
+    sql: ${TABLE}.lastmodifieddate ;;
   }
 
   dimension_group: lastreferenceddate {
@@ -92,7 +92,7 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}."lastreferenceddate" ;;
+    sql: ${TABLE}.lastreferenceddate ;;
   }
 
   dimension_group: lastvieweddate {
@@ -106,87 +106,87 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}."lastvieweddate" ;;
+    sql: ${TABLE}.lastvieweddate ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}."name" ;;
+    sql: ${TABLE}.name ;;
   }
 
-  dimension: netsuite_conn__celigo_update__c {
+  dimension: netsuite_conn__celigo_update {
     type: yesno
-    sql: ${TABLE}."netsuite_conn__celigo_update__c" ;;
+    sql: ${TABLE}.netsuite_conn__celigo_update__c ;;
   }
 
-  dimension: netsuite_conn__item_category__c {
+  dimension: netsuite_conn__item_category {
     type: string
-    sql: ${TABLE}."netsuite_conn__item_category__c" ;;
+    sql: ${TABLE}.netsuite_conn__item_category__c ;;
   }
 
-  dimension: netsuite_conn__netsuite_id__c {
+  dimension: netsuite_conn__netsuite_id {
     type: string
-    sql: ${TABLE}."netsuite_conn__netsuite_id__c" ;;
+    sql: ${TABLE}.netsuite_conn__netsuite_id__c ;;
   }
 
-  dimension: netsuite_conn__netsuite_item_type__c {
+  dimension: netsuite_conn__netsuite_item_type {
     type: string
-    sql: ${TABLE}."netsuite_conn__netsuite_item_type__c" ;;
+    sql: ${TABLE}.netsuite_conn__netsuite_item_type__c ;;
   }
 
-  dimension: netsuite_conn__netsuite_sync_err__c {
+  dimension: netsuite_conn__netsuite_sync_err {
     type: string
-    sql: ${TABLE}."netsuite_conn__netsuite_sync_err__c" ;;
+    sql: ${TABLE}.netsuite_conn__netsuite_sync_err__c ;;
   }
 
-  dimension: netsuite_conn__push_to_netsuite__c {
+  dimension: netsuite_conn__push_to_netsuite {
     type: yesno
-    sql: ${TABLE}."netsuite_conn__push_to_netsuite__c" ;;
+    sql: ${TABLE}.netsuite_conn__push_to_netsuite__c ;;
   }
 
-  dimension: netsuite_conn__sub_type__c {
+  dimension: netsuite_conn__sub_type {
     type: string
-    sql: ${TABLE}."netsuite_conn__sub_type__c" ;;
+    sql: ${TABLE}.netsuite_conn__sub_type__c ;;
   }
 
-  dimension: netsuite_conn__sync_in_progress__c {
+  dimension: netsuite_conn__sync_in_progress {
     type: yesno
-    sql: ${TABLE}."netsuite_conn__sync_in_progress__c" ;;
+    sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
   }
 
-  dimension: netsuite_conn__term_contract_pricing_type__c {
+  dimension: netsuite_conn__term_contract_pricing_type {
     type: string
-    sql: ${TABLE}."netsuite_conn__term_contract_pricing_type__c" ;;
+    sql: ${TABLE}.netsuite_conn__term_contract_pricing_type__c ;;
   }
 
-  dimension: product_id_18_digit__c {
+  dimension: product_id_18_digit {
     type: string
-    sql: ${TABLE}."product_id_18_digit__c" ;;
+    sql: ${TABLE}.product_id_18_digit__c ;;
   }
 
-  dimension: product_id__c {
+  dimension: product_id {
     type: string
-    sql: ${TABLE}."product_id__c" ;;
+    sql: ${TABLE}.product_id__c ;;
   }
 
   dimension: productcode {
     type: string
-    sql: ${TABLE}."productcode" ;;
+    sql: ${TABLE}.productcode ;;
   }
 
   dimension: quantityunitofmeasure {
     type: string
-    sql: ${TABLE}."quantityunitofmeasure" ;;
+    sql: ${TABLE}.quantityunitofmeasure ;;
   }
 
   dimension: sfid {
     type: string
-    sql: ${TABLE}."sfid" ;;
+    sql: ${TABLE}.sfid ;;
   }
 
   dimension: stockkeepingunit {
     type: string
-    sql: ${TABLE}."stockkeepingunit" ;;
+    sql: ${TABLE}.stockkeepingunit ;;
   }
 
   dimension_group: systemmodstamp {
@@ -200,7 +200,7 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}."systemmodstamp" ;;
+    sql: ${TABLE}.systemmodstamp ;;
   }
 
   measure: count {

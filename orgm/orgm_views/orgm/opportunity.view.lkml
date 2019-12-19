@@ -68,15 +68,15 @@ view: opportunity {
     sql: ${TABLE}."campaignid" ;;
   }
 
-  dimension_group: closedate {
+  dimension_group: close {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
       quarter,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date

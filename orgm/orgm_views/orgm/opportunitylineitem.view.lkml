@@ -297,15 +297,17 @@ view: opportunitylineitem {
   }
 
   dimension: totalprice {
-    label: "ARR"
+    label: "Total Price"
     type: number
     sql: ${TABLE}."totalprice" ;;
+    value_format_name: "usd"
   }
 
   dimension: arr_norm {
-    label: "ARR"
+    label: "ARR Norm"
     type: number
     sql: 365*${totalprice}/${length_days} ;;
+    value_format_name: "usd"
   }
 
   dimension: length_days {
@@ -316,16 +318,19 @@ view: opportunitylineitem {
   dimension: arr_per_seat {
     type: number
     sql: ${totalprice}/${quantity} ;;
+    value_format_name: "usd"
   }
 
   dimension: arr_norm_per_seat {
     type: number
     sql: ${arr_norm}/${quantity} ;;
+    value_format_name: "usd"
   }
 
   dimension: unitprice {
     type: number
     sql: ${TABLE}."unitprice" ;;
+    value_format_name: "usd"
   }
 
   measure: count {
@@ -334,27 +339,31 @@ view: opportunitylineitem {
   }
 
   measure: total_arr {
-    label: "Total ARR"
+    label: "ACV"
     type: sum
     sql: ${totalprice} ;;
+    value_format_name: "usd"
   }
 
   measure: total_arr_norm {
     label: "Total ARR Norm."
     type: sum
     sql: ${arr_norm} ;;
+    value_format_name: "usd"
   }
 
   measure: total_arr_per_seat {
     label: "Total ARR per Seat"
     type: sum
     sql: ${arr_per_seat} ;;
+    value_format_name: "usd"
   }
 
   measure: total_arr_norm_per_seat {
     label: "Total ARR Norm. per Seat"
     type: sum
     sql: ${arr_norm_per_seat} ;;
+    value_format_name: "usd"
   }
 
   # ----- Sets of fields for drilling ------
