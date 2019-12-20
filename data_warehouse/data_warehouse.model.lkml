@@ -2,6 +2,8 @@ connection: "snowflake"
 
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 fiscal_month_offset: 1
 
 explore: oli_level_arr {
@@ -10,6 +12,21 @@ explore: oli_level_arr {
 }
 
 explore: product2 {}
+
+explore: lead {
+  join: user {
+    from: user
+    sql_on: ${lead.createdbyid} = ${user.sfid} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: staff_list {
+  join: world_cities {
+    sql_on: ${staff_list.major_city} = ${world_cities.city} and ${staff_list.region_country} = ${world_cities.country};;
+    relationship: many_to_one
+  }
+}
 
 explore: product_line_item {
   from: opportunitylineitem

@@ -8,6 +8,15 @@ explore: account {
 }
 explore: product2 {}
 
+
+explore: lead {
+  join: user {
+    from: user
+    sql_on: ${lead.createdbyid} = ${user.sfid} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
