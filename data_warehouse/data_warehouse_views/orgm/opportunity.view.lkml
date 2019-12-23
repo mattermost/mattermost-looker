@@ -21,6 +21,21 @@ view: opportunity {
   dimension: accountid {
     type: string
     sql: ${TABLE}.accountid ;;
+    label: "Account SFID"
+    description: "Account SFID in Salesforce"
+    group_label: "Account"
+  }
+
+  dimension: account_name {
+    type: string
+    sql: ${account.name} ;;
+    label: "Account Name"
+    group_label: "Account"
+    description: "Account Name in Salesforce"
+    link: {
+      label: "Salesforce Account"
+      url: "https://na82.lightning.force.com/lightning/r/Account/{{${accountid}/view"
+    }
   }
 
   dimension: amount {
@@ -73,8 +88,8 @@ view: opportunity {
     timeframes: [
       date,
       month,
-      quarter,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       year,
       fiscal_year
     ]

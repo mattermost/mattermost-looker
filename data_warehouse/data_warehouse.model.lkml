@@ -31,7 +31,6 @@ explore: staff_list {
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
-  group_label: "Favorite Explores"
 
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
@@ -66,5 +65,10 @@ explore: product_line_item {
     from: user
     sql_on: ${account.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: dates {
+    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    relationship: many_to_many
   }
 }
