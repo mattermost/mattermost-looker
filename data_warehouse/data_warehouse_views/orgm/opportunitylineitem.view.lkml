@@ -130,11 +130,6 @@ view: opportunitylineitem {
     sql: ${TABLE}.product2id;;
   }
 
-  dimension: product_arr {
-    type: number
-    sql: ${TABLE}.product_arr__c;;
-  }
-
   dimension_group: product_end_datef {
     type: time
     timeframes: [
