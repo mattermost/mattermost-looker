@@ -1,5 +1,6 @@
 view: account_monthly_arr_net_changes {
   sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_NET_CHANGES ;;
+  view_label: "Account Monthly ARR Changes"
 
   dimension: account_sfid {
     type: string
@@ -53,7 +54,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Churn"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_CHURN" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
   }
@@ -62,7 +63,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Contraction"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_CONTRACTION" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
   }
@@ -71,7 +72,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Delta"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_DELTA" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
   }
@@ -80,7 +81,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Expansion"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_EXPANSION" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
   }
@@ -89,7 +90,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR New"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NEW" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
   }
@@ -98,7 +99,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Norm Churn"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NORM_CHURN" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR Norm."
     drill_fields: [arr_norm_change_details*]
   }
@@ -107,7 +108,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Norm Contraction"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NORM_CONTRACTION" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR Norm."
     drill_fields: [arr_norm_change_details*]
   }
@@ -116,7 +117,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Norm Delta"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NORM_DELTA" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR Norm."
     drill_fields: [arr_norm_change_details*]
   }
@@ -125,7 +126,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Norm Expansion"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NORM_EXPANSION" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR Norm."
     drill_fields: [arr_norm_change_details*]
   }
@@ -134,7 +135,7 @@ view: account_monthly_arr_net_changes {
     label: "Total ARR Norm New"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_NORM_NEW" ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
     group_label: "ARR Norm."
     drill_fields: [arr_norm_change_details*]
   }
@@ -142,6 +143,34 @@ view: account_monthly_arr_net_changes {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: count_arr_norm_new_accounts {
+    label: "Count ARR Norm New Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_NORM_NEW" > 0 then ${account_sfid} else null end ;;
+    group_label: "ARR Norm."
+  }
+
+  measure: count_arr_norm_explansion_accounts {
+    label: "Count ARR Norm Explansion Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_NORM_EXPANSION" > 0 then ${account_sfid} else null end ;;
+    group_label: "ARR Norm."
+  }
+
+  measure: count_arr_norm_contraction_accounts {
+    label: "Count ARR Norm Contraction Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_NORM_CONTRACTION" > 0 then ${account_sfid} else null end ;;
+    group_label: "ARR Norm."
+  }
+
+  measure: count_arr_norm_churn_accounts {
+    label: "Count ARR Norm Churn Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_NORM_CHURN" > 0 then ${account_sfid} else null end ;;
+    group_label: "ARR Norm."
   }
 
   set: arr_norm_change_details {
