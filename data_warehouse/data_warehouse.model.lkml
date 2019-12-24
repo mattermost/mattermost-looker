@@ -4,14 +4,27 @@ include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
-fiscal_month_offset: 1
+fiscal_month_offset: -11
 
 explore: oli_level_arr {
   label: "OLI Level ARR"
   group_label: "  Favorite Explores"
 }
 
-explore: product2 {}
+explore: account_monthly_arr_net_changes {
+  label: "Account ARR Changes"
+  join: account {
+    sql_on: ${account.sfid} = ${account_monthly_arr_net_changes.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+  join: master_account {
+    from: account
+    sql_on: ${master_account.sfid} = ${account_monthly_arr_net_changes.master_account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
 
 explore: lead {
   join: user {
