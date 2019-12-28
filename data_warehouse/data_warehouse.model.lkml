@@ -11,16 +11,16 @@ explore: oli_level_arr {
   group_label: "  Favorite Explores"
 }
 
-explore: account_monthly_arr_net_changes {
+explore: account_monthly_arr_deltas_by_type {
   label: "Account ARR Changes"
   join: account {
-    sql_on: ${account.sfid} = ${account_monthly_arr_net_changes.account_sfid} ;;
+    sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: many_to_one
     fields: []
   }
   join: master_account {
     from: account
-    sql_on: ${master_account.sfid} = ${account_monthly_arr_net_changes.master_account_sfid} ;;
+    sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
     relationship: many_to_one
     fields: []
   }
