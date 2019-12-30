@@ -12,7 +12,7 @@ explore: oli_level_arr {
 }
 
 explore: account_monthly_arr_deltas_by_type {
-  label: "Account ARR Changes"
+  label: "Monthly Account ARR Changes by Type"
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: many_to_one
@@ -21,6 +21,21 @@ explore: account_monthly_arr_deltas_by_type {
   join: master_account {
     from: account
     sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: account_daily_arr_deltas {
+  label: "Daily Account ARR Changes"
+  join: account {
+    sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+  join: master_account {
+    from: account
+    sql_on: ${master_account.sfid} = ${account_daily_arr_deltas.master_account_sfid} ;;
     relationship: many_to_one
     fields: []
   }
