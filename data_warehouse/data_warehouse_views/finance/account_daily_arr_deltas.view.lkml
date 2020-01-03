@@ -1,6 +1,13 @@
 view: account_daily_arr_deltas {
   sql_table_name: FINANCE.ACCOUNT_DAILY_ARR_DELTAS ;;
 
+  dimension: compound_primary {
+    type: string
+    sql: ${account_sfid}||${ ${new_day_date} ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: account_new_arr {
     type: yesno
     sql: ${TABLE}."ACCOUNT_NEW_ARR" ;;

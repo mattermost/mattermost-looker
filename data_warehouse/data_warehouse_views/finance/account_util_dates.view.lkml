@@ -1,6 +1,13 @@
 view: account_util_dates {
   sql_table_name: FINANCE.ACCOUNT_UTIL_DATES ;;
 
+  dimension: compound_primary {
+    type: string
+    sql: ${account_sfid}||${day_date} ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: account_sfid {
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
