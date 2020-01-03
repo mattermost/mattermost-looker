@@ -18,11 +18,24 @@ explore: account_monthly_arr_deltas_by_type {
     relationship: many_to_one
     fields: []
   }
+
   join: master_account {
     from: account
     sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: csm_account_owner {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    relationship: many_to_one
   }
 }
 
@@ -39,6 +52,40 @@ explore: account_daily_arr_deltas {
     relationship: many_to_one
     fields: []
   }
+
+  join: opportunity {
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.iswon};;
+    relationship: one_to_many
+    fields: [opportunity.name, opportunity.sfid]
+  }
+  join: opportunitylineitem {
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+            AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
+                OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
+    relationship: one_to_many
+    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.total_arr
+    ]
+  }
+
+  join: product2 {
+    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+    relationship: many_to_one
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: csm_account_owner {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    relationship: many_to_one
+  }
+
 }
 
 explore: lead {
