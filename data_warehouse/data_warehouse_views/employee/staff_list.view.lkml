@@ -21,19 +21,19 @@ view: staff_list {
     sql: ${TABLE}.FEATURE_TEAM ;;
   }
 
-  dimension: first_name {
+  dimension: firstname {
     type: string
-    sql: ${TABLE}.FIRST_NAME ;;
+    sql: ${TABLE}.FIRSTNAME ;;
   }
 
-  dimension: focusexpertise {
+  dimension: focus_expertise {
     type: string
-    sql: ${TABLE}.Focus/Expertise ;;
+    sql: ${TABLE}.Focus_Expertise ;;
   }
 
-  dimension: full_name {
+  dimension: fullname {
     type: string
-    sql: ${TABLE}.FULL_NAME ;;
+    sql: ${TABLE}.FULLNAME ;;
   }
 
   dimension: github {
@@ -46,14 +46,14 @@ view: staff_list {
     sql: ${TABLE}.GITLAB ;;
   }
 
-  dimension: languages_spoken {
+  dimension: languages {
     type: string
-    sql: ${TABLE}.Languages Spoken ;;
+    sql: ${TABLE}.Languages ;;
   }
 
-  dimension: last_name {
+  dimension: lastname {
     type: string
-    sql: ${TABLE}.LAST_NAME ;;
+    sql: ${TABLE}.LASTNAME ;;
   }
 
   dimension: major_city {
@@ -93,11 +93,11 @@ view: staff_list {
 
   measure: count {
     type: count
-    drill_fields: [full_name, last_name, first_name]
+    drill_fields: [fullname, lastname, firstname]
   }
 
   measure: count_distict {
-    sql: ${first_name} || ${last_name} ;;
+    sql: ${firstname} || ${lastname} ;;
     type: count_distinct
   }
 }

@@ -1,9 +1,14 @@
 connection: "snowflake"
 
-include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
+# include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
+
 fiscal_month_offset: -11
 
 explore: oli_level_arr {
