@@ -110,7 +110,7 @@ explore: account_daily_arr_deltas {
   }
 
   join: opportunity {
-    sql_on: ${opportunity.account_id} = ${account.sfid} AND ${opportunity.is_won};;
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.is_won};;
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
@@ -164,6 +164,8 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
+explore: opportunity {}
+
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
@@ -185,7 +187,7 @@ explore: product_line_item {
 
     # BP: Always have the FROM table listed first and the joined TO table list second
     # BP: Always join on the primary key of the "one" table so Looker can detect fanout
-    sql_on: ${opportunity.account_id} = ${account.sfid} ;;
+    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
     relationship: many_to_one
   }
 

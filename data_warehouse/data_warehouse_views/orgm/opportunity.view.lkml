@@ -32,30 +32,40 @@ view: opportunity {
   # Dimensions
   #
 
+#Filters
+
+filter:   is_closed_curr_mo {
+  type: yesno
+  sql: ${close_month} = get_sys_var('curr_mo') ;;
+  label: "Close Current Month"
+
+}
   dimension: original_opportunity_id {
     sql: ${TABLE}.original_opportunity_id__c ;;
     type: string
+    group_label: "Original Opportunity"
   }
 
-  dimension: account_id {
+  dimension: _hc_err {
+    type: string
+    sql: ${TABLE}._hc_err ;;
+    label: "HC Err"
+    group_label: "System"
+  }
+
+  dimension: _hc_lastop {
+    type: string
+    sql: ${TABLE}._hc_lastop ;;
+    label: "HC Last Op"
+    group_label: "System"
+  }
+
+  dimension: accountid {
+    type: string
+    sql: ${TABLE}.accountid ;;
     description: "Account SFID in Salesforce"
     group_label: "Account"
     label: "Account SFID"
-    sql: ${TABLE}.accountid ;;
-    type: string
-  }
-
-  dimension: account_name {
-    description: "Name of account that opportunity is linked to Salesforce"
-    group_label: "Account"
-    label: "Account Name"
-    link: {
-      label: "Salesforce Account"
-      # BP: Leverage constants to enable more reused
-      url: "@{salesforce_account_link}"
-    }
-    sql: ${account.name} ;;
-    type: string
   }
 
   dimension: amount {
@@ -109,8 +119,19 @@ view: opportunity {
     group_label: "ARR"
     label: "ARR Month 18"
     sql: ${TABLE}.arrmonth18__c ;;
+  }
+
+  dimension: arrmonth_check {
+    type: string
+    sql: ${TABLE}.arrmonth_check__c ;;
+    group_label: "ARR"
+  }
+
+  dimension: arrmonths {
     type: number
     value_format_name: mm_usd_short
+    sql: ${TABLE}.arrmonths__c ;;
+    group_label: "ARR"
   }
 
   dimension: arr_month_check {
@@ -135,11 +156,11 @@ view: opportunity {
     description: "The ID of the campaign responsible for generating the opportunity."
     sql: ${TABLE}.campaignid ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension_group: close {
     convert_tz: no
-    datatype: date
     description: "Date when the opportunity is expected to close."
     sql: ${TABLE}.closedate ;;
     timeframes: [
@@ -151,9 +172,10 @@ view: opportunity {
       fiscal_year
     ]
     type: time
+    group_label: "Closed"
   }
 
-  dimension: contact_id {
+  dimension: contactid {
     # description: "TODO"
     sql: ${TABLE}.contactid ;;
     type: string
@@ -178,16 +200,19 @@ view: opportunity {
       quarter,
       year
     ]
+    group_label: "Created"
   }
 
   dimension: csm_owner_id {
     type: string
     sql: ${TABLE}.csm_owner__c ;;
+    group_label: "Renewals"
   }
 
   dimension: days_past_renewal {
     # description: "TODO"
     sql: ${TABLE}.days_past_renewal__c ;;
+    group_label: "Renewals"
     type: number
   }
 
@@ -197,6 +222,7 @@ view: opportunity {
     style: relational
     tiers: [30, 60, 90]
     type: tier
+    group_label: "Renewals"
   }
 
   dimension: delta_amount {
@@ -221,12 +247,14 @@ view: opportunity {
     sql: ${TABLE}.expectedrevenue ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Amounts"
   }
 
   dimension: id {
     # description: "TODO"
     sql: ${TABLE}.id ;;
     type: number
+    hidden:  yes
   }
 
   # BP: use is_ for yes/no fields
@@ -234,12 +262,22 @@ view: opportunity {
     # description: "TODO"
     sql: ${TABLE}.isclosed ;;
     type: yesno
+    label: "Closed?"
+    group_label: "Closed"
   }
 
   dimension: is_deleted {
     description: "Indicates whether this opportunity has been moved to the Recycle Bin (yes) or not (no)."
     sql: ${TABLE}.isdeleted ;;
+    label: "Deleted?"
+    group_label: "System"
+  }
+
+  dimension: iswon {
     type: yesno
+    sql: ${TABLE}.iswon ;;
+    label: "Closed Won?"
+    group_label: "Closed"
   }
 
   dimension: is_won {
@@ -261,36 +299,47 @@ view: opportunity {
       quarter,
       year
     ]
+    group_label: "Marketing"
   }
 
   dimension: lead_source_detail {
     # description: "TODO"
     sql: ${TABLE}.lead_source_detail__c ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_source_detail_upon_conversion {
     # description: "TODO"
     sql: ${TABLE}.lead_source_detail_upon_conversion__c ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_source_upon_conversion {
     # description: "TODO"
     sql: ${TABLE}.lead_source_upon_conversion__c ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_type {
     # description: "TODO"
     sql: ${TABLE}.lead_type__c ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_id {
     # description: "TODO"
     sql: ${TABLE}.leadid__c ;;
+    group_label: "Marketing"
+  }
+
+  dimension: leadsource {
     type: string
+    sql: ${TABLE}.leadsource ;;
+    group_label: "Marketing"
   }
 
   dimension: lead_source {
@@ -312,12 +361,14 @@ view: opportunity {
       quarter,
       year
     ]
+    group_label: "Marketing"
   }
 
   dimension: name {
     description: "Name of the opportunity, for example, Acme.com - Office Equipment Order. Up to 120 characters are allowed in this field."
     sql: ${TABLE}.name ;;
     type: string
+    label: "Opportunity Name"
   }
 
   dimension: new_expansion_total {
@@ -325,68 +376,77 @@ view: opportunity {
     sql: ${TABLE}.new_expansion_total__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Amount"
   }
 
   dimension: new_logo {
     # description: "TODO"
     sql: ${TABLE}.new_logo__c ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: order_type {
     # description: "TODO"
     sql: ${TABLE}.order_type__c ;;
     type: string
+    label: "Order Type"
   }
 
   dimension: original_opportunity {
     # description: "TODO"
     sql: ${TABLE}.original_opportunity__c ;;
     type: string
+    group_label: "Original Opportunity"
   }
 
   dimension: original_opportunity_amount {
     # description: "TODO"
-    group_label: "Amounts"
     sql: ${TABLE}.original_opportunity_amount__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Original Opportunity"
   }
 
   dimension: original_opportunity_arr {
     # description: "TODO"
-    group_label: "ARR"
     label: "Original Opportunity ARR"
     sql: ${TABLE}.original_opportunity_arr__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Original Opportunity"
   }
 
   dimension_group: original_opportunity_end {
-    convert_tz: no
-    datatype: date
+    type: time
     # description: "TODO"
     sql: ${TABLE}.original_opportunity_end_date__c ;;
     timeframes: [
-      raw,
       date,
-      week,
       month,
       quarter,
       year
     ]
-    type: time
+    group_label: "Original Opportunity"
   }
 
   dimension: original_opportunity_length_in_months {
     # description: "TODO"
     sql: ${TABLE}.original_opportunity_length_in_months__c ;;
     type: number
+    group_label: "Original Opportunity"
+  }
+
+  dimension: original_opportunityid {
+    type: string
+    sql: ${TABLE}.original_opportunityid__c ;;
+    group_label: "Original Opportunity"
   }
 
   dimension: ownerid {
     type: string
     sql: ${TABLE}.ownerid ;;
+    label: "Owner ID"
   }
 
   dimension: probability {
@@ -402,36 +462,35 @@ view: opportunity {
     html: @{colored_tiered_percent} ;;
     type: number
 #     value_format_name: mm_integer_percent
+    label: "Prob %"
   }
 
   dimension: renewal_amount_total {
     # description: "TODO"
-    group_label: "Amounts"
     sql: ${TABLE}.renewal_amount_total__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Renewals"
   }
 
   dimension_group: renewal_created {
-    convert_tz: no
-    datatype: date
+    type: time
     # description: "TODO"
     sql: ${TABLE}.renewal_created_date__c ;;
     timeframes: [
-      raw,
       date,
-      week,
       month,
       quarter,
       year
     ]
-    type: time
+    group_label: "Renewals"
   }
 
   dimension: renewal_includes_leftover_expansion {
     # description: "TODO"
     sql: ${TABLE}.renewal_includes_leftover_expansion__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: renewal_risk_amount {
@@ -439,30 +498,35 @@ view: opportunity {
     sql: ${TABLE}.renewal_risk_amount__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Renewals"
   }
 
   dimension: renewal_risk_competitor {
     # description: "TODO"
     sql: ${TABLE}.renewal_risk_competitor__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: renewal_risk_reason_additional_details {
     # description: "TODO"
     sql: ${TABLE}.renewal_risk_reason_additional_details__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: renewal_risk_reasons {
     # description: "TODO"
     sql: ${TABLE}.renewal_risk_reasons__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: renewal_risk_status {
     # description: "TODO"
     sql: ${TABLE}.renewal_risk_status__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: renewed_by_opp_arr {
@@ -471,6 +535,7 @@ view: opportunity {
     sql: ${TABLE}.renewed_by_opp_arr__c ;;
     type: number
     value_format_name: mm_usd_short
+    group_label: "Renewals"
   }
 
   dimension: renewed_by_opp_prob {
@@ -479,20 +544,22 @@ view: opportunity {
     sql: ${TABLE}.renewed_by_opp_prob__c ;;
     type: number
     value_format_name: mm_integer_percent
+    group_label: "Renewals"
   }
 
   dimension: renewed_by_opportunity_id {
     # description: "TODO"
     sql: ${TABLE}.renewed_by_opportunity_id__c ;;
     type: string
+    group_label: "Renewals"
   }
 
   dimension: sfid {
     primary_key: yes
     # description: "TODO"
-    label: "SF Opportunity ID"
     sql: ${TABLE}.sfid ;;
     type: string
+    label: "Oppt. ID"
   }
 
   dimension_group: systemmodstamp {
@@ -509,6 +576,7 @@ view: opportunity {
       year
     ]
     type: time
+    group_label: "Last Modified"
   }
 
   dimension: territory {
@@ -537,6 +605,7 @@ view: opportunity {
     value_format_name: mm_integer_percent
   }
 
+# Measure
   measure: count {
     description: "The total number of opportunities"
     # BP
@@ -606,18 +675,5 @@ view: opportunity {
   # Hidden Fields (Used for derived values or joins)
   #
 
-  dimension: _hc_err {
-    hidden: yes
-    label: "Heroku Connect Error"
-    sql: ${TABLE}._hc_err ;;
-    type: string
-  }
-
-  dimension: _hc_lastop {
-    hidden: yes
-    label: "Heroku Connect Last Op"
-    sql: ${TABLE}._hc_lastop ;;
-    type: string
-  }
 
 }
