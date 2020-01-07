@@ -180,6 +180,11 @@ view: opportunity {
     ]
   }
 
+  dimension: csm_owner_id {
+    type: string
+    sql: ${TABLE}.csm_owner__c ;;
+  }
+
   dimension: days_past_renewal {
     # description: "TODO"
     sql: ${TABLE}.days_past_renewal__c ;;
@@ -377,6 +382,11 @@ view: opportunity {
     # description: "TODO"
     sql: ${TABLE}.original_opportunity_length_in_months__c ;;
     type: number
+  }
+
+  dimension: ownerid {
+    type: string
+    sql: ${TABLE}.ownerid ;;
   }
 
   dimension: probability {
