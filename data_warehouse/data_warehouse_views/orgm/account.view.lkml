@@ -948,6 +948,11 @@ view: account {
     sql: ${TABLE}.region__c ;;
   }
 
+  dimension: csm_region {
+    type: string
+    sql:  case when ${region} in ('DACH','Rest of EMEA') then 'EMEA' else ${region} end;;
+  }
+
   dimension: renewal_rep {
     type: string
     sql: ${TABLE}.renewal_rep__c ;;
