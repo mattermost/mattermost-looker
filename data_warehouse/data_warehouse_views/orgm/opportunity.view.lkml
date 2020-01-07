@@ -401,7 +401,10 @@ filter:   is_closed_curr_mo {
     description: "Name of the opportunity, for example, Acme.com - Office Equipment Order. Up to 120 characters are allowed in this field."
     sql: ${TABLE}.name ;;
     type: string
-    label: "Opportunity Name"
+    link: {
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    label: "Name"
   }
 
   dimension: new_expansion_total {
@@ -620,7 +623,7 @@ filter:   is_closed_curr_mo {
 
   dimension: type {
     description: "Type of opportunity, for example, Existing Business or New Business. Entry is selected from a picklist of available values, which are set by an administrator."
-    label: "Opportunity Type"
+    label: "Type"
     sql: ${TABLE}.type ;;
     type: string
   }
