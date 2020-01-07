@@ -99,7 +99,7 @@ filter:   is_closed_curr_mo {
     timeframes: [
       date,
       month,
-      fiscal_quarter,
+#      fiscal_quarter,
       fiscal_quarter_of_year,
       year,
       fiscal_year
@@ -110,6 +110,11 @@ filter:   is_closed_curr_mo {
     group_label: "Closed"
   }
 
+  dimension: close_quarter {
+    type:  string
+    sql:${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
+    group_label: "Closed"
+  }
   dimension: contactid {
     type: string
     sql: ${TABLE}.contactid ;;
@@ -164,6 +169,34 @@ filter:   is_closed_curr_mo {
     type: number
     sql: ${TABLE}.expectedrevenue ;;
     group_label: "Amount"
+  }
+
+
+  dimension: forecastcategory {
+    type: number
+    sql: ${TABLE}.forecastcategory ;;
+    group_label: "Forecast"
+    label: "Forecast Category"
+  }
+
+  dimension: forecast_category_custom {
+    type: number
+    sql: ${TABLE}.forecast_category_custom__c ;;
+    group_label: "Forecast"
+    label: "Forecast Category Custom"
+  }
+
+  dimension: forecastcategoryname {
+    type: number
+    sql: ${TABLE}.forecastcategoryname ;;
+    group_label: "Forecast"
+    label: "Forecast Category Name"
+  }
+
+  dimension: geo {
+    type: number
+    sql: ${TABLE}.geo__c ;;
+    label: "Geo"
   }
 
   dimension: id {
