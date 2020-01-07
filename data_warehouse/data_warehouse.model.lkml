@@ -130,12 +130,13 @@ explore: product_line_item {
 
   join: parent_account {
     from: account
-    view_label: "Parent Account"
     sql_on: ${parent_account.sfid} = ${account.parentid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: product2 {
+    view_label: "Product"
     sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
     relationship: many_to_one
   }
@@ -148,7 +149,19 @@ explore: product_line_item {
 
   join: opportunity_owner {
     from: user
-    sql_on: ${account.ownerid} = ${opportunity_owner.sfid} ;;
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id})) = left(${account_csm.sfid}) ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity_csm {
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid}) ;;
     relationship: many_to_one
   }
 

@@ -122,6 +122,11 @@ view: opportunity {
     sql: ${TABLE}.createddate ;;
   }
 
+  dimension: csm_owner_id {
+    type: string
+    sql: ${TABLE}.csm_owner__c ;;
+  }
+
   dimension: days_past_renewal {
     type: number
     sql: ${TABLE}.days_past_renewal__c ;;
@@ -278,6 +283,11 @@ view: opportunity {
   dimension: original_opportunityid {
     type: string
     sql: ${TABLE}.original_opportunityid__c ;;
+  }
+
+  dimension: ownerid {
+    type: string
+    sql: ${TABLE}.ownerid ;;
   }
 
   dimension: probability {
