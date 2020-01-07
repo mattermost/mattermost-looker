@@ -1,7 +1,22 @@
 view: account {
+
   view_label: ""
   sql_table_name: orgm.account ;;
   drill_fields: [account_id_18_digit]
+
+
+  #
+  # Sets
+  #
+
+  set: account_fields_core {
+    fields: [account_id_18_digit, name]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: account_id_18_digit {
     primary_key: yes
