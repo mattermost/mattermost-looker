@@ -108,6 +108,11 @@ explore: staff_list {
   }
 }
 
+explore: daily_traffic {
+  group_label: "Google Analytics"
+  label: "Daily Traffic"
+}
+
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem

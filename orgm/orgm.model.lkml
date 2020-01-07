@@ -1,26 +1,12 @@
 connection: "orgm"
 
 include: "/orgm/orgm_views/orgm/*.view.lkml"
-fiscal_month_offset: 1
+fiscal_month_offset: -11
 
-explore: account {
-  fields: [ALL_FIELDS*, -account.parent_account_name]
-}
-explore: product2 {}
-
-
-explore: lead {
-  join: user {
-    from: user
-    sql_on: ${lead.createdbyid} = ${user.sfid} ;;
-    relationship: many_to_one
-  }
-}
 
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
-  group_label: "Favorite Explores"
 
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
