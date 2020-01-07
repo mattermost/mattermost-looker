@@ -9,8 +9,6 @@ view: daily_traffic {
   dimension_group: end {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
@@ -33,8 +31,6 @@ view: daily_traffic {
   dimension_group: start {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
@@ -44,13 +40,8 @@ view: daily_traffic {
     sql: ${TABLE}."START_DATE" ;;
   }
 
-  dimension: users {
-    type: number
-    sql: ${TABLE}."USERS" ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: []
+  measure: count_users {
+    type: sum
+    sql: ${TABLE}.users ;;
   }
 }
