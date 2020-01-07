@@ -2,6 +2,16 @@ view: opportunity {
   sql_table_name: orgm.opportunity ;;
   drill_fields: [original_opportunity_id__c]
 
+
+# Filters
+  filter: is_close_curr_mo {
+    type:  yesno
+    sql: to_char(${close_date},'YYYY-MM') = get_sys_var('curr_mo') ;;
+    label: "Close Current Month"
+
+  }
+
+
   dimension: original_opportunity_id__c {
     primary_key: yes
     type: string

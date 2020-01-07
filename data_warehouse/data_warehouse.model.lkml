@@ -113,6 +113,8 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
+explore: opportunity {}
+
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
