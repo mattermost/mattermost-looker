@@ -693,9 +693,16 @@ view: account {
   }
 
   dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
+    description: "Name of account that opportunity is linked to Salesforce"
+    group_label: "Account"
     label: "Account Name"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
+    type: string
   }
 
   dimension: named_account {

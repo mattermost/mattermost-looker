@@ -8,8 +8,8 @@
 # }
 
 # BP: Leverage reuse with URLs when applicable
-constant: salesforce_account_link {
-  value: "https://na82.lightning.force.com/lightning/r/Account/{{account_id}}/view"
+constant: salesforce_link {
+  value: "https://mattermost.lightning.force.com/"
 }
 
 # BP: Leverage reuse with formatting when applicable
