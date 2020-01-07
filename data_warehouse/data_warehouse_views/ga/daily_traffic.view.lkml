@@ -18,7 +18,7 @@ view: daily_traffic {
     sql: ${TABLE}."END_DATE" ;;
   }
 
-  dimension: site {
+  dimension:site {
     type: string
     sql: ${TABLE}."SITE" ;;
   }
