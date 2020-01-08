@@ -423,6 +423,7 @@ view: opportunity {
     type: string
     link: {
       url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity"
     }
     label: "Name"
   }
