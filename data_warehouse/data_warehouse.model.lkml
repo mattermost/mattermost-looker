@@ -246,9 +246,11 @@ explore: arr {
     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
-fields: [
-  dates.date_date,
-  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
-  opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
-  opportunitylineitem.product_name, opportunitylineitem.start_date, opportunitylineitem.end_date,  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm]
+
+  fields: [
+    dates.date_date,
+    account.name, account.sfid, account.owner_name, account.owner_id, account.csm_name,
+    opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
+    opportunitylineitem.product_name, opportunitylineitem.start_date, opportunitylineitem.end_date,  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm
+  ]
 }
