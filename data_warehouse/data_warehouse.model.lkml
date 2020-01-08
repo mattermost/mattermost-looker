@@ -84,7 +84,7 @@ explore: account_monthly_arr_deltas_by_type {
 
   join: account_owner {
     from: user
-    sql_on: ${account.owner_id} = ${account_owner.sfid} ;;
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
   }
 
@@ -132,7 +132,7 @@ explore: account_daily_arr_deltas {
 
   join: account_owner {
     from: user
-    sql_on: ${account.owner_id} = ${account_owner.sfid} ;;
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
   }
 
@@ -193,7 +193,7 @@ explore: product_line_item {
   join: parent_account {
     from: account
     view_label: "Parent Account"
-    sql_on: ${account.parent_id} = ${parent_account.sfid} ;;
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -206,7 +206,7 @@ explore: product_line_item {
 
   join: account_owner {
     from: user
-    sql_on: ${account.owner_id} = ${account_owner.sfid} ;;
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -249,7 +249,7 @@ explore: arr {
 
   fields: [
     dates.date_date,
-    account.name, account.sfid, account.owner_name, account.owner_id, account.csm_name,
+    account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
     opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
     opportunitylineitem.product_name, opportunitylineitem.start_date, opportunitylineitem.end_date,  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm
   ]

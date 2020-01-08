@@ -224,7 +224,7 @@ view: account {
     type: string
   }
 
-  dimension: created_by_id {
+  dimension: createdbyid {
     group_label: "System"
     sql: ${TABLE}.createdbyid ;;
     type: string
@@ -523,7 +523,7 @@ view: account {
     type: time
   }
 
-  dimension: last_modified_by_id {
+  dimension: lastmodifiedbyid {
     sql: ${TABLE}.lastmodifiedbyid ;;
     type: string
   }
@@ -639,7 +639,7 @@ view: account {
     type: string
   }
 
-  dimension: master_record_id {
+  dimension: masterrecordid {
     sql: ${TABLE}.masterrecordid ;;
     type: string
   }
@@ -862,7 +862,7 @@ view: account {
     type: string
   }
 
-  dimension: owner_id {
+  dimension: ownerid {
     group_label: "Owners"
     sql: ${TABLE}.ownerid ;;
     type: string
@@ -887,7 +887,7 @@ view: account {
     type: string
   }
 
-  dimension: parent_id {
+  dimension: parentid {
     group_label: "Parent"
     label: "Parent Account ID"
     sql: ${TABLE}.parentid ;;
@@ -1133,7 +1133,7 @@ view: account {
     type: string
   }
 
-  dimension: territory_id {
+  dimension: territoryid {
     group_label: "Region and Territory"
     label: "Territory ID"
     sql: ${TABLE}.territoryid__c ;;
