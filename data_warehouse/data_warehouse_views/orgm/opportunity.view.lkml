@@ -3,8 +3,18 @@
 #
 # Groups Labels
 # - Amounts
+# - Account
 # - ARR
 # - Total Amounts
+# - System
+# - Marketing
+# - Renewals
+# - Original Opportunity
+# - Forecast
+# - Closed
+# - Created
+# - Last Modified
+
 
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
