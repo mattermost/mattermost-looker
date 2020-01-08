@@ -967,6 +967,15 @@ view: account {
     sql: ${TABLE}.region__c ;;
   }
 
+  dimension: csm_enriched_region {
+    type: string
+    sql: CASE
+              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'FEDERAL'
+              WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
+              WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
+              ELSE ${region} END ;;
+  }
+
   dimension: renewal_rep {
     type: string
     sql: ${TABLE}.renewal_rep__c ;;
