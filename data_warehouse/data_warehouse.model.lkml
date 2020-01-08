@@ -121,7 +121,7 @@ explore: account_daily_arr_deltas {
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
       opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_arr
+      opportunitylineitem.total_price
     ]
   }
 
