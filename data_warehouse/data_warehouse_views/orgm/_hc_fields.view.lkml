@@ -9,9 +9,9 @@ view: _hc_fields {
   }
 
   dimension: _hc_lastop {
-    sql: ${TABLE}._hc_lastop ;;
     group_label: "System"
     label: "HC Last Op"
+    sql: ${TABLE}._hc_lastop ;;
     type: string
   }
 }
