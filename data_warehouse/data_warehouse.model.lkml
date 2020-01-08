@@ -145,8 +145,17 @@ explore: account_daily_arr_deltas {
 }
 
 explore: lead {
+  join: campaign_member {
+    sql_on: ${lead.campaign_id} = ${campaign_member.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: campaign {
+    sql_on: ${lead.campaign_id} = ${campaign.id} ;;
+    relationship: many_to_one
+  }
+
   join: user {
-    from: user
     sql_on: ${lead.createdbyid} = ${user.sfid} ;;
     relationship: many_to_one
   }

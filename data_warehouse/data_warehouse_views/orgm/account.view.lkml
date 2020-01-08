@@ -16,9 +16,11 @@
 # - Zendesk
 
 
+include: "_hc_fields.view"
+
 view: account {
-  view_label: ""
   sql_table_name: orgm.account ;;
+  extends: [ _hc_fields ]
   drill_fields: [account_drill_fields*]
 
 
@@ -42,20 +44,6 @@ view: account {
   dimension: account_id_18_digit {
     primary_key: yes
     sql: ${TABLE}.account_id_18_digit__c ;;
-    type: string
-  }
-
-  dimension: _hc_err {
-    group_label: "System"
-    label: "HC Error"
-    sql: ${TABLE}._hc_err ;;
-    type: string
-  }
-
-  dimension: _hc_lastop {
-    sql: ${TABLE}._hc_lastop ;;
-    group_label: "System"
-    label: "HC Last Op"
     type: string
   }
 

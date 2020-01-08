@@ -3,8 +3,12 @@
 # Groups Labels
 # -
 
-view: campaignmember {
+include: "_hc_fields.view"
+include: "_sdf_fields.view"
+
+view: campaign_member {
   sql_table_name: ORGM.CAMPAIGNMEMBER ;;
+  extends: [ _hc_fields, _sdf_fields ]
   drill_fields: [campaign_member_drill_fields*]
 
 
@@ -28,26 +32,15 @@ view: campaignmember {
   }
 
   dimension: _hc_lastop {
+    group_label: "System"
     type: string
     sql: ${TABLE}._HC_LASTOP ;;
   }
 
-  dimension_group: _sdc_batched {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension_group: sdc_batched {
+    group_label: "System"
+    label: "SDC Batched"
     sql: ${TABLE}._SDC_BATCHED_AT ;;
-  }
-
-  dimension_group: _sdc_extracted {
-    type: time
     timeframes: [
       raw,
       time,
@@ -57,11 +50,13 @@ view: campaignmember {
       quarter,
       year
     ]
+    type: time
+  }
+
+  dimension_group: sdc_extracted {
+    group_label: "System"
+    label: "SDC Extracted"
     sql: ${TABLE}._SDC_EXTRACTED_AT ;;
-  }
-
-  dimension_group: _sdc_received {
-    type: time
     timeframes: [
       raw,
       time,
@@ -71,25 +66,46 @@ view: campaignmember {
       quarter,
       year
     ]
+    type: time
+  }
+
+  dimension_group: sdc_received {
+    group_label: "System"
+    label: "SDC Received"
     sql: ${TABLE}._SDC_RECEIVED_AT ;;
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    type: time
   }
 
-  dimension: _sdc_sequence {
-    type: number
+  dimension: sdc_sequence {
+    group_label: "System"
+    label: "SDC Sequence"
     sql: ${TABLE}._SDC_SEQUENCE ;;
-  }
-
-  dimension: _sdc_table_version {
     type: number
-    sql: ${TABLE}._SDC_TABLE_VERSION ;;
   }
 
-  dimension: accounttype {
+  dimension: sdc_table_version {
+    group_label: "System"
+    label: "SDC Table Version"
+    sql: ${TABLE}._SDC_TABLE_VERSION ;;
+    type: number
+  }
+
+  dimension: account_type {
     type: string
     sql: ${TABLE}.ACCOUNTTYPE__C ;;
   }
 
   dimension: campaignid {
+    label: "Campaign ID"
     type: string
     # hidden: yes
     sql: ${TABLE}.CAMPAIGNID ;;
