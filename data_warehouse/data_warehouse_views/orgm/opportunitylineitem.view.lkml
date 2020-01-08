@@ -328,7 +328,7 @@ view: opportunitylineitem {
   }
 
   measure: total_arr {
-    label: "ACV"
+    label: "Total ARR"
     type: sum
     sql: ${totalprice} ;;
     value_format_name: "usd"
