@@ -150,11 +150,13 @@ explore: lead {
     relationship: many_to_one
   }
 
+  # TODO: Validate join is correct
   join: campaign {
     sql_on: ${lead.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 
+  # TODO: Validate join is correct
   join: user {
     sql_on: ${lead.createdbyid} = ${user.sfid} ;;
     relationship: many_to_one
@@ -244,11 +246,6 @@ explore: product_line_item {
     fields: []
   }
 }
-
-
-
-
-
 
 
 explore: arr {
