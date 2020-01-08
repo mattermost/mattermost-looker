@@ -352,8 +352,8 @@ view: opportunitylineitem {
     drill_fields: [detail*]
   }
 
-  measure: total_arr {
-    label: "ACV"
+  measure: total_price {
+    label: "Total Price"
     type: sum
     sql: ${totalprice} ;;
     value_format_name: "usd"

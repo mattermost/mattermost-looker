@@ -121,7 +121,7 @@ explore: account_daily_arr_deltas {
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
       opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_arr
+      opportunitylineitem.total_price
     ]
   }
 
@@ -245,6 +245,12 @@ explore: product_line_item {
   }
 }
 
+
+
+
+
+
+
 explore: arr {
   label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
@@ -261,6 +267,9 @@ explore: arr {
     dates.date_date,
     account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
     opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
-    opportunitylineitem.product_name, opportunitylineitem.start_date, opportunitylineitem.end_date,  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm
+    opportunitylineitem.product_name,
+    opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+    opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+    opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm
   ]
 }
