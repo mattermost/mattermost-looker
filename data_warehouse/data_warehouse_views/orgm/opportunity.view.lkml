@@ -403,6 +403,7 @@ filter:   is_closed_curr_mo {
     type: string
     link: {
       url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity"
     }
     label: "Name"
   }
