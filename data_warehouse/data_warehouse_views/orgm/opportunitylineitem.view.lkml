@@ -130,6 +130,11 @@ view: opportunitylineitem {
     sql: ${TABLE}.product2id;;
   }
 
+  dimension: product_name {
+    type: string
+    sql: ${product2.name} ;;
+  }
+
   dimension_group: product_end_datef {
     type: time
     timeframes: [
