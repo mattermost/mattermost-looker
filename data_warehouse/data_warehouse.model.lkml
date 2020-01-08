@@ -168,6 +168,7 @@ explore: daily_traffic {
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
 
   # BP: Override the data group if the explore includes data that needs to be refreshed more frequently than the default
   persist_with: mm_salesforce_data_group
