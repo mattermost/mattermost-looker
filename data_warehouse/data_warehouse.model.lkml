@@ -236,6 +236,7 @@ explore: product_line_item {
 }
 
 explore: product_line_item_arr {
+  label: "Product Lin Item ARR"
   extends: [product_line_item]
 #   required_access_grants: [debugging_fields]
 
