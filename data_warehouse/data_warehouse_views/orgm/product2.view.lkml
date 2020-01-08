@@ -1,6 +1,26 @@
+# Product2 data from salesforce.
+#
+# Groups Labels
+# -
+
+
 view: product2 {
   sql_table_name: orgm.product2 ;;
-  drill_fields: [id]
+  drill_fields: [product2_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: product2_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -202,6 +222,11 @@ view: product2 {
     ]
     sql: ${TABLE}.systemmodstamp ;;
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count

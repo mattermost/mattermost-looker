@@ -1,5 +1,5 @@
 # BP
-# Opportunity information from salesforce.
+# Opportunity data from salesforce.
 #
 # Groups Labels
 # - Amounts
@@ -20,14 +20,14 @@ view: opportunity {
   sql_table_name: orgm.opportunity ;;
 
   # BP: Leverage sets for drill fields
-  drill_fields: [opportunity_drill_fields_short*]
+  drill_fields: [opportunity_drill_fields*]
 
 
   #
   # Sets
   #
 
-  set: opportunity_drill_fields_short {
+  set: opportunity_drill_fields {
     fields: [original_opportunity_id, name]
   }
 
@@ -37,19 +37,22 @@ view: opportunity {
   }
 
 
+  #
+  # Filters
+  #
+
+  filter:   is_closed_curr_mo {
+    type: yesno
+    sql: ${close_month} = get_sys_var('curr_mo') ;;
+    label: "Close Current Month"
+
+  }
+
 
   #
   # Dimensions
   #
 
-#Filters
-
-filter:   is_closed_curr_mo {
-  type: yesno
-  sql: ${close_month} = get_sys_var('curr_mo') ;;
-  label: "Close Current Month"
-
-}
   dimension: original_opportunity_id {
     sql: ${TABLE}.original_opportunity_id__c ;;
     type: string

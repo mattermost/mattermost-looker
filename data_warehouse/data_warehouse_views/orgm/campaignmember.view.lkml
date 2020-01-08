@@ -1,6 +1,25 @@
+# Campaign member data from salesforce.
+#
+# Groups Labels
+# -
+
 view: campaignmember {
   sql_table_name: ORGM.CAMPAIGNMEMBER ;;
-  drill_fields: [id]
+  drill_fields: [campaign_member_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: campaign_member_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -388,6 +407,11 @@ view: campaignmember {
     type: string
     sql: ${TABLE}.TYPE ;;
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count
