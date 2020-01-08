@@ -107,74 +107,74 @@ view: account {
   dimension: assigned_owner {
     type: string
     sql: ${TABLE}.assigned_owner__c ;;
-    group_label: "Owner"
+    group_label: "Owners"
     label: "Assigned Owner"
   }
 
   dimension: assigned_owner_id {
     type: string
     sql: ${TABLE}.assigned_owner_id__c ;;
-    group_label: "Owner"
+    group_label: "Owners"
     label: "Assigned Owner ID"  }
 
   dimension: billingcity {
     type: string
     sql: ${TABLE}.billingcity ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billingcountry {
     type: string
     sql: ${TABLE}.billingcountry ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billingcountrycode {
     type: string
     sql: ${TABLE}.billingcountrycode ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billinggeocodeaccuracy {
     type: string
     sql: ${TABLE}.billinggeocodeaccuracy ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billinglatitude {
     type: number
     sql: ${TABLE}.billinglatitude ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billinglongitude {
     type: number
     sql: ${TABLE}.billinglongitude ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billingpostalcode {
     type: string
     sql: ${TABLE}.billingpostalcode ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
-  dimension: billingstate {
+  dimension: Billingstate {
     type: string
-    sql: ${TABLE}.billingstate ;;
-    group_label: "Billings"
+    sql: ${TABLE}.Billingstate ;;
+    group_label: "Billing Info"
   }
 
   dimension: billingstatecode {
     type: string
     sql: ${TABLE}.billingstatecode ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: billingstreet {
     type: string
     sql: ${TABLE}.billingstreet ;;
-    group_label: "Billings"
+    group_label: "Billing Info"
   }
 
   dimension: case_study_date {
@@ -266,13 +266,13 @@ view: account {
   dimension: customer_churned {
     type: yesno
     sql: ${TABLE}.customer_churned__c ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension: customer_segmentation_tier {
     type: string
     sql: ${TABLE}.customer_segmentation_tier__c ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: date_of_issue {
@@ -293,7 +293,7 @@ view: account {
   dimension: days_past_renewal {
     type: number
     sql: ${TABLE}.days_past_renewal__c ;;
-    label: "CS"
+    group_label: "CS"
   }
 
   dimension_group: demo_req_date {
@@ -360,13 +360,11 @@ view: account {
   dimension: first_channel {
     type: string
     sql: ${TABLE}.first_channel__c ;;
-    label: "First Channel"
   }
 
   dimension: first_channel_detail {
     type: string
     sql: ${TABLE}.first_channel_detail__c ;;
-    label: "First Channel"
   }
 
   dimension_group: first_created_date {
@@ -867,6 +865,20 @@ view: account {
     label: "Owner ID"
   }
 
+  dimension: owner_name {
+    type: string
+    sql: ${account_owner.name};;
+    group_label: "Owners"
+    label: "Owner Name"
+  }
+
+  dimension: csm_name {
+    type: string
+    sql: ${account_csm.name};;
+    group_label: "Owners"
+    label: "CSM Name (based on id)"
+  }
+
   dimension: ownership {
     type: string
     sql: ${TABLE}.ownership ;;
@@ -953,11 +965,6 @@ view: account {
   dimension: region {
     type: string
     sql: ${TABLE}.region__c ;;
-  }
-
-  dimension: csm_region {
-    type: string
-    sql:  case when ${region} in ('DACH','Rest of EMEA') then 'EMEA' else ${region} end;;
   }
 
   dimension: renewal_rep {

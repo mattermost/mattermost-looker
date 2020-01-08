@@ -224,6 +224,13 @@ filter:   is_closed_curr_mo {
     group_label: "Renewals"
   }
 
+  dimension: csm_name {
+    type: string
+    sql: ${opportunity_csm.name};;
+    group_label: "Renewals"
+    label: "CSM Name"
+  }
+
   dimension: days_past_renewal {
     # description: "TODO"
     sql: ${TABLE}.days_past_renewal__c ;;
@@ -493,6 +500,12 @@ filter:   is_closed_curr_mo {
     type: string
     sql: ${TABLE}.ownerid ;;
     label: "Owner ID"
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: ${opportunity_owner.name};;
+    label: "Owner Name"
   }
 
   dimension: probability {

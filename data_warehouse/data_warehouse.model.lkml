@@ -164,7 +164,6 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
-explore: opportunity {}
 
 explore: product_line_item {
   from: opportunitylineitem
@@ -209,35 +208,40 @@ explore: product_line_item {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: opportunity_owner {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: account_csm {
+    view_label: "Account CSM"
     from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id})) = left(${account_csm.sfid}) ;;
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: opportunity_csm {
+    view_label: "Opportunity CSM"
     from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid}) ;;
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
     relationship: many_to_one
+    fields: []
   }
+}
+
+explore: product_line_item_arr {
+  extends: [product_line_item]
+#   required_access_grants: [debugging_fields]
 
   join: dates {
     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
-}
-
-# explore: product_line_item_cs {
-#   extends: [product_line_item]
-#   required_access_grants: [debugging_fields]
-
 #   fields: [opportunity.sfid, opportunity.probability, account.name]
-# }
+}
