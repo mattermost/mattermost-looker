@@ -226,6 +226,7 @@ view: account {
 
   dimension: createdbyid {
     group_label: "System"
+    label: "Created by ID"
     sql: ${TABLE}.createdbyid ;;
     type: string
   }
@@ -524,6 +525,7 @@ view: account {
   }
 
   dimension: lastmodifiedbyid {
+    label: "Last Modified By ID"
     sql: ${TABLE}.lastmodifiedbyid ;;
     type: string
   }
@@ -640,6 +642,7 @@ view: account {
   }
 
   dimension: masterrecordid {
+    label: "Master Record ID"
     sql: ${TABLE}.masterrecordid ;;
     type: string
   }
