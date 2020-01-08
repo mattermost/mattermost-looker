@@ -62,7 +62,9 @@ view: opportunitylineitem {
     timeframes: [
       date,
       month,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
