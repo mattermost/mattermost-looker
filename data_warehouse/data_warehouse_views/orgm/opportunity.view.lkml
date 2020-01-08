@@ -3,8 +3,18 @@
 #
 # Groups Labels
 # - Amounts
+# - Account
 # - ARR
 # - Total Amounts
+# - System
+# - Marketing
+# - Renewals
+# - Original Opportunity
+# - Forecast
+# - Closed
+# - Created
+# - Last Modified
+
 
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
@@ -212,6 +222,13 @@ filter:   is_closed_curr_mo {
     type: string
     sql: ${TABLE}.csm_owner__c ;;
     group_label: "Renewals"
+  }
+
+  dimension: csm_name {
+    type: string
+    sql: ${opportunity_csm.name};;
+    group_label: "Renewals"
+    label: "CSM Name"
   }
 
   dimension: days_past_renewal {
@@ -484,6 +501,12 @@ filter:   is_closed_curr_mo {
     type: string
     sql: ${TABLE}.ownerid ;;
     label: "Owner ID"
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: ${opportunity_owner.name};;
+    label: "Owner Name"
   }
 
   dimension: probability {
