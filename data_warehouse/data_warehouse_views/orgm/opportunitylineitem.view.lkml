@@ -51,12 +51,8 @@ view: opportunitylineitem {
   dimension_group: createddate {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     sql: ${TABLE}.createddate;;
@@ -82,7 +78,9 @@ view: opportunitylineitem {
     timeframes: [
       date,
       month,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
@@ -158,11 +156,8 @@ view: opportunitylineitem {
   dimension_group: product_end_datef {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     convert_tz: no
@@ -178,11 +173,8 @@ view: opportunitylineitem {
   dimension_group: product_start_datef {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     convert_tz: no
@@ -213,12 +205,11 @@ view: opportunitylineitem {
   dimension_group: renewal_end_date {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
@@ -228,12 +219,11 @@ view: opportunitylineitem {
   dimension_group: renewal_start_date {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
@@ -253,11 +243,8 @@ view: opportunitylineitem {
   dimension_group: servicedate {
     type: time
     timeframes: [
-      raw,
       date,
-      week,
       month,
-      quarter,
       year
     ]
     convert_tz: no
@@ -280,7 +267,9 @@ view: opportunitylineitem {
     timeframes: [
       date,
       month,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
