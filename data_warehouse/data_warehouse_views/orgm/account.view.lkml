@@ -1,7 +1,7 @@
 view: account {
 
   sql_table_name: orgm.account ;;
-  drill_fields: [account_id_18_digit]
+  drill_fields: [sfid]
 
 
   #
@@ -21,6 +21,7 @@ view: account {
     primary_key: yes
     type: string
     sql: ${TABLE}.account_id_18_digit__c ;;
+    group_label: "Ditch"
   }
 
   dimension: _hc_err {
@@ -50,8 +51,6 @@ view: account {
     group_label: "Amounts"
   }
 
-
-
   dimension: account_number {
     type: string
     sql: ${TABLE}.account_number__c ;;
@@ -68,12 +67,14 @@ view: account {
     type: date
     sql: ${TABLE}.account_end_date__c ;;
     label: "Account End Date"
+    group_label: "Ditch"
   }
 
   dimension: account_start_date {
     type: date
     sql: ${TABLE}.account_start_date__c ;;
     label: "Account Start Date"
+    group_label: "Ditch"
   }
 
   dimension: accountsource {
@@ -100,7 +101,6 @@ view: account {
     sql: ${TABLE}.assigned_once_with_workflow__c ;;
     group_label: "System"
     label: "Assigned Once with WF"
-
   }
 
   dimension: assigned_owner {
@@ -193,7 +193,6 @@ view: account {
     sql: ${TABLE}.cleaned_up_website__c ;;
     group_label: "System"
     label: "Cleaned up Website"
-
   }
 
   dimension: commercial_rep {
@@ -830,11 +829,13 @@ view: account {
   dimension: obsoleteregion {
     type: string
     sql: ${TABLE}.obsoleteregion__c ;;
+    group_label: "Ditch"
   }
 
   dimension: obsoleteterritory {
     type: string
     sql: ${TABLE}.obsoleteterritory__c ;;
+    group_label: "Ditch"
   }
 
   dimension: offer {
@@ -1018,8 +1019,8 @@ view: account {
   dimension: sfid {
     type: string
     sql: ${TABLE}.sfid ;;
-    group_label: "System"
-    label: "SFDC ID"
+    label: "Account ID"
+    description: "Salesforce Account SFID"
   }
 
   dimension: shippingcity {
