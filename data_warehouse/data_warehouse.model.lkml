@@ -94,6 +94,22 @@ explore: account_monthly_arr_deltas_by_type {
     sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
     relationship: many_to_one
   }
+
+  join: opportunity {
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.is_won};;
+    relationship: one_to_many
+    fields: [opportunity.name, opportunity.sfid]
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+           AND (${opportunitylineitem.start_month} = ${account_monthly_arr_deltas_by_type.month_start_month});;
+    relationship: one_to_many
+    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.total_price, opportunitylineitem.total_arr
+    ]
+  }
 }
 
 explore: account_daily_arr_deltas {
@@ -116,6 +132,7 @@ explore: account_daily_arr_deltas {
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
+
  join: opportunitylineitem {
    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
            AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
@@ -123,7 +140,7 @@ explore: account_daily_arr_deltas {
    relationship: one_to_many
    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-     opportunitylineitem.total_price
+     opportunitylineitem.total_price, opportunitylineitem.total_arr
    ]
  }
 
@@ -310,10 +327,11 @@ explore: arr {
   }
 fields: [
   dates.date_date,
-  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
-  opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
+  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name, account.parent_account_name,
+  opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.close_month, opportunity.close_fiscal_quarter_of_year, opportunity.close_fiscal_year, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
   opportunitylineitem.product_name,
   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
   opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+  opportunitylineitem.length_days,
   opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr]
 }
