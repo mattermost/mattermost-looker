@@ -1,6 +1,26 @@
+# Contact data from salesforce.
+#
+# Groups Labels
+# -
+
+
 view: contact {
   sql_table_name: orgm.contact ;;
-  drill_fields: [id]
+  drill_fields: [contact_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: contact_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -193,6 +213,11 @@ view: contact {
     ]
     sql: ${TABLE}.SYSTEMMODSTAMP ;;
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count

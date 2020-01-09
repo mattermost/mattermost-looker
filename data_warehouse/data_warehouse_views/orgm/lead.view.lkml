@@ -1,6 +1,25 @@
+# Lead data from salesforce.
+#
+# Groups Labels
+# -
+
 view: lead {
   sql_table_name: ORGM.LEAD ;;
-  drill_fields: [id]
+  drill_fields: [lead_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: lead_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -599,6 +618,11 @@ view: lead {
     type: string
     sql: ${TABLE}.WEBSITE ;;
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count

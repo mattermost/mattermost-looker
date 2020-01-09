@@ -1,6 +1,26 @@
+# User data from salesforce.
+#
+# Groups Labels
+# -
+
+
 view: user {
   sql_table_name: orgm."USER" ;;
-  drill_fields: [id]
+  drill_fields: [user_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: user_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -186,6 +206,11 @@ view: user {
     type: string
     sql: ${TABLE}.USERTYPE ;;
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count

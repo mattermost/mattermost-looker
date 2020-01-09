@@ -1,6 +1,26 @@
+# Opportunity line item data from salesforce.
+#
+# Groups Labels
+# -
+
+
 view: opportunitylineitem {
   sql_table_name: orgm.opportunitylineitem ;;
-  drill_fields: [id]
+  drill_fields: [opportunity_line_item_drill_fields*]
+
+
+  #
+  # Sets
+  #
+
+  set: opportunity_line_item_drill_fields {
+    fields: [id]
+  }
+
+
+  #
+  # Dimensions
+  #
 
   dimension: id {
     primary_key: yes
@@ -315,6 +335,11 @@ view: opportunitylineitem {
     sql: ${TABLE}.unitprice;;
     value_format_name: "usd"
   }
+
+
+  #
+  # Measures
+  #
 
   measure: count {
     type: count

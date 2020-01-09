@@ -1,5 +1,5 @@
 # BP
-# Opportunity information from salesforce.
+# Opportunity data from salesforce.
 #
 # Groups Labels
 # - Amounts
@@ -16,18 +16,21 @@
 # - Last Modified
 
 
+include: "_hc_fields.view"
+
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
+  extends: [ _hc_fields ]
 
   # BP: Leverage sets for drill fields
-  drill_fields: [opportunity_drill_fields_short*]
+  drill_fields: [opportunity_drill_fields*]
 
 
   #
   # Sets
   #
 
-  set: opportunity_drill_fields_short {
+  set: opportunity_drill_fields {
     fields: [original_opportunity_id, name]
   }
 
@@ -37,37 +40,26 @@ view: opportunity {
   }
 
 
+  #
+  # Filters
+  #
+
+  filter:   is_closed_curr_mo {
+    type: yesno
+    sql: ${close_month} = get_sys_var('curr_mo') ;;
+    label: "Close Current Month"
+
+  }
+
 
   #
   # Dimensions
   #
 
-#Filters
-
-filter:   is_closed_curr_mo {
-  type: yesno
-  sql: ${close_month} = get_sys_var('curr_mo') ;;
-  label: "Close Current Month"
-
-}
   dimension: original_opportunity_id {
     sql: ${TABLE}.original_opportunity_id__c ;;
     type: string
     group_label: "Original Opportunity"
-  }
-
-  dimension: _hc_err {
-    type: string
-    sql: ${TABLE}._hc_err ;;
-    label: "HC Err"
-    group_label: "System"
-  }
-
-  dimension: _hc_lastop {
-    type: string
-    sql: ${TABLE}._hc_lastop ;;
-    label: "HC Last Op"
-    group_label: "System"
   }
 
   dimension: accountid {
