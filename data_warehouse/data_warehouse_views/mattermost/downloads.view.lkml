@@ -6,8 +6,15 @@ view: downloads {
     sql: ${TABLE}."CIP" ;;
   }
 
-  dimension: logdate {
-    type: string
+  dimension_group: log {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
     sql: ${TABLE}."LOGDATE" ;;
   }
 
