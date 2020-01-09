@@ -402,7 +402,7 @@ explore: product_line_item {
 }
 
 explore: arr {
-  label: "ARR"
+  label: "ARR Granular Reporting"
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   extends: [product_line_item]
