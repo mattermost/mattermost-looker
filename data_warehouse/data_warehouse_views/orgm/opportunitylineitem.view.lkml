@@ -292,8 +292,8 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  dimension: arr_norm {
-    label: "ARR Norm"
+  dimension: arr {
+    label: "ARR"
     type: number
     sql: 365*${totalprice}/${length_days} ;;
     value_format_name: "usd"
@@ -307,12 +307,6 @@ view: opportunitylineitem {
   dimension: arr_per_seat {
     type: number
     sql: ${totalprice}/${quantity} ;;
-    value_format_name: "usd"
-  }
-
-  dimension: arr_norm_per_seat {
-    type: number
-    sql: ${arr_norm}/${quantity} ;;
     value_format_name: "usd"
   }
 
@@ -334,10 +328,10 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  measure: total_arr_norm {
-    label: "Total ARR Norm."
+  measure: total_arr {
+    label: "Total ARR"
     type: sum
-    sql: ${arr_norm} ;;
+    sql: ${arr} ;;
     value_format_name: "usd"
   }
 
@@ -345,13 +339,6 @@ view: opportunitylineitem {
     label: "Total ARR per Seat"
     type: sum
     sql: ${arr_per_seat} ;;
-    value_format_name: "usd"
-  }
-
-  measure: total_arr_norm_per_seat {
-    label: "Total ARR Norm. per Seat"
-    type: sum
-    sql: ${arr_norm_per_seat} ;;
     value_format_name: "usd"
   }
 
