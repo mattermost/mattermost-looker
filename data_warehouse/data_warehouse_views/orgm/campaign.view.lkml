@@ -5,10 +5,11 @@
 
 include: "_hc_fields.view"
 include: "_sdf_fields.view"
+include: "_systemmodstamp.view"
 
 view: campaign {
   sql_table_name: ORGM.CAMPAIGN ;;
-  extends: [ _hc_fields, _sdf_fields ]
+  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
 
   drill_fields: [campaign_drill_fields*]
 
@@ -280,21 +281,6 @@ view: campaign {
     type: string
   }
 
-  dimension_group: systemmodstamp {
-    group_label: "System"
-    sql: ${TABLE}.SYSTEMMODSTAMP ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
   dimension: type {
     sql: ${TABLE}.TYPE ;;
     type: string
@@ -307,6 +293,7 @@ view: campaign {
 
   measure: count {
     drill_fields: [campaign_drill_fields*]
+    label: "# of Campaigns"
     type: count
   }
 }

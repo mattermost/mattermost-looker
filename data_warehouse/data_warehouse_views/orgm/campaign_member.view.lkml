@@ -5,10 +5,11 @@
 
 include: "_hc_fields.view"
 include: "_sdf_fields.view"
+include: "_systemmodstamp.view"
 
 view: campaign_member {
   sql_table_name: ORGM.CAMPAIGNMEMBER ;;
-  extends: [ _hc_fields, _sdf_fields ]
+  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
   drill_fields: [campaign_member_drill_fields*]
 
 
@@ -27,107 +28,40 @@ view: campaign_member {
 
   dimension: id {
     primary_key: yes
-    type: number
     sql: ${TABLE}.ID ;;
-  }
-
-  dimension: _hc_lastop {
-    group_label: "System"
-    type: string
-    sql: ${TABLE}._HC_LASTOP ;;
-  }
-
-  dimension_group: sdc_batched {
-    group_label: "System"
-    label: "SDC Batched"
-    sql: ${TABLE}._SDC_BATCHED_AT ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension_group: sdc_extracted {
-    group_label: "System"
-    label: "SDC Extracted"
-    sql: ${TABLE}._SDC_EXTRACTED_AT ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension_group: sdc_received {
-    group_label: "System"
-    label: "SDC Received"
-    sql: ${TABLE}._SDC_RECEIVED_AT ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: sdc_sequence {
-    group_label: "System"
-    label: "SDC Sequence"
-    sql: ${TABLE}._SDC_SEQUENCE ;;
-    type: number
-  }
-
-  dimension: sdc_table_version {
-    group_label: "System"
-    label: "SDC Table Version"
-    sql: ${TABLE}._SDC_TABLE_VERSION ;;
     type: number
   }
 
   dimension: account_type {
-    type: string
     sql: ${TABLE}.ACCOUNTTYPE__C ;;
+    type: string
   }
 
   dimension: campaignid {
-    label: "Campaign ID"
-    type: string
     # hidden: yes
+    label: "Campaign ID"
     sql: ${TABLE}.CAMPAIGNID ;;
+    type: string
   }
 
   dimension: city {
-    type: string
     sql: ${TABLE}.CITY ;;
+    type: string
   }
 
-  dimension: companyoraccount {
-    type: string
+  dimension: company_or_account {
     sql: ${TABLE}.COMPANYORACCOUNT ;;
+    type: string
   }
 
   dimension: contactid {
-    type: string
+    label: "Contact ID"
     sql: ${TABLE}.CONTACTID ;;
+    type: string
   }
 
-  dimension_group: converted_date {
-    type: time
+  dimension_group: converted {
+    sql: ${TABLE}.CONVERTED_DATE__C ;;
     timeframes: [
       raw,
       time,
@@ -137,27 +71,28 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.CONVERTED_DATE__C ;;
+    type: time
   }
 
   dimension: cosize {
-    type: string
     sql: ${TABLE}.COSIZE__C ;;
+    type: string
   }
 
   dimension: country {
-    type: string
     map_layer_name: countries
     sql: ${TABLE}.COUNTRY ;;
+    type: string
   }
 
   dimension: createdbyid {
-    type: string
+    label: "Created By ID"
     sql: ${TABLE}.CREATEDBYID ;;
+    type: string
   }
 
-  dimension_group: createddate {
-    type: time
+  dimension_group: created {
+    sql: ${TABLE}.CREATEDDATE ;;
     timeframes: [
       raw,
       time,
@@ -167,26 +102,26 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.CREATEDDATE ;;
+    type: time
   }
 
   dimension: description {
-    type: string
     sql: ${TABLE}.DESCRIPTION ;;
+    type: string
   }
 
-  dimension: donotcall {
-    type: yesno
+  dimension: do_not_call {
     sql: ${TABLE}.DONOTCALL ;;
+    type: yesno
   }
 
   dimension: email {
-    type: string
     sql: ${TABLE}.EMAIL ;;
+    type: string
   }
 
   dimension_group: first_responded_on {
-    type: time
+    sql: ${TABLE}.FIRST_RESPONDED_ON__C ;;
     timeframes: [
       raw,
       time,
@@ -196,16 +131,16 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.FIRST_RESPONDED_ON__C ;;
+    type: time
   }
 
   dimension: firstname {
-    type: string
     sql: ${TABLE}.FIRSTNAME ;;
+    type: string
   }
 
-  dimension_group: firstrespondeddate {
-    type: time
+  dimension_group: first_responded {
+    sql: ${TABLE}.FIRSTRESPONDEDDATE ;;
     timeframes: [
       raw,
       time,
@@ -215,46 +150,47 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.FIRSTRESPONDEDDATE ;;
+    type: time
   }
 
   dimension: g2_k_rank {
-    type: number
     sql: ${TABLE}.G2K_RANK__C ;;
+    type: number
   }
 
   dimension: geo {
-    type: string
     sql: ${TABLE}.GEO__C ;;
+    type: string
   }
 
-  dimension: hasoptedoutofemail {
-    type: yesno
+  dimension: has_opted_out_of_email {
     sql: ${TABLE}.HASOPTEDOUTOFEMAIL ;;
+    type: yesno
   }
 
-  dimension: hasoptedoutoffax {
-    type: yesno
+  dimension: has_opted_out_of_fax {
     sql: ${TABLE}.HASOPTEDOUTOFFAX ;;
+    type: yesno
   }
 
-  dimension: hasresponded {
-    type: yesno
+  dimension: has_responded {
     sql: ${TABLE}.HASRESPONDED ;;
+    type: yesno
   }
 
-  dimension: isdeleted {
-    type: yesno
+  dimension: is_deleted {
     sql: ${TABLE}.ISDELETED ;;
+    type: yesno
   }
 
   dimension: lastmodifiedbyid {
-    type: string
+    label: "Last Modified By ID"
     sql: ${TABLE}.LASTMODIFIEDBYID ;;
+    type: string
   }
 
-  dimension_group: lastmodifieddate {
-    type: time
+  dimension_group: last_modified {
+    sql: ${TABLE}.LASTMODIFIEDDATE ;;
     timeframes: [
       raw,
       time,
@@ -264,47 +200,51 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.LASTMODIFIEDDATE ;;
+    type: time
   }
 
   dimension: lastname {
-    type: string
     sql: ${TABLE}.LASTNAME ;;
+    type: string
   }
 
   dimension: leadid {
-    type: string
     # hidden: yes
+    label: "Lead ID"
     sql: ${TABLE}.LEADID ;;
+    type: string
   }
 
   dimension: leadorcontactid {
-    type: string
+    label: "Lead or Contact ID"
     sql: ${TABLE}.LEADORCONTACTID ;;
+    type: string
   }
 
   dimension: leadorcontactownerid {
-    type: string
+    label: "Lead or Contact Owener ID"
     sql: ${TABLE}.LEADORCONTACTOWNERID ;;
+    type: string
   }
 
-  dimension: leadsource {
-    type: string
+  dimension: lead_source {
     sql: ${TABLE}.LEADSOURCE ;;
+    type: string
   }
 
-  dimension: mobilephone {
-    type: string
+  dimension: mobile_phone {
     sql: ${TABLE}.MOBILEPHONE ;;
+    type: string
   }
 
   dimension: mql {
-    type: yesno
+    label: "MQL"
     sql: ${TABLE}.MQL__C ;;
+    type: yesno
   }
 
-  dimension_group: mql_date {
-    type: time
+  dimension_group: mql {
+    sql: ${TABLE}.MQL_DATE__C ;;
     timeframes: [
       raw,
       time,
@@ -314,31 +254,32 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.MQL_DATE__C ;;
+    type: time
   }
 
   dimension: name {
-    type: string
     sql: ${TABLE}.NAME ;;
+    type: string
   }
 
   dimension: named_account {
-    type: yesno
     sql: ${TABLE}.NAMED_ACCOUNT__C ;;
+    type: yesno
   }
 
   dimension: phone {
-    type: string
     sql: ${TABLE}.PHONE ;;
-  }
-
-  dimension: postalcode {
     type: string
-    sql: ${TABLE}.POSTALCODE ;;
   }
 
-  dimension_group: pql_date {
-    type: time
+  dimension: postal_code {
+    sql: ${TABLE}.POSTALCODE ;;
+    type: string
+  }
+
+  dimension_group: pql {
+    label: "PQL"
+    sql: ${TABLE}.PQL_DATE__C ;;
     timeframes: [
       raw,
       time,
@@ -348,65 +289,51 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.PQL_DATE__C ;;
+    type: time
   }
 
   dimension: region {
-    type: string
     sql: ${TABLE}.REGION__C ;;
+    type: string
   }
 
   dimension: senior_title {
-    type: yesno
     sql: ${TABLE}.SENIOR_TITLE__C ;;
+    type: yesno
   }
 
   dimension: sfid {
-    type: string
     sql: ${TABLE}.SFID ;;
+    type: string
   }
 
   dimension: state {
-    type: string
     sql: ${TABLE}.STATE ;;
+    type: string
   }
 
   dimension: status {
-    type: string
     sql: ${TABLE}.STATUS ;;
+    type: string
   }
 
   dimension: street {
-    type: string
     sql: ${TABLE}.STREET ;;
-  }
-
-  dimension_group: systemmodstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.SYSTEMMODSTAMP ;;
+    type: string
   }
 
   dimension: technical_title {
-    type: yesno
     sql: ${TABLE}.TECHNICAL_TITLE__C ;;
+    type: yesno
   }
 
   dimension: title {
-    type: string
     sql: ${TABLE}.TITLE ;;
+    type: string
   }
 
-  dimension_group: trial_req_date {
-    type: time
+  dimension_group: trial_req {
+    sql: ${TABLE}.TRIAL_REQ_DATE__C ;;
     timeframes: [
       raw,
       time,
@@ -416,12 +343,12 @@ view: campaign_member {
       quarter,
       year
     ]
-    sql: ${TABLE}.TRIAL_REQ_DATE__C ;;
+    type: time
   }
 
   dimension: type {
-    type: string
     sql: ${TABLE}.TYPE ;;
+    type: string
   }
 
 
@@ -430,8 +357,9 @@ view: campaign_member {
   #
 
   measure: count {
-    type: count
     drill_fields: [detail*]
+    label: "# of Campaign Members"
+    type: count
   }
 
   # ----- Sets of fields for drilling ------

@@ -3,9 +3,13 @@
 # Groups Labels
 # -
 
+include: "_hc_fields.view"
+include: "_sdf_fields.view"
+include: "_systemmodstamp.view"
 
 view: user {
   sql_table_name: orgm."USER" ;;
+  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
   drill_fields: [user_drill_fields*]
 
 
@@ -14,7 +18,7 @@ view: user {
   #
 
   set: user_drill_fields {
-    fields: [id]
+    fields: [id, sender_name, name, username]
   }
 
 
@@ -24,152 +28,82 @@ view: user {
 
   dimension: id {
     primary_key: yes
-    type: number
     sql: ${TABLE}.ID ;;
-  }
-
-  dimension: _hc_lastop {
-    type: string
-    sql: ${TABLE}._HC_LASTOP ;;
-  }
-
-  dimension_group: _sdc_batched {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._SDC_BATCHED_AT ;;
-  }
-
-  dimension_group: _sdc_extracted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._SDC_EXTRACTED_AT ;;
-  }
-
-  dimension_group: _sdc_received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._SDC_RECEIVED_AT ;;
-  }
-
-  dimension: _sdc_sequence {
     type: number
-    sql: ${TABLE}._SDC_SEQUENCE ;;
   }
 
-  dimension: _sdc_table_version {
-    type: number
-    sql: ${TABLE}._SDC_TABLE_VERSION ;;
-  }
-
-  dimension_group: createddate {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension_group: created {
     sql: ${TABLE}.CREATEDDATE ;;
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    type: time
   }
 
   dimension: department {
-    type: string
     sql: ${TABLE}.DEPARTMENT ;;
+    type: string
   }
 
   dimension: email {
-    type: string
     sql: ${TABLE}.EMAIL ;;
+    type: string
   }
 
-  dimension: isactive {
-    type: yesno
+  dimension: is_active {
     sql: ${TABLE}.ISACTIVE ;;
+    type: yesno
   }
 
   dimension: managerid {
-    type: string
+    label: "Manager ID"
     sql: ${TABLE}.MANAGERID ;;
+    type: string
   }
 
   dimension: name {
-    type: string
     sql: ${TABLE}.NAME ;;
+    type: string
   }
 
   dimension: owner_type {
-    type: string
     sql: ${TABLE}.OWNER_TYPE__C ;;
+    type: string
   }
 
   dimension: sales_ops {
-    type: yesno
     sql: ${TABLE}.SALES_OPS__C ;;
+    type: yesno
   }
 
-  dimension: senderemail {
-    type: string
+  dimension: sender_email {
     sql: ${TABLE}.SENDEREMAIL ;;
+    type: string
   }
 
-  dimension: sendername {
-    type: string
+  dimension: sender_name {
     sql: ${TABLE}.SENDERNAME ;;
+    type: string
   }
 
   dimension: sfid {
-    type: string
     sql: ${TABLE}.SFID ;;
+    type: string
   }
 
   dimension: signature {
-    type: string
     sql: ${TABLE}.SIGNATURE ;;
+    type: string
   }
 
-  dimension_group: start_date {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension_group: start {
     sql: ${TABLE}.START_DATE__C ;;
-  }
-
-  dimension_group: systemmodstamp {
-    type: time
     timeframes: [
       raw,
       time,
@@ -179,32 +113,33 @@ view: user {
       quarter,
       year
     ]
-    sql: ${TABLE}.SYSTEMMODSTAMP ;;
+    type: time
   }
 
   dimension: territory {
-    type: string
     sql: ${TABLE}.TERRITORY__C ;;
+    type: string
   }
 
   dimension: title {
-    type: string
     sql: ${TABLE}.TITLE ;;
+    type: string
   }
 
   dimension: username {
-    type: string
     sql: ${TABLE}.USERNAME ;;
+    type: string
   }
 
   dimension: userroleid {
-    type: string
+    label: "User Role ID"
     sql: ${TABLE}.USERROLEID ;;
+    type: string
   }
 
-  dimension: usertype {
-    type: string
+  dimension: user_type {
     sql: ${TABLE}.USERTYPE ;;
+    type: string
   }
 
 
@@ -213,7 +148,8 @@ view: user {
   #
 
   measure: count {
+    drill_fields: [user_drill_fields*]
+    label: "# of Users"
     type: count
-    drill_fields: [id, sendername, name, username]
   }
 }
