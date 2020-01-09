@@ -1,5 +1,5 @@
 view: staff_list {
-  sql_table_name: mattermost.staff_list ;;
+  sql_table_name: employee.staff_list ;;
 
   dimension: category {
     type: string

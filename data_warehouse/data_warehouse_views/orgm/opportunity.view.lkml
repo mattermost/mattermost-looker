@@ -13,14 +13,14 @@
 # - Forecast
 # - Closed
 # - Created
-# - Last Modified
 
 
 include: "_hc_fields.view"
+include: "_systemmodstamp.view"
 
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
-  extends: [ _hc_fields ]
+  extends: [ _hc_fields, _systemmodstamp ]
 
   # BP: Leverage sets for drill fields
   drill_fields: [opportunity_drill_fields*]
@@ -612,23 +612,6 @@ view: opportunity {
     sql: ${TABLE}.sfid ;;
     type: string
     label: "Oppt. ID"
-  }
-
-  dimension_group: systemmodstamp {
-    label: "System Mod Timestamp"
-    required_access_grants: [debugging_fields]
-    sql: ${TABLE}.systemmodstamp ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-    group_label: "Last Modified"
   }
 
   dimension: territory {
