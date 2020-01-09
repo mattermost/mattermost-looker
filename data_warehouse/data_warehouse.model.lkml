@@ -50,7 +50,7 @@ named_value_format: mm_integer_percent {
 
 include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
-# include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
