@@ -966,6 +966,7 @@ view: account {
     type: string
     sql: CASE
               WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
+              WHEN ${sfid} = '00136000015uBxoAAE' THEN 'EMEA'
               WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
               WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
               ELSE ${region} END ;;
