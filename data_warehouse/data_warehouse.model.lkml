@@ -62,10 +62,6 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 # Explores
 #
 
-explore: oli_level_arr {
-  label: "ARR: OLI Level"
-  group_label: "ARR"
-}
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
@@ -112,6 +108,51 @@ explore: account_monthly_arr_deltas_by_type {
   }
 }
 
+explore: master_account_monthly_arr_deltas_by_type {
+  label: "Monthly Master Account ARR Changes by Type"
+  group_label: "ARR"
+  join: account {
+    sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: child_account {
+    from: account
+    sql_on: ${account.sfid} = ${child_account.parentid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: csm_account_owner {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity {
+    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.is_won};;
+    relationship: one_to_many
+    fields: [opportunity.name, opportunity.sfid]
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+      AND (${opportunitylineitem.start_month} = ${master_account_monthly_arr_deltas_by_type.month_start_month});;
+    relationship: one_to_many
+    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.total_price, opportunitylineitem.total_arr
+    ]
+  }
+}
+
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
   group_label: "ARR"
@@ -140,14 +181,63 @@ explore: account_daily_arr_deltas {
    relationship: one_to_many
    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-     opportunitylineitem.total_price, opportunitylineitem.total_arr
-   ]
+     opportunitylineitem.total_price, opportunitylineitem.total_arr]
  }
 
  join: product2 {
    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
    relationship: many_to_one
  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: csm_account_owner {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    relationship: many_to_one
+  }
+
+}
+
+explore: master_account_daily_arr_deltas {
+  label: "Daily Master Account ARR Changes"
+  group_label: "ARR"
+  join: account {
+    sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+  join: child_account {
+    from: account
+    sql_on: ${account.sfid} = ${child_account.parentid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.is_won};;
+    relationship: one_to_many
+    fields: [opportunity.name, opportunity.sfid]
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+           AND (${opportunitylineitem.start_month} = ${master_account_daily_arr_deltas.new_day_date}
+               OR ${opportunitylineitem.end_month} = ${master_account_daily_arr_deltas.previous_day_date});;
+    relationship: one_to_many
+    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.total_price, opportunitylineitem.total_arr]
+  }
+
+  join: product2 {
+    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+    relationship: many_to_one
+  }
 
   join: account_owner {
     from: user
@@ -238,7 +328,6 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
-
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
@@ -311,7 +400,6 @@ explore: product_line_item {
     fields: []
   }
 }
-
 
 explore: arr {
   label: "ARR"
