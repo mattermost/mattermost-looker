@@ -53,19 +53,19 @@ view: opportunitylineitem {
     sql: ${TABLE}.discounted_unit_price__c;;
   }
 
-  dimension_group: end {
-    type: time
-    timeframes: [
-      date,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.end_date__c;;
-  }
+#   dimension_group: end {
+#     type: time
+#     timeframes: [
+#       date,
+#       month,
+#       fiscal_quarter,
+#       year,
+#       fiscal_year
+#     ]
+#     convert_tz: no
+#     datatype: date
+#     sql: ${TABLE}.end_date__c;;
+#   }
 
   dimension: is_prorated_expansion {
     type: string
@@ -242,19 +242,19 @@ view: opportunitylineitem {
     sql: ${TABLE}.sortorder;;
   }
 
-  dimension_group: start {
-    type: time
-    timeframes: [
-      date,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.start_date__c;;
-  }
+#   dimension_group: start {
+#     type: time
+#     timeframes: [
+#       date,
+#       month,
+#       fiscal_quarter,
+#       year,
+#       fiscal_year
+#     ]
+#     convert_tz: no
+#     datatype: date
+#     sql: ${TABLE}.start_date__c;;
+#   }
 
   dimension: subtotal {
     type: number
