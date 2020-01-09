@@ -107,7 +107,7 @@ explore: account_monthly_arr_deltas_by_type {
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
       opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr
+      opportunitylineitem.total_price, opportunitylineitem.total_arr_norm
     ]
   }
 }
@@ -140,7 +140,7 @@ explore: account_daily_arr_deltas {
    relationship: one_to_many
    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-     opportunitylineitem.total_price, opportunitylineitem.total_arr
+     opportunitylineitem.total_price, opportunitylineitem.total_arr_norm
    ]
  }
 
@@ -333,5 +333,5 @@ fields: [
   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
   opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
   opportunitylineitem.length_days,
-  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr, opportunitylineitem.totalprice]
+  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm, opportunitylineitem.totalprice]
 }

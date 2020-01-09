@@ -1,26 +1,6 @@
-# Opportunity line item data from salesforce.
-#
-# Groups Labels
-# -
-
-
 view: opportunitylineitem {
   sql_table_name: orgm.opportunitylineitem ;;
-  drill_fields: [opportunity_line_item_drill_fields*]
-
-
-  #
-  # Sets
-  #
-
-  set: opportunity_line_item_drill_fields {
-    fields: [id]
-  }
-
-
-  #
-  # Dimensions
-  #
+  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
@@ -312,8 +292,8 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  dimension: arr {
-    label: "ARR"
+  dimension: arr_norm {
+    label: "ARR Norm"
     type: number
     sql: 365*${totalprice}/${length_days} ;;
     value_format_name: "usd"
@@ -326,7 +306,13 @@ view: opportunitylineitem {
 
   dimension: arr_per_seat {
     type: number
-    sql: ${arr}/${quantity} ;;
+    sql: ${totalprice}/${quantity} ;;
+    value_format_name: "usd"
+  }
+
+  dimension: arr_norm_per_seat {
+    type: number
+    sql: ${arr_norm}/${quantity} ;;
     value_format_name: "usd"
   }
 
@@ -335,11 +321,6 @@ view: opportunitylineitem {
     sql: ${TABLE}.unitprice;;
     value_format_name: "usd"
   }
-
-
-  #
-  # Measures
-  #
 
   measure: count {
     type: count
@@ -353,17 +334,24 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  measure: total_arr {
-    label: "Total ARR"
+  measure: total_arr_norm {
+    label: "Total ARR Norm."
     type: sum
-    sql: ${arr} ;;
+    sql: ${arr_norm} ;;
     value_format_name: "usd"
   }
 
   measure: total_arr_per_seat {
-    label: "Total ARR Norm. per Seat"
+    label: "Total ARR per Seat"
     type: sum
     sql: ${arr_per_seat} ;;
+    value_format_name: "usd"
+  }
+
+  measure: total_arr_norm_per_seat {
+    label: "Total ARR Norm. per Seat"
+    type: sum
+    sql: ${arr_norm_per_seat} ;;
     value_format_name: "usd"
   }
 
