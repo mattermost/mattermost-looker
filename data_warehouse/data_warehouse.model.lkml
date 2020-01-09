@@ -415,7 +415,7 @@ explore: arr {
   }
 fields: [
   dates.date_date,dates.day_num,
-  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name, account.parent_account_name, account.count, account.csm_enriched_region,
+  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name, account.parent_account_name, account.count, account.csm_enriched_region, account.customer_segmentation_tier,
   opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.close_month, opportunity.close_fiscal_quarter_of_year, opportunity.close_fiscal_year, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
   opportunitylineitem.product_name,
   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
