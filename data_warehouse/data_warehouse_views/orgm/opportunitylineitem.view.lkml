@@ -289,14 +289,14 @@ view: opportunitylineitem {
     label: "Total Price"
     type: number
     sql: ${TABLE}.totalprice;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   dimension: arr {
     label: "ARR"
     type: number
     sql: 365*${totalprice}/${length_days} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   dimension: length_days {
@@ -307,13 +307,13 @@ view: opportunitylineitem {
   dimension: arr_per_seat {
     type: number
     sql: ${totalprice}/${quantity} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   dimension: unitprice {
     type: number
     sql: ${TABLE}.unitprice;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   measure: count {
@@ -325,21 +325,21 @@ view: opportunitylineitem {
     label: "Total Price"
     type: sum
     sql: ${totalprice} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   measure: total_arr {
     label: "Total ARR"
     type: sum
     sql: ${arr} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   measure: total_arr_per_seat {
     label: "Total ARR per Seat"
     type: sum
     sql: ${arr_per_seat} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   # ----- Sets of fields for drilling ------
