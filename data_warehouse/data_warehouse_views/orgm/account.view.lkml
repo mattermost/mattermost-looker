@@ -1,6 +1,5 @@
 view: account {
 
-  view_label: ""
   sql_table_name: orgm.account ;;
   drill_fields: [account_id_18_digit]
 

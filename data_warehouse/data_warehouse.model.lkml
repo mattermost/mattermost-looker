@@ -158,12 +158,17 @@ explore: lead {
 
   join: contact {
     sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
-    relationship:one_to_one
+    relationship: one_to_one
   }
 
   join: account {
-    sql_on: ${lead.convertedaccountid} = ${account.sfid} ;;
-    relationship:one_to_one
+    sql_on: ${contact.accountid} = ${account.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity {
+    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+    relationship: one_to_one
   }
 
   join: parent_account {
@@ -171,11 +176,6 @@ explore: lead {
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
     fields: []
-  }
-
-  join: opportunity {
-    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
-    relationship:one_to_one
   }
 
   join: account_owner {
