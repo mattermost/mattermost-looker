@@ -8,11 +8,6 @@ view: security {
     sql: ${TABLE}."ID" ;;
   }
 
-  dimension: active_user_count {
-    type: number
-    sql: ${TABLE}."ACTIVE_USER_COUNT" ;;
-  }
-
   dimension_group: date {
     type: time
     timeframes: [
@@ -76,6 +71,11 @@ view: security {
   dimension: version {
     type: string
     sql: ${TABLE}."VERSION" ;;
+  }
+
+  measure: active_user_count {
+    type: sum
+    sql: ${TABLE}."ACTIVE_USER_COUNT" ;;
   }
 
   measure: count {
