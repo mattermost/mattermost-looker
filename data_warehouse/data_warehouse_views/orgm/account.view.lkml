@@ -970,7 +970,7 @@ view: account {
   dimension: csm_enriched_region {
     type: string
     sql: CASE
-              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'FEDERAL'
+              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
               WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
               WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
               ELSE ${region} END ;;
@@ -1346,7 +1346,8 @@ view: account {
   }
 
   measure: count {
-    type: count
-    drill_fields: [account_id_18_digit, name]
+    type: count_distinct
+    sql: ${sfid} ;;
+    drill_fields: [sfid, name]
   }
 }
