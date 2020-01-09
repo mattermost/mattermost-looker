@@ -1,16 +1,12 @@
-view: account_util_dates {
-  sql_table_name: FINANCE.ACCOUNT_UTIL_DATES ;;
+view: master_account_util_dates {
+  sql_table_name: FINANCE.MASTER_ACCOUNT_UTIL_DATES ;;
+
 
   dimension: compound_primary {
     type: string
-    sql: ${account_sfid}||${day_date} ;;
+    sql: ${master_account_sfid}||${day_date} ;;
     primary_key: yes
     hidden: yes
-  }
-
-  dimension: account_sfid {
-    type: string
-    sql: ${TABLE}."ACCOUNT_SFID" ;;
   }
 
   dimension_group: day {
@@ -31,5 +27,4 @@ view: account_util_dates {
     type: string
     sql: ${TABLE}."MASTER_ACCOUNT_SFID" ;;
   }
-
 }
