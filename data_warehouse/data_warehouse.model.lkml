@@ -315,5 +315,5 @@ fields: [
   opportunitylineitem.product_name,
   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
   opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
-  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm]
+  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr]
 }
