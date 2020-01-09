@@ -63,12 +63,13 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 #
 
 explore: oli_level_arr {
-  label: "OLI Level ARR"
-  group_label: "  Favorite Explores"
+  label: "ARR: OLI Level"
+  group_label: "ARR"
 }
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
+  group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: many_to_one
@@ -97,6 +98,7 @@ explore: account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
+  group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
@@ -145,10 +147,65 @@ explore: account_daily_arr_deltas {
 }
 
 explore: lead {
-  join: user {
+  label: "Lead to Account"
+  group_label: "Salesforce"
+
+  join: created_by {
     from: user
-    sql_on: ${lead.createdbyid} = ${user.sfid} ;;
+    sql_on: ${lead.createdbyid} = ${created_by.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: contact {
+    sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
+    relationship:one_to_one
+  }
+
+  join: account {
+    sql_on: ${lead.convertedaccountid} = ${account.sfid} ;;
+    relationship:one_to_one
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+    relationship:one_to_one
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    view_label: "Account CSM"
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
@@ -168,6 +225,8 @@ explore: daily_traffic {
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
+  label: "Line Item to Account"
+  group_label: "Salesforce"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
 
   # BP: Override the data group if the explore includes data that needs to be refreshed more frequently than the default
@@ -237,13 +296,9 @@ explore: product_line_item {
 }
 
 
-
-
-
-
-
 explore: arr {
   label: "ARR"
+  group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   extends: [product_line_item]
 #   required_access_grants: [debugging_fields]
