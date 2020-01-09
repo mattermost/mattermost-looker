@@ -3,9 +3,12 @@
 # Groups Labels
 # -
 
+include: "_hc_fields.view"
+include: "_systemmodstamp.view"
 
 view: product2 {
   sql_table_name: orgm.product2 ;;
+  extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [product2_drill_fields*]
 
 
@@ -24,27 +27,18 @@ view: product2 {
 
   dimension: id {
     primary_key: yes
-    type: number
     sql: ${TABLE}.id ;;
-  }
-
-  dimension: _hc_err {
-    type: string
-    sql: ${TABLE}._hc_err ;;
-  }
-
-  dimension: _hc_lastop {
-    type: string
-    sql: ${TABLE}._hc_lastop ;;
+    type: number
   }
 
   dimension: createdbyid {
-    type: string
+    label: "Created By ID"
     sql: ${TABLE}.createdbyid ;;
+    type: string
   }
 
-  dimension_group: createddate {
-    type: time
+  dimension_group: created {
+    sql: ${TABLE}.createddate ;;
     timeframes: [
       raw,
       time,
@@ -54,55 +48,42 @@ view: product2 {
       quarter,
       year
     ]
-    sql: ${TABLE}.createddate ;;
+    type: time
   }
 
   dimension: description {
-    type: string
     sql: ${TABLE}.description ;;
+    type: string
   }
 
-  dimension: displayurl {
-    type: string
+  dimension: display_url {
     sql: ${TABLE}.displayurl ;;
+    type: string
   }
 
   dimension: family {
-    type: string
     sql: ${TABLE}.family ;;
+    type: string
   }
 
-  dimension: isactive {
-    type: yesno
+  dimension: is_active {
     sql: ${TABLE}.isactive ;;
+    type: yesno
   }
 
-  dimension: isdeleted {
-    type: yesno
+  dimension: is_deleted {
     sql: ${TABLE}.isdeleted ;;
+    type: yesno
   }
 
   dimension: lastmodifiedbyid {
-    type: string
+    label: "Last Modified By ID"
     sql: ${TABLE}.lastmodifiedbyid ;;
+    type: string
   }
 
-  dimension_group: lastmodifieddate {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension_group: last_modified {
     sql: ${TABLE}.lastmodifieddate ;;
-  }
-
-  dimension_group: lastreferenceddate {
-    type: time
     timeframes: [
       raw,
       time,
@@ -112,11 +93,11 @@ view: product2 {
       quarter,
       year
     ]
+    type: time
+  }
+
+  dimension_group: last_referenced {
     sql: ${TABLE}.lastreferenceddate ;;
-  }
-
-  dimension_group: lastvieweddate {
-    type: time
     timeframes: [
       raw,
       time,
@@ -126,101 +107,128 @@ view: product2 {
       quarter,
       year
     ]
+    type: time
+  }
+
+  dimension_group: last_viewed {
     sql: ${TABLE}.lastvieweddate ;;
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    type: time
   }
 
   dimension: name {
-    type: string
     sql: ${TABLE}.name ;;
+    type: string
   }
 
   dimension: netsuite_conn__celigo_update {
-    type: yesno
+    group_item_label: "Celigo Update"
+    group_label: "Netsuite"
+    label: "Netsuite Celigo Update"
     sql: ${TABLE}.netsuite_conn__celigo_update__c ;;
+    type: yesno
   }
 
   dimension: netsuite_conn__item_category {
-    type: string
+    group_item_label: "Item Category"
+    group_label: "Netsuite"
+    label: "Netsuite Item Category"
     sql: ${TABLE}.netsuite_conn__item_category__c ;;
+    type: string
   }
 
   dimension: netsuite_conn__netsuite_id {
-    type: string
+    group_item_label: "Netsuite ID"
+    group_label: "Netsuite"
+    label: "Netsuite ID"
     sql: ${TABLE}.netsuite_conn__netsuite_id__c ;;
+    type: string
   }
 
   dimension: netsuite_conn__netsuite_item_type {
-    type: string
+    group_item_label: "Item Type"
+    group_label: "Netsuite"
+    label: "Netsuite Item Type"
     sql: ${TABLE}.netsuite_conn__netsuite_item_type__c ;;
+    type: string
   }
 
   dimension: netsuite_conn__netsuite_sync_err {
-    type: string
+    group_item_label: "Sync Error"
+    group_label: "Netsuite"
+    label: "Netsuite Sync Error"
     sql: ${TABLE}.netsuite_conn__netsuite_sync_err__c ;;
+    type: string
   }
 
   dimension: netsuite_conn__push_to_netsuite {
-    type: yesno
+    group_item_label: "Push to Netsuite"
+    group_label: "Netsuite"
+    label: "Push to Netsuite"
     sql: ${TABLE}.netsuite_conn__push_to_netsuite__c ;;
+    type: yesno
   }
 
   dimension: netsuite_conn__sub_type {
-    type: string
+    group_item_label: "Sub Type"
+    group_label: "Netsuite"
+    label: "Netsuite Sub Type"
     sql: ${TABLE}.netsuite_conn__sub_type__c ;;
+    type: string
   }
 
   dimension: netsuite_conn__sync_in_progress {
-    type: yesno
+    group_item_label: "Sync In Progress"
+    group_label: "Netsuite"
+    label: "Netsuite Sync In Progress"
     sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
+    type: yesno
   }
 
   dimension: netsuite_conn__term_contract_pricing_type {
-    type: string
+    group_item_label: "Term Contract Pricing Type"
+    group_label: "Netsuite"
+    label: "Netsuite Term Contract Pricing Type"
     sql: ${TABLE}.netsuite_conn__term_contract_pricing_type__c ;;
+    type: string
   }
 
   dimension: product_id_18_digit {
-    type: string
     sql: ${TABLE}.product_id_18_digit__c ;;
+    type: string
   }
 
   dimension: product_id {
-    type: string
     sql: ${TABLE}.product_id__c ;;
+    type: string
   }
 
-  dimension: productcode {
-    type: string
+  dimension: product_code {
     sql: ${TABLE}.productcode ;;
+    type: string
   }
 
-  dimension: quantityunitofmeasure {
-    type: string
+  dimension: quantity_unit_of_measure {
     sql: ${TABLE}.quantityunitofmeasure ;;
+    type: string
   }
 
   dimension: sfid {
-    type: string
     sql: ${TABLE}.sfid ;;
-  }
-
-  dimension: stockkeepingunit {
     type: string
-    sql: ${TABLE}.stockkeepingunit ;;
   }
 
-  dimension_group: systemmodstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.systemmodstamp ;;
+  dimension: stock_keeping_unit {
+    sql: ${TABLE}.stockkeepingunit ;;
+    type: string
   }
 
 
@@ -229,7 +237,8 @@ view: product2 {
   #
 
   measure: count {
-    type: count
     drill_fields: [id, name, opportunitylineitem.count]
+    label: "# of Product2s"
+    type: count
   }
 }

@@ -17,10 +17,11 @@
 
 
 include: "_hc_fields.view"
+include: "_systemmodstamp.view"
 
 view: account {
   sql_table_name: orgm.account ;;
-  extends: [ _hc_fields ]
+  extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [account_drill_fields*]
 
   #
@@ -673,6 +674,7 @@ view: account {
   }
 
   dimension_group: mql {
+    label: "MQL"
     group_label: "Funnel"
     sql: ${TABLE}.mql_date__c ;;
     timeframes: [
@@ -727,99 +729,129 @@ view: account {
   }
 
   dimension: netsuite_conn_account_balance {
+    group_item_label: "Account Balance"
     group_label: "Netsuite"
+    label: "Netsuite Account Balance"
     sql: ${TABLE}.netsuite_conn__account_balance__c ;;
     type: number
   }
 
   dimension: netsuite_conn_account_overdue_balance {
+    group_item_label: "Account Overdue Balance"
     group_label: "Netsuite"
+    label: "Netsuite Account Overdue Balance"
     sql: ${TABLE}.netsuite_conn__account_overdue_balance__c ;;
     type: number
   }
 
   dimension: netsuite_conn_celigo_update {
+    group_item_label: "Celigo Update"
     group_label: "Netsuite"
+    label: "Netsuite Celigo Update"
     sql: ${TABLE}.netsuite_conn__celigo_update__c ;;
     type: yesno
   }
 
   dimension: netsuite_conn_channel_tier {
+    group_item_label: "Channel Tier"
     group_label: "Netsuite"
+    label: "Netsuite Channel Tier"
     sql: ${TABLE}.netsuite_conn__channel_tier__c ;;
     type: string
   }
 
   dimension: netsuite_conn_credit_hold {
+    group_item_label: "Credit Hold"
     group_label: "Netsuite"
+    label: "Netsuite Credit Hold"
     sql: ${TABLE}.netsuite_conn__credit_hold__c ;;
     type: string
   }
 
   dimension: netsuite_conn_credit_limit {
+    group_item_label: "Credit Limit"
     group_label: "Netsuite"
+    label: "Netsuite Credit Limit"
     sql: ${TABLE}.netsuite_conn__credit_limit__c ;;
     type: number
   }
 
   dimension: netsuite_conn_days_overdue {
+    group_item_label: "Days Overdue"
     group_label: "Netsuite"
+    label: "Netsuite Days Overdue"
     sql: ${TABLE}.netsuite_conn__days_overdue__c ;;
     type: number
   }
 
   dimension: netsuite_conn_netsuite_id {
+    group_item_label: "Netsuite ID"
     group_label: "Netsuite"
+    label: "Netsuite ID"
     sql: ${TABLE}.netsuite_conn__netsuite_id__c ;;
     type: string
   }
 
   dimension: netsuite_conn_netsuite_sync_err {
+    group_item_label: "Sync Error"
     group_label: "Netsuite"
+    label: "Netsuite Sync Error"
     sql: ${TABLE}.netsuite_conn__netsuite_sync_err__c ;;
     type: string
   }
 
   dimension: netsuite_conn_push_to_netsuite {
+    group_item_label: "Push To Netsuite"
     group_label: "Netsuite"
+    label: "Push To Netsuite"
     sql: ${TABLE}.netsuite_conn__push_to_netsuite__c ;;
     type: yesno
   }
 
   dimension: netsuite_conn_pushed_from_opportunity {
+    group_item_label: "Push From Opportunity"
     group_label: "Netsuite"
+    label: "Netsuite Push From Opportunity"
     sql: ${TABLE}.netsuite_conn__pushed_from_opportunity__c ;;
     type: yesno
   }
 
   dimension: netsuite_conn_sync_in_progress {
+    group_item_label: "Sync In Progress"
     group_label: "Netsuite"
+    label: "Netsuite Sync In Progress"
     sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
     type: yesno
   }
 
   dimension: netsuite_conn_unbilled_orders {
+    group_item_label: "Unbilled Orders"
     group_label: "Netsuite"
+    label: "Netsuite Unbilled Orders"
     sql: ${TABLE}.netsuite_conn__unbilled_orders__c ;;
     type: number
   }
 
   dimension: number_of_open_opportunities {
+    label: "# of Open Opportunities"
     sql: ${TABLE}.number_of_open_opportunities__c ;;
     type: number
   }
 
   dimension: number_of_opportunities {
+    label: "# of Opportunities"
     sql: ${TABLE}.number_of_opportunities__c ;;
     type: number
   }
 
   dimension: number_of_won_opportunities {
+    label: "# of Won Opportunities"
     sql: ${TABLE}.number_of_won_opportunities__c ;;
     type: number
   }
 
   dimension: number_of_employees {
+    label: "# of Employees"
     sql: ${TABLE}.numberofemployees ;;
     type: number
   }
@@ -963,13 +995,14 @@ view: account {
   }
 
   dimension: csm_enriched_region {
-    type: string
+    label: "CSM Enriched Region"
     sql: CASE
               WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
               WHEN ${sfid} = '00136000015uBxoAAE' THEN 'EMEA'
               WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
               WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
               ELSE ${region} END ;;
+    type: string
   }
 
   dimension: renewal_rep {
@@ -1112,22 +1145,6 @@ view: account {
   dimension: solution_architect_2 {
     sql: ${TABLE}.solution_architect_2__c ;;
     type: string
-  }
-
-  # TODO: How do you want this to be consistently named?
-  dimension_group: systemmodstamp {
-    group_label: "System"
-    sql: ${TABLE}.systemmodstamp ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
   }
 
   dimension: territory {
@@ -1295,48 +1312,56 @@ view: account {
   }
 
   dimension: zendesk_last_sync_status {
+    group_item_label: "Last Sync Status"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__last_sync_status__c ;;
     type: string
   }
 
   dimension: zendesk_notes {
+    group_item_label: "Notes"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__notes__c ;;
     type: string
   }
 
   dimension: zendesk_result {
+    group_item_label: "Result"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__result__c ;;
     type: string
   }
 
   dimension: zendesk_tags {
+    group_item_label: "Tags"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__tags__c ;;
     type: string
   }
 
-  dimension: zendesk_oldtags {
+  dimension: zendesk_old_tags {
+    group_item_label: "Old Tags"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
     type: string
   }
 
   dimension: zendesk_organization {
+    group_item_label: "Organization"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__zendesk_organization__c ;;
     type: string
   }
 
   dimension: zendesk_organization_id {
+    group_item_label: "Organization ID"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__zendesk_organization_id__c ;;
     type: string
   }
 
   dimension: zendesk_out_of_sync {
+    group_item_label: "Out of Sync"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__zendesk_outofsync__c ;;
     type: yesno
@@ -1348,9 +1373,10 @@ view: account {
   #
 
   measure: count {
-    type: count_distinct
-    sql: ${sfid} ;;
     drill_fields: [sfid, name]
+    label: "# of Accounts"
+    sql: ${sfid} ;;
+    type: count_distinct
   }
 
 
