@@ -63,12 +63,13 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 #
 
 explore: oli_level_arr {
-  label: "OLI Level ARR"
-  group_label: "  Favorite Explores"
+  label: "ARR: OLI Level"
+  group_label: "ARR"
 }
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
+  group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: many_to_one
@@ -97,6 +98,7 @@ explore: account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
+  group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
@@ -114,21 +116,21 @@ explore: account_daily_arr_deltas {
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
-  join: opportunitylineitem {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-            AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
-                OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
-    relationship: one_to_many
-    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price
-    ]
-  }
+ join: opportunitylineitem {
+   sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+           AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
+               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
+   relationship: one_to_many
+   fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+     opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+     opportunitylineitem.total_price
+   ]
+ }
 
-  join: product2 {
-    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
-    relationship: many_to_one
-  }
+ join: product2 {
+   sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+   relationship: many_to_one
+ }
 
   join: account_owner {
     from: user
@@ -145,21 +147,65 @@ explore: account_daily_arr_deltas {
 }
 
 explore: lead {
-  join: campaign_member {
-    sql_on: ${lead.campaign_id} = ${campaign_member.sfid} ;;
+  label: "Lead to Account"
+  group_label: "Salesforce"
+
+  join: created_by {
+    from: user
+    sql_on: ${lead.createdbyid} = ${created_by.sfid} ;;
     relationship: many_to_one
   }
 
-  # TODO: Validate join is correct
-  join: campaign {
-    sql_on: ${lead.campaign_id} = ${campaign.id} ;;
+  join: contact {
+    sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
+    relationship: one_to_one
+  }
+
+  join: account {
+    sql_on: ${contact.accountid} = ${account.sfid} ;;
     relationship: many_to_one
   }
 
-  # TODO: Validate join is correct
-  join: user {
-    sql_on: ${lead.createdbyid} = ${user.sfid} ;;
+  join: opportunity {
+    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    view_label: "Account CSM"
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
@@ -179,6 +225,8 @@ explore: daily_traffic {
 explore: product_line_item {
   from: opportunitylineitem
   view_name: opportunitylineitem
+  label: "Line Item to Account"
+  group_label: "Salesforce"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
 
   # BP: Override the data group if the explore includes data that needs to be refreshed more frequently than the default
@@ -250,6 +298,7 @@ explore: product_line_item {
 
 explore: arr {
   label: "ARR"
+  group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   extends: [product_line_item]
 #   required_access_grants: [debugging_fields]
@@ -259,14 +308,12 @@ explore: arr {
     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
-
-  fields: [
-    dates.date_date,
-    account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
-    opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
-    opportunitylineitem.product_name,
-    opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
-    opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
-    opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm
-  ]
+fields: [
+  dates.date_date,
+  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
+  opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
+  opportunitylineitem.product_name,
+  opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+  opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr]
 }

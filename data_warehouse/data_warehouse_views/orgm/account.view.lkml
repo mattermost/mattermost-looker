@@ -23,17 +23,16 @@ view: account {
   extends: [ _hc_fields ]
   drill_fields: [account_drill_fields*]
 
-
   #
   # Sets
   #
 
   set: account_drill_fields {
-    fields: [account_id_18_digit]
+    fields: [sfid]
   }
 
   set: account_fields_core {
-    fields: [account_id_18_digit, name]
+    fields: [sfid, name]
   }
 
 
@@ -44,7 +43,7 @@ view: account {
   dimension: account_id_18_digit {
     primary_key: yes
     sql: ${TABLE}.account_id_18_digit__c ;;
-    type: string
+    group_label: "Ditch"
   }
 
   dimension: account_arr {
@@ -71,12 +70,14 @@ view: account {
     label: "Account End Date"
     sql: ${TABLE}.account_end_date__c ;;
     type: date
+    group_label: "Ditch"
   }
 
   dimension: account_start_date {
     label: "Account Start Date"
     sql: ${TABLE}.account_start_date__c ;;
     type: date
+    group_label: "Ditch"
   }
 
   dimension: account_source {
@@ -826,11 +827,13 @@ view: account {
   dimension: obsolete_region {
     sql: ${TABLE}.obsoleteregion__c ;;
     type: string
+    group_label: "Ditch"
   }
 
   dimension: obsolete_territory {
     sql: ${TABLE}.obsoleteterritory__c ;;
     type: string
+    group_label: "Ditch"
   }
 
   dimension: offer {
@@ -962,7 +965,7 @@ view: account {
   dimension: csm_enriched_region {
     type: string
     sql: CASE
-              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'FEDERAL'
+              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
               WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
               WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
               ELSE ${region} END ;;
@@ -1009,10 +1012,10 @@ view: account {
   }
 
   dimension: sfid {
-    group_label: "System"
-    label: "SFDC ID"
-    sql: ${TABLE}.sfid ;;
     type: string
+    sql: ${TABLE}.sfid ;;
+    label: "Account ID"
+    description: "Salesforce Account SFID"
   }
 
   dimension: shipping_city {
@@ -1344,8 +1347,9 @@ view: account {
   #
 
   measure: count {
-    drill_fields: [account_id_18_digit, name]
-    type: count
+    type: count_distinct
+    sql: ${sfid} ;;
+    drill_fields: [sfid, name]
   }
 
 
