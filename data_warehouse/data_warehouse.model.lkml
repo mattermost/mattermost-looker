@@ -116,21 +116,21 @@ explore: account_daily_arr_deltas {
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
-#   join: opportunitylineitem {
-#     sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-#             AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
-#                 OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
-#     relationship: one_to_many
-#     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-#       opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-#       opportunitylineitem.total_price
-#     ]
-#   }
+ join: opportunitylineitem {
+   sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+           AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
+               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
+   relationship: one_to_many
+   fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+     opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+     opportunitylineitem.total_price
+   ]
+ }
 
-#   join: product2 {
-#     sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
-#     relationship: many_to_one
-#   }
+ join: product2 {
+   sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+   relationship: many_to_one
+ }
 
   join: account_owner {
     from: user
@@ -296,24 +296,24 @@ explore: product_line_item {
 }
 
 
-# explore: arr {
-#   label: "ARR"
-#   group_label: "ARR"
-#   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
-#   extends: [product_line_item]
-# #   required_access_grants: [debugging_fields]
-#
-#   join: dates {
-#     view_label: "ARR Date"
-#     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
-#     relationship: many_to_many
-#   }
-# fields: [
-#   dates.date_date,
-#   account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
-#   opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
-#   opportunitylineitem.product_name,
-#   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
-#   opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
-#   opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm]
-# }
+explore: arr {
+  label: "ARR"
+  group_label: "ARR"
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
+  extends: [product_line_item]
+#   required_access_grants: [debugging_fields]
+
+  join: dates {
+    view_label: "ARR Date"
+    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    relationship: many_to_many
+  }
+fields: [
+  dates.date_date,
+  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name,
+  opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
+  opportunitylineitem.product_name,
+  opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+  opportunitylineitem.end_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
+  opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr_norm]
+}
