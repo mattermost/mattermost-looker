@@ -404,7 +404,7 @@ explore: product_line_item {
 explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
   extends: [product_line_item]
 #   required_access_grants: [debugging_fields]
 
@@ -414,8 +414,8 @@ explore: arr {
     relationship: many_to_many
   }
 fields: [
-  dates.date_date,
-  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name, account.parent_account_name,
+  dates.date_date,dates.day_num,
+  account.name, account.sfid, account.owner_name, account.ownerid, account.csm_name, account.parent_account_name, account.count, account.csm_enriched_region,
   opportunity.name, opportunity.sfid, opportunity.close_date, opportunity.close_month, opportunity.close_fiscal_quarter_of_year, opportunity.close_fiscal_year, opportunity.iswon, opportunity.probability, opportunity.owner_name, opportunity.csm_name, opportunity.type,
   opportunitylineitem.product_name,
   opportunitylineitem.start_date, opportunitylineitem.start_fiscal_quarter, opportunitylineitem.start_fiscal_year,
