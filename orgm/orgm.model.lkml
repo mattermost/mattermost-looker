@@ -1,9 +1,12 @@
 connection: "orgm"
 
 include: "/orgm/orgm_views/orgm/*.view.lkml"
+include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
 explore: opportunity {}
+
+explore: opportunity_snapshot {}
 
 explore: product_line_item {
   from: opportunitylineitem
