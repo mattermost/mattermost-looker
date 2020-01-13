@@ -65,6 +65,7 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
@@ -103,7 +104,7 @@ explore: account_monthly_arr_deltas_by_type {
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
       opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr
+      opportunitylineitem.total_price, opportunitylineitem.total_arr, opportunitylineitem.start_date, opportunitylineitem.end_date
     ]
   }
 }
@@ -320,6 +321,15 @@ explore: staff_list {
   join: world_cities {
     sql_on: ${staff_list.major_city} = ${world_cities.city} and ${staff_list.region_country} = ${world_cities.country};;
     relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: contributor_employee_map_data {
+  join: world_cities {
+    sql_on: ${contributor_employee_map_data.major_city} = ${world_cities.city} and ${contributor_employee_map_data.region_country} = ${world_cities.country};;
+    relationship: many_to_one
+    fields: []
   }
 }
 
