@@ -425,6 +425,12 @@ view: account {
     type: number
   }
 
+  dimension: g2k_account {
+    sql: ${g2k_rank} IS NOT NULL ;;
+    type: yesno
+    label: "Is G2K Account?"
+  }
+
   dimension: geo {
     sql: ${TABLE}.geo__c ;;
     type: string
@@ -705,6 +711,7 @@ view: account {
   dimension: named_account {
     sql: ${TABLE}.named_account__c ;;
     type: yesno
+    label: "Is Named Account?"
   }
 
   dimension: named_account_tier {
