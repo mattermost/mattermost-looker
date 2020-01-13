@@ -614,6 +614,11 @@ view: opportunity {
     label: "Oppt. ID"
   }
 
+  dimension: stage_name {
+    sql: ${TABLE}.stagename ;;
+    type: string
+  }
+
   dimension: territory {
     description: "Territory with which the opportunity is associated."
     sql: ${TABLE}.territory__c ;;
