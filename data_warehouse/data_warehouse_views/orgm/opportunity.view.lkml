@@ -620,6 +620,29 @@ view: opportunity {
     type: string
   }
 
+  dimension: stagename {
+    description: "Forecast Stage"
+    label: "Stage"
+    sql: ${TABLE}.stagename ;;
+    type: string
+  }
+
+  dimension: status_wlo {
+    case: {
+      when: {
+        sql: ${is_won};;
+        label: "Won"
+      }
+      when: {
+        sql: ${is_closed};;
+        label: "Lost"
+      }
+      else: "Open"
+    }
+    type: string
+    label: "Status"
+  }
+
   dimension: type {
     description: "Type of opportunity, for example, Existing Business or New Business. Entry is selected from a picklist of available values, which are set by an administrator."
     label: "Type"
