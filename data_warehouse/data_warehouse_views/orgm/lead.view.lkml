@@ -257,6 +257,11 @@ view: lead {
     type: string
   }
 
+  dimension: matched_account {
+    sql: ${TABLE}.engagio__Matched_Account__c ;;
+    type: string
+  }
+
   dimension: first_action {
     sql: ${TABLE}.FIRST_ACTION__C ;;
     type: string

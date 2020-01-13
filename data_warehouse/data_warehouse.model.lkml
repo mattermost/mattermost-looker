@@ -435,3 +435,52 @@ fields: [
   opportunitylineitem.length_days,
   opportunitylineitem.quantity, opportunitylineitem.product_line_type, opportunitylineitem.total_arr, opportunitylineitem.totalprice]
 }
+
+
+
+
+
+
+
+
+
+explore: campaign {
+  group_label: "Salesforce"
+  join: campaignmember {
+    sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
+    relationship: one_to_many
+  }
+
+  join: lead {
+    sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: account {
+    sql_on: ${lead.matched_account} = ${account.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: parent_account {
+    from: account
+    view_label: "Parent Account"
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    view_label: "Account CSM"
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+}

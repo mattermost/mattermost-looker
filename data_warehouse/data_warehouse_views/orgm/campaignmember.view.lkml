@@ -359,7 +359,8 @@ view: campaignmember {
   measure: count {
     drill_fields: [detail*]
     label: "# of Campaign Members"
-    type: count
+    type: count_distinct
+    sql: ${sfid} ;;
   }
 
   # ----- Sets of fields for drilling ------
