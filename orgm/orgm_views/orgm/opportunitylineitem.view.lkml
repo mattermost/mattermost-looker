@@ -298,8 +298,8 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  dimension: arr_norm {
-    label: "ARR Norm"
+  dimension: arr {
+    label: "ARR"
     type: number
     sql: 365*${totalprice}/${length_days} ;;
     value_format_name: "usd"
@@ -312,13 +312,7 @@ view: opportunitylineitem {
 
   dimension: arr_per_seat {
     type: number
-    sql: ${totalprice}/${quantity} ;;
-    value_format_name: "usd"
-  }
-
-  dimension: arr_norm_per_seat {
-    type: number
-    sql: ${arr_norm}/${quantity} ;;
+    sql: ${arr}/${quantity} ;;
     value_format_name: "usd"
   }
 
@@ -328,37 +322,30 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
-  measure: count {
+   measure: count {
+    label: "# of Opportunity Line Items"
     type: count
-    drill_fields: [detail*]
+  }
+
+  measure: total_price {
+    label: "Total Price"
+    sql: ${totalprice} ;;
+    type: sum
+    value_format_name: "usd_0"
   }
 
   measure: total_arr {
-    label: "ACV"
+    label: "Total ARR"
+    sql: ${arr} ;;
     type: sum
-    sql: ${totalprice} ;;
-    value_format_name: "usd"
-  }
-
-  measure: total_arr_norm {
-    label: "Total ARR Norm."
-    type: sum
-    sql: ${arr_norm} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   measure: total_arr_per_seat {
     label: "Total ARR per Seat"
-    type: sum
     sql: ${arr_per_seat} ;;
-    value_format_name: "usd"
-  }
-
-  measure: total_arr_norm_per_seat {
-    label: "Total ARR Norm. per Seat"
     type: sum
-    sql: ${arr_norm_per_seat} ;;
-    value_format_name: "usd"
+    value_format_name: "usd_0"
   }
 
   # ----- Sets of fields for drilling ------

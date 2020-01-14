@@ -48,31 +48,6 @@ view: opportunity {
     sql: ${TABLE}."amount_in_pipeline__c" ;;
   }
 
-  dimension: arr__c {
-    type: number
-    sql: ${TABLE}."arr__c" ;;
-  }
-
-  dimension: arrmonth15__c {
-    type: number
-    sql: ${TABLE}."arrmonth15__c" ;;
-  }
-
-  dimension: arrmonth18__c {
-    type: number
-    sql: ${TABLE}."arrmonth18__c" ;;
-  }
-
-  dimension: arrmonth_check__c {
-    type: string
-    sql: ${TABLE}."arrmonth_check__c" ;;
-  }
-
-  dimension: arrmonths__c {
-    type: number
-    sql: ${TABLE}."arrmonths__c" ;;
-  }
-
   dimension: campaignid {
     type: string
     sql: ${TABLE}."campaignid" ;;
@@ -125,11 +100,6 @@ view: opportunity {
   dimension: delta_amount__c {
     type: number
     sql: ${TABLE}."delta_amount__c" ;;
-  }
-
-  dimension: delta_arr__c {
-    type: number
-    sql: ${TABLE}."delta_arr__c" ;;
   }
 
   dimension: expectedrevenue {
@@ -245,11 +215,6 @@ view: opportunity {
     sql: ${TABLE}."original_opportunity_amount__c" ;;
   }
 
-  dimension: original_opportunity_arr__c {
-    type: number
-    sql: ${TABLE}."original_opportunity_arr__c" ;;
-  }
-
   dimension_group: original_opportunity_end_date__c {
     type: time
     timeframes: [
@@ -328,11 +293,6 @@ view: opportunity {
   dimension: renewal_risk_status__c {
     type: string
     sql: ${TABLE}."renewal_risk_status__c" ;;
-  }
-
-  dimension: renewed_by_opp_arr__c {
-    type: number
-    sql: ${TABLE}."renewed_by_opp_arr__c" ;;
   }
 
   dimension: renewed_by_opp_prob__c {
