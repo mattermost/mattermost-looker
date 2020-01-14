@@ -266,28 +266,28 @@ view: opportunity {
 
 
   dimension: forecastcategory {
-    type: number
+    type: string
     sql: ${TABLE}.forecastcategory ;;
     group_label: "Forecast"
     label: "Forecast Category"
   }
 
   dimension: forecast_category_custom {
-    type: number
+    type: string
     sql: ${TABLE}.forecast_category_custom__c ;;
     group_label: "Forecast"
     label: "Forecast Category Custom"
   }
 
   dimension: forecastcategoryname {
-    type: number
+    type: string
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecast"
     label: "Forecast Category Name"
   }
 
   dimension: geo {
-    type: number
+    type: string
     sql: ${TABLE}.geo__c ;;
     label: "Geo"
   }
@@ -614,10 +614,6 @@ view: opportunity {
     label: "Oppt. ID"
   }
 
-  dimension: stage_name {
-    sql: ${TABLE}.stagename ;;
-    type: string
-  }
 
   dimension: territory {
     description: "Territory with which the opportunity is associated."
