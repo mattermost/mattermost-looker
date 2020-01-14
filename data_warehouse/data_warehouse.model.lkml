@@ -62,22 +62,22 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 # Explores
 #
 
+# NOTE: Using this base explore required the sql_on for account to be defined
+explore: _base_account_explore {
+  extension: required
 
-explore: account_monthly_arr_deltas_by_type {
-  label: "Monthly Account ARR Changes by Type"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
-  group_label: "ARR"
   join: account {
-    sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
+    # NOTE: foreign key is not set and must be set by the extending explore
     relationship: many_to_one
-    fields: []
   }
 
-  join: master_account {
-    from: account
-    sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
+  join: account_csm {
+    from: user
+    # TODO: I think we want to use the uncommented sqlon, if so delete this and the next line
+    # sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
     relationship: many_to_one
-    fields: []
+    view_label: "Account CSM"
   }
 
   join: account_owner {
@@ -86,10 +86,29 @@ explore: account_monthly_arr_deltas_by_type {
     relationship: many_to_one
   }
 
-  join: csm_account_owner {
-    from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+  }
+}
+
+explore: account_monthly_arr_deltas_by_type {
+  extends: [ _base_account_explore ]
+  group_label: "ARR"
+  label: "Monthly Account ARR Changes by Type"
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
+
+  # REQUIRED: in order to use _base_account_explore
+  join: account {
+    sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
+  }
+
+  join: master_account {
+    from: account
+    sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: opportunity {
@@ -110,12 +129,13 @@ explore: account_monthly_arr_deltas_by_type {
 }
 
 explore: master_account_monthly_arr_deltas_by_type {
-  label: "Monthly Master Account ARR Changes by Type"
+  extends: [ _base_account_explore ]
   group_label: "ARR"
+  label: "Monthly Master Account ARR Changes by Type"
+
+  # REQUIRED: in order to use _base_account_explore
   join: account {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
 
   join: child_account {
@@ -123,18 +143,6 @@ explore: master_account_monthly_arr_deltas_by_type {
     sql_on: ${account.sfid} = ${child_account.parentid} ;;
     relationship: many_to_one
     fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: csm_account_owner {
-    from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
-    relationship: many_to_one
   }
 
   join: opportunity {
@@ -155,13 +163,15 @@ explore: master_account_monthly_arr_deltas_by_type {
 }
 
 explore: account_daily_arr_deltas {
-  label: "Daily Account ARR Changes"
+  extends: [ _base_account_explore ]
   group_label: "ARR"
+  label: "Daily Account ARR Changes"
+
+  # REQUIRED: in order to use _base_account_explore
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
+
   join: master_account {
     from: account
     sql_on: ${master_account.sfid} = ${account_daily_arr_deltas.master_account_sfid} ;;
@@ -189,29 +199,21 @@ explore: account_daily_arr_deltas {
    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
    relationship: many_to_one
  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: csm_account_owner {
-    from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
-    relationship: many_to_one
-  }
-
 }
 
 explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
   group_label: "ARR"
+
   join: account {
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
     relationship: many_to_one
+
+    # BP: Limit the joined fields to what's needed in this explore
+    # fields: [account_fields_core*]
     fields: []
   }
+
   join: child_account {
     from: account
     sql_on: ${account.sfid} = ${child_account.parentid} ;;
@@ -239,24 +241,17 @@ explore: master_account_daily_arr_deltas {
     sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
     relationship: many_to_one
   }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: csm_account_owner {
-    from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
-    relationship: many_to_one
-  }
-
 }
 
 explore: lead {
+  extends: [ _base_account_explore ]
   label: "Lead to Account"
   group_label: "Salesforce"
+
+  # REQUIRED: in order to use _base_account_explore
+  join: account {
+    sql_on: ${contact.accountid} = ${account.sfid} ;;
+  }
 
   join: created_by {
     from: user
@@ -267,11 +262,6 @@ explore: lead {
   join: contact {
     sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
     relationship: one_to_one
-  }
-
-  join: account {
-    sql_on: ${contact.accountid} = ${account.sfid} ;;
-    relationship: many_to_one
   }
 
   join: opportunity {
@@ -291,31 +281,9 @@ explore: lead {
     fields: []
   }
 
-  join: parent_account {
-    from: account
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship:one_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
   join: opportunity_owner {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    view_label: "Account CSM"
-    from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
     relationship: many_to_one
     fields: []
   }
@@ -353,6 +321,7 @@ explore: daily_traffic {
 explore: downloads {}
 
 explore: product_line_item {
+  extends: [ _base_account_explore ]
   from: opportunitylineitem
   view_name: opportunitylineitem
   label: "Line Item to Account"
@@ -369,23 +338,11 @@ explore: product_line_item {
     # fields: [opportunity_drill_fields_long*]
   }
 
+  # REQUIRED: in order to use _base_account_explore
   join: account {
-    view_label: "Account"
-    # BP: Limit the joined fields to what's needed in this explore
-    # fields: [account_fields_core*]
-
     # BP: Always have the FROM table listed first and the joined TO table list second
     # BP: Always join on the primary key of the "one" table so Looker can detect fanout
     sql_on: ${opportunity.accountid} = ${account.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: parent_account {
-    from: account
-    view_label: "Parent Account"
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
 
   join: product2 {
@@ -394,24 +351,9 @@ explore: product_line_item {
     relationship: many_to_one
   }
 
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
   join: opportunity_owner {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    view_label: "Account CSM"
-    from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
     relationship: many_to_one
     fields: []
   }
@@ -430,32 +372,28 @@ explore: arr {
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
   extends: [product_line_item]
-#   required_access_grants: [debugging_fields]
+  required_access_grants: [debugging_fields]
 
   join: dates {
     view_label: "ARR Date"
     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
-fields: [
-  dates.date_date,
-  dates.day_num,
-  opportunitylineitem.opportunitylineitem_core*,
-  account.account_core*,
-  opportunity.opportunity_core*
+
+  fields: [
+    dates.date_date,
+    dates.day_num,
+    opportunitylineitem.opportunitylineitem_core*,
+    account.account_core*,
+    opportunity.opportunity_core*
   ]
 }
 
 
-
-
-
-
-
-
-
 explore: campaign {
+  extends: [ _base_account_explore ]
   group_label: "Salesforce"
+
   join: campaignmember {
     sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
     relationship: one_to_many
@@ -466,31 +404,8 @@ explore: campaign {
     relationship: many_to_one
   }
 
+  # REQUIRED: in order to use _base_account_explore
   join: account {
     sql_on: ${lead.matched_account} = ${account.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: parent_account {
-    from: account
-    view_label: "Parent Account"
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    view_label: "Account CSM"
-    from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
   }
 }
