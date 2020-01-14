@@ -98,62 +98,6 @@ view: opportunity {
     value_format_name: mm_usd_short
   }
 
-  dimension: arr {
-    description: "Annual Recurring Revenue"
-    group_label: "ARR"
-    label: "ARR"
-    sql: ${TABLE}.arr__c ;;
-    type: number
-    value_format_name: mm_usd_short
-  }
-
-  dimension: arr_month_15 {
-    # description: "TODO"
-    group_label: "ARR"
-    label: "ARR Month 15"
-    sql: ${TABLE}.arrmonth15__c ;;
-    type: number
-    value_format_name: mm_usd_short
-  }
-
-  dimension: arr_month_18 {
-    # description: "TODO"
-    group_label: "ARR"
-    label: "ARR Month 18"
-    sql: ${TABLE}.arrmonth18__c ;;
-  }
-
-  dimension: arrmonth_check {
-    type: string
-    sql: ${TABLE}.arrmonth_check__c ;;
-    group_label: "ARR"
-  }
-
-  dimension: arrmonths {
-    type: number
-    value_format_name: mm_usd_short
-    sql: ${TABLE}.arrmonths__c ;;
-    group_label: "ARR"
-  }
-
-  dimension: arr_month_check {
-    # description: "TODO"
-    group_label: "ARR"
-    label: "ARR Month Check"
-    sql: ${TABLE}.arrmonth_check__c ;;
-    type: string
-    value_format_name: mm_usd_short
-  }
-
-  dimension: arr_months {
-    # description: "TODO"
-    group_label: "ARR"
-    label: "ARR Months"
-    sql: ${TABLE}.arrmonths__c ;;
-    type: number
-    value_format_name: mm_usd_short
-  }
-
   dimension: campaign_id {
     description: "The ID of the campaign responsible for generating the opportunity."
     sql: ${TABLE}.campaignid ;;
@@ -243,15 +187,6 @@ view: opportunity {
     # description: "TODO"
     group_label: "Amounts"
     sql: ${TABLE}.delta_amount__c ;;
-    type: number
-    value_format_name: mm_usd_short
-  }
-
-  dimension: delta_arr {
-    # description: "TODO"
-    group_label: "ARR"
-    label: "Delta ARR"
-    sql: ${TABLE}.delta_arr__c ;;
     type: number
     value_format_name: mm_usd_short
   }
@@ -454,15 +389,6 @@ view: opportunity {
     group_label: "Original Opportunity"
   }
 
-  dimension: original_opportunity_arr {
-    # description: "TODO"
-    label: "Original Opportunity ARR"
-    sql: ${TABLE}.original_opportunity_arr__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Original Opportunity"
-  }
-
   dimension_group: original_opportunity_end {
     type: time
     # description: "TODO"
@@ -581,15 +507,6 @@ view: opportunity {
     group_label: "Renewals"
   }
 
-  dimension: renewed_by_opp_arr {
-    # description: "TODO"
-    label: "Renewed By Opportunity ARR"
-    sql: ${TABLE}.renewed_by_opp_arr__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Renewals"
-  }
-
   dimension: renewed_by_opp_prob {
     # description: "TODO"
     label: "Renewed By Opportunity Probability"
@@ -677,6 +594,15 @@ view: opportunity {
     # description: "TODO"
     group_label: "Total Amounts"
     sql: ${amount};;
+    type: sum
+    value_format_name: mm_usd_short
+  }
+
+  measure: arr {
+    description: "Annual Recurring Revenue"
+    group_label: "ARR"
+    label: "ARR"
+    sql: ${opportunitylineitem.arr} ;;
     type: sum
     value_format_name: mm_usd_short
   }
