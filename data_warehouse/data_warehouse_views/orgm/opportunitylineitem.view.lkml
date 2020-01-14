@@ -7,6 +7,7 @@ include: "_hc_fields.view"
 include: "_systemmodstamp.view"
 
 view: opportunitylineitem {
+  view_label: "Opportunity Line Item"
   sql_table_name: orgm.opportunitylineitem ;;
   extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [opportunity_line_item_drill_fields*]
@@ -28,6 +29,23 @@ view: opportunitylineitem {
       opportunity.name,
       product2.name,
       product2.id
+    ]
+  }
+
+  set: opportunitylineitem_core {
+    fields: [
+      product_name,
+      start_date,
+      start_fiscal_quarter,
+      start_fiscal_year,
+      end_date,
+      start_fiscal_quarter,
+      start_fiscal_year,
+      length_days,
+      quantity,
+      product_line_type,
+      total_arr,
+      totalprice
     ]
   }
 
