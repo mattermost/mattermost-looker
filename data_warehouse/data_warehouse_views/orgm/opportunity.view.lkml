@@ -605,6 +605,7 @@ view: opportunity {
     sql: ${opportunitylineitem.arr} ;;
     type: sum
     value_format_name: mm_usd_short
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_amount_in_commit {

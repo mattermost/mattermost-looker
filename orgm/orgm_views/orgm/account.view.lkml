@@ -4,7 +4,6 @@ view: account {
   drill_fields: [account_id_18_digit__c]
 
   dimension: account_id_18_digit__c {
-    primary_key: yes
     type: string
     sql: ${TABLE}."account_id_18_digit__c" ;;
   }
@@ -958,6 +957,7 @@ view: account {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."sfid" ;;
     group_label: "System"
