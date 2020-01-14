@@ -36,6 +36,20 @@ view: account {
     fields: [sfid, name]
   }
 
+  set: account_core {
+    fields: [
+      name,
+      sfid,
+      owner_name,
+      ownerid,
+      csm_name,
+      parent_account_name,
+      count,
+      csm_enriched_region,
+      customer_segmentation_tier
+    ]
+  }
+
 
   #
   # Dimensions

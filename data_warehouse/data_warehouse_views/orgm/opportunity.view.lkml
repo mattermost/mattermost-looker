@@ -39,6 +39,24 @@ view: opportunity {
     #opportunitylineitem.count
   }
 
+  set: opportunity_core {
+    fields: [
+      name,
+      sfid,
+      close_date,
+      close_month,
+      close_fiscal_quarter_of_year,
+      close_fiscal_year,
+      iswon,
+      probability,
+      owner_name,
+      csm_name,
+      type
+    ]
+  }
+
+
+
 
   #
   # Filters
@@ -126,6 +144,7 @@ view: opportunity {
     sql:${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
     group_label: "Closed"
   }
+
   dimension: contactid {
     # description: "TODO"
     sql: ${TABLE}.contactid ;;
