@@ -37,7 +37,6 @@ view: opportunitylineitem {
   #
 
   dimension: id {
-    primary_key: yes
     sql: ${TABLE}.id;;
     type: number
   }
@@ -263,6 +262,7 @@ view: opportunitylineitem {
   }
 
   dimension: sfid {
+    primary_key: yes
     sql: ${TABLE}.sfid;;
     type: string
   }

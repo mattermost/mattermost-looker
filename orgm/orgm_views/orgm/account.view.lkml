@@ -4,7 +4,6 @@ view: account {
   drill_fields: [account_id_18_digit__c]
 
   dimension: account_id_18_digit__c {
-    primary_key: yes
     type: string
     sql: ${TABLE}."account_id_18_digit__c" ;;
   }
@@ -22,21 +21,6 @@ view: account {
     group_label: "System"
     label: "HC Last Op"
   }
-
-  dimension: account_arr__c {
-    type: number
-    sql: ${TABLE}."account_arr__c" ;;
-    group_label: "Amounts"
-  }
-
-  dimension: account_arr_summary__c {
-    type: number
-    sql: ${TABLE}."account_arr_summary__c" ;;
-    label: "ARR"
-    group_label: "Amounts"
-  }
-
-
 
   dimension: account_number__c {
     type: string
@@ -973,6 +957,7 @@ view: account {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."sfid" ;;
     group_label: "System"

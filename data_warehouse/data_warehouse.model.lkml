@@ -279,6 +279,18 @@ explore: lead {
     relationship: one_to_one
   }
 
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: product2 {
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid};;
+    relationship: one_to_many
+    fields: []
+  }
+
   join: parent_account {
     from: account
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;

@@ -47,20 +47,6 @@ view: account {
     group_label: "Ditch"
   }
 
-  dimension: account_arr {
-    group_label: "Amounts"
-    label: "Account ARR"
-    sql: ${TABLE}.account_arr__c ;;
-    type: number
-  }
-
-  dimension: account_arr_summary {
-    group_label: "Amounts"
-    label: "ARR"
-    sql: ${TABLE}.account_arr_summary__c ;;
-    type: number
-  }
-
   dimension: account_number {
     label: "Account #"
     sql: ${TABLE}.account_number__c ;;
