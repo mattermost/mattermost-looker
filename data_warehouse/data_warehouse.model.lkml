@@ -439,7 +439,9 @@ explore: arr {
   }
 fields: [
   dates.date_date,
-  dates.day_num,
+  dates.date_day_of_month,
+  dates.date_day_of_year,
+  dates.date_month,
   opportunitylineitem.opportunitylineitem_core*,
   account.account_core*,
   opportunity.opportunity_core*

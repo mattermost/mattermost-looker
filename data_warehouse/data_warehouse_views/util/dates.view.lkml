@@ -8,7 +8,10 @@ view: dates {
       date,
       week,
       month,
+      day_of_month,
       quarter,
+      fiscal_year,
+      day_of_year,
       year
     ]
     convert_tz: no
