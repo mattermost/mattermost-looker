@@ -7,6 +7,7 @@ include: "_hc_fields.view"
 include: "_systemmodstamp.view"
 
 view: product2 {
+  label: "Product"
   sql_table_name: orgm.product2 ;;
   extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [product2_drill_fields*]
@@ -222,6 +223,7 @@ view: product2 {
   }
 
   dimension: sfid {
+    label: "Salesforce Product ID"
     sql: ${TABLE}.sfid ;;
     type: string
   }

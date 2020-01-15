@@ -280,6 +280,7 @@ view: opportunitylineitem {
   }
 
   dimension: sfid {
+    label: "Salesforce ID"
     primary_key: yes
     sql: ${TABLE}.sfid;;
     type: string
