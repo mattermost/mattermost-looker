@@ -8,12 +8,31 @@ view: dates {
       date,
       week,
       month,
+      day_of_month,
       quarter,
+      fiscal_year,
+      day_of_year,
       year
     ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;
+  }
+
+  dimension_group: next_fy {
+    type: time
+    timeframes: [fiscal_year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."DATE" + interval '1 year' ;;
+  }
+
+  dimension_group: previous_fy {
+    type: time
+    timeframes: [fiscal_year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."DATE" - interval '1 year' ;;
   }
 
   dimension: day_num {
