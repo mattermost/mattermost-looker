@@ -65,7 +65,6 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
@@ -90,22 +89,6 @@ explore: account_monthly_arr_deltas_by_type {
     from: user
     sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
     relationship: many_to_one
-  }
-
-  join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.is_won};;
-    relationship: one_to_many
-    fields: [opportunity.name, opportunity.sfid]
-  }
-
-  join: opportunitylineitem {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-           AND (${opportunitylineitem.start_month} = ${account_monthly_arr_deltas_by_type.month_start_month});;
-    relationship: one_to_many
-    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr, opportunitylineitem.start_date, opportunitylineitem.end_date
-    ]
   }
 }
 
@@ -160,7 +143,7 @@ explore: account_daily_arr_deltas {
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
-    fields: []
+    fields: [name]
   }
   join: master_account {
     from: account
@@ -442,6 +425,9 @@ fields: [
   dates.date_day_of_month,
   dates.date_day_of_year,
   dates.date_month,
+  dates.date_fiscal_year,
+  dates.next_fy_fiscal_year,
+  dates.previous_fy_fiscal_year,
   opportunitylineitem.opportunitylineitem_core*,
   account.account_core*,
   opportunity.opportunity_core*
