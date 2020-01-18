@@ -446,13 +446,13 @@ fields: [
 
 explore: campaign {
   group_label: "Salesforce"
-  join: campaignmember {
-    sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
+  join: campaign_member {
+    sql_on: ${campaign.sfid} = ${campaign_member.campaignid} ;;
     relationship: one_to_many
   }
 
   join: lead {
-    sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
+    sql_on: ${campaign_member.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
   }
 

@@ -105,6 +105,7 @@ view: contact {
   }
 
   dimension: ownerid {
+    label: "Owner ID"
     sql: ${TABLE}.OWNERID ;;
     type: string
   }
