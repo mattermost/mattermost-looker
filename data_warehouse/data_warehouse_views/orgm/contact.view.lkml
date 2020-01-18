@@ -27,12 +27,6 @@ view: contact {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.ID ;;
-    type: number
-  }
-
   dimension: accountid {
     sql: ${TABLE}.ACCOUNTID ;;
     type: string
@@ -130,6 +124,8 @@ view: contact {
   }
 
   dimension: sfid {
+    label: "Contact ID"
+    primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
   }

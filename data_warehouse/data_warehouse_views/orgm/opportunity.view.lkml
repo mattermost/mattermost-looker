@@ -246,13 +246,6 @@ view: opportunity {
     label: "Geo"
   }
 
-  dimension: id {
-    # description: "TODO"
-    sql: ${TABLE}.id ;;
-    type: number
-    hidden:  yes
-  }
-
   # BP: use is_ for yes/no fields
   dimension: is_closed {
     # description: "TODO"
@@ -543,11 +536,11 @@ view: opportunity {
   }
 
   dimension: sfid {
+    label: "Oppt. ID"
     primary_key: yes
     # description: "TODO"
     sql: ${TABLE}.sfid ;;
     type: string
-    label: "Oppt. ID"
   }
 
 

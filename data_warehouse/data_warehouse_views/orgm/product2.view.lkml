@@ -26,12 +26,6 @@ view: product2 {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.id ;;
-    type: number
-  }
-
   dimension: createdbyid {
     label: "Created By ID"
     sql: ${TABLE}.createdbyid ;;
@@ -223,7 +217,8 @@ view: product2 {
   }
 
   dimension: sfid {
-    label: "Salesforce Product ID"
+    label: "Product ID"
+    primary_key: yes
     sql: ${TABLE}.sfid ;;
     type: string
   }

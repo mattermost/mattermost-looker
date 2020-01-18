@@ -56,7 +56,6 @@ view: account {
   #
 
   dimension: account_id_18_digit {
-    primary_key: yes
     sql: ${TABLE}.account_id_18_digit__c ;;
     group_label: "Ditch"
   }
@@ -454,11 +453,6 @@ view: account {
   dimension: government {
     sql: ${TABLE}.government__c ;;
     type: yesno
-  }
-
-  dimension: id {
-    sql: ${TABLE}.id ;;
-    type: number
   }
 
   dimension: imported_case_study_note {
@@ -1053,10 +1047,10 @@ view: account {
   }
 
   dimension: sfid {
-    type: string
-    sql: ${TABLE}.sfid ;;
     label: "Account ID"
-    description: "Salesforce Account SFID"
+    primary_key: yes
+    sql: ${TABLE}.sfid ;;
+    type: string
   }
 
   dimension: shipping_city {

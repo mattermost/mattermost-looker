@@ -54,11 +54,6 @@ view: opportunitylineitem {
   # Dimensions
   #
 
-  dimension: id {
-    sql: ${TABLE}.id;;
-    type: number
-  }
-
   dimension: is_closed_won {
     sql: ${TABLE}.closedwon__c;;
     type: yesno
@@ -280,7 +275,7 @@ view: opportunitylineitem {
   }
 
   dimension: sfid {
-    label: "Salesforce ID"
+    label: "Opport. Line Item ID"
     primary_key: yes
     sql: ${TABLE}.sfid;;
     type: string

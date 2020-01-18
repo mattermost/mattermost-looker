@@ -14,4 +14,10 @@ view: _hc_fields {
     sql: ${TABLE}._hc_lastop ;;
     type: string
   }
+
+  dimension: id {
+    group_label: "System"
+    sql: ${TABLE}.ID ;;
+    type: number
+  }
 }
