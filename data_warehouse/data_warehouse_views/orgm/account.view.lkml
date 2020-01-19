@@ -945,7 +945,7 @@ view: account {
     type: string
   }
 
-  # TODO: These fields do not exist in the database
+  # TODO: These fields do not exist in the database?
   # dimension_group: pr {
   #   convert_tz: no
   #   datatype: date
@@ -1262,25 +1262,26 @@ view: account {
     type: time
   }
 
-  dimension_group: video_case_study {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.video_case_study_date__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: video_case_study_link {
-    sql: ${TABLE}.video_case_study_link__c ;;
-    type: string
-  }
+#   TODO: These don't exist in the db
+#   dimension_group: video_case_study {
+#     convert_tz: no
+#     datatype: date
+#     sql: ${TABLE}.video_case_study_date__c ;;
+#     timeframes: [
+#       raw,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     type: time
+#   }
+#
+#   dimension: video_case_study_link {
+#     sql: ${TABLE}.video_case_study_link__c ;;
+#     type: string
+#   }
 
   dimension: website {
     sql: ${TABLE}.website ;;
@@ -1313,13 +1314,7 @@ view: account {
     type: yesno
   }
 
-  dimension: zendesk_domain_mapping {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__domain_mapping__c ;;
-    type: string
-  }
-
-  dimension_group: zendesk_last_sync_date {
+  dimension_group: zendesk_last_sync {
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__last_sync_date__c ;;
     timeframes: [
@@ -1341,31 +1336,39 @@ view: account {
     type: string
   }
 
-  dimension: zendesk_notes {
-    group_item_label: "Notes"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__notes__c ;;
-    type: string
-  }
+#   TODO: Delete these fields which are missing from the DB?
+#   dimension: zendesk_domain_mapping {
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__domain_mapping__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_notes {
+#     group_item_label: "Notes"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__notes__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_tags {
+#     group_item_label: "Tags"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__tags__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_old_tags {
+#     group_item_label: "Old Tags"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
+#     type: string
+#   }
+
 
   dimension: zendesk_result {
     group_item_label: "Result"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__result__c ;;
-    type: string
-  }
-
-  dimension: zendesk_tags {
-    group_item_label: "Tags"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__tags__c ;;
-    type: string
-  }
-
-  dimension: zendesk_old_tags {
-    group_item_label: "Old Tags"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
     type: string
   }
 
