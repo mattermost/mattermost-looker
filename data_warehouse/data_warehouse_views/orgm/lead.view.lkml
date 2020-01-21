@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [id, firstname, lastname, name, campaign_member.count]
+    fields: [id, firstname, lastname, name, campaignmember.count]
   }
 
 
