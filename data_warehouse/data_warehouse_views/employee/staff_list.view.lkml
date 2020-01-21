@@ -11,6 +11,16 @@ view: staff_list {
     sql: ${TABLE}.DEPARTMENT ;;
   }
 
+  dimension: region_country {
+    type: string
+    sql: ${TABLE}.REGION_COUNTRY ;;
+  }
+
+  dimension: major_city {
+    type: string
+    sql: ${TABLE}.MAJOR_CITY ;;
+  }
+
   dimension: email {
     type: string
     sql: ${TABLE}.EMAIL ;;
@@ -56,31 +66,20 @@ view: staff_list {
     sql: ${TABLE}.LASTNAME ;;
   }
 
-  dimension: major_city {
-    type: string
-    sql: case
-        when ${TABLE}.MAJOR_CITY in ('New York City','New Jersey') then 'New York'
-        when ${TABLE}.MAJOR_CITY = 'Bangalore' then 'Bengalūru'
-        when ${TABLE}.MAJOR_CITY = 'Lake Tahoe' then 'Reno'
-        when ${TABLE}.MAJOR_CITY = 'Waterloo' OR ${TABLE}.MAJOR_CITY = 'Toronto/Waterloo' then 'Toronto'
-        when ${TABLE}.MAJOR_CITY = 'Luzon' then 'Baguio City'
-        when ${TABLE}.MAJOR_CITY = 'North District' then 'Nazareth'
-        else ${TABLE}.MAJOR_CITY end;;
-  }
-
   dimension: location {
     type: location
-    sql_latitude:${world_cities.lat} ;;
-    sql_longitude:${world_cities.lng} ;;
+    sql_latitude: ${latitude};;
+    sql_longitude: ${longitude};;
   }
 
-  dimension: region_country {
-    type: string
-    sql: case
-        when ${TABLE}.REGION_COUNTRY = 'USA' then 'United States'
-        when ${TABLE}.REGION_COUNTRY = 'UK' then 'United Kingdom'
-        when ${TABLE}.REGION_COUNTRY = 'South Korea' then 'Korea, South'
-        else ${TABLE}.REGION_COUNTRY end;;
+  dimension: latitude {
+    type: number
+    sql: ${contributor_employee_map_data.latitude} ;;
+  }
+
+  dimension: longitude {
+    type: number
+    sql: ${contributor_employee_map_data.longitude} ;;
   }
 
   dimension: role {
@@ -109,7 +108,7 @@ view: staff_list {
   }
 
   measure: count_distict {
-    sql: ${firstname} || ${lastname} ;;
+    sql: ${email} ;;
     type: count_distinct
   }
 }
