@@ -26,12 +26,6 @@ view: lead {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.ID ;;
-    type: number
-  }
-
   dimension: api_id {
     label: "API ID"
     sql: ${TABLE}.API_ID__C ;;
@@ -512,6 +506,8 @@ view: lead {
   }
 
   dimension: sfid {
+    label: "Lead ID"
+    primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
   }

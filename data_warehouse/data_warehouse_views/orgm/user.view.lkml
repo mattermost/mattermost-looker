@@ -26,12 +26,6 @@ view: user {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.ID ;;
-    type: number
-  }
-
   dimension_group: created {
     sql: ${TABLE}.CREATEDDATE ;;
     timeframes: [
@@ -93,6 +87,8 @@ view: user {
   }
 
   dimension: sfid {
+    label: "User ID"
+    primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
   }

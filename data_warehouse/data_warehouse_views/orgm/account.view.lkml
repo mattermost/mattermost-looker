@@ -56,7 +56,6 @@ view: account {
   #
 
   dimension: account_id_18_digit {
-    primary_key: yes
     sql: ${TABLE}.account_id_18_digit__c ;;
     group_label: "Ditch"
   }
@@ -432,6 +431,7 @@ view: account {
   }
 
   dimension: geo {
+    description: "Global regions (eg. AMER, APAC, EMEA, ROW)"
     sql: ${TABLE}.geo__c ;;
     type: string
   }
@@ -454,11 +454,6 @@ view: account {
   dimension: government {
     sql: ${TABLE}.government__c ;;
     type: yesno
-  }
-
-  dimension: id {
-    sql: ${TABLE}.id ;;
-    type: number
   }
 
   dimension: imported_case_study_note {
@@ -492,6 +487,7 @@ view: account {
   }
 
   dimension_group: last_time_assignm_process_workflow_ran {
+    # description: "TODO"
     sql: ${TABLE}.last_time_assignm_process_workflow_ran__c ;;
     timeframes: [
       raw,
@@ -617,17 +613,20 @@ view: account {
 
   dimension: legally_agreed_to_joint_pr {
     group_label: "Legal"
+    label: "Legally Agreed To Joint PR"
     sql: ${TABLE}.legally_agreed_to_joint_pr__c ;;
     type: string
   }
 
   dimension: legally_agreed_to_pr {
     group_label: "Legal"
+    label: "Legally Agreed To PR"
     sql: ${TABLE}.legally_agreed_to_pr__c ;;
     type: string
   }
 
   dimension: logo_sales_logos_dropbox {
+    # description: "TODO"
     sql: ${TABLE}.logo_sales_logos_dropbox__c ;;
     type: string
   }
@@ -653,6 +652,7 @@ view: account {
   dimension_group: max_closed_won {
     convert_tz: no
     datatype: date
+    label: "Closed / Won"
     sql: ${TABLE}.max_closed_won_date__c ;;
     timeframes: [
       raw,
@@ -735,21 +735,54 @@ view: account {
     type: time
   }
 
-  dimension: netsuite_conn_account_balance {
-    group_item_label: "Account Balance"
-    group_label: "Netsuite"
-    label: "Netsuite Account Balance"
-    sql: ${TABLE}.netsuite_conn__account_balance__c ;;
-    type: number
-  }
+  # TODO: These netsuite fields do not exist in the db
+  # dimension: netsuite_conn_account_balance {
+  #   group_item_label: "Account Balance"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Account Balance"
+  #   sql: ${TABLE}.netsuite_conn__account_balance__c ;;
+  #   type: number
+  # }
 
-  dimension: netsuite_conn_account_overdue_balance {
-    group_item_label: "Account Overdue Balance"
-    group_label: "Netsuite"
-    label: "Netsuite Account Overdue Balance"
-    sql: ${TABLE}.netsuite_conn__account_overdue_balance__c ;;
-    type: number
-  }
+  # dimension: netsuite_conn_account_overdue_balance {
+  #   group_item_label: "Account Overdue Balance"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Account Overdue Balance"
+  #   sql: ${TABLE}.netsuite_conn__account_overdue_balance__c ;;
+  #   type: number
+  # }
+
+  # dimension: netsuite_conn_channel_tier {
+  #   group_item_label: "Channel Tier"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Channel Tier"
+  #   sql: ${TABLE}.netsuite_conn__channel_tier__c ;;
+  #   type: string
+  # }
+
+  # dimension: netsuite_conn_credit_limit {
+  #   group_item_label: "Credit Limit"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Credit Limit"
+  #   sql: ${TABLE}.netsuite_conn__credit_limit__c ;;
+  #   type: number
+  # }
+
+  # dimension: netsuite_conn_days_overdue {
+  #   group_item_label: "Days Overdue"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Days Overdue"
+  #   sql: ${TABLE}.netsuite_conn__days_overdue__c ;;
+  #   type: number
+  # }
+
+  # dimension: netsuite_conn_unbilled_orders {
+  #   group_item_label: "Unbilled Orders"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Unbilled Orders"
+  #   sql: ${TABLE}.netsuite_conn__unbilled_orders__c ;;
+  #   type: number
+  # }
 
   dimension: netsuite_conn_celigo_update {
     group_item_label: "Celigo Update"
@@ -759,36 +792,12 @@ view: account {
     type: yesno
   }
 
-  dimension: netsuite_conn_channel_tier {
-    group_item_label: "Channel Tier"
-    group_label: "Netsuite"
-    label: "Netsuite Channel Tier"
-    sql: ${TABLE}.netsuite_conn__channel_tier__c ;;
-    type: string
-  }
-
   dimension: netsuite_conn_credit_hold {
     group_item_label: "Credit Hold"
     group_label: "Netsuite"
     label: "Netsuite Credit Hold"
     sql: ${TABLE}.netsuite_conn__credit_hold__c ;;
     type: string
-  }
-
-  dimension: netsuite_conn_credit_limit {
-    group_item_label: "Credit Limit"
-    group_label: "Netsuite"
-    label: "Netsuite Credit Limit"
-    sql: ${TABLE}.netsuite_conn__credit_limit__c ;;
-    type: number
-  }
-
-  dimension: netsuite_conn_days_overdue {
-    group_item_label: "Days Overdue"
-    group_label: "Netsuite"
-    label: "Netsuite Days Overdue"
-    sql: ${TABLE}.netsuite_conn__days_overdue__c ;;
-    type: number
   }
 
   dimension: netsuite_conn_netsuite_id {
@@ -829,14 +838,6 @@ view: account {
     label: "Netsuite Sync In Progress"
     sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
     type: yesno
-  }
-
-  dimension: netsuite_conn_unbilled_orders {
-    group_item_label: "Unbilled Orders"
-    group_label: "Netsuite"
-    label: "Netsuite Unbilled Orders"
-    sql: ${TABLE}.netsuite_conn__unbilled_orders__c ;;
-    type: number
   }
 
   dimension: number_of_open_opportunities {
@@ -897,6 +898,7 @@ view: account {
 
   dimension: ownerid {
     group_label: "Owners"
+    label: "Owner ID"
     sql: ${TABLE}.ownerid ;;
     type: string
   }
@@ -943,27 +945,32 @@ view: account {
     type: string
   }
 
-  dimension_group: pr {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.pr_date__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
+  # TODO: These fields do not exist in the database?
+  # dimension_group: pr {
+  #   convert_tz: no
+  #   datatype: date
+  #   label: "PR"
+  #   sql: ${TABLE}.pr_date__c ;;
+  #   timeframes: [
+  #     raw,
+  #     date,
+  #     week,
+  #     month,
+  #     quarter,
+  #     year
+  #   ]
+  #   type: time
+  # }
 
-  dimension: pr_link {
-    sql: ${TABLE}.pr_link__c ;;
-    type: string
-  }
+
+  # dimension: pr_link {
+  #   label: "PR Link"
+  #   sql: ${TABLE}.pr_link__c ;;
+  #   type: string
+  # }
 
   dimension_group: pre_release_sign_up {
+    # description: "TODO"
     sql: ${TABLE}.pre_release_sign_up_date__c ;;
     timeframes: [
       raw,
@@ -978,6 +985,7 @@ view: account {
   }
 
   dimension_group: put_into_nurture {
+    # description: "TODO"
     sql: ${TABLE}.putintonurture_date__c ;;
     timeframes: [
       raw,
@@ -1053,10 +1061,10 @@ view: account {
   }
 
   dimension: sfid {
-    type: string
-    sql: ${TABLE}.sfid ;;
     label: "Account ID"
-    description: "Salesforce Account SFID"
+    primary_key: yes
+    sql: ${TABLE}.sfid ;;
+    type: string
   }
 
   dimension: shipping_city {
@@ -1120,21 +1128,27 @@ view: account {
   }
 
   dimension: sic {
+    description: "The Standard Industrial Classification"
+    label: "SIC"
     sql: ${TABLE}.sic ;;
     type: string
   }
 
-  dimension: sic_description {
-    sql: ${TABLE}.sic_description__c ;;
-    type: string
-  }
+  # TODO: This field is always the same as sic_desc
+  # dimension: sic_description {
+  #   sql: ${TABLE}.sic_description__c ;;
+  #   type: string
+  # }
 
   dimension: sic_desc {
+    description: "The description of the Standard Industrial Classification"
+    label: "SIC Description"
     sql: ${TABLE}.sicdesc ;;
     type: string
   }
 
   dimension: signed_nda {
+    label: "Signed NDA"
     sql: ${TABLE}.signed_nda__c ;;
     type: yesno
   }
@@ -1168,29 +1182,30 @@ view: account {
     type: string
   }
 
-  dimension: testimonial_1_from {
-    group_label: "Marketing"
-    sql: ${TABLE}.testimonial1_from__c ;;
-    type: string
-  }
+  # TODO: These fields don't seem to be in the database
+  # dimension: testimonial_1_from {
+  #   group_label: "Marketing"
+  #   sql: ${TABLE}.testimonial1_from__c ;;
+  #   type: string
+  # }
 
-  dimension: testimonial_1 {
-    group_label: "Marketing"
-    sql: ${TABLE}.testimonial_1__c ;;
-    type: string
-  }
+  # dimension: testimonial_1 {
+  #   group_label: "Marketing"
+  #   sql: ${TABLE}.testimonial_1__c ;;
+  #   type: string
+  # }
 
-  dimension: testimonial_2 {
-    group_label: "Marketing"
-    sql: ${TABLE}.testimonial_2__c ;;
-    type: string
-  }
+  # dimension: testimonial_2 {
+  #   group_label: "Marketing"
+  #   sql: ${TABLE}.testimonial_2__c ;;
+  #   type: string
+  # }
 
-  dimension: testimonial_2_from {
-    group_label: "Marketing"
-    sql: ${TABLE}.testimonial_2_from__c ;;
-    type: string
-  }
+  # dimension: testimonial_2_from {
+  #   group_label: "Marketing"
+  #   sql: ${TABLE}.testimonial_2_from__c ;;
+  #   type: string
+  # }
 
   dimension: ticker_symbol {
     sql: ${TABLE}.tickersymbol ;;
@@ -1208,6 +1223,7 @@ view: account {
   }
 
   dimension_group: trial_req {
+    label: "Trial Request"
     sql: ${TABLE}.trial_req_date__c ;;
     timeframes: [
       raw,
@@ -1246,25 +1262,26 @@ view: account {
     type: time
   }
 
-  dimension_group: video_case_study {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.video_case_study_date__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: video_case_study_link {
-    sql: ${TABLE}.video_case_study_link__c ;;
-    type: string
-  }
+#   TODO: These don't exist in the db
+#   dimension_group: video_case_study {
+#     convert_tz: no
+#     datatype: date
+#     sql: ${TABLE}.video_case_study_date__c ;;
+#     timeframes: [
+#       raw,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     type: time
+#   }
+#
+#   dimension: video_case_study_link {
+#     sql: ${TABLE}.video_case_study_link__c ;;
+#     type: string
+#   }
 
   dimension: website {
     sql: ${TABLE}.website ;;
@@ -1297,13 +1314,7 @@ view: account {
     type: yesno
   }
 
-  dimension: zendesk_domain_mapping {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__domain_mapping__c ;;
-    type: string
-  }
-
-  dimension_group: zendesk_last_sync_date {
+  dimension_group: zendesk_last_sync {
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__last_sync_date__c ;;
     timeframes: [
@@ -1325,31 +1336,39 @@ view: account {
     type: string
   }
 
-  dimension: zendesk_notes {
-    group_item_label: "Notes"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__notes__c ;;
-    type: string
-  }
+#   TODO: Delete these fields which are missing from the DB?
+#   dimension: zendesk_domain_mapping {
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__domain_mapping__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_notes {
+#     group_item_label: "Notes"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__notes__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_tags {
+#     group_item_label: "Tags"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__tags__c ;;
+#     type: string
+#   }
+
+#   dimension: zendesk_old_tags {
+#     group_item_label: "Old Tags"
+#     group_label: "Zendesk"
+#     sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
+#     type: string
+#   }
+
 
   dimension: zendesk_result {
     group_item_label: "Result"
     group_label: "Zendesk"
     sql: ${TABLE}.zendesk__result__c ;;
-    type: string
-  }
-
-  dimension: zendesk_tags {
-    group_item_label: "Tags"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__tags__c ;;
-    type: string
-  }
-
-  dimension: zendesk_old_tags {
-    group_item_label: "Old Tags"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
     type: string
   }
 

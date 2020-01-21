@@ -140,6 +140,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
   group_label: "ARR"
+  view_label: "Account Daily ARR Deltas"
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
@@ -420,9 +421,10 @@ fields: [
   dates.date_day_of_year,
   dates.date_month,
   dates.date_fiscal_year,
-  dates.next_fy_fiscal_year,
-  dates.previous_fy_fiscal_year,
-  opportunitylineitem.opportunitylineitem_core*,
+  dates.next_fiscal_year,
+  dates.previous_fiscal_year,
+  # TODO: Rachel I think opportunitylineitem_core was in product_line_item but isn't any longer?
+  opportunitylineitem_core*,
   account.account_core*,
   opportunity.opportunity_core*
   ]
