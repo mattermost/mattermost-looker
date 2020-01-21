@@ -1134,7 +1134,7 @@ view: account {
     type: string
   }
 
-  # TODO: This field is always the same as
+  # TODO: This field is always the same as sic_desc
   # dimension: sic_description {
   #   sql: ${TABLE}.sic_description__c ;;
   #   type: string
