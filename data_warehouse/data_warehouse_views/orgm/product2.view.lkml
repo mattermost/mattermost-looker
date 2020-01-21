@@ -7,6 +7,7 @@ include: "_hc_fields.view"
 include: "_systemmodstamp.view"
 
 view: product2 {
+  label: "Product"
   sql_table_name: orgm.product2 ;;
   extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [product2_drill_fields*]
@@ -24,12 +25,6 @@ view: product2 {
   #
   # Dimensions
   #
-
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.id ;;
-    type: number
-  }
 
   dimension: createdbyid {
     label: "Created By ID"
@@ -129,6 +124,39 @@ view: product2 {
     type: string
   }
 
+  # TODO: These netsuite fields do not exist in the db
+  # dimension: netsuite_conn__item_category {
+  #   group_item_label: "Item Category"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Item Category"
+  #   sql: ${TABLE}.netsuite_conn__item_category__c ;;
+  #   type: string
+  # }
+
+  # dimension: netsuite_conn__netsuite_item_type {
+  #   group_item_label: "Item Type"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Item Type"
+  #   sql: ${TABLE}.netsuite_conn__netsuite_item_type__c ;;
+  #   type: string
+  # }
+
+  # dimension: netsuite_conn__sync_in_progress {
+  #   group_item_label: "Sync In Progress"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Sync In Progress"
+  #   sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
+  #   type: yesno
+  # }
+
+  # dimension: netsuite_conn__term_contract_pricing_type {
+  #   group_item_label: "Term Contract Pricing Type"
+  #   group_label: "Netsuite"
+  #   label: "Netsuite Term Contract Pricing Type"
+  #   sql: ${TABLE}.netsuite_conn__term_contract_pricing_type__c ;;
+  #   type: string
+  # }
+
   dimension: netsuite_conn__celigo_update {
     group_item_label: "Celigo Update"
     group_label: "Netsuite"
@@ -137,27 +165,11 @@ view: product2 {
     type: yesno
   }
 
-  dimension: netsuite_conn__item_category {
-    group_item_label: "Item Category"
-    group_label: "Netsuite"
-    label: "Netsuite Item Category"
-    sql: ${TABLE}.netsuite_conn__item_category__c ;;
-    type: string
-  }
-
   dimension: netsuite_conn__netsuite_id {
     group_item_label: "Netsuite ID"
     group_label: "Netsuite"
     label: "Netsuite ID"
     sql: ${TABLE}.netsuite_conn__netsuite_id__c ;;
-    type: string
-  }
-
-  dimension: netsuite_conn__netsuite_item_type {
-    group_item_label: "Item Type"
-    group_label: "Netsuite"
-    label: "Netsuite Item Type"
-    sql: ${TABLE}.netsuite_conn__netsuite_item_type__c ;;
     type: string
   }
 
@@ -185,22 +197,6 @@ view: product2 {
     type: string
   }
 
-  dimension: netsuite_conn__sync_in_progress {
-    group_item_label: "Sync In Progress"
-    group_label: "Netsuite"
-    label: "Netsuite Sync In Progress"
-    sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
-    type: yesno
-  }
-
-  dimension: netsuite_conn__term_contract_pricing_type {
-    group_item_label: "Term Contract Pricing Type"
-    group_label: "Netsuite"
-    label: "Netsuite Term Contract Pricing Type"
-    sql: ${TABLE}.netsuite_conn__term_contract_pricing_type__c ;;
-    type: string
-  }
-
   dimension: product_id_18_digit {
     sql: ${TABLE}.product_id_18_digit__c ;;
     type: string
@@ -222,6 +218,8 @@ view: product2 {
   }
 
   dimension: sfid {
+    label: "Product ID"
+    primary_key: yes
     sql: ${TABLE}.sfid ;;
     type: string
   }

@@ -19,7 +19,7 @@ view: dates {
     sql: ${TABLE}."DATE" ;;
   }
 
-  dimension_group: next_fy {
+  dimension_group: next {
     type: time
     timeframes: [fiscal_year]
     convert_tz: no
@@ -27,7 +27,7 @@ view: dates {
     sql: ${TABLE}."DATE" + interval '1 year' ;;
   }
 
-  dimension_group: previous_fy {
+  dimension_group: previous {
     type: time
     timeframes: [fiscal_year]
     convert_tz: no

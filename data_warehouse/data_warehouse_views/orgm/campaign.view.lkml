@@ -26,12 +26,6 @@ view: campaign {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.ID ;;
-    type: number
-  }
-
   dimension: amount_all_opportunities {
     sql: ${TABLE}.AMOUNTALLOPPORTUNITIES ;;
     type: number
@@ -271,7 +265,8 @@ view: campaign {
   }
 
   dimension: sfid {
-    label: "SFDC ID"
+    label: "Campaign ID"
+    primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
   }

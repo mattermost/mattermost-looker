@@ -26,12 +26,6 @@ view: campaignmember {
   # Dimensions
   #
 
-  dimension: id {
-    primary_key: yes
-    sql: ${TABLE}.ID ;;
-    type: number
-  }
-
   dimension: account_type {
     sql: ${TABLE}.ACCOUNTTYPE__C ;;
     type: string
@@ -303,6 +297,8 @@ view: campaignmember {
   }
 
   dimension: sfid {
+    label: "Campaign Member ID"
+    primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
   }

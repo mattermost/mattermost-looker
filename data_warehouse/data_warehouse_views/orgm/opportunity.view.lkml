@@ -246,13 +246,6 @@ view: opportunity {
     label: "Geo"
   }
 
-  dimension: id {
-    # description: "TODO"
-    sql: ${TABLE}.id ;;
-    type: number
-    hidden:  yes
-  }
-
   # BP: use is_ for yes/no fields
   dimension: is_closed {
     # description: "TODO"
@@ -423,21 +416,21 @@ view: opportunity {
 
   dimension: original_opportunity_length_in_months {
     # description: "TODO"
+    group_label: "Original Opportunity"
     sql: ${TABLE}.original_opportunity_length_in_months__c ;;
     type: number
-    group_label: "Original Opportunity"
   }
 
   dimension: original_opportunityid {
-    type: string
-    sql: ${TABLE}.original_opportunityid__c ;;
     group_label: "Original Opportunity"
+    sql: ${TABLE}.original_opportunityid__c ;;
+    type: string
   }
 
   dimension: ownerid {
-    type: string
-    sql: ${TABLE}.ownerid ;;
     label: "Owner ID"
+    sql: ${TABLE}.ownerid ;;
+    type: string
   }
 
   dimension: owner_name {
@@ -543,11 +536,11 @@ view: opportunity {
   }
 
   dimension: sfid {
+    label: "Oppt. ID"
     primary_key: yes
     # description: "TODO"
     sql: ${TABLE}.sfid ;;
     type: string
-    label: "Oppt. ID"
   }
 
 
