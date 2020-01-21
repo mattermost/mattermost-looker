@@ -138,6 +138,12 @@ explore: master_account_monthly_arr_deltas_by_type {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
   }
 
+  # EXAMPLE: Overridden from _base_account_explore
+  join: account_owner {
+    from: user
+    fields: [account_owner.sfid]
+  }
+
   join: child_account {
     from: account
     sql_on: ${account.sfid} = ${child_account.parentid} ;;
