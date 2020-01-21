@@ -313,20 +313,14 @@ explore: lead {
 }
 
 explore: staff_list {
-  join: world_cities {
-    sql_on: ${staff_list.major_city} = ${world_cities.city} and ${staff_list.region_country} = ${world_cities.country};;
+  join: contributor_employee_map_data {
+    sql_on: ${staff_list.email} = ${contributor_employee_map_data.email};;
     relationship: many_to_one
     fields: []
   }
 }
 
-explore: contributor_employee_map_data {
-  join: world_cities {
-    sql_on: ${contributor_employee_map_data.major_city} = ${world_cities.city} and ${contributor_employee_map_data.region_country} = ${world_cities.country};;
-    relationship: many_to_one
-    fields: []
-  }
-}
+explore: contributor_employee_map_data {}
 
 explore: daily_traffic {
   group_label: "Google Analytics"
