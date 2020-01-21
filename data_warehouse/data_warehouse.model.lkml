@@ -330,8 +330,7 @@ explore: daily_traffic {
 
 explore: downloads {}
 
-explore: product_line_item {
-  from: opportunitylineitem
+explore: opportunitylineitem {
   view_name: opportunitylineitem
   label: "Line Item to Account"
   group_label: "Salesforce"
@@ -407,7 +406,7 @@ explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
-  extends: [product_line_item]
+  extends: [opportunitylineitem]
 #   required_access_grants: [debugging_fields]
 
   join: dates {
@@ -423,8 +422,7 @@ fields: [
   dates.date_fiscal_year,
   dates.next_fiscal_year,
   dates.previous_fiscal_year,
-  # TODO: Rachel I think opportunitylineitem_core was in product_line_item but isn't any longer?
-  opportunitylineitem_core*,
+  opportunitylineitem.opportunitylineitem_core*,
   account.account_core*,
   opportunity.opportunity_core*
   ]

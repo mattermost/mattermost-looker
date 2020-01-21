@@ -11,6 +11,16 @@ view: staff_list {
     sql: ${TABLE}.DEPARTMENT ;;
   }
 
+  dimension: region_country {
+    type: string
+    sql: ${TABLE}.REGION_COUNTRY ;;
+  }
+
+  dimension: major_city {
+    type: string
+    sql: ${TABLE}.MAJOR_CITY ;;
+  }
+
   dimension: email {
     type: string
     sql: ${TABLE}.EMAIL ;;
@@ -58,8 +68,18 @@ view: staff_list {
 
   dimension: location {
     type: location
-    sql_latitude: ${contributor_employee_map_data.latitude};;
-    sql_longitude: ${contributor_employee_map_data.longitude};;
+    sql_latitude: ${latitude};;
+    sql_longitude: ${longitude};;
+  }
+
+  dimension: latitude {
+    type: number
+    sql: ${contributor_employee_map_data.latitude} ;;
+  }
+
+  dimension: longitude {
+    type: number
+    sql: ${contributor_employee_map_data.longitude} ;;
   }
 
   dimension: role {
