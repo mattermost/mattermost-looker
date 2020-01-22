@@ -94,6 +94,7 @@ explore: account_monthly_arr_deltas_by_type {
 
 explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
+  hidden: yes
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
@@ -139,6 +140,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
+  hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
   join: account {
@@ -190,6 +192,7 @@ explore: account_daily_arr_deltas {
 
 explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
+  hidden: yes
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
