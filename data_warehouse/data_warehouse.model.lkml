@@ -317,6 +317,7 @@ explore: lead {
 }
 
 explore: staff_list {
+  group_label: "Contributors & Employees"
   join: contributor_employee_map_data {
     sql_on: ${staff_list.email} = ${contributor_employee_map_data.email};;
     relationship: many_to_one
@@ -324,14 +325,18 @@ explore: staff_list {
   }
 }
 
-explore: contributor_employee_map_data {}
+explore: contributor_employee_map_data {
+  group_label: "Contributors & Employees"
+}
 
 explore: daily_traffic {
   group_label: "Google Analytics"
   label: "Daily Traffic"
 }
 
-explore: downloads {}
+explore: downloads {
+  group_label: "General"
+}
 
 explore: opportunitylineitem {
   view_name: opportunitylineitem
@@ -482,6 +487,7 @@ explore: campaign {
 
 
 explore: github_contributions {
+  group_label: "Contributors & Employees"
   label: "GitHub Community Contributions"
   sql_always_where: ${is_staff} = FALSE ;;
   join: github_contributors {
