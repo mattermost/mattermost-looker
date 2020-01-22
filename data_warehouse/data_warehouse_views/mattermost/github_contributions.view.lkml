@@ -18,6 +18,12 @@ view: github_contributions {
     label: "Is First Contribution?"
   }
 
+  dimension: is_first_time_contributor {
+    sql: ${github_contributors.min_contribution_month} = ${merged_month} ;;
+    type: yesno
+    label: "Is First Time Contributor?"
+  }
+
   dimension: is_last_contribution {
     sql: ${github_contributors.max_contribution_time} = ${merged_time} ;;
     type: yesno
@@ -48,7 +54,6 @@ view: github_contributions {
   dimension: pr_nunmber {
     type: number
     sql: ${TABLE}."PR_NUNMBER" ;;
-    hidden: yes
   }
 
   measure: count_contributions {
