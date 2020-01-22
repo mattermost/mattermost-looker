@@ -476,3 +476,12 @@ explore: campaign {
     fields: []
   }
 }
+
+
+explore: github_contributions {
+  join: staff_github_usernames {
+    sql_on: ${github_contributions.author} = ${staff_github_usernames.username} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
