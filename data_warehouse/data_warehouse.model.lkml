@@ -425,3 +425,20 @@ explore: campaign {
     relationship: many_to_one
   }
 }
+
+
+explore: github_contributions {
+  label: "GitHub Community Contributions"
+  sql_always_where: ${is_staff} = FALSE ;;
+  join: github_contributors {
+    sql_on: ${github_contributions.author} = ${github_contributors.author} ;;
+    relationship: many_to_one
+    fields: []
+  }
+  join: staff_github_usernames {
+    sql_on: ${github_contributions.author} = ${staff_github_usernames.username} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+}
