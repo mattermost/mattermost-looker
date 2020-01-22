@@ -4,11 +4,16 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
-explore: opportunity {}
+explore: opportunity {
+  group_label: "zHeroku Postgres OrgM"
+}
 
-explore: opportunity_snapshot {}
+explore: opportunity_snapshot {
+  group_label: "zHeroku Postgres OrgM"
+}
 
 explore: product_line_item {
+  group_label: "zHeroku Postgres OrgM"
   from: opportunitylineitem
   view_name: opportunitylineitem
 
