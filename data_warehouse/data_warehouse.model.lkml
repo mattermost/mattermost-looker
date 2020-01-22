@@ -68,6 +68,7 @@ explore: _base_account_explore {
 
   join: account {
     # NOTE: foreign key is not set and must be set by the extending explore
+    view_label: "Account"
     relationship: many_to_one
   }
 
@@ -104,9 +105,7 @@ explore: opportunitylineitem {
   }
 
   join: account {
-    view_label: "Account"
     sql_on: ${opportunity.accountid} = ${account.sfid} ;;
-    relationship: many_to_one
   }
 
   join: product2 {
@@ -146,10 +145,8 @@ explore: account_monthly_arr_deltas_by_type {
 
   join: account {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
-    relationship: many_to_one
     fields: []
   }
-
 }
 
 explore: master_account_monthly_arr_deltas_by_type {
@@ -222,19 +219,21 @@ explore: account_daily_arr_deltas {
     fields: [opportunity.name, opportunity.sfid]
   }
 
- join: opportunitylineitem {
-   sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-           AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
-               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
-   relationship: one_to_many
-   fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-     opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-     opportunitylineitem.total_price, opportunitylineitem.total_arr]
+  join: opportunitylineitem {
+    view_label: "Opportunity Line Item"
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
+          AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
+              OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
+    relationship: one_to_many
+    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
+      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.total_price, opportunitylineitem.total_arr]
  }
 
- join: product2 {
-   sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
-   relationship: many_to_one
+  join: product2 {
+    view_label: "Opportunity Line Item"
+    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
+    relationship: many_to_one
  }
 
 }
@@ -392,17 +391,18 @@ explore: arr {
     sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
-fields: [
-  dates.date_date,
-  dates.date_day_of_month,
-  dates.date_day_of_year,
-  dates.date_month,
-  dates.date_fiscal_year,
-  dates.next_fiscal_year,
-  dates.previous_fiscal_year,
-  opportunitylineitem.opportunitylineitem_core*,
-  account.account_core*,
-  opportunity.opportunity_core*
+
+  fields: [
+    dates.date_date,
+    dates.date_day_of_month,
+    dates.date_day_of_year,
+    dates.date_month,
+    dates.date_fiscal_year,
+    dates.next_fiscal_year,
+    dates.previous_fiscal_year,
+    opportunitylineitem.opportunitylineitem_core*,
+    account.account_core*,
+    opportunity.opportunity_core*
   ]
 }
 
