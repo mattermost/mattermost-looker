@@ -52,8 +52,7 @@ view: github_contributions {
   }
 
   measure: count_contributions {
-    type: count_distinct
-    sql: ${pr_nunmber} ;;
+    type: count
   }
 
   measure: count_users {
