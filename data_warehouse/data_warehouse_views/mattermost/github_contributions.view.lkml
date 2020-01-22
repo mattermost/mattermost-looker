@@ -12,9 +12,23 @@ view: github_contributions {
     label: "Is Staff?"
   }
 
+  dimension: is_first_contribution {
+    sql: ${github_contributors.min_contribution_time} = ${merged_time} ;;
+    type: yesno
+    label: "Is First Contribution?"
+  }
+
+  dimension: is_last_contribution {
+    sql: ${github_contributors.max_contribution_time} = ${merged_time} ;;
+    type: yesno
+    label: "Is Last Contribution?"
+  }
+
   dimension: compound_primary {
     type: string
     sql: ${author} || '-' || ${pr_nunmber} ;;
+    hidden: yes
+    primary_key: yes
   }
 
   dimension_group: merged {

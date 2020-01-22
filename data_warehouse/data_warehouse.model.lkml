@@ -479,9 +479,15 @@ explore: campaign {
 
 
 explore: github_contributions {
+  join: github_contributors {
+    sql_on: ${github_contributions.author} = ${github_contributors.author} ;;
+    relationship: many_to_one
+    fields: []
+  }
   join: staff_github_usernames {
     sql_on: ${github_contributions.author} = ${staff_github_usernames.username} ;;
     relationship: many_to_one
     fields: []
   }
+
 }
