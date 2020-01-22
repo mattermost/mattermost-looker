@@ -48,7 +48,6 @@ view: github_contributions {
   dimension: pr_nunmber {
     type: number
     sql: ${TABLE}."PR_NUNMBER" ;;
-    hidden: yes
   }
 
   measure: count_contributions {
