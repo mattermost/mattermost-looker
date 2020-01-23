@@ -34,6 +34,7 @@ view: opportunitylineitem {
 
   set: opportunitylineitem_core {
     fields: [
+      sfid,
       product_name,
       start_date,
       start_fiscal_quarter,
@@ -390,7 +391,7 @@ view: opportunitylineitem {
   }
 
   measure: total_quantity {
-    sql: ${quantity};;
-    type: sum
+    sql: case when ${product_name} like 'Premier Support%' then 0 else ${quantity} end;;
+    type: sum_distinct
   }
 }
