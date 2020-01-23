@@ -338,6 +338,48 @@ explore: downloads {
   group_label: "General"
 }
 
+
+explore: nps_data {
+  label: "NPS Data"
+  group_label: "General"
+
+  join: license_overview {
+    sql_on: ${nps_data.license_id} = ${license_overview.licenseid}  ;;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+
+}
+
+
 explore: opportunitylineitem {
   view_name: opportunitylineitem
   label: "Line Item to Account"
@@ -500,5 +542,4 @@ explore: github_contributions {
     relationship: many_to_one
     fields: []
   }
-
 }
