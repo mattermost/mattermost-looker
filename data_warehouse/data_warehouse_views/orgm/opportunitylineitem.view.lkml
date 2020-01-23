@@ -384,7 +384,7 @@ view: opportunitylineitem {
   }
 
   measure: total_price_per_seat {
-    label: "Total Price per Seat"
+    label: "Total Contract Value per Seat"
     sql: ${total_price} / ${total_quantity} ;;
     type: number
     value_format_name: "usd_0"
