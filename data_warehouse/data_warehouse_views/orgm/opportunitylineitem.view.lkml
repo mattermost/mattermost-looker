@@ -50,7 +50,8 @@ view: opportunitylineitem {
       total_quantity,
       total_arr_per_seat,
       total_price,
-      total_price_per_seat
+      total_acv,
+      total_price_per_seat,
     ]
   }
 
@@ -321,11 +322,12 @@ view: opportunitylineitem {
   }
 
   dimension: totalprice {
-    label: "Total Price"
+    label: "Total Contract Value"
     sql: ${TABLE}.totalprice;;
     type: number
     value_format_name: "usd_0"
   }
+
 
   dimension: arr {
     label: "ARR"
@@ -365,6 +367,13 @@ view: opportunitylineitem {
   measure: total_price {
     label: "Total Contract Value"
     sql: ${totalprice} ;;
+    type: sum
+    value_format_name: "usd_0"
+  }
+
+  measure: total_acv {
+    label: "Total Annual Contract Value"
+    sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
   }
