@@ -1012,11 +1012,20 @@ view: account {
   dimension: csm_enriched_region {
     label: "CSM Enriched Region"
     sql: CASE
-              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
-              WHEN ${sfid} = '00136000015uBxoAAE' THEN 'EMEA'
-              WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
-              WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
-              ELSE ${region} END ;;
+              WHEN left(${csm_id},15) = '0051R00000I5RZB' THEN 'EMEA'
+              WHEN left(${csm_id},15) = '0051R00000GnXMs' THEN 'East'
+              WHEN left(${csm_id},15) = '00536000009uaDQ' THEN 'West/APAC'
+              WHEN left(${csm_id},15) = '0051R00000HTEzF' THEN 'Global Self-Service'
+              WHEN left(${csm_id},15) = '0051R00000Gnded' THEN 'Fed'
+              WHEN left(${csm_id},15) = '00536000005Kv0j' THEN 'Gavin Beeman'
+              WHEN left(${csm_id},15) = '0051R00000HEIEq' THEN 'Nicolas Beaufrere'
+              WHEN left(${csm_id},15) = '0051R00000HDxVB' THEN 'Paul Brown'
+              WHEN left(${csm_id},15) = '0051R00000H25B8' THEN 'James Gribbon'
+              WHEN left(${csm_id},15) = '0051R00000H0dEp' THEN 'Philip Roy'
+              WHEN left(${csm_id},15) = '0051R00000GtqGG' THEN 'Joyce Martinez'
+              WHEN left(${csm_id},15) = '0051R00000Gnde4' THEN 'Emily Hollinger'
+              WHEN left(${csm_id},15) = '0051R00000Gnb3z' THEN 'Paul Lansky'
+              ELSE left(${csm_id},15) END ;;
     type: string
   }
 

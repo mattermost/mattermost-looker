@@ -36,12 +36,14 @@ view: opportunitylineitem {
     fields: [
       sfid,
       product_name,
+      start_time,
       start_date,
       start_fiscal_quarter,
       start_fiscal_year,
+      end_time,
       end_date,
-      start_fiscal_quarter,
-      start_fiscal_year,
+      end_fiscal_quarter,
+      end_fiscal_year,
       length_days,
       quantity,
       product_line_type,
@@ -101,6 +103,7 @@ view: opportunitylineitem {
     datatype: date
     sql: ${TABLE}.end_date__c;;
     timeframes: [
+      time,
       date,
       month,
       fiscal_quarter,
@@ -297,6 +300,7 @@ view: opportunitylineitem {
     datatype: date
     sql: ${TABLE}.start_date__c;;
     timeframes: [
+      time,
       date,
       month,
       fiscal_quarter,
@@ -337,7 +341,7 @@ view: opportunitylineitem {
   }
 
   dimension: length_days {
-    sql: ${TABLE}.end_date__c::date-${TABLE}.start_date__c::date ;;
+    sql: ${TABLE}.end_date__c::date-${TABLE}.start_date__c::date + 1 ;;
     type: number
   }
 
