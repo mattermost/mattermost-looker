@@ -45,3 +45,7 @@ explore: product_line_item {
     relationship: many_to_many
   }
 }
+
+explore: campaignmember {
+  group_label: "zHeroku Postgres OrgM"
+}
