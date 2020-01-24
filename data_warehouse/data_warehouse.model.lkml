@@ -28,6 +28,10 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: full_financial {
+  user_attribute: full_financial
+  allowed_values: [ "yes" ]
+}
 
 #
 # Formats
@@ -542,4 +546,10 @@ explore: github_contributions {
     relationship: many_to_one
     fields: []
   }
+}
+
+explore: test_full_financial {
+  from: user
+  group_label: "Test"
+  required_access_grants: [full_financial]
 }
