@@ -40,8 +40,8 @@ view: opportunitylineitem {
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
-      start_fiscal_quarter,
-      start_fiscal_year,
+      end_fiscal_quarter,
+      end_fiscal_year,
       length_days,
       quantity,
       product_line_type,
@@ -51,7 +51,7 @@ view: opportunitylineitem {
       total_arr_per_seat,
       total_price,
       total_acv,
-      total_price_per_seat,
+      total_price_per_seat
     ]
   }
 
@@ -337,9 +337,29 @@ view: opportunitylineitem {
   }
 
   dimension: length_days {
-    sql: ${TABLE}.end_date__c::date-${TABLE}.start_date__c::date ;;
+    sql: ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment};;
     type: number
   }
+
+  dimension: leap_day_adjustment {
+    sql:
+        case when '2000-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2004-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2008-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2012-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2016-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2020-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2024-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2028-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2032-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2036-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2040-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2044-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2048-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end
+        ;;
+    type: number
+  }
+
 
   dimension: arr_per_seat {
     sql: ${totalprice}/${quantity} ;;
