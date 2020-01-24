@@ -62,7 +62,6 @@ include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "*.dashboard.lookml"
 
-
 #
 # Explores
 #
