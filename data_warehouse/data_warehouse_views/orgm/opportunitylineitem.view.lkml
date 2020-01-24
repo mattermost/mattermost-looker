@@ -337,7 +337,7 @@ view: opportunitylineitem {
   }
 
   dimension: length_days {
-    sql: ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment};;
+    sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
     type: number
   }
 
