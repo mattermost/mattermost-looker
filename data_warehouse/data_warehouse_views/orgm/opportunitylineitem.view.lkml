@@ -34,18 +34,24 @@ view: opportunitylineitem {
 
   set: opportunitylineitem_core {
     fields: [
+      sfid,
       product_name,
       start_date,
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
-      start_fiscal_quarter,
-      start_fiscal_year,
+      end_fiscal_quarter,
+      end_fiscal_year,
       length_days,
       quantity,
       product_line_type,
       total_arr,
-      totalprice
+      totalprice,
+      total_quantity,
+      total_arr_per_seat,
+      total_price,
+      total_acv,
+      total_price_per_seat
     ]
   }
 
@@ -316,11 +322,12 @@ view: opportunitylineitem {
   }
 
   dimension: totalprice {
-    label: "Total Price"
+    label: "Total Contract Value"
     sql: ${TABLE}.totalprice;;
     type: number
     value_format_name: "usd_0"
   }
+
 
   dimension: arr {
     label: "ARR"
@@ -330,9 +337,29 @@ view: opportunitylineitem {
   }
 
   dimension: length_days {
-    sql: ${TABLE}.end_date__c::date-${TABLE}.start_date__c::date ;;
+    sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
     type: number
   }
+
+  dimension: leap_day_adjustment {
+    sql:
+        case when '2000-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2004-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2008-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2012-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2016-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2020-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2024-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2028-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2032-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2036-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2040-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2044-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2048-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end
+        ;;
+    type: number
+  }
+
 
   dimension: arr_per_seat {
     sql: ${totalprice}/${quantity} ;;
@@ -358,8 +385,15 @@ view: opportunitylineitem {
   }
 
   measure: total_price {
-    label: "Total Price"
+    label: "Total Contract Value"
     sql: ${totalprice} ;;
+    type: sum
+    value_format_name: "usd_0"
+  }
+
+  measure: total_acv {
+    label: "Total Annual Contract Value"
+    sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
   }
@@ -373,8 +407,20 @@ view: opportunitylineitem {
 
   measure: total_arr_per_seat {
     label: "Total ARR per Seat"
-    sql: ${arr_per_seat} ;;
-    type: sum
+    sql: ${total_arr} / ${total_quantity} ;;
+    type: number
     value_format_name: "usd_0"
+  }
+
+  measure: total_price_per_seat {
+    label: "Total Contract Value per Seat"
+    sql: ${total_price} / ${total_quantity} ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  measure: total_quantity {
+    sql: case when ${product_name} like 'Premier Support%' then 0 else ${quantity} end;;
+    type: sum_distinct
   }
 }

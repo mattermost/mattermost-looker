@@ -28,6 +28,10 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: full_financial {
+  user_attribute: full_financial
+  allowed_values: [ "yes" ]
+}
 
 #
 # Formats
@@ -56,7 +60,6 @@ include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
-
 
 #
 # Explores
@@ -151,6 +154,7 @@ explore: account_monthly_arr_deltas_by_type {
 
 explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
+  hidden: yes
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
@@ -196,6 +200,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
+  hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
   extends: [ _base_account_explore ]
@@ -240,6 +245,7 @@ explore: account_daily_arr_deltas {
 
 explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
+  hidden: yes
   group_label: "ARR"
   join: account {
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
@@ -364,6 +370,7 @@ explore: lead {
 }
 
 explore: staff_list {
+  group_label: "Contributors & Employees"
   join: contributor_employee_map_data {
     sql_on: ${staff_list.email} = ${contributor_employee_map_data.email};;
     relationship: many_to_one
@@ -371,14 +378,60 @@ explore: staff_list {
   }
 }
 
-explore: contributor_employee_map_data {}
+explore: contributor_employee_map_data {
+  group_label: "Contributors & Employees"
+}
 
 explore: daily_traffic {
   group_label: "Google Analytics"
   label: "Daily Traffic"
 }
 
-explore: downloads {}
+explore: downloads {
+  group_label: "General"
+}
+
+
+explore: nps_data {
+  label: "NPS Data"
+  group_label: "General"
+
+  join: license_overview {
+    sql_on: ${nps_data.license_id} = ${license_overview.licenseid}  ;;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: left(${account.csm_id},15) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+
+}
+
 
 explore: arr {
   label: "ARR Granular Reporting"
@@ -428,6 +481,7 @@ explore: campaign {
 
 
 explore: github_contributions {
+  group_label: "Contributors & Employees"
   label: "GitHub Community Contributions"
   sql_always_where: ${is_staff} = FALSE ;;
   join: github_contributors {
@@ -440,5 +494,10 @@ explore: github_contributions {
     relationship: many_to_one
     fields: []
   }
+}
 
+explore: test_full_financial {
+  from: user
+  group_label: "Test"
+  required_access_grants: [full_financial]
 }

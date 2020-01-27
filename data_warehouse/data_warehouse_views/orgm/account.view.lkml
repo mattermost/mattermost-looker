@@ -1012,11 +1012,15 @@ view: account {
   dimension: csm_enriched_region {
     label: "CSM Enriched Region"
     sql: CASE
-              WHEN ${csm_id} = '0051R00000GndedQAB' THEN 'Federal'
-              WHEN ${sfid} = '00136000015uBxoAAE' THEN 'EMEA'
-              WHEN ${region} IN ('Rest of EMEA','DACH','France','UKI') THEN 'EMEA'
-              WHEN ${region} IN ('ANZ','JPS') THEN 'APAC'
-              ELSE ${region} END ;;
+              WHEN left(${csm_id},15) = '0051R00000I5RZB' THEN 'EMEA'
+              WHEN left(${csm_id},15) = '0051R00000GnXMs' THEN 'East'
+              WHEN left(${csm_id},15) = '00536000009uaDQ' THEN 'West/APAC'
+              WHEN left(${csm_id},15) = '0051R00000HTEzF' THEN 'Global Self-Service'
+              WHEN left(${csm_id},15) = '0051R00000Gnded' THEN 'Fed'
+              WHEN ${csm} in ('Jenn Lawler','jenn lawler','Jenn lawler') THEN 'West/APAC'
+              WHEN ${csm} in ('Jeff Johnson','Jeff johnson') THEN 'Global Self-Service'
+              WHEN ${csm} in ('Sasa Cosic') THEN 'EMEA'
+              ELSE NULL END ;;
     type: string
   }
 

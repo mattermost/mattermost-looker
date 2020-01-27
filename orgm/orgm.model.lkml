@@ -4,11 +4,16 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
-explore: opportunity {}
+explore: opportunity {
+  group_label: "zHeroku Postgres OrgM"
+}
 
-explore: opportunity_snapshot {}
+explore: opportunity_snapshot {
+  group_label: "zHeroku Postgres OrgM"
+}
 
 explore: product_line_item {
+  group_label: "zHeroku Postgres OrgM"
   from: opportunitylineitem
   view_name: opportunitylineitem
 
@@ -39,4 +44,8 @@ explore: product_line_item {
     sql_on: ${util_dates.date_date} >= ${opportunitylineitem.start_date} and ${util_dates.date_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
+}
+
+explore: campaignmember {
+  group_label: "zHeroku Postgres OrgM"
 }
