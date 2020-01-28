@@ -1,4 +1,4 @@
-- dashboard: home_page
+- dashboard: homepage
   title: Home
   layout: newspaper
   elements:
