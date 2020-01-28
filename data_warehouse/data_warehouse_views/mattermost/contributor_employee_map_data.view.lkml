@@ -3,12 +3,12 @@ view: contributor_employee_map_data {
 
   dimension: latitude {
     type: number
-    sql: ROUND(${TABLE}.lat,0);;
+    sql: ROUND(${TABLE}.lat,4);;
   }
 
   dimension: longitude {
     type: number
-    sql: ROUND(${TABLE}.lng,0);;
+    sql: ROUND(${TABLE}.lng,4);;
   }
 
   dimension: location {
