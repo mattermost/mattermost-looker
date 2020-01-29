@@ -87,87 +87,37 @@ view: master_account_monthly_arr_deltas_by_type {
     drill_fields: [arr_change_details*]
   }
 
-  measure: total_arr_norm_churn {
-    label: "Total ARR Norm Churn"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_CHURN" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR Norm."
-    drill_fields: [arr_norm_change_details*]
-  }
-
-  measure: total_arr_norm_contraction {
-    label: "Total ARR Norm Contraction"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_CONTRACTION" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR Norm."
-    drill_fields: [arr_norm_change_details*]
-  }
-
-  measure: total_arr_norm_delta {
-    label: "Total ARR Norm Delta"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_DELTA" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR Norm."
-    drill_fields: [arr_norm_change_details*]
-  }
-
-  measure: total_arr_norm_expansion {
-    label: "Total ARR Norm Expansion"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_EXPANSION" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR Norm."
-    drill_fields: [arr_norm_change_details*]
-  }
-
-  measure: total_arr_norm_new {
-    label: "Total ARR Norm New"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_NEW" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR Norm."
-    drill_fields: [arr_norm_change_details*]
-  }
-
   measure: count {
     type: count
     drill_fields: []
   }
 
-  measure: count_arr_norm_new_accounts {
+  measure: count_arr_new_accounts {
     label: "Count ARR Norm New Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_NORM_NEW" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_NEW" > 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
   }
 
-  measure: count_arr_norm_explansion_accounts {
+  measure: count_arr_explansion_accounts {
     label: "Count ARR Norm Explansion Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_NORM_EXPANSION" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_EXPANSION" > 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
   }
 
-  measure: count_arr_norm_contraction_accounts {
+  measure: count_arr_contraction_accounts {
     label: "Count ARR Norm Contraction Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_NORM_CONTRACTION" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" > 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
   }
 
-  measure: count_arr_norm_churn_accounts {
+  measure: count_arr_churn_accounts {
     label: "Count ARR Norm Churn Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_NORM_CHURN" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CHURN" > 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
-  }
-
-  set: arr_norm_change_details {
-    fields: [month_end_date, master_account_sfid,
-      total_arr_norm_delta, total_arr_norm_new, total_arr_norm_expansion, total_arr_norm_contraction, total_arr_norm_churn]
   }
 
   set: arr_change_details {

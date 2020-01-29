@@ -49,15 +49,6 @@ view: master_account_daily_arr_deltas {
     drill_fields: []
   }
 
-  measure: new_day_total_arr_norm {
-    label: "New Day ARR Norm"
-    type: sum
-    sql: ${TABLE}."NEW_DAY_TOTAL_ARR_NORM" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR"
-    drill_fields: []
-  }
-
   measure: previous_day_total_arr {
     label: "Previous Day ARR"
     type: sum
@@ -67,28 +58,10 @@ view: master_account_daily_arr_deltas {
     drill_fields: []
   }
 
-  measure: previous_day_total_arr_norm {
-    label: "Previous Day ARR Norm"
-    type: sum
-    sql: ${TABLE}."PREVIOUS_DAY_TOTAL_ARR_NORM" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR"
-    drill_fields: []
-  }
-
   measure: total_arr_delta {
     label: "Total ARR Delta"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_DELTA" ;;
-    value_format_name: "usd_0"
-    group_label: "ARR"
-    drill_fields: []
-  }
-
-  measure: total_arr_norm_delta {
-    label: "Total ARR Norm Delta"
-    type: sum
-    sql: ${TABLE}."TOTAL_ARR_NORM_DELTA" ;;
     value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: []
