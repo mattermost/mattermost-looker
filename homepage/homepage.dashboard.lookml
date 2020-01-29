@@ -4,11 +4,11 @@
   elements:
   - title: Home
     name: Home
-    model: data_warehouse
-    explore: _home_page
+    model: homepage
+    explore: _homepage
     type: single_value
-    fields: [_home_page._html]
-    limit: 500
+    fields: [_homepage._html]
+    limit: 1
     query_timezone: America/Los_Angeles
     custom_color_enabled: true
     custom_color: ''
@@ -21,3 +21,4 @@
     listen: {}
     row: 0
     col: 0
+    height: 11
