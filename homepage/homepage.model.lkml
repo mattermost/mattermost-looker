@@ -74,12 +74,13 @@ view: _homepage {
 
 view: _return_to_homepage {
   # This table does not matter, just need to be valid
-  sql_table_name: orgm.account ;;
+  sql_table_name: util.dates ;;
 
   measure: _html {
     sql: 1 ;;
+    type: number
     html:
-    <div style="font-size: 13px">
+    <div style="font-size: 15px;font-weight: bold;">
       {% if _user_attributes['is_group_mlt'] %}
       <a href="/dashboards/24" style="@{css_link_style}">
         Return to MLT Overview

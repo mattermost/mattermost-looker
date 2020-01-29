@@ -385,15 +385,15 @@ view: opportunitylineitem {
   }
 
   measure: total_price {
-    label: "Total Contract Value"
+    label: "Total TCV"
     sql: ${totalprice} ;;
     type: sum
     value_format_name: "usd_0"
   }
 
   measure: total_acv {
-    label: "Total Annual Contract Value"
-    sql: ${arr} ;;
+    label: "Total ACV"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
   }
@@ -413,8 +413,15 @@ view: opportunitylineitem {
   }
 
   measure: total_price_per_seat {
-    label: "Total Contract Value per Seat"
+    label: "Total TCV per Seat"
     sql: ${total_price} / ${total_quantity} ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  measure: total_acv_per_seat {
+    label: "Total ACV per Seat"
+    sql: ${total_acv} / ${total_quantity} ;;
     type: number
     value_format_name: "usd_0"
   }
