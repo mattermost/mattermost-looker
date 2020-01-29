@@ -20,7 +20,8 @@ view: _homepage {
     # display:flex;justify-content:center;flex-direction:column; align-content: center; align-items: center
     html:
     {% if "yes" %}
-      <div style="display:flex;justify-content:center;flex-direction:column; align-content: center; align-items: center">
+    <center>
+      <table><tr><td style="color:rgb(58,66,69,0.65);">
         <div style="font-size: 20px">MLT Metrics Overview</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
@@ -61,7 +62,8 @@ view: _homepage {
             </ul>
           </div>
         </div>
-      </div>
+      </td></tr></table>
+      </center>
     {% else %}
       <script type="text/javascript">
         window.location.href = "/";
