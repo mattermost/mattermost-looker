@@ -77,12 +77,17 @@ view: _return_to_homepage {
   measure: _html {
     sql: 1 ;;
     html:
-    <a href="/dashboards/24" style="@{css_link_style}; font-size: 13px">
+    <div style="font-size: 13px">
       {% if _user_attributes['is_group_mlt'] %}
+      <a href="/dashboards/24" style="@{css_link_style}">
         Return to MLT Overview
+      </a>
       {% else %}
+      <a href="/" style="@{css_link_style}">
         Return to Homepage
+      </a>
       {% endif %}
-    </a>;;
+    </div>
+    ;;
   }
 }
