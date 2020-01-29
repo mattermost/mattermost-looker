@@ -496,10 +496,12 @@ explore: github_contributions {
   }
 }
 
-explore: test_full_financial {
-  from: user
-  group_label: "Test"
-  required_access_grants: [full_financial]
-}
 
 explore: dates {}
+
+# BP: Method to hide an explore based on a user attribute
+# explore: test_full_financial {
+#   from: user
+#   group_label: "Test"
+#   required_access_grants: [full_financial]
+# }

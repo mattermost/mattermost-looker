@@ -24,3 +24,7 @@ constant: decimal {
 constant: colored_tiered_percent {
   value: "{% if value <= 25 %}<p style=\"color:red; \">Low</p>{% elsif value > 25 and value <= 75  %}<p style=\"color:#FFBF00; \">Medium</p>{% else %}<p style=\"color:green; \">High</p>{% endif %}"
 }
+
+constant: css_link_style {
+  value: "color: #49719a;"
+}

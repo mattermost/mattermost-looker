@@ -2,8 +2,9 @@ view: daily_traffic {
   sql_table_name: GA.DAILY_TRAFFIC ;;
 
   dimension: channelgrouping {
-    type: string
+    label: "Channel Grouping"
     sql: ${TABLE}."CHANNELGROUPING" ;;
+    type: string
   }
 
   dimension_group: end {
