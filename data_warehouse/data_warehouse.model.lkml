@@ -501,3 +501,5 @@ explore: test_full_financial {
   group_label: "Test"
   required_access_grants: [full_financial]
 }
+
+explore: dates {}

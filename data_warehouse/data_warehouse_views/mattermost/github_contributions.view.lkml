@@ -32,7 +32,7 @@ view: github_contributions {
 
   dimension: compound_primary {
     type: string
-    sql: ${author} || '-' || ${pr_nunmber} ;;
+    sql: ${author} || '-' || ${pr_number} ;;
     hidden: yes
     primary_key: yes
   }
@@ -51,9 +51,9 @@ view: github_contributions {
     sql: ${TABLE}."MERGED_AT" ;;
   }
 
-  dimension: pr_nunmber {
+  dimension: pr_number {
     type: number
-    sql: ${TABLE}."PR_NUNMBER" ;;
+    sql: ${TABLE}."PR_NUMBER" ;;
   }
 
   measure: count_contributions {
