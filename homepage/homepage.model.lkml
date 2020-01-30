@@ -20,6 +20,7 @@ view: _homepage {
     {% if _user_attributes['is_group_mlt'] %}
     <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
+        <div style="font-size: 40px; text-align: center;">Welcome to Looker, {{ _user_attributes['first_name'] }}!</div>
         <div style="font-size: 20px">MLT Metrics Overview</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
