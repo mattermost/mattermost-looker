@@ -496,6 +496,9 @@ explore: github_contributions {
   }
 }
 
+explore: server_daily_details {}
+
+explore: server_fact {}
 
 explore: dates {}
 
