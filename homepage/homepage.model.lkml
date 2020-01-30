@@ -93,8 +93,9 @@ view: _homepage {
               <br>
               <div ng-bind-html="element.body_text_as_html">
                 <div style="font-size: 25px;" >Unfortunately, Looker is currently not GA at Mattermost.</div>
-                <div>We are in the process of a slow roll out with only a few early adopters. While someone may have sent you a link or you are able to successfully log in, you are currently in holding group with very limited access.
-                <div></div>
+                <div><strong>We are in the process of a slow roll out with only a few early adopters.</div>
+                <br>
+                <div>While someone may have sent you a link or you are able to successfully log in, you have been placed in holding group with no access.
                 <div>If you feel you are meant to be part of the early adopter group and are unable to access Looker, please reach out to us in <a href="https://community.mattermost.com/private-core/channels/bizops" style="font-size: 25px; color: #49719a;">BizOps</a>.</div>
               </div>
             </div>
