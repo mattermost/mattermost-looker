@@ -134,10 +134,10 @@ view: _return_to_homepage {
     sql: 1 ;;
     type: number
     html:
-    <div style="font-size: 15px;font-weight: bold;">
+    <div style="font-size: 15px;">
       {% if _user_attributes['is_group_mlt'] %}
-      <a href="/dashboards/24" style="@{css_link_style}">
-        Return to MLT Overview
+      <a href="/" style="@{css_link_style}">
+        Return to MLT Homepage
       </a>
       {% else %}
       <a href="/" style="@{css_link_style}">
