@@ -9,6 +9,11 @@ view: account_monthly_arr_deltas_by_type {
     hidden: yes
   }
 
+  dimension: last_and_next_12mo {
+    sql: ${month_start_date} >= date_trunc('month',current_date()) - interval '12 month' AND ${month_start_date} <= date_trunc('month',current_date()) + interval '12 month'  ;;
+    type: yesno
+  }
+
   dimension: account_sfid {
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;

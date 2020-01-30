@@ -50,8 +50,6 @@ view: _homepage {
                 <div>Finance</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">ARR Overview Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/2" style="@{css_link_style}">Current FY Closed Won Opportunities TCV &amp; ARR</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/9" style="@{css_link_style}">FY21 Renewal ARR Overview</a></li>
                 </ul>
               </li>
               <li>
@@ -63,12 +61,12 @@ view: _homepage {
                 </ul>
               </li>
               <li>
-                <div>Top of Funnel</div>
+                <div>Customer Journey Lifecycle</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">Traffic &amp; Organic Google Search</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">Traffic &amp; Organic Google Search Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">Downloads Dashboard</a></li>
-                  <li>Contact Us</li>
-                  <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trials Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">Contact Us Requests Dashboard</li>
+                  <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trial Requests Dashboard</a></li>
                 </ul>
               </li>
             </ul>

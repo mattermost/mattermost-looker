@@ -4,108 +4,78 @@ view: dates {
   dimension_group: date {
     type: time
     timeframes: [
-      raw,
       date,
       week,
       month,
-      day_of_month,
       quarter,
-      fiscal_year,
       day_of_year,
-      year
     ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;
   }
 
-  dimension_group: next {
-    type: time
-    timeframes: [fiscal_year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."DATE" + interval '1 year' ;;
-  }
-
-  dimension_group: previous {
-    type: time
-    timeframes: [fiscal_year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."DATE" - interval '1 year' ;;
+  filter: last_and_next_12mo {
+    sql: ${month_full_date} >= date_trunc('month',current_date()) - interval '12 month' AND ${month_full_date} <= date_trunc('month',current_date()) + interval '12 month'  ;;
+    type: yesno
   }
 
   dimension: day_num {
+    group_label: "Date"
     type: number
     sql: ${TABLE}."DAY_NUM" ;;
   }
 
   dimension: fiscal_month {
+    group_label: "Date"
     type: string
     sql: ${TABLE}."FISCAL_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
+    group_label: "Date"
     type: string
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
+    group_label: "Date"
     type: number
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
-  dimension_group: month {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: month_full_date {
+    group_label: "Date"
+    type: date
     sql: ${TABLE}."MONTH_DATE" ;;
   }
 
-  dimension: month_name_short_string {
+  dimension: month_name_short {
+    group_label: "Date"
     type: string
     sql: ${TABLE}."MONTH_NAME_SHORT_STRING" ;;
   }
 
-  dimension: month_name_string {
+  dimension: month_name {
+    group_label: "Date"
     type: string
     sql: ${TABLE}."MONTH_NAME_STRING" ;;
   }
 
   dimension: month_num {
+    group_label: "Date"
     type: number
     sql: ${TABLE}."MONTH_NUM" ;;
   }
 
-  dimension: month_num_string {
-    type: string
-    sql: ${TABLE}."MONTH_NUM_STRING" ;;
-  }
-
-  dimension_group: year {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: year_full_date {
+    group_label: "Date"
+    type: date
     sql: ${TABLE}."YEAR_DATE" ;;
   }
 
-  dimension: year_num {
+  dimension: year {
+    group_label: "Date"
     type: number
     sql: ${TABLE}."YEAR_NUM" ;;
   }

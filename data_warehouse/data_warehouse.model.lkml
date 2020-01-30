@@ -447,12 +447,12 @@ explore: arr {
 
   fields: [
     dates.date_date,
-    dates.date_day_of_month,
+    dates.day_num,
     dates.date_day_of_year,
     dates.date_month,
-    dates.date_fiscal_year,
-    dates.next_fiscal_year,
-    dates.previous_fiscal_year,
+    dates.month_full_date,
+    dates.fiscal_year,
+    dates.last_and_next_12mo,
     opportunitylineitem.opportunitylineitem_core*,
     account.account_core*,
     opportunity.opportunity_core*

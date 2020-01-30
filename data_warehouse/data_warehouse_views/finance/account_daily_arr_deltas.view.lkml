@@ -8,6 +8,11 @@ view: account_daily_arr_deltas {
     hidden: yes
   }
 
+  dimension: last_and_next_12mo {
+    sql: ${new_day_month} >= date_trunc('month',current_date()) - interval '12 month' AND ${new_day_month} <= date_trunc('month',current_date()) + interval '12 month'  ;;
+    type: yesno
+  }
+
   dimension: account_new_arr {
     type: yesno
     sql: ${TABLE}."ACCOUNT_NEW_ARR" ;;
