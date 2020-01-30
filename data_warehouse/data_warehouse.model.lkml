@@ -441,15 +441,15 @@ explore: arr {
 
   join: dates {
     view_label: "ARR Date"
-    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    sql_on: ${dates.util_date} >= ${opportunitylineitem.start_date} and ${dates.util_date} <= ${opportunitylineitem.end_date} ;;
     relationship: many_to_many
   }
 
   fields: [
-    dates.date_date,
+    dates.util_date,
     dates.day_num,
-    dates.date_day_of_year,
-    dates.date_month,
+    dates.util_day_of_year,
+    dates.util_month,
     dates.month_full_date,
     dates.fiscal_year,
     dates.last_and_next_12mo,
