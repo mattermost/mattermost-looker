@@ -20,12 +20,25 @@ view: _homepage {
     {% if {{_user_attributes['is_group_mlt']}} %}
     <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
-        <div style="font-size: 40px; text-align: center;">Welcome to Looker, {{ _user_attributes['first_name'] }}!</div>
-        <div style="font-size: 20px">MLT Metrics Overview</div>
+        <div style="font-size: 30px">MLT Looker Homepage</div>
+        <div style="font-size: 12px">BizOps created this MLT Only homepage to get you started on your MLT Metrics journey.</div>
+        <div style="font-size: 12px">There are many other ways to use Looker, but we wanted to make it super easy to get started.</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
-            <div><strong><a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" style="@{css_link_style}">Metrics Definitions</a></strong></div>
-            <div><strong>Content in Looker</strong></div>
+            <br>
+            <div style="font-size: 15px">Handbook Links</div>
+              <ul>
+                <li>
+                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" style="@{css_link_style};">Metrics Definitions</a>
+                </li>
+                <li>
+                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" style="@{css_link_style};">Automating Metrics Timeline</a>
+                </li>
+                <li>
+                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" style="@{css_link_style}">Looker at Mattermost</a>
+                </li>
+              </ul>
+            <div style="font-size: 15px">Content in Looker</div>
             <ul>
               <li>
                 Community
@@ -59,6 +72,14 @@ view: _homepage {
                 </ul>
               </li>
             </ul>
+            <div style="font-size: 20px;" >Looker Quick Links</div>
+            <div>
+            <a href="https://mattermost.looker.com/browse/favorites" style="@{css_link_style}">My Favorites</a>
+            - <a href="https://mattermost.looker.com/browse/recent" style="@{css_link_style}">Recently Viewed</a>
+            - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
+            - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
+            <br>
+            <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" style="@{css_link_style}">Ask BizOps Questions</a></div>
           </div>
         </div>
       </td></tr></table>
@@ -92,7 +113,7 @@ view: _homepage {
             <div style="font-size: 20px; text-align: center;">
               <br>
               <div ng-bind-html="element.body_text_as_html">
-                <div style="font-size: 25px;" >Unfortunately, Looker is currently not GA at Mattermost.</div>
+                <div style="font-size: 25px;" >Looker is not yet GA at Mattermost.</div>
                 <div><strong>We are in the process of a slow roll out with only a few early adopters.</strong></div>
                 <br>
                 <div>While someone may have sent you a link or you are able to successfully log in, you have been placed in holding group with no access.
