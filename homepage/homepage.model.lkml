@@ -12,14 +12,12 @@ explore: _return_to_homepage {
 
 view: _homepage {
   # This table does not matter, just need to be valid
-  sql_table_name: orgm.account ;;
+  sql_table_name: util.dates ;;
 
   measure: _html {
     sql: 1 ;;
-    # {% if _user_attributes['is_group_mlt'] %}
-    # display:flex;justify-content:center;flex-direction:column; align-content: center; align-items: center
     html:
-    {% if "yes" %}
+    {% if _user_attributes['is_group_mlt'] %}
     <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
         <div style="font-size: 20px">MLT Metrics Overview</div>
@@ -65,9 +63,27 @@ view: _homepage {
       </td></tr></table>
       </center>
     {% else %}
-      <script type="text/javascript">
-        window.location.href = "/";
-      </script>asdf
+     <center>
+      <table><tr><td style="color:rgb(58,66,69,0.65);">
+        <div style="font-size: 40px; text-align: center;">Welcome to Looker, {{ _user_attributes['first_name'] }}!</div>
+        <div style="font-size: 20px; text-align: center;">
+          <br>
+          <div ng-bind-html="element.body_text_as_html">
+            <div style="font-size: 25px;" >Looker Quick Links</div>
+            <div><a href="https://mattermost.looker.com/browse/favorites" style="@{css_link_style}">My Favorites</a></div>
+            <div><a href="https://mattermost.looker.com/browse/recent" style="@{css_link_style}">Recently Viewed</a></div>
+            <div><a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a></div>
+            <div><a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
+            <br>
+            <div style="font-size: 25px;">Documentation</div>
+            <div><a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" style="@{css_link_style}">Looker at Mattermost</a></div>
+            <div><a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" style="@{css_link_style}">Metrics Definitions</a></div>
+            <br>
+            <div><a href="https://community.mattermost.com/private-core/channels/bizops" style="font-size: 25px; color: #49719a;">Ask Us Questions</a></div>
+          </div>
+        </div>
+      </td></tr></table>
+      </center>
     {% endif %} ;;
   }
 }
