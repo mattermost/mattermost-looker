@@ -116,6 +116,15 @@ view: server_daily_details {
     hidden: yes
   }
 
+  dimension: server_age {
+    label: "Age (Days)"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
+    type: tier
+    style: integer
+    tiers: [0,31,61,91,181,366,731]
+    sql: datediff(day, ${server_fact.first_active_date}, ${logging_date}) ;;
+  }
+
 
   # Measures
   measure: server_count {
