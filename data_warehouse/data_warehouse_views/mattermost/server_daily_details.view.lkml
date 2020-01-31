@@ -94,6 +94,16 @@ view: server_daily_details {
     sql: case when ${license_id} is not null then 'licensed' else 'unlicensed' end ;;
   }
 
+  dimension: server_status {
+    label: "Server Status"
+    description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
+    type: string
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
+              when ${active_user_count} > 0 then  'Active Users > 0'
+              else 'No Active Users' end ;;
+  }
+
 
   # Measures
   measure: server_count {
@@ -106,10 +116,18 @@ view: server_daily_details {
     label: "Server >= 7 Days Old Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
-    sql: CASE WHEN current_date - ${server_fact.first_active_date} >= 7 then ${id} else null end;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${id} else null end;;
+  }
+
+  measure: server_7days_w_active_users_count {
+    label: "Server >=7 Days Old w/ Active Users Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${id} ELSE NULL END;;
   }
 
   measure: server_w_active_users_count {
+    label: "Server w/ Active Users Count"
     description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
     type: count_distinct
     sql: CASE WHEN ${active_user_count} > 0 THEN ${id} ELSE NULL END ;;
