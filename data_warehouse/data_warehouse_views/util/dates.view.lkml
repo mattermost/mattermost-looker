@@ -45,7 +45,19 @@ view: dates {
   filter: first_day_of_fiscal_year {
     group_label: "Date Date"
     type:  yesno
-    sql: ${TABLE}."DATE"} like '%-02-01' ;;
+    sql: ${TABLE}."DATE" like '%-02-01' ;;
+  }
+
+  filter: first_day_of_fiscal_quarter {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-02-01' OR ${TABLE}."DATE" like '%-05-01' OR ${TABLE}."DATE" like '%-08-01' OR ${TABLE}."DATE" like '%-11-01' ;;
+  }
+
+  filter: last_day_of_fiscal_quarter {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-01-31' OR ${TABLE}."DATE" like '%-04-30' OR ${TABLE}."DATE" like '%-07-31' OR ${TABLE}."DATE" like '%-10-31' ;;
   }
 
   measure: count {
