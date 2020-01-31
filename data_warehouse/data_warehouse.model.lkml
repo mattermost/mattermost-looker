@@ -496,9 +496,13 @@ explore: github_contributions {
   }
 }
 
-explore: server_daily_details {}
+explore: server_daily_details {
+  group_label: "General"
+}
 
-explore: server_fact {}
+explore: server_fact {
+  group_label: "General"
+}
 
 explore: dates {}
 
