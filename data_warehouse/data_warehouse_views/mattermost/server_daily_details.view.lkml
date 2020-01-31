@@ -12,7 +12,7 @@ view: server_daily_details {
   dimension_group: logging {
     description: "The date the server details were logged."
     type: time
-    timeframes: [date]
+    timeframes: [date, month, year]
     sql: ${TABLE}.date ;;
   }
 
