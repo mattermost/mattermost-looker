@@ -30,6 +30,24 @@ view: dates {
     type: date
   }
 
+  filter: last_day_of_month {
+    group_label: "Date Date"
+    type:  yesno
+    sql: EXTRACT(DAY FROM ${TABLE}."DATE" + interval '1 day') = 1 ;;
+  }
+
+  filter: last_day_of_fiscal_year {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-01-31' ;;
+  }
+
+  filter: first_day_of_fiscal_year {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE"} like '%-02-01' ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
