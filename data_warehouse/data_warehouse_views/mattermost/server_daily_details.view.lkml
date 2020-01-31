@@ -97,19 +97,32 @@ view: server_daily_details {
 
   # Measures
   measure: server_count {
-    description: "Use this for counting distinct Server ID's across many servers or an entire day. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    description: "Use this for counting distinct Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
     type: count_distinct
     sql: ${id} ;;
   }
 
+  measure: server_7days_count {
+    label: "Server >= 7 Days Old Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
+    type: count_distinct
+    sql: CASE WHEN current_date - ${server_fact.first_active_date} >= 7 then ${id} else null end;;
+  }
+
+  measure: server_w_active_users_count {
+    description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_count} > 0 THEN ${id} ELSE NULL END ;;
+  }
+
   measure: total_active_user_count {
-    description: "Use this for summing active user counts across many servers. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level."
+    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level."
     type: sum
     sql: ${active_user_count} ;;
   }
 
   measure: total_user_count {
-    description: "Use this for summing user counts across many servers."
+    description: "Use this for summing user counts across dimensions."
     type: sum
     sql: ${user_count} ;;
   }
