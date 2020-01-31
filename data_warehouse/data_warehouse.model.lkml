@@ -454,6 +454,7 @@ explore: arr {
     dates.date_fiscal_year,
     dates.date_month_full_date,
     dates.last_and_next_12mo,
+    dates.first_day_of_month,
     dates.last_day_of_month,
     dates.first_day_of_fiscal_year,
     dates.last_day_of_fiscal_year,
