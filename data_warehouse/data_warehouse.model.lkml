@@ -453,6 +453,8 @@ explore: arr {
     dates.date_fiscal_year,
     dates.date_month_full_date,
     dates.last_and_next_12mo,
+    dates.last_day_of_month,
+    dates.last_day_of_fiscal_year,
     opportunitylineitem.opportunitylineitem_core*,
     account.account_core*,
     opportunity.opportunity_core*
@@ -504,7 +506,9 @@ explore: server_fact {
   group_label: "General"
 }
 
-explore: dates {}
+explore: dates {
+  group_label: "Utility"
+}
 
 # BP: Method to hide an explore based on a user attribute
 # explore: test_full_financial {
