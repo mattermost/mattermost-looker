@@ -2,6 +2,7 @@ view: dates {
   sql_table_name: UTIL.DATES ;;
 
   filter: last_and_next_12mo {
+    group_label: "Date Date"
     sql: ${date_month_full_date} >= date_trunc('month',current_date()) - interval '12 month' AND ${date_month_full_date} <= date_trunc('month',current_date()) + interval '12 month'  ;;
     type: yesno
   }
@@ -28,6 +29,12 @@ view: dates {
     group_label: "Date Date"
     sql: date_trunc('month',${TABLE}."DATE") ;;
     type: date
+  }
+
+  filter: first_day_of_month {
+    group_label: "Date Date"
+    type:  yesno
+    sql: EXTRACT(DAY FROM ${TABLE}."DATE") = 1 ;;
   }
 
   filter: last_day_of_month {
