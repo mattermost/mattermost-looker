@@ -50,7 +50,7 @@ view: server_daily_details {
   dimension: user_count {
     description: "The count of all users provisioned to/associated with the server."
     type: number
-    sql: ${TABLE}.active_user_count ;;
+    sql: ${TABLE}.user_count ;;
   }
 
   dimension: version {
@@ -84,7 +84,14 @@ view: server_daily_details {
     label: "License ID"
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     type: string
-    sql: ${TABLE}.account_sfid ;;
+    sql: ${TABLE}.license_id ;;
+  }
+
+  dimension: license_status {
+    label: "License Status"
+    description: "Indicates whether the server is registered/paired with a licensed customer (If licensed status = 'licensed' else 'unlicensed)."
+    type: string
+    sql: case when ${license_id} is not null then 'licensed' else 'unlicensed' end ;;
   }
 
 
