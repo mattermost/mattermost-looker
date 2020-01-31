@@ -94,22 +94,74 @@ view: server_daily_details {
     sql: case when ${license_id} is not null then 'licensed' else 'unlicensed' end ;;
   }
 
+  dimension: server_status {
+    label: "Server Status"
+    description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
+    type: string
+    order_by_field: server_status_sort
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
+              when ${active_user_count} > 0 then  'Active Users > 0'
+              else 'No Active Users' end ;;
+  }
+
+  dimension: server_status_sort {
+    label: "Server Status"
+    description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
+    type: number
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 1
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 2
+              when ${active_user_count} > 0 then  3
+              else 4 end ;;
+    hidden: yes
+  }
+
+  dimension: server_age {
+    label: "Age (Days)"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
+    type: tier
+    style: integer
+    tiers: [0,31,61,91,181,366,731]
+    sql: datediff(day, ${server_fact.first_active_date}, ${logging_date}) ;;
+  }
+
 
   # Measures
   measure: server_count {
-    description: "Use this for counting distinct Server ID's across many servers or an entire day. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    description: "Use this for counting distinct Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
     type: count_distinct
     sql: ${id} ;;
   }
 
+  measure: server_7days_count {
+    label: "Server >= 7 Days Old Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${id} else null end;;
+  }
+
+  measure: server_7days_w_active_users_count {
+    label: "Server >=7 Days Old w/ Active Users Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${id} ELSE NULL END;;
+  }
+
+  measure: server_w_active_users_count {
+    label: "Server w/ Active Users Count"
+    description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_count} > 0 THEN ${id} ELSE NULL END ;;
+  }
+
   measure: total_active_user_count {
-    description: "Use this for summing active user counts across many servers. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level."
+    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level."
     type: sum
     sql: ${active_user_count} ;;
   }
 
   measure: total_user_count {
-    description: "Use this for summing user counts across many servers."
+    description: "Use this for summing user counts across dimensions."
     type: sum
     sql: ${user_count} ;;
   }
