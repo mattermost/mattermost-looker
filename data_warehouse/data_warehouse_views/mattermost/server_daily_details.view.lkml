@@ -102,7 +102,7 @@ view: server_daily_details {
     sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
               when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
               when ${active_user_count} > 0 then  '< 7 Days Old w/ Active Users'
-              else '<7 Days Old w/out Active Users' end ;;
+              else '< 7 Days Old w/out Active Users' end ;;
   }
 
   dimension: server_status_sort {
