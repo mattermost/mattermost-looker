@@ -26,7 +26,7 @@ view: _homepage {
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
             <br>
-            <div style="font-size: 15px">Handbook Links</div>
+            <div style="font-size: 15px">Handbook & Documentation Links</div>
               <ul>
                 <li>
                   <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" style="@{css_link_style};">Metrics Definitions</a>
@@ -36,6 +36,9 @@ view: _homepage {
                 </li>
                 <li>
                   <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" style="@{css_link_style}">Looker at Mattermost</a>
+                </li>
+                <li>
+                  <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" style="@{css_link_style}">Provide Feedback on Looker Dashboards</a>
                 </li>
               </ul>
             <div style="font-size: 15px">Content in Looker</div>
@@ -56,8 +59,8 @@ view: _homepage {
                 <div>Product</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/16" style="@{css_link_style}">NPS Dashboard</a></li>
-                  <li>TEDAU</li>
-                  <li>TEDAS</li>
+                  <li>TEDAU - Coming Soon!</li>
+                  <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS</a></li>
                 </ul>
               </li>
               <li>
@@ -67,6 +70,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">Downloads Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">Contact Us Requests Dashboard</li>
                   <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trial Requests Dashboard</a></li>
+                  <li>MQL Dashbord - Coming Soon!</li>
                 </ul>
               </li>
             </ul>
