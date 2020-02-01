@@ -67,6 +67,16 @@ view: dates {
     sql: ${TABLE}."DATE" like '%-01-31' OR ${TABLE}."DATE" like '%-04-30' OR ${TABLE}."DATE" like '%-07-31' OR ${TABLE}."DATE" like '%-10-31' ;;
   }
 
+  dimension: previous_current_future_month {
+    group_label: "Date Date"
+    sql: case
+          when date_trunc('month', ${TABLE}.date) > date_trunc('month', current_date()) then 'future'
+          when date_trunc('month', ${TABLE}.date) = date_trunc('month', current_date()) then 'current'
+          when date_trunc('month', ${TABLE}.date) < date_trunc('month', current_date()) then 'past'
+        end;;
+    type: string
+  }
+
   measure: count {
     type: count
     drill_fields: []
