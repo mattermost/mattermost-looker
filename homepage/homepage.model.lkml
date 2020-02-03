@@ -59,7 +59,7 @@ view: _homepage {
                 <div>Product</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/16" style="@{css_link_style}">NPS Dashboard</a></li>
-                  <li>TEDAU - Coming Soon!</li>
+                  <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS</a></li>
                 </ul>
               </li>
