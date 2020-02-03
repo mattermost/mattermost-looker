@@ -22,6 +22,10 @@ view: account_monthly_arr_deltas_by_type {
   dimension: account_name {
     type: string
     sql: ${account.name} ;;
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{account_sfid}}"
+    }
   }
 
   dimension: master_account_sfid {
@@ -32,6 +36,10 @@ view: account_monthly_arr_deltas_by_type {
   dimension: master_account_name {
     type: string
     sql: ${master_account.name} ;;
+    link: {
+      label: "Salesforce Master Account"
+      url: "@{salesforce_link}{{master_account_sfid}}"
+    }
   }
 
   dimension_group: month_end {
@@ -141,7 +149,7 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   set: arr_change_details {
-    fields: [month_end_date, master_account_name, master_account_sfid, account.name, account_sfid,
+    fields: [month_end_date, master_account_name, account_name,
              total_arr_delta, total_arr_new, total_arr_expansion, total_arr_contraction, total_arr_churn]
   }
 }
