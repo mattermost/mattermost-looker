@@ -120,7 +120,8 @@ view: lead {
       date,
       week,
       month,
-      quarter,
+      fiscal_quarter,
+      fiscal_year,
       year
     ]
     type: time
@@ -539,7 +540,48 @@ view: lead {
   dimension: status {
     sql: ${TABLE}.STATUS ;;
     type: string
+    order_by_field: status_order
   }
+
+  dimension: status_order {
+    case: {
+      when: {
+        sql: ${status} = 'Not a Lead';;
+        label: "0"
+      }
+      when: {
+        sql: ${status} = 'MCL';;
+        label: "1"
+      }
+      when: {
+        sql: ${status} = 'Recycle';;
+        label: "2"
+      }
+      when: {
+        sql: ${status} = 'MEL';;
+        label: "3"
+      }
+      when: {
+        sql: ${status} = 'MQL';;
+        label: "4"
+      }
+      when: {
+        sql: ${status} = 'SCL';;
+        label: "5"
+      }
+      when: {
+        sql: ${status} = 'QSC';;
+        label: "6"
+      }
+      when: {
+        sql: ${status} = 'QSO';;
+        label: "7"
+      }
+      else: "null"
+    }
+    type: string
+  }
+
 
   dimension: territory {
     sql: ${TABLE}.TERRITORY__C ;;
