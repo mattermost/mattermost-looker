@@ -116,6 +116,15 @@ view: server_daily_details {
     hidden: yes
   }
 
+  dimension: 7days_old {
+    label: "Server > 7 Days Status "
+    description: "Indicates whether the server is >= 7 days or < 7 days old."
+    type: string
+    sql: case when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  < 7 then '< 7 Days Old'
+              else null end ;;
+  }
+
   dimension: server_age {
     label: "Age (Days)"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
