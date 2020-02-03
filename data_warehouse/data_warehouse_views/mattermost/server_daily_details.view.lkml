@@ -100,9 +100,9 @@ view: server_daily_details {
     type: string
     order_by_field: server_status_sort
     sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
-              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
-              when ${active_user_count} > 0 then  'Active Users > 0'
-              else 'No Active Users' end ;;
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
+              when ${active_user_count} > 0 then  '< 7 Days Old w/ Active Users'
+              else '< 7 Days Old w/out Active Users' end ;;
   }
 
   dimension: server_status_sort {
@@ -114,6 +114,15 @@ view: server_daily_details {
               when ${active_user_count} > 0 then  3
               else 4 end ;;
     hidden: yes
+  }
+
+  dimension: 7days_old {
+    label: "Server > 7 Days Status "
+    description: "Indicates whether the server is >= 7 days or < 7 days old."
+    type: string
+    sql: case when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
+              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  < 7 then '< 7 Days Old'
+              else null end ;;
   }
 
   dimension: server_age {
