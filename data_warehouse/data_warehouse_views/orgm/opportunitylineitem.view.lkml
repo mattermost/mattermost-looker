@@ -403,6 +403,7 @@ view: opportunitylineitem {
     sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
+    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
   }
 
   measure: total_arr_per_seat {
