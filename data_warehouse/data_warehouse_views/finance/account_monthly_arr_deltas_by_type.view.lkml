@@ -71,6 +71,7 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   dimension: arr_type {
+    label: "ARR Type"
     sql: ${TABLE}."ARR_TYPE" ;;
     type: string
   }
