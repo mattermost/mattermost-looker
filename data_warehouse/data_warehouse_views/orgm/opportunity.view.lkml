@@ -48,6 +48,7 @@ view: opportunity {
       close_fiscal_quarter_of_year,
       close_fiscal_year,
       iswon,
+      stagename,
       probability,
       owner_name,
       csm_name,

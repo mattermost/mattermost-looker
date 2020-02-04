@@ -37,6 +37,7 @@ view: opportunitylineitem {
       sfid,
       product_name,
       start_date,
+      start_week,
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
@@ -298,6 +299,7 @@ view: opportunitylineitem {
     sql: ${TABLE}.start_date__c;;
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       year,

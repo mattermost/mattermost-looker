@@ -436,7 +436,7 @@ explore: nps_data {
 explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.is_closed_won};;
   extends: [opportunitylineitem]
 
   join: dates {
