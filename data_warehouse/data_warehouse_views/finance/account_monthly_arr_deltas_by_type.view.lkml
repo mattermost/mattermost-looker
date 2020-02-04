@@ -1,5 +1,5 @@
 view: account_monthly_arr_deltas_by_type {
-  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE ;;
+  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE_V2 ;;
   view_label: "Account Monthly ARR Changes"
 
   dimension: compound_primary {
@@ -68,6 +68,11 @@ view: account_monthly_arr_deltas_by_type {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."MONTH_START" ;;
+  }
+
+  dimension: arr_type {
+    sql: ${TABLE}."ARR_TYPE" ;;
+    type: string
   }
 
   measure: total_arr_churn {
@@ -149,7 +154,6 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   set: arr_change_details {
-    fields: [month_end_date, master_account_name, account_name,
-             total_arr_delta, total_arr_new, total_arr_expansion, total_arr_contraction, total_arr_churn]
+    fields: [month_end_date, master_account_name, account_name, arr_type, total_arr_delta]
   }
 }
