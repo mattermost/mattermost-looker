@@ -59,8 +59,8 @@ view: _homepage {
                 <div>Product</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/16" style="@{css_link_style}">NPS Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
                 </ul>
               </li>
               <li>
@@ -70,7 +70,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">Downloads Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">Contact Us Requests Dashboard</li>
                   <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trial Requests Dashboard</a></li>
-                  <li>MQL Dashbord - Coming Soon!</li>
+                  <li>MQL Dashboard - Coming Soon!</li>
                 </ul>
               </li>
             </ul>
