@@ -13,7 +13,6 @@ view: opportunity {
 
 
   dimension: original_opportunity_id__c {
-    primary_key: yes
     type: string
     sql: ${TABLE}."original_opportunity_id__c" ;;
   }
@@ -307,6 +306,7 @@ view: opportunity {
 
   dimension: sfid {
     type: string
+    primary_key: yes
     sql: ${TABLE}."sfid" ;;
   }
 
