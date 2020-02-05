@@ -37,6 +37,7 @@ view: opportunitylineitem {
       sfid,
       product_name,
       start_date,
+      start_week,
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
@@ -298,6 +299,7 @@ view: opportunitylineitem {
     sql: ${TABLE}.start_date__c;;
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       year,
@@ -385,15 +387,15 @@ view: opportunitylineitem {
   }
 
   measure: total_price {
-    label: "Total Contract Value"
+    label: "Total TCV"
     sql: ${totalprice} ;;
     type: sum
     value_format_name: "usd_0"
   }
 
   measure: total_acv {
-    label: "Total Annual Contract Value"
-    sql: ${arr} ;;
+    label: "Total ACV"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
   }
@@ -403,6 +405,7 @@ view: opportunitylineitem {
     sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
+    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
   }
 
   measure: total_arr_per_seat {
@@ -413,8 +416,15 @@ view: opportunitylineitem {
   }
 
   measure: total_price_per_seat {
-    label: "Total Contract Value per Seat"
+    label: "Total TCV per Seat"
     sql: ${total_price} / ${total_quantity} ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  measure: total_acv_per_seat {
+    label: "Total ACV per Seat"
+    sql: ${total_acv} / ${total_quantity} ;;
     type: number
     value_format_name: "usd_0"
   }

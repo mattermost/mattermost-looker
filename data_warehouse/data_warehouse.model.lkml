@@ -436,7 +436,7 @@ explore: nps_data {
 explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.is_closed_won};;
   extends: [opportunitylineitem]
 
   join: dates {
@@ -450,9 +450,17 @@ explore: arr {
     dates.date_day_of_month,
     dates.date_day_of_year,
     dates.date_month,
+    dates.date_fiscal_quarter,
     dates.date_fiscal_year,
-    dates.next_fiscal_year,
-    dates.previous_fiscal_year,
+    dates.date_month_full_date,
+    dates.last_and_next_12mo,
+    dates.first_day_of_month,
+    dates.last_day_of_month,
+    dates.previous_current_future_month,
+    dates.first_day_of_fiscal_year,
+    dates.last_day_of_fiscal_year,
+    dates.first_day_of_fiscal_quarter,
+    dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
     account.account_core*,
     opportunity.opportunity_core*
@@ -496,8 +504,23 @@ explore: github_contributions {
   }
 }
 
+explore: server_daily_details {
+  group_label: "General"
 
-explore: dates {}
+  join: server_fact {
+    sql_on: ${server_daily_details.id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: server_fact {
+  group_label: "General"
+}
+
+explore: dates {
+  group_label: "Utility"
+}
 
 # BP: Method to hide an explore based on a user attribute
 # explore: test_full_financial {

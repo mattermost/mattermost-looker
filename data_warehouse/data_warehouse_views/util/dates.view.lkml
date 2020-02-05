@@ -1,113 +1,80 @@
 view: dates {
   sql_table_name: UTIL.DATES ;;
 
+  filter: last_and_next_12mo {
+    group_label: "Date Date"
+    sql: ${date_month_full_date} >= date_trunc('month',current_date()) - interval '12 month' AND ${date_month_full_date} <= date_trunc('month',current_date()) + interval '12 month'  ;;
+    type: yesno
+  }
+
   dimension_group: date {
     type: time
     timeframes: [
-      raw,
       date,
       week,
       month,
-      day_of_month,
       quarter,
+      fiscal_quarter,
       fiscal_year,
+      year,
       day_of_year,
-      year
+      day_of_month
     ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;
   }
 
-  dimension_group: next {
-    type: time
-    timeframes: [fiscal_year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."DATE" + interval '1 year' ;;
+  dimension: date_month_full_date {
+    group_label: "Date Date"
+    sql: date_trunc('month',${TABLE}."DATE") ;;
+    type: date
   }
 
-  dimension_group: previous {
-    type: time
-    timeframes: [fiscal_year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."DATE" - interval '1 year' ;;
+  filter: first_day_of_month {
+    group_label: "Date Date"
+    type:  yesno
+    sql: EXTRACT(DAY FROM ${TABLE}."DATE") = 1 ;;
   }
 
-  dimension: day_num {
-    type: number
-    sql: ${TABLE}."DAY_NUM" ;;
+  filter: last_day_of_month {
+    group_label: "Date Date"
+    type:  yesno
+    sql: EXTRACT(DAY FROM ${TABLE}."DATE" + interval '1 day') = 1 ;;
   }
 
-  dimension: fiscal_month {
+  filter: last_day_of_fiscal_year {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-01-31' ;;
+  }
+
+  filter: first_day_of_fiscal_year {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-02-01' ;;
+  }
+
+  filter: first_day_of_fiscal_quarter {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-02-01' OR ${TABLE}."DATE" like '%-05-01' OR ${TABLE}."DATE" like '%-08-01' OR ${TABLE}."DATE" like '%-11-01' ;;
+  }
+
+  filter: last_day_of_fiscal_quarter {
+    group_label: "Date Date"
+    type:  yesno
+    sql: ${TABLE}."DATE" like '%-01-31' OR ${TABLE}."DATE" like '%-04-30' OR ${TABLE}."DATE" like '%-07-31' OR ${TABLE}."DATE" like '%-10-31' ;;
+  }
+
+  dimension: previous_current_future_month {
+    group_label: "Date Date"
+    sql: case
+          when date_trunc('month', ${TABLE}.date) > date_trunc('month', current_date()) then 'future'
+          when date_trunc('month', ${TABLE}.date) = date_trunc('month', current_date()) then 'current'
+          when date_trunc('month', ${TABLE}.date) < date_trunc('month', current_date()) then 'past'
+        end;;
     type: string
-    sql: ${TABLE}."FISCAL_MONTH" ;;
-  }
-
-  dimension: fiscal_quarter {
-    type: string
-    sql: ${TABLE}."FISCAL_QUARTER" ;;
-  }
-
-  dimension: fiscal_year {
-    type: number
-    sql: ${TABLE}."FISCAL_YEAR" ;;
-  }
-
-  dimension_group: month {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."MONTH_DATE" ;;
-  }
-
-  dimension: month_name_short_string {
-    type: string
-    sql: ${TABLE}."MONTH_NAME_SHORT_STRING" ;;
-  }
-
-  dimension: month_name_string {
-    type: string
-    sql: ${TABLE}."MONTH_NAME_STRING" ;;
-  }
-
-  dimension: month_num {
-    type: number
-    sql: ${TABLE}."MONTH_NUM" ;;
-  }
-
-  dimension: month_num_string {
-    type: string
-    sql: ${TABLE}."MONTH_NUM_STRING" ;;
-  }
-
-  dimension_group: year {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."YEAR_DATE" ;;
-  }
-
-  dimension: year_num {
-    type: number
-    sql: ${TABLE}."YEAR_NUM" ;;
   }
 
   measure: count {
