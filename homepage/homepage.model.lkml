@@ -10,6 +10,7 @@ explore: _return_to_homepage {
   hidden: yes
 }
 
+# Based on comments found in https://discourse.looker.com/t/custom-looker-home-page-labs-feature/2821/17
 view: _homepage {
   # This table does not matter, just need to be valid
   sql_table_name: orgm.account ;;
