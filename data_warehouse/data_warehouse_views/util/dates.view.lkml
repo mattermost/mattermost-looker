@@ -67,6 +67,25 @@ view: dates {
     sql: ${TABLE}."DATE" like '%-01-31' OR ${TABLE}."DATE" like '%-04-30' OR ${TABLE}."DATE" like '%-07-31' OR ${TABLE}."DATE" like '%-10-31' ;;
   }
 
+  dimension_group: next {
+     type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      quarter,
+      fiscal_quarter,
+      fiscal_year,
+      year,
+      day_of_year,
+      day_of_month
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."DATE" + interval '1 day' ;;
+  }
+
+
   dimension: previous_current_future_month {
     group_label: "Date Date"
     sql: case
