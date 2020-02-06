@@ -61,11 +61,6 @@ view: opportunitylineitem {
   # Dimensions
   #
 
-  dimension: is_closed_won {
-    sql: ${TABLE}.closedwon__c;;
-    type: yesno
-  }
-
   dimension: createdbyid {
     label: "Created By ID"
     sql: ${TABLE}.createdbyid;;
