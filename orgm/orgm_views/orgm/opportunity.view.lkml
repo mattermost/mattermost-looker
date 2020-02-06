@@ -239,6 +239,11 @@ view: opportunity {
     sql: ${TABLE}."original_opportunityid__c" ;;
   }
 
+  dimension: ownerid {
+    type: string
+    sql: ${TABLE}."ownerid" ;;
+  }
+
   dimension: probability {
     type: number
     sql: ${TABLE}."probability" ;;
