@@ -109,14 +109,14 @@ view: master_account_monthly_arr_deltas_by_type {
   measure: count_arr_contraction_accounts {
     label: "Count ARR Norm Contraction Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" < 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
   }
 
   measure: count_arr_churn_accounts {
     label: "Count ARR Norm Churn Master Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CHURN" > 0 then ${master_account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CHURN" < 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
   }
 

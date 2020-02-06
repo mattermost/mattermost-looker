@@ -143,14 +143,14 @@ view: account_monthly_arr_deltas_by_type {
   measure: count_arr_contraction_accounts {
     label: "Count ARR Contraction Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" > 0 then ${account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_churn_accounts {
     label: "Count ARR Churn Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CHURN" > 0 then ${account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CHURN" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
