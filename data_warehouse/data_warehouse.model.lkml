@@ -135,6 +135,62 @@ explore: opportunitylineitem {
   }
 }
 
+explore: account {
+  group_label: "Salesforce"
+  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX')
+    AND ${opportunity.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
+
+  join: opportunity {
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+
+  join: product2 {
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    view_label: "Account CSM"
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+}
+
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
