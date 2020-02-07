@@ -100,7 +100,7 @@ explore: opportunitylineitem {
   view_name: opportunitylineitem
   label: "Line Item to Account"
   group_label: "Salesforce"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 AND ${opportunity.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
   extends: [ _base_account_explore ]
 
   join: opportunity {
@@ -136,8 +136,6 @@ explore: opportunitylineitem {
 
 explore: account {
   group_label: "Salesforce"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX')
-    AND ${opportunity.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -195,7 +193,6 @@ explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
   group_label: "ARR"
   extends: [ _base_account_explore ]
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: master_account {
     from: account
@@ -215,7 +212,6 @@ explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
   hidden: yes
   group_label: "ARR"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: account {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
@@ -264,7 +260,6 @@ explore: account_daily_arr_deltas {
   hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
   extends: [ _base_account_explore ]
 
   join: account {
@@ -309,7 +304,6 @@ explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
   hidden: yes
   group_label: "ARR"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: account {
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
