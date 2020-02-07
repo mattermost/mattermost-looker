@@ -14,8 +14,6 @@ explore: opportunity_snapshot {
 
 explore: account {
   group_label: "zHeroku Postgres OrgM"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX')
-  AND ${opportunity.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -45,8 +43,6 @@ explore: product_line_item {
   group_label: "zHeroku Postgres OrgM"
   from: opportunitylineitem
   view_name: opportunitylineitem
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX')
-                    AND ${opportunity.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
