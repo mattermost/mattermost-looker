@@ -286,7 +286,7 @@ view: opportunity {
 
   dimension: last_modified_by_id {
     type: string
-    sql: ${TABLE}."lastmodifiedbyid" ;;
+    sql: ${TABLE}.lastmodifiedbyid ;;
   }
 
   dimension_group: last_modified {
@@ -299,7 +299,7 @@ view: opportunity {
       year,
       fiscal_year
     ]
-    sql: ${TABLE}."lastmodifieddate" ;;
+    sql: ${TABLE}.lastmodifieddate ;;
   }
 
 
