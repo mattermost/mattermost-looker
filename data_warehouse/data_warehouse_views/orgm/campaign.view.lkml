@@ -134,7 +134,7 @@ view: campaign {
   }
 
   dimension: hierarchy_number_of_converted_leads {
-    group_item_label: "# of Convered Leads"
+    group_item_label: "# of Converted Leads"
     group_label: "Hierarchy"
     sql: ${TABLE}.HIERARCHYNUMBEROFCONVERTEDLEADS ;;
     type: number

@@ -361,6 +361,7 @@ view: lead {
   }
 
   dimension: lead_number {
+    label: "Lead #"
     sql: ${TABLE}.LEAD_NUMBER__C ;;
     type: string
   }
