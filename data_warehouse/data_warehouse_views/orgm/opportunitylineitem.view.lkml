@@ -125,13 +125,12 @@ view: opportunitylineitem {
   dimension_group: last_modified {
     sql: ${TABLE}.lastmodifieddate;;
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
     ]
     type: time
   }

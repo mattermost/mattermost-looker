@@ -284,6 +284,25 @@ view: opportunity {
     type: yesno
   }
 
+  dimension: last_modified_by_id {
+    type: string
+    sql: ${TABLE}."lastmodifiedbyid" ;;
+  }
+
+  dimension_group: last_modified {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}."lastmodifieddate" ;;
+  }
+
+
   dimension_group: lead_created {
     # description: "TODO"
     sql: ${TABLE}.lead_created_date__c ;;

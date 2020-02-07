@@ -126,6 +126,25 @@ view: opportunity {
     sql: ${TABLE}."iswon" ;;
   }
 
+  dimension: lastmodifiedbyid {
+    type: string
+    sql: ${TABLE}."lastmodifiedbyid" ;;
+  }
+
+  dimension_group: lastmodifieddate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."lastmodifieddate" ;;
+  }
+
   dimension_group: lead_created_date__c {
     type: time
     timeframes: [
