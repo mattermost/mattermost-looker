@@ -39,8 +39,7 @@ view: downloads {
   }
 
   measure: download_count {
-    type: sum
-    sql: ${TABLE}."COUNT" ;;
+    type: count
   }
 
 }
