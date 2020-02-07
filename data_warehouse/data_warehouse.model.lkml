@@ -69,7 +69,6 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 explore: _base_account_explore {
   extension: required
   # ALL SALES OPS PEOPLE REMOVED
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: account {
     # NOTE: foreign key is not set and must be set by the extending explore
@@ -264,6 +263,7 @@ explore: account_daily_arr_deltas {
   hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
+  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
   extends: [ _base_account_explore ]
 
   join: account {
@@ -360,7 +360,6 @@ explore: master_account_daily_arr_deltas {
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
-  sql_always_where: ${account.ownerid} NOT IN ('0051R00000GtqGGQAZ','0051R00000GobEDQAZ','00536000009vNItAAM','0051R00000HTExJQAX') ;;
 
   join: created_by {
     from: user
