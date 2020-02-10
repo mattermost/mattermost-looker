@@ -47,7 +47,16 @@ view: opportunity {
       close_month,
       close_fiscal_quarter_of_year,
       close_fiscal_year,
+      license_start_date,
+      license_start_month,
+      license_start_fiscal_quarter_of_year,
+      license_start_fiscal_year,
+      license_end_date,
+      license_end_month,
+      license_end_fiscal_quarter_of_year,
+      license_end_fiscal_year,
       iswon,
+      stagename,
       probability,
       owner_name,
       csm_name,
@@ -130,7 +139,7 @@ view: opportunity {
     timeframes: [
       date,
       month,
-#      fiscal_quarter,
+      fiscal_quarter,
       fiscal_quarter_of_year,
       year,
       fiscal_year
@@ -275,6 +284,25 @@ view: opportunity {
     type: yesno
   }
 
+  dimension: last_modified_by_id {
+    type: string
+    sql: ${TABLE}.lastmodifiedbyid ;;
+  }
+
+  dimension_group: last_modified {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.lastmodifieddate ;;
+  }
+
+
   dimension_group: lead_created {
     # description: "TODO"
     sql: ${TABLE}.lead_created_date__c ;;
@@ -335,6 +363,38 @@ view: opportunity {
     description: "Source of the opportunity, for example, Advertisement, Partner, or Web. Entry is selected from a picklist of available values, which are set by an administrator."
     sql: ${TABLE}.leadsource ;;
     type: string
+  }
+
+  dimension_group: license_end {
+    convert_tz: no
+    description: "Date when the license is ending"
+    sql: ${TABLE}.license_end_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
+  }
+
+  dimension_group: license_start {
+    convert_tz: no
+    description: "Date when the license is starting"
+    sql: ${TABLE}.license_start_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
   }
 
   dimension_group: mql {

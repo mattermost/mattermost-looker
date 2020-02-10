@@ -13,7 +13,6 @@ view: opportunity {
 
 
   dimension: original_opportunity_id__c {
-    primary_key: yes
     type: string
     sql: ${TABLE}."original_opportunity_id__c" ;;
   }
@@ -125,6 +124,25 @@ view: opportunity {
   dimension: iswon {
     type: yesno
     sql: ${TABLE}."iswon" ;;
+  }
+
+  dimension: lastmodifiedbyid {
+    type: string
+    sql: ${TABLE}."lastmodifiedbyid" ;;
+  }
+
+  dimension_group: lastmodifieddate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."lastmodifieddate" ;;
   }
 
   dimension_group: lead_created_date__c {
@@ -240,6 +258,11 @@ view: opportunity {
     sql: ${TABLE}."original_opportunityid__c" ;;
   }
 
+  dimension: ownerid {
+    type: string
+    sql: ${TABLE}."ownerid" ;;
+  }
+
   dimension: probability {
     type: number
     sql: ${TABLE}."probability" ;;
@@ -307,6 +330,7 @@ view: opportunity {
 
   dimension: sfid {
     type: string
+    primary_key: yes
     sql: ${TABLE}."sfid" ;;
   }
 

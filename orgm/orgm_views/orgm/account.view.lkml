@@ -1287,7 +1287,8 @@ view: account {
   }
 
   measure: count {
-    type: count
-    drill_fields: [account_id_18_digit__c, name]
+    type: count_distinct
+    sql: ${sfid} ;;
+    drill_fields: [sfid, name]
   }
 }

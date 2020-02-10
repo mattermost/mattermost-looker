@@ -1,5 +1,5 @@
 view: account_monthly_arr_deltas_by_type {
-  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE ;;
+  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE_V2 ;;
   view_label: "Account Monthly ARR Changes"
 
   dimension: compound_primary {
@@ -22,6 +22,10 @@ view: account_monthly_arr_deltas_by_type {
   dimension: account_name {
     type: string
     sql: ${account.name} ;;
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{account_sfid}}"
+    }
   }
 
   dimension: master_account_sfid {
@@ -32,6 +36,10 @@ view: account_monthly_arr_deltas_by_type {
   dimension: master_account_name {
     type: string
     sql: ${master_account.name} ;;
+    link: {
+      label: "Salesforce Master Account"
+      url: "@{salesforce_link}{{master_account_sfid}}"
+    }
   }
 
   dimension_group: month_end {
@@ -60,6 +68,12 @@ view: account_monthly_arr_deltas_by_type {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."MONTH_START" ;;
+  }
+
+  dimension: arr_type {
+    label: "ARR Type"
+    sql: ${TABLE}."ARR_TYPE" ;;
+    type: string
   }
 
   measure: total_arr_churn {
@@ -129,19 +143,18 @@ view: account_monthly_arr_deltas_by_type {
   measure: count_arr_contraction_accounts {
     label: "Count ARR Contraction Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" > 0 then ${account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_churn_accounts {
     label: "Count ARR Churn Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_CHURN" > 0 then ${account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_CHURN" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   set: arr_change_details {
-    fields: [month_end_date, master_account_name, master_account_sfid, account.name, account_sfid,
-             total_arr_delta, total_arr_new, total_arr_expansion, total_arr_contraction, total_arr_churn]
+    fields: [month_end_date, master_account_name, account_name, arr_type, total_arr_delta]
   }
 }

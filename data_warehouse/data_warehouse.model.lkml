@@ -68,6 +68,7 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 
 explore: _base_account_explore {
   extension: required
+  # ALL SALES OPS PEOPLE REMOVED
 
   join: account {
     # NOTE: foreign key is not set and must be set by the extending explore
@@ -133,6 +134,60 @@ explore: opportunitylineitem {
   }
 }
 
+explore: account {
+  group_label: "Salesforce"
+
+  join: opportunity {
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+
+  join: product2 {
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    relationship: many_to_one
+    view_label: "Account CSM"
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+}
+
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes by Type"
@@ -147,8 +202,9 @@ explore: account_monthly_arr_deltas_by_type {
   }
 
   join: account {
+    view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
-    fields: []
+    fields: [account.customer_segmentation_tier]
   }
 }
 
@@ -156,6 +212,7 @@ explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
   hidden: yes
   group_label: "ARR"
+
   join: account {
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
     relationship: many_to_one
@@ -247,6 +304,7 @@ explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
   hidden: yes
   group_label: "ARR"
+
   join: account {
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
     relationship: many_to_one
@@ -453,6 +511,10 @@ explore: arr {
     dates.date_fiscal_quarter,
     dates.date_fiscal_year,
     dates.date_month_full_date,
+    dates.next_date,
+    dates.next_month,
+    dates.next_fiscal_quarter,
+    dates.next_fiscal_year,
     dates.last_and_next_12mo,
     dates.first_day_of_month,
     dates.last_day_of_month,

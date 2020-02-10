@@ -37,6 +37,7 @@ view: opportunitylineitem {
       sfid,
       product_name,
       start_date,
+      start_week,
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
@@ -59,11 +60,6 @@ view: opportunitylineitem {
   #
   # Dimensions
   #
-
-  dimension: is_closed_won {
-    sql: ${TABLE}.closedwon__c;;
-    type: yesno
-  }
 
   dimension: createdbyid {
     label: "Created By ID"
@@ -129,13 +125,12 @@ view: opportunitylineitem {
   dimension_group: last_modified {
     sql: ${TABLE}.lastmodifieddate;;
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
     ]
     type: time
   }
@@ -298,6 +293,7 @@ view: opportunitylineitem {
     sql: ${TABLE}.start_date__c;;
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       year,
@@ -403,6 +399,7 @@ view: opportunitylineitem {
     sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
+    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
   }
 
   measure: total_arr_per_seat {
