@@ -122,7 +122,9 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   measure: count {
-    type: count
+    label: "Account Count"
+    type: count_distinct
+    sql: ${account_sfid} ;;
     drill_fields: []
   }
 
