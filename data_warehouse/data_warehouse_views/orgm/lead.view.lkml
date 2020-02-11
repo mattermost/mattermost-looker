@@ -425,16 +425,250 @@ view: lead {
     type: yesno
   }
 
-  dimension_group: mql {
-    sql: ${TABLE}.MQL_DATE__C ;;
+  dimension_group: first_mcl {
+    sql: ${TABLE}.FIRST_MCL_DATE__C ;;
     timeframes: [
-      raw,
       time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_mcl {
+    sql: ${TABLE}.MOST_RECENT_MCL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_mel {
+    sql: ${TABLE}.MEL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_mel {
+    sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_mql {
+    sql: ${TABLE}.MQL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_mql {
+    sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_scl {
+    sql: ${TABLE}.FIRST_SCL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_scl {
+    sql: ${TABLE}.MOST_RECENT_SCL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_qsc {
+    sql: ${TABLE}.FIRST_QSC_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_qsc {
+    sql: ${TABLE}.MOST_RECENT_QSC_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_qso {
+    sql: ${TABLE}.FIRST_QSO_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_qso {
+    sql: ${TABLE}.MOST_RECENT_QSO_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_not_a_lead {
+    sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_pql {
+    sql: ${TABLE}.PQL_DATE__c ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension: first_pql_type {
+    sql: ${TABLE}.FIRST_PQL_TYPE__c ;;
+    type: string
+  }
+
+  dimension_group: most_recent_pql {
+    sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension: most_recent_pql_type {
+    sql: ${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
+    type: string
+  }
+
+  dimension_group: first_recycled {
+    sql: ${TABLE}.FIRST_RECYCLED_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_recycled {
+    sql: ${TABLE}.MOST_RECYCLED_QSO_DATE__C ;;
+    timeframes: [
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     type: time
   }
