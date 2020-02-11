@@ -1,12 +1,7 @@
 view: account {
   view_label: ""
   sql_table_name: orgm.account ;;
-  drill_fields: [account_id_18_digit__c]
-
-  dimension: account_id_18_digit__c {
-    type: string
-    sql: ${TABLE}."account_id_18_digit__c" ;;
-  }
+  drill_fields: [sfid]
 
   dimension: _hc_err {
     type: string
@@ -64,27 +59,6 @@ view: account {
     group_label: "System"
     label: "API ID"
   }
-
-  dimension: assigned_once_with_workflow__c {
-    type: yesno
-    sql: ${TABLE}."assigned_once_with_workflow__c" ;;
-    group_label: "System"
-    label: "Assigned Once with WF"
-
-  }
-
-  dimension: assigned_owner__c {
-    type: string
-    sql: ${TABLE}."assigned_owner__c" ;;
-    group_label: "Owner"
-    label: "Assigned Owner"
-  }
-
-  dimension: assigned_owner_id__c {
-    type: string
-    sql: ${TABLE}."assigned_owner_id__c" ;;
-    group_label: "Owner"
-    label: "Assigned Owner ID"  }
 
   dimension: billingcity {
     type: string
@@ -610,13 +584,6 @@ view: account {
     sql: ${TABLE}."masterrecordid" ;;
   }
 
-  dimension: mattermost_rep__c {
-    type: string
-    sql: ${TABLE}."mattermost_rep__c" ;;
-    group_label: "Owners"
-    label: "Mattermost Rep"
-  }
-
   dimension_group: max_closed_won_date__c {
     type: time
     timeframes: [
@@ -792,16 +759,6 @@ view: account {
     sql: ${TABLE}."numberofemployees" ;;
   }
 
-  dimension: obsoleteregion__c {
-    type: string
-    sql: ${TABLE}."obsoleteregion__c" ;;
-  }
-
-  dimension: obsoleteterritory__c {
-    type: string
-    sql: ${TABLE}."obsoleteterritory__c" ;;
-  }
-
   dimension: offer__c {
     type: string
     sql: ${TABLE}."offer__c" ;;
@@ -843,7 +800,7 @@ view: account {
     label: "Parent Account ID"
   }
 
-  dimension: parent_account_name {
+  dimension: master_account_name {
     type: string
     sql: coalesce(${parent_account.name},${name}) ;;
   }

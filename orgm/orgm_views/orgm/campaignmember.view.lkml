@@ -188,20 +188,6 @@ view: campaignmember {
     sql: ${TABLE}."firstname" ;;
   }
 
-  dimension_group: firstrespondeddate {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."firstrespondeddate" ;;
-  }
 
   dimension: g2k_rank__c {
     type: number

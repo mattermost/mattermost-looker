@@ -118,13 +118,13 @@ view: campaignmember {
   dimension_group: first_responded_on {
     sql: ${TABLE}.FIRST_RESPONDED_ON__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
       quarter,
-      year
+      fiscal_quarter,
+      year,
+      fiscal_year
     ]
     type: time
   }
@@ -132,20 +132,6 @@ view: campaignmember {
   dimension: firstname {
     sql: ${TABLE}.FIRSTNAME ;;
     type: string
-  }
-
-  dimension_group: first_responded {
-    sql: ${TABLE}.FIRSTRESPONDEDDATE ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
   }
 
   dimension: g2_k_rank {
