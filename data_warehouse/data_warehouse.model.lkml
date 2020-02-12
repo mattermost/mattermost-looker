@@ -303,12 +303,12 @@ explore: account_daily_arr_deltas {
 
 explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
-  view_label: "Daily Master Account ARR Changes"
+  view_label: "Master Account Daily ARR Deltas"
   hidden: yes
   group_label: "ARR"
 
   join: account {
-    view_label: "Daily Master Account ARR Changes"
+    view_label: "Master Account Daily ARR Deltas"
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
     relationship: many_to_one
     fields: [name, sfid]
