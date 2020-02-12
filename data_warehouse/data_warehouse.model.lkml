@@ -257,10 +257,15 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
-  hidden: yes
+  # hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
   extends: [ _base_account_explore ]
+
+  join: account_monthly_arr_deltas_by_type {
+    sql_on: ${account_monthly_arr_deltas_by_type.account_sfid} = ${account_daily_arr_deltas.account_sfid} AND ${account_monthly_arr_deltas_by_type.month_start_month} = ${account_daily_arr_deltas.new_day_month};;
+    relationship: many_to_one
+  }
 
   join: account {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
