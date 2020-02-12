@@ -257,7 +257,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
-  # hidden: yes
+  hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
   extends: [ _base_account_explore ]
