@@ -262,15 +262,11 @@ explore: account_daily_arr_deltas {
   view_label: "Account Daily ARR Deltas"
   extends: [ _base_account_explore ]
 
-  join: account_monthly_arr_deltas_by_type {
-    sql_on: ${account_monthly_arr_deltas_by_type.account_sfid} = ${account_daily_arr_deltas.account_sfid} AND ${account_monthly_arr_deltas_by_type.month_start_month} = ${account_daily_arr_deltas.new_day_month};;
-    relationship: many_to_one
-  }
-
   join: account {
+    view_label: "Account Daily ARR Deltas"
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
-    fields: [name]
+    fields: [name,sfid]
   }
 
   join: master_account {
