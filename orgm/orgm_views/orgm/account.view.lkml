@@ -17,6 +17,14 @@ view: account {
     label: "HC Last Op"
   }
 
+  dimension: dwh_external_id__c {
+    type: string
+    sql: ${TABLE}."dwh_external_id__c" ;;
+    group_label: "System"
+    label: "DWH External ID"
+  }
+
+
   dimension: account_number__c {
     type: string
     sql: ${TABLE}."account_number__c" ;;
