@@ -328,6 +328,14 @@ view: account {
     type: string
   }
 
+  dimension: dwh_external_id__c {
+    type: string
+    sql: ${TABLE}."dwh_external_id__c" ;;
+    group_label: "System"
+    label: "DWH External ID"
+  }
+
+
   dimension_group: e_purchase {
     sql: ${TABLE}.e_purchase_date__c ;;
     timeframes: [
