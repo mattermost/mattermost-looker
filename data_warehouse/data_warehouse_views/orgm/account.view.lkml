@@ -216,13 +216,6 @@ view: account {
     type: string
   }
 
-  dimension: csm_territory {
-    group_label: "CS"
-    label: "CS Territory"
-    sql: ${TABLE}.csm_territory__c ;;
-    type: string
-  }
-
   dimension: customer_churned {
     group_label: "CS"
     sql: ${TABLE}.customer_churned__c ;;
@@ -964,14 +957,6 @@ view: account {
     type: string
   }
 
-  dimension: renewal_rep {
-    group_label: "Owners"
-    label: "Renewal Rep"
-    sql: ${TABLE}.renewal_rep__c ;;
-    type: string
-    ##ditch
-  }
-
   dimension_group: request_a_quote {
     sql: ${TABLE}.request_a_quote_date__c ;;
     timeframes: [
@@ -1140,18 +1125,6 @@ view: account {
   #   type: string
   # }
 
-  # dimension: testimonial_2 {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_2__c ;;
-  #   type: string
-  # }
-
-  # dimension: testimonial_2_from {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_2_from__c ;;
-  #   type: string
-  # }
-
   dimension: ticker_symbol {
     sql: ${TABLE}.tickersymbol ;;
     type: string
@@ -1206,27 +1179,6 @@ view: account {
     ]
     type: time
   }
-
-#   TODO: These don't exist in the db
-#   dimension_group: video_case_study {
-#     convert_tz: no
-#     datatype: date
-#     sql: ${TABLE}.video_case_study_date__c ;;
-#     timeframes: [
-#       raw,
-#       date,
-#       week,
-#       month,
-#       quarter,
-#       year
-#     ]
-#     type: time
-#   }
-#
-#   dimension: video_case_study_link {
-#     sql: ${TABLE}.video_case_study_link__c ;;
-#     type: string
-#   }
 
   dimension: website {
     sql: ${TABLE}.website ;;

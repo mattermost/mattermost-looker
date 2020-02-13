@@ -239,7 +239,7 @@ explore: master_account_monthly_arr_deltas_by_type {
   }
 
   join: opportunity {
-    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.is_won};;
+    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.iswon};;
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
@@ -277,7 +277,7 @@ explore: account_daily_arr_deltas {
   }
 
   join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.is_won};;
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.iswon};;
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }
@@ -321,7 +321,7 @@ explore: master_account_daily_arr_deltas {
   }
 
   join: opportunity {
-    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.is_won};;
+    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.iswon};;
     relationship: one_to_many
     fields: [opportunity.name, opportunity.sfid]
   }

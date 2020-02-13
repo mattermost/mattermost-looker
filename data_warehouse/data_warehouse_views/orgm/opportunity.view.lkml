@@ -256,7 +256,7 @@ view: opportunity {
   }
 
   # BP: use is_ for yes/no fields
-  dimension: is_closed {
+  dimension: isclosed {
     # description: "TODO"
     sql: ${TABLE}.isclosed ;;
     type: yesno
@@ -264,7 +264,7 @@ view: opportunity {
     group_label: "Closed"
   }
 
-  dimension: is_deleted {
+  dimension: isdeleted {
     description: "Indicates whether this opportunity has been moved to the Recycle Bin (yes) or not (no)."
     sql: ${TABLE}.isdeleted ;;
     label: "Deleted?"
@@ -276,12 +276,6 @@ view: opportunity {
     sql: ${TABLE}.iswon ;;
     label: "Closed Won?"
     group_label: "Closed"
-  }
-
-  dimension: is_won {
-    description: "Directly controlled by StageName. You can query and filter on this field, but you can’t directly set the value. It can only be set via StageName. Label is Won."
-    sql: ${TABLE}.iswon ;;
-    type: yesno
   }
 
   dimension: last_modified_by_id {
@@ -367,7 +361,7 @@ view: opportunity {
 
   dimension_group: license_end {
     convert_tz: no
-    description: "Date when the license is ending"
+    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
     sql: ${TABLE}.license_end_date__c ;;
     timeframes: [
       date,
@@ -383,7 +377,7 @@ view: opportunity {
 
   dimension_group: license_start {
     convert_tz: no
-    description: "Date when the license is starting"
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
     sql: ${TABLE}.license_start_date__c ;;
     timeframes: [
       date,
@@ -414,7 +408,7 @@ view: opportunity {
   }
 
   dimension: name {
-    description: "Name of the opportunity, for example, Acme.com - Office Equipment Order. Up to 120 characters are allowed in this field."
+    description: "Name of the Opportunity"
     sql: ${TABLE}.name ;;
     type: string
     link: {
@@ -596,7 +590,7 @@ view: opportunity {
   }
 
   dimension: sfid {
-    label: "Oppt. ID"
+    label: "Opportunity SFID"
     primary_key: yes
     # description: "TODO"
     sql: ${TABLE}.sfid ;;
@@ -620,11 +614,11 @@ view: opportunity {
   dimension: status_wlo {
     case: {
       when: {
-        sql: ${is_won};;
+        sql: ${iswon};;
         label: "Won"
       }
       when: {
-        sql: ${is_closed};;
+        sql: ${isclosed};;
         label: "Lost"
       }
       else: "Open"
@@ -634,7 +628,7 @@ view: opportunity {
   }
 
   dimension: type {
-    description: "Type of opportunity, for example, Existing Business or New Business. Entry is selected from a picklist of available values, which are set by an administrator."
+    description: "Type of Opportunity. For example, New, Renewal, etc."
     label: "Type"
     sql: ${TABLE}.type ;;
     type: string
@@ -657,9 +651,10 @@ view: opportunity {
   measure: count {
     description: "The total number of opportunities"
     # BP
+    sql: ${sfid} ;;
     drill_fields: [opportunity_drill_fields_long*]
     label: "# of Opportunities"
-    type: count
+    type: count_distinct
   }
 
   measure: total_amount {
