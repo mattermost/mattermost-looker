@@ -43,7 +43,7 @@ view: account {
       owner_name,
       ownerid,
       csm_name,
-      parent_account_name,
+      master_account_name,
       count,
       csm_enriched_region,
       customer_segmentation_tier
@@ -55,29 +55,10 @@ view: account {
   # Dimensions
   #
 
-  dimension: account_id_18_digit {
-    sql: ${TABLE}.account_id_18_digit__c ;;
-    group_label: "Ditch"
-  }
-
   dimension: account_number {
     label: "Account #"
     sql: ${TABLE}.account_number__c ;;
     type: string
-  }
-
-  dimension: account_end_date {
-    label: "Account End Date"
-    sql: ${TABLE}.account_end_date__c ;;
-    type: date
-    group_label: "Ditch"
-  }
-
-  dimension: account_start_date {
-    label: "Account Start Date"
-    sql: ${TABLE}.account_start_date__c ;;
-    type: date
-    group_label: "Ditch"
   }
 
   dimension: account_source {
@@ -108,12 +89,14 @@ view: account {
     group_label: "Owners"
     sql: ${TABLE}.assigned_owner__c ;;
     type: string
+    ##ditch
   }
 
   dimension: assigned_owner_id {
     group_label: "Owners"
     sql: ${TABLE}.assigned_owner_id__c ;;
     type: string
+    ##ditch
   }
 
   dimension: billing_city {
@@ -200,6 +183,7 @@ view: account {
     group_label: "Owners"
     sql: ${TABLE}.commercial_rep__c ;;
     type: string
+    ##ditch
   }
 
   dimension: company_type {
@@ -225,31 +209,10 @@ view: account {
     type: date
   }
 
-  dimension: csm {
-    group_label: "Owners"
-    label: "CSM Name"
-    sql: ${TABLE}.csm__c ;;
-    type: string
-  }
-
-  dimension: csm_auto_assigned {
+  dimension: csm_lookup {
     group_label: "CS"
-    label: "CSM Auto-assigned"
-    sql: ${TABLE}.csm_auto_assigned__c ;;
-    type: string
-  }
-
-  dimension: csm_id {
-    group_label: "Owners"
-    label: "CSM ID"
-    sql: ${TABLE}.csm_id__c ;;
-    type: string
-  }
-
-  dimension: csm_override {
-    group_label: "CS"
-    label: "CSM Override"
-    sql: ${TABLE}.csm_override__c ;;
+    label: "CSM Owner"
+    sql: ${TABLE}.csm_lookup__c ;;
     type: string
   }
 
@@ -359,6 +322,7 @@ view: account {
     group_label: "Owners"
     sql: ${TABLE}.field_rep__c ;;
     type: string
+    ##ditch
   }
 
   dimension: first_channel {
@@ -507,6 +471,7 @@ view: account {
       year
     ]
     type: time
+    ##ditch
   }
 
   dimension_group: last_activity {
@@ -848,40 +813,10 @@ view: account {
     type: yesno
   }
 
-  dimension: number_of_open_opportunities {
-    label: "# of Open Opportunities"
-    sql: ${TABLE}.number_of_open_opportunities__c ;;
-    type: number
-  }
-
-  dimension: number_of_opportunities {
-    label: "# of Opportunities"
-    sql: ${TABLE}.number_of_opportunities__c ;;
-    type: number
-  }
-
-  dimension: number_of_won_opportunities {
-    label: "# of Won Opportunities"
-    sql: ${TABLE}.number_of_won_opportunities__c ;;
-    type: number
-  }
-
   dimension: number_of_employees {
     label: "# of Employees"
     sql: ${TABLE}.numberofemployees ;;
     type: number
-  }
-
-  dimension: obsolete_region {
-    sql: ${TABLE}.obsoleteregion__c ;;
-    type: string
-    group_label: "Ditch"
-  }
-
-  dimension: obsolete_territory {
-    sql: ${TABLE}.obsoleteterritory__c ;;
-    type: string
-    group_label: "Ditch"
   }
 
   dimension: offer {
@@ -919,7 +854,7 @@ view: account {
 
   dimension: csm_name {
     group_label: "Owners"
-    label: "CSM Name (based on id)"
+    label: "CSM Name"
     sql: ${account_csm.name};;
     type: string
   }
@@ -937,7 +872,7 @@ view: account {
     type: string
   }
 
-  dimension: parent_account_name {
+  dimension: master_account_name {
     label: "Master Account"
     sql: coalesce(${parent_account.name}, ${name}) ;;
     type: string
@@ -1020,14 +955,11 @@ view: account {
   dimension: csm_enriched_region {
     label: "CSM Enriched Region"
     sql: CASE
-              WHEN left(${csm_id},15) = '0051R00000I5RZB' THEN 'EMEA'
-              WHEN left(${csm_id},15) = '0051R00000GnXMs' THEN 'East'
-              WHEN left(${csm_id},15) = '00536000009uaDQ' THEN 'West/APAC'
-              WHEN left(${csm_id},15) = '0051R00000HTEzF' THEN 'Global Self-Service'
-              WHEN left(${csm_id},15) = '0051R00000Gnded' THEN 'Fed'
-              WHEN ${csm} in ('Jenn Lawler','jenn lawler','Jenn lawler') THEN 'West/APAC'
-              WHEN ${csm} in ('Jeff Johnson','Jeff johnson') THEN 'Global Self-Service'
-              WHEN ${csm} in ('Sasa Cosic') THEN 'EMEA'
+              WHEN ${csm_lookup} = '0051R00000I5RZBQA3' THEN 'EMEA'
+              WHEN ${csm_lookup} = '0051R00000GnXMsQAN' THEN 'East'
+              WHEN ${csm_lookup} = '00536000009uaDQAAY' THEN 'West/APAC'
+              WHEN ${csm_lookup} = '0051R00000HTEzFQAX' THEN 'Global Self-Service'
+              WHEN ${csm_lookup} = '0051R00000GndedQAB' THEN 'Fed'
               ELSE NULL END ;;
     type: string
   }
@@ -1037,6 +969,7 @@ view: account {
     label: "Renewal Rep"
     sql: ${TABLE}.renewal_rep__c ;;
     type: string
+    ##ditch
   }
 
   dimension_group: request_a_quote {
@@ -1415,17 +1348,6 @@ view: account {
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct
-  }
-
-
-  #
-  # Hidden Fields (Used for derived values or joins)
-  #
-
-  dimension: account_number_int {
-    hidden:  yes
-    sql: ${TABLE}.account_number_int__c ;;
-    type: number
   }
 
 }

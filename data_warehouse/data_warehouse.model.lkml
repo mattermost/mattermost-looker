@@ -78,7 +78,7 @@ explore: _base_account_explore {
 
   join: account_csm {
     from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     view_label: "Account CSM"
   }
@@ -154,7 +154,7 @@ explore: account {
 
   join: account_csm {
     from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     view_label: "Account CSM"
   }
@@ -232,9 +232,9 @@ explore: master_account_monthly_arr_deltas_by_type {
     relationship: many_to_one
   }
 
-  join: csm_account_owner {
+  join: account_csm {
     from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
@@ -347,9 +347,9 @@ explore: master_account_daily_arr_deltas {
     relationship: many_to_one
   }
 
-  join: csm_account_owner {
+  join: account_csm {
     from: user
-    sql_on: left(${account.csm_id},15) = left(${csm_account_owner.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
@@ -416,7 +416,7 @@ explore: lead {
   join: account_csm {
     view_label: "Account CSM"
     from: user
-    sql_on: coalesce(left(${account.csm_override},15),left(${account.csm_id},15)) = left(${account_csm.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -485,7 +485,7 @@ explore: nps_data {
 
   join: account_csm {
     from: user
-    sql_on: left(${account.csm_id},15) = left(${account_csm.sfid},15) ;;
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     fields: []
   }
