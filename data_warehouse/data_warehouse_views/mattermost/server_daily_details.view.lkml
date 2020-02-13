@@ -3,10 +3,10 @@ view: server_daily_details {
   view_label: "Server Daily Details"
 
   # Dimensions
-  dimension: id {
+  dimension: server_id {
     description: "The unique server ID for each telemetry-enabled active server."
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.server_id ;;
   }
 
   dimension_group: logging {
@@ -139,28 +139,28 @@ view: server_daily_details {
   measure: server_count {
     description: "Use this for counting distinct Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
     type: count_distinct
-    sql: ${id} ;;
+    sql: ${server_id} ;;
   }
 
   measure: server_7days_count {
     label: "Server >= 7 Days Old Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${id} else null end;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
   }
 
   measure: server_7days_w_active_users_count {
     label: "Server >=7 Days Old w/ Active Users Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${id} ELSE NULL END;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
   }
 
   measure: server_w_active_users_count {
     label: "Server w/ Active Users Count"
     description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${active_user_count} > 0 THEN ${id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: total_active_user_count {

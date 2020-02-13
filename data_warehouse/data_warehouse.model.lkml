@@ -573,7 +573,7 @@ explore: server_daily_details {
   group_label: "General"
 
   join: server_fact {
-    sql_on: ${server_daily_details.id} = ${server_fact.server_id} ;;
+    sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
     fields: []
