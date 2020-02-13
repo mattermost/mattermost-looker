@@ -139,6 +139,7 @@ view: opportunitylineitem {
     label: "Line Item ID"
     sql: ${TABLE}.lineitemid__c;;
     type: string
+    ##ditch
   }
 
   dimension: list_price {
@@ -147,12 +148,18 @@ view: opportunitylineitem {
   }
 
   dimension: name {
-    sql: ${TABLE}.name;;
+    description: "Name of the Opportunity Line Item"
+    sql: ${TABLE}.name ;;
     type: string
+    link: {
+      url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity Line Item"
+    }
+    label: "Name"
   }
 
   dimension: opportunityid {
-    # hidden: yes
+    hidden: yes
     label: "Opportunity ID"
     sql: ${TABLE}.opportunityid;;
     type: string
@@ -166,7 +173,7 @@ view: opportunitylineitem {
 
   dimension: product2id {
     label: "Product2 ID"
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.product2id;;
     type: string
   }
@@ -186,6 +193,7 @@ view: opportunitylineitem {
       year
     ]
     type: time
+    ##ditch
   }
 
   dimension: product_line_type {
@@ -203,6 +211,7 @@ view: opportunitylineitem {
       year
     ]
     type: time
+    ##ditch
   }
 
   dimension: product_type {
@@ -276,10 +285,14 @@ view: opportunitylineitem {
   }
 
   dimension: sfid {
-    label: "Opport. Line Item ID"
+    label: "Opportunity Line Item SFID"
     primary_key: yes
     sql: ${TABLE}.sfid;;
     type: string
+    link: {
+      url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity Line Item"
+    }
   }
 
   dimension: sort_order {
@@ -376,8 +389,9 @@ view: opportunitylineitem {
 
   measure: count {
     label: "# of Opportunity Line Items"
+    sql: ${sfid} ;;
     drill_fields: [opportunity_line_item_drill_fields_detailed*]
-    type: count
+    type: count_distinct
   }
 
   measure: total_price {
