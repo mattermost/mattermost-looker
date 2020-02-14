@@ -1,5 +1,5 @@
 import re
-from looker_utils import model_api, query_api
+from looker_utils import model_api, query_api, do_on_all_explores
 
 
 # Regex to be used to grab the invalid identifier in sql error messages.
@@ -38,11 +38,15 @@ def is_dimension_match_for_invalid_identifier(dimension, invalid_identifier):
     return dimension['sql'].endswith(error_column_name.lower())
 
 
-def check_explore(model_name, explore_name):
+def check_explore(model, explore):
     '''
     A function which checks an individual explore for invalid identifiers.
     It does this by trying to run an explore with all dimensions selected and then 
     '''
+    model_name = model.name
+    explore_name = explore.name
+
+    # Get all fields from the explore
     explore = model_api.lookml_model_explore(model_name, explore_name)
 
     # Build a look up table 
@@ -107,23 +111,21 @@ def check_explore(model_name, explore_name):
                     print('*** Other unknown SQL error: {}'.format(resp))
 
 
-def check_all_explores():
+def check_explores_for_missing_fields():
     '''
     Loops over all the explores in a Looker instance and checks that there are no
     invalid identifiers in the LookML
     '''
-    models = model_api.all_lookml_models()
+    def func(model, explore):
+        print('Checking {}/{}'.format(model.name, explore.name))
+        check_explore(model, explore)
 
-    for model in models:
-        print('Doing Model: {}'.format(model.name))
-        for explore in model.explores:
-            print('Doing Explore: {}'.format(explore.name))
-            check_explore(model.name, explore.name)
+    do_on_all_explores(func)
 
 
 # Run the script
 if __name__ == '__main__':
-    check_all_explores()
+    check_explores_for_missing_fields()
 
     # Use the following code if you'd like to just check a single explore
     # check_explore('model_name', 'explore_name')

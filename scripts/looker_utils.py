@@ -35,3 +35,24 @@ client = looker.ApiClient(BASE_URL, 'Authorization', 'token ' + token.access_tok
 # Setup APIs
 model_api = looker.LookmlModelApi(client)
 query_api = looker.QueryApi(client)
+look_api = looker.LookApi(client)
+dashboard_api = looker.DashboardApi(client)
+
+
+def do_on_all_models(func, *args):
+    models = model_api.all_lookml_models()
+
+    for model in models:
+        func(model, *args)
+
+
+def do_on_all_explores(func, *args):
+    def loop_over_explores(model):
+        for explore in model.explores:
+            func(model, explore, *args)
+
+    do_on_all_models(loop_over_explores)
+
+
+# do_on_all_models(lambda model: print(model.name))
+# do_on_all_explores(lambda model, explore: print(model.name, explore.name))
