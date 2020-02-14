@@ -9,3 +9,6 @@ Ability to search Looks and Dashboard Tile URLs for a given string.  Helps with 
 https://mattermost.looker.com/dashboards-next/13?Remove+Staging+Data=-Joyce+Martinez
 
 `./cli.py search "nicol" --context_length=50`
+
+## Get publicly accessible Looks
+`./cli.py public_looks`

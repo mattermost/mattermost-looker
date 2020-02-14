@@ -4,6 +4,7 @@ from flask_script import Manager
 import pprint, os
 from find_missing_fields import check_explores_for_missing_fields
 from search import search_looker
+from looker_utils import look_api
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -37,6 +38,20 @@ def search(input_str, context_length=None):
         context_length = int(context_length)
 
     search_looker(input_str, context_length=context_length)
+
+
+@manager.command
+def public_looks():
+    '''
+    Finds public looks
+    '''
+    looks = look_api.all_looks()
+
+    # Loop over all the looks
+    for look in looks:
+        # look_details = look_api.look(look.id)
+        if look.public:
+            print('Look Title="{}", Look URL={}'.format(look.title, look.short_url))
 
 
 # @manager.command
