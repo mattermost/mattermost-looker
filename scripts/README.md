@@ -12,3 +12,6 @@ https://mattermost.looker.com/dashboards-next/13?Remove+Staging+Data=-Joyce+Mart
 
 ## Get publicly accessible Looks
 `./cli.py public_looks`
+
+## Validate the code in the project
+`./cli.py validate_project`

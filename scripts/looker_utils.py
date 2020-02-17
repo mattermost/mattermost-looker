@@ -37,6 +37,8 @@ model_api = looker.LookmlModelApi(client)
 query_api = looker.QueryApi(client)
 look_api = looker.LookApi(client)
 dashboard_api = looker.DashboardApi(client)
+content_api = looker.ContentApi(client)
+project_api = looker.ProjectApi(client)
 
 
 def do_on_all_models(func, *args):
