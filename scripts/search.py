@@ -1,6 +1,6 @@
 import re
 import urllib.parse
-from looker_utils import model_api, query_api, look_api, dashboard_api
+from looker_utils import looker_client
 
 # Get the queries being executed OR get the stored queries parameters
 
@@ -57,11 +57,11 @@ def search_looks(input_str, context_length=None):
     input_str = input_str.lower()
 
     # Get all the looks in the system
-    looks = look_api.all_looks()
+    looks = looker_client.all_looks()
 
     # Loop over all the looks
     for look in looks:
-        look_details = look_api.look(look.id)
+        look_details = looker_client.look(look.id)
         print_matches_for_url(look_details.url, input_str, 'Look Title="{}", Look URL={}'.format(look_details.title, look_details.short_url), context_length=context_length)
 
 
@@ -72,12 +72,12 @@ def search_dashboards(input_str, context_length=None):
     input_str = input_str.lower()
 
     # Get all the dashboards in the system
-    dashboards = dashboard_api.all_dashboards()
+    dashboards = looker_client.all_dashboards()
 
     # Loop over all the dashboards
     for dashboard in dashboards:
         # Get the dashboard details
-        dashboard_details = dashboard_api.dashboard(dashboard.id)
+        dashboard_details = looker_client.dashboard(dashboard.id)
 
         # Loop over the dashboard elements
         for e in dashboard_details.dashboard_elements:

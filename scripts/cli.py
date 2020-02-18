@@ -4,7 +4,7 @@ from flask_script import Manager
 import pprint, os
 from find_missing_fields import check_explores_for_missing_fields
 from search import search_looker
-from looker_utils import look_api, content_api, project_api
+from looker_utils import looker_client
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -45,7 +45,7 @@ def public_looks():
     '''
     Finds public looks
     '''
-    looks = look_api.all_looks()
+    looks = looker_client.all_looks()
 
     # Loop over all the looks
     for look in looks:
@@ -60,7 +60,7 @@ def validate_project():
     '''
     Finds problems with the data_warehouse project
     '''
-    validate_results = project_api.validate_project('data_warehouse')
+    validate_results = looker_client.validate_project('data_warehouse')
     print(validate_results)
 
 
@@ -69,8 +69,12 @@ def validate_content():
     '''
     Finds problems with content
     '''
-    print('TBD: validate_content coming when out of beta')
-    # content_validation = content_api.content_validation()
+    content_validation = looker_client.content_validation()
+    if content_validation.content_with_errors:
+        for e in content_validation.content_with_errors:
+            pp.pprint(e.look)
+    else:
+        print('No content validation errors')
 
 
 # @manager.command

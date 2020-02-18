@@ -1,5 +1,5 @@
 import re
-from looker_utils import model_api, query_api, do_on_all_explores
+from looker_utils import looker_client, do_on_all_explores
 
 
 # Regex to be used to grab the invalid identifier in sql error messages.
@@ -47,7 +47,7 @@ def check_explore(model, explore):
     explore_name = explore.name
 
     # Get all fields from the explore
-    explore = model_api.lookml_model_explore(model_name, explore_name)
+    explore = looker_client.lookml_model_explore(model_name, explore_name)
 
     # Build a look up table 
     dimensions = [{
@@ -70,7 +70,7 @@ def check_explore(model, explore):
             'limit':'1'
         }
 
-        resp = query_api.run_inline_query('txt', body)
+        resp = looker_client.run_inline_query('txt', body)
         # Look for an errors
         # resp_first_row = resp.split('\n')[0]
         error_found = False

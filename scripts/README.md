@@ -1,6 +1,16 @@
 ## Install Dependencies
 `pip install -r requirements.txt`
 
+## Setup Environment Vars
+Add the following environment variables to your terminal profile (eg ~/.bashrc).  Details for generating your credentials can be found at https://docs.looker.com/reference/api-and-integration/api-getting-started
+```
+# Looker Params Mattermost
+export LOOKERSDK_BASE_URL=https://mattermost.looker.com:19999
+export LOOKERSDK_CLIENT_ID=TODO
+export LOOKERSDK_CLIENT_SECRET=TODO
+export LOOKERSDK_TIMEOUT=300
+```
+
 ## Script to find missing fields
 `./cli.py find_missing_fields`
 
