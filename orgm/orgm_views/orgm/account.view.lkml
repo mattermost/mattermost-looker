@@ -214,6 +214,13 @@ view: account {
     group_label: "CS"
     label: "CS Territory"}
 
+  dimension: current_arr {
+    type: number
+    sql: ${TABLE}."arr_current__c" ;;
+    label: "Current ARR"
+    value_format_name: "usd_0"
+  }
+
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
