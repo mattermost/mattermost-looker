@@ -926,7 +926,7 @@ view: account {
     type: string
     sql: ${TABLE}."sfid" ;;
     group_label: "System"
-    label: "SFDC ID"
+    label: "Account SFID"
   }
 
   dimension: shippingcity {
