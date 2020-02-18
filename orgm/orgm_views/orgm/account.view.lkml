@@ -1170,6 +1170,13 @@ view: account {
     sql: ${TABLE}."x1stcontactusdate__c" ;;
   }
 
+  measure: arr_current {
+    type: sum
+    sql: ${TABLE}."arr_current__c" ;;
+    group_label: "Total"
+    label: "Current ARR"
+    value_format: "usd_0"
+  }
 
   measure: count {
     type: count_distinct
