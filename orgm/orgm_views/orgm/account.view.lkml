@@ -1175,7 +1175,7 @@ view: account {
     sql: ${TABLE}."arr_current__c" ;;
     group_label: "Total"
     label: "Current ARR"
-    value_format: "usd_0"
+    value_format_name: "usd_0"
   }
 
   measure: count {
