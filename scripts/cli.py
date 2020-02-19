@@ -72,7 +72,13 @@ def validate_content():
     content_validation = looker_client.content_validation()
     if content_validation.content_with_errors:
         for e in content_validation.content_with_errors:
-            pp.pprint(e.look)
+            if e.look:
+                print(e.look)
+            elif e.dashboard:
+                print(e.dashboard)
+            else:
+                print('Unknown validation type: {}'.format(e))
+
     else:
         print('No content validation errors')
 
