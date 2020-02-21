@@ -580,6 +580,11 @@ explore: server_daily_details {
   }
 }
 
+explore: delete_history {
+  view_label: "Delete History"
+  group_label: "Salesforce"
+}
+
 explore: server_fact {
   group_label: "General"
 }
