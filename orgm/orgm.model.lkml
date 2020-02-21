@@ -4,6 +4,12 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
+
+explore: delete_history {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+
 explore: opportunity {
   group_label: "zHeroku Postgres OrgM"
 }
