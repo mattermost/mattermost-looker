@@ -1,5 +1,5 @@
 view: account_monthly_arr_deltas_by_type {
-  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE ;;
+  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE_V2 ;;
   view_label: "Account Monthly ARR Changes"
 
   dimension: compound_primary {
@@ -74,6 +74,32 @@ view: account_monthly_arr_deltas_by_type {
     label: "ARR Type"
     sql: ${TABLE}."ARR_TYPE" ;;
     type: string
+    order_by_field: arr_type_order
+  }
+
+  dimension: arr_type_order {
+    case: {
+      when: {
+        label: "0"
+        sql: ${arr_type} = 'New ARR';;
+      }
+      when: {
+        label: "1"
+        sql: ${arr_type} = 'Expansion ARR';;
+      }
+      when: {
+        label: "2"
+        sql: ${arr_type} = 'Resurrected ARR';;
+      }
+      when: {
+        label: "3"
+        sql: ${arr_type} = 'Contraction ARR';;
+      }
+      when: {
+        label: "4"
+        sql: ${arr_type} = 'Churn ARR';;
+      }
+    }
   }
 
   measure: total_arr_churn {
@@ -107,6 +133,15 @@ view: account_monthly_arr_deltas_by_type {
     label: "Total ARR Expansion"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_EXPANSION" ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [arr_change_details*]
+  }
+
+  measure: total_arr_resurrected {
+    label: "Total ARR Resurrected"
+    type: sum
+    sql: ${TABLE}."TOTAL_ARR_RESURRECTED" ;;
     value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
