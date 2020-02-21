@@ -16,7 +16,7 @@ test: arr_for_fy2019 {
 
   assert: total_arr_expected_value {
     # Using the floor function here to just compare dollars, and ignore cents
-    expression: ${opportunitylineitem.total_arr} BETWEEN 12100000 AND 12200000;;
+    expression: ${opportunitylineitem.total_arr} > 12100000 AND ${opportunitylineitem.total_arr} < 12200000;;
   }
 }
 
