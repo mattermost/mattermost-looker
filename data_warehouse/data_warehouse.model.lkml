@@ -53,6 +53,7 @@ named_value_format: mm_integer_percent {
 #
 
 include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/cs/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
@@ -498,7 +499,7 @@ explore: nps_data {
 explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
   extends: [opportunitylineitem]
 
   join: dates {
@@ -587,6 +588,17 @@ explore: server_fact {
 
 explore: dates {
   group_label: "Utility"
+}
+
+
+explore: account_health_score {
+  label: "Account Health Score"
+  group_label: "Customer Success"
+  extends: [ _base_account_explore ]
+
+  join: account {
+    sql_on: ${account_health_score.account_sfid} = ${account.sfid} ;;
+  }
 }
 
 # BP: Method to hide an explore based on a user attribute
