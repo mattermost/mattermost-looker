@@ -214,6 +214,13 @@ view: account {
     group_label: "CS"
     label: "CS Territory"}
 
+  dimension: current_arr {
+    type: number
+    sql: ${TABLE}."arr_current__c" ;;
+    label: "Current ARR"
+    value_format_name: "usd_0"
+  }
+
   dimension: customer_churned__c {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
@@ -926,7 +933,7 @@ view: account {
     type: string
     sql: ${TABLE}."sfid" ;;
     group_label: "System"
-    label: "SFDC ID"
+    label: "Account SFID"
   }
 
   dimension: shippingcity {
@@ -1170,6 +1177,13 @@ view: account {
     sql: ${TABLE}."x1stcontactusdate__c" ;;
   }
 
+  measure: arr_current {
+    type: sum
+    sql: ${TABLE}."arr_current__c" ;;
+    group_label: "Total"
+    label: "Current ARR"
+    value_format_name: "usd_0"
+  }
 
   measure: count {
     type: count_distinct
