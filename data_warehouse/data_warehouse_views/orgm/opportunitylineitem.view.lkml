@@ -46,6 +46,7 @@ view: opportunitylineitem {
       length_days,
       quantity,
       product_line_type,
+      product_type,
       total_arr,
       totalprice,
       total_quantity,
