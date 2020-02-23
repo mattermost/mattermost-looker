@@ -37,7 +37,7 @@ test: END_ARR_FY18 {
       value: "Yes"
     }
     filters: {
-      field: dates.fiscal_year
+      field: dates.date_fiscal_year
       value: "2017/02/01"
     }
   }
@@ -89,7 +89,7 @@ test: END_ARR_FY19 {
       value: "Yes"
     }
     filters: {
-      field: dates.fiscal_year
+      field: dates.date_fiscal_year
       value: "2018/02/01"
     }
   }
@@ -141,7 +141,7 @@ test: END_ARR_FY20 {
       value: "Yes"
     }
     filters: {
-      field: dates.fiscal_year
+      field: dates.date_fiscal_year
       value: "2019/02/01"
     }
   }
