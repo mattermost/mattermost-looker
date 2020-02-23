@@ -6,7 +6,7 @@ view: server_daily_details {
   dimension: id {
     description: "The unique server ID for each telemetry-enabled active server."
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.server_id ;;
   }
 
   dimension_group: logging {
@@ -20,6 +20,11 @@ view: server_daily_details {
     description: "The hour in the day the server details were logged."
     type: number
     sql: ${TABLE}.hour ;;
+  }
+
+  dimension: in_security {
+    type: yesno
+    sql: ${TABLE}.in_security ;;
   }
 
   dimension: ip_address {
