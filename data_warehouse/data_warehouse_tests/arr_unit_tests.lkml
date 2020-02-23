@@ -21,7 +21,6 @@ test: BEGIN_ARR_FY18 {
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
     expression: ${opportunitylineitem.total_arr} > 1030000 AND ${opportunitylineitem.total_arr} < 1040000;;
   }
 
@@ -47,7 +46,6 @@ test: END_ARR_FY18 {
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
     expression: ${opportunitylineitem.total_arr} > 3870000   AND ${opportunitylineitem.total_arr} < 3900000;;
   }
 
@@ -73,7 +71,6 @@ test: BEGIN_ARR_FY19 {
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
     expression: ${opportunitylineitem.total_arr} > 3870000   AND ${opportunitylineitem.total_arr} < 3900000;;
   }
 
@@ -99,7 +96,6 @@ test: END_ARR_FY19 {
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
     expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 8210000;;
   }
 
@@ -147,12 +143,11 @@ test: END_ARR_FY20 {
   }
 
   assert: count_expected_value {
-    expression: ${account.count} = 529 ;;
+    expression: ${account.count} = 702 ;;
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
-    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 8210000;;
+    expression: ${opportunitylineitem.total_arr} > 15600000  AND ${opportunitylineitem.total_arr} < 15700000  ;;
   }
 
 }
@@ -173,12 +168,11 @@ test: BEGIN_ARR_FY21 {
   }
 
   assert: count_expected_value {
-    expression: ${account.count} = 529 ;;
+    expression: ${account.count} = 702 ;;
   }
 
   assert: total_arr_expected_value {
-    # Using the floor function here to just compare dollars, and ignore cents
-    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 8210000;;
+    expression: ${opportunitylineitem.total_arr} > 15600000  AND ${opportunitylineitem.total_arr} < 15700000  ;;
   }
 
 }
