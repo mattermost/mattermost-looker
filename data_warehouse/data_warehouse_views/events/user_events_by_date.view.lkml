@@ -4,16 +4,16 @@ view: user_events_by_date {
   view_label: "User Events By Date"
 
   # FILTERS
-  filter: system_admin {
+  filter: is_system_admin {
     description: "" 
-	type: yesno
+    type: yesno
     sql: ${TABLE}.{system_admin} ;;
     hidden: no
   }
 
-  filter: system_user {
+  filter: is_system_user {
     description: "" 
-	type: yesno
+    type: yesno
     sql: ${TABLE}.{system_user} ;;
     hidden: no
   }
