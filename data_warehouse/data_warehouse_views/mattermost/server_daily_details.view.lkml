@@ -157,8 +157,7 @@ view: server_daily_details {
     sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
   }
 
-  filter: in_security {
-    label: "TEDAS"
+  filter: is_telemetry_enabled {
     description: "Boolean indicating server is telemetry enabled."
     type: yesno
     sql: ${TABLE}.in_security ;;
