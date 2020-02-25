@@ -22,6 +22,11 @@ view: server_daily_details {
     sql: ${TABLE}.hour ;;
   }
 
+  dimension: in_security {
+    type: yesno
+    sql: ${TABLE}.in_security ;;
+  }
+
   dimension: ip_address {
     label: "IP Address"
     description: "The server's IP Address."
