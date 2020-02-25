@@ -99,8 +99,8 @@ view: server_daily_details {
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: string
     order_by_field: server_status_sort
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
-              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
+              when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
               when ${active_user_count} > 0 then  '< 7 Days Old w/ Active Users'
               else '< 7 Days Old w/out Active Users' end ;;
   }
@@ -109,8 +109,8 @@ view: server_daily_details {
     label: "Server Status"
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: number
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 1
-              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 2
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then 1
+              when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then 2
               when ${active_user_count} > 0 then  3
               else 4 end ;;
     hidden: yes
@@ -125,13 +125,38 @@ view: server_daily_details {
               else null end ;;
   }
 
+  dimension: days_since_first_telemetry_enabled {
+    type: number
+    sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+  }
+
+  dimension: days_since_first_telemetry_enabled_band {
+    type: tier
+    style: integer
+    tiers: [1, 8, 31, 61, 91, 366]
+    sql: ${days_since_first_telemetry_enabled} ;;
+  }
+
+  dimension_group: first_telemetry_enabled {
+    type: time
+    timeframes: [date, month, year]
+    sql: ${server_fact.first_telemetry_active_date}::date ;;
+  }
+
   dimension: server_age {
     label: "Age (Days)"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
-    sql: datediff(day, ${server_fact.first_active_date}, ${logging_date}) ;;
+    sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+  }
+
+  filter: in_security {
+    label: "TEDAS"
+    description: "Boolean indicating server is telemetry enabled."
+    type: yesno
+    sql: ${TABLE}.in_security ;;
   }
 
 
