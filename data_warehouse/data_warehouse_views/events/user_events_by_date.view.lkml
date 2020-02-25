@@ -1,4 +1,4 @@
-
+# This is the view file for the analytics.events.user_events_by_date table.
 view: user_events_by_date {
   sql_table_name: events.user_events_by_date ;;
   view_label: "User Events By Date"
