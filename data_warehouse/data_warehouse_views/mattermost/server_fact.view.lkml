@@ -24,17 +24,31 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
-    description: "The date the server was first active (first recorded telemetry enabled date)."
+    description: "The date the server was first active (first recorded instance of server appearing server logging data)."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.first_active_date ;;
   }
 
   dimension_group: last_active {
-    description: "The date the server was last active (last recorded telemetry enabled date)."
+    description: "The date the server was last active (last recorded instance of server appearing server logging data)."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.last_active_date ;;
+  }
+
+  dimension_group: first_telemetry_active {
+    description: "The date the server was first active (first recorded telemetry enabled date)."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.first_telemetry_active_date ;;
+  }
+
+  dimension_group: last_telemetry_active {
+    description: "The date the server was last active (last recorded telemetry enabled date)."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
   dimension: max_active_user_count {
