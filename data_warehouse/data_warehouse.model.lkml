@@ -653,5 +653,6 @@ explore: account_health_score {
 #   required_access_grants: [full_financial]
 # }
 explore: nps_user_monthly_score {
+  group_label: "General"
   label: "Nps User Monthly Score"
 }

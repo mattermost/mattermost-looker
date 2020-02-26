@@ -7,87 +7,88 @@ view: nps_user_monthly_score {
 
   # DIMENSIONS
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{server_id} ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{user_id} ;;
     hidden: no
   }
 
   dimension: user_role {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{user_role} ;;
     hidden: no
   }
 
   dimension: server_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{server_version} ;;
     hidden: no
   }
 
   dimension: nps_score {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.{nps_score} ;;
     hidden: no
   }
 
   dimension: license_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{license_id} ;;
     hidden: no
   }
 
   dimension: license_sku {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{license_sku} ;;
     hidden: no
   }
 
   dimension: promoter_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{promoter_type} ;;
     hidden: no
   }
 
   dimension: feedback {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{feedback} ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.{id} ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: month {
-    description: "" 
+    label: "NPS Logging"
+    description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [month, year]
     sql: ${TABLE}.{month} ;;
     hidden: no
   }
 
   dimension_group: score_submission_date {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.{score_submission_date} ;;
@@ -95,7 +96,7 @@ view: nps_user_monthly_score {
   }
 
   dimension_group: user_created_at {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.{user_created_at} ;;
@@ -103,7 +104,7 @@ view: nps_user_monthly_score {
   }
 
   dimension_group: server_install_date {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.{server_install_date} ;;
@@ -111,14 +112,14 @@ view: nps_user_monthly_score {
   }
 
   dimension_group: feedback_submission_date {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.{feedback_submission_date} ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -135,6 +136,12 @@ view: nps_user_monthly_score {
     description: "The distinct count of User Id's per grouping."
     type: count_distinct
     sql: ${user_id} ;;
+  }
+
+  measure: avg_nps_score {
+    description: "The average NPS score per grouped field."
+    type: average
+    sql: ${nps_score} ;;
   }
 
 
