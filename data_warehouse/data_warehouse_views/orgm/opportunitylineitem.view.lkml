@@ -35,6 +35,7 @@ view: opportunitylineitem {
   set: opportunitylineitem_core {
     fields: [
       sfid,
+      name,
       product_name,
       start_date,
       start_week,
@@ -50,6 +51,7 @@ view: opportunitylineitem {
       product_line_type,
       product_type,
       total_arr,
+      total_potential_arr,
       totalprice,
       total_quantity,
       total_arr_per_seat,
@@ -343,10 +345,18 @@ view: opportunitylineitem {
 
   dimension: arr {
     label: "ARR"
-    sql: 365*${totalprice}/${length_days} ;;
+    sql: case when ${opportunity.iswon} then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
+
+  dimension: potential_arr {
+    label: "Potential ARR"
+    sql: case when not ${opportunity.iswon} then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
 
   dimension: length_days {
     sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
@@ -417,6 +427,14 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
+  }
+
+  measure: total_potential_arr {
+    label: "Total Potential ARR"
+    sql: ${potential_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,potential_arr]
   }
 
   measure: total_arr_per_seat {
