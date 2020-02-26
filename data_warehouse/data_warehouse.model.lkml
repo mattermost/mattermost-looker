@@ -534,6 +534,46 @@ explore: arr {
   ]
 }
 
+explore: current_potential_arr {
+  label: "Current & Potential ARR Reporting"
+  hidden: yes
+  group_label: "ARR"
+  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.product_type} = 'Recurring';;
+  extends: [opportunitylineitem]
+
+  join: dates {
+    view_label: "ARR Date"
+    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    relationship: many_to_many
+  }
+
+  fields: [
+    dates.date_date,
+    dates.date_day_of_month,
+    dates.date_day_of_year,
+    dates.date_month,
+    dates.date_fiscal_quarter,
+    dates.date_fiscal_year,
+    dates.date_month_full_date,
+    dates.next_date,
+    dates.next_month,
+    dates.next_fiscal_quarter,
+    dates.next_fiscal_year,
+    dates.last_and_next_12mo,
+    dates.first_day_of_month,
+    dates.last_day_of_month,
+    dates.previous_current_future_month,
+    dates.first_day_of_fiscal_year,
+    dates.last_day_of_fiscal_year,
+    dates.first_day_of_fiscal_quarter,
+    dates.last_day_of_fiscal_quarter,
+    opportunitylineitem.opportunitylineitem_core*,
+    opportunitylineitem.total_potential_arr,
+    account.account_core*,
+    opportunity.opportunity_core*
+  ]
+}
+
 explore: campaign {
   group_label: "Salesforce"
   extends: [_base_account_explore]
