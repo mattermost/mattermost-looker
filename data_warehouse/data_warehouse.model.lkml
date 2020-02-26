@@ -251,7 +251,7 @@ explore: master_account_monthly_arr_deltas_by_type {
       AND (${opportunitylineitem.start_month} = ${master_account_monthly_arr_deltas_by_type.month_start_month});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr
     ]
   }
@@ -291,7 +291,7 @@ explore: account_daily_arr_deltas {
               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
  }
 
@@ -334,7 +334,7 @@ explore: master_account_daily_arr_deltas {
                OR ${opportunitylineitem.end_month} = ${master_account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
   }
 

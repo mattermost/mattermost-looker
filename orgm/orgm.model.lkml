@@ -26,6 +26,12 @@ explore: account {
     relationship: many_to_one
   }
 
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+  }
+
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
     relationship: many_to_one
@@ -58,6 +64,12 @@ explore: product_line_item {
   join: account {
     view_label: "Account"
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
