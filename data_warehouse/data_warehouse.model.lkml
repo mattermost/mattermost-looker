@@ -450,6 +450,11 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
+explore: daily_page_visits {
+  group_label: "Google Analytics"
+  label: "Daily Page Vistis"
+}
+
 explore: downloads {
   group_label: "General"
 }
