@@ -499,7 +499,7 @@ explore: nps_data {
 explore: arr {
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
+  sql_always_where: ${opportunitylineitem.length_days} <> 0;;
   extends: [opportunitylineitem]
 
   join: dates {

@@ -345,7 +345,7 @@ view: opportunitylineitem {
 
   dimension: arr {
     label: "ARR"
-    sql: case when ${opportunity.iswon} then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when ${opportunity.iswon} AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
