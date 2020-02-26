@@ -1,11 +1,5 @@
 view: daily_page_visits {
-  sql_table_name: "GA"."DAILY_PAGE_VISITS"
-    ;;
-
-  dimension: avg_time_on_page {
-    type: number
-    sql: ${TABLE}."AVGTIMEONPAGE" ;;
-  }
+  sql_table_name: "GA"."DAILY_PAGE_VISITS";;
 
   dimension_group: visit {
     type: time
@@ -29,18 +23,20 @@ view: daily_page_visits {
     sql: ${TABLE}."PAGETITLE" ;;
   }
 
-  dimension: page_views {
-    type: number
-    sql: ${TABLE}."PAGEVIEWS" ;;
-  }
-
   dimension: site {
     type: string
     sql: ${TABLE}."SITE" ;;
   }
 
+  measure: page_views {
+    type: sum
+    sql: ${TABLE}."PAGEVIEWS" ;;
+    description: "A pageview is reported when a page has been viewed by a user on the website"
+  }
+
   measure: unique_page_views {
     type: sum
     sql: ${TABLE}."UNIQUEPAGEVIEWS" ;;
+    description: "Counts a page once even if it was viewed multiple times within a single session."
   }
 }
