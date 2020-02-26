@@ -612,3 +612,7 @@ explore: account_health_score {
 #   group_label: "Test"
 #   required_access_grants: [full_financial]
 # }
+
+explore: user_events_by_date {
+  label: "User Events By Date"
+}
