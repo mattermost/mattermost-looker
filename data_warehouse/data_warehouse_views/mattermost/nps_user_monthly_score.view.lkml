@@ -9,70 +9,70 @@ view: nps_user_monthly_score {
   dimension: server_id {
     description: ""
     type: string
-    sql: ${TABLE}.{server_id} ;;
+    sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: user_id {
     description: ""
     type: string
-    sql: ${TABLE}.{user_id} ;;
+    sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: user_role {
     description: ""
     type: string
-    sql: ${TABLE}.{user_role} ;;
+    sql: ${TABLE}.user_role ;;
     hidden: no
   }
 
   dimension: server_version {
     description: ""
     type: string
-    sql: ${TABLE}.{server_version} ;;
+    sql: ${TABLE}.server_version ;;
     hidden: no
   }
 
   dimension: nps_score {
     description: ""
     type: number
-    sql: ${TABLE}.{nps_score} ;;
+    sql: ${TABLE}.nps_score ;;
     hidden: no
   }
 
   dimension: license_id {
     description: ""
     type: string
-    sql: ${TABLE}.{license_id} ;;
+    sql: ${TABLE}.license_id ;;
     hidden: no
   }
 
   dimension: license_sku {
     description: ""
     type: string
-    sql: ${TABLE}.{license_sku} ;;
+    sql: ${TABLE}.license_sku ;;
     hidden: no
   }
 
   dimension: promoter_type {
     description: ""
     type: string
-    sql: ${TABLE}.{promoter_type} ;;
+    sql: ${TABLE}.promoter_type ;;
     hidden: no
   }
 
   dimension: feedback {
     description: ""
     type: string
-    sql: ${TABLE}.{feedback} ;;
+    sql: ${TABLE}.feedback ;;
     hidden: no
   }
 
   dimension: id {
     description: ""
     type: string
-    sql: ${TABLE}.{id} ;;
+    sql: ${TABLE}.id ;;
     hidden: no
   }
 
@@ -82,8 +82,8 @@ view: nps_user_monthly_score {
     label: "NPS Logging"
     description: ""
     type: time
-    timeframes: [month, year]
-    sql: ${TABLE}.{month} ;;
+    timeframes: [date, month, year]
+    sql: ${TABLE}.month ;;
     hidden: no
   }
 
@@ -91,7 +91,7 @@ view: nps_user_monthly_score {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.{score_submission_date} ;;
+    sql: ${TABLE}.score_submission_date ;;
     hidden: no
   }
 
@@ -99,7 +99,7 @@ view: nps_user_monthly_score {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.{user_created_at} ;;
+    sql: ${TABLE}.user_created_at ;;
     hidden: no
   }
 
@@ -107,7 +107,7 @@ view: nps_user_monthly_score {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.{server_install_date} ;;
+    sql: ${TABLE}.server_install_date ;;
     hidden: no
   }
 
@@ -115,7 +115,7 @@ view: nps_user_monthly_score {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.{feedback_submission_date} ;;
+    sql: ${TABLE}.feedback_submission_date ;;
     hidden: no
   }
 
