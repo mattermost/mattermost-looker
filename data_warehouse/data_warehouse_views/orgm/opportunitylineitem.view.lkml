@@ -51,7 +51,6 @@ view: opportunitylineitem {
       product_line_type,
       product_type,
       total_arr,
-      total_potential_arr,
       totalprice,
       total_quantity,
       total_arr_per_seat,
@@ -352,7 +351,7 @@ view: opportunitylineitem {
 
   dimension: potential_arr {
     label: "Potential ARR"
-    sql: case when not ${opportunity.iswon} then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when not ${opportunity.isclosed} AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
