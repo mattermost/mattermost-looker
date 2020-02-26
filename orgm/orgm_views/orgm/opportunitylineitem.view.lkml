@@ -22,7 +22,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."createdbyid" ;;
   }
 
-  dimension_group: createddate {
+  dimension_group: created {
     type: time
     timeframes: [
       raw,
@@ -92,11 +92,6 @@ view: opportunitylineitem {
     sql: ${TABLE}."lastmodifieddate" ;;
   }
 
-  dimension: lineitemid {
-    type: string
-    sql: ${TABLE}."lineitemid__c" ;;
-  }
-
   dimension: listprice {
     type: number
     sql: ${TABLE}."listprice" ;;
@@ -144,52 +139,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."quantity" ;;
   }
 
-  dimension: recalculate_sales_price {
-    type: yesno
-    sql: ${TABLE}."recalculate_sales_price__c" ;;
-  }
-
-  dimension_group: renewal_end_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."renewal_end_date__c" ;;
-  }
-
-  dimension_group: renewal_start_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."renewal_start_date__c" ;;
-  }
-
-  dimension: revenue_type {
-    type: string
-    sql: ${TABLE}."revenue_type__c" ;;
-  }
-
-  dimension: sales_price_needs_to_be_updated {
-    type: yesno
-    sql: ${TABLE}."sales_price_needs_to_be_updated__c" ;;
-  }
-
-  dimension_group: servicedate {
+  dimension_group: service {
     type: time
     timeframes: [
       raw,
@@ -246,16 +196,6 @@ view: opportunitylineitem {
     sql: ${TABLE}."systemmodstamp" ;;
   }
 
-  dimension: term_months {
-    type: number
-    sql: ${TABLE}."term_months__c" ;;
-  }
-
-  dimension: total_price_with_annualized_expansion {
-    type: number
-    sql: ${TABLE}."total_price_with_annualized_expansion__c" ;;
-  }
-
   dimension: totalprice {
     label: "Total Price"
     type: number
@@ -294,12 +234,6 @@ view: opportunitylineitem {
     type: number
   }
 
-  dimension: arr_per_seat {
-    type: number
-    sql: ${arr}/${quantity} ;;
-    value_format_name: "usd"
-  }
-
   dimension: unitprice {
     type: number
     sql: ${TABLE}."unitprice" ;;
@@ -321,13 +255,6 @@ view: opportunitylineitem {
   measure: total_arr {
     label: "Total ARR"
     sql: ${arr} ;;
-    type: sum
-    value_format_name: "usd_0"
-  }
-
-  measure: total_arr_per_seat {
-    label: "Total ARR per Seat"
-    sql: ${arr_per_seat} ;;
     type: sum
     value_format_name: "usd_0"
   }

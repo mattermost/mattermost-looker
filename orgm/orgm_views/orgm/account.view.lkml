@@ -30,24 +30,6 @@ view: account {
     label: "Account #"
   }
 
-  dimension: account_number_int {
-    type: number
-    sql: ${TABLE}."account_number_int__c" ;;
-    hidden:  yes
-  }
-
-  dimension: account_end_date {
-    type: date
-    sql: ${TABLE}."account_end_date__c" ;;
-    label: "Account End Date"
-  }
-
-  dimension: account_start_date {
-    type: date
-    sql: ${TABLE}."account_start_date__c" ;;
-    label: "Account Start Date"
-  }
-
   dimension: accountsource {
     type: string
     sql: ${TABLE}."accountsource" ;;
@@ -58,13 +40,6 @@ view: account {
     type: number
     sql: ${TABLE}."annualrevenue" ;;
     label: "Annual Revenue"
-  }
-
-  dimension: api_id {
-    type: string
-    sql: ${TABLE}."api_id__c" ;;
-    group_label: "System"
-    label: "API ID"
   }
 
   dimension: billingcity {
@@ -140,11 +115,11 @@ view: account {
   }
 
   dimension: cleaned_up_website {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."cleaned_up_website__c" ;;
     group_label: "System"
     label: "Cleaned up Website"
-
   }
 
   dimension: commercial_rep {
@@ -161,6 +136,7 @@ view: account {
   }
 
   dimension: cosize {
+    #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."cosize__c" ;;
     label: "Company Size"
@@ -212,12 +188,6 @@ view: account {
     value_format_name: "usd_0"
   }
 
-  dimension: customer_churned {
-    type: yesno
-    sql: ${TABLE}."customer_churned__c" ;;
-    group_label: "CS"
-  }
-
   dimension: customer_segmentation_tier {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
@@ -237,12 +207,6 @@ view: account {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."date_of_issue__c" ;;
-  }
-
-  dimension: days_past_renewal {
-    type: number
-    sql: ${TABLE}."days_past_renewal__c" ;;
-    group_label: "CS"
   }
 
   dimension_group: demo_req_date {
@@ -300,6 +264,7 @@ view: account {
   }
 
   dimension: field_rep {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."field_rep__c" ;;
     group_label: "Owners"
@@ -590,21 +555,6 @@ view: account {
     sql: ${TABLE}."masterrecordid" ;;
   }
 
-  dimension_group: max_closed_won_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."max_closed_won_date__c" ;;
-  }
-
   dimension_group: meetingset_date {
     type: time
     timeframes: [
@@ -745,21 +695,6 @@ view: account {
     group_label: "Netsuite"
   }
 
-  dimension: number_of_open_opportunities {
-    type: number
-    sql: ${TABLE}."number_of_open_opportunities__c" ;;
-  }
-
-  dimension: number_of_opportunities {
-    type: number
-    sql: ${TABLE}."number_of_opportunities__c" ;;
-  }
-
-  dimension: number_of_won_opportunities {
-    type: number
-    sql: ${TABLE}."number_of_won_opportunities__c" ;;
-  }
-
   dimension: numberofemployees {
     type: number
     sql: ${TABLE}."numberofemployees" ;;
@@ -875,11 +810,13 @@ view: account {
   }
 
   dimension: region {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."region__c" ;;
   }
 
   dimension: renewal_rep {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."renewal_rep__c" ;;
     group_label: "Owners"
@@ -992,11 +929,6 @@ view: account {
     sql: ${TABLE}."sic" ;;
   }
 
-  dimension: sic_description {
-    type: string
-    sql: ${TABLE}."sic_description__c" ;;
-  }
-
   dimension: sicdesc {
     type: string
     sql: ${TABLE}."sicdesc" ;;
@@ -1013,11 +945,13 @@ view: account {
   }
 
   dimension: solution_architect_1 {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."solution_architect_1__c" ;;
   }
 
   dimension: solution_architect_2 {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."solution_architect_2__c" ;;
   }
@@ -1038,6 +972,7 @@ view: account {
   }
 
   dimension: territory {
+  #     TBD TO REMOVE
     type: string
     sql: ${TABLE}."territory__c" ;;
     group_label: "Region and Territory"
@@ -1108,11 +1043,6 @@ view: account {
     type: string
     sql: ${TABLE}."type" ;;
     label: "Account Type"
-  }
-
-  dimension: unique_accounts {
-    type: number
-    sql: ${TABLE}."unique_accounts__c" ;;
   }
 
   dimension_group: unqualified_date {

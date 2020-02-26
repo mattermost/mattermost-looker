@@ -9,7 +9,6 @@
 # - System
 # - Marketing
 # - Renewals
-# - Original Opportunity
 # - Forecast
 # - Closed
 # - Created
@@ -82,12 +81,6 @@ view: opportunity {
   #
   # Dimensions
   #
-
-  dimension: original_opportunity_id {
-    sql: ${TABLE}.original_opportunity_id__c ;;
-    type: string
-    group_label: "Original Opportunity"
-  }
 
   dimension: accountid {
     type: string
@@ -195,38 +188,14 @@ view: opportunity {
     label: "CSM Name"
   }
 
-  dimension: days_past_renewal {
-    # description: "TODO"
-    sql: ${TABLE}.days_past_renewal__c ;;
-    group_label: "Renewals"
-    type: number
-  }
-
-  dimension: days_past_renewal_tiers {
-    # description: "TODO"
-    sql: ${amount} ;;
-    style: relational
-    tiers: [30, 60, 90]
-    type: tier
-    group_label: "Renewals"
-  }
-
-  dimension: delta_amount {
-    # description: "TODO"
-    group_label: "Amounts"
-    sql: ${TABLE}.delta_amount__c ;;
-    type: number
-    value_format_name: mm_usd_short
-  }
-
-  dimension: expected_revenue {
+  dimension: expectedrevenue {
     description: "Calculated revenue based on the Amount and Probability fields."
     sql: ${TABLE}.expectedrevenue ;;
     type: number
     value_format_name: mm_usd_short
     group_label: "Amounts"
+    label: "Expected Revenue"
   }
-
 
   dimension: forecastcategory {
     type: string
@@ -235,24 +204,11 @@ view: opportunity {
     label: "Forecast Category"
   }
 
-  dimension: forecast_category_custom {
-    type: string
-    sql: ${TABLE}.forecast_category_custom__c ;;
-    group_label: "Forecast"
-    label: "Forecast Category Custom"
-  }
-
   dimension: forecastcategoryname {
     type: string
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecast"
     label: "Forecast Category Name"
-  }
-
-  dimension: geo {
-    type: string
-    sql: ${TABLE}.geo__c ;;
-    label: "Geo"
   }
 
   # BP: use is_ for yes/no fields
@@ -412,14 +368,6 @@ view: opportunity {
     label: "Name"
   }
 
-  dimension: new_expansion_total {
-    # description: "TODO"
-    sql: ${TABLE}.new_expansion_total__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Amount"
-  }
-
   dimension: new_logo {
     # description: "TODO"
     sql: ${TABLE}.new_logo__c ;;
@@ -434,45 +382,11 @@ view: opportunity {
     label: "Order Type"
   }
 
-  dimension: original_opportunity {
+  dimension: original_opportunity_sfid {
     # description: "TODO"
-    sql: ${TABLE}.original_opportunity__c ;;
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunityid__c ;;
     type: string
-    group_label: "Original Opportunity"
-  }
-
-  dimension: original_opportunity_amount {
-    # description: "TODO"
-    sql: ${TABLE}.original_opportunity_amount__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Original Opportunity"
-  }
-
-  dimension_group: original_opportunity_end {
-    type: time
-    # description: "TODO"
-    sql: ${TABLE}.original_opportunity_end_date__c ;;
-    timeframes: [
-      date,
-      month,
-      quarter,
-      year
-    ]
-    group_label: "Original Opportunity"
-  }
-
-  dimension: original_opportunity_length_in_months {
-    # description: "TODO"
-    group_label: "Original Opportunity"
-    sql: ${TABLE}.original_opportunity_length_in_months__c ;;
-    type: number
-  }
-
-  dimension: original_opportunityid {
-    group_label: "Original Opportunity"
-    sql: ${TABLE}.original_opportunityid__c ;;
-    type: string
+    label: "Original Opportunity SFID"
   }
 
   dimension: ownerid {
@@ -503,14 +417,6 @@ view: opportunity {
     label: "Prob %"
   }
 
-  dimension: renewal_amount_total {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_amount_total__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Renewals"
-  }
-
   dimension_group: renewal_created {
     type: time
     # description: "TODO"
@@ -521,13 +427,6 @@ view: opportunity {
       quarter,
       year
     ]
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_includes_leftover_expansion {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_includes_leftover_expansion__c ;;
-    type: string
     group_label: "Renewals"
   }
 
@@ -567,15 +466,6 @@ view: opportunity {
     group_label: "Renewals"
   }
 
-  dimension: renewed_by_opp_prob {
-    # description: "TODO"
-    label: "Renewed By Opportunity Probability"
-    sql: ${TABLE}.renewed_by_opp_prob__c ;;
-    type: number
-    value_format_name: mm_integer_percent
-    group_label: "Renewals"
-  }
-
   dimension: renewed_by_opportunity_id {
     # description: "TODO"
     sql: ${TABLE}.renewed_by_opportunity_id__c ;;
@@ -588,12 +478,6 @@ view: opportunity {
     primary_key: yes
     # description: "TODO"
     sql: ${TABLE}.sfid ;;
-    type: string
-  }
-
-  dimension: territory {
-    description: "Territory with which the opportunity is associated."
-    sql: ${TABLE}.territory__c ;;
     type: string
   }
 
@@ -680,30 +564,6 @@ view: opportunity {
     # description: "TODO"
     group_label: "Total Amounts"
     sql: ${amount_in_pipeline};;
-    type: sum
-    value_format_name: mm_usd_short
-  }
-
-  measure: total_delta_amount {
-    # description: "TODO"
-    group_label: "Total Amounts"
-    sql: ${delta_amount};;
-    type: sum
-    value_format_name: mm_usd_short
-  }
-
-  measure: total_original_opportunity_amount {
-    # description: "TODO"
-    group_label: "Total Amounts"
-    sql: ${original_opportunity_amount};;
-    type: sum
-    value_format_name: mm_usd_short
-  }
-
-  measure: total_renewal_amount_total {
-    # description: "TODO"
-    group_label: "Total Amounts"
-    sql: ${renewal_amount_total};;
     type: sum
     value_format_name: mm_usd_short
   }

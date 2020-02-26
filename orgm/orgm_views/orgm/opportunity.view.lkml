@@ -10,12 +10,6 @@ view: opportunity {
 
   }
 
-
-  dimension: original_opportunity_id {
-    type: string
-    sql: ${TABLE}."original_opportunity_id__c" ;;
-  }
-
   dimension: _hc_err {
     type: string
     sql: ${TABLE}."_hc_err" ;;
@@ -34,16 +28,6 @@ view: opportunity {
   dimension: amount {
     type: number
     sql: ${TABLE}."amount" ;;
-  }
-
-  dimension: amount_in_commit {
-    type: number
-    sql: ${TABLE}."amount_in_commit__c" ;;
-  }
-
-  dimension: amount_in_pipeline {
-    type: number
-    sql: ${TABLE}."amount_in_pipeline__c" ;;
   }
 
   dimension: campaignid {
@@ -90,11 +74,6 @@ view: opportunity {
     sql: ${TABLE}."createddate" ;;
   }
 
-  dimension: delta_amount {
-    type: number
-    sql: ${TABLE}."delta_amount__c" ;;
-  }
-
   dimension: expectedrevenue {
     type: number
     sql: ${TABLE}."expectedrevenue" ;;
@@ -139,7 +118,7 @@ view: opportunity {
     sql: ${TABLE}."lastmodifieddate" ;;
   }
 
-  dimension_group: lead_created_date {
+  dimension_group: lead_created {
     type: time
     timeframes: [
       raw,
@@ -212,39 +191,11 @@ view: opportunity {
     sql: ${TABLE}."order_type__c" ;;
   }
 
-  dimension: original_opportunity {
+  dimension: original_opportunity_sfid {
+    # description: "TODO"
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunityid__c ;;
     type: string
-    sql: ${TABLE}."original_opportunity__c" ;;
-  }
-
-  dimension: original_opportunity_amount {
-    type: number
-    sql: ${TABLE}."original_opportunity_amount__c" ;;
-  }
-
-  dimension_group: original_opportunity_end_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."original_opportunity_end_date__c" ;;
-  }
-
-  dimension: original_opportunity_length_in_months {
-    type: number
-    sql: ${TABLE}."original_opportunity_length_in_months__c" ;;
-  }
-
-  dimension: original_opportunityid {
-    type: string
-    sql: ${TABLE}."original_opportunityid__c" ;;
+    label: "Original Opportunity SFID"
   }
 
   dimension: ownerid {
@@ -255,11 +206,6 @@ view: opportunity {
   dimension: probability {
     type: number
     sql: ${TABLE}."probability" ;;
-  }
-
-  dimension: renewal_amount_total {
-    type: number
-    sql: ${TABLE}."renewal_amount_total__c" ;;
   }
 
   dimension_group: renewal_created_date {
@@ -275,11 +221,6 @@ view: opportunity {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."renewal_created_date__c" ;;
-  }
-
-  dimension: renewal_includes_leftover_expansion {
-    type: string
-    sql: ${TABLE}."renewal_includes_leftover_expansion__c" ;;
   }
 
   dimension: renewal_risk_amount {
@@ -305,11 +246,6 @@ view: opportunity {
   dimension: renewal_risk_status {
     type: string
     sql: ${TABLE}."renewal_risk_status__c" ;;
-  }
-
-  dimension: renewed_by_opp_prob {
-    type: number
-    sql: ${TABLE}."renewed_by_opp_prob__c" ;;
   }
 
   dimension: renewed_by_opportunity_id {
