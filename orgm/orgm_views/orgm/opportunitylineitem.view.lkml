@@ -3,7 +3,6 @@ view: opportunitylineitem {
   drill_fields: [id]
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}."id" ;;
   }
@@ -16,11 +15,6 @@ view: opportunitylineitem {
   dimension: _hc_lastop {
     type: string
     sql: ${TABLE}."_hc_lastop" ;;
-  }
-
-  dimension: closedwon__c {
-    type: yesno
-    sql: ${TABLE}."closedwon__c" ;;
   }
 
   dimension: createdbyid {
@@ -52,7 +46,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."discount" ;;
   }
 
-  dimension: discounted_unit_price__c {
+  dimension: discounted_unit_price {
     type: number
     sql: ${TABLE}."discounted_unit_price__c" ;;
   }
@@ -69,7 +63,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."end_date__c" ;;
   }
 
-  dimension: is_prorated_expansion__c {
+  dimension: is_prorated_expansion {
     type: string
     sql: ${TABLE}."is_prorated_expansion__c" ;;
   }
@@ -98,7 +92,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."lastmodifieddate" ;;
   }
 
-  dimension: lineitemid__c {
+  dimension: lineitemid {
     type: string
     sql: ${TABLE}."lineitemid__c" ;;
   }
@@ -130,42 +124,12 @@ view: opportunitylineitem {
     sql: ${TABLE}."product2id" ;;
   }
 
-  dimension_group: product_end_datef__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."product_end_datef__c" ;;
-  }
-
-  dimension: product_line_type__c {
+  dimension: product_line_type {
     type: string
     sql: ${TABLE}."product_line_type__c" ;;
   }
 
-  dimension_group: product_start_datef__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."product_start_datef__c" ;;
-  }
-
-  dimension: product_type__c {
+  dimension: product_type {
     type: string
     sql: ${TABLE}."product_type__c" ;;
   }
@@ -180,12 +144,12 @@ view: opportunitylineitem {
     sql: ${TABLE}."quantity" ;;
   }
 
-  dimension: recalculate_sales_price__c {
+  dimension: recalculate_sales_price {
     type: yesno
     sql: ${TABLE}."recalculate_sales_price__c" ;;
   }
 
-  dimension_group: renewal_end_date__c {
+  dimension_group: renewal_end_date {
     type: time
     timeframes: [
       raw,
@@ -200,7 +164,7 @@ view: opportunitylineitem {
     sql: ${TABLE}."renewal_end_date__c" ;;
   }
 
-  dimension_group: renewal_start_date__c {
+  dimension_group: renewal_start_date {
     type: time
     timeframes: [
       raw,
@@ -215,12 +179,12 @@ view: opportunitylineitem {
     sql: ${TABLE}."renewal_start_date__c" ;;
   }
 
-  dimension: revenue_type__c {
+  dimension: revenue_type {
     type: string
     sql: ${TABLE}."revenue_type__c" ;;
   }
 
-  dimension: sales_price_needs_to_be_updated__c {
+  dimension: sales_price_needs_to_be_updated {
     type: yesno
     sql: ${TABLE}."sales_price_needs_to_be_updated__c" ;;
   }
@@ -242,6 +206,7 @@ view: opportunitylineitem {
 
   dimension: sfid {
     type: string
+    primary_key: yes
     sql: ${TABLE}."sfid" ;;
   }
 
@@ -281,12 +246,12 @@ view: opportunitylineitem {
     sql: ${TABLE}."systemmodstamp" ;;
   }
 
-  dimension: term_months__c {
+  dimension: term_months {
     type: number
     sql: ${TABLE}."term_months__c" ;;
   }
 
-  dimension: total_price_with_annualized_expansion__c {
+  dimension: total_price_with_annualized_expansion {
     type: number
     sql: ${TABLE}."total_price_with_annualized_expansion__c" ;;
   }
@@ -306,8 +271,27 @@ view: opportunitylineitem {
   }
 
   dimension: length_days {
+    sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
     type: number
-    sql: ${end_date}-${start_date} ;;
+  }
+
+  dimension: leap_day_adjustment {
+    sql:
+        case when '2000-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2004-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2008-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2012-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2016-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2020-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2024-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2028-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2032-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2036-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2040-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2044-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end +
+        case when '2048-02-29'::date between ${TABLE}.start_date__c::date and ${TABLE}.end_date__c::date then 1 else 0 end
+        ;;
+    type: number
   }
 
   dimension: arr_per_seat {
@@ -352,11 +336,13 @@ view: opportunitylineitem {
   set: detail {
     fields: [
       id,
-      name,
-      opportunity.original_opportunity_id__c,
+      account.name,
       opportunity.name,
+      name,
       product2.name,
-      product2.id
+      quantity,
+      total_price,
+      arr
     ]
   }
 }

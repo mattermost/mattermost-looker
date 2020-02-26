@@ -31,11 +31,11 @@ view: opportunity {
   #
 
   set: opportunity_drill_fields {
-    fields: [original_opportunity_id, name]
+    fields: [sfid, name]
   }
 
   set: opportunity_drill_fields_long {
-    fields: [original_opportunity_id, name]
+    fields: [sfid, name]
     #opportunitylineitem.count
   }
 
@@ -125,7 +125,7 @@ view: opportunity {
     value_format_name: mm_usd_short
   }
 
-  dimension: campaign_id {
+  dimension: campaignid {
     description: "The ID of the campaign responsible for generating the opportunity."
     sql: ${TABLE}.campaignid ;;
     type: string
@@ -160,7 +160,7 @@ view: opportunity {
     type: string
   }
 
-  dimension: created_by_id {
+  dimension: createdbyid {
     description: "The ID of the user who created the opportunity"
     sql: ${TABLE}.createdbyid ;;
     type: string
@@ -278,12 +278,12 @@ view: opportunity {
     group_label: "Closed"
   }
 
-  dimension: last_modified_by_id {
+  dimension: lastmodifiedbyid {
     type: string
     sql: ${TABLE}.lastmodifiedbyid ;;
   }
 
-  dimension_group: last_modified {
+  dimension_group: lastmodified {
     type: time
     timeframes: [
       date,
@@ -351,12 +351,6 @@ view: opportunity {
     type: string
     sql: ${TABLE}.leadsource ;;
     group_label: "Marketing"
-  }
-
-  dimension: lead_source {
-    description: "Source of the opportunity, for example, Advertisement, Partner, or Web. Entry is selected from a picklist of available values, which are set by an administrator."
-    sql: ${TABLE}.leadsource ;;
-    type: string
   }
 
   dimension_group: license_end {
@@ -596,7 +590,6 @@ view: opportunity {
     sql: ${TABLE}.sfid ;;
     type: string
   }
-
 
   dimension: territory {
     description: "Territory with which the opportunity is associated."

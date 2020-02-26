@@ -17,33 +17,32 @@ view: account {
     label: "HC Last Op"
   }
 
-  dimension: dwh_external_id__c {
+  dimension: dwh_external_id {
     type: string
     sql: ${TABLE}."dwh_external_id__c" ;;
     group_label: "System"
     label: "DWH External ID"
   }
 
-
-  dimension: account_number__c {
+  dimension: account_number {
     type: string
     sql: ${TABLE}."account_number__c" ;;
     label: "Account #"
   }
 
-  dimension: account_number_int__c {
+  dimension: account_number_int {
     type: number
     sql: ${TABLE}."account_number_int__c" ;;
     hidden:  yes
   }
 
-  dimension: account_end_date__c {
+  dimension: account_end_date {
     type: date
     sql: ${TABLE}."account_end_date__c" ;;
     label: "Account End Date"
   }
 
-  dimension: account_start_date__c {
+  dimension: account_start_date {
     type: date
     sql: ${TABLE}."account_start_date__c" ;;
     label: "Account Start Date"
@@ -61,7 +60,7 @@ view: account {
     label: "Annual Revenue"
   }
 
-  dimension: api_id__c {
+  dimension: api_id {
     type: string
     sql: ${TABLE}."api_id__c" ;;
     group_label: "System"
@@ -128,19 +127,19 @@ view: account {
     group_label: "Billings"
   }
 
-  dimension: case_study_date__c {
+  dimension: case_study_date {
     sql: ${TABLE}."case_study_date__c" ;;
     group_label: "Marketing"
     label: "Case Study"
   }
 
-  dimension: case_study_link__c {
+  dimension: case_study_link {
     type: string
     sql: ${TABLE}."case_study_link__c" ;;
     group_label: "Marketing"
   }
 
-  dimension: cleaned_up_website__c {
+  dimension: cleaned_up_website {
     type: string
     sql: ${TABLE}."cleaned_up_website__c" ;;
     group_label: "System"
@@ -148,20 +147,20 @@ view: account {
 
   }
 
-  dimension: commercial_rep__c {
+  dimension: commercial_rep {
     type: string
     sql: ${TABLE}."commercial_rep__c" ;;
     group_label: "Owners"
     label: "Commercial Rep"
   }
 
-  dimension: company_type__c {
+  dimension: company_type {
     type: string
     sql: ${TABLE}."company_type__c" ;;
     label: "Company Type"
   }
 
-  dimension: cosize__c {
+  dimension: cosize {
     type: string
     sql: ${TABLE}."cosize__c" ;;
     label: "Company Size"
@@ -180,39 +179,31 @@ view: account {
     label: "Create Date"
   }
 
-  dimension: csm__c {
+  dimension: csm_lookup {
+    group_label: "CS"
+    label: "CSM Owner"
+    sql: ${TABLE}.csm_lookup__c ;;
     type: string
-    sql: ${TABLE}."csm__c" ;;
+  }
+
+  dimension: csm_name {
     group_label: "Owners"
     label: "CSM Name"
+    sql: ${account_csm.name};;
+    type: string
   }
 
-  dimension: csm_auto_assigned__c {
+  dimension: csm_enriched_region {
+    label: "CSM Enriched Region"
+    sql: CASE
+              WHEN ${csm_lookup} = '0051R00000I5RZBQA3' THEN 'EMEA'
+              WHEN ${csm_lookup} = '0051R00000GnXMsQAN' THEN 'East'
+              WHEN ${csm_lookup} = '00536000009uaDQAAY' THEN 'West/APAC'
+              WHEN ${csm_lookup} = '0051R00000HTEzFQAX' THEN 'Global Self-Service'
+              WHEN ${csm_lookup} = '0051R00000GndedQAB' THEN 'Fed'
+              ELSE NULL END ;;
     type: string
-    sql: ${TABLE}."csm_auto_assigned__c" ;;
-    group_label: "CS"
-    label: "CSM Auto-assigned"
   }
-
-  dimension: csm_id__c {
-    type: string
-    sql: ${TABLE}."csm_id__c" ;;
-    group_label: "Owners"
-    label: "CSM ID"
-  }
-
-  dimension: csm_override__c {
-    type: string
-    sql: ${TABLE}."csm_override__c" ;;
-    group_label: "CS"
-    label: "CSM Override"
-  }
-
-  dimension: csm_territory__c {
-    type: string
-    sql: ${TABLE}."csm_territory__c" ;;
-    group_label: "CS"
-    label: "CS Territory"}
 
   dimension: current_arr {
     type: number
@@ -221,19 +212,19 @@ view: account {
     value_format_name: "usd_0"
   }
 
-  dimension: customer_churned__c {
+  dimension: customer_churned {
     type: yesno
     sql: ${TABLE}."customer_churned__c" ;;
     group_label: "CS"
   }
 
-  dimension: customer_segmentation_tier__c {
+  dimension: customer_segmentation_tier {
     type: string
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
     group_label: "CS"
   }
 
-  dimension_group: date_of_issue__c {
+  dimension_group: date_of_issue {
     type: time
     timeframes: [
       raw,
@@ -248,13 +239,13 @@ view: account {
     sql: ${TABLE}."date_of_issue__c" ;;
   }
 
-  dimension: days_past_renewal__c {
+  dimension: days_past_renewal {
     type: number
     sql: ${TABLE}."days_past_renewal__c" ;;
     group_label: "CS"
   }
 
-  dimension_group: demo_req_date__c {
+  dimension_group: demo_req_date {
     type: time
     timeframes: [
       raw,
@@ -268,7 +259,7 @@ view: account {
     sql: ${TABLE}."demo_req_date__c" ;;
   }
 
-  dimension_group: deployonbitnamidate__c {
+  dimension_group: deployonbitnamidate {
     type: time
     timeframes: [
       raw,
@@ -289,7 +280,7 @@ view: account {
     label: "Account Description"
   }
 
-  dimension_group: e_purchase_date__c {
+  dimension_group: e_purchase_date {
     type: time
     timeframes: [
       raw,
@@ -308,26 +299,26 @@ view: account {
     sql: ${TABLE}."fax" ;;
   }
 
-  dimension: field_rep__c {
+  dimension: field_rep {
     type: string
     sql: ${TABLE}."field_rep__c" ;;
     group_label: "Owners"
     label: "Field Rep"
   }
 
-  dimension: first_channel__c {
+  dimension: first_channel {
     type: string
     sql: ${TABLE}."first_channel__c" ;;
     label: "First Channel"
   }
 
-  dimension: first_channel_detail__c {
+  dimension: first_channel_detail {
     type: string
     sql: ${TABLE}."first_channel_detail__c" ;;
     label: "First Channel"
   }
 
-  dimension_group: first_created_date__c {
+  dimension_group: first_created_date {
     type: time
     timeframes: [
       raw,
@@ -342,28 +333,28 @@ view: account {
     sql: ${TABLE}."first_created_date__c" ;;
   }
 
-  dimension: first_lead__c {
+  dimension: first_lead {
     type: string
     sql: ${TABLE}."first_lead__c" ;;
   }
 
-  dimension: first_lead_round_robin_id__c {
+  dimension: first_lead_round_robin_id {
     type: number
     value_format_name: id
     sql: ${TABLE}."first_lead_round_robin_id__c" ;;
   }
 
-  dimension: first_offer__c {
+  dimension: first_offer {
     type: string
     sql: ${TABLE}."first_offer__c" ;;
   }
 
-  dimension: first_offer_detail__c {
+  dimension: first_offer_detail {
     type: string
     sql: ${TABLE}."first_offer_detail__c" ;;
   }
 
-  dimension_group: followup_date__c {
+  dimension_group: followup_date {
     type: time
     timeframes: [
       raw,
@@ -377,24 +368,24 @@ view: account {
     sql: ${TABLE}."followup_date__c" ;;
   }
 
-  dimension: former_owner__c {
+  dimension: former_owner {
     type: string
     sql: ${TABLE}."former_owner__c" ;;
     group_label: "Owners"
     label: "Former Owner"
   }
 
-  dimension: g2k_rank__c {
+  dimension: g2k_rank {
     type: number
     sql: ${TABLE}."g2k_rank__c" ;;
   }
 
-  dimension: geo__c {
+  dimension: geo {
     type: string
     sql: ${TABLE}."geo__c" ;;
   }
 
-  dimension_group: getstarteddate__c {
+  dimension_group: getstarteddate {
     type: time
     timeframes: [
       raw,
@@ -409,7 +400,7 @@ view: account {
     sql: ${TABLE}."getstarteddate__c" ;;
   }
 
-  dimension: government__c {
+  dimension: government {
     type: yesno
     sql: ${TABLE}."government__c" ;;
   }
@@ -419,21 +410,21 @@ view: account {
     sql: ${TABLE}."id" ;;
   }
 
-  dimension: imported_case_study_note__c {
+  dimension: imported_case_study_note {
     type: string
     sql: ${TABLE}."imported_case_study_note__c" ;;
     group_label: "Imported"
     label: "Case Study Note"
   }
 
-  dimension: imported_industry__c {
+  dimension: imported_industry {
     type: string
     sql: ${TABLE}."imported_industry__c" ;;
     group_label: "Imported"
     label: "Industry"
   }
 
-  dimension: inbound_outbound__c {
+  dimension: inbound_outbound {
     type: string
     sql: ${TABLE}."inbound_outbound__c" ;;
   }
@@ -449,7 +440,7 @@ view: account {
     sql: ${TABLE}."isdeleted" ;;
   }
 
-  dimension_group: last_time_assignm_process_workflow_ran__c {
+  dimension_group: last_time_assignm_process_workflow_ran {
     type: time
     timeframes: [
       raw,
@@ -511,7 +502,7 @@ view: account {
     sql: ${TABLE}."lastreferenceddate" ;;
   }
 
-  dimension_group: lastreviewed__c {
+  dimension_group: lastreviewed {
     type: time
     timeframes: [
       raw,
@@ -540,7 +531,7 @@ view: account {
     sql: ${TABLE}."lastvieweddate" ;;
   }
 
-  dimension_group: lead_created_date__c {
+  dimension_group: lead_created_date {
     type: time
     timeframes: [
       raw,
@@ -554,42 +545,42 @@ view: account {
     sql: ${TABLE}."lead_created_date__c" ;;
   }
 
-  dimension: legal_contact__c {
+  dimension: legal_contact {
     type: string
     sql: ${TABLE}."legal_contact__c" ;;
     group_label: "Legal"
   }
 
-  dimension: legal_right_for_case_studies__c {
+  dimension: legal_right_for_case_studies {
     type: string
     sql: ${TABLE}."legal_right_for_case_studies__c" ;;
     group_label: "Legal"
   }
 
-  dimension: legal_right_to_use_name_logo__c {
+  dimension: legal_right_to_use_name_logo {
     type: string
     sql: ${TABLE}."legal_right_to_use_name_logo__c" ;;
     group_label: "Legal"
   }
 
-  dimension: legally_agreed_to_joint_pr__c {
+  dimension: legally_agreed_to_joint_pr {
     type: string
     sql: ${TABLE}."legally_agreed_to_joint_pr__c" ;;
     group_label: "Legal"
   }
 
-  dimension: legally_agreed_to_pr__c {
+  dimension: legally_agreed_to_pr {
     type: string
     sql: ${TABLE}."legally_agreed_to_pr__c" ;;
     group_label: "Legal"
   }
 
-  dimension: logo_sales_logos_dropbox__c {
+  dimension: logo_sales_logos_dropbox {
     type: string
     sql: ${TABLE}."logo_sales_logos_dropbox__c" ;;
   }
 
-  dimension: logo_used_on_our_website__c {
+  dimension: logo_used_on_our_website {
     type: string
     sql: ${TABLE}."logo_used_on_our_website__c" ;;
   }
@@ -599,7 +590,7 @@ view: account {
     sql: ${TABLE}."masterrecordid" ;;
   }
 
-  dimension_group: max_closed_won_date__c {
+  dimension_group: max_closed_won_date {
     type: time
     timeframes: [
       raw,
@@ -614,7 +605,7 @@ view: account {
     sql: ${TABLE}."max_closed_won_date__c" ;;
   }
 
-  dimension_group: meetingset_date__c {
+  dimension_group: meetingset_date {
     type: time
     timeframes: [
       raw,
@@ -628,7 +619,7 @@ view: account {
     sql: ${TABLE}."meetingset_date__c" ;;
   }
 
-  dimension_group: mql_date__c {
+  dimension_group: mql_date {
     type: time
     timeframes: [
       raw,
@@ -649,19 +640,19 @@ view: account {
     label: "Account Name"
   }
 
-  dimension: named_account__c {
+  dimension: named_account {
     type: yesno
     sql: ${TABLE}."named_account__c" ;;
     label: "Named Account"
   }
 
-  dimension: named_account_tier__c {
+  dimension: named_account_tier {
     type: string
     sql: ${TABLE}."named_account_tier__c" ;;
     label: "Named Account Tier"
   }
 
-  dimension_group: nda_expiration_date__c {
+  dimension_group: nda_expiration_date {
     type: time
     timeframes: [
       raw,
@@ -676,95 +667,95 @@ view: account {
     sql: ${TABLE}."nda_expiration_date__c" ;;
   }
 
-  dimension: netsuite_conn__account_balance__c {
+  dimension: netsuite_conn__account_balance {
     type: number
     sql: ${TABLE}."netsuite_conn__account_balance__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__account_overdue_balance__c {
+  dimension: netsuite_conn__account_overdue_balance {
     type: number
     sql: ${TABLE}."netsuite_conn__account_overdue_balance__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__celigo_update__c {
+  dimension: netsuite_conn__celigo_update {
     type: yesno
     sql: ${TABLE}."netsuite_conn__celigo_update__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__channel_tier__c {
+  dimension: netsuite_conn__channel_tier {
     type: string
     sql: ${TABLE}."netsuite_conn__channel_tier__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__credit_hold__c {
+  dimension: netsuite_conn__credit_hold {
     type: string
     sql: ${TABLE}."netsuite_conn__credit_hold__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__credit_limit__c {
+  dimension: netsuite_conn__credit_limit {
     type: number
     sql: ${TABLE}."netsuite_conn__credit_limit__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__days_overdue__c {
+  dimension: netsuite_conn__days_overdue {
     type: number
     sql: ${TABLE}."netsuite_conn__days_overdue__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__netsuite_id__c {
+  dimension: netsuite_conn__netsuite_id {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_id__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__netsuite_sync_err__c {
+  dimension: netsuite_conn__netsuite_sync_err {
     type: string
     sql: ${TABLE}."netsuite_conn__netsuite_sync_err__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__push_to_netsuite__c {
+  dimension: netsuite_conn__push_to_netsuite {
     type: yesno
     sql: ${TABLE}."netsuite_conn__push_to_netsuite__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__pushed_from_opportunity__c {
+  dimension: netsuite_conn__pushed_from_opportunity {
     type: yesno
     sql: ${TABLE}."netsuite_conn__pushed_from_opportunity__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__sync_in_progress__c {
+  dimension: netsuite_conn__sync_in_progress {
     type: yesno
     sql: ${TABLE}."netsuite_conn__sync_in_progress__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: netsuite_conn__unbilled_orders__c {
+  dimension: netsuite_conn__unbilled_orders {
     type: number
     sql: ${TABLE}."netsuite_conn__unbilled_orders__c" ;;
     group_label: "Netsuite"
   }
 
-  dimension: number_of_open_opportunities__c {
+  dimension: number_of_open_opportunities {
     type: number
     sql: ${TABLE}."number_of_open_opportunities__c" ;;
   }
 
-  dimension: number_of_opportunities__c {
+  dimension: number_of_opportunities {
     type: number
     sql: ${TABLE}."number_of_opportunities__c" ;;
   }
 
-  dimension: number_of_won_opportunities__c {
+  dimension: number_of_won_opportunities {
     type: number
     sql: ${TABLE}."number_of_won_opportunities__c" ;;
   }
@@ -774,22 +765,22 @@ view: account {
     sql: ${TABLE}."numberofemployees" ;;
   }
 
-  dimension: offer__c {
+  dimension: offer {
     type: string
     sql: ${TABLE}."offer__c" ;;
   }
 
-  dimension: offer_detail__c {
+  dimension: offer_detail {
     type: string
     sql: ${TABLE}."offer_detail__c" ;;
   }
 
-  dimension: other_customer_marketing_comment__c {
+  dimension: other_customer_marketing_comment {
     type: string
     sql: ${TABLE}."other_customer_marketing_comment__c" ;;
   }
 
-  dimension: our_champion__c {
+  dimension: our_champion {
     type: string
     sql: ${TABLE}."our_champion__c" ;;
   }
@@ -830,7 +821,7 @@ view: account {
     sql: ${TABLE}."photourl" ;;
   }
 
-  dimension_group: pr_date__c {
+  dimension_group: pr_date {
     type: time
     timeframes: [
       raw,
@@ -845,12 +836,12 @@ view: account {
     sql: ${TABLE}."pr_date__c" ;;
   }
 
-  dimension: pr_link__c {
+  dimension: pr_link {
     type: string
     sql: ${TABLE}."pr_link__c" ;;
   }
 
-  dimension_group: pre_release_sign_up_date__c {
+  dimension_group: pre_release_sign_up_date {
     type: time
     timeframes: [
       raw,
@@ -864,7 +855,7 @@ view: account {
     sql: ${TABLE}."pre_release_sign_up_date__c" ;;
   }
 
-  dimension_group: putintonurture_date__c {
+  dimension_group: putintonurture_date {
     type: time
     timeframes: [
       raw,
@@ -883,19 +874,19 @@ view: account {
     sql: ${TABLE}."rating" ;;
   }
 
-  dimension: region__c {
+  dimension: region {
     type: string
     sql: ${TABLE}."region__c" ;;
   }
 
-  dimension: renewal_rep__c {
+  dimension: renewal_rep {
     type: string
     sql: ${TABLE}."renewal_rep__c" ;;
     group_label: "Owners"
     label: "Renewal Rep"
   }
 
-  dimension_group: request_a_quote_date__c {
+  dimension_group: request_a_quote_date {
     type: time
     timeframes: [
       raw,
@@ -909,7 +900,7 @@ view: account {
     sql: ${TABLE}."request_a_quote_date__c" ;;
   }
 
-  dimension_group: responded_date__c {
+  dimension_group: responded_date {
     type: time
     timeframes: [
       raw,
@@ -923,7 +914,7 @@ view: account {
     sql: ${TABLE}."responded_date__c" ;;
   }
 
-  dimension: sector__c {
+  dimension: sector {
     type: string
     sql: ${TABLE}."sector__c" ;;
   }
@@ -1001,7 +992,7 @@ view: account {
     sql: ${TABLE}."sic" ;;
   }
 
-  dimension: sic_description__c {
+  dimension: sic_description {
     type: string
     sql: ${TABLE}."sic_description__c" ;;
   }
@@ -1011,7 +1002,7 @@ view: account {
     sql: ${TABLE}."sicdesc" ;;
   }
 
-  dimension: signed_nda__c {
+  dimension: signed_nda {
     type: yesno
     sql: ${TABLE}."signed_nda__c" ;;
   }
@@ -1021,12 +1012,12 @@ view: account {
     sql: ${TABLE}."site" ;;
   }
 
-  dimension: solution_architect_1__c {
+  dimension: solution_architect_1 {
     type: string
     sql: ${TABLE}."solution_architect_1__c" ;;
   }
 
-  dimension: solution_architect_2__c {
+  dimension: solution_architect_2 {
     type: string
     sql: ${TABLE}."solution_architect_2__c" ;;
   }
@@ -1046,39 +1037,39 @@ view: account {
     group_label: "System"
   }
 
-  dimension: territory__c {
+  dimension: territory {
     type: string
     sql: ${TABLE}."territory__c" ;;
     group_label: "Region and Territory"
     label: "Territory Name"
   }
 
-  dimension: territoryid__c {
+  dimension: territoryid {
     type: string
     sql: ${TABLE}."territoryid__c" ;;
     group_label: "Region and Territory"
     label: "Territory ID"
   }
 
-  dimension: testimonial1_from__c {
+  dimension: testimonial1_from {
     type: string
     sql: ${TABLE}."testimonial1_from__c" ;;
     group_label: "Marketing"
   }
 
-  dimension: testimonial_1__c {
+  dimension: testimonial_1 {
     type: string
     sql: ${TABLE}."testimonial_1__c" ;;
     group_label: "Marketing"
   }
 
-  dimension: testimonial_2__c {
+  dimension: testimonial_2 {
     type: string
     sql: ${TABLE}."testimonial_2__c" ;;
     group_label: "Marketing"
   }
 
-  dimension: testimonial_2_from__c {
+  dimension: testimonial_2_from {
     type: string
     sql: ${TABLE}."testimonial_2_from__c" ;;
     group_label: "Marketing"
@@ -1089,17 +1080,17 @@ view: account {
     sql: ${TABLE}."tickersymbol" ;;
   }
 
-  dimension: total_sales__c {
+  dimension: total_sales {
     type: number
     sql: ${TABLE}."total_sales__c" ;;
   }
 
-  dimension: total_seats__c {
+  dimension: total_seats {
     type: string
     sql: ${TABLE}."total_seats__c" ;;
   }
 
-  dimension_group: trial_req_date__c {
+  dimension_group: trial_req_date {
     type: time
     timeframes: [
       raw,
@@ -1119,12 +1110,12 @@ view: account {
     label: "Account Type"
   }
 
-  dimension: unique_accounts__c {
+  dimension: unique_accounts {
     type: number
     sql: ${TABLE}."unique_accounts__c" ;;
   }
 
-  dimension_group: unqualified_date__c {
+  dimension_group: unqualified_date {
     type: time
     timeframes: [
       raw,
@@ -1138,7 +1129,7 @@ view: account {
     sql: ${TABLE}."unqualified_date__c" ;;
   }
 
-  dimension_group: video_case_study_date__c {
+  dimension_group: video_case_study_date {
     type: time
     timeframes: [
       raw,
@@ -1153,7 +1144,7 @@ view: account {
     sql: ${TABLE}."video_case_study_date__c" ;;
   }
 
-  dimension: video_case_study_link__c {
+  dimension: video_case_study_link {
     type: string
     sql: ${TABLE}."video_case_study_link__c" ;;
   }
@@ -1163,7 +1154,7 @@ view: account {
     sql: ${TABLE}."website" ;;
   }
 
-  dimension_group: x1stcontactusdate__c {
+  dimension_group: x1stcontactusdate {
     type: time
     timeframes: [
       raw,
