@@ -536,6 +536,7 @@ explore: arr {
 
 explore: current_potential_arr {
   label: "Current & Potential ARR Reporting"
+  hidden: yes
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.product_type} = 'Recurring';;
   extends: [opportunitylineitem]
