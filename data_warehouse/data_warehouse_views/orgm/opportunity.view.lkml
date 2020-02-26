@@ -384,7 +384,7 @@ view: opportunity {
 
   dimension: original_opportunity_sfid {
     # description: "TODO"
-    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunityid__c) ;;
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
     type: string
     label: "Original Opportunity SFID"
   }
