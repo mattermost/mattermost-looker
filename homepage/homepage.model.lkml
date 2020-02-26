@@ -51,6 +51,12 @@ view: _homepage {
                 </ul>
               </li>
               <li>
+                <div>Customer Success</div>
+                <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">Customer Success Account Health Score</a></li>
+                </ul>
+              </li>
+              <li>
                 <div>Finance</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">ARR Overview Dashboard</a></li>
