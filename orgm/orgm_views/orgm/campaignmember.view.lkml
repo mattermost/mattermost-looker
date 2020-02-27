@@ -3,7 +3,6 @@ view: campaignmember {
   drill_fields: [id]
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}."id" ;;
   }
@@ -383,6 +382,7 @@ view: campaignmember {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."sfid" ;;
   }

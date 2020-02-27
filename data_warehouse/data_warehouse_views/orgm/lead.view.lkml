@@ -77,13 +77,11 @@ view: lead {
   dimension_group: converted {
     sql: ${TABLE}.CONVERTEDDATE ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -111,18 +109,15 @@ view: lead {
     type: string
   }
 
-  dimension_group: created_at {
+  dimension_group: created {
     label: "Created"
     sql: ${TABLE}.CREATEDDATE ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      fiscal_year,
-      year
+      fiscal_year
     ]
     type: time
   }
@@ -141,13 +136,11 @@ view: lead {
   dimension_group: ebq_added {
     sql: ${TABLE}.EBQ_ADDED__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -165,13 +158,11 @@ view: lead {
   dimension_group: ebq_completed {
     sql: ${TABLE}.EBQ_COMPLETED__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -179,13 +170,11 @@ view: lead {
   dimension_group: ebq {
     sql: ${TABLE}.EBQ_DATE__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -193,13 +182,11 @@ view: lead {
   dimension_group: ebq_first_touch {
     sql: ${TABLE}.EBQ_FIRST_TOUCH__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -207,13 +194,11 @@ view: lead {
   dimension_group: ebq_next_step {
     sql: ${TABLE}.EBQ_NEXT_STEP__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -231,13 +216,11 @@ view: lead {
   dimension_group: ebq_set {
     sql: ${TABLE}.EBQ_SET__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -297,10 +280,10 @@ view: lead {
     type: yesno
   }
 
-  dimension: industry {
-    sql: ${TABLE}.INDUSTRY ;;
-    type: string
-  }
+#   dimension: industry {
+#     sql: ${TABLE}.INDUSTRY ;;
+#     type: string
+#   }
 
   dimension: is_deleted {
     sql: ${TABLE}.ISDELETED ;;
@@ -320,13 +303,11 @@ view: lead {
   dimension_group: last_modified {
     sql: ${TABLE}.LASTMODIFIEDDATE ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -344,20 +325,6 @@ view: lead {
   dimension: lead2_trial_days {
     sql: ${TABLE}.LEAD2TRIALDAYS__C ;;
     type: number
-  }
-
-  dimension_group: lead_created {
-    sql: ${TABLE}.LEAD_CREATED_DATE__C ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
   }
 
   dimension: lead_number {
@@ -381,10 +348,10 @@ view: lead {
     type: string
   }
 
-  dimension: lead_source {
-    sql: ${TABLE}.LEADSOURCE ;;
-    type: string
-  }
+#   dimension: lead_source {
+#     sql: ${TABLE}.LEADSOURCE ;;
+#     type: string
+#   }
 
   dimension: mobile_phone {
     sql: ${TABLE}.MOBILEPHONE ;;
@@ -411,12 +378,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_MCL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -427,12 +392,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_MCL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -441,14 +404,12 @@ view: lead {
   dimension_group: first_mel {
     group_label: "Lead Lifecycle: MEL"
     label: "First"
-    sql: ${TABLE}.MEL_DATE__C ;;
+    sql: ${TABLE}.FIRST_MEL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -459,12 +420,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -473,14 +432,12 @@ view: lead {
   dimension_group: first_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "First"
-    sql: ${TABLE}.MQL_DATE__C ;;
+    sql: ${TABLE}.FIRST_MQL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -491,12 +448,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -507,12 +462,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_SCL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -523,12 +476,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_SCL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -539,12 +490,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_QSC_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -555,12 +504,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_QSC_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -571,12 +518,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_QSO_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -587,12 +532,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_QSO_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -603,12 +546,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -617,14 +558,12 @@ view: lead {
   dimension_group: first_pql {
     group_label: "Lead Lifecycle: PQL"
     label: "First"
-    sql: ${TABLE}.PQL_DATE__c ;;
+    sql: ${TABLE}.FIRST_PQL_DATE__c ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -642,12 +581,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -665,12 +602,10 @@ view: lead {
     label: "First"
     sql: ${TABLE}.FIRST_RECYCLED_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -681,12 +616,10 @@ view: lead {
     label: "Most Recent"
     sql: ${TABLE}.MOST_RECYCLED_QSO_DATE__C ;;
     timeframes: [
-      time,
       date,
       week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     type: time
@@ -756,6 +689,7 @@ view: lead {
   }
 
   dimension: status_order {
+    hidden: yes
     case: {
       when: {
         sql: ${status} = 'Not a Lead';;

@@ -54,7 +54,7 @@ view: opportunitylineitem {
       totalprice,
       total_quantity,
       total_price,
-      total_acv
+      total_bookings
     ]
   }
 
@@ -331,8 +331,8 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
-  measure: total_acv {
-    label: "Total ACV"
+  measure: total_bookings {
+    label: "Total Bookings"
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
