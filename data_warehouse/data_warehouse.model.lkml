@@ -98,46 +98,10 @@ explore: _base_account_explore {
   }
 }
 
-explore: opportunitylineitem {
-  view_name: opportunitylineitem
-  label: "Line Item to Account"
+explore: account {
+  label: "Account to Line Item"
   group_label: "Salesforce"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
-  extends: [ _base_account_explore ]
-
-  join: opportunity {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid};;
-    relationship: many_to_one
-  }
-
-  join: account {
-    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
-  }
-
-  join: product2 {
-    view_label: "Product"
-    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity_csm {
-    view_label: "Opportunity CSM"
-    from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
-explore: account {
-  group_label: "Salesforce"
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -502,10 +466,11 @@ explore: nps_data {
 
 
 explore: arr {
+  extends: [account]
+  view_name: account
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [opportunitylineitem]
+  sql_always_where: ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
 
   join: dates {
     view_label: "ARR Date"
@@ -540,11 +505,12 @@ explore: arr {
 }
 
 explore: current_potential_arr {
+  view_name: account
   label: "Current & Potential ARR Reporting"
   hidden: yes
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [opportunitylineitem]
+  sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
+  extends: [account]
 
   join: dates {
     view_label: "ARR Date"
