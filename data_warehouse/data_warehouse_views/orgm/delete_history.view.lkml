@@ -5,7 +5,6 @@ view_label: "Delete History"
   drill_fields: [name, object_type__c, object_id__c, deleted_by__c, deleted_date_time__c]
 
   dimension: id {
-    primary_key: yes
     type: number
     hidden:  yes
     sql: ${TABLE}.id ;;
@@ -106,6 +105,7 @@ view_label: "Delete History"
   dimension: sfid {
     type: string
     sql: ${TABLE}.sfid ;;
+    primary_key: yes
     label: "SFID"
     group_label: "System"
   }
