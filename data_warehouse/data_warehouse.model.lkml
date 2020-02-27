@@ -53,6 +53,7 @@ named_value_format: mm_integer_percent {
 #
 
 include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/cs/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
@@ -97,46 +98,10 @@ explore: _base_account_explore {
   }
 }
 
-explore: opportunitylineitem {
-  view_name: opportunitylineitem
-  label: "Line Item to Account"
+explore: account {
+  label: "Account to Line Item"
   group_label: "Salesforce"
   sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
-  extends: [ _base_account_explore ]
-
-  join: opportunity {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid};;
-    relationship: many_to_one
-  }
-
-  join: account {
-    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
-  }
-
-  join: product2 {
-    view_label: "Product"
-    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity_csm {
-    view_label: "Opportunity CSM"
-    from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
-explore: account {
-  group_label: "Salesforce"
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -250,7 +215,7 @@ explore: master_account_monthly_arr_deltas_by_type {
       AND (${opportunitylineitem.start_month} = ${master_account_monthly_arr_deltas_by_type.month_start_month});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr
     ]
   }
@@ -290,7 +255,7 @@ explore: account_daily_arr_deltas {
               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
  }
 
@@ -333,7 +298,7 @@ explore: master_account_daily_arr_deltas {
                OR ${opportunitylineitem.end_month} = ${master_account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
   }
 
@@ -449,6 +414,11 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
+explore: daily_page_visits {
+  group_label: "Google Analytics"
+  label: "Daily Page Vistis"
+}
+
 explore: downloads {
   group_label: "General"
 }
@@ -496,10 +466,11 @@ explore: nps_data {
 
 
 explore: arr {
+  extends: [account]
+  view_name: account
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon};;
-  extends: [opportunitylineitem]
+  sql_always_where: ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
 
   join: dates {
     view_label: "ARR Date"
@@ -528,6 +499,47 @@ explore: arr {
     dates.first_day_of_fiscal_quarter,
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
+    account.account_core*,
+    opportunity.opportunity_core*
+  ]
+}
+
+explore: current_potential_arr {
+  view_name: account
+  label: "Current & Potential ARR Reporting"
+  hidden: yes
+  group_label: "ARR"
+  sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
+  extends: [account]
+
+  join: dates {
+    view_label: "ARR Date"
+    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
+    relationship: many_to_many
+  }
+
+  fields: [
+    dates.date_date,
+    dates.date_day_of_month,
+    dates.date_day_of_year,
+    dates.date_month,
+    dates.date_fiscal_quarter,
+    dates.date_fiscal_year,
+    dates.date_month_full_date,
+    dates.next_date,
+    dates.next_month,
+    dates.next_fiscal_quarter,
+    dates.next_fiscal_year,
+    dates.last_and_next_12mo,
+    dates.first_day_of_month,
+    dates.last_day_of_month,
+    dates.previous_current_future_month,
+    dates.first_day_of_fiscal_year,
+    dates.last_day_of_fiscal_year,
+    dates.first_day_of_fiscal_quarter,
+    dates.last_day_of_fiscal_quarter,
+    opportunitylineitem.opportunitylineitem_core*,
+    opportunitylineitem.total_potential_arr,
     account.account_core*,
     opportunity.opportunity_core*
   ]
@@ -574,11 +586,16 @@ explore: server_daily_details {
   group_label: "General"
 
   join: server_fact {
-    sql_on: ${server_daily_details.id} = ${server_fact.server_id} ;;
+    sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
     fields: []
   }
+}
+
+explore: delete_history {
+  view_label: "Delete History"
+  group_label: "Salesforce"
 }
 
 explore: server_fact {
@@ -589,9 +606,23 @@ explore: dates {
   group_label: "Utility"
 }
 
+
+explore: account_health_score {
+  label: "Account Health Score"
+  group_label: "Customer Success"
+  extends: [ _base_account_explore ]
+
+  join: account {
+    sql_on: ${account_health_score.account_sfid} = ${account.sfid} ;;
+  }
+}
+
 # BP: Method to hide an explore based on a user attribute
 # explore: test_full_financial {
 #   from: user
 #   group_label: "Test"
 #   required_access_grants: [full_financial]
 # }
+explore: nps_user_monthly_score {
+  label: "Nps User Monthly Score"
+}

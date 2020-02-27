@@ -4,6 +4,12 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
+
+explore: delete_history {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+
 explore: opportunity {
   group_label: "zHeroku Postgres OrgM"
 }
@@ -17,6 +23,12 @@ explore: account {
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
@@ -52,6 +64,12 @@ explore: product_line_item {
   join: account {
     view_label: "Account"
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
