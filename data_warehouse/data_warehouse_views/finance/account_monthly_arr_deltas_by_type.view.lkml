@@ -1,5 +1,5 @@
 view: account_monthly_arr_deltas_by_type {
-  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE;;
+  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE ;;
   view_label: "Account Monthly ARR Changes"
 
   dimension: compound_primary {
@@ -89,7 +89,7 @@ view: account_monthly_arr_deltas_by_type {
       }
       when: {
         label: "2"
-        sql: ${arr_type} = 'Resurrected ARR';;
+        sql: ${arr_type} = 'Resurrection ARR';;
       }
       when: {
         label: "3"
@@ -138,10 +138,10 @@ view: account_monthly_arr_deltas_by_type {
     drill_fields: [arr_change_details*]
   }
 
-  measure: total_arr_resurrected {
-    label: "Total ARR Resurrected"
+  measure: total_arr_resurrection {
+    label: "Total ARR Resurrection"
     type: sum
-    sql: ${TABLE}."TOTAL_ARR_RESURRECTED" ;;
+    sql: ${TABLE}."TOTAL_ARR_RESURRECTION" ;;
     value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
@@ -174,6 +174,13 @@ view: account_monthly_arr_deltas_by_type {
     label: "Count ARR Explansion Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_EXPANSION" > 0 then ${account_sfid} else null end ;;
+    group_label: "ARR"
+  }
+
+  measure: count_arr_resurrection_accounts {
+    label: "Count ARR Resurrection Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_RESURRECTION" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 

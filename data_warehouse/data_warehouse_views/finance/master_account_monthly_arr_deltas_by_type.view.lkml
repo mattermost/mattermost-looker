@@ -47,6 +47,31 @@ view: master_account_monthly_arr_deltas_by_type {
     sql: ${TABLE}."MONTH_START" ;;
   }
 
+  dimension: arr_type_order {
+    case: {
+      when: {
+        label: "0"
+        sql: ${arr_type} = 'New ARR';;
+      }
+      when: {
+        label: "1"
+        sql: ${arr_type} = 'Expansion ARR';;
+      }
+      when: {
+        label: "2"
+        sql: ${arr_type} = 'Resurrection ARR';;
+      }
+      when: {
+        label: "3"
+        sql: ${arr_type} = 'Contraction ARR';;
+      }
+      when: {
+        label: "4"
+        sql: ${arr_type} = 'Churn ARR';;
+      }
+    }
+  }
+
 
   dimension: arr_type {
     label: "ARR Type"
@@ -67,6 +92,15 @@ view: master_account_monthly_arr_deltas_by_type {
     label: "Total ARR Contraction"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_CONTRACTION" ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [arr_change_details*]
+  }
+
+  measure: total_arr_resurrection {
+    label: "Total ARR Resurrection"
+    type: sum
+    sql: ${TABLE}."TOTAL_ARR_RESURRECTION" ;;
     value_format_name: "usd_0"
     group_label: "ARR"
     drill_fields: [arr_change_details*]
@@ -116,6 +150,13 @@ view: master_account_monthly_arr_deltas_by_type {
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_EXPANSION" > 0 then ${master_account_sfid} else null end ;;
     group_label: "ARR Norm."
+  }
+
+  measure: count_arr_resurrection_accounts {
+    label: "Count ARR Resurrection Accounts"
+    type: count_distinct
+    sql: case when ${TABLE}."TOTAL_ARR_RESURRECTION" < 0 then ${master_account_sfid} else null end ;;
+    group_label: "ARR"
   }
 
   measure: count_arr_contraction_accounts {
