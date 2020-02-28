@@ -581,6 +581,12 @@ explore: campaign {
     relationship: many_to_one
   }
 
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
   join: account {
     sql_on: ${lead.matched_account} = ${account.sfid} ;;
     relationship: many_to_one
