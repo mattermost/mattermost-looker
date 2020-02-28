@@ -140,6 +140,7 @@ view: account_health_score {
       field: last_task_under_30
       value: "yes"
     }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
   measure: count_last_task_over_30 {
@@ -149,6 +150,7 @@ view: account_health_score {
       field: last_task_over_30
       value: "yes"
     }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
   measure: count_last_task_over_90 {
@@ -158,6 +160,7 @@ view: account_health_score {
       field: last_task_over_90
       value: "yes"
     }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
 

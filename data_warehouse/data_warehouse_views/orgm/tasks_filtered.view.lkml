@@ -233,4 +233,9 @@ view: tasks_filtered {
     type: count_distinct
     sql: ${sfid} ;;
   }
+
+  measure: count_of_accounts_w_tasks {
+    type: count_distinct
+    sql: ${accountid} ;;
+  }
 }

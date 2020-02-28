@@ -101,7 +101,6 @@ explore: _base_account_explore {
 explore: account {
   label: "Account to Line Item"
   group_label: "Salesforce"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -109,7 +108,7 @@ explore: account {
   }
 
   join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.length_days} <> 0 ;;
     relationship: many_to_one
   }
 
