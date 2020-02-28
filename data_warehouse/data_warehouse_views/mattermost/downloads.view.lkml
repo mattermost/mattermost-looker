@@ -105,6 +105,24 @@ view: downloads {
     type: count
   }
 
+  measure: app_downloads {
+    description: "The total number of desktop app downloads performed."
+    filters: {
+      field: download_category
+      value: "app"
+    }
+    type: count
+  }
+
+  measure: server_downloads {
+    description: "The total number of server downloads performed."
+    filters: {
+      field: download_category
+      value: "server"
+    }
+    type: count
+  }
+
   dimension: uri_avg_bytes_sent {
     label: "URI Avg. Bytes Sent"
     description: "The average number of bytes sent, across all downloads ever recorded, for the specific URI."

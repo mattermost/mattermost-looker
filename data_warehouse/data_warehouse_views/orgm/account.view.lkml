@@ -71,6 +71,12 @@ view: account {
     type: number
   }
 
+  dimension: arr_current {
+    label: "Current ARR"
+    sql: ${TABLE}.arr_current__c ;;
+    type: number
+  }
+
   dimension: assigned_once_with_workflow {
     group_label: "System"
     label: "Assigned Once with WF"
@@ -1244,6 +1250,13 @@ view: account {
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct
+  }
+
+  measure: total_current_arr {
+    drill_fields: [sfid, name, arr_current]
+    label: "Total Current ARR"
+    sql: ${arr_current} ;;
+    type: sum_distinct
   }
 
 }
