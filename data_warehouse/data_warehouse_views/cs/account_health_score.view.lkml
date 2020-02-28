@@ -3,6 +3,7 @@ view: account_health_score {
     ;;
 
   dimension: account_sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
   }
@@ -20,6 +21,24 @@ view: account_health_score {
   dimension: days_since_last_task {
     type: number
     sql: ${TABLE}."DAYS_SINCE_LAST_TASK" ;;
+  }
+
+  dimension: last_task_under_30 {
+    label: "Last Task <= 30 Days Ago"
+    type: yesno
+    sql: ${days_since_last_task} <= 30;;
+  }
+
+  dimension: last_task_over_30 {
+    label: "Last Task > 30 Days Ago"
+    type: yesno
+    sql: ${days_since_last_task} > 30;;
+  }
+
+  dimension: last_task_over_90 {
+    label: "Last Task > 90 Days Ago"
+    type: yesno
+    sql: ${days_since_last_task} > 90;;
   }
 
   dimension: health_score_no_override {
@@ -112,5 +131,42 @@ view: account_health_score {
     sql: ${account_sfid} ;;
     drill_fields: [account.name,account_csm.name,health_score_no_override,tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
                    count_tickets_prev_90,ticket_health_score,days_since_last_task,task_health_score]
+  }
+
+  measure: count_last_task_under_30 {
+    type: count_distinct
+    sql: ${account_sfid} ;;
+    filters: {
+      field: last_task_under_30
+      value: "yes"
+    }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
+  }
+
+  measure: count_last_task_over_30 {
+    type: count_distinct
+    sql: ${account_sfid} ;;
+    filters: {
+      field: last_task_over_30
+      value: "yes"
+    }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
+  }
+
+  measure: count_last_task_over_90 {
+    type: count_distinct
+    sql: ${account_sfid} ;;
+    filters: {
+      field: last_task_over_90
+      value: "yes"
+    }
+    drill_fields: [account.name, account_csm.name, days_since_last_task]
+  }
+
+
+  measure: avg_health_score {
+    type: average_distinct
+    value_format: "0"
+    sql: ${health_score_no_override} ;;
   }
 }

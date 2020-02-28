@@ -101,7 +101,6 @@ explore: _base_account_explore {
 explore: account {
   label: "Account to Line Item"
   group_label: "Salesforce"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
@@ -109,7 +108,7 @@ explore: account {
   }
 
   join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.length_days} <> 0 ;;
     relationship: many_to_one
   }
 
@@ -150,6 +149,23 @@ explore: account {
     sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: account_health_score {
+    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
+    relationship: one_to_one
+  }
+
+  join: tasks_filtered {
+    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
   }
 
 }
