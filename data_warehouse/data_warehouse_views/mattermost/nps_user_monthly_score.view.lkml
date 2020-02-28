@@ -140,12 +140,14 @@ view: nps_user_monthly_score {
   }
 
   measure: count_servers {
+    group_label: "Servers"
     description: "The distinct count of Server Id's per grouping."
     type: count_distinct
     sql: ${server_id} ;;
   }
 
   measure: count_users {
+    group_label: "Users"
     description: "The distinct count of User Id's per grouping."
     type: count_distinct
     sql: ${user_id} ;;
@@ -247,6 +249,24 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
+  }
+
+  measure: sum_responses {
+    group_label: "Responses"
+    label: "Responses"
+    description: "Sum of responses received in the record month."
+    value_format_name: decimal_0
+    type: sum
+    sql: ${responses} ;;
+  }
+
+  measure: sum_responses_all_time {
+    group_label: "Responses"
+    label: "Responses (All Time)"
+    description: "Sum of responses received all time (before or during record month)."
+    value_format_name: decimal_0
+    type: sum
+    sql: ${responses} ;;
   }
 
 }
