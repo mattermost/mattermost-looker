@@ -341,6 +341,12 @@ explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
 
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
   join: created_by {
     from: user
     sql_on: ${lead.createdbyid} = ${created_by.sfid} ;;

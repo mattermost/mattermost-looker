@@ -376,7 +376,7 @@ view: lead {
   dimension_group: first_mcl {
     group_label: "Lead Lifecycle: MCL"
     label: "First"
-    sql: ${TABLE}.FIRST_MCL_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_MCL_DATE__C,lead_status_dates.first_mcl_date) ;;
     timeframes: [
       date,
       week,
@@ -390,7 +390,7 @@ view: lead {
   dimension_group: most_recent_mcl {
     group_label: "Lead Lifecycle: MCL"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_MCL_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_MCL_DATE__C,lead_status_dates.most_recent_mcl_date) ;;
     timeframes: [
       date,
       week,
@@ -411,7 +411,7 @@ view: lead {
   dimension_group: first_mel {
     group_label: "Lead Lifecycle: MEL"
     label: "First"
-    sql: ${TABLE}.FIRST_MEL_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_MEL_DATE__C,lead_status_dates.first_mel_date) ;;
     timeframes: [
       date,
       week,
@@ -425,7 +425,7 @@ view: lead {
   dimension_group: most_recent_mel {
     group_label: "Lead Lifecycle: MEL"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_MEL_DATE__C,lead_status_dates.most_recent_mel_date) ;;
     timeframes: [
       date,
       week,
@@ -446,7 +446,7 @@ view: lead {
   dimension_group: first_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "First"
-    sql: ${TABLE}.FIRST_MQL_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_MQL_DATE__C,lead_status_dates.first_mql_date) ;;
     timeframes: [
       date,
       week,
@@ -460,7 +460,7 @@ view: lead {
   dimension_group: most_recent_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_MQL_DATE__C,lead_status_dates.most_recent_mql_date) ;;
     timeframes: [
       date,
       week,
@@ -481,7 +481,7 @@ view: lead {
   dimension_group: first_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "First"
-    sql: ${TABLE}.FIRST_SCL_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_SCL_DATE__C,lead_status_dates.first_scl_date) ;;
     timeframes: [
       date,
       week,
@@ -495,7 +495,7 @@ view: lead {
   dimension_group: most_recent_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_SCL_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_SCL_DATE__C,lead_status_dates.most_recent_scl_date) ;;
     timeframes: [
       date,
       week,
@@ -516,7 +516,7 @@ view: lead {
   dimension_group: first_qsc {
     group_label: "Lead Lifecycle: QSC"
     label: "First"
-    sql: ${TABLE}.FIRST_QSC_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_QSC_DATE__C,lead_status_dates.first_qsc_date) ;;
     timeframes: [
       date,
       week,
@@ -530,7 +530,7 @@ view: lead {
   dimension_group: most_recent_qsc {
     group_label: "Lead Lifecycle: QSC"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_QSC_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_QSC_DATE__C,lead_status_dates.most_recent_qsc_date) ;;
     timeframes: [
       date,
       week,
@@ -551,7 +551,7 @@ view: lead {
   dimension_group: first_qso {
     group_label: "Lead Lifecycle: QSO"
     label: "First"
-    sql: ${TABLE}.FIRST_QSO_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_QSO_DATE__C,lead_status_dates.first_qso_date) ;;
     timeframes: [
       date,
       week,
@@ -565,7 +565,7 @@ view: lead {
   dimension_group: most_recent_qso {
     group_label: "Lead Lifecycle: QSO"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_QSO_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_QSO_DATE__C,lead_status_dates.most_recent_qso_date) ;;
     timeframes: [
       date,
       week,
@@ -586,7 +586,7 @@ view: lead {
   dimension_group: first_not_a_lead {
     group_label: "Lead Lifecycle: Not a Lead"
     label: "First"
-    sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_NOT_A_LEAD_DATE__C,lead_status_dates.first_not_a_lead_date) ;;
     timeframes: [
       date,
       week,
@@ -607,7 +607,7 @@ view: lead {
   dimension_group: first_pql {
     group_label: "Lead Lifecycle: PQL"
     label: "First"
-    sql: ${TABLE}.FIRST_PQL_DATE__c ;;
+    sql: coalesce(${TABLE}.FIRST_PQL_DATE__c,lead_status_dates.first_pql_date) ;;
     timeframes: [
       date,
       week,
@@ -621,14 +621,14 @@ view: lead {
   dimension: first_pql_type {
     group_label: "Lead Lifecycle: PQL"
     label: "First Type"
-    sql: ${TABLE}.FIRST_PQL_TYPE__c ;;
+    sql: coalesce(${TABLE}.FIRST_PQL_TYPE__c ;;
     type: string
   }
 
   dimension_group: most_recent_pql {
     group_label: "Lead Lifecycle: PQL"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_PQL_DATE__C,lead_status_dates.most_recent_pql_date) ;;
     timeframes: [
       date,
       week,
@@ -642,14 +642,14 @@ view: lead {
   dimension: most_recent_pql_type {
     group_label: "Lead Lifecycle: PQL"
     label: "Most Recent Type"
-    sql: ${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
+    sql: coalesce(${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
     type: string
   }
 
   dimension_group: first_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "First"
-    sql: ${TABLE}.FIRST_RECYCLE_DATE__C ;;
+    sql: coalesce(${TABLE}.FIRST_RECYCLE_DATE__C,lead_status_dates.first_recycle_date) ;;
     timeframes: [
       date,
       week,
@@ -663,7 +663,7 @@ view: lead {
   dimension_group: most_recent_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
+    sql: coalesce(${TABLE}.MOST_RECYCLE_QSO_DATE__C,lead_status_dates.most_recent_qso_date) ;;
     timeframes: [
       date,
       week,
