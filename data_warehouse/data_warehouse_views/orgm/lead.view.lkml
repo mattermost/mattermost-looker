@@ -401,6 +401,13 @@ view: lead {
     type: time
   }
 
+  dimension: hit_mcl {
+    group_label: "Lead Lifecycle: MCL"
+    label: "Hit MCL?"
+    type: yesno
+    sql: ${first_mcl_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_mel {
     group_label: "Lead Lifecycle: MEL"
     label: "First"
@@ -427,6 +434,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: hit_mel {
+    group_label: "Lead Lifecycle: MEL"
+    label: "Hit MEL?"
+    type: yesno
+    sql: ${first_mel_date} IS NOT NULL ;;
   }
 
   dimension_group: first_mql {
@@ -457,6 +471,13 @@ view: lead {
     type: time
   }
 
+  dimension: hit_mql {
+    group_label: "Lead Lifecycle: MQL"
+    label: "Hit MQL?"
+    type: yesno
+    sql: ${first_mql_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "First"
@@ -483,6 +504,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: hit_scl {
+    group_label: "Lead Lifecycle: SCL"
+    label: "Hit SCL?"
+    type: yesno
+    sql: ${first_scl_date} IS NOT NULL ;;
   }
 
   dimension_group: first_qsc {
@@ -513,6 +541,13 @@ view: lead {
     type: time
   }
 
+  dimension: hit_qsc {
+    group_label: "Lead Lifecycle: QSC"
+    label: "Hit QSC?"
+    type: yesno
+    sql: ${first_qsc_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_qso {
     group_label: "Lead Lifecycle: QSO"
     label: "First"
@@ -541,6 +576,13 @@ view: lead {
     type: time
   }
 
+  dimension: hit_qso {
+    group_label: "Lead Lifecycle: QSO"
+    label: "Hit QSO?"
+    type: yesno
+    sql: ${first_qso_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_not_a_lead {
     group_label: "Lead Lifecycle: Not a Lead"
     label: "First"
@@ -553,6 +595,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: hit_not_a_lead {
+    group_label: "Lead Lifecycle: Not a Lead"
+    label: "Hit Not a Lead?"
+    type: yesno
+    sql: ${first_not_a_lead_date} IS NOT NULL ;;
   }
 
   dimension_group: first_pql {
@@ -597,10 +646,10 @@ view: lead {
     type: string
   }
 
-  dimension_group: first_recycled {
-    group_label: "Lead Lifecycle: Recycled"
+  dimension_group: first_recycle {
+    group_label: "Lead Lifecycle: Recycle"
     label: "First"
-    sql: ${TABLE}.FIRST_RECYCLED_DATE__C ;;
+    sql: ${TABLE}.FIRST_RECYCLE_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -611,10 +660,10 @@ view: lead {
     type: time
   }
 
-  dimension_group: most_recent_recycled {
-    group_label: "Lead Lifecycle: Recycled"
+  dimension_group: most_recent_recycle {
+    group_label: "Lead Lifecycle: Recycle"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECYCLED_QSO_DATE__C ;;
+    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -623,6 +672,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: hit_recycle {
+    group_label: "Lead Lifecycle: Recycle"
+    label: "Hit Recycle?"
+    type: yesno
+    sql: ${first_recycle_date} IS NOT NULL ;;
   }
 
   dimension: name {
@@ -759,5 +815,93 @@ view: lead {
     drill_fields: [lead_drill_fields*]
     label: "# of Leads"
     type: count
+  }
+
+  measure: count_hit_mcl {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_mcl
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit MCL"
+    type: count_distinct
+  }
+
+  measure: count_hit_mel {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_mel
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit MEL"
+    type: count_distinct
+  }
+
+  measure: count_hit_mql {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_mql
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit MQL"
+    type: count_distinct
+  }
+
+  measure: count_hit_scl {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_scl
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit SCL"
+    type: count_distinct
+  }
+
+  measure: count_hit_qsc {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_qsc
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit QSC"
+    type: count_distinct
+  }
+
+  measure: count_hit_qso {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_qso
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit QSO"
+    type: count_distinct
+  }
+
+  measure: count_hit_recycle {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_recycle
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Leads Hit Recycle"
+    type: count_distinct
+  }
+
+  measure: count_not_a_lead {
+    sql: ${sfid} ;;
+    filters: {
+      field: hit_not_a_lead
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# of Not a Leads"
+    type: count_distinct
   }
 }

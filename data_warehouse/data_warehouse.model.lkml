@@ -152,6 +152,11 @@ explore: account {
     fields: []
   }
 
+  join: account_health_score {
+    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
+    relationship: one_to_one
+  }
+
 }
 
 

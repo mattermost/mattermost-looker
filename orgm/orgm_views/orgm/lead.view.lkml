@@ -592,10 +592,10 @@ view: lead {
     type: string
   }
 
-  dimension_group: first_recycled {
-    group_label: "Lead Lifecycle: Recycled"
+  dimension_group: first_recycle {
+    group_label: "Lead Lifecycle: Recycle"
     label: "First"
-    sql: ${TABLE}.FIRST_RECYCLED_DATE__C ;;
+    sql: ${TABLE}.FIRST_RECYCLE_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -606,10 +606,10 @@ view: lead {
     type: time
   }
 
-  dimension_group: most_recent_recycled {
-    group_label: "Lead Lifecycle: Recycled"
+  dimension_group: most_recent_recycle {
+    group_label: "Lead Lifecycle: Recycle"
     label: "Most Recent"
-    sql: ${TABLE}.MOST_RECYCLED_QSO_DATE__C ;;
+    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
     timeframes: [
       date,
       week,
