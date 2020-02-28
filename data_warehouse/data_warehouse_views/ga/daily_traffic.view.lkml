@@ -10,11 +10,7 @@ view: daily_traffic {
   dimension_group: end {
     type: time
     timeframes: [
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."END_DATE" ;;
   }
@@ -32,11 +28,7 @@ view: daily_traffic {
   dimension_group: start {
     type: time
     timeframes: [
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."START_DATE" ;;
   }

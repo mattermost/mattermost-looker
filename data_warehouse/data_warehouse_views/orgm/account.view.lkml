@@ -71,11 +71,10 @@ view: account {
     type: number
   }
 
-  dimension: api_id {
-    group_label: "System"
-    label: "API ID"
-    sql: ${TABLE}.api_id__c ;;
-    type: string
+  dimension: arr_current {
+    label: "Current ARR"
+    sql: ${TABLE}.arr_current__c ;;
+    type: number
   }
 
   dimension: assigned_once_with_workflow {
@@ -216,12 +215,6 @@ view: account {
     type: string
   }
 
-  dimension: customer_churned {
-    group_label: "CS"
-    sql: ${TABLE}.customer_churned__c ;;
-    type: yesno
-  }
-
   dimension: customer_segmentation_tier {
     group_label: "CS"
     sql: ${TABLE}.customer_segmentation_tier__c ;;
@@ -241,12 +234,6 @@ view: account {
       year
     ]
     type: time
-  }
-
-  dimension: days_past_renewal {
-    group_label: "CS"
-    sql: ${TABLE}.days_past_renewal__c ;;
-    type: number
   }
 
   dimension_group: demo_req {
@@ -446,7 +433,7 @@ view: account {
     type: string
   }
 
-  dimension: is_deleted {
+  dimension: isdeleted {
     sql: ${TABLE}.isdeleted ;;
     type: yesno
   }
@@ -613,22 +600,6 @@ view: account {
     label: "Mattermost Rep"
     sql: ${TABLE}.mattermost_rep__c ;;
     type: string
-  }
-
-  dimension_group: max_closed_won {
-    convert_tz: no
-    datatype: date
-    label: "Closed / Won"
-    sql: ${TABLE}.max_closed_won_date__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
   }
 
   dimension_group: meeting_set {
@@ -1064,12 +1035,6 @@ view: account {
     type: string
   }
 
-  # TODO: This field is always the same as sic_desc
-  # dimension: sic_description {
-  #   sql: ${TABLE}.sic_description__c ;;
-  #   type: string
-  # }
-
   dimension: sic_desc {
     description: "The description of the Standard Industrial Classification"
     label: "SIC Description"
@@ -1130,16 +1095,6 @@ view: account {
     type: string
   }
 
-  dimension: total_sales {
-    sql: ${TABLE}.total_sales__c ;;
-    type: number
-  }
-
-  dimension: total_seats {
-    sql: ${TABLE}.total_seats__c ;;
-    type: string
-  }
-
   dimension_group: trial_req {
     label: "Trial Request"
     sql: ${TABLE}.trial_req_date__c ;;
@@ -1159,11 +1114,6 @@ view: account {
     label: "Account Type"
     sql: ${TABLE}.type ;;
     type: string
-  }
-
-  dimension: unique_accounts {
-    sql: ${TABLE}.unique_accounts__c ;;
-    type: number
   }
 
   dimension_group: unqualified {
@@ -1300,6 +1250,13 @@ view: account {
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct
+  }
+
+  measure: total_current_arr {
+    drill_fields: [sfid, name, arr_current]
+    label: "Total Current ARR"
+    sql: ${arr_current} ;;
+    type: sum_distinct
   }
 
 }

@@ -98,45 +98,8 @@ explore: _base_account_explore {
   }
 }
 
-explore: opportunitylineitem {
-  view_name: opportunitylineitem
-  label: "Line Item to Account"
-  group_label: "Salesforce"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 ;;
-  extends: [ _base_account_explore ]
-
-  join: opportunity {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid};;
-    relationship: many_to_one
-  }
-
-  join: account {
-    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
-  }
-
-  join: product2 {
-    view_label: "Product"
-    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity_csm {
-    view_label: "Opportunity CSM"
-    from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
 explore: account {
+  label: "Account to Line Item"
   group_label: "Salesforce"
 
   join: opportunity {
@@ -145,7 +108,7 @@ explore: account {
   }
 
   join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.length_days} <> 0 ;;
     relationship: many_to_one
   }
 
@@ -186,6 +149,23 @@ explore: account {
     sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: account_health_score {
+    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
+    relationship: one_to_one
+  }
+
+  join: tasks_filtered {
+    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
   }
 
 }
@@ -251,7 +231,7 @@ explore: master_account_monthly_arr_deltas_by_type {
       AND (${opportunitylineitem.start_month} = ${master_account_monthly_arr_deltas_by_type.month_start_month});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr
     ]
   }
@@ -291,7 +271,7 @@ explore: account_daily_arr_deltas {
               OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
  }
 
@@ -334,7 +314,7 @@ explore: master_account_daily_arr_deltas {
                OR ${opportunitylineitem.end_month} = ${master_account_daily_arr_deltas.previous_day_date});;
     relationship: one_to_many
     fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.revenue_type, opportunitylineitem.product_type, opportunitylineitem.product_line_type,
+      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
       opportunitylineitem.total_price, opportunitylineitem.total_arr]
   }
 
@@ -360,6 +340,12 @@ explore: master_account_daily_arr_deltas {
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
+
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
+  }
 
   join: created_by {
     from: user
@@ -450,6 +436,11 @@ explore: daily_traffic {
   label: "Daily Traffic"
 }
 
+explore: daily_page_visits {
+  group_label: "Google Analytics"
+  label: "Daily Page Vistis"
+}
+
 explore: downloads {
   group_label: "General"
 }
@@ -497,10 +488,11 @@ explore: nps_data {
 
 
 explore: arr {
+  extends: [account]
+  view_name: account
   label: "ARR Granular Reporting"
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [opportunitylineitem]
+  sql_always_where: ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
 
   join: dates {
     view_label: "ARR Date"
@@ -535,11 +527,12 @@ explore: arr {
 }
 
 explore: current_potential_arr {
+  view_name: account
   label: "Current & Potential ARR Reporting"
   hidden: yes
   group_label: "ARR"
-  sql_always_where: ${opportunitylineitem.length_days} <> 0 and ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [opportunitylineitem]
+  sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
+  extends: [account]
 
   join: dates {
     view_label: "ARR Date"
@@ -586,6 +579,12 @@ explore: campaign {
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
   }
 
   join: account {

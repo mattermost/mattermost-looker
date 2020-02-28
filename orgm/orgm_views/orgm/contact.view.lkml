@@ -1,16 +1,5 @@
-# Contact data from salesforce.
-#
-# Groups Labels
-# -
-
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
-
 view: contact {
   sql_table_name: orgm.contact ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
   drill_fields: [contact_drill_fields*]
 
 
@@ -19,13 +8,23 @@ view: contact {
   #
 
   set: contact_drill_fields {
-    fields: [id]
+    fields: [sfid]
   }
 
 
   #
   # Dimensions
   #
+
+  dimension: _hc_err {
+    type: string
+    sql: ${TABLE}."_hc_err" ;;
+  }
+
+  dimension: _hc_lastop {
+    type: string
+    sql: ${TABLE}."_hc_lastop" ;;
+  }
 
   dimension: accountid {
     sql: ${TABLE}.ACCOUNTID ;;
