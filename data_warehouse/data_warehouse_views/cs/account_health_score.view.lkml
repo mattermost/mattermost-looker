@@ -140,7 +140,6 @@ view: account_health_score {
       field: last_task_under_30
       value: "yes"
     }
-    drill_fields: [account.name,account_csm.name,days_since_last_task,task_health_score]
   }
 
   measure: count_last_task_over_30 {
@@ -150,7 +149,6 @@ view: account_health_score {
       field: last_task_over_30
       value: "yes"
     }
-    drill_fields: [account.name,account_csm.name,days_since_last_task,task_health_score]
   }
 
   measure: count_last_task_over_90 {
@@ -160,7 +158,6 @@ view: account_health_score {
       field: last_task_over_90
       value: "yes"
     }
-    drill_fields: [account.name,account_csm.name,days_since_last_task,task_health_score]
   }
 
 
@@ -168,7 +165,5 @@ view: account_health_score {
     type: average_distinct
     value_format: "0"
     sql: ${health_score_no_override} ;;
-    drill_fields: [account.name,account_csm.name,health_score_no_override,tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
-      count_tickets_prev_90,ticket_health_score,days_since_last_task,task_health_score]
   }
 }

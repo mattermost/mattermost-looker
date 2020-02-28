@@ -157,6 +157,18 @@ explore: account {
     relationship: one_to_one
   }
 
+  join: tasks_filtered {
+    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
+  }
+
 }
 
 
