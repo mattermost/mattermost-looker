@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [id, firstname, lastname, name, campaignmember.count]
+    fields: [sfid, contact.name, firstname, lastname, count]
   }
 
   #
@@ -719,6 +719,11 @@ view: lead {
     primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
+    link: {
+      label: "Salesforce Lead"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: state {
