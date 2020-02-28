@@ -1,5 +1,5 @@
 view: account_monthly_arr_deltas_by_type {
-  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE_V2 ;;
+  sql_table_name: FINANCE.ACCOUNT_MONTHLY_ARR_DELTAS_BY_TYPE;;
   view_label: "Account Monthly ARR Changes"
 
   dimension: compound_primary {
