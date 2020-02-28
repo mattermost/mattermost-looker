@@ -34,10 +34,10 @@ view: nps_user_monthly_score {
     hidden: no
   }
 
-  dimension: nps_score {
+  dimension: score {
     description: ""
     type: number
-    sql: ${TABLE}.nps_score ;;
+    sql: ${TABLE}.score ;;
     hidden: no
   }
 
@@ -119,6 +119,19 @@ view: nps_user_monthly_score {
     hidden: no
   }
 
+  dimension: responses {
+    description: "NPS responses sent by the user in the record month."
+    type: string
+    sql: ${TABLE}.responses ;;
+  }
+
+  dimension: responses_alltime {
+    label: "Responses (All Time)"
+    description: "All NPS responses sent by the user in or before the record month."
+    type: string
+    sql: ${TABLE}.responses_alltime ;;
+  }
+
 
   # MEASURES
   measure: count {
@@ -126,23 +139,114 @@ view: nps_user_monthly_score {
     type: count
   }
 
-  measure: server_id_count {
+  measure: count_servers {
     description: "The distinct count of Server Id's per grouping."
     type: count_distinct
     sql: ${server_id} ;;
   }
 
-  measure: user_id_count {
+  measure: count_users {
     description: "The distinct count of User Id's per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
-  measure: avg_nps_score {
-    description: "The average NPS score per grouped field."
-    type: average
-    sql: ${nps_score} ;;
+  measure: count_promoters {
+    group_label: "Users"
+    filters: {
+      field: promoter_type
+      value: "Promoter"
+    }
+    type: count_distinct
+    sql: ${user_id} ;;
   }
 
+  measure: count_detractors {
+    group_label: "Users"
+    filters: {
+      field: promoter_type
+      value: "Detractor"
+    }
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: count_passive {
+    group_label: "Users"
+    filters: {
+      field: promoter_type
+      value: "Passive"
+    }
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: pct_promoter_score {
+    group_label: "Percents"
+    type: number
+    value_format: "@{percent}"
+    sql: ${count_promoters}::float/${count_users}::float ;;
+  }
+
+  measure: pct_detractor_score {
+    group_label: "Percents"
+    type: number
+    value_format: "@{percent}"
+    sql: ${count_detractors}::float/${count_users}::float ;;
+  }
+
+  measure: pct_passive_score {
+    group_label: "Percents"
+    type: number
+    value_format: "@{percent}"
+    sql: ${count_passive}::float/${count_users}::float ;;
+  }
+
+  measure: nps_score {
+    label: "NPS Score"
+    value_format: "@{decimal}"
+    type: number
+    sql: 100*(${pct_promoter_score} - ${pct_detractor_score}) ;;
+  }
+
+  measure: avg_score {
+    group_label: "Averages"
+    value_format: "@{decimal}"
+    type: average
+    sql: ${score} ;;
+  }
+
+  measure: avg_promoter_score {
+    group_label: "Averages"
+    value_format: "@{decimal}"
+    filters: {
+      field: promoter_type
+      value: "Promoter"
+    }
+    type: average
+    sql: ${score} ;;
+  }
+
+  measure: avg_detractor_score {
+    group_label: "Averages"
+    value_format: "@{decimal}"
+    filters: {
+      field: promoter_type
+      value: "Detractor"
+    }
+    type: average
+    sql: ${score} ;;
+  }
+
+  measure: avg_passive_score {
+    group_label: "Averages"
+    value_format: "@{decimal}"
+    filters: {
+      field: promoter_type
+      value: "Passive"
+    }
+    type: average
+    sql: ${score} ;;
+  }
 
 }
