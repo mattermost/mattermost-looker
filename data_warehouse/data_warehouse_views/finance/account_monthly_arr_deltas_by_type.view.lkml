@@ -180,7 +180,7 @@ view: account_monthly_arr_deltas_by_type {
   measure: count_arr_resurrection_accounts {
     label: "Count ARR Resurrection Accounts"
     type: count_distinct
-    sql: case when ${TABLE}."TOTAL_ARR_RESURRECTION" < 0 then ${account_sfid} else null end ;;
+    sql: case when ${TABLE}."TOTAL_ARR_RESURRECTION" > 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
