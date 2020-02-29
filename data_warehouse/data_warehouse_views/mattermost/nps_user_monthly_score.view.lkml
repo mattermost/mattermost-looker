@@ -87,11 +87,11 @@ view: nps_user_monthly_score {
     hidden: no
   }
 
-  dimension_group: score_submission_date {
-    description: ""
+  dimension_group: last_score {
+    description: "The last time the user provided an NPS response."
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.score_submission_date ;;
+    sql: ${TABLE}.last_score_date ;;
     hidden: no
   }
 
@@ -103,19 +103,19 @@ view: nps_user_monthly_score {
     hidden: no
   }
 
-  dimension_group: server_install_date {
-    description: ""
+  dimension_group: server_install {
+    description: "The date the user's (responding to the NPS survey) server was installed."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }
 
-  dimension_group: feedback_submission_date {
-    description: ""
+  dimension_group: last_feedback {
+    description: "The last time the user provided an NPS Feedback response."
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.feedback_submission_date ;;
+    sql: ${TABLE}.last_feedback_date ;;
     hidden: no
   }
 
@@ -148,9 +148,18 @@ view: nps_user_monthly_score {
 
   measure: count_users {
     group_label: "Users"
-    description: "The distinct count of User Id's per grouping."
+    label: "Count Users (All Time)"
+    description: "The distinct count of Users that have ever responded to an NPS Survey."
     type: count_distinct
     sql: ${user_id} ;;
+  }
+
+  measure: count_users_current {
+    group_label: "Users"
+    label: "Count Users"
+    description: "The distinct count of Users that responded to an NPS survey in the record month."
+    type: count_distinct
+    sql: case when ${month_date}::date =  date_trunc('month', ${last_score_date}::date) then ${user_id} else null end ;;
   }
 
   measure: count_promoters {
