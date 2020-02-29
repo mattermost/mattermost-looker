@@ -266,7 +266,7 @@ view: nps_user_monthly_score {
     description: "Sum of responses received all time (before or during record month)."
     value_format_name: decimal_0
     type: sum
-    sql: ${responses} ;;
+    sql: ${responses_alltime} ;;
   }
 
 }
