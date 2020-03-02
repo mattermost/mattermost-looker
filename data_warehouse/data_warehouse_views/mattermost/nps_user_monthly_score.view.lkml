@@ -195,21 +195,21 @@ view: nps_user_monthly_score {
   measure: pct_promoter_score {
     group_label: "Percents"
     type: number
-    value_format: "@{percent}"
+    value_format_name: percent_1
     sql: ${count_promoters}::float/${count_users}::float ;;
   }
 
   measure: pct_detractor_score {
     group_label: "Percents"
     type: number
-    value_format: "@{percent}"
+    value_format_name: percent_1
     sql: ${count_detractors}::float/${count_users}::float ;;
   }
 
   measure: pct_passive_score {
     group_label: "Percents"
     type: number
-    value_format: "@{percent}"
+    value_format_name: percent_1
     sql: ${count_passive}::float/${count_users}::float ;;
   }
 
