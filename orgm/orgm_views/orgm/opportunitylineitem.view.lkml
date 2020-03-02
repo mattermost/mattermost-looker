@@ -98,8 +98,15 @@ view: opportunitylineitem {
   }
 
   dimension: name {
+    description: "Name of Line Item in Salesforce"
+    label: "Opportunity Line Item Name"
+    link: {
+      label: "Salesforce Opportunity Line Item"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
     type: string
-    sql: ${TABLE}."name" ;;
   }
 
   dimension: opportunityid {

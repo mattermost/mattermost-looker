@@ -634,7 +634,6 @@ view: account {
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
-    group_label: "Account"
     label: "Account Name"
     link: {
       label: "Salesforce Account"
