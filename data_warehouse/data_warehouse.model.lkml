@@ -654,4 +654,37 @@ explore: account_health_score {
 explore: nps_user_monthly_score {
   group_label: "General"
   label: "Nps User Monthly Score"
+
+  join: license_overview {
+    sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
