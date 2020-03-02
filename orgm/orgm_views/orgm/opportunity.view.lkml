@@ -177,8 +177,15 @@ view: opportunity {
   }
 
   dimension: name {
+    description: "Name of opportunity in Salesforce"
+    label: "Opportunity Name"
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
     type: string
-    sql: ${TABLE}."name" ;;
   }
 
   dimension: new_logo {
