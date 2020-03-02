@@ -108,7 +108,7 @@ explore: account {
   }
 
   join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.length_days} <> 0 ;;
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
     relationship: many_to_one
   }
 
