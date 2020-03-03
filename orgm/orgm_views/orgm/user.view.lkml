@@ -148,6 +148,11 @@ view: user {
     sql: ${TABLE}.START_DATE__C ;;
   }
 
+  dimension: system_type {
+    type: string
+    sql: ${TABLE}.SYSTEM_TYPE__C ;;
+  }
+
   dimension_group: systemmodstamp {
     type: time
     timeframes: [

@@ -14,6 +14,10 @@ explore: opportunity {
   group_label: "zHeroku Postgres OrgM"
 }
 
+explore: user {
+  group_label: "zHeroku Postgres OrgM"
+}
+
 explore: opportunity_snapshot {
   group_label: "zHeroku Postgres OrgM"
 }
