@@ -1,7 +1,7 @@
 view: delete_history {
   sql_table_name: orgm.delete_history__c ;;
   view_label: "Delete History"
-  drill_fields: [name, object_type__c, object_id__c, deleted_by__c, deleted_date_time__c]
+  drill_fields: [name, object_type__c, object_id__c, deleted_by__c, deleted_date]
 
   dimension: id {
     type: number
@@ -46,10 +46,13 @@ view: delete_history {
     label: "Deleted By"
   }
 
-  dimension: deleted_date_time__c {
-    type: date
+  dimension_group: deleted {
+    type: time
+    timeframes: [
+      time,
+      date
+    ]
     sql: ${TABLE}."deleted_date_time__c" ;;
-    label: "Deleted Date"
   }
 
   dimension: dwh_external_id__c {
@@ -118,7 +121,7 @@ view: delete_history {
 
   measure: count {
     type: count
-    drill_fields: [name, object_type__c, object_id__c, deleted_by__c, deleted_date_time__c]
+    drill_fields: [name, object_type__c, object_id__c, deleted_by__c, deleted_date]
     label: "# Deletes"
   }
 }
