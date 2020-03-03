@@ -101,7 +101,7 @@ explore: campaignmember {
 
 explore: account_data_check {
   persist_for: "0 seconds"
-  fields: [account.sfid, orgm_account_data_check.sfid,
+  fields: [account.sfid, orgm_account_data_check.sfid, account.count,
     account.systemmodstamp_time, orgm_account_data_check.systemmodstamp_time,
     account.created_time, orgm_account_data_check.created_time,
     orgm_account_data_check.processed_time,
@@ -125,7 +125,7 @@ explore: account_data_check {
 
 explore: opportunity_data_check {
   persist_for: "0 seconds"
-  fields: [opportunity.sfid, orgm_opportunity_data_check.sfid,
+  fields: [opportunity.sfid, orgm_opportunity_data_check.sfid, opportunity.count,
           opportunity.systemmodstamp_time, orgm_opportunity_data_check.systemmodstamp_time,
           opportunity.created_time, orgm_opportunity_data_check.created_time,
           orgm_opportunity_data_check.processed_time,
@@ -149,7 +149,7 @@ explore: opportunity_data_check {
 
 explore: opportunitylineitem_data_check {
   persist_for: "0 seconds"
-  fields: [opportunitylineitem.sfid, orgm_opportunitylineitem_data_check.sfid,
+  fields: [opportunitylineitem.sfid, orgm_opportunitylineitem_data_check.sfid, opportunitylineitem.count,
           opportunitylineitem.systemmodstamp_time, orgm_opportunitylineitem_data_check.systemmodstamp_time,
           opportunitylineitem.created_time, orgm_opportunitylineitem_data_check.created_time,
           orgm_opportunitylineitem_data_check.processed_time,

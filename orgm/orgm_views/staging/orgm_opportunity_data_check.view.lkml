@@ -49,7 +49,8 @@ view: orgm_opportunity_data_check {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${sfid} ;;
     drill_fields: []
   }
 }
