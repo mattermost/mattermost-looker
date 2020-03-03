@@ -98,7 +98,8 @@ explore: campaignmember {
 explore: account_data_check {
   fields: [account.sfid, orgm_account_data_check.sfid,
     account.systemmodstamp_time, orgm_account_data_check.systemmodstamp_time,
-    account.created_time, orgm_account_data_check.created_time]
+    account.created_time, orgm_account_data_check.created_time,
+    orgm_account_data_check.processed_time]
   group_label: "zHeroku Postgres OrgM"
   from: account
   view_name: account
@@ -113,7 +114,8 @@ explore: account_data_check {
 explore: opportunity_data_check {
   fields: [opportunity.sfid, orgm_opportunity_data_check.sfid,
           opportunity.systemmodstamp_time, orgm_opportunity_data_check.systemmodstamp_time,
-          opportunity.created_time, orgm_opportunity_data_check.created_time]
+          opportunity.created_time, orgm_opportunity_data_check.created_time,
+          orgm_opportunity_data_check.processed_time]
   group_label: "zHeroku Postgres OrgM"
   from: opportunity
   view_name: opportunity
@@ -128,7 +130,8 @@ explore: opportunity_data_check {
 explore: opportunitylineitem_data_check {
   fields: [opportunitylineitem.sfid, orgm_opportunitylineitem_data_check.sfid,
     opportunitylineitem.systemmodstamp_time, orgm_opportunitylineitem_data_check.systemmodstamp_time,
-    opportunitylineitem.created_time, orgm_opportunitylineitem_data_check.created_time]
+    opportunitylineitem.created_time, orgm_opportunitylineitem_data_check.created_time,
+    orgm_opportunitylineitem_data_check.processed_time]
   group_label: "zHeroku Postgres OrgM"
   from: opportunitylineitem
   view_name: opportunitylineitem
