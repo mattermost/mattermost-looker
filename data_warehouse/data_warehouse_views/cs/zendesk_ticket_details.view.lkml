@@ -128,17 +128,17 @@ view: zendesk_ticket_details {
 
   measure: avg_agent_wait_time_in_minutes_bus {
     type: average
-    sql: ${TABLE}."AGENT_WAIT_TIME_IN_MINUTES_BUS" ;;
+    sql: ${agent_wait_time_in_minutes_bus} ;;
   }
 
   measure: avg_agent_wait_time_in_minutes_cal {
     type: average
-    sql: ${TABLE}."AGENT_WAIT_TIME_IN_MINUTES_CAL" ;;
+    sql: ${agent_wait_time_in_minutes_cal} ;;
   }
 
   measure: avg_satisfaction_rating_score {
     type: average
-    sql: ${TABLE}."SATISFACTION_RATING_SCORE" ;;
+    sql: ${satisfaction_rating_score} ;;
   }
 
   measure: avg_first_resolution_time_in_minutes_bus {
