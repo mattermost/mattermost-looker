@@ -125,4 +125,50 @@ view: zendesk_ticket_details {
     sql: ${ticket_id} ;;
     drill_fields: [organization_name, assignee_name]
   }
+
+  measure: avg_agent_wait_time_in_minutes_bus {
+    type: average
+    sql: ${TABLE}."AGENT_WAIT_TIME_IN_MINUTES_BUS" ;;
+  }
+
+  measure: avg_agent_wait_time_in_minutes_cal {
+    type: average
+    sql: ${TABLE}."AGENT_WAIT_TIME_IN_MINUTES_CAL" ;;
+  }
+
+  measure: avg_satisfaction_rating_score {
+    type: average
+    sql: ${TABLE}."SATISFACTION_RATING_SCORE" ;;
+  }
+
+  measure: avg_first_resolution_time_in_minutes_bus {
+    type: average
+    sql: ${first_resolution_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_first_resolution_time_in_minutes_cal {
+    type: average
+    sql: ${first_resolution_time_in_minutes_cal} ;;
+  }
+
+  measure: avg_full_resolution_time_in_minutes_bus {
+    type: average
+    sql: ${full_resolution_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_full_resolution_time_in_minutes_cal {
+    type: average
+    sql: ${full_resolution_time_in_minutes_cal} ;;
+  }
+
+  measure: avg_on_hold_time_in_minutes_bus {
+    type: average
+    sql: ${on_hold_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_on_hold_time_in_minutes_cal {
+    type: average
+    sql: ${on_hold_time_in_minutes_cal} ;;
+  }
+
 }

@@ -169,7 +169,7 @@ explore: account_monthly_arr_deltas_by_type {
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
-    fields: [account.customer_segmentation_tier]
+    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
