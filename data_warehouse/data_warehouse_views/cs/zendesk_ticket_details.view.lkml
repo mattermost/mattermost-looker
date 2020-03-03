@@ -44,6 +44,16 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."ENTERPRISE_EDITION_VERSION" ;;
   }
 
+  dimension: e20_customer_level_tier {
+    type: string
+    sql: ${TABLE}."E20_CUSTOMER_LEVEL_TIER" ;;
+  }
+
+  dimension: tags {
+    type: string
+    sql: ${TABLE}."TAGS" ;;
+  }
+
   dimension: first_resolution_time_in_minutes_bus {
     type: number
     sql: ${TABLE}."FIRST_RESOLUTION_TIME_IN_MINUTES_BUS" ;;
@@ -126,30 +136,25 @@ view: zendesk_ticket_details {
     drill_fields: [organization_name, assignee_name]
   }
 
-  measure: avg_agent_wait_time_in_minutes_bus {
-    type: average
-    sql: ${agent_wait_time_in_minutes_bus} ;;
-  }
+  # measure: avg_agent_wait_time_in_minutes_bus {
+  #   type: average
+  #   sql: ${agent_wait_time_in_minutes_bus} ;;
+  # }
 
-  measure: avg_agent_wait_time_in_minutes_cal {
-    type: average
-    sql: ${agent_wait_time_in_minutes_cal} ;;
-  }
+  # measure: avg_agent_wait_time_in_minutes_cal {
+  #   type: average
+  #   sql: ${agent_wait_time_in_minutes_cal} ;;
+  # }
 
-  measure: avg_satisfaction_rating_score {
-    type: average
-    sql: ${satisfaction_rating_score} ;;
-  }
+  # measure: avg_first_resolution_time_in_minutes_bus {
+  #   type: average
+  #   sql: ${first_resolution_time_in_minutes_bus} ;;
+  # }
 
-  measure: avg_first_resolution_time_in_minutes_bus {
-    type: average
-    sql: ${first_resolution_time_in_minutes_bus} ;;
-  }
-
-  measure: avg_first_resolution_time_in_minutes_cal {
-    type: average
-    sql: ${first_resolution_time_in_minutes_cal} ;;
-  }
+  # measure: avg_first_resolution_time_in_minutes_cal {
+  #   type: average
+  #   sql: ${first_resolution_time_in_minutes_cal} ;;
+  # }
 
   measure: avg_full_resolution_time_in_minutes_bus {
     type: average
@@ -169,6 +174,31 @@ view: zendesk_ticket_details {
   measure: avg_on_hold_time_in_minutes_cal {
     type: average
     sql: ${on_hold_time_in_minutes_cal} ;;
+  }
+
+  measure: avg_reply_time_in_minutes_bus {
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_reply_time_in_minutes_cal {
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_requester_wait_time_in_minutes_bus {
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_requester_wait_time_in_minutes_cal {
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+  }
+
+  measure: avg_satisfaction_rating_score {
+    type: average
+    sql: ${satisfaction_rating_score} ;;
   }
 
 }
