@@ -25,15 +25,11 @@ view: opportunitylineitem {
   dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."createddate" ;;
+    label: "Create Date"
   }
 
   dimension: description {
@@ -165,6 +161,11 @@ view: opportunitylineitem {
     type: string
     primary_key: yes
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity Line Item"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: sortorder {
