@@ -546,6 +546,7 @@ explore: current_potential_arr {
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
     account.account_core*,
+    account.arr_current,
     opportunity.opportunity_core*
   ]
 }
