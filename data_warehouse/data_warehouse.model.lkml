@@ -151,23 +151,6 @@ explore: account {
     fields: []
   }
 
-  join: account_health_score {
-    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
-    relationship: one_to_one
-  }
-
-  join: tasks_filtered {
-    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
-    relationship: one_to_many
-  }
-
-  join: task_owner {
-    from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
-    relationship: many_to_one
-    fields: [name]
-  }
-
 }
 
 
@@ -186,7 +169,7 @@ explore: account_monthly_arr_deltas_by_type {
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
-    fields: [account.customer_segmentation_tier]
+    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
@@ -563,6 +546,7 @@ explore: current_potential_arr {
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
     account.account_core*,
+    account.arr_current,
     opportunity.opportunity_core*
   ]
 }
@@ -634,15 +618,40 @@ explore: dates {
   group_label: "Utility"
 }
 
-
-explore: account_health_score {
-  label: "Account Health Score"
+explore: account_cs_extended  {
+  label: "Account Overview for CS"
   group_label: "Customer Success"
-  extends: [ _base_account_explore ]
+  view_label: "Account"
+  view_name: account
+  extends: [account]
 
-  join: account {
-    sql_on: ${account_health_score.account_sfid} = ${account.sfid} ;;
+  join: account_health_score {
+    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
+    relationship: one_to_one
   }
+
+  join: zendesk_ticket_details {
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: tasks_filtered {
+    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
+  }
+
+}
+
+explore: zendesk_ticket_details {
+  label: "Zendesk Tickets (WIP)"
+  group_label: "Customer Success"
 }
 
 # BP: Method to hide an explore based on a user attribute

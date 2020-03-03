@@ -74,6 +74,7 @@ view: account {
   dimension: arr_current {
     label: "Current ARR"
     sql: ${TABLE}.arr_current__c ;;
+    value_format_name: "usd_0"
     type: number
   }
 
@@ -634,7 +635,6 @@ view: account {
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
-    group_label: "Account"
     label: "Account Name"
     link: {
       label: "Salesforce Account"
