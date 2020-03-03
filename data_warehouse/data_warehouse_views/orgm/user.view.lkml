@@ -112,6 +112,11 @@ view: user {
     type: time
   }
 
+  dimension: system_type {
+    type: string
+    sql: ${TABLE}.SYSTEM_TYPE__C ;;
+  }
+
   dimension: territory {
     sql: ${TABLE}.TERRITORY__C ;;
     type: string
