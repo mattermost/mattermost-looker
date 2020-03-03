@@ -872,6 +872,11 @@ view: account {
     sql: ${TABLE}."sfid" ;;
     group_label: "System"
     label: "Account SFID"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: shippingcity {

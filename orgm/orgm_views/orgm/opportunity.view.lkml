@@ -260,6 +260,11 @@ view: opportunity {
     type: string
     primary_key: yes
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {

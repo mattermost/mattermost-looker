@@ -28,6 +28,10 @@ view: orgm_opportunitylineitem_data_check {
   dimension: sfid {
     type: string
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity Line Item"
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {

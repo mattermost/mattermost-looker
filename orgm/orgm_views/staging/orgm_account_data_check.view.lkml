@@ -28,6 +28,10 @@ view: orgm_account_data_check {
   dimension: sfid {
     type: string
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {
