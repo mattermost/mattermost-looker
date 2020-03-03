@@ -100,6 +100,7 @@ explore: campaignmember {
 }
 
 explore: account_data_check {
+  persist_for: "0 seconds"
   fields: [account.sfid, orgm_account_data_check.sfid,
     account.systemmodstamp_time, orgm_account_data_check.systemmodstamp_time,
     account.created_time, orgm_account_data_check.created_time,
@@ -123,6 +124,7 @@ explore: account_data_check {
 }
 
 explore: opportunity_data_check {
+  persist_for: "0 seconds"
   fields: [opportunity.sfid, orgm_opportunity_data_check.sfid,
           opportunity.systemmodstamp_time, orgm_opportunity_data_check.systemmodstamp_time,
           opportunity.created_time, orgm_opportunity_data_check.created_time,
@@ -146,6 +148,7 @@ explore: opportunity_data_check {
 }
 
 explore: opportunitylineitem_data_check {
+  persist_for: "0 seconds"
   fields: [opportunitylineitem.sfid, orgm_opportunitylineitem_data_check.sfid,
           opportunitylineitem.systemmodstamp_time, orgm_opportunitylineitem_data_check.systemmodstamp_time,
           opportunitylineitem.created_time, orgm_opportunitylineitem_data_check.created_time,
