@@ -149,8 +149,12 @@ view: account {
     label: "Created By ID"
   }
 
-  dimension: createddate {
-    type: date
+  dimension_group: created {
+    type: time
+    timeframes: [
+      time,
+      date
+    ]
     sql: ${TABLE}."createddate" ;;
     label: "Create Date"
   }
@@ -585,9 +589,15 @@ view: account {
   }
 
   dimension: name {
-    type: string
-    sql: ${TABLE}."name" ;;
+    description: "Name of account that opportunity is linked to Salesforce"
     label: "Account Name"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
+    type: string
   }
 
   dimension: named_account {
@@ -862,6 +872,11 @@ view: account {
     sql: ${TABLE}."sfid" ;;
     group_label: "System"
     label: "Account SFID"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: shippingcity {

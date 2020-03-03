@@ -65,7 +65,7 @@ view: _homepage {
               <li>
                 <div>Product</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/16" style="@{css_link_style}">NPS Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
                 </ul>

@@ -108,7 +108,7 @@ explore: account {
   }
 
   join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.length_days} <> 0 ;;
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
     relationship: many_to_one
   }
 
@@ -151,23 +151,6 @@ explore: account {
     fields: []
   }
 
-  join: account_health_score {
-    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
-    relationship: one_to_one
-  }
-
-  join: tasks_filtered {
-    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
-    relationship: one_to_many
-  }
-
-  join: task_owner {
-    from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
-    relationship: many_to_one
-    fields: [name]
-  }
-
 }
 
 
@@ -186,7 +169,7 @@ explore: account_monthly_arr_deltas_by_type {
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
-    fields: [account.customer_segmentation_tier]
+    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
@@ -340,6 +323,12 @@ explore: master_account_daily_arr_deltas {
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
+
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
+  }
 
   join: created_by {
     from: user
@@ -557,6 +546,7 @@ explore: current_potential_arr {
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
     account.account_core*,
+    account.arr_current,
     opportunity.opportunity_core*
   ]
 }
@@ -573,6 +563,12 @@ explore: campaign {
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: lead_status_dates {
+    sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
+    relationship: one_to_one
+    fields: []
   }
 
   join: account {
@@ -622,15 +618,40 @@ explore: dates {
   group_label: "Utility"
 }
 
-
-explore: account_health_score {
-  label: "Account Health Score"
+explore: account_cs_extended  {
+  label: "Account Overview for CS"
   group_label: "Customer Success"
-  extends: [ _base_account_explore ]
+  view_label: "Account"
+  view_name: account
+  extends: [account]
 
-  join: account {
-    sql_on: ${account_health_score.account_sfid} = ${account.sfid} ;;
+  join: account_health_score {
+    sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
+    relationship: one_to_one
   }
+
+  join: zendesk_ticket_details {
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: tasks_filtered {
+    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
+  }
+
+}
+
+explore: zendesk_ticket_details {
+  label: "Zendesk Tickets (WIP)"
+  group_label: "Customer Success"
 }
 
 # BP: Method to hide an explore based on a user attribute
@@ -640,5 +661,39 @@ explore: account_health_score {
 #   required_access_grants: [full_financial]
 # }
 explore: nps_user_monthly_score {
+  group_label: "General"
   label: "Nps User Monthly Score"
+
+  join: license_overview {
+    sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }

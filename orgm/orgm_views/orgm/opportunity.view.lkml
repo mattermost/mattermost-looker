@@ -60,18 +60,14 @@ view: opportunity {
     sql: ${TABLE}."createdbyid" ;;
   }
 
-  dimension_group: createddate {
+  dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."createddate" ;;
+    label: "Create Date"
   }
 
   dimension: expectedrevenue {
@@ -177,8 +173,15 @@ view: opportunity {
   }
 
   dimension: name {
+    description: "Name of opportunity in Salesforce"
+    label: "Opportunity Name"
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
     type: string
-    sql: ${TABLE}."name" ;;
   }
 
   dimension: new_logo {
@@ -257,6 +260,11 @@ view: opportunity {
     type: string
     primary_key: yes
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {
