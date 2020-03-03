@@ -649,7 +649,7 @@ explore: account_cs_extended  {
 }
 
 explore: zendesk_ticket_details {
-  label: "Zendesk Tickets"
+  label: "Zendesk Tickets (WIP)"
   group_label: "Customer Success"
 }
 
