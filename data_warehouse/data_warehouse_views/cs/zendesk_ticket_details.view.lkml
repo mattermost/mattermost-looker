@@ -49,8 +49,77 @@ view: zendesk_ticket_details {
 
   dimension: e20_customer_level_tier {
     type: string
-    sql: ${TABLE}."E20_CUSTOMER_LEVEL_TIER" ;;
+    sql: CASE
+            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
+            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
+            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
+            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
+          ELSE NULL END;;
   }
+
+  dimension: first_response_sla {
+    type: number
+    sql: CASE
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 60
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 120
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 480
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 240
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 480
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e10' THEN 1440
+          ELSE NULL END;;
+  }
+
+  dimension: followup_internal_sla {
+    type: number
+    sql: CASE
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 120
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 240
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 480
+            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 240
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 480
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e10' THEN 1440
+          ELSE NULL END;;
+  }
+
+
+# Premiere
+# L1
+# 60mins
+# 2 biz hrs
+# L2
+# 120mins
+# 4 biz hrs
+# L3
+# 8hrs
+# 24 biz hrs*
+# L4
+# 24hrs
+# 24 biz hrs*
+# E20
+# L1
+# 4hrs
+# 4 biz hrs
+# L2
+# 8hrs
+# 8 biz hrs
+# L3
+# 24hrs
+# 24 biz hrs*
+# L4
+# Next biz day
+# 24 biz hrs*
+# E10
+# N/A
+# N/A
+# 24 biz hrs*
+
+
 
   dimension: product_bug {
     label: "Is Product Bug?"
@@ -81,7 +150,6 @@ view: zendesk_ticket_details {
   }
 
   dimension: satisfaction_rating_score {
-    hidden: yes
     type: string
     sql: ${TABLE}."SATISFACTION_RATING_SCORE" ;;
   }
@@ -170,25 +238,33 @@ view: zendesk_ticket_details {
     drill_fields: [organization_name, assignee_name]
   }
 
-  # measure: avg_agent_wait_time_in_minutes_bus {
-  #   type: average
-  #   sql: ${agent_wait_time_in_minutes_bus} ;;
-  # }
+  measure: avg_agent_wait_time_in_minutes_bus {
+    group_label: "Agent Wait Time"
+    group_item_label: "Business Average Min"
+    type: average
+    sql: ${agent_wait_time_in_minutes_bus} ;;
+  }
 
-  # measure: avg_agent_wait_time_in_minutes_cal {
-  #   type: average
-  #   sql: ${agent_wait_time_in_minutes_cal} ;;
-  # }
+  measure: avg_agent_wait_time_in_minutes_cal {
+    group_label: "Agent Wait Time"
+    group_item_label: "Calendar Average Min"
+    type: average
+    sql: ${agent_wait_time_in_minutes_cal} ;;
+  }
 
-  # measure: avg_first_resolution_time_in_minutes_bus {
-  #   type: average
-  #   sql: ${first_resolution_time_in_minutes_bus} ;;
-  # }
+  measure: avg_first_resolution_time_in_minutes_bus {
+    group_label: "First Resolution"
+    group_item_label: "Business Average Min"
+    type: average
+    sql: ${first_resolution_time_in_minutes_bus} ;;
+  }
 
-  # measure: avg_first_resolution_time_in_minutes_cal {
-  #   type: average
-  #   sql: ${first_resolution_time_in_minutes_cal} ;;
-  # }
+  measure: avg_first_resolution_time_in_minutes_cal {
+    group_label: "First Resolution"
+    group_item_label: "Calendar Average Min"
+    type: average
+    sql: ${first_resolution_time_in_minutes_cal} ;;
+  }
 
   measure: avg_full_resolution_time_in_minutes_bus {
     group_label: "Full Resolution"
@@ -244,13 +320,6 @@ view: zendesk_ticket_details {
     group_item_label: "Calendar Average Min"
     type: average
     sql: ${reply_time_in_minutes_bus} ;;
-  }
-
-  measure: avg_satisfaction_rating_score {
-    group_label: "Satisfaction Rating"
-    group_item_label: "Average"
-    type: average
-    sql: ${satisfaction_rating_score} ;;
   }
 
 }
