@@ -652,6 +652,12 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets (WIP)"
   group_label: "Customer Success"
+
+  join: account {
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 # BP: Method to hide an explore based on a user attribute
