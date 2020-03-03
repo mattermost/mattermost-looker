@@ -60,18 +60,14 @@ view: opportunity {
     sql: ${TABLE}."createdbyid" ;;
   }
 
-  dimension_group: createddate {
+  dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."createddate" ;;
+    label: "Create Date"
   }
 
   dimension: expectedrevenue {

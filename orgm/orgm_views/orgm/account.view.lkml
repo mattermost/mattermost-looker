@@ -149,8 +149,12 @@ view: account {
     label: "Created By ID"
   }
 
-  dimension: createddate {
-    type: date
+  dimension_group: created {
+    type: time
+    timeframes: [
+      time,
+      date
+    ]
     sql: ${TABLE}."createddate" ;;
     label: "Create Date"
   }
