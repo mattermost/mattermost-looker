@@ -118,7 +118,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_security {
-    label: "  Is TEDAS Server"
+    label: "  Is TEDAS Server (Yes/No)"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -127,7 +127,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_mm2_server {
-    label: "  In Mattermost2.Server"
+    label: "  In Mattermost2.Server (Yes/No)"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -136,7 +136,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
-    label: "  Has Tracking Disabled"
+    label: "  Has Tracking Disabled (Yes/No)"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -145,7 +145,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_dupes {
-    label: "  Has Dupes"
+    label: "  Has Dupes (Yes/No)"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -154,7 +154,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_multi_ips {
-    label: "  Has Multiple IP's"
+    label: "  Has Multiple IP's (Yes/No)"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -315,6 +315,7 @@ view: server_daily_details_ext {
   }
 
   dimension: used_apiv3 {
+	label: "Used Apiv3 (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Activity Configuration"
@@ -323,6 +324,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_max_users_for_statistics {
+	label: "Isdefault Max Users For Statistics (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Analytics Configuration"
@@ -331,6 +333,7 @@ view: server_daily_details_ext {
   }
 
   dimension: allow_banner_dismissal {
+	label: "Allow Banner Dismissal (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Annoucument Configuration"
@@ -339,6 +342,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_banner {
+	label: "Enable Banner (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Annoucument Configuration"
@@ -347,6 +351,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_banner_color {
+	label: "Isdefault Banner Color (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Annoucument Configuration"
@@ -355,6 +360,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_banner_text_color {
+	label: "Isdefault Banner Text Color (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Annoucument Configuration"
@@ -403,6 +409,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_apiv3_client {
+	label: "Enable Apiv3 Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -411,6 +418,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_channel_viewed_messages_client {
+	label: "Enable Channel Viewed Messages Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -419,6 +427,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_commands_client {
+	label: "Enable Commands Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -427,6 +436,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_emoji_client {
+	label: "Enable Custom Emoji Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -435,6 +445,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_developer_client {
+	label: "Enable Developer Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -443,6 +454,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_emoji_picker_client {
+	label: "Enable Emoji Picker Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -451,6 +463,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_incoming_webhooks_client {
+	label: "Enable Incoming Webhooks Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -459,6 +472,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_insecure_outgoing_connections_client {
+	label: "Enable Insecure Outgoing Connections Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -467,6 +481,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_multifactor_authentication_client {
+	label: "Enable Multifactor Authentication Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -475,6 +490,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_oauth_service_provider_client {
+	label: "Enable Oauth Service Provider Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -483,6 +499,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_only_admin_integrations_client {
+	label: "Enable Only Admin Integrations Client (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Client Requirements Configuration"
@@ -507,6 +524,7 @@ view: server_daily_details_ext {
   }
 
   dimension: advertise_address {
+	label: "Advertise Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -515,6 +533,7 @@ view: server_daily_details_ext {
   }
 
   dimension: bind_address {
+	label: "Bind Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -523,6 +542,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_cluster {
+	label: "Enable Cluster (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -531,6 +551,7 @@ view: server_daily_details_ext {
   }
 
   dimension: network_interface {
+	label: "Network Interface (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -539,6 +560,7 @@ view: server_daily_details_ext {
   }
 
   dimension: read_only_config {
+	label: "Read Only Config (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -547,6 +569,7 @@ view: server_daily_details_ext {
   }
 
   dimension: use_experimental_gossip {
+	label: "Use Experimental Gossip (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -555,6 +578,7 @@ view: server_daily_details_ext {
   }
 
   dimension: use_ip_address {
+	label: "Use Ip Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Cluster Configuration"
@@ -563,6 +587,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_compliance {
+	label: "Enable Compliance (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Compliance Configuration"
@@ -571,6 +596,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_compliance_daily {
+	label: "Enable Compliance Daily (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Compliance Configuration"
@@ -595,6 +621,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_message_deletion {
+	label: "Enable Message Deletion (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Data Retention Configuration"
@@ -603,6 +630,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_file_deletion {
+	label: "Enable File Deletion (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Data Retention Configuration"
@@ -611,6 +639,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_timezone {
+	label: "Experimental Timezone (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Display Configuration"
@@ -619,6 +648,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_custom_url_schemes {
+	label: "Isdefault Custom Url Schemes (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Display Configuration"
@@ -627,6 +657,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_autocomplete {
+	label: "Enable Autocomplete (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -635,6 +666,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_indexing {
+	label: "Enable Indexing (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -643,6 +675,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_searching {
+	label: "Enable Searching (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -651,6 +684,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_connection_url {
+	label: "Isdefault Connection Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -659,6 +693,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_index_prefix {
+	label: "Isdefault Index Prefix (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -667,6 +702,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_password {
+	label: "Isdefault Password (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -675,6 +711,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_username {
+	label: "Isdefault Username (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -691,6 +728,7 @@ view: server_daily_details_ext {
   }
 
   dimension: skip_tls_verification {
+	label: "Skip Tls Verification (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -699,6 +737,7 @@ view: server_daily_details_ext {
   }
 
   dimension: sniff {
+	label: "Sniff (Yes/No)"
     description: "" 
     type: yesno
     group_label: "ElasticSearch Configuration"
@@ -739,6 +778,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_email_batching {
+	label: "Enable Email Batching (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -747,6 +787,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_preview_mode_banner {
+	label: "Enable Preview Mode Banner (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -755,6 +796,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sign_in_with_email {
+	label: "Enable Sign In With Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -763,6 +805,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sign_in_with_username {
+	label: "Enable Sign In With Username (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -771,6 +814,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sign_up_with_email {
+	label: "Enable Sign Up With Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -779,6 +823,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_smtp_auth {
+	label: "Enable Smtp Auth (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -787,6 +832,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_feedback_email {
+	label: "Isdefault Feedback Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -795,6 +841,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_feedback_name {
+	label: "Isdefault Feedback Name (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -803,6 +850,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_feedback_organization {
+	label: "Isdefault Feedback Organization (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -811,6 +859,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_border_color_email {
+	label: "Isdefault Login Button Border Color Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -819,6 +868,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_color_email {
+	label: "Isdefault Login Button Color Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -827,6 +877,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_text_color_email {
+	label: "Isdefault Login Button Text Color Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -835,6 +886,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_reply_to_address {
+	label: "Isdefault Reply To Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -851,6 +903,7 @@ view: server_daily_details_ext {
   }
 
   dimension: require_email_verification {
+	label: "Require Email Verification (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -859,6 +912,7 @@ view: server_daily_details_ext {
   }
 
   dimension: send_email_notifications {
+	label: "Send Email Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -867,6 +921,7 @@ view: server_daily_details_ext {
   }
 
   dimension: send_push_notifications {
+	label: "Send Push Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -875,6 +930,7 @@ view: server_daily_details_ext {
   }
 
   dimension: skip_server_certificate_verification {
+	label: "Skip Server Certificate Verification (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -883,6 +939,7 @@ view: server_daily_details_ext {
   }
 
   dimension: use_channel_in_email_notifications {
+	label: "Use Channel In Email Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Email Configuration"
@@ -891,6 +948,7 @@ view: server_daily_details_ext {
   }
 
   dimension: client_side_cert_enable {
+	label: "Client Side Cert Enable (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -899,6 +957,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_click_to_reply {
+	label: "Enable Click To Reply (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -907,6 +966,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_post_metadata {
+	label: "Enable Post Metadata (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -915,6 +975,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_client_side_cert_check {
+	label: "Isdefault Client Side Cert Check (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -923,6 +984,7 @@ view: server_daily_details_ext {
   }
 
   dimension: restrict_system_admin {
+	label: "Restrict System Admin (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -931,6 +993,7 @@ view: server_daily_details_ext {
   }
 
   dimension: use_new_saml_library {
+	label: "Use New Saml Library (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Experimental Configuration"
@@ -939,6 +1002,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_experimental_extensions {
+	label: "Enable Experimental Extensions (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Extension Configuration"
@@ -947,6 +1011,7 @@ view: server_daily_details_ext {
   }
 
   dimension: amazon_s3_signv2 {
+	label: "Amazon S3 Signv2 (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -955,6 +1020,7 @@ view: server_daily_details_ext {
   }
 
   dimension: amazon_s3_sse {
+	label: "Amazon S3 Sse (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -963,6 +1029,7 @@ view: server_daily_details_ext {
   }
 
   dimension: amazon_s3_ssl {
+	label: "Amazon S3 Ssl (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -971,6 +1038,7 @@ view: server_daily_details_ext {
   }
 
   dimension: amazon_s3_trace {
+	label: "Amazon S3 Trace (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -987,6 +1055,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_file_attachments {
+	label: "Enable File Attachments (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -995,6 +1064,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_mobile_download {
+	label: "Enable Mobile Download (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -1003,6 +1073,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_mobile_upload {
+	label: "Enable Mobile Upload (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -1011,6 +1082,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_public_links {
+	label: "Enable Public Links (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -1019,6 +1091,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isabsolute_directory {
+	label: "Isabsolute Directory (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -1027,6 +1100,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_directory {
+	label: "Isdefault Directory (Yes/No)"
     description: "" 
     type: yesno
     group_label: "File Configuration"
@@ -1091,6 +1165,7 @@ view: server_daily_details_ext {
   }
 
   dimension: allow_email_accounts {
+	label: "Allow Email Accounts (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Guest Account Configuration"
@@ -1099,6 +1174,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_guest_accounts {
+	label: "Enable Guest Accounts (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Guest Account Configuration"
@@ -1107,6 +1183,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enforce_multifactor_authentication_guest {
+	label: "Enforce Multifactor Authentication Guest (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Guest Account Configuration"
@@ -1115,6 +1192,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_restrict_creation_to_domains {
+	label: "Isdefault Restrict Creation To Domains (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Guest Account Configuration"
@@ -1123,6 +1201,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_image_proxy {
+	label: "Enable Image Proxy (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Image Proxy Configuration"
@@ -1139,6 +1218,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_remote_image_proxy_options {
+	label: "Isdefault Remote Image Proxy Options (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Image Proxy Configuration"
@@ -1147,6 +1227,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_remote_image_proxy_url {
+	label: "Isdefault Remote Image Proxy Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Image Proxy Configuration"
@@ -1163,6 +1244,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_ldap {
+	label: "Enable Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1171,6 +1253,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_admin_filter {
+	label: "Enable Admin Filter (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1179,6 +1262,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sync {
+	label: "Enable Sync (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1187,6 +1271,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_email_attribute_ldap {
+	label: "Isdefault Email Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1195,6 +1280,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_first_name_attribute_ldap {
+	label: "Isdefault First Name Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1203,6 +1289,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_group_display_name_attribute {
+	label: "Isdefault Group Display Name Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1211,6 +1298,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_group_id_attribute {
+	label: "Isdefault Group Id Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1219,6 +1307,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_id_attribute_ldap {
+	label: "Isdefault Id Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1227,6 +1316,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_last_name_attribute_ldap {
+	label: "Isdefault Last Name Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1235,6 +1325,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_border_color_ldap {
+	label: "Isdefault Login Button Border Color Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1243,6 +1334,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_color_ldap {
+	label: "Isdefault Login Button Color Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1251,6 +1343,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_text_color_ldap {
+	label: "Isdefault Login Button Text Color Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1259,6 +1352,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_field_name {
+	label: "Isdefault Login Field Name (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1267,6 +1361,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_id_attribute {
+	label: "Isdefault Login Id Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1275,6 +1370,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_nickname_attribute_ldap {
+	label: "Isdefault Nickname Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1283,6 +1379,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_position_attribute_ldap {
+	label: "Isdefault Position Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1291,6 +1388,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_username_attribute_ldap {
+	label: "Isdefault Username Attribute Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1299,6 +1397,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isempty_admin_filter {
+	label: "Isempty Admin Filter (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1307,6 +1406,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isempty_group_filter {
+	label: "Isempty Group Filter (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1315,6 +1415,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isempty_guest_filter {
+	label: "Isempty Guest Filter (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1347,6 +1448,7 @@ view: server_daily_details_ext {
   }
 
   dimension: skip_certificate_verification {
+	label: "Skip Certificate Verification (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Ldap Configuration"
@@ -1395,6 +1497,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_cluster {
+	label: "Feature Cluster (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1403,6 +1506,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_compliance {
+	label: "Feature Compliance (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1411,6 +1515,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_custom_brand {
+	label: "Feature Custom Brand (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1419,6 +1524,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_custom_permissions_schemes {
+	label: "Feature Custom Permissions Schemes (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1427,6 +1533,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_data_retention {
+	label: "Feature Data Retention (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1435,6 +1542,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_elastic_search {
+	label: "Feature Elastic Search (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1443,6 +1551,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_email_notification_contents {
+	label: "Feature Email Notification Contents (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1451,6 +1560,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_future {
+	label: "Feature Future (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1459,6 +1569,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_google {
+	label: "Feature Google (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1467,6 +1578,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_guest_accounts {
+	label: "Feature Guest Accounts (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1475,6 +1587,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_guest_accounts_permissions {
+	label: "Feature Guest Accounts Permissions (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1483,6 +1596,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_id_loaded {
+	label: "Feature Id Loaded (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1491,6 +1605,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_ldap {
+	label: "Feature Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1499,6 +1614,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_ldap_groups {
+	label: "Feature Ldap Groups (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1507,6 +1623,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_lock_teammate_name_display {
+	label: "Feature Lock Teammate Name Display (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1515,6 +1632,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_message_export {
+	label: "Feature Message Export (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1523,6 +1641,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_metrics {
+	label: "Feature Metrics (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1531,6 +1650,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_mfa {
+	label: "Feature Mfa (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1539,6 +1659,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_mhpns {
+	label: "Feature Mhpns (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1547,6 +1668,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_office365 {
+	label: "Feature Office365 (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1555,6 +1677,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_password {
+	label: "Feature Password (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1563,6 +1686,7 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_saml {
+	label: "Feature Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "License Configuration"
@@ -1611,6 +1735,7 @@ view: server_daily_details_ext {
   }
 
   dimension: console_json_log {
+	label: "Console Json Log (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1627,6 +1752,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_console_log {
+	label: "Enable Console Log (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1635,6 +1761,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_file_log {
+	label: "Enable File Log (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1643,6 +1770,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_webhook_debugging {
+	label: "Enable Webhook Debugging (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1651,6 +1779,7 @@ view: server_daily_details_ext {
   }
 
   dimension: file_json_log {
+	label: "File Json Log (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1667,6 +1796,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_file_format {
+	label: "Isdefault File Format (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1675,6 +1805,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_file_location_log {
+	label: "Isdefault File Location Log (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Log Configuration"
@@ -1699,6 +1830,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_message_export {
+	label: "Enable Message Export (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Message Export Configuration"
@@ -1723,6 +1855,7 @@ view: server_daily_details_ext {
   }
 
   dimension: is_default_global_relay_email_address {
+	label: "Is Default Global Relay Email Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Message Export Configuration"
@@ -1731,6 +1864,7 @@ view: server_daily_details_ext {
   }
 
   dimension: is_default_global_relay_smtp_password {
+	label: "Is Default Global Relay Smtp Password (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Message Export Configuration"
@@ -1739,6 +1873,7 @@ view: server_daily_details_ext {
   }
 
   dimension: is_default_global_relay_smtp_username {
+	label: "Is Default Global Relay Smtp Username (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Message Export Configuration"
@@ -1755,6 +1890,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_metrics {
+	label: "Enable Metrics (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Metric Configuration"
@@ -1763,6 +1899,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_android_app_download_link {
+	label: "Isdefault Android App Download Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Nativeapp Configuration"
@@ -1771,6 +1908,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_app_download_link {
+	label: "Isdefault App Download Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Nativeapp Configuration"
@@ -1779,6 +1917,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_iosapp_download_link {
+	label: "Isdefault Iosapp Download Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Nativeapp Configuration"
@@ -1787,6 +1926,7 @@ view: server_daily_details_ext {
   }
 
   dimension: console_json_notifications {
+	label: "Console Json Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Notifications Log Configuration"
@@ -1803,6 +1943,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_console_notifications {
+	label: "Enable Console Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Notifications Log Configuration"
@@ -1811,6 +1952,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_file_notifications {
+	label: "Enable File Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Notifications Log Configuration"
@@ -1819,6 +1961,7 @@ view: server_daily_details_ext {
   }
 
   dimension: file_json_notifications {
+	label: "File Json Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Notifications Log Configuration"
@@ -1835,6 +1978,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_file_location_notifications {
+	label: "Isdefault File Location Notifications (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Notifications Log Configuration"
@@ -1843,6 +1987,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_office365_oauth {
+	label: "Enable Office365 Oauth (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Oauth Configuration"
@@ -1851,6 +1996,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_google_oauth {
+	label: "Enable Google Oauth (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Oauth Configuration"
@@ -1859,6 +2005,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_gitlab_oauth {
+	label: "Enable Gitlab Oauth (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Oauth Configuration"
@@ -1867,6 +2014,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_lowercase {
+	label: "Enable Lowercase (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Password Configuration"
@@ -1875,6 +2023,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_uppercase {
+	label: "Enable Uppercase (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Password Configuration"
@@ -1883,6 +2032,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_symbol {
+	label: "Enable Symbol (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Password Configuration"
@@ -1891,6 +2041,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_number {
+	label: "Enable Number (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Password Configuration"
@@ -1907,6 +2058,7 @@ view: server_daily_details_ext {
   }
 
   dimension: phase_1_migration_complete {
+	label: "Phase 1 Migration Complete (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Permissions General Configuration"
@@ -1915,6 +2067,7 @@ view: server_daily_details_ext {
   }
 
   dimension: phase_2_migration_complete {
+	label: "Phase 2 Migration Complete (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Permissions General Configuration"
@@ -1987,6 +2140,7 @@ view: server_daily_details_ext {
   }
 
   dimension: allow_insecure_download_url {
+	label: "Allow Insecure Download Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -1995,6 +2149,7 @@ view: server_daily_details_ext {
   }
 
   dimension: automatic_prepackaged_plugins {
+	label: "Automatic Prepackaged Plugins (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2003,6 +2158,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_plugins {
+	label: "Enable Plugins (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2011,6 +2167,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_antivirus {
+	label: "Enable Antivirus (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2019,6 +2176,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_autolink {
+	label: "Enable Autolink (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2027,6 +2185,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_aws_sns {
+	label: "Enable Aws Sns (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2035,6 +2194,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_user_attributes {
+	label: "Enable Custom User Attributes (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2043,6 +2203,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_github {
+	label: "Enable Github (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2051,6 +2212,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_gitlab {
+	label: "Enable Gitlab (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2059,6 +2221,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_health_check {
+	label: "Enable Health Check (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2067,6 +2230,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_jenkins {
+	label: "Enable Jenkins (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2075,6 +2239,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_jira {
+	label: "Enable Jira (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2083,6 +2248,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_marketplace {
+	label: "Enable Marketplace (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2091,6 +2257,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_nps {
+	label: "Enable Nps (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2099,6 +2266,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_nps_survey {
+	label: "Enable Nps Survey (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2107,6 +2275,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_remote_marketplace {
+	label: "Enable Remote Marketplace (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2115,6 +2284,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_uploads {
+	label: "Enable Uploads (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2123,6 +2293,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_webex {
+	label: "Enable Webex (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2131,6 +2302,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_welcome_bot {
+	label: "Enable Welcome Bot (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2139,6 +2311,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_zoom {
+	label: "Enable Zoom (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2147,6 +2320,7 @@ view: server_daily_details_ext {
   }
 
   dimension: is_default_marketplace_url {
+	label: "Is Default Marketplace Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2155,6 +2329,7 @@ view: server_daily_details_ext {
   }
 
   dimension: require_plugin_signature {
+	label: "Require Plugin Signature (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Plugin Configuration"
@@ -2379,6 +2554,7 @@ view: server_daily_details_ext {
   }
 
   dimension: show_email_address {
+	label: "Show Email Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Privacy Configuration"
@@ -2387,6 +2563,7 @@ view: server_daily_details_ext {
   }
 
   dimension: show_full_name {
+	label: "Show Full Name (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Privacy Configuration"
@@ -2395,6 +2572,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_rate_limiter {
+	label: "Enable Rate Limiter (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Rate Configuration"
@@ -2403,6 +2581,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_vary_by_header {
+	label: "Isdefault Vary By Header (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Rate Configuration"
@@ -2435,6 +2614,7 @@ view: server_daily_details_ext {
   }
 
   dimension: vary_by_remote_address {
+	label: "Vary By Remote Address (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Rate Configuration"
@@ -2443,6 +2623,7 @@ view: server_daily_details_ext {
   }
 
   dimension: vary_by_user {
+	label: "Vary By User (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Rate Configuration"
@@ -2451,6 +2632,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_saml {
+	label: "Enable Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2459,6 +2641,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_admin_attribute {
+	label: "Enable Admin Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2467,6 +2650,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sync_with_ldap {
+	label: "Enable Sync With Ldap (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2475,6 +2659,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_sync_with_ldap_include_auth {
+	label: "Enable Sync With Ldap Include Auth (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2483,6 +2668,7 @@ view: server_daily_details_ext {
   }
 
   dimension: encrypt_saml {
+	label: "Encrypt Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2491,6 +2677,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_admin_attribute {
+	label: "Isdefault Admin Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2499,6 +2686,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_canonical_algorithm {
+	label: "Isdefault Canonical Algorithm (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2507,6 +2695,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_email_attribute_saml {
+	label: "Isdefault Email Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2515,6 +2704,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_first_name_attribute_saml {
+	label: "Isdefault First Name Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2523,6 +2713,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_guest_attribute {
+	label: "Isdefault Guest Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2531,6 +2722,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_id_attribute_saml {
+	label: "Isdefault Id Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2539,6 +2731,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_last_name_attribute_saml {
+	label: "Isdefault Last Name Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2547,6 +2740,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_locale_attribute {
+	label: "Isdefault Locale Attribute (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2555,6 +2749,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_border_color_saml {
+	label: "Isdefault Login Button Border Color Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2563,6 +2758,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_color_saml {
+	label: "Isdefault Login Button Color Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2571,6 +2767,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_text {
+	label: "Isdefault Login Button Text (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2579,6 +2776,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_login_button_text_color_saml {
+	label: "Isdefault Login Button Text Color Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2587,6 +2785,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_nickname_attribute_saml {
+	label: "Isdefault Nickname Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2595,6 +2794,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_position_attribute_saml {
+	label: "Isdefault Position Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2603,6 +2803,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_scoping_idp_name {
+	label: "Isdefault Scoping Idp Name (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2611,6 +2812,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_scoping_idp_provider_id {
+	label: "Isdefault Scoping Idp Provider Id (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2619,6 +2821,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_signature_algorithm {
+	label: "Isdefault Signature Algorithm (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2627,6 +2830,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_username_attribute_saml {
+	label: "Isdefault Username Attribute Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2635,6 +2839,7 @@ view: server_daily_details_ext {
   }
 
   dimension: sign_request {
+	label: "Sign Request (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2643,6 +2848,7 @@ view: server_daily_details_ext {
   }
 
   dimension: verify_saml {
+	label: "Verify Saml (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Saml Configuration"
@@ -2651,6 +2857,7 @@ view: server_daily_details_ext {
   }
 
   dimension: allow_cookies_for_subdomains {
+	label: "Allow Cookies For Subdomains (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2667,6 +2874,7 @@ view: server_daily_details_ext {
   }
 
   dimension: close_unused_direct_messages {
+	label: "Close Unused Direct Messages (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2683,6 +2891,7 @@ view: server_daily_details_ext {
   }
 
   dimension: cors_allow_credentials {
+	label: "Cors Allow Credentials (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2691,6 +2900,7 @@ view: server_daily_details_ext {
   }
 
   dimension: cors_debug {
+	label: "Cors Debug (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2699,6 +2909,7 @@ view: server_daily_details_ext {
   }
 
   dimension: custom_service_terms_enabled_service {
+	label: "Custom Service Terms Enabled Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2707,6 +2918,7 @@ view: server_daily_details_ext {
   }
 
   dimension: disable_bots_when_owner_is_deactivated {
+	label: "Disable Bots When Owner Is Deactivated (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2715,6 +2927,7 @@ view: server_daily_details_ext {
   }
 
   dimension: disable_legacy_mfa {
+	label: "Disable Legacy Mfa (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2723,6 +2936,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_apiv3_service {
+	label: "Enable Apiv3 Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2731,6 +2945,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_api_team_deletion {
+	label: "Enable Api Team Deletion (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2739,6 +2954,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_bot_account_creation {
+	label: "Enable Bot Account Creation (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2747,6 +2963,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_channel_viewed_messages_service {
+	label: "Enable Channel Viewed Messages Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2755,6 +2972,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_commands_service {
+	label: "Enable Commands Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2763,6 +2981,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_emoji_service {
+	label: "Enable Custom Emoji Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2771,6 +2990,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_developer_service {
+	label: "Enable Developer Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2779,6 +2999,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_email_invitations {
+	label: "Enable Email Invitations (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2787,6 +3008,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_emoji_picker_service {
+	label: "Enable Emoji Picker Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2795,6 +3017,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_gif_picker {
+	label: "Enable Gif Picker (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2803,6 +3026,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_incoming_webhooks_service {
+	label: "Enable Incoming Webhooks Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2811,6 +3035,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_insecure_outgoing_connections_service {
+	label: "Enable Insecure Outgoing Connections Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2819,6 +3044,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_latex {
+	label: "Enable Latex (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2827,6 +3053,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_multifactor_authentication_service {
+	label: "Enable Multifactor Authentication Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2835,6 +3062,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_oauth_service_provider_service {
+	label: "Enable Oauth Service Provider Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2843,6 +3071,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_only_admin_integrations_service {
+	label: "Enable Only Admin Integrations Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2851,6 +3080,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_outgoing_webhooks {
+	label: "Enable Outgoing Webhooks (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2859,6 +3089,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_post_icon_override {
+	label: "Enable Post Icon Override (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2867,6 +3098,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_post_search {
+	label: "Enable Post Search (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2875,6 +3107,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_post_username_override {
+	label: "Enable Post Username Override (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2883,6 +3116,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_preview_features {
+	label: "Enable Preview Features (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2891,6 +3125,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_security_fix_alert {
+	label: "Enable Security Fix Alert (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2899,6 +3134,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_svgs {
+	label: "Enable Svgs (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2907,6 +3143,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_testing {
+	label: "Enable Testing (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2915,6 +3152,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_tutorial {
+	label: "Enable Tutorial (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2923,6 +3161,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_user_access_tokens {
+	label: "Enable User Access Tokens (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2931,6 +3170,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_user_statuses {
+	label: "Enable User Statuses (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2939,6 +3179,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_user_typing_messages {
+	label: "Enable User Typing Messages (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2947,6 +3188,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enforce_multifactor_authentication_service {
+	label: "Enforce Multifactor Authentication Service (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2955,6 +3197,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_channel_organization {
+	label: "Experimental Channel Organization (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2963,6 +3206,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_enable_authentication_transfer {
+	label: "Experimental Enable Authentication Transfer (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2971,6 +3215,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_enable_default_channel_leave_join_messages {
+	label: "Experimental Enable Default Channel Leave Join Messages (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2979,6 +3224,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_enable_hardened_mode {
+	label: "Experimental Enable Hardened Mode (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -2995,6 +3241,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_ldap_group_sync {
+	label: "Experimental Ldap Group Sync (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3003,6 +3250,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_limit_client_config {
+	label: "Experimental Limit Client Config (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3011,6 +3259,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_strict_csrf_enforcement {
+	label: "Experimental Strict Csrf Enforcement (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3019,6 +3268,7 @@ view: server_daily_details_ext {
   }
 
   dimension: forward_80_to_443 {
+	label: "Forward 80 To 443 (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3027,6 +3277,7 @@ view: server_daily_details_ext {
   }
 
   dimension: gfycat_api_key {
+	label: "Gfycat Api Key (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3035,6 +3286,7 @@ view: server_daily_details_ext {
   }
 
   dimension: gfycat_api_secret {
+	label: "Gfycat Api Secret (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3043,6 +3295,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_allowed_untrusted_internal_connections {
+	label: "Isdefault Allowed Untrusted Internal Connections (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3051,6 +3304,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_allowed_untrusted_inteznal_connections {
+	label: "Isdefault Allowed Untrusted Inteznal Connections (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3059,6 +3313,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_allow_cors_from {
+	label: "Isdefault Allow Cors From (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3067,6 +3322,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_cors_exposed_headers {
+	label: "Isdefault Cors Exposed Headers (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3075,6 +3331,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_google_developer_key {
+	label: "Isdefault Google Developer Key (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3083,6 +3340,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_image_proxy_options {
+	label: "Isdefault Image Proxy Options (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3091,6 +3349,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_image_proxy_type {
+	label: "Isdefault Image Proxy Type (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3099,6 +3358,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_image_proxy_url {
+	label: "Isdefault Image Proxy Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3107,6 +3367,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_read_timeout {
+	label: "Isdefault Read Timeout (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3115,6 +3376,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_site_url {
+	label: "Isdefault Site Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3123,6 +3385,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_tls_cert_file {
+	label: "Isdefault Tls Cert File (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3131,6 +3394,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_tls_key_file {
+	label: "Isdefault Tls Key File (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3139,6 +3403,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_write_timeout {
+	label: "Isdefault Write Timeout (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3227,6 +3492,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tls_strict_transport {
+	label: "Tls Strict Transport (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3235,6 +3501,7 @@ view: server_daily_details_ext {
   }
 
   dimension: uses_letsencrypt {
+	label: "Uses Letsencrypt (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3243,6 +3510,7 @@ view: server_daily_details_ext {
   }
 
   dimension: websocket_url {
+	label: "Websocket Url (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Service Configuration"
@@ -3267,6 +3535,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_public_channels_materialization {
+	label: "Enable Public Channels Materialization (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Sql Configuration"
@@ -3299,6 +3568,7 @@ view: server_daily_details_ext {
   }
 
   dimension: trace_sql {
+	label: "Trace Sql (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Sql Configuration"
@@ -3307,6 +3577,7 @@ view: server_daily_details_ext {
   }
 
   dimension: custom_service_terms_enabled_support {
+	label: "Custom Service Terms Enabled Support (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3315,6 +3586,7 @@ view: server_daily_details_ext {
   }
 
   dimension: custom_terms_of_service_enabled {
+	label: "Custom Terms Of Service Enabled (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3331,6 +3603,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_about_link {
+	label: "Isdefault About Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3339,6 +3612,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_help_link {
+	label: "Isdefault Help Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3347,6 +3621,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_privacy_policy_link {
+	label: "Isdefault Privacy Policy Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3355,6 +3630,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_report_a_problem_link {
+	label: "Isdefault Report A Problem Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3363,6 +3639,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_support_email {
+	label: "Isdefault Support Email (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3371,6 +3648,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_terms_of_service_link {
+	label: "Isdefault Terms Of Service Link (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Support Configuration"
@@ -3387,6 +3665,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_confirm_notifications_to_channel {
+	label: "Enable Confirm Notifications To Channel (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3395,6 +3674,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_brand {
+	label: "Enable Custom Brand (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3403,6 +3683,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_open_server {
+	label: "Enable Open Server (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3411,6 +3692,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_team_creation {
+	label: "Enable Team Creation (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3419,6 +3701,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_user_creation {
+	label: "Enable User Creation (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3427,6 +3710,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_user_deactivation {
+	label: "Enable User Deactivation (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3435,6 +3719,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_x_to_leave_channels_from_lhs {
+	label: "Enable X To Leave Channels From Lhs (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3451,6 +3736,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_enable_automatic_replies {
+	label: "Experimental Enable Automatic Replies (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3459,6 +3745,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_primary_team {
+	label: "Experimental Primary Team (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3467,6 +3754,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_town_square_is_hidden_in_lhs {
+	label: "Experimental Town Square Is Hidden In Lhs (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3475,6 +3763,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_town_square_is_read_only {
+	label: "Experimental Town Square Is Read Only (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3483,6 +3772,7 @@ view: server_daily_details_ext {
   }
 
   dimension: experimental_view_archived_channels {
+	label: "Experimental View Archived Channels (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3491,6 +3781,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_custom_brand_text {
+	label: "Isdefault Custom Brand Text (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3499,6 +3790,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_custom_description_text {
+	label: "Isdefault Custom Description Text (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3507,6 +3799,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_site_name {
+	label: "Isdefault Site Name (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3515,6 +3808,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_user_status_away_timeout {
+	label: "Isdefault User Status Away Timeout (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3523,6 +3817,7 @@ view: server_daily_details_ext {
   }
 
   dimension: lock_teammate_name_display {
+	label: "Lock Teammate Name Display (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3635,6 +3930,7 @@ view: server_daily_details_ext {
   }
 
   dimension: view_archived_channels {
+	label: "View Archived Channels (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Team Configuration"
@@ -3651,6 +3947,7 @@ view: server_daily_details_ext {
   }
 
   dimension: allow_custom_themes {
+	label: "Allow Custom Themes (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Theme Configuration"
@@ -3659,6 +3956,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_theme_selection {
+	label: "Enable Theme Selection (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Theme Configuration"
@@ -3667,6 +3965,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_default_theme {
+	label: "Isdefault Default Theme (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Theme Configuration"
@@ -3675,6 +3974,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_supported_timezones_path {
+	label: "Isdefault Supported Timezones Path (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Timezone Configuration"
@@ -3683,6 +3983,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable {
+	label: "Enable (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Webrtc Configuration"
@@ -3691,6 +3992,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_stun_uri {
+	label: "Isdefault Stun Uri (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Webrtc Configuration"
@@ -3699,6 +4001,7 @@ view: server_daily_details_ext {
   }
 
   dimension: isdefault_turn_uri {
+	label: "Isdefault Turn Uri (Yes/No)"
     description: "" 
     type: yesno
     group_label: "Webrtc Configuration"
