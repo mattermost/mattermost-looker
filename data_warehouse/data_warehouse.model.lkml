@@ -58,8 +58,9 @@ include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
@@ -708,3 +709,5 @@ explore: nps_user_monthly_score {
 explore: server_daily_details_ext {
   label: "Server Daily Details Ext"
 }
+
+explore: tva_curr_fy_arr_by_mo {}
