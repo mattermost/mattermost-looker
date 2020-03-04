@@ -70,13 +70,14 @@ view: zendesk_ticket_details {
   }
 
   dimension: e20_customer_level_tier {
+    label: "Level Tier"
     type: string
     sql: CASE
             WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
             WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
             WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
             WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
-          ELSE NULL END;;
+          ELSE 'No Level' END;;
   }
 
   dimension: first_response_sla {
@@ -130,6 +131,12 @@ view: zendesk_ticket_details {
   dimension: product_bug {
     label: "Is Product Bug?"
     sql: ${tags} like '%jira%'or ${tags} like '%bug%';;
+    type: yesno
+  }
+
+  dimension: autoclosed {
+    label: "Is Auto Closed?"
+    sql: ${tags} like '%autoclosed%';;
     type: yesno
   }
 
