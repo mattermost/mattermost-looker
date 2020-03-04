@@ -270,7 +270,7 @@ view: opportunitylineitem {
 
   dimension: potential_arr {
     label: "Potential ARR"
-    sql: case when not ${opportunity.isclosed} AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when not ${opportunity.isclosed} AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
