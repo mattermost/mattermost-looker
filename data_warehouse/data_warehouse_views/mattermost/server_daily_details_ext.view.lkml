@@ -3,2466 +3,6 @@ view: server_daily_details_ext {
   sql_table_name: mattermost.server_daily_details_ext ;;
   view_label: "Server Daily Details Ext"
 
-  # FILTERS
-  filter: is_in_security {
-    description: "" 
-    type: yesno
-    sql: ${TABLE}.in_security ;;
-    hidden: no
-  }
-
-  filter: is_in_mm2_server {
-    description: "" 
-    type: yesno
-    sql: ${TABLE}.in_mm2_server ;;
-    hidden: no
-  }
-
-  filter: is_tracking_disabled {
-    description: "" 
-    type: yesno
-    sql: ${TABLE}.tracking_disabled ;;
-    hidden: no
-  }
-
-  filter: is_has_dupes {
-    description: "" 
-    type: yesno
-    sql: ${TABLE}.has_dupes ;;
-    hidden: no
-  }
-
-  filter: is_has_multi_ips {
-    description: "" 
-    type: yesno
-    sql: ${TABLE}.has_multi_ips ;;
-    hidden: no
-  }
-
-  filter: is_used_apiv3 {
-    description: "" 
-    type: yesno
-    group_label: "Activity Configuration"
-    sql: ${TABLE}.used_apiv3 ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_max_users_for_statistics {
-    description: "" 
-    type: yesno
-    group_label: "Analytics Configuration"
-    sql: ${TABLE}.isdefault_max_users_for_statistics ;;
-    hidden: no
-  }
-
-  filter: is_allow_banner_dismissal {
-    description: "" 
-    type: yesno
-    group_label: "Annoucument Configuration"
-    sql: ${TABLE}.allow_banner_dismissal ;;
-    hidden: no
-  }
-
-  filter: is_enable_banner {
-    description: "" 
-    type: yesno
-    group_label: "Annoucument Configuration"
-    sql: ${TABLE}.enable_banner ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_banner_color {
-    description: "" 
-    type: yesno
-    group_label: "Annoucument Configuration"
-    sql: ${TABLE}.isdefault_banner_color ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_banner_text_color {
-    description: "" 
-    type: yesno
-    group_label: "Annoucument Configuration"
-    sql: ${TABLE}.isdefault_banner_text_color ;;
-    hidden: no
-  }
-
-  filter: is_enable_apiv3_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_apiv3_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_channel_viewed_messages_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_channel_viewed_messages_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_commands_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_commands_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_custom_emoji_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_custom_emoji_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_developer_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_developer_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_emoji_picker_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_emoji_picker_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_incoming_webhooks_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_incoming_webhooks_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_insecure_outgoing_connections_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_insecure_outgoing_connections_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_multifactor_authentication_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_multifactor_authentication_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_oauth_service_provider_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_oauth_service_provider_client ;;
-    hidden: no
-  }
-
-  filter: is_enable_only_admin_integrations_client {
-    description: "" 
-    type: yesno
-    group_label: "Client Requirements Configuration"
-    sql: ${TABLE}.enable_only_admin_integrations_client ;;
-    hidden: no
-  }
-
-  filter: is_advertise_address {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.advertise_address ;;
-    hidden: no
-  }
-
-  filter: is_bind_address {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.bind_address ;;
-    hidden: no
-  }
-
-  filter: is_enable_cluster {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.enable_cluster ;;
-    hidden: no
-  }
-
-  filter: is_network_interface {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.network_interface ;;
-    hidden: no
-  }
-
-  filter: is_read_only_config {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.read_only_config ;;
-    hidden: no
-  }
-
-  filter: is_use_experimental_gossip {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.use_experimental_gossip ;;
-    hidden: no
-  }
-
-  filter: is_use_ip_address {
-    description: "" 
-    type: yesno
-    group_label: "Cluster Configuration"
-    sql: ${TABLE}.use_ip_address ;;
-    hidden: no
-  }
-
-  filter: is_enable_compliance {
-    description: "" 
-    type: yesno
-    group_label: "Compliance Configuration"
-    sql: ${TABLE}.enable_compliance ;;
-    hidden: no
-  }
-
-  filter: is_enable_compliance_daily {
-    description: "" 
-    type: yesno
-    group_label: "Compliance Configuration"
-    sql: ${TABLE}.enable_compliance_daily ;;
-    hidden: no
-  }
-
-  filter: is_enable_message_deletion {
-    description: "" 
-    type: yesno
-    group_label: "Data Retention Configuration"
-    sql: ${TABLE}.enable_message_deletion ;;
-    hidden: no
-  }
-
-  filter: is_enable_file_deletion {
-    description: "" 
-    type: yesno
-    group_label: "Data Retention Configuration"
-    sql: ${TABLE}.enable_file_deletion ;;
-    hidden: no
-  }
-
-  filter: is_experimental_timezone {
-    description: "" 
-    type: yesno
-    group_label: "Display Configuration"
-    sql: ${TABLE}.experimental_timezone ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_custom_url_schemes {
-    description: "" 
-    type: yesno
-    group_label: "Display Configuration"
-    sql: ${TABLE}.isdefault_custom_url_schemes ;;
-    hidden: no
-  }
-
-  filter: is_enable_autocomplete {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.enable_autocomplete ;;
-    hidden: no
-  }
-
-  filter: is_enable_indexing {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.enable_indexing ;;
-    hidden: no
-  }
-
-  filter: is_enable_searching {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.enable_searching ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_connection_url {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.isdefault_connection_url ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_index_prefix {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.isdefault_index_prefix ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_password {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.isdefault_password ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_username {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.isdefault_username ;;
-    hidden: no
-  }
-
-  filter: is_skip_tls_verification {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.skip_tls_verification ;;
-    hidden: no
-  }
-
-  filter: is_sniff {
-    description: "" 
-    type: yesno
-    group_label: "ElasticSearch Configuration"
-    sql: ${TABLE}.sniff ;;
-    hidden: no
-  }
-
-  filter: is_enable_email_batching {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_email_batching ;;
-    hidden: no
-  }
-
-  filter: is_enable_preview_mode_banner {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_preview_mode_banner ;;
-    hidden: no
-  }
-
-  filter: is_enable_sign_in_with_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_sign_in_with_email ;;
-    hidden: no
-  }
-
-  filter: is_enable_sign_in_with_username {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_sign_in_with_username ;;
-    hidden: no
-  }
-
-  filter: is_enable_sign_up_with_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_sign_up_with_email ;;
-    hidden: no
-  }
-
-  filter: is_enable_smtp_auth {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.enable_smtp_auth ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_feedback_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_feedback_email ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_feedback_name {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_feedback_name ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_feedback_organization {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_feedback_organization ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_border_color_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_login_button_border_color_email ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_color_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_login_button_color_email ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_text_color_email {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_login_button_text_color_email ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_reply_to_address {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.isdefault_reply_to_address ;;
-    hidden: no
-  }
-
-  filter: is_require_email_verification {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.require_email_verification ;;
-    hidden: no
-  }
-
-  filter: is_send_email_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.send_email_notifications ;;
-    hidden: no
-  }
-
-  filter: is_send_push_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.send_push_notifications ;;
-    hidden: no
-  }
-
-  filter: is_skip_server_certificate_verification {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.skip_server_certificate_verification ;;
-    hidden: no
-  }
-
-  filter: is_use_channel_in_email_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Email Configuration"
-    sql: ${TABLE}.use_channel_in_email_notifications ;;
-    hidden: no
-  }
-
-  filter: is_client_side_cert_enable {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.client_side_cert_enable ;;
-    hidden: no
-  }
-
-  filter: is_enable_click_to_reply {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.enable_click_to_reply ;;
-    hidden: no
-  }
-
-  filter: is_enable_post_metadata {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.enable_post_metadata ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_client_side_cert_check {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.isdefault_client_side_cert_check ;;
-    hidden: no
-  }
-
-  filter: is_restrict_system_admin {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.restrict_system_admin ;;
-    hidden: no
-  }
-
-  filter: is_use_new_saml_library {
-    description: "" 
-    type: yesno
-    group_label: "Experimental Configuration"
-    sql: ${TABLE}.use_new_saml_library ;;
-    hidden: no
-  }
-
-  filter: is_enable_experimental_extensions {
-    description: "" 
-    type: yesno
-    group_label: "Extension Configuration"
-    sql: ${TABLE}.enable_experimental_extensions ;;
-    hidden: no
-  }
-
-  filter: is_amazon_s3_signv2 {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.amazon_s3_signv2 ;;
-    hidden: no
-  }
-
-  filter: is_amazon_s3_sse {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.amazon_s3_sse ;;
-    hidden: no
-  }
-
-  filter: is_amazon_s3_ssl {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.amazon_s3_ssl ;;
-    hidden: no
-  }
-
-  filter: is_amazon_s3_trace {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.amazon_s3_trace ;;
-    hidden: no
-  }
-
-  filter: is_enable_file_attachments {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.enable_file_attachments ;;
-    hidden: no
-  }
-
-  filter: is_enable_mobile_download {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.enable_mobile_download ;;
-    hidden: no
-  }
-
-  filter: is_enable_mobile_upload {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.enable_mobile_upload ;;
-    hidden: no
-  }
-
-  filter: is_enable_public_links {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.enable_public_links ;;
-    hidden: no
-  }
-
-  filter: is_isabsolute_directory {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.isabsolute_directory ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_directory {
-    description: "" 
-    type: yesno
-    group_label: "File Configuration"
-    sql: ${TABLE}.isdefault_directory ;;
-    hidden: no
-  }
-
-  filter: is_allow_email_accounts {
-    description: "" 
-    type: yesno
-    group_label: "Guest Account Configuration"
-    sql: ${TABLE}.allow_email_accounts ;;
-    hidden: no
-  }
-
-  filter: is_enable_guest_accounts {
-    description: "" 
-    type: yesno
-    group_label: "Guest Account Configuration"
-    sql: ${TABLE}.enable_guest_accounts ;;
-    hidden: no
-  }
-
-  filter: is_enforce_multifactor_authentication_guest {
-    description: "" 
-    type: yesno
-    group_label: "Guest Account Configuration"
-    sql: ${TABLE}.enforce_multifactor_authentication_guest ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_restrict_creation_to_domains {
-    description: "" 
-    type: yesno
-    group_label: "Guest Account Configuration"
-    sql: ${TABLE}.isdefault_restrict_creation_to_domains ;;
-    hidden: no
-  }
-
-  filter: is_enable_image_proxy {
-    description: "" 
-    type: yesno
-    group_label: "Image Proxy Configuration"
-    sql: ${TABLE}.enable_image_proxy ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_remote_image_proxy_options {
-    description: "" 
-    type: yesno
-    group_label: "Image Proxy Configuration"
-    sql: ${TABLE}.isdefault_remote_image_proxy_options ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_remote_image_proxy_url {
-    description: "" 
-    type: yesno
-    group_label: "Image Proxy Configuration"
-    sql: ${TABLE}.isdefault_remote_image_proxy_url ;;
-    hidden: no
-  }
-
-  filter: is_enable_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.enable_ldap ;;
-    hidden: no
-  }
-
-  filter: is_enable_admin_filter {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.enable_admin_filter ;;
-    hidden: no
-  }
-
-  filter: is_enable_sync {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.enable_sync ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_email_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_email_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_first_name_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_first_name_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_group_display_name_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_group_display_name_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_group_id_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_group_id_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_id_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_id_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_last_name_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_last_name_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_border_color_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_login_button_border_color_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_color_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_login_button_color_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_text_color_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_login_button_text_color_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_field_name {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_login_field_name ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_id_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_login_id_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_nickname_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_nickname_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_position_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_position_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_username_attribute_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isdefault_username_attribute_ldap ;;
-    hidden: no
-  }
-
-  filter: is_isempty_admin_filter {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isempty_admin_filter ;;
-    hidden: no
-  }
-
-  filter: is_isempty_group_filter {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isempty_group_filter ;;
-    hidden: no
-  }
-
-  filter: is_isempty_guest_filter {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.isempty_guest_filter ;;
-    hidden: no
-  }
-
-  filter: is_skip_certificate_verification {
-    description: "" 
-    type: yesno
-    group_label: "Ldap Configuration"
-    sql: ${TABLE}.skip_certificate_verification ;;
-    hidden: no
-  }
-
-  filter: is_feature_cluster {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_cluster ;;
-    hidden: no
-  }
-
-  filter: is_feature_compliance {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_compliance ;;
-    hidden: no
-  }
-
-  filter: is_feature_custom_brand {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_custom_brand ;;
-    hidden: no
-  }
-
-  filter: is_feature_custom_permissions_schemes {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_custom_permissions_schemes ;;
-    hidden: no
-  }
-
-  filter: is_feature_data_retention {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_data_retention ;;
-    hidden: no
-  }
-
-  filter: is_feature_elastic_search {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_elastic_search ;;
-    hidden: no
-  }
-
-  filter: is_feature_email_notification_contents {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_email_notification_contents ;;
-    hidden: no
-  }
-
-  filter: is_feature_future {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_future ;;
-    hidden: no
-  }
-
-  filter: is_feature_google {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_google ;;
-    hidden: no
-  }
-
-  filter: is_feature_guest_accounts {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_guest_accounts ;;
-    hidden: no
-  }
-
-  filter: is_feature_guest_accounts_permissions {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_guest_accounts_permissions ;;
-    hidden: no
-  }
-
-  filter: is_feature_id_loaded {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_id_loaded ;;
-    hidden: no
-  }
-
-  filter: is_feature_ldap {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_ldap ;;
-    hidden: no
-  }
-
-  filter: is_feature_ldap_groups {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_ldap_groups ;;
-    hidden: no
-  }
-
-  filter: is_feature_lock_teammate_name_display {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_lock_teammate_name_display ;;
-    hidden: no
-  }
-
-  filter: is_feature_message_export {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_message_export ;;
-    hidden: no
-  }
-
-  filter: is_feature_metrics {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_metrics ;;
-    hidden: no
-  }
-
-  filter: is_feature_mfa {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_mfa ;;
-    hidden: no
-  }
-
-  filter: is_feature_mhpns {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_mhpns ;;
-    hidden: no
-  }
-
-  filter: is_feature_office365 {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_office365 ;;
-    hidden: no
-  }
-
-  filter: is_feature_password {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_password ;;
-    hidden: no
-  }
-
-  filter: is_feature_saml {
-    description: "" 
-    type: yesno
-    group_label: "License Configuration"
-    sql: ${TABLE}.feature_saml ;;
-    hidden: no
-  }
-
-  filter: is_console_json_log {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.console_json_log ;;
-    hidden: no
-  }
-
-  filter: is_enable_console_log {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.enable_console_log ;;
-    hidden: no
-  }
-
-  filter: is_enable_file_log {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.enable_file_log ;;
-    hidden: no
-  }
-
-  filter: is_enable_webhook_debugging {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.enable_webhook_debugging ;;
-    hidden: no
-  }
-
-  filter: is_file_json_log {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.file_json_log ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_file_format {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.isdefault_file_format ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_file_location_log {
-    description: "" 
-    type: yesno
-    group_label: "Log Configuration"
-    sql: ${TABLE}.isdefault_file_location_log ;;
-    hidden: no
-  }
-
-  filter: is_enable_message_export {
-    description: "" 
-    type: yesno
-    group_label: "Message Export Configuration"
-    sql: ${TABLE}.enable_message_export ;;
-    hidden: no
-  }
-
-  filter: is_is_default_global_relay_email_address {
-    description: "" 
-    type: yesno
-    group_label: "Message Export Configuration"
-    sql: ${TABLE}.is_default_global_relay_email_address ;;
-    hidden: no
-  }
-
-  filter: is_is_default_global_relay_smtp_password {
-    description: "" 
-    type: yesno
-    group_label: "Message Export Configuration"
-    sql: ${TABLE}.is_default_global_relay_smtp_password ;;
-    hidden: no
-  }
-
-  filter: is_is_default_global_relay_smtp_username {
-    description: "" 
-    type: yesno
-    group_label: "Message Export Configuration"
-    sql: ${TABLE}.is_default_global_relay_smtp_username ;;
-    hidden: no
-  }
-
-  filter: is_enable_metrics {
-    description: "" 
-    type: yesno
-    group_label: "Metric Configuration"
-    sql: ${TABLE}.enable_metrics ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_android_app_download_link {
-    description: "" 
-    type: yesno
-    group_label: "Nativeapp Configuration"
-    sql: ${TABLE}.isdefault_android_app_download_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_app_download_link {
-    description: "" 
-    type: yesno
-    group_label: "Nativeapp Configuration"
-    sql: ${TABLE}.isdefault_app_download_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_iosapp_download_link {
-    description: "" 
-    type: yesno
-    group_label: "Nativeapp Configuration"
-    sql: ${TABLE}.isdefault_iosapp_download_link ;;
-    hidden: no
-  }
-
-  filter: is_console_json_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Notifications Log Configuration"
-    sql: ${TABLE}.console_json_notifications ;;
-    hidden: no
-  }
-
-  filter: is_enable_console_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Notifications Log Configuration"
-    sql: ${TABLE}.enable_console_notifications ;;
-    hidden: no
-  }
-
-  filter: is_enable_file_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Notifications Log Configuration"
-    sql: ${TABLE}.enable_file_notifications ;;
-    hidden: no
-  }
-
-  filter: is_file_json_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Notifications Log Configuration"
-    sql: ${TABLE}.file_json_notifications ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_file_location_notifications {
-    description: "" 
-    type: yesno
-    group_label: "Notifications Log Configuration"
-    sql: ${TABLE}.isdefault_file_location_notifications ;;
-    hidden: no
-  }
-
-  filter: is_enable_office365_oauth {
-    description: "" 
-    type: yesno
-    group_label: "Oauth Configuration"
-    sql: ${TABLE}.enable_office365_oauth ;;
-    hidden: no
-  }
-
-  filter: is_enable_google_oauth {
-    description: "" 
-    type: yesno
-    group_label: "Oauth Configuration"
-    sql: ${TABLE}.enable_google_oauth ;;
-    hidden: no
-  }
-
-  filter: is_enable_gitlab_oauth {
-    description: "" 
-    type: yesno
-    group_label: "Oauth Configuration"
-    sql: ${TABLE}.enable_gitlab_oauth ;;
-    hidden: no
-  }
-
-  filter: is_enable_lowercase {
-    description: "" 
-    type: yesno
-    group_label: "Password Configuration"
-    sql: ${TABLE}.enable_lowercase ;;
-    hidden: no
-  }
-
-  filter: is_enable_uppercase {
-    description: "" 
-    type: yesno
-    group_label: "Password Configuration"
-    sql: ${TABLE}.enable_uppercase ;;
-    hidden: no
-  }
-
-  filter: is_enable_symbol {
-    description: "" 
-    type: yesno
-    group_label: "Password Configuration"
-    sql: ${TABLE}.enable_symbol ;;
-    hidden: no
-  }
-
-  filter: is_enable_number {
-    description: "" 
-    type: yesno
-    group_label: "Password Configuration"
-    sql: ${TABLE}.enable_number ;;
-    hidden: no
-  }
-
-  filter: is_phase_1_migration_complete {
-    description: "" 
-    type: yesno
-    group_label: "Permissions General Configuration"
-    sql: ${TABLE}.phase_1_migration_complete ;;
-    hidden: no
-  }
-
-  filter: is_phase_2_migration_complete {
-    description: "" 
-    type: yesno
-    group_label: "Permissions General Configuration"
-    sql: ${TABLE}.phase_2_migration_complete ;;
-    hidden: no
-  }
-
-  filter: is_allow_insecure_download_url {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.allow_insecure_download_url ;;
-    hidden: no
-  }
-
-  filter: is_automatic_prepackaged_plugins {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.automatic_prepackaged_plugins ;;
-    hidden: no
-  }
-
-  filter: is_enable_plugins {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_plugins ;;
-    hidden: no
-  }
-
-  filter: is_enable_antivirus {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_antivirus ;;
-    hidden: no
-  }
-
-  filter: is_enable_autolink {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_autolink ;;
-    hidden: no
-  }
-
-  filter: is_enable_aws_sns {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_aws_sns ;;
-    hidden: no
-  }
-
-  filter: is_enable_custom_user_attributes {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_custom_user_attributes ;;
-    hidden: no
-  }
-
-  filter: is_enable_github {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_github ;;
-    hidden: no
-  }
-
-  filter: is_enable_gitlab {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_gitlab ;;
-    hidden: no
-  }
-
-  filter: is_enable_health_check {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_health_check ;;
-    hidden: no
-  }
-
-  filter: is_enable_jenkins {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_jenkins ;;
-    hidden: no
-  }
-
-  filter: is_enable_jira {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_jira ;;
-    hidden: no
-  }
-
-  filter: is_enable_marketplace {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_marketplace ;;
-    hidden: no
-  }
-
-  filter: is_enable_nps {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_nps ;;
-    hidden: no
-  }
-
-  filter: is_enable_nps_survey {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_nps_survey ;;
-    hidden: no
-  }
-
-  filter: is_enable_remote_marketplace {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_remote_marketplace ;;
-    hidden: no
-  }
-
-  filter: is_enable_uploads {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_uploads ;;
-    hidden: no
-  }
-
-  filter: is_enable_webex {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_webex ;;
-    hidden: no
-  }
-
-  filter: is_enable_welcome_bot {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_welcome_bot ;;
-    hidden: no
-  }
-
-  filter: is_enable_zoom {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_zoom ;;
-    hidden: no
-  }
-
-  filter: is_is_default_marketplace_url {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.is_default_marketplace_url ;;
-    hidden: no
-  }
-
-  filter: is_require_plugin_signature {
-    description: "" 
-    type: yesno
-    group_label: "Plugin Configuration"
-    sql: ${TABLE}.require_plugin_signature ;;
-    hidden: no
-  }
-
-  filter: is_show_email_address {
-    description: "" 
-    type: yesno
-    group_label: "Privacy Configuration"
-    sql: ${TABLE}.show_email_address ;;
-    hidden: no
-  }
-
-  filter: is_show_full_name {
-    description: "" 
-    type: yesno
-    group_label: "Privacy Configuration"
-    sql: ${TABLE}.show_full_name ;;
-    hidden: no
-  }
-
-  filter: is_enable_rate_limiter {
-    description: "" 
-    type: yesno
-    group_label: "Rate Configuration"
-    sql: ${TABLE}.enable_rate_limiter ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_vary_by_header {
-    description: "" 
-    type: yesno
-    group_label: "Rate Configuration"
-    sql: ${TABLE}.isdefault_vary_by_header ;;
-    hidden: no
-  }
-
-  filter: is_vary_by_remote_address {
-    description: "" 
-    type: yesno
-    group_label: "Rate Configuration"
-    sql: ${TABLE}.vary_by_remote_address ;;
-    hidden: no
-  }
-
-  filter: is_vary_by_user {
-    description: "" 
-    type: yesno
-    group_label: "Rate Configuration"
-    sql: ${TABLE}.vary_by_user ;;
-    hidden: no
-  }
-
-  filter: is_enable_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.enable_saml ;;
-    hidden: no
-  }
-
-  filter: is_enable_admin_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.enable_admin_attribute ;;
-    hidden: no
-  }
-
-  filter: is_enable_sync_with_ldap {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.enable_sync_with_ldap ;;
-    hidden: no
-  }
-
-  filter: is_enable_sync_with_ldap_include_auth {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.enable_sync_with_ldap_include_auth ;;
-    hidden: no
-  }
-
-  filter: is_encrypt_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.encrypt_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_admin_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_admin_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_canonical_algorithm {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_canonical_algorithm ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_email_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_email_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_first_name_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_first_name_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_guest_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_guest_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_id_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_id_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_last_name_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_last_name_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_locale_attribute {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_locale_attribute ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_border_color_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_login_button_border_color_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_color_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_login_button_color_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_text {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_login_button_text ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_login_button_text_color_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_login_button_text_color_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_nickname_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_nickname_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_position_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_position_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_scoping_idp_name {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_scoping_idp_name ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_scoping_idp_provider_id {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_scoping_idp_provider_id ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_signature_algorithm {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_signature_algorithm ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_username_attribute_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.isdefault_username_attribute_saml ;;
-    hidden: no
-  }
-
-  filter: is_sign_request {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.sign_request ;;
-    hidden: no
-  }
-
-  filter: is_verify_saml {
-    description: "" 
-    type: yesno
-    group_label: "Saml Configuration"
-    sql: ${TABLE}.verify_saml ;;
-    hidden: no
-  }
-
-  filter: is_allow_cookies_for_subdomains {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.allow_cookies_for_subdomains ;;
-    hidden: no
-  }
-
-  filter: is_close_unused_direct_messages {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.close_unused_direct_messages ;;
-    hidden: no
-  }
-
-  filter: is_cors_allow_credentials {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.cors_allow_credentials ;;
-    hidden: no
-  }
-
-  filter: is_cors_debug {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.cors_debug ;;
-    hidden: no
-  }
-
-  filter: is_custom_service_terms_enabled_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.custom_service_terms_enabled_service ;;
-    hidden: no
-  }
-
-  filter: is_disable_bots_when_owner_is_deactivated {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.disable_bots_when_owner_is_deactivated ;;
-    hidden: no
-  }
-
-  filter: is_disable_legacy_mfa {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.disable_legacy_mfa ;;
-    hidden: no
-  }
-
-  filter: is_enable_apiv3_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_apiv3_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_api_team_deletion {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_api_team_deletion ;;
-    hidden: no
-  }
-
-  filter: is_enable_bot_account_creation {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_bot_account_creation ;;
-    hidden: no
-  }
-
-  filter: is_enable_channel_viewed_messages_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_channel_viewed_messages_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_commands_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_commands_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_custom_emoji_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_custom_emoji_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_developer_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_developer_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_email_invitations {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_email_invitations ;;
-    hidden: no
-  }
-
-  filter: is_enable_emoji_picker_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_emoji_picker_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_gif_picker {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_gif_picker ;;
-    hidden: no
-  }
-
-  filter: is_enable_incoming_webhooks_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_incoming_webhooks_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_insecure_outgoing_connections_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_insecure_outgoing_connections_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_latex {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_latex ;;
-    hidden: no
-  }
-
-  filter: is_enable_multifactor_authentication_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_multifactor_authentication_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_oauth_service_provider_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_oauth_service_provider_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_only_admin_integrations_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_only_admin_integrations_service ;;
-    hidden: no
-  }
-
-  filter: is_enable_outgoing_webhooks {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_outgoing_webhooks ;;
-    hidden: no
-  }
-
-  filter: is_enable_post_icon_override {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_post_icon_override ;;
-    hidden: no
-  }
-
-  filter: is_enable_post_search {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_post_search ;;
-    hidden: no
-  }
-
-  filter: is_enable_post_username_override {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_post_username_override ;;
-    hidden: no
-  }
-
-  filter: is_enable_preview_features {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_preview_features ;;
-    hidden: no
-  }
-
-  filter: is_enable_security_fix_alert {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_security_fix_alert ;;
-    hidden: no
-  }
-
-  filter: is_enable_svgs {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_svgs ;;
-    hidden: no
-  }
-
-  filter: is_enable_testing {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_testing ;;
-    hidden: no
-  }
-
-  filter: is_enable_tutorial {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_tutorial ;;
-    hidden: no
-  }
-
-  filter: is_enable_user_access_tokens {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_user_access_tokens ;;
-    hidden: no
-  }
-
-  filter: is_enable_user_statuses {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_user_statuses ;;
-    hidden: no
-  }
-
-  filter: is_enable_user_typing_messages {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enable_user_typing_messages ;;
-    hidden: no
-  }
-
-  filter: is_enforce_multifactor_authentication_service {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.enforce_multifactor_authentication_service ;;
-    hidden: no
-  }
-
-  filter: is_experimental_channel_organization {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_channel_organization ;;
-    hidden: no
-  }
-
-  filter: is_experimental_enable_authentication_transfer {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_enable_authentication_transfer ;;
-    hidden: no
-  }
-
-  filter: is_experimental_enable_default_channel_leave_join_messages {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_enable_default_channel_leave_join_messages ;;
-    hidden: no
-  }
-
-  filter: is_experimental_enable_hardened_mode {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_enable_hardened_mode ;;
-    hidden: no
-  }
-
-  filter: is_experimental_ldap_group_sync {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_ldap_group_sync ;;
-    hidden: no
-  }
-
-  filter: is_experimental_limit_client_config {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_limit_client_config ;;
-    hidden: no
-  }
-
-  filter: is_experimental_strict_csrf_enforcement {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.experimental_strict_csrf_enforcement ;;
-    hidden: no
-  }
-
-  filter: is_forward_80_to_443 {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.forward_80_to_443 ;;
-    hidden: no
-  }
-
-  filter: is_gfycat_api_key {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.gfycat_api_key ;;
-    hidden: no
-  }
-
-  filter: is_gfycat_api_secret {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.gfycat_api_secret ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_allowed_untrusted_internal_connections {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_allowed_untrusted_internal_connections ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_allowed_untrusted_inteznal_connections {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_allowed_untrusted_inteznal_connections ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_allow_cors_from {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_allow_cors_from ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_cors_exposed_headers {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_cors_exposed_headers ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_google_developer_key {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_google_developer_key ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_image_proxy_options {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_image_proxy_options ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_image_proxy_type {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_image_proxy_type ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_image_proxy_url {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_image_proxy_url ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_read_timeout {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_read_timeout ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_site_url {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_site_url ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_tls_cert_file {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_tls_cert_file ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_tls_key_file {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_tls_key_file ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_write_timeout {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.isdefault_write_timeout ;;
-    hidden: no
-  }
-
-  filter: is_tls_strict_transport {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.tls_strict_transport ;;
-    hidden: no
-  }
-
-  filter: is_uses_letsencrypt {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.uses_letsencrypt ;;
-    hidden: no
-  }
-
-  filter: is_websocket_url {
-    description: "" 
-    type: yesno
-    group_label: "Service Configuration"
-    sql: ${TABLE}.websocket_url ;;
-    hidden: no
-  }
-
-  filter: is_enable_public_channels_materialization {
-    description: "" 
-    type: yesno
-    group_label: "Sql Configuration"
-    sql: ${TABLE}.enable_public_channels_materialization ;;
-    hidden: no
-  }
-
-  filter: is_trace_sql {
-    description: "" 
-    type: yesno
-    group_label: "Sql Configuration"
-    sql: ${TABLE}.trace_sql ;;
-    hidden: no
-  }
-
-  filter: is_custom_service_terms_enabled_support {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.custom_service_terms_enabled_support ;;
-    hidden: no
-  }
-
-  filter: is_custom_terms_of_service_enabled {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.custom_terms_of_service_enabled ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_about_link {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_about_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_help_link {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_help_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_privacy_policy_link {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_privacy_policy_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_report_a_problem_link {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_report_a_problem_link ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_support_email {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_support_email ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_terms_of_service_link {
-    description: "" 
-    type: yesno
-    group_label: "Support Configuration"
-    sql: ${TABLE}.isdefault_terms_of_service_link ;;
-    hidden: no
-  }
-
-  filter: is_enable_confirm_notifications_to_channel {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_confirm_notifications_to_channel ;;
-    hidden: no
-  }
-
-  filter: is_enable_custom_brand {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_custom_brand ;;
-    hidden: no
-  }
-
-  filter: is_enable_open_server {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_open_server ;;
-    hidden: no
-  }
-
-  filter: is_enable_team_creation {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_team_creation ;;
-    hidden: no
-  }
-
-  filter: is_enable_user_creation {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_user_creation ;;
-    hidden: no
-  }
-
-  filter: is_enable_user_deactivation {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_user_deactivation ;;
-    hidden: no
-  }
-
-  filter: is_enable_x_to_leave_channels_from_lhs {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.enable_x_to_leave_channels_from_lhs ;;
-    hidden: no
-  }
-
-  filter: is_experimental_enable_automatic_replies {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.experimental_enable_automatic_replies ;;
-    hidden: no
-  }
-
-  filter: is_experimental_primary_team {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.experimental_primary_team ;;
-    hidden: no
-  }
-
-  filter: is_experimental_town_square_is_hidden_in_lhs {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.experimental_town_square_is_hidden_in_lhs ;;
-    hidden: no
-  }
-
-  filter: is_experimental_town_square_is_read_only {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.experimental_town_square_is_read_only ;;
-    hidden: no
-  }
-
-  filter: is_experimental_view_archived_channels {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.experimental_view_archived_channels ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_custom_brand_text {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.isdefault_custom_brand_text ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_custom_description_text {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.isdefault_custom_description_text ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_site_name {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.isdefault_site_name ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_user_status_away_timeout {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.isdefault_user_status_away_timeout ;;
-    hidden: no
-  }
-
-  filter: is_lock_teammate_name_display {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.lock_teammate_name_display ;;
-    hidden: no
-  }
-
-  filter: is_view_archived_channels {
-    description: "" 
-    type: yesno
-    group_label: "Team Configuration"
-    sql: ${TABLE}.view_archived_channels ;;
-    hidden: no
-  }
-
-  filter: is_allow_custom_themes {
-    description: "" 
-    type: yesno
-    group_label: "Theme Configuration"
-    sql: ${TABLE}.allow_custom_themes ;;
-    hidden: no
-  }
-
-  filter: is_enable_theme_selection {
-    description: "" 
-    type: yesno
-    group_label: "Theme Configuration"
-    sql: ${TABLE}.enable_theme_selection ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_default_theme {
-    description: "" 
-    type: yesno
-    group_label: "Theme Configuration"
-    sql: ${TABLE}.isdefault_default_theme ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_supported_timezones_path {
-    description: "" 
-    type: yesno
-    group_label: "Timezone Configuration"
-    sql: ${TABLE}.isdefault_supported_timezones_path ;;
-    hidden: no
-  }
-
-  filter: is_enable {
-    description: "" 
-    type: yesno
-    group_label: "Webrtc Configuration"
-    sql: ${TABLE}.enable ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_stun_uri {
-    description: "" 
-    type: yesno
-    group_label: "Webrtc Configuration"
-    sql: ${TABLE}.isdefault_stun_uri ;;
-    hidden: no
-  }
-
-  filter: is_isdefault_turn_uri {
-    description: "" 
-    type: yesno
-    group_label: "Webrtc Configuration"
-    sql: ${TABLE}.isdefault_turn_uri ;;
-    hidden: no
-  }
-
 
   # DIMENSIONS
   dimension: server_id {
@@ -2579,42 +119,47 @@ view: server_daily_details_ext {
 
   dimension: in_security {
     label: " In Security"
+    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: in_mm2_server {
     label: " In Mm2 Server"
+    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: tracking_disabled {
     label: " Tracking Disabled"
+    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: has_dupes {
     label: " Has Dupes"
+    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: has_multi_ips {
     label: " Has Multi Ips"
+    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: active_users {
@@ -2774,7 +319,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Activity Configuration"
     sql: ${TABLE}.used_apiv3 ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_max_users_for_statistics {
@@ -2782,7 +327,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Analytics Configuration"
     sql: ${TABLE}.isdefault_max_users_for_statistics ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: allow_banner_dismissal {
@@ -2790,7 +335,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Annoucument Configuration"
     sql: ${TABLE}.allow_banner_dismissal ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_banner {
@@ -2798,7 +343,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Annoucument Configuration"
     sql: ${TABLE}.enable_banner ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_banner_color {
@@ -2806,7 +351,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Annoucument Configuration"
     sql: ${TABLE}.isdefault_banner_color ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_banner_text_color {
@@ -2814,7 +359,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Annoucument Configuration"
     sql: ${TABLE}.isdefault_banner_text_color ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: allow_edit_post_client {
@@ -2862,7 +407,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_apiv3_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_channel_viewed_messages_client {
@@ -2870,7 +415,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_channel_viewed_messages_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_commands_client {
@@ -2878,7 +423,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_commands_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_custom_emoji_client {
@@ -2886,7 +431,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_custom_emoji_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_developer_client {
@@ -2894,7 +439,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_developer_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_emoji_picker_client {
@@ -2902,7 +447,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_emoji_picker_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_incoming_webhooks_client {
@@ -2910,7 +455,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_incoming_webhooks_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_insecure_outgoing_connections_client {
@@ -2918,7 +463,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_insecure_outgoing_connections_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_multifactor_authentication_client {
@@ -2926,7 +471,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_multifactor_authentication_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_oauth_service_provider_client {
@@ -2934,7 +479,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_oauth_service_provider_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_only_admin_integrations_client {
@@ -2942,7 +487,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Client Requirements Configuration"
     sql: ${TABLE}.enable_only_admin_integrations_client ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: ios_latest_version {
@@ -2966,7 +511,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.advertise_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: bind_address {
@@ -2974,7 +519,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.bind_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_cluster {
@@ -2982,7 +527,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.enable_cluster ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: network_interface {
@@ -2990,7 +535,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.network_interface ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: read_only_config {
@@ -2998,7 +543,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.read_only_config ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: use_experimental_gossip {
@@ -3006,7 +551,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.use_experimental_gossip ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: use_ip_address {
@@ -3014,7 +559,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Cluster Configuration"
     sql: ${TABLE}.use_ip_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_compliance {
@@ -3022,7 +567,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Compliance Configuration"
     sql: ${TABLE}.enable_compliance ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_compliance_daily {
@@ -3030,7 +575,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Compliance Configuration"
     sql: ${TABLE}.enable_compliance_daily ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: message_retention_days {
@@ -3054,7 +599,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Data Retention Configuration"
     sql: ${TABLE}.enable_message_deletion ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_file_deletion {
@@ -3062,7 +607,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Data Retention Configuration"
     sql: ${TABLE}.enable_file_deletion ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_timezone {
@@ -3070,7 +615,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Display Configuration"
     sql: ${TABLE}.experimental_timezone ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_custom_url_schemes {
@@ -3078,7 +623,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Display Configuration"
     sql: ${TABLE}.isdefault_custom_url_schemes ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_autocomplete {
@@ -3086,7 +631,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.enable_autocomplete ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_indexing {
@@ -3094,7 +639,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.enable_indexing ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_searching {
@@ -3102,7 +647,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.enable_searching ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_connection_url {
@@ -3110,7 +655,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.isdefault_connection_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_index_prefix {
@@ -3118,7 +663,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.isdefault_index_prefix ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_password {
@@ -3126,7 +671,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.isdefault_password ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_username {
@@ -3134,7 +679,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.isdefault_username ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: live_indexing_batch_size {
@@ -3150,7 +695,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.skip_tls_verification ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: sniff {
@@ -3158,7 +703,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "ElasticSearch Configuration"
     sql: ${TABLE}.sniff ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: trace_elasticsearch {
@@ -3198,7 +743,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_email_batching ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_preview_mode_banner {
@@ -3206,7 +751,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_preview_mode_banner ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sign_in_with_email {
@@ -3214,7 +759,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_sign_in_with_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sign_in_with_username {
@@ -3222,7 +767,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_sign_in_with_username ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sign_up_with_email {
@@ -3230,7 +775,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_sign_up_with_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_smtp_auth {
@@ -3238,7 +783,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.enable_smtp_auth ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_feedback_email {
@@ -3246,7 +791,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_feedback_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_feedback_name {
@@ -3254,7 +799,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_feedback_name ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_feedback_organization {
@@ -3262,7 +807,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_feedback_organization ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_border_color_email {
@@ -3270,7 +815,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_login_button_border_color_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_color_email {
@@ -3278,7 +823,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_login_button_color_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_text_color_email {
@@ -3286,7 +831,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_login_button_text_color_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_reply_to_address {
@@ -3294,7 +839,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.isdefault_reply_to_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: push_notification_contents {
@@ -3310,7 +855,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.require_email_verification ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: send_email_notifications {
@@ -3318,7 +863,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.send_email_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: send_push_notifications {
@@ -3326,7 +871,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.send_push_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: skip_server_certificate_verification {
@@ -3334,7 +879,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.skip_server_certificate_verification ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: use_channel_in_email_notifications {
@@ -3342,7 +887,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Email Configuration"
     sql: ${TABLE}.use_channel_in_email_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: client_side_cert_enable {
@@ -3350,7 +895,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.client_side_cert_enable ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_click_to_reply {
@@ -3358,7 +903,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.enable_click_to_reply ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_post_metadata {
@@ -3366,7 +911,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.enable_post_metadata ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_client_side_cert_check {
@@ -3374,7 +919,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.isdefault_client_side_cert_check ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: restrict_system_admin {
@@ -3382,7 +927,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.restrict_system_admin ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: use_new_saml_library {
@@ -3390,7 +935,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.use_new_saml_library ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_experimental_extensions {
@@ -3398,7 +943,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Extension Configuration"
     sql: ${TABLE}.enable_experimental_extensions ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: amazon_s3_signv2 {
@@ -3406,7 +951,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.amazon_s3_signv2 ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: amazon_s3_sse {
@@ -3414,7 +959,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.amazon_s3_sse ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: amazon_s3_ssl {
@@ -3422,7 +967,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.amazon_s3_ssl ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: amazon_s3_trace {
@@ -3430,7 +975,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.amazon_s3_trace ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: driver_name_file {
@@ -3446,7 +991,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.enable_file_attachments ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_mobile_download {
@@ -3454,7 +999,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.enable_mobile_download ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_mobile_upload {
@@ -3462,7 +1007,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.enable_mobile_upload ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_public_links {
@@ -3470,7 +1015,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.enable_public_links ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isabsolute_directory {
@@ -3478,7 +1023,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.isabsolute_directory ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_directory {
@@ -3486,7 +1031,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "File Configuration"
     sql: ${TABLE}.isdefault_directory ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: max_file_size {
@@ -3550,7 +1095,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Guest Account Configuration"
     sql: ${TABLE}.allow_email_accounts ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_guest_accounts {
@@ -3558,7 +1103,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Guest Account Configuration"
     sql: ${TABLE}.enable_guest_accounts ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enforce_multifactor_authentication_guest {
@@ -3566,7 +1111,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Guest Account Configuration"
     sql: ${TABLE}.enforce_multifactor_authentication_guest ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_restrict_creation_to_domains {
@@ -3574,7 +1119,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Guest Account Configuration"
     sql: ${TABLE}.isdefault_restrict_creation_to_domains ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_image_proxy {
@@ -3582,7 +1127,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Image Proxy Configuration"
     sql: ${TABLE}.enable_image_proxy ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: image_proxy_type {
@@ -3598,7 +1143,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Image Proxy Configuration"
     sql: ${TABLE}.isdefault_remote_image_proxy_options ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_remote_image_proxy_url {
@@ -3606,7 +1151,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Image Proxy Configuration"
     sql: ${TABLE}.isdefault_remote_image_proxy_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: connection_security_ldap {
@@ -3622,7 +1167,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.enable_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_admin_filter {
@@ -3630,7 +1175,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.enable_admin_filter ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sync {
@@ -3638,7 +1183,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.enable_sync ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_email_attribute_ldap {
@@ -3646,7 +1191,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_email_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_first_name_attribute_ldap {
@@ -3654,7 +1199,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_first_name_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_group_display_name_attribute {
@@ -3662,7 +1207,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_group_display_name_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_group_id_attribute {
@@ -3670,7 +1215,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_group_id_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_id_attribute_ldap {
@@ -3678,7 +1223,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_id_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_last_name_attribute_ldap {
@@ -3686,7 +1231,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_last_name_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_border_color_ldap {
@@ -3694,7 +1239,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_login_button_border_color_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_color_ldap {
@@ -3702,7 +1247,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_login_button_color_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_text_color_ldap {
@@ -3710,7 +1255,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_login_button_text_color_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_field_name {
@@ -3718,7 +1263,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_login_field_name ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_id_attribute {
@@ -3726,7 +1271,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_login_id_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_nickname_attribute_ldap {
@@ -3734,7 +1279,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_nickname_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_position_attribute_ldap {
@@ -3742,7 +1287,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_position_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_username_attribute_ldap {
@@ -3750,7 +1295,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isdefault_username_attribute_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isempty_admin_filter {
@@ -3758,7 +1303,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isempty_admin_filter ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isempty_group_filter {
@@ -3766,7 +1311,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isempty_group_filter ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isempty_guest_filter {
@@ -3774,7 +1319,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.isempty_guest_filter ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: max_page_size {
@@ -3806,7 +1351,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.skip_certificate_verification ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: sync_interval_minutes {
@@ -3854,7 +1399,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_cluster ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_compliance {
@@ -3862,7 +1407,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_compliance ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_custom_brand {
@@ -3870,7 +1415,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_custom_brand ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_custom_permissions_schemes {
@@ -3878,7 +1423,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_custom_permissions_schemes ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_data_retention {
@@ -3886,7 +1431,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_data_retention ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_elastic_search {
@@ -3894,7 +1439,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_elastic_search ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_email_notification_contents {
@@ -3902,7 +1447,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_email_notification_contents ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_future {
@@ -3910,7 +1455,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_future ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_google {
@@ -3918,7 +1463,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_google ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_guest_accounts {
@@ -3926,7 +1471,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_guest_accounts ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_guest_accounts_permissions {
@@ -3934,7 +1479,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_guest_accounts_permissions ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_id_loaded {
@@ -3942,7 +1487,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_id_loaded ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_ldap {
@@ -3950,7 +1495,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_ldap_groups {
@@ -3958,7 +1503,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_ldap_groups ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_lock_teammate_name_display {
@@ -3966,7 +1511,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_lock_teammate_name_display ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_message_export {
@@ -3974,7 +1519,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_message_export ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_metrics {
@@ -3982,7 +1527,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_metrics ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_mfa {
@@ -3990,7 +1535,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_mfa ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_mhpns {
@@ -3998,7 +1543,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_mhpns ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_office365 {
@@ -4006,7 +1551,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_office365 ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_password {
@@ -4014,7 +1559,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_password ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: feature_saml {
@@ -4022,7 +1567,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: issued {
@@ -4070,7 +1615,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.console_json_log ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: console_level_log {
@@ -4086,7 +1631,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.enable_console_log ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_file_log {
@@ -4094,7 +1639,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.enable_file_log ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_webhook_debugging {
@@ -4102,7 +1647,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.enable_webhook_debugging ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: file_json_log {
@@ -4110,7 +1655,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.file_json_log ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: file_level_log {
@@ -4126,7 +1671,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.isdefault_file_format ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_file_location_log {
@@ -4134,7 +1679,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Log Configuration"
     sql: ${TABLE}.isdefault_file_location_log ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: batch_size {
@@ -4158,7 +1703,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.enable_message_export ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: export_format {
@@ -4182,7 +1727,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.is_default_global_relay_email_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: is_default_global_relay_smtp_password {
@@ -4190,7 +1735,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.is_default_global_relay_smtp_password ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: is_default_global_relay_smtp_username {
@@ -4198,7 +1743,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.is_default_global_relay_smtp_username ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: block_profile_rate {
@@ -4214,7 +1759,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Metric Configuration"
     sql: ${TABLE}.enable_metrics ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_android_app_download_link {
@@ -4222,7 +1767,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Nativeapp Configuration"
     sql: ${TABLE}.isdefault_android_app_download_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_app_download_link {
@@ -4230,7 +1775,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Nativeapp Configuration"
     sql: ${TABLE}.isdefault_app_download_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_iosapp_download_link {
@@ -4238,7 +1783,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Nativeapp Configuration"
     sql: ${TABLE}.isdefault_iosapp_download_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: console_json_notifications {
@@ -4246,7 +1791,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Notifications Log Configuration"
     sql: ${TABLE}.console_json_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: console_level_notifications {
@@ -4262,7 +1807,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Notifications Log Configuration"
     sql: ${TABLE}.enable_console_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_file_notifications {
@@ -4270,7 +1815,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Notifications Log Configuration"
     sql: ${TABLE}.enable_file_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: file_json_notifications {
@@ -4278,7 +1823,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Notifications Log Configuration"
     sql: ${TABLE}.file_json_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: file_level_notifications {
@@ -4294,7 +1839,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Notifications Log Configuration"
     sql: ${TABLE}.isdefault_file_location_notifications ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_office365_oauth {
@@ -4302,7 +1847,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Oauth Configuration"
     sql: ${TABLE}.enable_office365_oauth ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_google_oauth {
@@ -4310,7 +1855,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Oauth Configuration"
     sql: ${TABLE}.enable_google_oauth ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_gitlab_oauth {
@@ -4318,7 +1863,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Oauth Configuration"
     sql: ${TABLE}.enable_gitlab_oauth ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_lowercase {
@@ -4326,7 +1871,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Password Configuration"
     sql: ${TABLE}.enable_lowercase ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_uppercase {
@@ -4334,7 +1879,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Password Configuration"
     sql: ${TABLE}.enable_uppercase ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_symbol {
@@ -4342,7 +1887,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Password Configuration"
     sql: ${TABLE}.enable_symbol ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_number {
@@ -4350,7 +1895,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Password Configuration"
     sql: ${TABLE}.enable_number ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: password_minimum_length {
@@ -4366,7 +1911,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Permissions General Configuration"
     sql: ${TABLE}.phase_1_migration_complete ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: phase_2_migration_complete {
@@ -4374,7 +1919,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Permissions General Configuration"
     sql: ${TABLE}.phase_2_migration_complete ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: channel_admin_permissions {
@@ -4446,7 +1991,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.allow_insecure_download_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: automatic_prepackaged_plugins {
@@ -4454,7 +1999,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.automatic_prepackaged_plugins ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_plugins {
@@ -4462,7 +2007,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_plugins ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_antivirus {
@@ -4470,7 +2015,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_antivirus ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_autolink {
@@ -4478,7 +2023,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_autolink ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_aws_sns {
@@ -4486,7 +2031,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_aws_sns ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_custom_user_attributes {
@@ -4494,7 +2039,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_custom_user_attributes ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_github {
@@ -4502,7 +2047,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_github ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_gitlab {
@@ -4510,7 +2055,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_gitlab ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_health_check {
@@ -4518,7 +2063,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_health_check ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_jenkins {
@@ -4526,7 +2071,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_jenkins ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_jira {
@@ -4534,7 +2079,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_jira ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_marketplace {
@@ -4542,7 +2087,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_marketplace ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_nps {
@@ -4550,7 +2095,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_nps ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_nps_survey {
@@ -4558,7 +2103,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_nps_survey ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_remote_marketplace {
@@ -4566,7 +2111,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_remote_marketplace ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_uploads {
@@ -4574,7 +2119,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_uploads ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_webex {
@@ -4582,7 +2127,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_webex ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_welcome_bot {
@@ -4590,7 +2135,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_welcome_bot ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_zoom {
@@ -4598,7 +2143,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_zoom ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: is_default_marketplace_url {
@@ -4606,7 +2151,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.is_default_marketplace_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: require_plugin_signature {
@@ -4614,7 +2159,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.require_plugin_signature ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: signature_public_key_files {
@@ -4838,7 +2383,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Privacy Configuration"
     sql: ${TABLE}.show_email_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: show_full_name {
@@ -4846,7 +2391,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Privacy Configuration"
     sql: ${TABLE}.show_full_name ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_rate_limiter {
@@ -4854,7 +2399,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Rate Configuration"
     sql: ${TABLE}.enable_rate_limiter ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_vary_by_header {
@@ -4862,7 +2407,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Rate Configuration"
     sql: ${TABLE}.isdefault_vary_by_header ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: max_burst {
@@ -4894,7 +2439,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Rate Configuration"
     sql: ${TABLE}.vary_by_remote_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: vary_by_user {
@@ -4902,7 +2447,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Rate Configuration"
     sql: ${TABLE}.vary_by_user ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_saml {
@@ -4910,7 +2455,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.enable_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_admin_attribute {
@@ -4918,7 +2463,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.enable_admin_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sync_with_ldap {
@@ -4926,7 +2471,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.enable_sync_with_ldap ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_sync_with_ldap_include_auth {
@@ -4934,7 +2479,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.enable_sync_with_ldap_include_auth ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: encrypt_saml {
@@ -4942,7 +2487,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.encrypt_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_admin_attribute {
@@ -4950,7 +2495,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_admin_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_canonical_algorithm {
@@ -4958,7 +2503,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_canonical_algorithm ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_email_attribute_saml {
@@ -4966,7 +2511,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_email_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_first_name_attribute_saml {
@@ -4974,7 +2519,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_first_name_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_guest_attribute {
@@ -4982,7 +2527,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_guest_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_id_attribute_saml {
@@ -4990,7 +2535,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_id_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_last_name_attribute_saml {
@@ -4998,7 +2543,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_last_name_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_locale_attribute {
@@ -5006,7 +2551,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_locale_attribute ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_border_color_saml {
@@ -5014,7 +2559,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_login_button_border_color_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_color_saml {
@@ -5022,7 +2567,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_login_button_color_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_text {
@@ -5030,7 +2575,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_login_button_text ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_login_button_text_color_saml {
@@ -5038,7 +2583,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_login_button_text_color_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_nickname_attribute_saml {
@@ -5046,7 +2591,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_nickname_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_position_attribute_saml {
@@ -5054,7 +2599,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_position_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_scoping_idp_name {
@@ -5062,7 +2607,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_scoping_idp_name ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_scoping_idp_provider_id {
@@ -5070,7 +2615,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_scoping_idp_provider_id ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_signature_algorithm {
@@ -5078,7 +2623,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_signature_algorithm ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_username_attribute_saml {
@@ -5086,7 +2631,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.isdefault_username_attribute_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: sign_request {
@@ -5094,7 +2639,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.sign_request ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: verify_saml {
@@ -5102,7 +2647,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.verify_saml ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: allow_cookies_for_subdomains {
@@ -5110,7 +2655,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.allow_cookies_for_subdomains ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: allow_edit_post_service {
@@ -5126,7 +2671,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.close_unused_direct_messages ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: connection_security_service {
@@ -5142,7 +2687,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.cors_allow_credentials ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: cors_debug {
@@ -5150,7 +2695,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.cors_debug ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: custom_service_terms_enabled_service {
@@ -5158,7 +2703,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.custom_service_terms_enabled_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: disable_bots_when_owner_is_deactivated {
@@ -5166,7 +2711,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.disable_bots_when_owner_is_deactivated ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: disable_legacy_mfa {
@@ -5174,7 +2719,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.disable_legacy_mfa ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_apiv3_service {
@@ -5182,7 +2727,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_apiv3_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_api_team_deletion {
@@ -5190,7 +2735,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_api_team_deletion ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_bot_account_creation {
@@ -5198,7 +2743,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_bot_account_creation ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_channel_viewed_messages_service {
@@ -5206,7 +2751,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_channel_viewed_messages_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_commands_service {
@@ -5214,7 +2759,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_commands_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_custom_emoji_service {
@@ -5222,7 +2767,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_custom_emoji_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_developer_service {
@@ -5230,7 +2775,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_developer_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_email_invitations {
@@ -5238,7 +2783,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_email_invitations ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_emoji_picker_service {
@@ -5246,7 +2791,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_emoji_picker_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_gif_picker {
@@ -5254,7 +2799,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_gif_picker ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_incoming_webhooks_service {
@@ -5262,7 +2807,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_incoming_webhooks_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_insecure_outgoing_connections_service {
@@ -5270,7 +2815,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_insecure_outgoing_connections_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_latex {
@@ -5278,7 +2823,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_latex ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_multifactor_authentication_service {
@@ -5286,7 +2831,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_multifactor_authentication_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_oauth_service_provider_service {
@@ -5294,7 +2839,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_oauth_service_provider_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_only_admin_integrations_service {
@@ -5302,7 +2847,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_only_admin_integrations_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_outgoing_webhooks {
@@ -5310,7 +2855,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_outgoing_webhooks ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_post_icon_override {
@@ -5318,7 +2863,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_post_icon_override ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_post_search {
@@ -5326,7 +2871,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_post_search ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_post_username_override {
@@ -5334,7 +2879,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_post_username_override ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_preview_features {
@@ -5342,7 +2887,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_preview_features ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_security_fix_alert {
@@ -5350,7 +2895,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_security_fix_alert ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_svgs {
@@ -5358,7 +2903,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_svgs ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_testing {
@@ -5366,7 +2911,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_testing ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_tutorial {
@@ -5374,7 +2919,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_tutorial ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_user_access_tokens {
@@ -5382,7 +2927,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_user_access_tokens ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_user_statuses {
@@ -5390,7 +2935,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_user_statuses ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_user_typing_messages {
@@ -5398,7 +2943,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enable_user_typing_messages ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enforce_multifactor_authentication_service {
@@ -5406,7 +2951,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.enforce_multifactor_authentication_service ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_channel_organization {
@@ -5414,7 +2959,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_channel_organization ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_enable_authentication_transfer {
@@ -5422,7 +2967,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_enable_authentication_transfer ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_enable_default_channel_leave_join_messages {
@@ -5430,7 +2975,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_enable_default_channel_leave_join_messages ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_enable_hardened_mode {
@@ -5438,7 +2983,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_enable_hardened_mode ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_group_unread_channels {
@@ -5454,7 +2999,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_ldap_group_sync ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_limit_client_config {
@@ -5462,7 +3007,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_limit_client_config ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_strict_csrf_enforcement {
@@ -5470,7 +3015,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.experimental_strict_csrf_enforcement ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: forward_80_to_443 {
@@ -5478,7 +3023,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.forward_80_to_443 ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: gfycat_api_key {
@@ -5486,7 +3031,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.gfycat_api_key ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: gfycat_api_secret {
@@ -5494,7 +3039,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.gfycat_api_secret ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_allowed_untrusted_internal_connections {
@@ -5502,7 +3047,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_allowed_untrusted_internal_connections ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_allowed_untrusted_inteznal_connections {
@@ -5510,7 +3055,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_allowed_untrusted_inteznal_connections ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_allow_cors_from {
@@ -5518,7 +3063,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_allow_cors_from ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_cors_exposed_headers {
@@ -5526,7 +3071,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_cors_exposed_headers ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_google_developer_key {
@@ -5534,7 +3079,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_google_developer_key ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_image_proxy_options {
@@ -5542,7 +3087,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_image_proxy_options ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_image_proxy_type {
@@ -5550,7 +3095,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_image_proxy_type ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_image_proxy_url {
@@ -5558,7 +3103,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_image_proxy_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_read_timeout {
@@ -5566,7 +3111,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_read_timeout ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_site_url {
@@ -5574,7 +3119,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_site_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_tls_cert_file {
@@ -5582,7 +3127,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_tls_cert_file ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_tls_key_file {
@@ -5590,7 +3135,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_tls_key_file ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_write_timeout {
@@ -5598,7 +3143,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.isdefault_write_timeout ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: maximum_login_attempts {
@@ -5686,7 +3231,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.tls_strict_transport ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: uses_letsencrypt {
@@ -5694,7 +3239,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.uses_letsencrypt ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: websocket_url {
@@ -5702,7 +3247,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Service Configuration"
     sql: ${TABLE}.websocket_url ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: web_server_mode {
@@ -5726,7 +3271,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Sql Configuration"
     sql: ${TABLE}.enable_public_channels_materialization ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: max_idle_conns {
@@ -5758,7 +3303,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Sql Configuration"
     sql: ${TABLE}.trace_sql ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: custom_service_terms_enabled_support {
@@ -5766,7 +3311,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.custom_service_terms_enabled_support ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: custom_terms_of_service_enabled {
@@ -5774,7 +3319,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.custom_terms_of_service_enabled ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: custom_terms_of_service_re_acceptance_period {
@@ -5790,7 +3335,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_about_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_help_link {
@@ -5798,7 +3343,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_help_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_privacy_policy_link {
@@ -5806,7 +3351,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_privacy_policy_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_report_a_problem_link {
@@ -5814,7 +3359,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_report_a_problem_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_support_email {
@@ -5822,7 +3367,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_support_email ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_terms_of_service_link {
@@ -5830,7 +3375,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Support Configuration"
     sql: ${TABLE}.isdefault_terms_of_service_link ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: segment_dedupe_id_support {
@@ -5846,7 +3391,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_confirm_notifications_to_channel ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_custom_brand {
@@ -5854,7 +3399,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_custom_brand ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_open_server {
@@ -5862,7 +3407,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_open_server ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_team_creation {
@@ -5870,7 +3415,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_team_creation ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_user_creation {
@@ -5878,7 +3423,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_user_creation ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_user_deactivation {
@@ -5886,7 +3431,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_user_deactivation ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_x_to_leave_channels_from_lhs {
@@ -5894,7 +3439,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_x_to_leave_channels_from_lhs ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_default_channels {
@@ -5910,7 +3455,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.experimental_enable_automatic_replies ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_primary_team {
@@ -5918,7 +3463,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.experimental_primary_team ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_town_square_is_hidden_in_lhs {
@@ -5926,7 +3471,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.experimental_town_square_is_hidden_in_lhs ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_town_square_is_read_only {
@@ -5934,7 +3479,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.experimental_town_square_is_read_only ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: experimental_view_archived_channels {
@@ -5942,7 +3487,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.experimental_view_archived_channels ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_custom_brand_text {
@@ -5950,7 +3495,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.isdefault_custom_brand_text ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_custom_description_text {
@@ -5958,7 +3503,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.isdefault_custom_description_text ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_site_name {
@@ -5966,7 +3511,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.isdefault_site_name ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_user_status_away_timeout {
@@ -5974,7 +3519,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.isdefault_user_status_away_timeout ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: lock_teammate_name_display {
@@ -5982,7 +3527,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.lock_teammate_name_display ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: max_channels_per_team {
@@ -6094,7 +3639,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.view_archived_channels ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: allowed_themes {
@@ -6110,7 +3655,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Theme Configuration"
     sql: ${TABLE}.allow_custom_themes ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable_theme_selection {
@@ -6118,7 +3663,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Theme Configuration"
     sql: ${TABLE}.enable_theme_selection ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_default_theme {
@@ -6126,7 +3671,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Theme Configuration"
     sql: ${TABLE}.isdefault_default_theme ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_supported_timezones_path {
@@ -6134,7 +3679,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Timezone Configuration"
     sql: ${TABLE}.isdefault_supported_timezones_path ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: enable {
@@ -6142,7 +3687,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Webrtc Configuration"
     sql: ${TABLE}.enable ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_stun_uri {
@@ -6150,7 +3695,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Webrtc Configuration"
     sql: ${TABLE}.isdefault_stun_uri ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: isdefault_turn_uri {
@@ -6158,7 +3703,7 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Webrtc Configuration"
     sql: ${TABLE}.isdefault_turn_uri ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: id {
@@ -6172,6 +3717,7 @@ view: server_daily_details_ext {
   
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
+    label:  Logging
     description: "" 
     type: time
     timeframes: [date, month, year]
@@ -6184,7 +3730,7 @@ view: server_daily_details_ext {
 	type: time
 	timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
   
@@ -9278,6 +6824,2471 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: "Server Counts"
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
+  }
+
+  # FILTERS
+  filter: is_in_security {
+    label: " In Security"
+    description: "" 
+    type: yesno
+    sql: ${TABLE}.in_security ;;
+    hidden: yes
+  }
+
+  filter: is_in_mm2_server {
+    label: " In Mm2 Server"
+    description: "" 
+    type: yesno
+    sql: ${TABLE}.in_mm2_server ;;
+    hidden: yes
+  }
+
+  filter: is_tracking_disabled {
+    label: " Tracking Disabled"
+    description: "" 
+    type: yesno
+    sql: ${TABLE}.tracking_disabled ;;
+    hidden: yes
+  }
+
+  filter: is_has_dupes {
+    label: " Has Dupes"
+    description: "" 
+    type: yesno
+    sql: ${TABLE}.has_dupes ;;
+    hidden: yes
+  }
+
+  filter: is_has_multi_ips {
+    label: " Has Multi Ips"
+    description: "" 
+    type: yesno
+    sql: ${TABLE}.has_multi_ips ;;
+    hidden: yes
+  }
+
+  filter: is_used_apiv3 {
+    description: "" 
+    type: yesno
+    group_label: "Activity Configuration"
+    sql: ${TABLE}.used_apiv3 ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_max_users_for_statistics {
+    description: "" 
+    type: yesno
+    group_label: "Analytics Configuration"
+    sql: ${TABLE}.isdefault_max_users_for_statistics ;;
+    hidden: yes
+  }
+
+  filter: is_allow_banner_dismissal {
+    description: "" 
+    type: yesno
+    group_label: "Annoucument Configuration"
+    sql: ${TABLE}.allow_banner_dismissal ;;
+    hidden: yes
+  }
+
+  filter: is_enable_banner {
+    description: "" 
+    type: yesno
+    group_label: "Annoucument Configuration"
+    sql: ${TABLE}.enable_banner ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_banner_color {
+    description: "" 
+    type: yesno
+    group_label: "Annoucument Configuration"
+    sql: ${TABLE}.isdefault_banner_color ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_banner_text_color {
+    description: "" 
+    type: yesno
+    group_label: "Annoucument Configuration"
+    sql: ${TABLE}.isdefault_banner_text_color ;;
+    hidden: yes
+  }
+
+  filter: is_enable_apiv3_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_apiv3_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_channel_viewed_messages_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_channel_viewed_messages_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_commands_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_commands_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_custom_emoji_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_custom_emoji_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_developer_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_developer_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_emoji_picker_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_emoji_picker_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_incoming_webhooks_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_incoming_webhooks_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_insecure_outgoing_connections_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_insecure_outgoing_connections_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_multifactor_authentication_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_multifactor_authentication_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_oauth_service_provider_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_oauth_service_provider_client ;;
+    hidden: yes
+  }
+
+  filter: is_enable_only_admin_integrations_client {
+    description: "" 
+    type: yesno
+    group_label: "Client Requirements Configuration"
+    sql: ${TABLE}.enable_only_admin_integrations_client ;;
+    hidden: yes
+  }
+
+  filter: is_advertise_address {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.advertise_address ;;
+    hidden: yes
+  }
+
+  filter: is_bind_address {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.bind_address ;;
+    hidden: yes
+  }
+
+  filter: is_enable_cluster {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.enable_cluster ;;
+    hidden: yes
+  }
+
+  filter: is_network_interface {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.network_interface ;;
+    hidden: yes
+  }
+
+  filter: is_read_only_config {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.read_only_config ;;
+    hidden: yes
+  }
+
+  filter: is_use_experimental_gossip {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.use_experimental_gossip ;;
+    hidden: yes
+  }
+
+  filter: is_use_ip_address {
+    description: "" 
+    type: yesno
+    group_label: "Cluster Configuration"
+    sql: ${TABLE}.use_ip_address ;;
+    hidden: yes
+  }
+
+  filter: is_enable_compliance {
+    description: "" 
+    type: yesno
+    group_label: "Compliance Configuration"
+    sql: ${TABLE}.enable_compliance ;;
+    hidden: yes
+  }
+
+  filter: is_enable_compliance_daily {
+    description: "" 
+    type: yesno
+    group_label: "Compliance Configuration"
+    sql: ${TABLE}.enable_compliance_daily ;;
+    hidden: yes
+  }
+
+  filter: is_enable_message_deletion {
+    description: "" 
+    type: yesno
+    group_label: "Data Retention Configuration"
+    sql: ${TABLE}.enable_message_deletion ;;
+    hidden: yes
+  }
+
+  filter: is_enable_file_deletion {
+    description: "" 
+    type: yesno
+    group_label: "Data Retention Configuration"
+    sql: ${TABLE}.enable_file_deletion ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_timezone {
+    description: "" 
+    type: yesno
+    group_label: "Display Configuration"
+    sql: ${TABLE}.experimental_timezone ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_custom_url_schemes {
+    description: "" 
+    type: yesno
+    group_label: "Display Configuration"
+    sql: ${TABLE}.isdefault_custom_url_schemes ;;
+    hidden: yes
+  }
+
+  filter: is_enable_autocomplete {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.enable_autocomplete ;;
+    hidden: yes
+  }
+
+  filter: is_enable_indexing {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.enable_indexing ;;
+    hidden: yes
+  }
+
+  filter: is_enable_searching {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.enable_searching ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_connection_url {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.isdefault_connection_url ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_index_prefix {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.isdefault_index_prefix ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_password {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.isdefault_password ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_username {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.isdefault_username ;;
+    hidden: yes
+  }
+
+  filter: is_skip_tls_verification {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.skip_tls_verification ;;
+    hidden: yes
+  }
+
+  filter: is_sniff {
+    description: "" 
+    type: yesno
+    group_label: "ElasticSearch Configuration"
+    sql: ${TABLE}.sniff ;;
+    hidden: yes
+  }
+
+  filter: is_enable_email_batching {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_email_batching ;;
+    hidden: yes
+  }
+
+  filter: is_enable_preview_mode_banner {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_preview_mode_banner ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sign_in_with_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_sign_in_with_email ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sign_in_with_username {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_sign_in_with_username ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sign_up_with_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_sign_up_with_email ;;
+    hidden: yes
+  }
+
+  filter: is_enable_smtp_auth {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.enable_smtp_auth ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_feedback_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_feedback_email ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_feedback_name {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_feedback_name ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_feedback_organization {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_feedback_organization ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_border_color_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_login_button_border_color_email ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_color_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_login_button_color_email ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_text_color_email {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_login_button_text_color_email ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_reply_to_address {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.isdefault_reply_to_address ;;
+    hidden: yes
+  }
+
+  filter: is_require_email_verification {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.require_email_verification ;;
+    hidden: yes
+  }
+
+  filter: is_send_email_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.send_email_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_send_push_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.send_push_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_skip_server_certificate_verification {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.skip_server_certificate_verification ;;
+    hidden: yes
+  }
+
+  filter: is_use_channel_in_email_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Email Configuration"
+    sql: ${TABLE}.use_channel_in_email_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_client_side_cert_enable {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.client_side_cert_enable ;;
+    hidden: yes
+  }
+
+  filter: is_enable_click_to_reply {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.enable_click_to_reply ;;
+    hidden: yes
+  }
+
+  filter: is_enable_post_metadata {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.enable_post_metadata ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_client_side_cert_check {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.isdefault_client_side_cert_check ;;
+    hidden: yes
+  }
+
+  filter: is_restrict_system_admin {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.restrict_system_admin ;;
+    hidden: yes
+  }
+
+  filter: is_use_new_saml_library {
+    description: "" 
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.use_new_saml_library ;;
+    hidden: yes
+  }
+
+  filter: is_enable_experimental_extensions {
+    description: "" 
+    type: yesno
+    group_label: "Extension Configuration"
+    sql: ${TABLE}.enable_experimental_extensions ;;
+    hidden: yes
+  }
+
+  filter: is_amazon_s3_signv2 {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.amazon_s3_signv2 ;;
+    hidden: yes
+  }
+
+  filter: is_amazon_s3_sse {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.amazon_s3_sse ;;
+    hidden: yes
+  }
+
+  filter: is_amazon_s3_ssl {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.amazon_s3_ssl ;;
+    hidden: yes
+  }
+
+  filter: is_amazon_s3_trace {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.amazon_s3_trace ;;
+    hidden: yes
+  }
+
+  filter: is_enable_file_attachments {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.enable_file_attachments ;;
+    hidden: yes
+  }
+
+  filter: is_enable_mobile_download {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.enable_mobile_download ;;
+    hidden: yes
+  }
+
+  filter: is_enable_mobile_upload {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.enable_mobile_upload ;;
+    hidden: yes
+  }
+
+  filter: is_enable_public_links {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.enable_public_links ;;
+    hidden: yes
+  }
+
+  filter: is_isabsolute_directory {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.isabsolute_directory ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_directory {
+    description: "" 
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.isdefault_directory ;;
+    hidden: yes
+  }
+
+  filter: is_allow_email_accounts {
+    description: "" 
+    type: yesno
+    group_label: "Guest Account Configuration"
+    sql: ${TABLE}.allow_email_accounts ;;
+    hidden: yes
+  }
+
+  filter: is_enable_guest_accounts {
+    description: "" 
+    type: yesno
+    group_label: "Guest Account Configuration"
+    sql: ${TABLE}.enable_guest_accounts ;;
+    hidden: yes
+  }
+
+  filter: is_enforce_multifactor_authentication_guest {
+    description: "" 
+    type: yesno
+    group_label: "Guest Account Configuration"
+    sql: ${TABLE}.enforce_multifactor_authentication_guest ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_restrict_creation_to_domains {
+    description: "" 
+    type: yesno
+    group_label: "Guest Account Configuration"
+    sql: ${TABLE}.isdefault_restrict_creation_to_domains ;;
+    hidden: yes
+  }
+
+  filter: is_enable_image_proxy {
+    description: "" 
+    type: yesno
+    group_label: "Image Proxy Configuration"
+    sql: ${TABLE}.enable_image_proxy ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_remote_image_proxy_options {
+    description: "" 
+    type: yesno
+    group_label: "Image Proxy Configuration"
+    sql: ${TABLE}.isdefault_remote_image_proxy_options ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_remote_image_proxy_url {
+    description: "" 
+    type: yesno
+    group_label: "Image Proxy Configuration"
+    sql: ${TABLE}.isdefault_remote_image_proxy_url ;;
+    hidden: yes
+  }
+
+  filter: is_enable_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.enable_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_enable_admin_filter {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.enable_admin_filter ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sync {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.enable_sync ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_email_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_email_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_first_name_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_first_name_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_group_display_name_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_group_display_name_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_group_id_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_group_id_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_id_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_id_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_last_name_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_last_name_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_border_color_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_login_button_border_color_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_color_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_login_button_color_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_text_color_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_login_button_text_color_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_field_name {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_login_field_name ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_id_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_login_id_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_nickname_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_nickname_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_position_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_position_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_username_attribute_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isdefault_username_attribute_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_isempty_admin_filter {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isempty_admin_filter ;;
+    hidden: yes
+  }
+
+  filter: is_isempty_group_filter {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isempty_group_filter ;;
+    hidden: yes
+  }
+
+  filter: is_isempty_guest_filter {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isempty_guest_filter ;;
+    hidden: yes
+  }
+
+  filter: is_skip_certificate_verification {
+    description: "" 
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.skip_certificate_verification ;;
+    hidden: yes
+  }
+
+  filter: is_feature_cluster {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_cluster ;;
+    hidden: yes
+  }
+
+  filter: is_feature_compliance {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_compliance ;;
+    hidden: yes
+  }
+
+  filter: is_feature_custom_brand {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_custom_brand ;;
+    hidden: yes
+  }
+
+  filter: is_feature_custom_permissions_schemes {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_custom_permissions_schemes ;;
+    hidden: yes
+  }
+
+  filter: is_feature_data_retention {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_data_retention ;;
+    hidden: yes
+  }
+
+  filter: is_feature_elastic_search {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_elastic_search ;;
+    hidden: yes
+  }
+
+  filter: is_feature_email_notification_contents {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_email_notification_contents ;;
+    hidden: yes
+  }
+
+  filter: is_feature_future {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_future ;;
+    hidden: yes
+  }
+
+  filter: is_feature_google {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_google ;;
+    hidden: yes
+  }
+
+  filter: is_feature_guest_accounts {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_guest_accounts ;;
+    hidden: yes
+  }
+
+  filter: is_feature_guest_accounts_permissions {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_guest_accounts_permissions ;;
+    hidden: yes
+  }
+
+  filter: is_feature_id_loaded {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_id_loaded ;;
+    hidden: yes
+  }
+
+  filter: is_feature_ldap {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_feature_ldap_groups {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_ldap_groups ;;
+    hidden: yes
+  }
+
+  filter: is_feature_lock_teammate_name_display {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_lock_teammate_name_display ;;
+    hidden: yes
+  }
+
+  filter: is_feature_message_export {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_message_export ;;
+    hidden: yes
+  }
+
+  filter: is_feature_metrics {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_metrics ;;
+    hidden: yes
+  }
+
+  filter: is_feature_mfa {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_mfa ;;
+    hidden: yes
+  }
+
+  filter: is_feature_mhpns {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_mhpns ;;
+    hidden: yes
+  }
+
+  filter: is_feature_office365 {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_office365 ;;
+    hidden: yes
+  }
+
+  filter: is_feature_password {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_password ;;
+    hidden: yes
+  }
+
+  filter: is_feature_saml {
+    description: "" 
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_saml ;;
+    hidden: yes
+  }
+
+  filter: is_console_json_log {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.console_json_log ;;
+    hidden: yes
+  }
+
+  filter: is_enable_console_log {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.enable_console_log ;;
+    hidden: yes
+  }
+
+  filter: is_enable_file_log {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.enable_file_log ;;
+    hidden: yes
+  }
+
+  filter: is_enable_webhook_debugging {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.enable_webhook_debugging ;;
+    hidden: yes
+  }
+
+  filter: is_file_json_log {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.file_json_log ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_file_format {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.isdefault_file_format ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_file_location_log {
+    description: "" 
+    type: yesno
+    group_label: "Log Configuration"
+    sql: ${TABLE}.isdefault_file_location_log ;;
+    hidden: yes
+  }
+
+  filter: is_enable_message_export {
+    description: "" 
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.enable_message_export ;;
+    hidden: yes
+  }
+
+  filter: is_is_default_global_relay_email_address {
+    description: "" 
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.is_default_global_relay_email_address ;;
+    hidden: yes
+  }
+
+  filter: is_is_default_global_relay_smtp_password {
+    description: "" 
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.is_default_global_relay_smtp_password ;;
+    hidden: yes
+  }
+
+  filter: is_is_default_global_relay_smtp_username {
+    description: "" 
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.is_default_global_relay_smtp_username ;;
+    hidden: yes
+  }
+
+  filter: is_enable_metrics {
+    description: "" 
+    type: yesno
+    group_label: "Metric Configuration"
+    sql: ${TABLE}.enable_metrics ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_android_app_download_link {
+    description: "" 
+    type: yesno
+    group_label: "Nativeapp Configuration"
+    sql: ${TABLE}.isdefault_android_app_download_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_app_download_link {
+    description: "" 
+    type: yesno
+    group_label: "Nativeapp Configuration"
+    sql: ${TABLE}.isdefault_app_download_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_iosapp_download_link {
+    description: "" 
+    type: yesno
+    group_label: "Nativeapp Configuration"
+    sql: ${TABLE}.isdefault_iosapp_download_link ;;
+    hidden: yes
+  }
+
+  filter: is_console_json_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Notifications Log Configuration"
+    sql: ${TABLE}.console_json_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_enable_console_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Notifications Log Configuration"
+    sql: ${TABLE}.enable_console_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_enable_file_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Notifications Log Configuration"
+    sql: ${TABLE}.enable_file_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_file_json_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Notifications Log Configuration"
+    sql: ${TABLE}.file_json_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_file_location_notifications {
+    description: "" 
+    type: yesno
+    group_label: "Notifications Log Configuration"
+    sql: ${TABLE}.isdefault_file_location_notifications ;;
+    hidden: yes
+  }
+
+  filter: is_enable_office365_oauth {
+    description: "" 
+    type: yesno
+    group_label: "Oauth Configuration"
+    sql: ${TABLE}.enable_office365_oauth ;;
+    hidden: yes
+  }
+
+  filter: is_enable_google_oauth {
+    description: "" 
+    type: yesno
+    group_label: "Oauth Configuration"
+    sql: ${TABLE}.enable_google_oauth ;;
+    hidden: yes
+  }
+
+  filter: is_enable_gitlab_oauth {
+    description: "" 
+    type: yesno
+    group_label: "Oauth Configuration"
+    sql: ${TABLE}.enable_gitlab_oauth ;;
+    hidden: yes
+  }
+
+  filter: is_enable_lowercase {
+    description: "" 
+    type: yesno
+    group_label: "Password Configuration"
+    sql: ${TABLE}.enable_lowercase ;;
+    hidden: yes
+  }
+
+  filter: is_enable_uppercase {
+    description: "" 
+    type: yesno
+    group_label: "Password Configuration"
+    sql: ${TABLE}.enable_uppercase ;;
+    hidden: yes
+  }
+
+  filter: is_enable_symbol {
+    description: "" 
+    type: yesno
+    group_label: "Password Configuration"
+    sql: ${TABLE}.enable_symbol ;;
+    hidden: yes
+  }
+
+  filter: is_enable_number {
+    description: "" 
+    type: yesno
+    group_label: "Password Configuration"
+    sql: ${TABLE}.enable_number ;;
+    hidden: yes
+  }
+
+  filter: is_phase_1_migration_complete {
+    description: "" 
+    type: yesno
+    group_label: "Permissions General Configuration"
+    sql: ${TABLE}.phase_1_migration_complete ;;
+    hidden: yes
+  }
+
+  filter: is_phase_2_migration_complete {
+    description: "" 
+    type: yesno
+    group_label: "Permissions General Configuration"
+    sql: ${TABLE}.phase_2_migration_complete ;;
+    hidden: yes
+  }
+
+  filter: is_allow_insecure_download_url {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.allow_insecure_download_url ;;
+    hidden: yes
+  }
+
+  filter: is_automatic_prepackaged_plugins {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.automatic_prepackaged_plugins ;;
+    hidden: yes
+  }
+
+  filter: is_enable_plugins {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_plugins ;;
+    hidden: yes
+  }
+
+  filter: is_enable_antivirus {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_antivirus ;;
+    hidden: yes
+  }
+
+  filter: is_enable_autolink {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_autolink ;;
+    hidden: yes
+  }
+
+  filter: is_enable_aws_sns {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_aws_sns ;;
+    hidden: yes
+  }
+
+  filter: is_enable_custom_user_attributes {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_custom_user_attributes ;;
+    hidden: yes
+  }
+
+  filter: is_enable_github {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_github ;;
+    hidden: yes
+  }
+
+  filter: is_enable_gitlab {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_gitlab ;;
+    hidden: yes
+  }
+
+  filter: is_enable_health_check {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_health_check ;;
+    hidden: yes
+  }
+
+  filter: is_enable_jenkins {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_jenkins ;;
+    hidden: yes
+  }
+
+  filter: is_enable_jira {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_jira ;;
+    hidden: yes
+  }
+
+  filter: is_enable_marketplace {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_marketplace ;;
+    hidden: yes
+  }
+
+  filter: is_enable_nps {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_nps ;;
+    hidden: yes
+  }
+
+  filter: is_enable_nps_survey {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_nps_survey ;;
+    hidden: yes
+  }
+
+  filter: is_enable_remote_marketplace {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_remote_marketplace ;;
+    hidden: yes
+  }
+
+  filter: is_enable_uploads {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_uploads ;;
+    hidden: yes
+  }
+
+  filter: is_enable_webex {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_webex ;;
+    hidden: yes
+  }
+
+  filter: is_enable_welcome_bot {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_welcome_bot ;;
+    hidden: yes
+  }
+
+  filter: is_enable_zoom {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_zoom ;;
+    hidden: yes
+  }
+
+  filter: is_is_default_marketplace_url {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.is_default_marketplace_url ;;
+    hidden: yes
+  }
+
+  filter: is_require_plugin_signature {
+    description: "" 
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.require_plugin_signature ;;
+    hidden: yes
+  }
+
+  filter: is_show_email_address {
+    description: "" 
+    type: yesno
+    group_label: "Privacy Configuration"
+    sql: ${TABLE}.show_email_address ;;
+    hidden: yes
+  }
+
+  filter: is_show_full_name {
+    description: "" 
+    type: yesno
+    group_label: "Privacy Configuration"
+    sql: ${TABLE}.show_full_name ;;
+    hidden: yes
+  }
+
+  filter: is_enable_rate_limiter {
+    description: "" 
+    type: yesno
+    group_label: "Rate Configuration"
+    sql: ${TABLE}.enable_rate_limiter ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_vary_by_header {
+    description: "" 
+    type: yesno
+    group_label: "Rate Configuration"
+    sql: ${TABLE}.isdefault_vary_by_header ;;
+    hidden: yes
+  }
+
+  filter: is_vary_by_remote_address {
+    description: "" 
+    type: yesno
+    group_label: "Rate Configuration"
+    sql: ${TABLE}.vary_by_remote_address ;;
+    hidden: yes
+  }
+
+  filter: is_vary_by_user {
+    description: "" 
+    type: yesno
+    group_label: "Rate Configuration"
+    sql: ${TABLE}.vary_by_user ;;
+    hidden: yes
+  }
+
+  filter: is_enable_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.enable_saml ;;
+    hidden: yes
+  }
+
+  filter: is_enable_admin_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.enable_admin_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sync_with_ldap {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.enable_sync_with_ldap ;;
+    hidden: yes
+  }
+
+  filter: is_enable_sync_with_ldap_include_auth {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.enable_sync_with_ldap_include_auth ;;
+    hidden: yes
+  }
+
+  filter: is_encrypt_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.encrypt_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_admin_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_admin_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_canonical_algorithm {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_canonical_algorithm ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_email_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_email_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_first_name_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_first_name_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_guest_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_guest_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_id_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_id_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_last_name_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_last_name_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_locale_attribute {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_locale_attribute ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_border_color_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_login_button_border_color_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_color_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_login_button_color_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_text {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_login_button_text ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_login_button_text_color_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_login_button_text_color_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_nickname_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_nickname_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_position_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_position_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_scoping_idp_name {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_scoping_idp_name ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_scoping_idp_provider_id {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_scoping_idp_provider_id ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_signature_algorithm {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_signature_algorithm ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_username_attribute_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.isdefault_username_attribute_saml ;;
+    hidden: yes
+  }
+
+  filter: is_sign_request {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.sign_request ;;
+    hidden: yes
+  }
+
+  filter: is_verify_saml {
+    description: "" 
+    type: yesno
+    group_label: "Saml Configuration"
+    sql: ${TABLE}.verify_saml ;;
+    hidden: yes
+  }
+
+  filter: is_allow_cookies_for_subdomains {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.allow_cookies_for_subdomains ;;
+    hidden: yes
+  }
+
+  filter: is_close_unused_direct_messages {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.close_unused_direct_messages ;;
+    hidden: yes
+  }
+
+  filter: is_cors_allow_credentials {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.cors_allow_credentials ;;
+    hidden: yes
+  }
+
+  filter: is_cors_debug {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.cors_debug ;;
+    hidden: yes
+  }
+
+  filter: is_custom_service_terms_enabled_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.custom_service_terms_enabled_service ;;
+    hidden: yes
+  }
+
+  filter: is_disable_bots_when_owner_is_deactivated {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.disable_bots_when_owner_is_deactivated ;;
+    hidden: yes
+  }
+
+  filter: is_disable_legacy_mfa {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.disable_legacy_mfa ;;
+    hidden: yes
+  }
+
+  filter: is_enable_apiv3_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_apiv3_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_api_team_deletion {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_api_team_deletion ;;
+    hidden: yes
+  }
+
+  filter: is_enable_bot_account_creation {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_bot_account_creation ;;
+    hidden: yes
+  }
+
+  filter: is_enable_channel_viewed_messages_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_channel_viewed_messages_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_commands_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_commands_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_custom_emoji_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_custom_emoji_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_developer_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_developer_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_email_invitations {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_email_invitations ;;
+    hidden: yes
+  }
+
+  filter: is_enable_emoji_picker_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_emoji_picker_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_gif_picker {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_gif_picker ;;
+    hidden: yes
+  }
+
+  filter: is_enable_incoming_webhooks_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_incoming_webhooks_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_insecure_outgoing_connections_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_insecure_outgoing_connections_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_latex {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_latex ;;
+    hidden: yes
+  }
+
+  filter: is_enable_multifactor_authentication_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_multifactor_authentication_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_oauth_service_provider_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_oauth_service_provider_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_only_admin_integrations_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_only_admin_integrations_service ;;
+    hidden: yes
+  }
+
+  filter: is_enable_outgoing_webhooks {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_outgoing_webhooks ;;
+    hidden: yes
+  }
+
+  filter: is_enable_post_icon_override {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_post_icon_override ;;
+    hidden: yes
+  }
+
+  filter: is_enable_post_search {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_post_search ;;
+    hidden: yes
+  }
+
+  filter: is_enable_post_username_override {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_post_username_override ;;
+    hidden: yes
+  }
+
+  filter: is_enable_preview_features {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_preview_features ;;
+    hidden: yes
+  }
+
+  filter: is_enable_security_fix_alert {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_security_fix_alert ;;
+    hidden: yes
+  }
+
+  filter: is_enable_svgs {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_svgs ;;
+    hidden: yes
+  }
+
+  filter: is_enable_testing {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_testing ;;
+    hidden: yes
+  }
+
+  filter: is_enable_tutorial {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_tutorial ;;
+    hidden: yes
+  }
+
+  filter: is_enable_user_access_tokens {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_user_access_tokens ;;
+    hidden: yes
+  }
+
+  filter: is_enable_user_statuses {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_user_statuses ;;
+    hidden: yes
+  }
+
+  filter: is_enable_user_typing_messages {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_user_typing_messages ;;
+    hidden: yes
+  }
+
+  filter: is_enforce_multifactor_authentication_service {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enforce_multifactor_authentication_service ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_channel_organization {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_channel_organization ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_enable_authentication_transfer {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_enable_authentication_transfer ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_enable_default_channel_leave_join_messages {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_enable_default_channel_leave_join_messages ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_enable_hardened_mode {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_enable_hardened_mode ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_ldap_group_sync {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_ldap_group_sync ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_limit_client_config {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_limit_client_config ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_strict_csrf_enforcement {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_strict_csrf_enforcement ;;
+    hidden: yes
+  }
+
+  filter: is_forward_80_to_443 {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.forward_80_to_443 ;;
+    hidden: yes
+  }
+
+  filter: is_gfycat_api_key {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.gfycat_api_key ;;
+    hidden: yes
+  }
+
+  filter: is_gfycat_api_secret {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.gfycat_api_secret ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_allowed_untrusted_internal_connections {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_allowed_untrusted_internal_connections ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_allowed_untrusted_inteznal_connections {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_allowed_untrusted_inteznal_connections ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_allow_cors_from {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_allow_cors_from ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_cors_exposed_headers {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_cors_exposed_headers ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_google_developer_key {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_google_developer_key ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_image_proxy_options {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_image_proxy_options ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_image_proxy_type {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_image_proxy_type ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_image_proxy_url {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_image_proxy_url ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_read_timeout {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_read_timeout ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_site_url {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_site_url ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_tls_cert_file {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_tls_cert_file ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_tls_key_file {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_tls_key_file ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_write_timeout {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.isdefault_write_timeout ;;
+    hidden: yes
+  }
+
+  filter: is_tls_strict_transport {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.tls_strict_transport ;;
+    hidden: yes
+  }
+
+  filter: is_uses_letsencrypt {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.uses_letsencrypt ;;
+    hidden: yes
+  }
+
+  filter: is_websocket_url {
+    description: "" 
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.websocket_url ;;
+    hidden: yes
+  }
+
+  filter: is_enable_public_channels_materialization {
+    description: "" 
+    type: yesno
+    group_label: "Sql Configuration"
+    sql: ${TABLE}.enable_public_channels_materialization ;;
+    hidden: yes
+  }
+
+  filter: is_trace_sql {
+    description: "" 
+    type: yesno
+    group_label: "Sql Configuration"
+    sql: ${TABLE}.trace_sql ;;
+    hidden: yes
+  }
+
+  filter: is_custom_service_terms_enabled_support {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.custom_service_terms_enabled_support ;;
+    hidden: yes
+  }
+
+  filter: is_custom_terms_of_service_enabled {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.custom_terms_of_service_enabled ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_about_link {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_about_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_help_link {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_help_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_privacy_policy_link {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_privacy_policy_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_report_a_problem_link {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_report_a_problem_link ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_support_email {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_support_email ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_terms_of_service_link {
+    description: "" 
+    type: yesno
+    group_label: "Support Configuration"
+    sql: ${TABLE}.isdefault_terms_of_service_link ;;
+    hidden: yes
+  }
+
+  filter: is_enable_confirm_notifications_to_channel {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_confirm_notifications_to_channel ;;
+    hidden: yes
+  }
+
+  filter: is_enable_custom_brand {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_custom_brand ;;
+    hidden: yes
+  }
+
+  filter: is_enable_open_server {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_open_server ;;
+    hidden: yes
+  }
+
+  filter: is_enable_team_creation {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_team_creation ;;
+    hidden: yes
+  }
+
+  filter: is_enable_user_creation {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_user_creation ;;
+    hidden: yes
+  }
+
+  filter: is_enable_user_deactivation {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_user_deactivation ;;
+    hidden: yes
+  }
+
+  filter: is_enable_x_to_leave_channels_from_lhs {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_x_to_leave_channels_from_lhs ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_enable_automatic_replies {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.experimental_enable_automatic_replies ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_primary_team {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.experimental_primary_team ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_town_square_is_hidden_in_lhs {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.experimental_town_square_is_hidden_in_lhs ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_town_square_is_read_only {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.experimental_town_square_is_read_only ;;
+    hidden: yes
+  }
+
+  filter: is_experimental_view_archived_channels {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.experimental_view_archived_channels ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_custom_brand_text {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.isdefault_custom_brand_text ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_custom_description_text {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.isdefault_custom_description_text ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_site_name {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.isdefault_site_name ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_user_status_away_timeout {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.isdefault_user_status_away_timeout ;;
+    hidden: yes
+  }
+
+  filter: is_lock_teammate_name_display {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.lock_teammate_name_display ;;
+    hidden: yes
+  }
+
+  filter: is_view_archived_channels {
+    description: "" 
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.view_archived_channels ;;
+    hidden: yes
+  }
+
+  filter: is_allow_custom_themes {
+    description: "" 
+    type: yesno
+    group_label: "Theme Configuration"
+    sql: ${TABLE}.allow_custom_themes ;;
+    hidden: yes
+  }
+
+  filter: is_enable_theme_selection {
+    description: "" 
+    type: yesno
+    group_label: "Theme Configuration"
+    sql: ${TABLE}.enable_theme_selection ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_default_theme {
+    description: "" 
+    type: yesno
+    group_label: "Theme Configuration"
+    sql: ${TABLE}.isdefault_default_theme ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_supported_timezones_path {
+    description: "" 
+    type: yesno
+    group_label: "Timezone Configuration"
+    sql: ${TABLE}.isdefault_supported_timezones_path ;;
+    hidden: yes
+  }
+
+  filter: is_enable {
+    description: "" 
+    type: yesno
+    group_label: "Webrtc Configuration"
+    sql: ${TABLE}.enable ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_stun_uri {
+    description: "" 
+    type: yesno
+    group_label: "Webrtc Configuration"
+    sql: ${TABLE}.isdefault_stun_uri ;;
+    hidden: yes
+  }
+
+  filter: is_isdefault_turn_uri {
+    description: "" 
+    type: yesno
+    group_label: "Webrtc Configuration"
+    sql: ${TABLE}.isdefault_turn_uri ;;
+    hidden: yes
   }
 
 
