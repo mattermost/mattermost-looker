@@ -270,7 +270,7 @@ view: opportunitylineitem {
 
   dimension: potential_arr {
     label: "Potential ARR"
-    sql: case when not ${opportunity.isclosed} AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when not ${opportunity.isclosed} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
@@ -351,7 +351,7 @@ view: opportunitylineitem {
     sql: ${potential_arr} ;;
     type: sum
     value_format_name: "usd_0"
-    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,potential_arr]
+    drill_fields: [account.name,opportunity.name,opportunity.close_date,product.name,start_date,end_date,total_potential_arr]
   }
 
 }
