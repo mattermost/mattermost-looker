@@ -2466,6 +2466,7 @@ view: server_daily_details_ext {
 
   # DIMENSIONS
   dimension: server_id {
+    label: " Server Id"
     description: "" 
     type: string
     sql: ${TABLE}.server_id ;;
@@ -2473,6 +2474,7 @@ view: server_daily_details_ext {
   }
 
   dimension: ip_address {
+    label: " Ip Address"
     description: "" 
     type: string
     sql: ${TABLE}.ip_address ;;
@@ -2480,6 +2482,7 @@ view: server_daily_details_ext {
   }
 
   dimension: location {
+    label: " Location"
     description: "" 
     type: string
     sql: ${TABLE}.location ;;
@@ -2487,6 +2490,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version {
+    label: " Version"
     description: "" 
     type: string
     sql: ${TABLE}.version ;;
@@ -2494,6 +2498,7 @@ view: server_daily_details_ext {
   }
 
   dimension: context_library_version {
+    label: " Context Library Version"
     description: "" 
     type: string
     sql: ${TABLE}.context_library_version ;;
@@ -2501,6 +2506,7 @@ view: server_daily_details_ext {
   }
 
   dimension: edition {
+    label: " Edition"
     description: "" 
     type: string
     sql: ${TABLE}.edition ;;
@@ -2508,6 +2514,7 @@ view: server_daily_details_ext {
   }
 
   dimension: active_user_count {
+    label: " Active User Count"
     description: "" 
     type: number
     sql: ${TABLE}.active_user_count ;;
@@ -2515,6 +2522,7 @@ view: server_daily_details_ext {
   }
 
   dimension: user_count {
+    label: " User Count"
     description: "" 
     type: number
     sql: ${TABLE}.user_count ;;
@@ -2522,6 +2530,7 @@ view: server_daily_details_ext {
   }
 
   dimension: system_admins {
+    label: " System Admins"
     description: "" 
     type: number
     sql: ${TABLE}.system_admins ;;
@@ -2529,6 +2538,7 @@ view: server_daily_details_ext {
   }
 
   dimension: operating_system {
+    label: " Operating System"
     description: "" 
     type: string
     sql: ${TABLE}.operating_system ;;
@@ -2536,6 +2546,7 @@ view: server_daily_details_ext {
   }
 
   dimension: database_type {
+    label: " Database Type"
     description: "" 
     type: string
     sql: ${TABLE}.database_type ;;
@@ -2543,6 +2554,7 @@ view: server_daily_details_ext {
   }
 
   dimension: account_sfid {
+    label: " Account Sfid"
     description: "" 
     type: string
     sql: ${TABLE}.account_sfid ;;
@@ -2550,6 +2562,7 @@ view: server_daily_details_ext {
   }
 
   dimension: license_id1 {
+    label: " License Id1"
     description: "" 
     type: string
     sql: ${TABLE}.license_id1 ;;
@@ -2557,6 +2570,7 @@ view: server_daily_details_ext {
   }
 
   dimension: license_id2 {
+    label: " License Id2"
     description: "" 
     type: string
     sql: ${TABLE}.license_id2 ;;
@@ -2564,6 +2578,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_security {
+    label: " In Security"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -2571,6 +2586,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_mm2_server {
+    label: " In Mm2 Server"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -2578,6 +2594,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
+    label: " Tracking Disabled"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
@@ -2585,6 +2602,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_dupes {
+    label: " Has Dupes"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -2592,6 +2610,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_multi_ips {
+    label: " Has Multi Ips"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
