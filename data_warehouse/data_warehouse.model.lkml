@@ -222,7 +222,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
-  hidden: yes
+#   hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
   extends: [ _base_account_explore ]
@@ -631,7 +631,7 @@ explore: account_cs_extended  {
   }
 
   join: zendesk_ticket_details {
-    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted';;
     relationship: one_to_many
   }
 
@@ -652,6 +652,13 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets (WIP)"
   group_label: "Customer Success"
+  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' ;;
+
+  join: account {
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 # BP: Method to hide an explore based on a user attribute
