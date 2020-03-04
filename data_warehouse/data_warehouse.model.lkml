@@ -704,3 +704,7 @@ explore: nps_user_monthly_score {
     fields: []
   }
 }
+
+explore: server_daily_details_ext {
+  label: "Server Daily Details Ext"
+}
