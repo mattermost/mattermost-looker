@@ -119,7 +119,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_security {
-    label: " Is TEDAS Server"
+    label: " TEDAS Server"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -135,7 +135,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
-    label: " Has Tracking Disabled"
+    label: " Tracking Disabled"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
@@ -143,7 +143,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_dupes {
-    label: " Has Dupes"
+    label: " Dupes"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -151,7 +151,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_multi_ips {
-    label: " Has Multiple IP's"
+    label: " Multiple IP's"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
