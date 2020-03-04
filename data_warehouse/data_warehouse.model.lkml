@@ -631,7 +631,7 @@ explore: account_cs_extended  {
   }
 
   join: zendesk_ticket_details {
-    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted';;
     relationship: one_to_many
   }
 
@@ -652,6 +652,7 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets (WIP)"
   group_label: "Customer Success"
+  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' ;;
 
   join: account {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;

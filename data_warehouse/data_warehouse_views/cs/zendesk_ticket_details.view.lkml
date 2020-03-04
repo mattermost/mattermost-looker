@@ -37,6 +37,18 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+  dimension_group: solved_at {
+    type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    sql: ${TABLE}."SOLVED_AT" ;;
+  }
+
   dimension: customer_type {
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
@@ -124,6 +136,11 @@ view: zendesk_ticket_details {
   dimension: tags {
     type: string
     sql: ${TABLE}."TAGS" ;;
+  }
+
+  dimension: status {
+    type: string
+    sql: ${TABLE}."STATUS" ;;
   }
 
   dimension: organization_name {
