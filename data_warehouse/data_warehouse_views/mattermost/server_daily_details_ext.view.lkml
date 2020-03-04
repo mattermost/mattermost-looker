@@ -119,7 +119,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_security {
-    label: "  Is TEDAS Server"
+    label: " Is TEDAS Server"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -127,7 +127,7 @@ view: server_daily_details_ext {
   }
 
   dimension: in_mm2_server {
-    label: "  In Mattermost2.Server"
+    label: " In Mattermost2.Server"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -135,7 +135,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
-    label: "  Has Tracking Disabled"
+    label: " Has Tracking Disabled"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
@@ -143,7 +143,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_dupes {
-    label: "  Has Dupes"
+    label: " Has Dupes"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -151,7 +151,7 @@ view: server_daily_details_ext {
   }
 
   dimension: has_multi_ips {
-    label: "  Has Multiple IP's"
+    label: " Has Multiple IP's"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
