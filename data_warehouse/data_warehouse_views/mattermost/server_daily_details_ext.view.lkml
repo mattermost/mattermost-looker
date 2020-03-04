@@ -136,7 +136,7 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
-    label: "  In Mattermost2.Server"
+    label: "  Has Tracking Disabled"
     group_label: " Systems"
     description: "" 
     type: yesno
@@ -3764,7 +3764,7 @@ view: server_daily_details_ext {
   }
 
   measure: tracking_disabled_count {
-    label: " Mattermost2 Servers"
+    label: " Servers w/ Tracking Disabled"
     description: "The count of servers Tracking Disabled."
     group_label: " Server Counts"
     type: count_distinct
