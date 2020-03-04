@@ -120,7 +120,6 @@ view: server_daily_details_ext {
 
   dimension: in_security {
     label: "  Is TEDAS Server"
-    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -129,7 +128,6 @@ view: server_daily_details_ext {
 
   dimension: in_mm2_server {
     label: "  In Mattermost2.Server"
-    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -138,7 +136,6 @@ view: server_daily_details_ext {
 
   dimension: tracking_disabled {
     label: "  Has Tracking Disabled"
-    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
@@ -147,7 +144,6 @@ view: server_daily_details_ext {
 
   dimension: has_dupes {
     label: "  Has Dupes"
-    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -156,7 +152,6 @@ view: server_daily_details_ext {
 
   dimension: has_multi_ips {
     label: "  Has Multiple IP's"
-    group_label: " Systems"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
