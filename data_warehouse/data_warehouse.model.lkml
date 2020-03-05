@@ -684,14 +684,14 @@ explore: account_cs_extended  {
 }
 
 explore: zendesk_ticket_details {
-  label: "Zendesk Tickets (WIP)"
+  label: "Zendesk Tickets"
   group_label: "Customer Success"
   sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' ;;
+  extends: [_base_account_only_explore]
 
   join: account {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
-    relationship: many_to_one
-    fields: []
+    fields: [account.account_core*]
   }
 }
 
@@ -701,9 +701,11 @@ explore: zendesk_ticket_details {
 #   group_label: "Test"
 #   required_access_grants: [full_financial]
 # }
+
 explore: nps_user_monthly_score {
   group_label: "General"
   label: "Nps User Monthly Score"
+  extends: [_base_account_only_explore]
 
   join: license_overview {
     sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
@@ -712,30 +714,8 @@ explore: nps_user_monthly_score {
   }
 
   join: account {
-    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
-    relationship: many_to_one
+    sql_on: ${license_overview.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
-  }
-
-  join: parent_account {
-    from: account
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
 }
 
@@ -751,4 +731,8 @@ explore: server_daily_details_ext {
   }
 }
 
-explore: tva_curr_fy_arr_by_mo {}
+explore: tva_curr_fy_arr_by_mo {
+  hidden: yes
+  group_label: "Targets"
+  label: "TvA Curr FY ARR by Month"
+}
