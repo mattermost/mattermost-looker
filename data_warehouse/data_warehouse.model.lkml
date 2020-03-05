@@ -99,6 +99,39 @@ explore: _base_account_explore {
   }
 }
 
+explore: _base_account_only_explore {
+  extension: required
+
+  ## Use when you only need Account View with the cross referenced dimensions
+
+  join: account {
+    # NOTE: foreign key is not set and must be set by the extending explore
+    view_label: "Account"
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+}
+
 explore: account {
   label: "Account to Line Item"
   group_label: "Salesforce"
@@ -709,33 +742,13 @@ explore: nps_user_monthly_score {
 explore: server_daily_details_ext {
   group_label: "General"
   label: "Server Daily Details Ext"
+  extends: [_base_account_only_explore]
+
 
   join: account {
     sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
-    relationship: many_to_one
     fields: [account.account_core*]
-    }
-
-    join: parent_account {
-      from: account
-      sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
-
-    join: account_owner {
-      from: user
-      sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
-
-    join: account_csm {
-      from: user
-      sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
   }
+}
 
 explore: tva_curr_fy_arr_by_mo {}
