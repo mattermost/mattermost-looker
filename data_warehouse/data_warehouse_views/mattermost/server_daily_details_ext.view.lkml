@@ -4049,10 +4049,31 @@ view: server_daily_details_ext {
   }
 
   measure: server_count {
-    label: " server Count"
+    label: " Server Count"
     description: "The distinct count of Server s per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+  }
+
+  measure: active_user_count_sum {
+    description: "The sum of telemetry-enabledActive User Count per grouping."
+    group_label: " Telemetry User Counts"
+    type: sum
+    sql: ${active_user_count} ;;
+  }
+
+  measure: user_count_sum {
+    description: "The sum of telemetry-enabledUser Count per grouping."
+    group_label: " Telemetry User Counts"
+    type: sum
+    sql: ${user_count} ;;
+  }
+
+  measure: system_admins_sum {
+    description: "The sum of telemetry-enabledSystem Admins per grouping."
+    group_label: " Telemetry User Counts"
+    type: sum
+    sql: ${system_admins} ;;
   }
 
   measure: in_security_count {
