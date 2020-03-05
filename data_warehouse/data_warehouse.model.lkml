@@ -102,6 +102,7 @@ explore: _base_account_core_explore {
   join: account {
     view_label: "Account"
     relationship: many_to_one
+    fields: [account.account_core*]
   }
 
   join: account_csm {
@@ -139,6 +140,7 @@ explore: _base_opportunity_explore {
   }
 
   join: product2 {
+    view_label: "Product"
     sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
     relationship: many_to_one
   }
@@ -162,11 +164,13 @@ explore: _base_opportunity_core_explore {
 
   join: opportunity {
     relationship: many_to_one
+    fields: [opportunity.opportunity_core*]
   }
 
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
     relationship: many_to_one
+    fields: [opportunitylineitem.opportunitylineitem_core*]
   }
 
   join: product2 {
@@ -230,7 +234,7 @@ explore: account {
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
   group_label: "ARR"
-  extends: [ _base_account_explore ]
+  extends: [_base_account_explore]
 
   join: master_account {
     from: account
@@ -242,6 +246,7 @@ explore: account_monthly_arr_deltas_by_type {
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
+    relationship: one_to_one
     fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
@@ -254,6 +259,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
   join: account {
     view_label: "Master Account Monthly ARR Changes"
+    relationship: one_to_one
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
     fields: [account.customer_segmentation_tier, account.arr_current]
   }
@@ -263,7 +269,7 @@ explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
-  extends: [ _base_account_explore ]
+  extends: [_base_account_explore]
 
   join: account {
     view_label: "Account Daily ARR Deltas"
