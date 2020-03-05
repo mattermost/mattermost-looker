@@ -56,6 +56,7 @@ view: server_daily_details_ext {
 
   dimension: active_user_count {
     label: " Active User Count"
+    group_label: " Telemetry User Counts"
     description: "" 
     type: number
     sql: ${TABLE}.active_user_count ;;
@@ -64,6 +65,7 @@ view: server_daily_details_ext {
 
   dimension: user_count {
     label: " User Count"
+    group_label: " Telemetry User Counts"
     description: "" 
     type: number
     sql: ${TABLE}.user_count ;;
@@ -72,6 +74,7 @@ view: server_daily_details_ext {
 
   dimension: system_admins {
     label: " System Admins"
+    group_label: " Telemetry User Counts"
     description: "" 
     type: number
     sql: ${TABLE}.system_admins ;;
@@ -120,6 +123,7 @@ view: server_daily_details_ext {
 
   dimension: in_security {
     label: " TEDAS Server"
+    group_label: ""
     description: "" 
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -128,6 +132,7 @@ view: server_daily_details_ext {
 
   dimension: in_mm2_server {
     label: " In Mattermost2.Server"
+    group_label: " Data Quality"
     description: "" 
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -136,6 +141,7 @@ view: server_daily_details_ext {
 
   dimension: tracking_disabled {
     label: " Tracking Disabled"
+    group_label: " Data Quality"
     description: "" 
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
@@ -144,6 +150,7 @@ view: server_daily_details_ext {
 
   dimension: has_dupes {
     label: " Dupes"
+    group_label: " Data Quality"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -152,6 +159,7 @@ view: server_daily_details_ext {
 
   dimension: has_multi_ips {
     label: " Multiple IP's"
+    group_label: " Data Quality"
     description: "" 
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
@@ -4040,8 +4048,9 @@ view: server_daily_details_ext {
     type: count
   }
 
-  measure: server_id_count {
-    description: "The distinct count of Server Id's per grouping."
+  measure: server_count {
+    label: " server Count"
+    description: "The distinct count of Server s per grouping."
     type: count_distinct
     sql: ${server_id} ;;
   }
