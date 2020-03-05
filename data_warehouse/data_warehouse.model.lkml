@@ -65,16 +65,13 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 #
-# Explores
+# Base Explores for Extensions
 #
-
 
 explore: _base_account_explore {
   extension: required
-  # ALL SALES OPS PEOPLE REMOVED
 
   join: account {
-    # NOTE: foreign key is not set and must be set by the extending explore
     view_label: "Account"
     relationship: many_to_one
   }
@@ -99,12 +96,41 @@ explore: _base_account_explore {
   }
 }
 
-explore: account {
-  label: "Account to Line Item"
-  group_label: "Salesforce"
+explore: _base_account_core_explore {
+  extension: required
+
+  join: account {
+    view_label: "Account"
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+}
+
+explore: _base_opportunity_explore {
+  extension: required
 
   join: opportunity {
-    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
     relationship: many_to_one
   }
 
@@ -114,9 +140,71 @@ explore: account {
   }
 
   join: product2 {
+    view_label: "Product"
     sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
     relationship: many_to_one
   }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+  }
+}
+
+explore: _base_opportunity_core_explore {
+  extension: required
+
+  join: opportunity {
+    relationship: many_to_one
+    fields: [opportunity.opportunity_core*]
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    relationship: many_to_one
+    fields: [opportunitylineitem.opportunitylineitem_core*]
+  }
+
+  join: product2 {
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csm {
+    view_label: "Opportunity CSM"
+    from: user
+    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+
+
+#
+# Explores
+#
+
+explore: account {
+  label: "Account to Line Item"
+  group_label: "Salesforce"
+  extends: [_base_opportunity_explore]
 
   join: account_csm {
     from: user
@@ -137,28 +225,16 @@ explore: account {
     relationship:one_to_one
   }
 
-  join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
+  join: opportunity {
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
   }
-
-  join: opportunity_csm {
-    view_label: "Opportunity CSM"
-    from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
-  }
-
 }
 
 
 explore: account_monthly_arr_deltas_by_type {
-  label: "Monthly Account ARR Changes by Type"
+  label: "Monthly Account ARR Changes"
   group_label: "ARR"
-  extends: [ _base_account_explore ]
+  extends: [_base_account_explore]
 
   join: master_account {
     from: account
@@ -170,6 +246,7 @@ explore: account_monthly_arr_deltas_by_type {
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
+    relationship: one_to_one
     fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
@@ -178,55 +255,21 @@ explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
   hidden: yes
   group_label: "ARR"
+  extends: [_base_account_core_explore]
 
   join: account {
+    view_label: "Master Account Monthly ARR Changes"
+    relationship: one_to_one
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: child_account {
-    from: account
-    sql_on: ${account.sfid} = ${child_account.parentid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: account_csm {
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: opportunity {
-    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.iswon};;
-    relationship: one_to_many
-    fields: [opportunity.name, opportunity.sfid]
-  }
-
-  join: opportunitylineitem {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-      AND (${opportunitylineitem.start_month} = ${master_account_monthly_arr_deltas_by_type.month_start_month});;
-    relationship: one_to_many
-    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr
-    ]
+    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
-#   hidden: yes
   group_label: "ARR"
   view_label: "Account Daily ARR Deltas"
-  extends: [ _base_account_explore ]
+  extends: [_base_account_explore]
 
   join: account {
     view_label: "Account Daily ARR Deltas"
@@ -241,30 +284,6 @@ explore: account_daily_arr_deltas {
     relationship: many_to_one
     fields: []
   }
-
-  join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.iswon};;
-    relationship: one_to_many
-    fields: [opportunity.name, opportunity.sfid]
-  }
-
-  join: opportunitylineitem {
-    view_label: "Opportunity Line Item"
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-          AND (${opportunitylineitem.start_month} = ${account_daily_arr_deltas.new_day_date}
-              OR ${opportunitylineitem.end_month} = ${account_daily_arr_deltas.previous_day_date});;
-    relationship: one_to_many
-    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr]
- }
-
-  join: product2 {
-    view_label: "Opportunity Line Item"
-    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
-    relationship: many_to_one
- }
-
 }
 
 explore: master_account_daily_arr_deltas {
@@ -272,58 +291,20 @@ explore: master_account_daily_arr_deltas {
   view_label: "Master Account Daily ARR Deltas"
   hidden: yes
   group_label: "ARR"
+  extends: [_base_account_core_explore]
 
   join: account {
     view_label: "Master Account Daily ARR Deltas"
     sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
     relationship: many_to_one
-    fields: [name, sfid]
+    fields: [name,sfid]
   }
-  join: child_account {
-    from: account
-    sql_on: ${account.sfid} = ${child_account.parentid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity {
-    sql_on: (${opportunity.accountid} = ${account.sfid} OR ${opportunity.accountid} = ${child_account.sfid}) AND ${opportunity.iswon};;
-    relationship: one_to_many
-    fields: [opportunity.name, opportunity.sfid]
-  }
-
-  join: opportunitylineitem {
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid}
-           AND (${opportunitylineitem.start_month} = ${master_account_daily_arr_deltas.new_day_date}
-               OR ${opportunitylineitem.end_month} = ${master_account_daily_arr_deltas.previous_day_date});;
-    relationship: one_to_many
-    fields: [opportunitylineitem.name, opportunitylineitem.sfid,
-      opportunitylineitem.product_type, opportunitylineitem.product_line_type,
-      opportunitylineitem.total_price, opportunitylineitem.total_arr]
-  }
-
-  join: product2 {
-    sql_on: ${product2.sfid} = ${opportunitylineitem.product2id} ;;
-    relationship: many_to_one
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-  }
-
-  join: account_csm {
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-  }
-
 }
 
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
+  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: lead_status_dates {
     sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
@@ -344,61 +325,11 @@ explore: lead {
 
   join: account {
     sql_on: ${contact.accountid} = ${account.sfid} ;;
-    relationship: many_to_one
   }
 
   join: opportunity {
     sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
     relationship: one_to_one
-  }
-
-  join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
-    relationship: one_to_many
-    fields: []
-  }
-
-  join: product2 {
-    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid};;
-    relationship: one_to_many
-    fields: []
-  }
-
-  join: parent_account {
-    from: account
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship:one_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    view_label: "Account CSM"
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity_csm {
-    view_label: "Opportunity CSM"
-    from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
-    relationship: many_to_one
-    fields: []
   }
 }
 
@@ -433,6 +364,7 @@ explore: downloads {
 explore: nps_data {
   label: "NPS Data"
   group_label: "General"
+  extends: [_base_account_core_explore]
 
   join: license_overview {
     sql_on: ${nps_data.license_id} = ${license_overview.licenseid}  ;;
@@ -445,29 +377,6 @@ explore: nps_data {
     relationship: many_to_one
     fields: [account.account_core*]
   }
-
-  join: parent_account {
-    from: account
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-
 }
 
 
@@ -516,13 +425,7 @@ explore: current_potential_arr {
   hidden: yes
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [account]
-
-  join: dates {
-    view_label: "ARR Date"
-    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
-    relationship: many_to_many
-  }
+  extends: [arr]
 
   fields: [
     dates.date_date,
@@ -583,11 +486,13 @@ explore: github_contributions {
   group_label: "Contributors & Employees"
   label: "GitHub Community Contributions"
   sql_always_where: ${is_staff} = FALSE ;;
+
   join: github_contributors {
     sql_on: ${github_contributions.author} = ${github_contributors.author} ;;
     relationship: many_to_one
     fields: []
   }
+
   join: staff_github_usernames {
     sql_on: ${github_contributions.author} = ${staff_github_usernames.username} ;;
     relationship: many_to_one
@@ -651,14 +556,14 @@ explore: account_cs_extended  {
 }
 
 explore: zendesk_ticket_details {
-  label: "Zendesk Tickets (WIP)"
+  label: "Zendesk Tickets"
   group_label: "Customer Success"
   sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' ;;
+  extends: [_base_account_core_explore]
 
   join: account {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
-    relationship: many_to_one
-    fields: []
+    fields: [account.account_core*]
   }
 }
 
@@ -668,9 +573,11 @@ explore: zendesk_ticket_details {
 #   group_label: "Test"
 #   required_access_grants: [full_financial]
 # }
+
 explore: nps_user_monthly_score {
   group_label: "General"
   label: "Nps User Monthly Score"
+  extends: [_base_account_core_explore]
 
   join: license_overview {
     sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
@@ -679,63 +586,25 @@ explore: nps_user_monthly_score {
   }
 
   join: account {
-    sql_on: ${license_overview.account_sfid} = ${account.sfid};;
-    relationship: many_to_one
+    sql_on: ${license_overview.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
-  }
-
-  join: parent_account {
-    from: account
-    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_owner {
-    from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: account_csm {
-    from: user
-    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
 }
 
 explore: server_daily_details_ext {
   group_label: "General"
   label: "Server Daily Details Ext"
+  extends: [_base_account_core_explore]
+
 
   join: account {
     sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
-    relationship: many_to_one
     fields: [account.account_core*]
-    }
-
-    join: parent_account {
-      from: account
-      sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
-
-    join: account_owner {
-      from: user
-      sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
-
-    join: account_csm {
-      from: user
-      sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
-      relationship: many_to_one
-      fields: []
-    }
   }
+}
 
-explore: tva_all_by_mo {}
+explore: tva_curr_fy_arr_by_mo {
+  hidden: yes
+  group_label: "Targets"
+  label: "TvA Curr FY ARR by Month"
+}
