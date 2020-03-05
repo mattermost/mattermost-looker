@@ -4077,7 +4077,7 @@ view: server_daily_details_ext {
   }
 
   measure: in_security_count {
-    label: " TEDAS Servers"
+    label: "  TEDAS Servers"
     description: "The count of servers In Security."
     group_label: " Server Counts"
     type: count_distinct
@@ -4093,7 +4093,7 @@ view: server_daily_details_ext {
   }
 
   measure: tracking_disabled_count {
-    label: " Servers w/ Tracking Disabled"
+    label: "Servers w/ Tracking Disabled"
     description: "The count of servers Tracking Disabled."
     group_label: " Server Counts"
     type: count_distinct
@@ -4101,7 +4101,7 @@ view: server_daily_details_ext {
   }
 
   measure: has_dupes_count {
-    label: " Servers w/ Dupes"
+    label: "Servers w/ Dupes"
     description: "The count of servers Has Dupes."
     group_label: " Server Counts"
     type: count_distinct
@@ -4109,7 +4109,7 @@ view: server_daily_details_ext {
   }
 
   measure: has_multi_ips_count {
-    label: " Servers w/ Multiple IP's"
+    label: "Servers w/ Multiple IP's"
     description: "The count of servers Has Multi Ips."
     group_label: " Server Counts"
     type: count_distinct
