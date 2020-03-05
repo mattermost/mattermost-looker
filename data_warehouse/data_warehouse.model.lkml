@@ -189,7 +189,7 @@ explore: account {
 
 
 explore: account_monthly_arr_deltas_by_type {
-  label: "Monthly Account ARR Changes by Type"
+  label: "Monthly Account ARR Changes"
   group_label: "ARR"
   extends: [ _base_account_explore ]
 
@@ -549,13 +549,7 @@ explore: current_potential_arr {
   hidden: yes
   group_label: "ARR"
   sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
-  extends: [account]
-
-  join: dates {
-    view_label: "ARR Date"
-    sql_on: ${dates.date_date} >= ${opportunitylineitem.start_date} and ${dates.date_date} <= ${opportunitylineitem.end_date} ;;
-    relationship: many_to_many
-  }
+  extends: [arr]
 
   fields: [
     dates.date_date,
@@ -616,11 +610,13 @@ explore: github_contributions {
   group_label: "Contributors & Employees"
   label: "GitHub Community Contributions"
   sql_always_where: ${is_staff} = FALSE ;;
+
   join: github_contributors {
     sql_on: ${github_contributions.author} = ${github_contributors.author} ;;
     relationship: many_to_one
     fields: []
   }
+
   join: staff_github_usernames {
     sql_on: ${github_contributions.author} = ${staff_github_usernames.username} ;;
     relationship: many_to_one
