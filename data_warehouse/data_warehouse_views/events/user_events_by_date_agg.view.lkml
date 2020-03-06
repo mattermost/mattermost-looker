@@ -225,7 +225,7 @@ view: user_events_by_date_agg {
     hidden: no
   }
 
-  dimension_group: first_active_date {
+  dimension_group: first_active {
     description: "" 
     type: time
     timeframes: [date, month, year]
@@ -233,7 +233,7 @@ view: user_events_by_date_agg {
     hidden: no
   }
 
-  dimension_group: last_active_date {
+  dimension_group: last_active {
     description: "" 
     type: time
     timeframes: [date, month, year]
@@ -250,21 +250,21 @@ view: user_events_by_date_agg {
 
   measure: user_count {
     label: " User Count"
-    description: "The distinct count of Users per grouping."
+    description: "The distinct count of Users  per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: server_count {
     label: " Server Count"
-    description: "The distinct count of Servers per grouping."
+    description: "The distinct count of Servers  per grouping."
     type: count_distinct
     sql: ${server_id} ;;
   }
 
   measure: system_user_count {
     label: "System Users"
-    description: "The count of system end users."
+    description: "The count of System User users."
     group_label: "User Counts"
     type: count_distinct
     sql: case when ${system_user} then ${user_id} else null end ;;
