@@ -118,14 +118,14 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Met First Response SLA?"
     type:  yesno
-    sql: ${first_response_sla} > ${reply_time_in_minutes_cal} ;;
+    sql: ${first_response_sla} > ${reply_time_in_minutes_cal} OR ${reply_time_in_minutes_cal} IS NULL;;
   }
 
   dimension: met_followup_internal_sla {
     group_label: "SLAs"
     label: "Met Follow-up Internal SLA?"
     type:  yesno
-    sql: ${followup_internal_sla} > ${followup_internal} ;;
+    sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
   }
 
   dimension: product_bug {
@@ -231,13 +231,13 @@ view: zendesk_ticket_details {
   }
 
   dimension: reply_time_in_minutes_bus {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_BUS" ;;
   }
 
   dimension: reply_time_in_minutes_cal {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
