@@ -250,16 +250,32 @@ view: user_events_by_date_agg {
 
   measure: user_count {
     label: " User Count"
-    description: "The distinct count of Users  per grouping."
+    description: "The distinct count of Users per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: server_count {
     label: " Server Count"
-    description: "The distinct count of Servers  per grouping."
+    description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+  }
+
+  measure: system_user_count {
+    label: "System Users"
+    description: "The count of system end users."
+    group_label: "User Counts"
+    type: count_distinct
+    sql: case when ${system_user} then ${user_id} else null end ;;
+  }
+
+  measure: active_count {
+    label: "DAU"
+    description: "The count of all daily active users i.e. performed >= 1 event on the current record date."
+    group_label: " DAU"
+    type: count_distinct
+    sql: case when ${active} then ${user_id} else null end ;;
   }
 
   measure: total_events_sum {
@@ -358,6 +374,14 @@ view: user_events_by_date_agg {
     group_label: "Event Sums by Event Categories"
     type: sum
     sql: ${ui_events} ;;
+  }
+
+  measure: mau_count {
+    label: "MAU"
+    description: "The count of users in MAU i.e. performed >= 1 event in the last 30 days."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} then ${user_id} else null end ;;
   }
 
   measure: max_events_max {
