@@ -33,6 +33,11 @@ access_grant: full_financial {
   allowed_values: [ "yes" ]
 }
 
+access_grant: mlt_only {
+  user_attribute: is_group_mlt
+  allowed_values: [ "yes" ]
+}
+
 #
 # Formats
 #
@@ -603,8 +608,8 @@ explore: server_daily_details_ext {
   }
 }
 
-explore: tva_curr_fy_arr_by_mo {
-  hidden: yes
+explore: tva_all_by_mo {
+  required_access_grants: [mlt_only]
   group_label: "Targets"
-  label: "TvA Curr FY ARR by Month"
+  label: "Monthly TvA"
 }
