@@ -64,6 +64,6 @@ view: tva_all_by_mo {
     label: "TvA"
     type: number
     value_format: "@{percent}"
-    sql: 100*${total_actual}/${total_target};;
+    sql: CASE WHEN ${total_target} < 0 then 100-100*${total_actual}/${total_target} ELSE 100*${total_actual}/${total_target} END;;
   }
 }
