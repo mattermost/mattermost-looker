@@ -620,3 +620,6 @@ explore: events_registry {
 explore: user_events_by_date {
   label: "User Events By Date"
 }
+explore: user_events_by_date_agg {
+  label: "User Events By Date Agg"
+}
