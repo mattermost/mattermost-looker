@@ -3,7 +3,6 @@ view: product2 {
   drill_fields: [id]
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}."id" ;;
   }
@@ -180,6 +179,7 @@ view: product2 {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."sfid" ;;
   }

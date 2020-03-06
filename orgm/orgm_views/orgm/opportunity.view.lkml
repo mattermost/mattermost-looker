@@ -1,6 +1,5 @@
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
-  drill_fields: [original_opportunity_id__c]
 
 
 # Filters
@@ -9,12 +8,6 @@ view: opportunity {
     sql: to_char(${close_date},'YYYY-MM') = get_sys_var('curr_mo') ;;
     label: "Close Current Month"
 
-  }
-
-
-  dimension: original_opportunity_id__c {
-    type: string
-    sql: ${TABLE}."original_opportunity_id__c" ;;
   }
 
   dimension: _hc_err {
@@ -35,16 +28,6 @@ view: opportunity {
   dimension: amount {
     type: number
     sql: ${TABLE}."amount" ;;
-  }
-
-  dimension: amount_in_commit__c {
-    type: number
-    sql: ${TABLE}."amount_in_commit__c" ;;
-  }
-
-  dimension: amount_in_pipeline__c {
-    type: number
-    sql: ${TABLE}."amount_in_pipeline__c" ;;
   }
 
   dimension: campaignid {
@@ -77,28 +60,14 @@ view: opportunity {
     sql: ${TABLE}."createdbyid" ;;
   }
 
-  dimension_group: createddate {
+  dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."createddate" ;;
-  }
-
-  dimension: days_past_renewal__c {
-    type: number
-    sql: ${TABLE}."days_past_renewal__c" ;;
-  }
-
-  dimension: delta_amount__c {
-    type: number
-    sql: ${TABLE}."delta_amount__c" ;;
+    label: "Create Date"
   }
 
   dimension: expectedrevenue {
@@ -145,7 +114,7 @@ view: opportunity {
     sql: ${TABLE}."lastmodifieddate" ;;
   }
 
-  dimension_group: lead_created_date__c {
+  dimension_group: lead_created {
     type: time
     timeframes: [
       raw,
@@ -159,27 +128,27 @@ view: opportunity {
     sql: ${TABLE}."lead_created_date__c" ;;
   }
 
-  dimension: lead_source_detail__c {
+  dimension: lead_source_detail {
     type: string
     sql: ${TABLE}."lead_source_detail__c" ;;
   }
 
-  dimension: lead_source_detail_upon_conversion__c {
+  dimension: lead_source_detail_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_detail_upon_conversion__c" ;;
   }
 
-  dimension: lead_source_upon_conversion__c {
+  dimension: lead_source_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_upon_conversion__c" ;;
   }
 
-  dimension: lead_type__c {
+  dimension: lead_type {
     type: string
     sql: ${TABLE}."lead_type__c" ;;
   }
 
-  dimension: leadid__c {
+  dimension: leadid {
     type: string
     sql: ${TABLE}."leadid__c" ;;
   }
@@ -189,7 +158,7 @@ view: opportunity {
     sql: ${TABLE}."leadsource" ;;
   }
 
-  dimension_group: mql_date__c {
+  dimension_group: mql_date {
     type: time
     timeframes: [
       raw,
@@ -204,58 +173,32 @@ view: opportunity {
   }
 
   dimension: name {
+    description: "Name of opportunity in Salesforce"
+    label: "Opportunity Name"
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
     type: string
-    sql: ${TABLE}."name" ;;
   }
 
-  dimension: new_expansion_total__c {
-    type: number
-    sql: ${TABLE}."new_expansion_total__c" ;;
-  }
-
-  dimension: new_logo__c {
+  dimension: new_logo {
     type: string
     sql: ${TABLE}."new_logo__c" ;;
   }
 
-  dimension: order_type__c {
+  dimension: order_type {
     type: string
     sql: ${TABLE}."order_type__c" ;;
   }
 
-  dimension: original_opportunity__c {
+  dimension: original_opportunity_sfid {
+    # description: "TODO"
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunityid__c ;;
     type: string
-    sql: ${TABLE}."original_opportunity__c" ;;
-  }
-
-  dimension: original_opportunity_amount__c {
-    type: number
-    sql: ${TABLE}."original_opportunity_amount__c" ;;
-  }
-
-  dimension_group: original_opportunity_end_date__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."original_opportunity_end_date__c" ;;
-  }
-
-  dimension: original_opportunity_length_in_months__c {
-    type: number
-    sql: ${TABLE}."original_opportunity_length_in_months__c" ;;
-  }
-
-  dimension: original_opportunityid__c {
-    type: string
-    sql: ${TABLE}."original_opportunityid__c" ;;
+    label: "Original Opportunity SFID"
   }
 
   dimension: ownerid {
@@ -268,12 +211,7 @@ view: opportunity {
     sql: ${TABLE}."probability" ;;
   }
 
-  dimension: renewal_amount_total__c {
-    type: number
-    sql: ${TABLE}."renewal_amount_total__c" ;;
-  }
-
-  dimension_group: renewal_created_date__c {
+  dimension_group: renewal_created_date {
     type: time
     timeframes: [
       raw,
@@ -288,42 +226,32 @@ view: opportunity {
     sql: ${TABLE}."renewal_created_date__c" ;;
   }
 
-  dimension: renewal_includes_leftover_expansion__c {
-    type: string
-    sql: ${TABLE}."renewal_includes_leftover_expansion__c" ;;
-  }
-
-  dimension: renewal_risk_amount__c {
+  dimension: renewal_risk_amount {
     type: number
     sql: ${TABLE}."renewal_risk_amount__c" ;;
   }
 
-  dimension: renewal_risk_competitor__c {
+  dimension: renewal_risk_competitor {
     type: string
     sql: ${TABLE}."renewal_risk_competitor__c" ;;
   }
 
-  dimension: renewal_risk_reason_additional_details__c {
+  dimension: renewal_risk_reason_additional_details {
     type: string
     sql: ${TABLE}."renewal_risk_reason_additional_details__c" ;;
   }
 
-  dimension: renewal_risk_reasons__c {
+  dimension: renewal_risk_reasons {
     type: string
     sql: ${TABLE}."renewal_risk_reasons__c" ;;
   }
 
-  dimension: renewal_risk_status__c {
+  dimension: renewal_risk_status {
     type: string
     sql: ${TABLE}."renewal_risk_status__c" ;;
   }
 
-  dimension: renewed_by_opp_prob__c {
-    type: number
-    sql: ${TABLE}."renewed_by_opp_prob__c" ;;
-  }
-
-  dimension: renewed_by_opportunity_id__c {
+  dimension: renewed_by_opportunity_id {
     type: string
     sql: ${TABLE}."renewed_by_opportunity_id__c" ;;
   }
@@ -332,6 +260,11 @@ view: opportunity {
     type: string
     primary_key: yes
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {
@@ -348,7 +281,7 @@ view: opportunity {
     sql: ${TABLE}."systemmodstamp" ;;
   }
 
-  dimension: territory__c {
+  dimension: territory {
     type: string
     sql: ${TABLE}."territory__c" ;;
   }
@@ -359,7 +292,8 @@ view: opportunity {
   }
 
   measure: count {
-    type: count
-    drill_fields: [original_opportunity_id__c, name, opportunitylineitem.count]
+    type: count_distinct
+    sql: ${sfid} ;;
+    drill_fields: [sfid, name, opportunitylineitem.count]
   }
 }

@@ -35,24 +35,26 @@ view: opportunitylineitem {
   set: opportunitylineitem_core {
     fields: [
       sfid,
+      name,
       product_name,
       start_date,
       start_week,
+      start_month,
       start_fiscal_quarter,
       start_fiscal_year,
       end_date,
+      end_month,
       end_fiscal_quarter,
       end_fiscal_year,
       length_days,
       quantity,
       product_line_type,
+      product_type,
       total_arr,
       totalprice,
       total_quantity,
-      total_arr_per_seat,
       total_price,
-      total_acv,
-      total_price_per_seat
+      total_bookings
     ]
   }
 
@@ -183,35 +185,9 @@ view: opportunitylineitem {
     type: string
   }
 
-  dimension_group: product_end {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.product_end_datef__c;;
-    timeframes: [
-      date,
-      month,
-      year
-    ]
-    type: time
-    ##ditch
-  }
-
   dimension: product_line_type {
     sql: ${TABLE}.product_line_type__c;;
     type: string
-  }
-
-  dimension_group: product_start_datef {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.product_start_datef__c;;
-    timeframes: [
-      date,
-      month,
-      year
-    ]
-    type: time
-    ##ditch
   }
 
   dimension: product_type {
@@ -227,49 +203,6 @@ view: opportunitylineitem {
   dimension: quantity {
     sql: ${TABLE}.quantity;;
     type: number
-  }
-
-  dimension: recalculate_sales_price {
-    sql: ${TABLE}.recalculate_sales_price__c;;
-    type: yesno
-  }
-
-  dimension_group: renewal_end {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.renewal_end_date__c;;
-    timeframes: [
-      date,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension_group: renewal_start {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.renewal_start_date__c;;
-    timeframes: [
-      date,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension: revenue_type {
-    sql: ${TABLE}.revenue_type__c;;
-    type: string
-  }
-
-  dimension: sales_price_needs_to_be_updated {
-    sql: ${TABLE}.sales_price_needs_to_be_updated__c;;
-    type: yesno
   }
 
   dimension_group: service {
@@ -320,16 +253,6 @@ view: opportunitylineitem {
     type: number
   }
 
-  dimension: term_months {
-    sql: ${TABLE}.term_months__c;;
-    type: number
-  }
-
-  dimension: total_price_with_annualized_expansion {
-    sql: ${TABLE}.total_price_with_annualized_expansion__c;;
-    type: number
-  }
-
   dimension: totalprice {
     label: "Total Contract Value"
     sql: ${TABLE}.totalprice;;
@@ -340,10 +263,18 @@ view: opportunitylineitem {
 
   dimension: arr {
     label: "ARR"
-    sql: 365*${totalprice}/${length_days} ;;
+    sql: case when ${opportunity.iswon} AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
+
+  dimension: potential_arr {
+    label: "Potential ARR"
+    sql: case when not ${opportunity.isclosed} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
 
   dimension: length_days {
     sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
@@ -369,13 +300,6 @@ view: opportunitylineitem {
     type: number
   }
 
-
-  dimension: arr_per_seat {
-    sql: ${totalprice}/${quantity} ;;
-    type: number
-    value_format_name: "usd_0"
-  }
-
   dimension: unit_price {
     sql: ${TABLE}.unitprice;;
     type: number
@@ -394,6 +318,12 @@ view: opportunitylineitem {
     type: count_distinct
   }
 
+  measure: total_quantity {
+    label: "Total Quantity"
+    sql: ${quantity} ;;
+    type: sum
+  }
+
   measure: total_price {
     label: "Total TCV"
     sql: ${totalprice} ;;
@@ -401,8 +331,8 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
-  measure: total_acv {
-    label: "Total ACV"
+  measure: total_bookings {
+    label: "Total Bookings"
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
@@ -416,29 +346,12 @@ view: opportunitylineitem {
     drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
   }
 
-  measure: total_arr_per_seat {
-    label: "Total ARR per Seat"
-    sql: ${total_arr} / ${total_quantity} ;;
-    type: number
+  measure: total_potential_arr {
+    label: "Total Potential ARR"
+    sql: ${potential_arr} ;;
+    type: sum
     value_format_name: "usd_0"
+    drill_fields: [account.name,opportunity.name,opportunity.close_date,product.name,start_date,end_date,total_potential_arr]
   }
 
-  measure: total_price_per_seat {
-    label: "Total TCV per Seat"
-    sql: ${total_price} / ${total_quantity} ;;
-    type: number
-    value_format_name: "usd_0"
-  }
-
-  measure: total_acv_per_seat {
-    label: "Total ACV per Seat"
-    sql: ${total_acv} / ${total_quantity} ;;
-    type: number
-    value_format_name: "usd_0"
-  }
-
-  measure: total_quantity {
-    sql: case when ${product_name} like 'Premier Support%' then 0 else ${quantity} end;;
-    type: sum_distinct
-  }
 }

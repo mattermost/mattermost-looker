@@ -51,6 +51,12 @@ view: _homepage {
                 </ul>
               </li>
               <li>
+                <div>Customer Success</div>
+                <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">Customer Success Account Health Score</a></li>
+                </ul>
+              </li>
+              <li>
                 <div>Finance</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">ARR Overview Dashboard</a></li>
@@ -59,7 +65,7 @@ view: _homepage {
               <li>
                 <div>Product</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/16" style="@{css_link_style}">NPS Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
                 </ul>

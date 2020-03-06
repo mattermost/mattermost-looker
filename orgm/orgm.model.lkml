@@ -4,7 +4,17 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
+
+explore: delete_history {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+
 explore: opportunity {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+explore: user {
   group_label: "zHeroku Postgres OrgM"
 }
 
@@ -17,6 +27,12 @@ explore: account {
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
   }
 
@@ -55,6 +71,12 @@ explore: product_line_item {
     relationship: many_to_one
   }
 
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+  }
+
   join: parent_account {
     from: account
     view_label: "Parent Account"
@@ -75,4 +97,76 @@ explore: product_line_item {
 
 explore: campaignmember {
   group_label: "zHeroku Postgres OrgM"
+}
+
+explore: account_data_check {
+  persist_for: "0 seconds"
+  fields: [account.sfid, orgm_account_data_check.sfid, account.count,
+    account.systemmodstamp_time, orgm_account_data_check.systemmodstamp_time,
+    account.created_time, orgm_account_data_check.created_time,
+    orgm_account_data_check.processed_time, orgm_account_data_check.count,
+          delete_history.name,delete_history.deleted_time]
+  group_label: "zHeroku Postgres OrgM"
+  from: account
+  view_name: account
+
+  join: orgm_account_data_check {
+    view_label: "Snowflake Account"
+    type: full_outer
+    relationship: one_to_one
+    sql_on: ${account.sfid} = ${orgm_account_data_check.sfid} ;;
+  }
+
+  join: delete_history {
+    sql_on: ${delete_history.sfid} = ${orgm_account_data_check.sfid} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: opportunity_data_check {
+  persist_for: "0 seconds"
+  fields: [opportunity.sfid, orgm_opportunity_data_check.sfid, opportunity.count,
+          opportunity.systemmodstamp_time, orgm_opportunity_data_check.systemmodstamp_time,
+          opportunity.created_time, orgm_opportunity_data_check.created_time,
+          orgm_opportunity_data_check.processed_time, orgm_opportunity_data_check.count,
+          delete_history.name,delete_history.deleted_time]
+  group_label: "zHeroku Postgres OrgM"
+  from: opportunity
+  view_name: opportunity
+
+  join: orgm_opportunity_data_check {
+    view_label: "Snowflake Opportunity"
+    type: full_outer
+    relationship: one_to_one
+    sql_on: ${opportunity.sfid} = ${orgm_opportunity_data_check.sfid} ;;
+  }
+
+  join: delete_history {
+    sql_on: ${delete_history.sfid} = ${orgm_opportunity_data_check.sfid} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: opportunitylineitem_data_check {
+  persist_for: "0 seconds"
+  fields: [opportunitylineitem.sfid, orgm_opportunitylineitem_data_check.sfid, opportunitylineitem.count,
+          opportunitylineitem.systemmodstamp_time, orgm_opportunitylineitem_data_check.systemmodstamp_time,
+          opportunitylineitem.created_time, orgm_opportunitylineitem_data_check.created_time,
+          orgm_opportunitylineitem_data_check.processed_time, orgm_opportunitylineitem_data_check.count,
+          delete_history.name,delete_history.deleted_time]
+  group_label: "zHeroku Postgres OrgM"
+  from: opportunitylineitem
+  view_name: opportunitylineitem
+  view_label: "Opportunity Line Item"
+  join: orgm_opportunitylineitem_data_check {
+    view_label: "Snowflake Opportunity Line Item"
+    type: full_outer
+    relationship: one_to_one
+    sql_on: ${opportunitylineitem.sfid} = ${orgm_opportunitylineitem_data_check.sfid} ;;
+  }
+
+  join: delete_history {
+    sql_on: ${delete_history.sfid} = ${orgm_opportunitylineitem_data_check.sfid} ;;
+    relationship: one_to_one
+  }
 }

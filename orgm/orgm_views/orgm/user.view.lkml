@@ -3,7 +3,6 @@ view: user {
   drill_fields: [id]
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.ID ;;
   }
@@ -125,6 +124,7 @@ view: user {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}.SFID ;;
   }
@@ -146,6 +146,11 @@ view: user {
       year
     ]
     sql: ${TABLE}.START_DATE__C ;;
+  }
+
+  dimension: system_type {
+    type: string
+    sql: ${TABLE}.SYSTEM_TYPE__C ;;
   }
 
   dimension_group: systemmodstamp {
