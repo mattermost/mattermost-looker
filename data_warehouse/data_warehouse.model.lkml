@@ -563,7 +563,7 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets"
   group_label: "Customer Success"
-  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' ;;
+  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' AND ${organization_name} <> 'Mattermost';;
   extends: [_base_account_core_explore]
 
   join: account {
