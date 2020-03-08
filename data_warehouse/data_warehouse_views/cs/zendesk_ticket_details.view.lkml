@@ -188,8 +188,12 @@ view: zendesk_ticket_details {
 
   dimension: ticket_id {
     type: number
-    sql: ${TABLE}."TICKET_ID" ;;
-    primary_key: yes
+    value_format_name: id
+    sql: ${TABLE}.TICKET_ID ;;
+    link: {
+      label: "Zendesk Ticket"
+      url: "@{zendesk_ticket_link}{{ticket_id}}"
+    }
   }
 
   dimension: agent_wait_time_in_minutes_bus {

@@ -12,6 +12,10 @@ constant: salesforce_link {
   value: "https://mattermost.lightning.force.com/"
 }
 
+constant: zendesk_ticket_link {
+  value: "https://mattermost.zendesk.com/agent/tickets/"
+}
+
 constant: percent {
   value: "0.0\%"
 }
