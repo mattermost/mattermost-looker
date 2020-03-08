@@ -186,21 +186,21 @@ view: nps_data {
     group_label: "Percents"
     type: number
     value_format: "@{percent}"
-    sql: ${count_promoters}::float/${count_users}::float ;;
+    sql: ${count_promoters}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: perc_detractor_score {
     group_label: "Percents"
     type: number
     value_format: "@{percent}"
-    sql: ${count_detractor}::float/${count_users}::float ;;
+    sql: ${count_detractor}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: perc_passive_score {
     group_label: "Percents"
     type: number
     value_format: "@{percent}"
-    sql: ${count_passive}::float/${count_users}::float ;;
+    sql: ${count_passive}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: nps_score {
