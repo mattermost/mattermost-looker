@@ -192,7 +192,7 @@ view: zendesk_ticket_details {
     sql: ${TABLE}.TICKET_ID ;;
     link: {
       label: "Zendesk Ticket"
-      url: "@{zendesk_ticket_link}{{ticket_id}}"
+      url: "@{zendesk_link}tickets/{{ticket_id}}"
     }
   }
 
