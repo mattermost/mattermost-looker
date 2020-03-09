@@ -28,8 +28,6 @@ view: snowflake_warehouse_cost {
   }
 
   dimension: credit_rate {
-  }
-    }
     description: "" 
     type: number
     sql: ${TABLE}.credit_rate ;;
@@ -37,8 +35,6 @@ view: snowflake_warehouse_cost {
   }
 
   dimension: dollars_spent {
-  }
-    }
     description: "" 
     type: number
     sql: ${TABLE}.dollars_spent ;;

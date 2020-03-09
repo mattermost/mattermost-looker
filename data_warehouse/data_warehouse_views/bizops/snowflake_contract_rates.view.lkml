@@ -7,8 +7,6 @@ view: snowflake_contract_rates {
 
   # DIMENSIONS
   dimension: rate {
-  }
-    }
     description: "" 
     type: number
     sql: ${TABLE}.rate ;;

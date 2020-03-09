@@ -7,8 +7,6 @@ view: snowflake_amortized_rates {
 
   # DIMENSIONS
   dimension: rate {
-  }
-    }
     description: "" 
     type: number
     sql: ${TABLE}.rate ;;
