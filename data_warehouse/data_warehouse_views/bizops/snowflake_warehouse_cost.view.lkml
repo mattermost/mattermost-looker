@@ -7,60 +7,60 @@ view: snowflake_warehouse_cost {
 
   # DIMENSIONS
   dimension: warehouse_id {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.warehouse_id ;;
     hidden: no
   }
 
   dimension: warehouse_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.warehouse_name ;;
     hidden: no
   }
 
   dimension: usage_length {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.usage_length ;;
     hidden: no
   }
 
   dimension: credit_rate {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.credit_rate ;;
     hidden: no
   }
 
   dimension: dollars_spent {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.dollars_spent ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: start_time {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.start_time ;;
     hidden: no
   }
 
   dimension_group: end_time {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.end_time ;;
     hidden: no
   }
 
   dimension_group: usage_month {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.usage_month ;;
@@ -68,18 +68,43 @@ view: snowflake_warehouse_cost {
   }
 
   dimension_group: usage_day {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.usage_day ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+  }
+
+  measure: avg_credit_rate {
+    type: average
+    sql: ${credit_rate} ;;
+  }
+
+  measure: max_credit_rate {
+    type: max
+    sql: ${credit_rate} ;;
+  }
+
+  measure: min_rate {
+    type: min
+    sql: ${credit_rate} ;;
+  }
+
+  measure: sum_dollars_spent {
+    type: sum
+    sql: ${dollars_spent} ;;
+  }
+
+  measure: sum_usage_length {
+    type: sum
+    sql: ${usage_length} ;;
   }
 
 
