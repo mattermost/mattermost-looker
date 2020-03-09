@@ -67,6 +67,7 @@ include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 #
