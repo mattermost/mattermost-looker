@@ -7,49 +7,51 @@ view: user_events_by_date_agg {
 
   # DIMENSIONS
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: system_admin {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.system_admin ;;
     hidden: no
   }
 
   dimension: system_user {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.system_user ;;
     hidden: no
   }
 
   dimension: active {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.active ;;
     hidden: no
   }
 
   dimension: total_events {
-    description: "" 
+    label: " Total Events"
+    group_label: "Events"
+    description: "The total # of Events performed by the user on the record date."
     type: number
     sql: ${TABLE}.total_events ;;
     hidden: no
   }
 
   dimension: desktop_events {
-    description: "" 
+    description: "The total # of Desktop App Events performed by the user on the record date."
     group_label: "Events by App Type"
     type: number
     sql: ${TABLE}.desktop_events ;;
@@ -57,7 +59,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: web_app_events {
-    description: "" 
+    description: "The total # of Web App Events performed by the user on the record date."
     group_label: "Events by App Type"
     type: number
     sql: ${TABLE}.web_app_events ;;
@@ -65,7 +67,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: mobile_events {
-    description: "" 
+    description: "The total # of Mobile App Events performed by the user on the record date."
     group_label: "Events by App Type"
     type: number
     sql: ${TABLE}.mobile_events ;;
@@ -73,7 +75,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: action_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.action_events ;;
@@ -81,7 +83,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: api_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.api_events ;;
@@ -89,7 +91,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: gfycat_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.gfycat_events ;;
@@ -97,7 +99,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: performance_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.performance_events ;;
@@ -105,7 +107,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: plugins_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.plugins_events ;;
@@ -113,7 +115,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: settings_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.settings_events ;;
@@ -121,7 +123,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: signup_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.signup_events ;;
@@ -129,7 +131,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: system_console_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.system_console_events ;;
@@ -137,7 +139,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: tutorial_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.tutorial_events ;;
@@ -145,7 +147,7 @@ view: user_events_by_date_agg {
   }
 
   dimension: ui_events {
-    description: "" 
+    description: ""
     group_label: "Events by Event Categories"
     type: number
     sql: ${TABLE}.ui_events ;;
@@ -153,72 +155,81 @@ view: user_events_by_date_agg {
   }
 
   dimension: mau_segment {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.mau_segment ;;
     hidden: no
   }
 
   dimension: mau {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.mau ;;
     hidden: no
   }
 
   dimension: events_last_30_days {
-    description: "" 
+    description: "The total # of Events performed by the user in the last 30 days."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.events_last_30_days ;;
     hidden: no
   }
 
   dimension: events_last_31_days {
-    description: "" 
+    description: "The total # of Events performed by the user in the last 31 days."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.events_last_31_days ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: events_alltime {
-    description: "" 
+    label: "Events (All Time)"
+    description: "The total # of Events performed by the user their entire lifetime (on or before the current record date)."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.events_alltime ;;
     hidden: no
   }
 
   dimension: max_events {
-    description: "" 
+    label: "Max Events"
+    description: "The maximum number of events performed by the user in a single day (on or before the current record date)."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.max_events ;;
     hidden: no
   }
 
   dimension: mobile_events_last_30_days {
-    description: "" 
+    description: "The total # of Mobile Events performed by the user in the last 30 days."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.mobile_events_last_30_days ;;
     hidden: no
   }
 
   dimension: mobile_events_alltime {
-    description: "" 
+    description: "The total # of Mobile Events performed by the user their entire lifetime (on or before the current record date)."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.mobile_events_alltime ;;
     hidden: no
   }
 
   dimension: max_mobile_events {
-    description: "" 
+    description: "The maximum number of Mobile Events performed by the user in a single day (on or before the current record date)."
+    group_label: "Events"
     type: number
     sql: ${TABLE}.max_mobile_events ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.date ;;
@@ -226,7 +237,7 @@ view: user_events_by_date_agg {
   }
 
   dimension_group: first_active {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.first_active_date ;;
@@ -234,14 +245,14 @@ view: user_events_by_date_agg {
   }
 
   dimension_group: last_active {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.last_active_date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
