@@ -623,3 +623,12 @@ explore: user_events_by_date {
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
 }
+explore: snowflake_amortized_rates {
+  label: "Snowflake Amortized Rates"
+}
+explore: snowflake_contract_rates {
+  label: "Snowflake Contract Rates"
+}
+explore: snowflake_warehouse_cost {
+  label: "Snowflake Warehouse Cost"
+}
