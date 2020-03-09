@@ -20,6 +20,16 @@ view: zendesk_ticket_details {
     type: string
   }
 
+  dimension: subject {
+    type: string
+    sql: ${TABLE}."RAW_SUBJECT" ;;
+  }
+
+  dimension: description {
+    type: string
+    sql: ${TABLE}."DESCRIPTION" ;;
+  }
+
   dimension: assignee_name {
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
@@ -118,14 +128,14 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Met First Response SLA?"
     type:  yesno
-    sql: ${first_response_sla} > ${reply_time_in_minutes_cal} ;;
+    sql: ${first_response_sla} > ${reply_time_in_minutes_cal} OR ${reply_time_in_minutes_cal} IS NULL;;
   }
 
   dimension: met_followup_internal_sla {
     group_label: "SLAs"
     label: "Met Follow-up Internal SLA?"
     type:  yesno
-    sql: ${followup_internal_sla} > ${followup_internal} ;;
+    sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
   }
 
   dimension: product_bug {
@@ -178,8 +188,12 @@ view: zendesk_ticket_details {
 
   dimension: ticket_id {
     type: number
-    sql: ${TABLE}."TICKET_ID" ;;
-    primary_key: yes
+    value_format_name: id
+    sql: ${TABLE}.TICKET_ID ;;
+    link: {
+      label: "Zendesk Ticket"
+      url: "@{zendesk_link}tickets/{{ticket_id}}"
+    }
   }
 
   dimension: agent_wait_time_in_minutes_bus {
@@ -231,13 +245,13 @@ view: zendesk_ticket_details {
   }
 
   dimension: reply_time_in_minutes_bus {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_BUS" ;;
   }
 
   dimension: reply_time_in_minutes_cal {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
@@ -285,89 +299,5 @@ view: zendesk_ticket_details {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
   }
-
-#   measure: avg_agent_wait_time_in_minutes_bus {
-#     group_label: "Agent Wait Time"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${agent_wait_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_agent_wait_time_in_minutes_cal {
-#     group_label: "Agent Wait Time"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${agent_wait_time_in_minutes_cal} ;;
-#   }
-#
-#   measure: avg_first_resolution_time_in_minutes_bus {
-#     group_label: "First Resolution"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${first_resolution_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_first_resolution_time_in_minutes_cal {
-#     group_label: "First Resolution"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${first_resolution_time_in_minutes_cal} ;;
-#   }
-#
-#   measure: avg_full_resolution_time_in_minutes_bus {
-#     group_label: "Full Resolution"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${full_resolution_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_full_resolution_time_in_minutes_cal {
-#     group_label: "Full Resolution"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${full_resolution_time_in_minutes_cal} ;;
-#   }
-#
-#   measure: avg_on_hold_time_in_minutes_bus {
-#     group_label: "On Hold"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${on_hold_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_on_hold_time_in_minutes_cal {
-#     group_label: "On Hold"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${on_hold_time_in_minutes_cal} ;;
-#   }
-#
-#   measure: avg_reply_time_in_minutes_bus {
-#     group_label: "Reply Time"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${reply_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_reply_time_in_minutes_cal {
-#     group_label: "Reply Time"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${reply_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_requester_wait_time_in_minutes_bus {
-#     group_label: "Rquester Wait"
-#     group_item_label: "Business Average Min"
-#     type: average
-#     sql: ${reply_time_in_minutes_bus} ;;
-#   }
-#
-#   measure: avg_requester_wait_time_in_minutes_cal {
-#     group_label: "Requester Wait"
-#     group_item_label: "Calendar Average Min"
-#     type: average
-#     sql: ${reply_time_in_minutes_bus} ;;
-#   }
 
 }

@@ -35,7 +35,7 @@ view: nps_user_monthly_score {
   }
 
   dimension: score {
-    description: "The raw score provided by the user in the NPS survey (Scale of 0-10 how likely are you to recommend Mattermost to a colleague/firend)."
+    description: "The raw score provided by the user in the NPS survey (Scale of 0-10 how likely are you to recommend Mattermost to a colleague/friend)."
     type: number
     sql: ${TABLE}.score ;;
     hidden: no
@@ -197,7 +197,7 @@ view: nps_user_monthly_score {
     description: "The % of total users classified as Promoters."
     type: number
     value_format_name: percent_1
-    sql: ${count_promoters}::float/${count_users}::float ;;
+    sql: ${count_promoters}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: pct_detractor_score {
@@ -205,7 +205,7 @@ view: nps_user_monthly_score {
     description: "The % of total users classified as Detractors."
     type: number
     value_format_name: percent_1
-    sql: ${count_detractors}::float/${count_users}::float ;;
+    sql: ${count_detractors}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: pct_passive_score {
@@ -213,7 +213,7 @@ view: nps_user_monthly_score {
     description: "The % of total users classified as Passive."
     type: number
     value_format_name: percent_1
-    sql: ${count_passive}::float/${count_users}::float ;;
+    sql: ${count_passive}::float/NULLIF(${count_users}::float, 0) ;;
   }
 
   measure: nps_score {
