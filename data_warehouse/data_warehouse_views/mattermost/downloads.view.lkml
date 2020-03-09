@@ -99,6 +99,20 @@ view: downloads {
     sql: ${ip_address} ;;
   }
 
+  measure: unique_team_download_count {
+    label: "Unique Team Downloads"
+    description: "The count of unique IP's that have performed a team edition server download."
+    type: count_distinct
+    sql: CASE WHEN ${download_type} = 'team' THEN ${ip_address} ELSE null END;;
+  }
+
+  measure: unique_enterprise_download_count {
+    label: "Unique Enterprise Downloads"
+    description: "The count of unique IP's that have performed a enterprise edition server download."
+    type: count_distinct
+    sql: CASE WHEN ${download_type} = 'enterprise' THEN ${ip_address} ELSE null END;;
+  }
+
   measure: download_count {
     label: "Total Downloads"
     description: "The total number of downloads performed"
