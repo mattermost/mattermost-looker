@@ -85,21 +85,25 @@ view: snowflake_warehouse_cost {
   measure: avg_credit_rate {
     type: average
     sql: ${credit_rate} ;;
+    value_format_name: usd
   }
 
   measure: max_credit_rate {
     type: max
     sql: ${credit_rate} ;;
+    value_format_name: usd
   }
 
   measure: min_rate {
     type: min
     sql: ${credit_rate} ;;
+    value_format_name: usd
   }
 
   measure: sum_dollars_spent {
     type: sum
     sql: ${dollars_spent} ;;
+    value_format_name: usd
   }
 
   measure: sum_usage_length {
