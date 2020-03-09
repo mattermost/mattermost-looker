@@ -626,10 +626,13 @@ explore: user_events_by_date_agg {
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
+  group_label: "BizOps Spend"
 }
 explore: snowflake_contract_rates {
   label: "Snowflake Contract Rates"
+  group_label: "BizOps Spend"
 }
 explore: snowflake_warehouse_cost {
   label: "Snowflake Warehouse Cost"
+  group_label: "BizOps Spend"
 }
