@@ -261,32 +261,56 @@ view: user_events_by_date_agg {
 
   measure: user_count {
     label: " User Count"
-    description: "The distinct count of Users  per grouping."
+    description: "The distinct count of Users per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: server_count {
     label: " Server Count"
-    description: "The distinct count of Servers  per grouping."
+    description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
   }
 
   measure: system_user_count {
     label: "System Users"
-    description: "The count of System User users."
+    description: "The count of System Users."
     group_label: "User Counts"
     type: count_distinct
     sql: case when ${system_user} then ${user_id} else null end ;;
   }
 
+  measure: system_admin_count {
+    label: "System Admins"
+    description: "The count of System Admins."
+    group_label: "User Counts"
+    type: count_distinct
+    sql: case when ${system_admin} then ${user_id} else null end ;;
+  }
+
   measure: active_count {
-    label: "DAU"
+    label: " Total DAU"
     description: "The count of all daily active users i.e. performed >= 1 event on the current record date."
     group_label: " DAU"
     type: count_distinct
     sql: case when ${active} then ${user_id} else null end ;;
+  }
+
+  measure: active_admin_count {
+    label: "System Admin DAU"
+    description: "The count of all daily active system admin users (role) i.e. performed >= 1 event on the current record date."
+    group_label: " DAU"
+    type: count_distinct
+    sql: case when ${active} and ${system_admin} then ${user_id} else null end ;;
+  }
+
+  measure: active_user_count {
+    label: "System User DAU"
+    description: "The count of all daily active system users (role) i.e. performed >= 1 event on the current record date."
+    group_label: " DAU"
+    type: count_distinct
+    sql: case when ${active} and ${system_user} then ${user_id} else null end ;;
   }
 
   measure: total_events_sum {
@@ -388,35 +412,75 @@ view: user_events_by_date_agg {
   }
 
   measure: mau_count {
-    label: "MAU"
+    label: " Total MAU"
     description: "The count of users in MAU i.e. performed >= 1 event in the last 30 days."
     group_label: " MAU"
     type: count_distinct
     sql: case when ${mau} then ${user_id} else null end ;;
   }
 
+  measure: first_time_mau {
+    label: "First Time MAU"
+    description: "The count of users that entered MAU for the first time on the record date."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} and ${mau_segment} = 'First Time MAU' then ${user_id} else null end ;;
+  }
+
+  measure: reengaged_mau {
+    label: "Reengaged MAU"
+    description: "The count of users that were previously disengaged (Previous Day MAU Segment = Disengaged) and reengaged (performed >= 1 event) on the record date."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} and ${mau_segment} = 'Reengaged MAU' then ${user_id} else null end ;;
+  }
+
+  measure: current_mau {
+    label: "Current MAU"
+    description: "The count of users that are currently in MAU and that are not First Time Active or Reengaged MAU (performed >= 1 event in the last 30 days)."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} and ${mau_segment} = 'First Time MAU' then ${user_id} else null end ;;
+  }
+
   measure: max_events_max {
     description: "The max of Max Events per grouping."
+    group_label: "Events (Max)"
     type: max
     sql: ${max_events} ;;
   }
 
   measure: mobile_events_last_30_days_sum {
     description: "The sum of Mobile Events Last 30 Days per grouping."
+    group_label: "Events Last 30 Days (Sums)"
     type: sum
     sql: ${mobile_events_last_30_days} ;;
   }
 
   measure: mobile_events_alltime_sum {
     description: "The sum of Mobile Events Alltime per grouping."
+    group_label: "Event All Time (Sums)"
     type: sum
     sql: ${mobile_events_alltime} ;;
   }
 
   measure: max_mobile_events_max {
     description: "The max of Max Mobile Events per grouping."
+    group_label: "Events (Max)"
     type: max
     sql: ${max_mobile_events} ;;
+  }
+
+  measure: mobile_dau {
+    label: "Mobile DAU"
+    description: "The count of all user that performed >= 1 mobile event on the record date."
+    group_label: " DAU"
+    filters: {
+      field: mobile_events
+      value: "> 0"
+    }
+    type: count_distinct
+    sql: ${user_id} ;;
   }
 
 
