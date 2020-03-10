@@ -218,6 +218,20 @@ view: opportunitylineitem {
     value_format_name: "usd"
   }
 
+  dimension: arr_contributed {
+    label: "ARR Contributed"
+    type: number
+    sql: ${TABLE}.arr_contributed__c ;;
+    value_format_name: "usd"
+  }
+
+  dimension: arr_delta {
+    label: "ARR Delta"
+    type: number
+    sql: ${arr} - ${arr_contributed} ;;
+    value_format_name: "usd"
+  }
+
   dimension: length_days {
     sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
     type: number
