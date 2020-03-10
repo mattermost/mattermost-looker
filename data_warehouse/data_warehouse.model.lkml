@@ -67,6 +67,7 @@ include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 #
@@ -622,4 +623,16 @@ explore: user_events_by_date {
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
+}
+explore: snowflake_amortized_rates {
+  label: "Snowflake Amortized Rates"
+  group_label: "BizOps Spend"
+}
+explore: snowflake_contract_rates {
+  label: "Snowflake Contract Rates"
+  group_label: "BizOps Spend"
+}
+explore: snowflake_warehouse_cost {
+  label: "Snowflake Warehouse Cost"
+  group_label: "BizOps Spend"
 }
