@@ -30,6 +30,13 @@ view: opportunity {
     sql: ${TABLE}."amount" ;;
   }
 
+  dimension: arr_contributed {
+    type: number
+    description: "ARR Contributed field in SFDC"
+    sql: ${TABLE}."arr_contributed__c" ;;
+  }
+
+
   dimension: campaignid {
     type: string
     sql: ${TABLE}."campaignid" ;;
@@ -306,13 +313,14 @@ view: opportunity {
   measure: total_arr_contributed {
     hidden: yes
     label: "Total ARR Contributed"
+    description: "ARR Contributed field in SFDC"
     type: sum
-    sql: ${opportunitylineitem.arr_contributed} ;;
+    sql: ${arr_contributed} ;;
   }
 
   measure: arr_delta {
-    hidden: yes
     label: "Total ARR Delta"
+    description: "ARR - ARR Contributed"
     type: number
     sql: coalesce(${total_arr},0) - coalesce(${total_arr_contributed},0) ;;
     value_format_name: "usd"

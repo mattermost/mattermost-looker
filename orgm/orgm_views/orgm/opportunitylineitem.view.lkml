@@ -219,16 +219,16 @@ view: opportunitylineitem {
   }
 
   dimension: arr_contributed {
-    hidden: yes
     label: "ARR Contributed"
+    description: "ARR Contributed field in SFDC"
     type: number
     sql: ${TABLE}.arr_contributed__c ;;
     value_format_name: "usd"
   }
 
   dimension: arr_delta {
-    hidden: yes
     label: "ARR Delta"
+    description: "ARR - ARR Contributed"
     type: number
     sql: coalesce(${arr},0) - coalesce(${arr_contributed},0) ;;
     value_format_name: "usd"
