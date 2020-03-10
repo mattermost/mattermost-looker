@@ -1,15 +1,15 @@
-view: tva_all_by_mo {
-  sql_table_name: "TVA"."TVA_ALL_BY_MO";;
+view: tva_all_by_qtr {
+  sql_table_name: "TVA"."TVA_ALL_BY_QTR";;
 
   dimension: compound_primary {
-    sql: ${name}||${month} ;;
+    sql: ${name}||${qtr} ;;
     primary_key: yes
     hidden: yes
   }
 
-  dimension: month {
-    type: date
-    sql: ${TABLE}."MONTH" ;;
+  dimension: qtr {
+    type: string
+    sql: ${TABLE}."QTR" ;;
   }
 
   dimension: category {

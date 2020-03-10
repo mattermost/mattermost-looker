@@ -611,8 +611,14 @@ explore: server_daily_details_ext {
 
 explore: tva_all_by_mo {
   required_access_grants: [mlt_only]
-  group_label: "Targets"
+  group_label: "Target vs Actual"
   label: "Monthly TvA"
+}
+
+explore: tva_all_by_qtr {
+  required_access_grants: [mlt_only]
+  group_label: "Target vs Actual"
+  label: "Quarterly TvA"
 }
 
 explore: events_registry {

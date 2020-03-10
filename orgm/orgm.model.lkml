@@ -12,6 +12,11 @@ explore: delete_history {
 
 explore: opportunity {
   group_label: "zHeroku Postgres OrgM"
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: user {
