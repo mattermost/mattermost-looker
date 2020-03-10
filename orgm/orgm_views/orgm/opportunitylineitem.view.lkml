@@ -219,6 +219,7 @@ view: opportunitylineitem {
   }
 
   dimension: arr_contributed {
+    hidden: yes
     label: "ARR Contributed"
     type: number
     sql: ${TABLE}.arr_contributed__c ;;
@@ -226,9 +227,10 @@ view: opportunitylineitem {
   }
 
   dimension: arr_delta {
+    hidden: yes
     label: "ARR Delta"
     type: number
-    sql: ${arr} - ${arr_contributed} ;;
+    sql: coalesce(${arr},0) - coalesce(${arr_contributed},0) ;;
     value_format_name: "usd"
   }
 

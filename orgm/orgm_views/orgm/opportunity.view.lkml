@@ -296,4 +296,26 @@ view: opportunity {
     sql: ${sfid} ;;
     drill_fields: [sfid, name, opportunitylineitem.count]
   }
+
+  measure: total_arr {
+    label: "Total ARR"
+    type: sum
+    sql: ${opportunitylineitem.arr} ;;
+  }
+
+  measure: total_arr_contributed {
+    hidden: yes
+    label: "Total ARR Contributed"
+    type: sum
+    sql: ${opportunitylineitem.arr_contributed} ;;
+  }
+
+  measure: arr_delta {
+    hidden: yes
+    label: "Total ARR Delta"
+    type: number
+    sql: coalesce(${total_arr},0) - coalesce(${total_arr_contributed},0) ;;
+    value_format_name: "usd"
+  }
+
 }
