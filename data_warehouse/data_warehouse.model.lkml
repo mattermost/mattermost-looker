@@ -621,6 +621,12 @@ explore: tva_all_by_qtr {
   label: "Quarterly TvA"
 }
 
+explore: tva_all_by_fy {
+  required_access_grants: [mlt_only]
+  group_label: "Target vs Actual"
+  label: "Fiscal Year TvA"
+}
+
 explore: events_registry {
   label: "Events Registry"
 }

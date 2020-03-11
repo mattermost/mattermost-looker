@@ -1,15 +1,15 @@
-view: tva_all_by_qtr {
-  sql_table_name: "TVA"."TVA_ALL_BY_QTR";;
+view: tva_all_by_fy {
+  sql_table_name: "TVA"."TVA_ALL_BY_FY";;
 
   dimension: compound_primary {
-    sql: ${name_by_period}||${qtr} ;;
+    sql: ${name_by_period}||${fiscal_year} ;;
     primary_key: yes
     hidden: yes
   }
 
-  dimension: qtr {
-    type: string
-    sql: ${TABLE}."QTR" ;;
+  dimension: fiscal_year {
+    type: date
+    sql: ${TABLE}."FY" ;;
   }
 
   dimension: period_last_day {

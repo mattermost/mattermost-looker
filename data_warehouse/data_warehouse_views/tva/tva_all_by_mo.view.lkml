@@ -21,11 +21,11 @@ view: tva_all_by_mo {
     type: string
     sql: ${TABLE}."CATEGORY" ;;
   }
-#
-#   dimension: name {
-#     type: string
-#     sql: ${TABLE}."NAME" ;;
-#   }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}."NAME" ;;
+  }
 
   dimension: name_by_period {
     type: string
