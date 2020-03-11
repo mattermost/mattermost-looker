@@ -2,7 +2,7 @@ view: tva_all_by_mo {
   sql_table_name: "TVA"."TVA_ALL_BY_MO";;
 
   dimension: compound_primary {
-    sql: ${name}||${month} ;;
+    sql: ${name_by_period}||${month} ;;
     primary_key: yes
     hidden: yes
   }
@@ -12,14 +12,24 @@ view: tva_all_by_mo {
     sql: ${TABLE}."MONTH" ;;
   }
 
+  dimension: period_last_day {
+    type: date
+    sql: ${TABLE}."PERIOD_LAST_DAY" ;;
+  }
+
   dimension: category {
     type: string
     sql: ${TABLE}."CATEGORY" ;;
   }
+#
+#   dimension: name {
+#     type: string
+#     sql: ${TABLE}."NAME" ;;
+#   }
 
-  dimension: name {
+  dimension: name_by_period {
     type: string
-    sql: ${TABLE}."NAME" ;;
+    sql: ${TABLE}."NAME_BY_PERIOD" ;;
   }
 
   dimension: target {
