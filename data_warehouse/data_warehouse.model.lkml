@@ -613,18 +613,33 @@ explore: tva_all_by_mo {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"
   label: "Monthly TvA"
+
+  join: target_fact {
+    sql: ${target_fact.slug} = ${tva_all_by_mo.target_slug};;
+    relationship: many_to_one
+  }
 }
 
 explore: tva_all_by_qtr {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"
   label: "Quarterly TvA"
+
+  join: target_fact {
+    sql: ${target_fact.slug} = ${tva_all_by_qtr.target_slug};;
+    relationship: many_to_one
+  }
 }
 
 explore: tva_all_by_fy {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"
   label: "Fiscal Year TvA"
+
+  join: target_fact {
+    sql: ${target_fact.slug} = ${tva_all_by_fy.target_slug};;
+    relationship: many_to_one
+  }
 }
 
 explore: events_registry {

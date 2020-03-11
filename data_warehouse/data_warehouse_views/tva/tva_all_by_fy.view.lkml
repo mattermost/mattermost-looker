@@ -2,7 +2,7 @@ view: tva_all_by_fy {
   sql_table_name: "TVA"."TVA_ALL_BY_FY";;
 
   dimension: compound_primary {
-    sql: ${name_by_period}||${fiscal_year} ;;
+    sql: ${target_slug}||${fiscal_year} ;;
     primary_key: yes
     hidden: yes
   }
@@ -17,19 +17,10 @@ view: tva_all_by_fy {
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
-  dimension: category {
+  dimension: target_slug {
+    hidden: yes
     type: string
-    sql: ${TABLE}."CATEGORY" ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}."NAME" ;;
-  }
-
-  dimension: name_by_period {
-    type: string
-    sql: ${TABLE}."NAME_BY_PERIOD" ;;
+    sql: ${TABLE}."TARGET_SLUG" ;;
   }
 
   dimension: target {
