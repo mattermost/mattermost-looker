@@ -1,5 +1,6 @@
 view: tva_all_by_qtr {
   sql_table_name: "TVA"."TVA_ALL_BY_QTR";;
+  view_label: "TvA by Quarter"
 
   dimension: compound_primary {
     sql: ${target_slug}||${qtr} ;;
@@ -8,8 +9,22 @@ view: tva_all_by_qtr {
   }
 
   dimension: qtr {
+    label: "Fiscal Quarter"
+    group_label: "Time Period"
     type: string
     sql: ${TABLE}."QTR" ;;
+  }
+
+  dimension: quarter {
+    group_label: "Time Period"
+    type: string
+    sql: util.fiscal_quarter(${period_first_day});;
+  }
+
+  dimension: fiscal_year {
+    group_label: "Time Period"
+    type: string
+    sql: util.fiscal_year(${period_first_day});;
   }
 
   dimension: target_slug {
@@ -19,12 +34,14 @@ view: tva_all_by_qtr {
   }
 
   dimension: target {
+    hidden: yes
     label: "Target"
     type: number
     sql: abs(${TABLE}."TARGET") ;;
   }
 
   dimension: actual {
+    hidden: yes
     label: "Actual"
     type: number
     sql: abs(coalesce(${TABLE}."ACTUAL",0)) ;;
@@ -63,7 +80,9 @@ view: tva_all_by_qtr {
   }
 
   measure: current_target {
-    label: "Current Qtr Target"
+    group_label: "Current Quarter"
+    group_item_label: "Target"
+    label: "Target (Current Quarter)"
     type: sum
     sql: ${target} ;;
     filters: {
@@ -74,7 +93,9 @@ view: tva_all_by_qtr {
   }
 
   measure: current_actual {
-    label: "Current Qtr Actual"
+    group_label: "Current Quarter"
+    group_item_label: "Actual"
+    label: "Actual (Current Quarter)"
     type: sum
     sql: ${actual} ;;
     filters: {
@@ -85,14 +106,18 @@ view: tva_all_by_qtr {
   }
 
   measure: current_left {
-    label: "Current Qtr Target Left"
+    group_label: "Current Quarter"
+    group_item_label: "Target Left"
+    label: "Target Left (Current Quarter)"
     type: number
     sql: greatest(${current_target}-${current_actual},0) ;;
     value_format_name: decimal_0
   }
 
   measure: not_current_target {
-    label: "Target"
+    group_label: "Not Current Quarter"
+    group_item_label: "Target"
+    label: "Target (Not Current Quarter)"
     type: sum
     sql: ${target} ;;
     filters: {
@@ -103,7 +128,9 @@ view: tva_all_by_qtr {
   }
 
   measure: not_current_actual {
-    label: "Actual"
+    group_label: "Not Current Quarter"
+    group_item_label: "Actual"
+    label: "Actual (Not Current Quarter)"
     type: sum
     sql: ${actual} ;;
     filters: {
@@ -114,35 +141,37 @@ view: tva_all_by_qtr {
   }
 
   measure: not_current_left {
-    label: "Target Left"
+    group_label: "Not Current Quarter"
+    group_item_label: "Target Left"
+    label: "Target Left (Not Current Quarter)"
     type: number
     sql: greatest(${not_current_target}-${not_current_actual},0) ;;
     value_format_name: decimal_0
   }
 
   measure: total_target {
-    label: "Total Target"
+    label: " Target"
     type: sum
     sql: ${target} ;;
     value_format_name: decimal_0
   }
 
   measure: total_actual {
-    label: "Total Actual"
+    label: " Actual"
     type: sum
     sql: ${actual} ;;
     value_format_name: decimal_0
   }
 
   measure: total_left {
-    label: "Total Target Left"
+    label: " Target Left"
     type: number
     sql: greatest(${total_target}-${total_actual},0) ;;
     value_format_name: decimal_0
   }
 
   measure: total_tva {
-    label: "TvA"
+    label: " TvA"
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual}/${total_target};;

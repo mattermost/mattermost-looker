@@ -1,5 +1,6 @@
 view: tva_all_by_fy {
   sql_table_name: "TVA"."TVA_ALL_BY_FY";;
+  view_label: "TvA by FY"
 
   dimension: compound_primary {
     sql: ${target_slug}||${fiscal_year} ;;
@@ -8,6 +9,7 @@ view: tva_all_by_fy {
   }
 
   dimension: fiscal_year {
+    group_label: "Time Period"
     type: string
     sql: ${TABLE}."FY" ;;
   }
@@ -19,12 +21,14 @@ view: tva_all_by_fy {
   }
 
   dimension: target {
+    hidden: yes
     label: "Target"
     type: number
     sql: abs(${TABLE}."TARGET") ;;
   }
 
   dimension: actual {
+    hidden: yes
     label: "Actual"
     type: number
     sql: abs(coalesce(${TABLE}."ACTUAL",0)) ;;
