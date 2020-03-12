@@ -117,6 +117,7 @@ view: downloads {
     label: "Total Downloads"
     description: "The total number of downloads performed"
     type: count
+    drill_fields: [log_date, ip_address, download_category, download_type, version, source, creferrer, useragent, download_count]
   }
 
   measure: app_downloads {

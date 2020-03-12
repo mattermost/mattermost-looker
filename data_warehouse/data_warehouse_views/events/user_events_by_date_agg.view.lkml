@@ -440,7 +440,7 @@ view: user_events_by_date_agg {
     description: "The count of users that are currently in MAU and that are not First Time Active or Reengaged MAU (performed >= 1 event in the last 30 days)."
     group_label: " MAU"
     type: count_distinct
-    sql: case when ${mau} and ${mau_segment} = 'First Time MAU' then ${user_id} else null end ;;
+    sql: case when ${mau} and ${mau_segment} = 'Current MAU' then ${user_id} else null end ;;
   }
 
   measure: max_events_max {
