@@ -454,7 +454,7 @@ view: opportunity {
 
   dimension: renewal_risk_reasons {
     # description: "TODO"
-    sql: ${TABLE}.renewal_risk_reasons__c ;;
+    sql: CASE WHEN ${TABLE}.renewal_risk_reasons__c = 'No relationship with Decision Maker' THEN 'No Tie to Decision Maker' ELSE ${TABLE}.renewal_risk_reasons__c END;;
     type: string
     group_label: "Renewals"
   }

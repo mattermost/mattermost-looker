@@ -1257,6 +1257,7 @@ view: account {
     label: "Total Current ARR"
     sql: ${arr_current} ;;
     type: sum_distinct
+    value_format_name: usd_0
   }
 
 }
