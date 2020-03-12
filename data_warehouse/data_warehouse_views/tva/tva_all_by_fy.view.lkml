@@ -53,7 +53,7 @@ view: tva_all_by_fy {
   }
 
   measure: current_target {
-    label: "Current Month Target"
+    label: "Current FY Target"
     type: sum
     sql: ${target} ;;
     filters: {
@@ -63,7 +63,7 @@ view: tva_all_by_fy {
   }
 
   measure: current_actual {
-    label: "Current Month Actual"
+    label: "Current FY Actual"
     type: sum
     sql: ${actual} ;;
     filters: {
@@ -73,7 +73,7 @@ view: tva_all_by_fy {
   }
 
   measure: current_left {
-    label: "Current Month Target Left"
+    label: "Current FY Target Left"
     type: number
     sql: greatest(${current_target}-${current_actual},0) ;;
   }
@@ -114,6 +114,13 @@ view: tva_all_by_fy {
     label: "Total Actual"
     type: sum
     sql: ${actual} ;;
+  }
+
+  measure: total_left {
+    label: "Total Target Left"
+    type: number
+    sql: greatest(${total_target}-${total_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: total_tva {

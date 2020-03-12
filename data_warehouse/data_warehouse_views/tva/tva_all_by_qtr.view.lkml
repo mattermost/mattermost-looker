@@ -60,6 +60,7 @@ view: tva_all_by_qtr {
       field: current_period
       value: "yes"
     }
+    value_format_name: decimal_0
   }
 
   measure: current_actual {
@@ -70,12 +71,14 @@ view: tva_all_by_qtr {
       field: current_period
       value: "yes"
     }
+    value_format_name: decimal_0
   }
 
   measure: current_left {
     label: "Current Qtr Target Left"
     type: number
     sql: greatest(${current_target}-${current_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: not_current_target {
@@ -86,6 +89,7 @@ view: tva_all_by_qtr {
       field: current_period
       value: "no"
     }
+    value_format_name: decimal_0
   }
 
   measure: not_current_actual {
@@ -96,24 +100,35 @@ view: tva_all_by_qtr {
       field: current_period
       value: "no"
     }
+    value_format_name: decimal_0
   }
 
   measure: not_current_left {
     label: "Target Left"
     type: number
     sql: greatest(${not_current_target}-${not_current_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: total_target {
     label: "Total Target"
     type: sum
     sql: ${target} ;;
+    value_format_name: decimal_0
   }
 
   measure: total_actual {
     label: "Total Actual"
     type: sum
     sql: ${actual} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_left {
+    label: "Total Target Left"
+    type: number
+    sql: greatest(${total_target}-${total_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: total_tva {
