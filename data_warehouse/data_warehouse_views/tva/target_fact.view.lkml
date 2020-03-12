@@ -13,6 +13,7 @@ view: target_fact {
   }
 
   dimension: ga {
+    label: "Is GA?"
     type: yesno
     sql: ${TABLE}."GA" ;;
   }
@@ -20,6 +21,18 @@ view: target_fact {
   dimension: metric_period_logic {
     type: string
     sql: ${TABLE}."METRIC_PERIOD_LOGIC" ;;
+  }
+
+  dimension: tva_enabled {
+    label: "TD Enabled"
+    type: yesno
+    sql: true ;;
+  }
+
+  dimension: td_enabled {
+    label: "TD Enabled"
+    type: yesno
+    sql: CASE WHEN ${metric_period_logic} != 'EoP' THEN true ELSE false END ;;
   }
 
   dimension: name {
