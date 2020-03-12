@@ -3,31 +3,36 @@ view: tva_all_by_mo {
   view_label: "TvA by Month"
 
   dimension: compound_primary {
-    sql: ${target_slug}||${month} ;;
+    sql: ${target_slug}||${tva_month} ;;
     primary_key: yes
     hidden: yes
   }
 
-  dimension: month {
+  dimension_group: tva {
     group_label: "Time Period"
-    type: date
+    label: "TvA"
+    type: time
+    timeframes: [month]
     sql: ${TABLE}."MONTH" ;;
   }
 
   dimension: quarter {
     group_label: "Time Period"
+    label: "TvA Qtr"
     type: string
     sql: util.fiscal_quarter(${period_first_day});;
   }
 
   dimension: fy_quarter {
     group_label: "Time Period"
+    label: "TvA FY-Qtr"
     type: string
     sql: util.fiscal_year(${period_first_day}) || '-' || util.fiscal_quarter(${period_first_day});;
   }
 
   dimension: fiscal_year {
     group_label: "Time Period"
+    label: "TvA FY"
     type: string
     sql: util.fiscal_year(${period_first_day});;
   }
@@ -72,14 +77,14 @@ view: tva_all_by_mo {
 
   dimension: current_quarter {
     group_label: "Time Period"
-    label: " Is Current Quarter?"
+    label: " Is Current Qtr?"
     type: yesno
     sql: util.fiscal_quarter(${period_first_day}) = util.fiscal_quarter(current_date());;
   }
 
   dimension: current_fiscal_year {
     group_label: "Time Period"
-    label: " Is Current Fiscal Year?"
+    label: " Is Current FY?"
     type: yesno
     sql: util.fiscal_year(${period_first_day}) = util.fiscal_year(current_date());;
   }

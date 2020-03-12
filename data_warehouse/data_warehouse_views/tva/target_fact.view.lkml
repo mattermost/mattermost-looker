@@ -20,7 +20,7 @@ view: target_fact {
 
   dimension: metric_period_logic {
     type: string
-    sql: ${TABLE}."METRIC_PERIOD_LOGIC" ;;
+    sql: CASE WHEN ${TABLE}."METRIC_PERIOD_LOGIC" = 'EoP' THEN 'End of Period' WHEN ${TABLE}."METRIC_PERIOD_LOGIC" = 'SoP' THEN 'Sum Over Period' ELSE NULL END ;;
   }
 
   dimension: tva_enabled {
@@ -32,7 +32,7 @@ view: target_fact {
   dimension: td_enabled {
     label: "TD Enabled"
     type: yesno
-    sql: CASE WHEN ${metric_period_logic} != 'EoP' THEN true ELSE false END ;;
+    sql: CASE WHEN ${TABLE}."METRIC_PERIOD_LOGIC" != 'EoP' THEN true ELSE false END ;;
   }
 
   dimension: name {
@@ -47,7 +47,7 @@ view: target_fact {
 
   dimension: period {
     type: string
-    sql: ${TABLE}."PERIOD" ;;
+    sql: CASE WHEN ${TABLE}."PERIOD" = 'mo' THEN 'Month' WHEN ${TABLE}."PERIOD" = 'qtr' THEN 'Quarter' WHEN ${TABLE}."PERIOD" = 'fy' THEN 'Fiscal Year' END;;
   }
 
   dimension: slug {
@@ -63,5 +63,16 @@ view: target_fact {
   dimension: visibility {
     type: string
     sql: ${TABLE}."VISIBILITY" ;;
+  }
+
+  measure: period_hierarchy_rank {
+    hidden: yes
+    type: min
+    sql: CASE WHEN ${TABLE}."PERIOD" = 'mo' THEN 1 WHEN ${TABLE}."PERIOD" = 'qtr' THEN 2 WHEN ${TABLE}."PERIOD" = 'fy' THEN 3 END;;
+  }
+
+  measure: most_granular_period {
+    type: string
+    sql: CASE WHEN ${period_hierarchy_rank} = 1 THEN 'Month' WHEN ${period_hierarchy_rank} = 2 THEN 'Quarter' WHEN ${period_hierarchy_rank} = 1 THEN 'Fiscal Year' END;;
   }
 }
