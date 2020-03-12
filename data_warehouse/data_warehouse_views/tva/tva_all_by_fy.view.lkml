@@ -47,7 +47,9 @@ view: tva_all_by_fy {
   }
 
   dimension: current_period {
-    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date =< current_date;;
+    label: "Is Current Period?"
+    type: yesno
+    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date <= current_date;;
   }
 
   measure: current_target {

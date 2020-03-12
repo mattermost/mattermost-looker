@@ -47,11 +47,13 @@ view: tva_all_by_qtr {
   }
 
   dimension: current_period {
-    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date =< current_date;;
+    label: "Is Current Period?"
+    type: yesno
+    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date <= current_date;;
   }
 
   measure: current_target {
-    label: "Current Month Target"
+    label: "Current Qtr Target"
     type: sum
     sql: ${target} ;;
     filters: {
@@ -61,7 +63,7 @@ view: tva_all_by_qtr {
   }
 
   measure: current_actual {
-    label: "Current Month Actual"
+    label: "Current Qtr Actual"
     type: sum
     sql: ${actual} ;;
     filters: {
@@ -71,7 +73,7 @@ view: tva_all_by_qtr {
   }
 
   measure: current_left {
-    label: "Current Month Target Left"
+    label: "Current Qtr Target Left"
     type: number
     sql: greatest(${current_target}-${current_actual},0) ;;
   }
