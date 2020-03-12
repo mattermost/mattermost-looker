@@ -615,7 +615,7 @@ explore: tva_all_by_mo {
   label: "Monthly TvA"
 
   join: target_fact {
-    sql: ${target_fact.slug} = ${tva_all_by_mo.target_slug};;
+    sql_on: ${target_fact.slug} = ${tva_all_by_mo.target_slug};;
     relationship: many_to_one
   }
 }
@@ -626,7 +626,7 @@ explore: tva_all_by_qtr {
   label: "Quarterly TvA"
 
   join: target_fact {
-    sql: ${target_fact.slug} = ${tva_all_by_qtr.target_slug};;
+    sql_on: ${target_fact.slug} = ${tva_all_by_qtr.target_slug};;
     relationship: many_to_one
   }
 }
@@ -637,7 +637,7 @@ explore: tva_all_by_fy {
   label: "Fiscal Year TvA"
 
   join: target_fact {
-    sql: ${target_fact.slug} = ${tva_all_by_fy.target_slug};;
+    sql_on: ${target_fact.slug} = ${tva_all_by_fy.target_slug};;
     relationship: many_to_one
   }
 }

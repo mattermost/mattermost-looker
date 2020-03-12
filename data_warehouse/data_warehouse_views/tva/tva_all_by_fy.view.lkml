@@ -8,13 +8,8 @@ view: tva_all_by_fy {
   }
 
   dimension: fiscal_year {
-    type: date
+    type: string
     sql: ${TABLE}."FY" ;;
-  }
-
-  dimension: period_last_day {
-    type: date
-    sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
   dimension: target_slug {
@@ -26,19 +21,85 @@ view: tva_all_by_fy {
   dimension: target {
     label: "Target"
     type: number
-    sql: ${TABLE}."TARGET" ;;
+    sql: abs(${TABLE}."TARGET") ;;
   }
 
   dimension: actual {
     label: "Actual"
     type: number
-    sql: ${TABLE}."ACTUAL" ;;
+    sql: abs(coalesce(${TABLE}."ACTUAL",0)) ;;
   }
 
   dimension: tva {
     hidden: yes
     type: number
     sql: ${TABLE}."TVA" ;;
+  }
+
+  dimension: period_first_day {
+    type: date
+    sql: ${TABLE}."PERIOD_FIRST_DAY" ;;
+  }
+
+  dimension: period_last_day {
+    type: date
+    sql: ${TABLE}."PERIOD_LAST_DAY" ;;
+  }
+
+  dimension: current_period {
+    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date =< current_date;;
+  }
+
+  measure: current_target {
+    label: "Current Month Target"
+    type: sum
+    sql: ${target} ;;
+    filters: {
+      field: current_period
+      value: "yes"
+    }
+  }
+
+  measure: current_actual {
+    label: "Current Month Actual"
+    type: sum
+    sql: ${actual} ;;
+    filters: {
+      field: current_period
+      value: "yes"
+    }
+  }
+
+  measure: current_left {
+    label: "Current Month Target Left"
+    type: number
+    sql: greatest(${current_target}-${current_actual},0) ;;
+  }
+
+  measure: not_current_target {
+    label: "Target"
+    type: sum
+    sql: ${target} ;;
+    filters: {
+      field: current_period
+      value: "no"
+    }
+  }
+
+  measure: not_current_actual {
+    label: "Actual"
+    type: sum
+    sql: ${actual} ;;
+    filters: {
+      field: current_period
+      value: "no"
+    }
+  }
+
+  measure: not_current_left {
+    label: "Target Left"
+    type: number
+    sql: greatest(${not_current_target}-${not_current_actual},0) ;;
   }
 
   measure: total_target {
@@ -57,6 +118,6 @@ view: tva_all_by_fy {
     label: "TvA"
     type: number
     value_format: "@{percent}"
-    sql: CASE WHEN ${total_target} < 0 then 100-100*${total_actual}/${total_target} ELSE 100*${total_actual}/${total_target} END;;
+    sql: 100*${total_actual}/${total_target};;
   }
 }
