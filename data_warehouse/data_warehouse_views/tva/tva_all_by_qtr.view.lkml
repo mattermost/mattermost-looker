@@ -37,19 +37,29 @@ view: tva_all_by_qtr {
   }
 
   dimension: period_first_day {
+    group_label: "Time Period"
     type: date
     sql: ${TABLE}."PERIOD_FIRST_DAY" ;;
   }
 
   dimension: period_last_day {
+    group_label: "Time Period"
     type: date
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
-  dimension: current_period {
-    label: "Is Current Period?"
+  dimension: current_quarter {
+    group_label: "Time Period"
+    label: " Is Current Quarter?"
     type: yesno
-    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date <= current_date;;
+    sql: util.fiscal_quarter(${period_first_day}) = util.fiscal_quarter(current_date());;
+  }
+
+  dimension: current_fiscal_year {
+    group_label: "Time Period"
+    label: " Is Current Fiscal Year?"
+    type: yesno
+    sql: util.fiscal_year(${period_first_day}) = util.fiscal_year(current_date());;
   }
 
   measure: current_target {
@@ -57,7 +67,7 @@ view: tva_all_by_qtr {
     type: sum
     sql: ${target} ;;
     filters: {
-      field: current_period
+      field: current_quarter
       value: "yes"
     }
     value_format_name: decimal_0
@@ -68,7 +78,7 @@ view: tva_all_by_qtr {
     type: sum
     sql: ${actual} ;;
     filters: {
-      field: current_period
+      field: current_quarter
       value: "yes"
     }
     value_format_name: decimal_0
@@ -86,7 +96,7 @@ view: tva_all_by_qtr {
     type: sum
     sql: ${target} ;;
     filters: {
-      field: current_period
+      field: current_quarter
       value: "no"
     }
     value_format_name: decimal_0
@@ -97,7 +107,7 @@ view: tva_all_by_qtr {
     type: sum
     sql: ${actual} ;;
     filters: {
-      field: current_period
+      field: current_quarter
       value: "no"
     }
     value_format_name: decimal_0

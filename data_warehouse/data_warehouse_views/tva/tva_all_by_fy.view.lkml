@@ -37,19 +37,22 @@ view: tva_all_by_fy {
   }
 
   dimension: period_first_day {
+    group_label: "Time Period"
     type: date
     sql: ${TABLE}."PERIOD_FIRST_DAY" ;;
   }
 
   dimension: period_last_day {
+    group_label: "Time Period"
     type: date
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
-  dimension: current_period {
-    label: "Is Current Period?"
+  dimension: current_fiscal_year {
+    group_label: "Time Period"
+    label: " Is Current Fiscal Year?"
     type: yesno
-    sql: ${period_last_day}::date >= current_date AND ${period_first_day}::date <= current_date;;
+    sql: util.fiscal_year(${period_first_day}) = util.fiscal_year(current_date());;
   }
 
   measure: current_target {
@@ -57,7 +60,7 @@ view: tva_all_by_fy {
     type: sum
     sql: ${target} ;;
     filters: {
-      field: current_period
+      field: current_fiscal_year
       value: "yes"
     }
   }
@@ -67,7 +70,7 @@ view: tva_all_by_fy {
     type: sum
     sql: ${actual} ;;
     filters: {
-      field: current_period
+      field: current_fiscal_year
       value: "yes"
     }
   }
@@ -83,7 +86,7 @@ view: tva_all_by_fy {
     type: sum
     sql: ${target} ;;
     filters: {
-      field: current_period
+      field: current_fiscal_year
       value: "no"
     }
   }
@@ -93,7 +96,7 @@ view: tva_all_by_fy {
     type: sum
     sql: ${actual} ;;
     filters: {
-      field: current_period
+      field: current_fiscal_year
       value: "no"
     }
   }
