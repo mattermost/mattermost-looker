@@ -141,6 +141,13 @@ view: opportunity {
     group_label: "Closed"
   }
 
+  dimension: close_current_fy {
+    type:  yesno
+    sql: ${close_fiscal_year} = util.fiscal_year(current_date);;
+    group_label: "Closed"
+    label: "Close Current FY"
+  }
+
   dimension: close_quarter {
     type:  string
     sql:${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
@@ -532,6 +539,55 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields_long*]
     label: "# of Opportunities"
     type: count_distinct
+  }
+
+  measure: count_open_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields_long*]
+    label: "# of Open Oppty"
+    type: count_distinct
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+  }
+
+  measure: count_open_oppt_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "# of Open Oppty"
+    description: "The total number of open opportunities set to close this fiscal year"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields_long*]
+    label: "# of Open Oppty (Curr FY Close)"
+    type: count_distinct
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
+  }
+
+  measure: risk_amount_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "Renewal Risk Amount"
+    description: "The total number of open opportunities set to close this fiscal year"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields_long*]
+    label: "Risk Amount (Curr FY Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
   }
 
   measure: total_amount {

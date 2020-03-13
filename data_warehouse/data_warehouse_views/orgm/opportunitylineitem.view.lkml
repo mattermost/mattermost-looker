@@ -137,13 +137,6 @@ view: opportunitylineitem {
     type: time
   }
 
-  dimension: lineitemid {
-    label: "Line Item ID"
-    sql: ${TABLE}.lineitemid__c;;
-    type: string
-    ##ditch
-  }
-
   dimension: list_price {
     sql: ${TABLE}.listprice;;
     type: number
@@ -275,6 +268,13 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
+  dimension: lost_arr {
+    label: "Lost ARR"
+    sql: case when ${opportunity.isclosed} AND not ${opportunity.iswon} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
 
   dimension: length_days {
     sql: case when ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date > 0 then ${TABLE}.end_date__c::date - ${TABLE}.start_date__c::date + 1 - ${leap_day_adjustment} else 0 end;;
@@ -332,10 +332,40 @@ view: opportunitylineitem {
   }
 
   measure: total_bookings {
-    label: "Total Bookings"
+    label: "Total Bookings Won"
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_open {
+    label: "Total Bookings Open"
+    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "no"
+    }
+  }
+
+  measure: total_bookings_lost {
+    label: "Total Bookings Lost"
+    sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.iswon
+      value: "no"
+    }
   }
 
   measure: total_arr {
