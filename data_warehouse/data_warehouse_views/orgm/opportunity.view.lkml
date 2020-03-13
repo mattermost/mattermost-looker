@@ -276,6 +276,7 @@ view: opportunity {
     group_label: "Marketing"
   }
 
+
   dimension: lead_source_detail {
     # description: "TODO"
     sql: ${TABLE}.lead_source_detail__c ;;
@@ -312,8 +313,9 @@ view: opportunity {
 
   dimension: leadsource {
     type: string
-    sql: ${TABLE}.leadsource ;;
+    sql: ${TABLE}.lead_source_text__c ;;
     group_label: "Marketing"
+    label: "Lead Source"
   }
 
   dimension_group: license_end {
