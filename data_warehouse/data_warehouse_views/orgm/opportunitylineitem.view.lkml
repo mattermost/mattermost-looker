@@ -338,6 +338,43 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
+  measure: total_bookings_won {
+    label: "Total Bookings Won"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_open {
+    label: "Total Bookings Open"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "no"
+    }
+  }
+
+  measure: total_bookings_lost {
+    label: "Total Bookings Lost"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.iswon
+      value: "no"
+    }
+  }
+
   measure: total_arr {
     label: "Total ARR"
     sql: ${arr} ;;
