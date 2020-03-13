@@ -162,7 +162,7 @@ view: opportunity {
 
   dimension: leadsource {
     type: string
-    sql: ${TABLE}."leadsource" ;;
+    sql: ${TABLE}."lead_source_text__c" ;;
   }
 
   dimension_group: mql_date {
