@@ -36,15 +36,6 @@ view: campaign {
     type: number
   }
 
-  dimension: bizible2_bizible_attribution_synctype {
-    sql: ${TABLE}.BIZIBLE2__BIZIBLE_ATTRIBUTION_SYNCTYPE__C ;;
-    type: string
-  }
-
-  dimension: bizible2_uniqueid {
-    sql: ${TABLE}.BIZIBLE2__UNIQUEID__C ;;
-    type: string
-  }
 
   dimension: campaign_offer {
     sql: ${TABLE}.CAMPAIGN_OFFER__C ;;
