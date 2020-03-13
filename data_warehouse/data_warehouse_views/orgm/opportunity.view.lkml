@@ -573,13 +573,13 @@ view: opportunity {
 
   measure: risk_amount_current_fy {
     group_label: "Current FY Close"
-    group_item_label: "Risk Amount"
+    group_item_label: "Renewal Risk Amount"
     description: "The total number of open opportunities set to close this fiscal year"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields_long*]
     label: "Risk Amount (Curr FY Close)"
     value_format_name: mm_usd_short
-    type: count_distinct
+    type: sum
     filters: {
       field: isclosed
       value: "no"
