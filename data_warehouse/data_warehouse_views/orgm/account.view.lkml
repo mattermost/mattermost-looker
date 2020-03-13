@@ -66,6 +66,12 @@ view: account {
     type: string
   }
 
+  dimension: licensed_account {
+    label: "Currently Licensed?"
+    sql: ${arr_current} > 1 ;;
+    type: yesno
+  }
+
   dimension: annual_revenue {
     sql: ${TABLE}.annualrevenue ;;
     type: number
@@ -1250,6 +1256,17 @@ view: account {
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct
+  }
+
+  measure: count_of_licensed_accounts{
+    drill_fields: [sfid, name]
+    label: "# of Licensed Accounts"
+    sql: ${sfid} ;;
+    type: count_distinct
+    filters: {
+      field: licensed_account
+      value: "yes"
+    }
   }
 
   measure: total_current_arr {
