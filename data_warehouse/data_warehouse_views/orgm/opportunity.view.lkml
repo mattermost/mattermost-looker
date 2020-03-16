@@ -150,9 +150,16 @@ view: opportunity {
 
   dimension: close_current_qtr {
     type:  yesno
-    sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date);;
+    sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date) AND ${close_fiscal_year} = util.fiscal_year(current_date);;
     group_label: "Closed"
     label: "Close Current Qtr"
+  }
+
+  dimension: close_in_renewal_qtr {
+    type:  yesno
+    sql: util.fiscal_quarter(${TABLE}.closedate) || util.fiscal_year(${TABLE}.closedate) AND util.fiscal_quarter(${license_start_date}) || util.fiscal_year(${license_start_date});;
+    group_label: "Closed"
+    label: "Closed in Renewal Qtr?"
   }
 
   dimension: close_current_mo {
