@@ -157,7 +157,7 @@ view: opportunity {
 
   dimension: close_in_renewal_qtr {
     type:  yesno
-    sql: util.fiscal_quarter(${TABLE}.closedate) || util.fiscal_year(${TABLE}.closedate) AND util.fiscal_quarter(${license_start_date}) || util.fiscal_year(${license_start_date});;
+    sql: util.fiscal_quarter(${TABLE}.closedate) ||'-'|| util.fiscal_year(${TABLE}.closedate) = util.fiscal_quarter(${license_start_date}) ||'-'|| util.fiscal_year(${license_start_date});;
     group_label: "Closed"
     label: "Closed in Renewal Qtr?"
   }
