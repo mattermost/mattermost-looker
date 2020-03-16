@@ -415,6 +415,11 @@ view: account {
     type: yesno
   }
 
+  dimension: health_score {
+    sql: ${TABLE}.health_score__c ;;
+    type: number
+  }
+
   dimension: imported_case_study_note {
     group_label: "Imported"
     label: "Case Study Note"
@@ -1257,6 +1262,14 @@ view: account {
     sql: ${sfid} ;;
     type: count_distinct
   }
+
+  measure: avg_health_score {
+    label: "Avg Health Score"
+    sql: ${health_score} ;;
+    type: average
+    value_format_name: decimal_0
+  }
+
 
   measure: count_of_licensed_accounts{
     drill_fields: [sfid, name]
