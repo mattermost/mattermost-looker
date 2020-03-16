@@ -239,7 +239,7 @@ explore: account {
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
-  group_label: "ARR"
+  group_label: "Finance"
   extends: [_base_account_explore]
 
   join: master_account {
@@ -260,7 +260,7 @@ explore: account_monthly_arr_deltas_by_type {
 explore: master_account_monthly_arr_deltas_by_type {
   label: "Monthly Master Account ARR Changes by Type"
   hidden: yes
-  group_label: "ARR"
+  group_label: "Finance"
   extends: [_base_account_core_explore]
 
   join: account {
@@ -273,7 +273,7 @@ explore: master_account_monthly_arr_deltas_by_type {
 
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
-  group_label: "ARR"
+  group_label: "Finance"
   view_label: "Account Daily ARR Deltas"
   extends: [_base_account_explore]
 
@@ -296,7 +296,7 @@ explore: master_account_daily_arr_deltas {
   label: "Daily Master Account ARR Changes"
   view_label: "Master Account Daily ARR Deltas"
   hidden: yes
-  group_label: "ARR"
+  group_label: "Finance"
   extends: [_base_account_core_explore]
 
   join: account {
@@ -363,13 +363,13 @@ explore: daily_page_visits {
 }
 
 explore: downloads {
-  group_label: "General"
+  group_label: "Product"
 }
 
 
 explore: nps_data {
   label: "NPS Data"
-  group_label: "General"
+  group_label: "Product"
   extends: [_base_account_core_explore]
 
   join: license_overview {
@@ -390,7 +390,7 @@ explore: arr {
   extends: [account]
   view_name: account
   label: "ARR Granular Reporting"
-  group_label: "ARR"
+  group_label: "Finance"
   sql_always_where: ${opportunity.iswon} and ${opportunitylineitem.product_type} = 'Recurring';;
 
   join: dates {
@@ -429,7 +429,7 @@ explore: current_potential_arr {
   view_name: account
   label: "Current & Potential ARR Reporting"
   hidden: yes
-  group_label: "ARR"
+  group_label: "Finance"
   sql_always_where: ${opportunitylineitem.product_type} = 'Recurring';;
   extends: [arr]
 
@@ -507,7 +507,7 @@ explore: github_contributions {
 }
 
 explore: server_daily_details {
-  group_label: "General"
+  group_label: "Product"
 
   join: server_fact {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
@@ -523,7 +523,7 @@ explore: delete_history {
 }
 
 explore: server_fact {
-  group_label: "General"
+  group_label: "Product"
 }
 
 explore: dates {
@@ -581,8 +581,8 @@ explore: zendesk_ticket_details {
 # }
 
 explore: nps_user_monthly_score {
-  group_label: "General"
-  label: "Nps User Monthly Score"
+  group_label: "Product"
+  label: "NPS User Monthly Score"
   extends: [_base_account_core_explore]
 
   join: license_overview {
@@ -598,7 +598,7 @@ explore: nps_user_monthly_score {
 }
 
 explore: server_daily_details_ext {
-  group_label: "General"
+  group_label: "Product"
   label: "Server Daily Details Ext"
   extends: [_base_account_core_explore]
 
@@ -644,22 +644,25 @@ explore: tva_all_by_fy {
 
 explore: events_registry {
   label: "Events Registry"
+  group_label: "Product"
 }
 explore: user_events_by_date {
   label: "User Events By Date"
+  group_label: "Product"
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
+  group_label: "Product"
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
-  group_label: "BizOps Spend"
+  group_label: "zBizOps Spend"
 }
 explore: snowflake_contract_rates {
   label: "Snowflake Contract Rates"
-  group_label: "BizOps Spend"
+  group_label: "zBizOps Spend"
 }
 explore: snowflake_warehouse_cost {
   label: "Snowflake Warehouse Cost"
-  group_label: "BizOps Spend"
+  group_label: "zBizOps Spend"
 }
