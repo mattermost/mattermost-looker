@@ -1,15 +1,19 @@
 import re
 import urllib.parse
-from looker_utils import model_api, query_api, look_api, dashboard_api
+from looker_utils import looker_client
 
 # Get the queries being executed OR get the stored queries parameters
 
 DEFAULT_CONTEXT_LENGTH = 10
 
-def get_search_results(input_str, str_to_search, context_length=DEFAULT_CONTEXT_LENGTH, strip=True):
+def get_search_results(input_str, str_to_search, context_length=None, strip=True):
     '''
     Finds all occurances of an input_str in the search string and returns an array of results with context
     '''
+    # Set context_length to the default if needed
+    if context_length is None:
+        context_length = DEFAULT_CONTEXT_LENGTH
+
     results = []
     for m in re.finditer(input_str.lower(), str_to_search.lower()):
         # Calc the start index
@@ -31,7 +35,7 @@ def get_search_results(input_str, str_to_search, context_length=DEFAULT_CONTEXT_
     return results
 
 
-def print_matches_for_url(url, input_str, object_description, context_length=DEFAULT_CONTEXT_LENGTH):
+def print_matches_for_url(url, input_str, object_description, context_length=None):
     '''
     Print all the matches of the input_str found in the provided url
     '''
@@ -46,34 +50,34 @@ def print_matches_for_url(url, input_str, object_description, context_length=DEF
             print('- {}'.format(sr))
 
 
-def search_looks(input_str, context_length=DEFAULT_CONTEXT_LENGTH):
+def search_looks(input_str, context_length=None):
     '''
     Looks in all the look URLs to see if they match input_str
     '''
     input_str = input_str.lower()
 
     # Get all the looks in the system
-    looks = look_api.all_looks()
+    looks = looker_client.all_looks()
 
     # Loop over all the looks
     for look in looks:
-        look_details = look_api.look(look.id)
+        look_details = looker_client.look(look.id)
         print_matches_for_url(look_details.url, input_str, 'Look Title="{}", Look URL={}'.format(look_details.title, look_details.short_url), context_length=context_length)
 
 
-def search_dashboards(input_str, context_length=DEFAULT_CONTEXT_LENGTH):
+def search_dashboards(input_str, context_length=None):
     '''
     Looks in all dashboard tile URLs to see if they match input_str
     '''
     input_str = input_str.lower()
 
     # Get all the dashboards in the system
-    dashboards = dashboard_api.all_dashboards()
+    dashboards = looker_client.all_dashboards()
 
     # Loop over all the dashboards
     for dashboard in dashboards:
         # Get the dashboard details
-        dashboard_details = dashboard_api.dashboard(dashboard.id)
+        dashboard_details = looker_client.dashboard(dashboard.id)
 
         # Loop over the dashboard elements
         for e in dashboard_details.dashboard_elements:
@@ -83,7 +87,7 @@ def search_dashboards(input_str, context_length=DEFAULT_CONTEXT_LENGTH):
                 print_matches_for_url(e.query.url, input_str, 'Dashboard Title="{}", Title Title="{}", URL={}'.format(dashboard_details.title, e.title, 'dashboards/{}'.format(dashboard.id)), context_length=context_length)
 
 
-def search_looker(input_str, context_length=DEFAULT_CONTEXT_LENGTH):
+def search_looker(input_str, context_length=None):
     '''
     The starting for searching Looker for the input_str
     '''
