@@ -442,6 +442,116 @@ view: opportunitylineitem {
     }
   }
 
+  measure: total_bookings_curr_qtr {
+    group_label: "Current Qtr"
+    group_item_label: "Total Bookings Won"
+    label: "Total Bookings Won (Curr Qtr)"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.close_current_qtr
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_open_curr_qtr {
+    group_label: "Current Qtr"
+    group_item_label: "Total Bookings Open"
+    label: "Total Bookings Open (Curr Qtr)"
+    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "no"
+    }
+    filters: {
+      field: opportunity.close_current_qtr
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_lost_curr_qtr {
+    group_label: "Current Qtr"
+    group_item_label: "Total Bookings Lost"
+    label: "Total Bookings Lost (Curr Qtr)"
+    sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.iswon
+      value: "no"
+    }
+    filters: {
+      field: opportunity.close_current_qtr
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_curr_mo {
+    group_label: "Current Mo"
+    group_item_label: "Total Bookings Won"
+    label: "Total Bookings Won (Curr Mo)"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.close_current_mo
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_open_curr_mo {
+    group_label: "Current Mo"
+    group_item_label: "Total Bookings Open"
+    label: "Total Bookings Open (Curr Mo)"
+    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "no"
+    }
+    filters: {
+      field: opportunity.close_current_mo
+      value: "yes"
+    }
+  }
+
+  measure: total_bookings_lost_curr_mo {
+    group_label: "Current Mo"
+    group_item_label: "Total Bookings Lost"
+    label: "Total Bookings Lost (Curr Mo)"
+    sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.isclosed
+      value: "yes"
+    }
+    filters: {
+      field: opportunity.iswon
+      value: "no"
+    }
+    filters: {
+      field: opportunity.close_current_mo
+      value: "yes"
+    }
+  }
+
   measure: total_arr {
     label: "Total ARR"
     sql: ${arr} ;;

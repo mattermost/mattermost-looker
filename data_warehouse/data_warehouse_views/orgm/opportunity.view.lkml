@@ -148,6 +148,21 @@ view: opportunity {
     label: "Close Current FY"
   }
 
+  dimension: close_current_qtr {
+    type:  yesno
+    sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date);;
+    group_label: "Closed"
+    label: "Close Current Qtr"
+  }
+
+  dimension: close_current_mo {
+    type:  yesno
+    sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
+    group_label: "Closed"
+    label: "Close Current Mo"
+  }
+
+
   dimension: close_quarter {
     type:  string
     sql:${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
