@@ -323,6 +323,15 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_price]
   }
 
+  measure: total_bookings_all {
+    group_label: "Historical"
+    label: "Total Bookings All"
+    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_bookings]
+  }
+
   measure: total_bookings {
     group_label: "Historical"
     label: "Total Bookings Won"
@@ -368,7 +377,7 @@ view: opportunitylineitem {
 
 
   measure: total_price_curr_fy {
-    group_label: "Historical"
+    group_label: "Current FY"
     group_item_label: "Total TCV"
     label: "Total TCV (Curr FY)"
     sql: ${totalprice} ;;
