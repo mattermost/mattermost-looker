@@ -162,6 +162,13 @@ view: opportunity {
     label: "Closed in Renewal Qtr?"
   }
 
+  dimension: close_vs_renewal {
+    type:  string
+    sql: CASE WHEN ${close_date} < ${license_start_date} THEN 'Before' WHEN ${close_date} = ${license_start_date} THEN 'Same' ELSE 'After' END;;
+    group_label: "Closed"
+    label: "Before or After License Start"
+  }
+
   dimension: close_current_mo {
     type:  yesno
     sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
