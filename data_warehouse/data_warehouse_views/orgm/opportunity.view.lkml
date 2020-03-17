@@ -161,7 +161,7 @@ view: opportunity {
     type:  string
     sql: CASE WHEN ${close_fiscal_quarter} < ${license_start_fiscal_quarter} THEN 'Before' WHEN ${close_fiscal_quarter} = ${license_start_fiscal_quarter} THEN 'Same' ELSE 'After' END;;
     group_label: "Closed"
-    label: "Before or After License Start"
+    label: "Before or After License Start Qtr"
   }
 
   dimension: close_current_mo {
