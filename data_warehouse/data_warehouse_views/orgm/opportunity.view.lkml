@@ -157,9 +157,9 @@ view: opportunity {
     label: "Closed in Renewal Qtr?"
   }
 
-  dimension: close_vs_renewal {
+  dimension: close_vs_renewal_qtr {
     type:  string
-    sql: CASE WHEN ${close_date} < ${license_start_date} THEN 'Before' WHEN ${close_date} = ${license_start_date} THEN 'Same' ELSE 'After' END;;
+    sql: CASE WHEN ${close_fiscal_quarter} < ${license_start_fiscal_quarter} THEN 'Before' WHEN ${close_fiscal_quarter} = ${license_start_fiscal_quarter} THEN 'Same' ELSE 'After' END;;
     group_label: "Closed"
     label: "Before or After License Start"
   }
