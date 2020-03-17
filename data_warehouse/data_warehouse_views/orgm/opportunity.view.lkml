@@ -30,12 +30,7 @@ view: opportunity {
   #
 
   set: opportunity_drill_fields {
-    fields: [sfid, name]
-  }
-
-  set: opportunity_drill_fields_long {
-    fields: [sfid, name]
-    #opportunitylineitem.count
+    fields: [account.name,name,owner_name,csm_name]
   }
 
   set: opportunity_core {
@@ -94,7 +89,7 @@ view: opportunity {
     description: "The estimated total sale amount. For opportunities with products, the amount is the sum of the related products. Any attempt to update this field, if the record has products, will be ignored. The update call will not be rejected, and other fields will be updated as specified, but the Amount will be unchanged."
     group_label: "Amounts"
     # BP: Override drill fields using sets
-    drill_fields: [opportunity_drill_fields_long*]
+    drill_fields: [opportunity_drill_fields*,amount]
     sql: ${TABLE}.amount ;;
     type: number
 
@@ -567,7 +562,7 @@ view: opportunity {
     description: "The total number of opportunities"
     # BP
     sql: ${sfid} ;;
-    drill_fields: [opportunity_drill_fields_long*]
+    drill_fields: [opportunity_drill_fields*]
     label: "# of Opportunities"
     type: count_distinct
   }
@@ -575,7 +570,7 @@ view: opportunity {
   measure: count_open_oppt {
     description: "The total number of open opportunities"
     sql: ${sfid} ;;
-    drill_fields: [opportunity_drill_fields_long*]
+    drill_fields: [opportunity_drill_fields*]
     label: "# of Open Oppty"
     type: count_distinct
     filters: {
@@ -589,7 +584,7 @@ view: opportunity {
     group_item_label: "# of Open Oppty"
     description: "The total number of open opportunities set to close this fiscal year"
     sql: ${sfid} ;;
-    drill_fields: [opportunity_drill_fields_long*]
+    drill_fields: [opportunity_drill_fields*]
     label: "# of Open Oppty (Curr FY Close)"
     type: count_distinct
     filters: {
@@ -607,7 +602,7 @@ view: opportunity {
     group_item_label: "Renewal Risk Amount"
     description: "The total number of open opportunities set to close this fiscal year"
     sql: ${renewal_risk_amount} ;;
-    drill_fields: [opportunity_drill_fields_long*]
+    drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
     value_format_name: mm_usd_short
     type: sum
@@ -661,6 +656,7 @@ view: opportunity {
     sql: ${renewal_risk_amount};;
     type: sum
     value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
 
