@@ -53,6 +53,9 @@ view: _homepage {
               <li>
                 <div>Customer Success</div>
                 <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/49" style="@{css_link_style}">Customer Success Overview</a></li>
+                </ul>
+                <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">Customer Success Account Health Score</a></li>
                 </ul>
               </li>
