@@ -143,8 +143,9 @@ test: END_ARR_FY20 {
   }
 
   assert: count_expected_value {
-    expression: ${account.count} = 703 ;;
+    expression: ${account.count} = 704 ;;
     # updated from 702 -> 703 2020/03/02
+    # updated from 703 -> 704 2020/03/18
   }
 
   assert: total_arr_expected_value {
