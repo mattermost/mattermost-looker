@@ -27,6 +27,20 @@ view: server_daily_details {
     sql: ${TABLE}.in_security ;;
   }
 
+  dimension: has_dupes {
+    label: "Has Duplicates"
+    description: "Indicates whether the server is noted as having duplicate records in raw security and server tables."
+    type: yesno
+    sql: ${TABLE}.has_dupes ;;
+  }
+
+  dimension: has_multi_ips {
+    label: "Has Multiple IP's"
+    description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
+    type: yesno
+    sql: ${TABLE}.has_multii_ips ;;
+  }
+
   dimension: ip_address {
     label: "IP Address"
     description: "The server's IP Address."
@@ -88,15 +102,33 @@ view: server_daily_details {
   dimension: license_id {
     label: "License ID"
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    group_label: "License Info."
     type: string
-    sql: ${TABLE}.license_id ;;
+    sql: ${TABLE}.license_id1 ;;
+  }
+
+  dimension: license_email {
+    label: "License Email"
+    description: "The email associated with the license provisioned to the Mattermost server."
+    group_label: "License Info."
+    type: string
+    sql: ${TABLE}.license_email ;;
+  }
+
+  dimension: license_contact_sfid {
+    label: "License Contact SFID"
+    description: "The Contact SFID of the License Email associated with the license provisioned to the Mattermost server."
+    group_label: "License Info."
+    type: string
+    sql: ${TABLE}.license_contact_sfid ;;
   }
 
   dimension: license_status {
-    label: "License Status"
-    description: "Indicates whether the server is registered/paired with a licensed customer (If licensed status = 'licensed' else 'unlicensed)."
-    type: string
-    sql: case when ${license_id} is not null then 'licensed' else 'unlicensed' end ;;
+    label: "Licensed Server"
+    description: "Indicates whether the server is registered/paired with a licensed customer (If yes then licensed, else unlicensed)."
+    group_label: "License Info."
+    type: yesno
+    sql: case when ${license_id} is not null then true else false end ;;
   }
 
   dimension: server_status {
@@ -161,6 +193,12 @@ view: server_daily_details {
     description: "Boolean indicating server is telemetry enabled."
     type: yesno
     sql: ${TABLE}.in_security ;;
+  }
+
+  dimension: system_admins {
+    description: "The number of system admins associated with the Mattermost server."
+    type: number
+    sql: ${TABLE}.system_admins ;;
   }
 
 

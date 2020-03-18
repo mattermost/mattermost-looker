@@ -106,7 +106,7 @@ view: server_daily_details_ext {
   }
 
   dimension: license_id1 {
-    label: " License Id1"
+    label: " License Id"
     description: ""
     type: string
     sql: ${TABLE}.license_id1 ;;
@@ -118,7 +118,7 @@ view: server_daily_details_ext {
     description: ""
     type: string
     sql: ${TABLE}.license_id2 ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: in_security {
@@ -1476,33 +1476,35 @@ view: server_daily_details_ext {
     hidden: no
   }
 
-  dimension: _start {
-    description: ""
-    type: number
+  dimension_group: start {
+    description: "The start date of the license associated with Mattermost server."
+    type: time
+    timeframes: [date, month, year]
     group_label: "License Configuration"
-    sql: ${TABLE}._start ;;
+    sql: ${TABLE}.start_date ;;
     hidden: no
   }
 
   dimension: license_edition {
-    description: ""
+    description: "The Mattermost edition currently associated with the Mattermost server."
     type: string
     group_label: "License Configuration"
     sql: ${TABLE}.license_edition ;;
     hidden: no
   }
 
-  dimension: expire {
-    description: ""
-    type: number
+  dimension_group: expire {
+    description: "The expiration date of the license associated with the Mattermost server."
+    type: time
+    timeframes: [date, month, year]
     group_label: "License Configuration"
-    sql: ${TABLE}.expire ;;
+    sql: ${TABLE}.expire_date ;;
     hidden: no
   }
 
   dimension: feature_cluster {
   label: "Feature Cluster"
-    description: ""
+    description: "Indicates whether the Cluster feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_cluster ;;
@@ -1511,7 +1513,7 @@ view: server_daily_details_ext {
 
   dimension: feature_compliance {
   label: "Feature Compliance"
-    description: ""
+    description: "Indicates whether the Compliance feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_compliance ;;
@@ -1520,7 +1522,7 @@ view: server_daily_details_ext {
 
   dimension: feature_custom_brand {
   label: "Feature Custom Brand"
-    description: ""
+    description: "Indicates whether the Custom Brand feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_custom_brand ;;
@@ -1529,7 +1531,7 @@ view: server_daily_details_ext {
 
   dimension: feature_custom_permissions_schemes {
   label: "Feature Custom Permissions Schemes"
-    description: ""
+    description: "Indicates whether the Custom Permissions Schemes feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_custom_permissions_schemes ;;
@@ -1538,7 +1540,7 @@ view: server_daily_details_ext {
 
   dimension: feature_data_retention {
   label: "Feature Data Retention"
-    description: ""
+    description: "Indicates whether the Data Retention feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_data_retention ;;
@@ -1547,7 +1549,7 @@ view: server_daily_details_ext {
 
   dimension: feature_elastic_search {
   label: "Feature Elastic Search"
-    description: ""
+    description: "Indicates whether the Elastic Search feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_elastic_search ;;
@@ -1556,7 +1558,7 @@ view: server_daily_details_ext {
 
   dimension: feature_email_notification_contents {
   label: "Feature Email Notification Contents"
-    description: ""
+    description: "Indicates whether the Email Notifications Contents feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_email_notification_contents ;;
@@ -1565,7 +1567,7 @@ view: server_daily_details_ext {
 
   dimension: feature_future {
   label: "Feature Future"
-    description: ""
+    description: "Indicates whether the Future feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_future ;;
@@ -1574,7 +1576,7 @@ view: server_daily_details_ext {
 
   dimension: feature_google {
   label: "Feature Google"
-    description: ""
+    description: "Indicates whether the Google feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_google ;;
@@ -1583,7 +1585,7 @@ view: server_daily_details_ext {
 
   dimension: feature_guest_accounts {
   label: "Feature Guest Accounts"
-    description: ""
+    description: "Indicates whether the Guest Accounts feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_guest_accounts ;;
@@ -1592,7 +1594,7 @@ view: server_daily_details_ext {
 
   dimension: feature_guest_accounts_permissions {
   label: "Feature Guest Accounts Permissions"
-    description: ""
+    description: "Indicates whether the Guest Accounts Permissions feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_guest_accounts_permissions ;;
@@ -1600,8 +1602,8 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_id_loaded {
-  label: "Feature Id Loaded"
-    description: ""
+  label: "Feature ID Loaded"
+    description: "Indicates whether the ID Loaded feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_id_loaded ;;
@@ -1609,8 +1611,8 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_ldap {
-  label: "Feature Ldap"
-    description: ""
+  label: "Feature LDAP"
+    description: "Indicates whether the LDAP feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_ldap ;;
@@ -1618,8 +1620,8 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_ldap_groups {
-  label: "Feature Ldap Groups"
-    description: ""
+  label: "Feature LDAP Groups"
+    description: "Indicates whether the LDAP Groups feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_ldap_groups ;;
@@ -1628,7 +1630,7 @@ view: server_daily_details_ext {
 
   dimension: feature_lock_teammate_name_display {
   label: "Feature Lock Teammate Name Display"
-    description: ""
+    description: "Indicates whether the Lock Teammate Name Display feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_lock_teammate_name_display ;;
@@ -1637,7 +1639,7 @@ view: server_daily_details_ext {
 
   dimension: feature_message_export {
   label: "Feature Message Export"
-    description: ""
+    description: "Indicates whether the Data Retention feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_message_export ;;
@@ -1646,7 +1648,7 @@ view: server_daily_details_ext {
 
   dimension: feature_metrics {
   label: "Feature Metrics"
-    description: ""
+    description: "Indicates whether the Metrics feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_metrics ;;
@@ -1654,8 +1656,8 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_mfa {
-  label: "Feature Mfa"
-    description: ""
+  label: "Feature MFA"
+    description: "Indicates whether the Multi-factor Authentication feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_mfa ;;
@@ -1663,8 +1665,8 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_mhpns {
-  label: "Feature Mhpns"
-    description: ""
+  label: "Feature MHPNS"
+    description: "Indicates whether the MHPNS feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_mhpns ;;
@@ -1673,7 +1675,7 @@ view: server_daily_details_ext {
 
   dimension: feature_office365 {
   label: "Feature Office365"
-    description: ""
+    description: "Indicates whether the Office365 feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_office365 ;;
@@ -1682,7 +1684,7 @@ view: server_daily_details_ext {
 
   dimension: feature_password {
   label: "Feature Password"
-    description: ""
+    description: "Indicates whether the Password feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_password ;;
@@ -1690,24 +1692,25 @@ view: server_daily_details_ext {
   }
 
   dimension: feature_saml {
-  label: "Feature Saml"
-    description: ""
+  label: "Feature SAML"
+    description: "Indicates whether the SAML feature is enabled on the provisioned license."
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_saml ;;
     hidden: no
   }
 
-  dimension: issued {
-    description: ""
-    type: number
+  dimension_group: issued {
+    description: "The issued date of the license assoicated with the Mattermost server."
+    type: time
+    timeframes: [date, month, year]
     group_label: "License Configuration"
     sql: ${TABLE}.issued ;;
     hidden: no
   }
 
   dimension: users {
-    description: ""
+    description: "The number of User Seats provisioned to the license associated with the Mattermost server."
     type: number
     group_label: "License Configuration"
     sql: ${TABLE}.users ;;
