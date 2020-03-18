@@ -10,26 +10,15 @@ view: opportunitylineitem {
   view_label: "Opportunity Line Item"
   sql_table_name: orgm.opportunitylineitem ;;
   extends: [ _hc_fields, _systemmodstamp ]
-  drill_fields: [opportunity_line_item_drill_fields*]
+  drill_fields: [opportunitylineitem_drill*]
 
 
   #
   # Sets
   #
 
-  set: opportunity_line_item_drill_fields {
-    fields: [id]
-  }
-
-  set: opportunity_line_item_drill_fields_detailed {
-    fields: [
-      id,
-      name,
-      opportunity.original_opportunity_id__c,
-      opportunity.name,
-      product2.name,
-      product2.id
-    ]
+  set: opportunitylineitem_drill {
+    fields: [account.name,opportunity.name,opportunity.close_date,opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
   }
 
   set: opportunitylineitem_core {
@@ -314,7 +303,7 @@ view: opportunitylineitem {
   measure: count {
     label: "# of Opportunity Line Items"
     sql: ${sfid} ;;
-    drill_fields: [opportunity_line_item_drill_fields_detailed*]
+    drill_fields: [opportunitylineitem_drill*]
     type: count_distinct
   }
 
@@ -322,6 +311,7 @@ view: opportunitylineitem {
     label: "Total Quantity"
     sql: ${quantity} ;;
     type: sum
+    drill_fields: [opportunitylineitem_drill*,total_quantity]
   }
 
   measure: total_price {
@@ -330,6 +320,16 @@ view: opportunitylineitem {
     sql: ${totalprice} ;;
     type: sum
     value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price]
+  }
+
+  measure: total_bookings_all {
+    group_label: "Historical"
+    label: "Total Bookings All"
+    sql: case when ${length_days} >=365 then ${arr} + ${potential_arr} + ${lost_arr} else ${totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_bookings]
   }
 
   measure: total_bookings {
@@ -342,6 +342,7 @@ view: opportunitylineitem {
       field: opportunity.iswon
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings]
   }
 
   measure: total_bookings_open {
@@ -354,6 +355,7 @@ view: opportunitylineitem {
       field: opportunity.isclosed
       value: "no"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_open]
   }
 
   measure: total_bookings_lost {
@@ -370,11 +372,12 @@ view: opportunitylineitem {
       field: opportunity.iswon
       value: "no"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_lost]
   }
 
 
   measure: total_price_curr_fy {
-    group_label: "Historical"
+    group_label: "Current FY"
     group_item_label: "Total TCV"
     label: "Total TCV (Curr FY)"
     sql: ${totalprice} ;;
@@ -385,6 +388,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_fy
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_price_curr_fy]
   }
 
   measure: total_bookings_curr_fy {
@@ -402,6 +406,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_fy
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_curr_fy]
   }
 
   measure: total_bookings_open_curr_fy {
@@ -419,6 +424,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_fy
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_fy]
   }
 
   measure: total_bookings_lost_curr_fy {
@@ -440,6 +446,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_fy
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_fy]
   }
 
   measure: total_bookings_curr_qtr {
@@ -457,6 +464,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_qtr
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_curr_qtr]
   }
 
   measure: total_bookings_open_curr_qtr {
@@ -474,6 +482,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_qtr
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_qtr]
   }
 
   measure: total_bookings_lost_curr_qtr {
@@ -495,6 +504,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_qtr
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_qtr]
   }
 
   measure: total_bookings_curr_mo {
@@ -512,6 +522,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_mo
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_curr_mo]
   }
 
   measure: total_bookings_open_curr_mo {
@@ -529,6 +540,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_mo
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_mo]
   }
 
   measure: total_bookings_lost_curr_mo {
@@ -550,6 +562,7 @@ view: opportunitylineitem {
       field: opportunity.close_current_mo
       value: "yes"
     }
+    drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_mo]
   }
 
   measure: total_arr {
@@ -557,7 +570,7 @@ view: opportunitylineitem {
     sql: ${arr} ;;
     type: sum
     value_format_name: "usd_0"
-    drill_fields: [account.name,opportunity.name,product.name,start_date,end_date,length_days,total_price,total_arr]
+    drill_fields: [opportunitylineitem_drill*,total_price,total_arr]
   }
 
   measure: total_potential_arr {
@@ -565,7 +578,7 @@ view: opportunitylineitem {
     sql: ${potential_arr} ;;
     type: sum
     value_format_name: "usd_0"
-    drill_fields: [account.name,opportunity.name,opportunity.close_date,product.name,start_date,end_date,total_potential_arr]
+    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
   }
 
 }
