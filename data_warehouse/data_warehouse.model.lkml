@@ -545,6 +545,7 @@ explore: account_cs_extended  {
   join: zendesk_ticket_details {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted';;
     relationship: one_to_many
+    fields: [-solved_at_on_date,-created_on_date,-count_tickets_solved_on_date,-count_tickets_created_date]
   }
 
   join: tasks_filtered {
@@ -570,6 +571,11 @@ explore: zendesk_ticket_details {
   join: account {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
     fields: [account.account_core*]
+  }
+
+  join: dates {
+    sql_on: ${dates.date_date} >= ${zendesk_ticket_details.created_date} and ${dates.date_date} <= coalesce(${zendesk_ticket_details.solved_at_date},current_date);;
+    relationship: many_to_many
   }
 }
 

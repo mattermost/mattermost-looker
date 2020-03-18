@@ -326,7 +326,7 @@ view: opportunitylineitem {
   measure: total_bookings_all {
     group_label: "Historical"
     label: "Total Bookings All"
-    sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${arr} + ${potential_arr} + ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     drill_fields: [opportunitylineitem_drill*,total_bookings]

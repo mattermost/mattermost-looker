@@ -47,6 +47,12 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+  dimension: created_on_date {
+    hidden: yes
+    type: yesno
+    sql: ${created_date} = ${dates.date_date};;
+  }
+
   dimension_group: solved_at {
     type: time
     timeframes: [
@@ -57,6 +63,12 @@ view: zendesk_ticket_details {
       fiscal_year
     ]
     sql: ${TABLE}."SOLVED_AT" ;;
+  }
+
+  dimension: solved_at_on_date {
+    hidden: yes
+    type: yesno
+    sql: ${solved_at_date} = ${dates.date_date};;
   }
 
   dimension: customer_type {
@@ -278,6 +290,46 @@ view: zendesk_ticket_details {
     type: count_distinct
     sql: ${ticket_id} ;;
     drill_fields: [organization_name, assignee_name]
+  }
+
+  measure: avg_full_resolution_time_in_minutes_bus {
+    label: "Avg Time to Resolution (Bus)"
+    group_label: "Time to Resolution"
+    group_item_label: "Avg Business"
+    type: average
+    sql: ${full_resolution_time_in_minutes_bus} ;;
+    drill_fields: [organization_name, assignee_name]
+    value_format_name: decimal_0
+  }
+
+  measure: avg_full_resolution_time_in_minutes_cal {
+    label: "Avg Time to Resolution (Cal)"
+    group_label: "Time to Resolution"
+    group_item_label: "Avg Calendar"
+    type: average
+    sql: ${full_resolution_time_in_minutes_bus} ;;
+    drill_fields: [organization_name, assignee_name]
+    value_format_name: decimal_0
+  }
+
+  measure: count_tickets_solved_on_date {
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [organization_name, assignee_name]
+    filters: {
+      field: solved_at_on_date
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_created_date {
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [organization_name, assignee_name]
+    filters: {
+      field: created_on_date
+      value: "yes"
+    }
   }
 
   measure: count_level_1 {
