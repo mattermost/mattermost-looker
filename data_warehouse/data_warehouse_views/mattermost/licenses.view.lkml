@@ -7,282 +7,285 @@ view: licenses {
 
   # DIMENSIONS
   dimension: license_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.license_id ;;
     hidden: no
   }
 
   dimension: server_id {
-    description: "" 
+    description: "The server id associated with the license (if logged)."
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: customer_id {
-    description: "" 
+    description: "The unique customer id associated with the license."
     type: string
     sql: ${TABLE}.customer_id ;;
     hidden: no
   }
 
   dimension: company {
-    description: "" 
+    description: "The company name provided at time of license provisioning."
     type: string
     sql: ${TABLE}.company ;;
     hidden: no
   }
 
   dimension: edition {
-    description: "" 
+    description: "The Mattermost edition associated with the license (E10, E20, etc.)"
     type: string
     sql: ${TABLE}.edition ;;
     hidden: no
   }
 
   dimension: trial {
-    description: "" 
+    description: "Boolean indicating whether the license is a trial license."
     type: yesno
     sql: ${TABLE}.trial ;;
     hidden: no
   }
 
   dimension: master_account_sfid {
-    description: "" 
+    description: "The Salesforce Master Account ID associated with the license."
     type: string
     sql: ${TABLE}.master_account_sfid ;;
     hidden: no
   }
 
   dimension: master_account_name {
-    description: "" 
+    description: "The Salesforce Master Account Name associated with the license."
     type: string
     sql: ${TABLE}.master_account_name ;;
     hidden: no
   }
 
   dimension: account_sfid {
-    description: "" 
+    description: "The Salesforce Account ID associated with the license."
     type: string
     sql: ${TABLE}.account_sfid ;;
     hidden: no
   }
 
   dimension: account_name {
-    description: "" 
+    description: "The Salesforce Account Name associated with the license."
     type: string
     sql: ${TABLE}.account_name ;;
     hidden: no
   }
 
   dimension: license_email {
-    description: "" 
+    description: "The email provided at time of license provisioning."
     type: string
     sql: ${TABLE}.license_email ;;
     hidden: no
   }
 
   dimension: contact_sfid {
-    description: "" 
+    description: "The Salesforce Contact ID associated with the License Email provided."
     type: string
     sql: ${TABLE}.contact_sfid ;;
     hidden: no
   }
 
   dimension: contact_email {
-    description: "" 
+    description: "The Salesforce Contact Email (same as License Email)."
     type: string
     sql: ${TABLE}.contact_email ;;
     hidden: no
   }
 
   dimension: number {
-    description: "" 
+    label: "License Number"
+    description: "The license number associated with the license."
     type: number
     sql: ${TABLE}.number ;;
     hidden: no
   }
 
   dimension: stripeid {
-    description: "" 
+    label: "Stripe ID"
+    description: "The Stripe ID associated with the license."
     type: string
     sql: ${TABLE}.stripeid ;;
     hidden: no
   }
 
   dimension: users {
-    description: "" 
+    label: "Licensed Users (Seats)"
+    description: "The number of user seats provisioned with the license."
     type: number
     sql: ${TABLE}.users ;;
     hidden: no
   }
 
   dimension: feature_cluster {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_cluster ;;
     hidden: no
   }
 
   dimension: feature_compliance {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_compliance ;;
     hidden: no
   }
 
   dimension: feature_custom_brand {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_custom_brand ;;
     hidden: no
   }
 
   dimension: feature_custom_permissions_schemes {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_custom_permissions_schemes ;;
     hidden: no
   }
 
   dimension: feature_data_retention {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_data_retention ;;
     hidden: no
   }
 
   dimension: feature_elastic_search {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_elastic_search ;;
     hidden: no
   }
 
   dimension: feature_email_notification_contents {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_email_notification_contents ;;
     hidden: no
   }
 
   dimension: feature_future {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_future ;;
     hidden: no
   }
 
   dimension: feature_google {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_google ;;
     hidden: no
   }
 
   dimension: feature_guest_accounts {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_guest_accounts ;;
     hidden: no
   }
 
   dimension: feature_guest_accounts_permissions {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_guest_accounts_permissions ;;
     hidden: no
   }
 
   dimension: feature_id_loaded {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_id_loaded ;;
     hidden: no
   }
 
   dimension: feature_ldap {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_ldap ;;
     hidden: no
   }
 
   dimension: feature_ldap_groups {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_ldap_groups ;;
     hidden: no
   }
 
   dimension: feature_lock_teammate_name_display {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_lock_teammate_name_display ;;
     hidden: no
   }
 
   dimension: feature_message_export {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_message_export ;;
     hidden: no
   }
 
   dimension: feature_metrics {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_metrics ;;
     hidden: no
   }
 
   dimension: feature_mfa {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_mfa ;;
     hidden: no
   }
 
   dimension: feature_mhpns {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_mhpns ;;
     hidden: no
   }
 
   dimension: feature_office365 {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_office365 ;;
     hidden: no
   }
 
   dimension: feature_password {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_password ;;
     hidden: no
   }
 
   dimension: feature_saml {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_saml ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: issued {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.issued_date ;;
@@ -290,7 +293,7 @@ view: licenses {
   }
 
   dimension_group: start {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.start_date ;;
@@ -298,7 +301,7 @@ view: licenses {
   }
 
   dimension_group: expire {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.expire_date ;;
@@ -306,7 +309,7 @@ view: licenses {
   }
 
   dimension_group: server_expire {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.server_expire_date ;;
@@ -314,14 +317,14 @@ view: licenses {
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
