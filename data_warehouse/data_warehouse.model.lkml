@@ -676,3 +676,6 @@ explore: snowflake_warehouse_cost {
 explore: licenses {
   label: "Licenses"
 }
+explore: license_daily_details {
+  label: "License Daily Details"
+}
