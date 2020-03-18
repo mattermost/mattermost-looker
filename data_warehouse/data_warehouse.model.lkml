@@ -672,3 +672,7 @@ explore: snowflake_warehouse_cost {
   label: "Snowflake Warehouse Cost"
   group_label: "zBizOps Spend"
 }
+
+explore: licenses {
+  label: "Licenses"
+}
