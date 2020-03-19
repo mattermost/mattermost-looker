@@ -1,0 +1,656 @@
+# This is the view file for the analytics.mattermost.license_daily_details table.
+view: license_daily_details {
+  sql_table_name: mattermost.license_daily_details ;;
+  view_label: "License Daily Details"
+
+  # FILTERS
+  filter: active {
+    description: "Boolean indicating the expiration date >= current date."
+    type: yesno
+    sql: case when ${expire_date} >= CURRENT_DATE then true else false end ;;
+    hidden: no
+  }
+
+  filter: current_record {
+    description: "Selects only records with the most recent logging date available in the table."
+    type: yesno
+    sql: ${logging_date} = (SELECT MAX(date) FROM mattermost.license_daily_details) ;;
+  }
+
+  # DIMENSIONS
+  dimension: license_id {
+    description: ""
+    label: " License ID"
+    type: string
+    sql: ${TABLE}.license_id ;;
+    hidden: no
+  }
+
+  dimension: server_id {
+    label: " Server ID"
+    description: "The server id associated with the license (if logged)."
+    type: string
+    sql: ${TABLE}.server_id ;;
+    hidden: no
+  }
+
+  dimension: customer_id {
+    label: " Customer ID"
+    description: "The unique customer id associated with the license."
+    type: string
+    sql: ${TABLE}.customer_id ;;
+    hidden: no
+  }
+
+  dimension: company {
+    label: " Company"
+    description: "The company name provided at time of license provisioning."
+    type: string
+    sql: ${TABLE}.company ;;
+    hidden: no
+  }
+
+  dimension: edition {
+    label: " Edition"
+    description: "The Mattermost edition associated with the license (E10, E20, etc.)"
+    type: string
+    sql: ${TABLE}.edition ;;
+    hidden: no
+  }
+
+  dimension: is_trial {
+    label: " Trial"
+    description: "Boolean indicating whether the license is a trial license."
+    type: yesno
+    sql: ${TABLE}.trial ;;
+    hidden: no
+  }
+
+  dimension: master_account_sfid {
+    description: "The Salesforce Master Account ID associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Master Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.master_account_sfid ;;
+    hidden: no
+  }
+
+  dimension: master_account_name {
+    description: "The Salesforce Master Account Name associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Master Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ master_account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.master_account_name ;;
+    hidden: no
+  }
+
+  dimension: account_sfid {
+    description: "The Salesforce Account ID associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.account_sfid ;;
+    hidden: no
+  }
+
+  dimension: account_name {
+    description: "The Salesforce Account Name associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Open Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.account_name ;;
+    hidden: no
+  }
+
+  dimension: license_email {
+    label: " License Email"
+    description: "The email provided at time of license provisioning."
+    type: string
+    sql: ${TABLE}.license_email ;;
+    hidden: no
+  }
+
+  dimension: contact_sfid {
+    description: "The Salesforce Contact ID associated with the License Email provided."
+    group_label: " Contact Info."
+    link: {
+      label: "Salesforce Contact Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.contact_sfid ;;
+    hidden: no
+  }
+
+  dimension: contact_email {
+    description: "The Salesforce Contact Email (same as License Email)."
+    group_label: " Contact Info."
+    link: {
+      label: "Salesforce Contact Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ contact_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${TABLE}.contact_email ;;
+    hidden: no
+  }
+
+  dimension: number {
+    label: " License Number"
+    description: "The license number associated with the license."
+    type: number
+    sql: ${TABLE}.number ;;
+    hidden: no
+  }
+
+  dimension: stripeid {
+    label: " Stripe ID"
+    description: "The Stripe ID associated with the license."
+    type: string
+    sql: ${TABLE}.stripeid ;;
+    hidden: no
+  }
+
+  dimension: users {
+    label: " License Users"
+    description: "The number of user seats provisioned with the license."
+    type: number
+    sql: ${TABLE}.users ;;
+    hidden: no
+  }
+
+  dimension: cluster {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_cluster ;;
+    hidden: no
+  }
+
+  dimension: compliance {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_compliance ;;
+    hidden: no
+  }
+
+  dimension: custom_brand {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_custom_brand ;;
+    hidden: no
+  }
+
+  dimension: custom_permissions_schemes {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_custom_permissions_schemes ;;
+    hidden: no
+  }
+
+  dimension: data_retention {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_data_retention ;;
+    hidden: no
+  }
+
+  dimension: elastic_search {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_elastic_search ;;
+    hidden: no
+  }
+
+  dimension: email_notification_contents {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_email_notification_contents ;;
+    hidden: no
+  }
+
+  dimension: future {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_future ;;
+    hidden: no
+  }
+
+  dimension: google {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_google ;;
+    hidden: no
+  }
+
+  dimension: guest_accounts {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_guest_accounts ;;
+    hidden: no
+  }
+
+  dimension: guest_accounts_permissions {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_guest_accounts_permissions ;;
+    hidden: no
+  }
+
+  dimension: id_loaded {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_id_loaded ;;
+    hidden: no
+  }
+
+  dimension: ldap {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_ldap ;;
+    hidden: no
+  }
+
+  dimension: ldap_groups {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_ldap_groups ;;
+    hidden: no
+  }
+
+  dimension: lock_teammate_name_display {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_lock_teammate_name_display ;;
+    hidden: no
+  }
+
+  dimension: message_export {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_message_export ;;
+    hidden: no
+  }
+
+  dimension: metrics {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_metrics ;;
+    hidden: no
+  }
+
+  dimension: mfa {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_mfa ;;
+    hidden: no
+  }
+
+  dimension: mhpns {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_mhpns ;;
+    hidden: no
+  }
+
+  dimension: office365 {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_office365 ;;
+    hidden: no
+  }
+
+  dimension: password {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_password ;;
+    hidden: no
+  }
+
+  dimension: saml {
+    description: ""
+    group_label: "Features"
+    type: yesno
+    sql: ${TABLE}.feature_saml ;;
+    hidden: no
+  }
+
+  dimension: id {
+    description: ""
+    type: string
+    sql: ${TABLE}.id ;;
+    hidden: yes
+  }
+
+  dimension: server_dau {
+    label: "Server DAU"
+    description: "The number of Daily Active Users recorded on the license Logging Date."
+    group_label: "Active Users"
+    type: number
+    sql: ${TABLE}.server_dau ;;
+    hidden: no
+  }
+
+  dimension: server_mau {
+    label: "Server MAU"
+    description: "The number of Monthly Active Users recorded on the license Logging Date."
+    group_label: "Active Users"
+    type: number
+    sql: ${TABLE}.server_mau ;;
+    hidden: no
+  }
+
+  dimension: days_since_last_telemetry {
+    label: "Days Since Last Telemetry"
+    description: "The number of days since the server associated with the license sent telemetry data (null if never)."
+    type: number
+    sql: datediff(day, ${last_telemetry_date}, ${logging_date}) ;;
+    hidden: no
+  }
+
+  dimension: days_since_last_telemetry_band {
+    description: "The number of days since the server associated with the license sent telemetry data (null if never) stratified into bands."
+    type: tier
+    style: integer
+    tiers: [8, 31, 91, 181, 366]
+    sql: ${days_since_last_telemetry} ;;
+    hidden: no
+  }
+
+  dimension: dau_pct_licensed {
+    label: " DAU (% of License Users)"
+    description: "The percentage Daily Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    group_label: " License Utilization (Active User %)"
+    type: number
+    #value_format_name: percent_1
+    value_format: "0.0\%"
+    sql: (${server_dau}/${users})*100.0 ;;
+    hidden: no
+  }
+
+  dimension: dau_pct_licensed_band {
+    label: "DAU (% of License Users) Band"
+    description: "The percentage Daily Activer Users, associated with the license, represents of License Users (Server MAU/License Users) stratified into bands."
+    group_label: " License Utilization (Active User %)"
+    type: tier
+    style: integer
+    tiers: [25, 50, 75, 100]
+    value_format: "0.0\%"
+    sql: ${dau_pct_licensed} ;;
+  }
+
+
+  dimension: mau_pct_licensed {
+    label: " MAU (% of License Users)"
+    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    group_label: " License Utilization (Active User %)"
+    type: number
+    #value_format_name: percent_1
+    value_format: "0.0\%"
+    sql: (${server_mau}/${users})*100.0 ;;
+    hidden: no
+  }
+
+  dimension: mau_pct_licensed_band {
+    label: "MAU (% of License Users) Band"
+    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users) stratified into bands."
+    group_label: " License Utilization (Active User %)"
+    type: tier
+    style: integer
+    tiers: [25, 50, 75, 100]
+    value_format: "0.0\%"
+    sql: ${mau_pct_licensed} ;;
+  }
+
+
+  # DIMENSION GROUPS/DATES
+  dimension_group: logging {
+    label: " Logging"
+    description: "The date the license data was logged."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.date ;;
+    hidden: no
+  }
+
+  dimension_group: issued {
+    label: "License Issued"
+    description: "The date the license was issued to the customer."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.issued_date ;;
+    hidden: no
+  }
+
+  dimension_group: start {
+    label: "License Start"
+    description: "The license start date."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.start_date ;;
+    hidden: no
+  }
+
+  dimension_group: expire {
+    label: "License Expire"
+    description: "The license expiration date."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.expire_date ;;
+    hidden: no
+  }
+
+  dimension_group: timestamp {
+  description: ""
+  type: time
+  timeframes: [date, month, year]
+    sql: ${TABLE}.timestamp ;;
+    hidden: yes
+  }
+
+  dimension_group: last_telemetry {
+    description: "The most recent date telemetry data was logged for the server associated with the license."
+    type: time
+    timeframes: [date, month, year]
+    sql: ${TABLE}.last_telemetry_date ;;
+    hidden: no
+  }
+
+
+  # MEASURES
+  measure: count {
+    description: "Count of rows/occurrences."
+    type: count
+  }
+
+  measure: license_count {
+    label: " License Count"
+    group_label: " License Counts"
+    description: "The distinct count of Licenses per grouping."
+    type: count_distinct
+    sql: ${license_id} ;;
+  }
+
+  measure: trial_license_count {
+    label: " Trial License Count"
+    group_label: " License Counts"
+    description: "The distinct count of trial licenses per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "yes"
+    }
+    sql: ${license_id} ;;
+  }
+
+  measure: non_trial_license_count {
+    label: " Non-Trial License Count"
+    group_label: " License Counts"
+    description: "The distinct count of non-trial licenses per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "no"
+    }
+    sql: ${license_id} ;;
+  }
+
+  measure: server_count {
+    label: " Server Count"
+    group_label: " Server Counts"
+    description: "The distinct count of Licensed Servers per grouping."
+    type: count_distinct
+    sql: ${server_id} ;;
+  }
+
+  measure: non_trial_server_count {
+    label: "Non-Trial Server Count"
+    group_label: " Server Counts"
+    description: "The distinct count of non-trial License Servers per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "no"
+    }
+    sql: ${server_id} ;;
+  }
+
+  measure: trial_server_count {
+    label: "Trial Server Count"
+    group_label: " Server Counts"
+    description: "The distinct count of trial License Servers per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "yes"
+    }
+    sql: ${server_id} ;;
+  }
+
+  measure: customer_count {
+    label: " Customer Count"
+    group_label: " Customer Counts"
+    description: "The distinct count of Customers per grouping."
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
+  measure: trial_customer_count {
+    label: "Trial Customer Count"
+    group_label: " Customer Counts"
+    description: "The distinct count of Trial License Customers per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "yes"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: non_trial_customer_count {
+    label: "Non-Trial Customer Count"
+    group_label: " Customer Counts"
+    description: "The distinct count of Non-Trial License Customers per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "no"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: users_sum {
+    group_label: " License Users"
+    label: " License Users (Sum)"
+    description: "The sum of Users per grouping."
+    type: sum
+    sql: ${users} ;;
+  }
+
+  measure: mau_pct_license_users_avg {
+    group_label: " License Users"
+    label: "MAU % of License Users (Avg)"
+    description: "The average percent of Montly Active Users as a percent of License Users."
+    type: average
+    sql: ${mau_pct_licensed} ;;
+  }
+
+  measure: dau_pct_license_users_avg {
+    group_label: " License Users"
+    label: "DAU % of License Users (Avg)"
+    description: "The average percent of Daily Active Users as a percent of License Users."
+    type: average
+    sql: ${dau_pct_licensed} ;;
+  }
+
+  measure: server_dau_sum {
+    group_label: "Daily Active Users"
+    label: "DAU (Sum)"
+    description: "The sum of License Server DAU per grouping."
+    type: sum
+    sql: ${server_dau} ;;
+  }
+
+  measure: server_dau_avg {
+    group_label: "Daily Active Users"
+    label: "DAU (Avg)"
+    description: "The average of License Server DAU per grouping."
+    type: average
+    sql: ${server_dau} ;;
+  }
+
+  measure: server_mau_sum {
+    group_label: "Monthly Active Users"
+    label: "MAU (Sum)"
+    description: "The sum of License Server MAU per grouping."
+    type: sum
+    sql: ${server_mau} ;;
+  }
+
+  measure: server_mau_avg {
+    group_label: "Monthly Active Users"
+    label: "MAU (avg)"
+    description: "The average of License Server MAU per grouping."
+    type: sum
+    sql: ${server_mau} ;;
+  }
+
+
+}
