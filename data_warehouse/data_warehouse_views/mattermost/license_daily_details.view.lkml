@@ -109,7 +109,7 @@ view: license_daily_details {
     description: "The Salesforce Account Name associated with the license."
     group_label: " Account Info."
     link: {
-      label: "Open Salesforce Account Record"
+      label: "Salesforce Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }

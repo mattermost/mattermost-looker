@@ -651,6 +651,7 @@ view: account {
       label: "Salesforce Account"
       # BP: Leverage constants to enable more reused
       url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     sql: ${TABLE}.name ;;
     type: string
@@ -976,6 +977,12 @@ view: account {
     label: "Account ID"
     primary_key: yes
     sql: ${TABLE}.sfid ;;
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{value}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
   }
 

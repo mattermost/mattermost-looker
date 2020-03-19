@@ -50,6 +50,12 @@ view: licenses {
 
   dimension: master_account_sfid {
     description: "The Salesforce Master Account ID associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Master Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.master_account_sfid ;;
     hidden: no
@@ -57,6 +63,12 @@ view: licenses {
 
   dimension: master_account_name {
     description: "The Salesforce Master Account Name associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Master Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ master_account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.master_account_name ;;
     hidden: no
@@ -64,6 +76,12 @@ view: licenses {
 
   dimension: account_sfid {
     description: "The Salesforce Account ID associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.account_sfid ;;
     hidden: no
@@ -71,6 +89,12 @@ view: licenses {
 
   dimension: account_name {
     description: "The Salesforce Account Name associated with the license."
+    group_label: " Account Info."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.account_name ;;
     hidden: no
@@ -85,6 +109,12 @@ view: licenses {
 
   dimension: contact_sfid {
     description: "The Salesforce Contact ID associated with the License Email provided."
+    group_label: " Contact Info."
+    link: {
+      label: "Salesforce Contact Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.contact_sfid ;;
     hidden: no
@@ -92,11 +122,16 @@ view: licenses {
 
   dimension: contact_email {
     description: "The Salesforce Contact Email (same as License Email)."
+    group_label: " Contact Info."
+    link: {
+      label: "Salesforce Contact Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ contact_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.contact_email ;;
     hidden: no
   }
-
   dimension: number {
     label: "License Number"
     description: "The license number associated with the license."
@@ -121,155 +156,177 @@ view: licenses {
     hidden: no
   }
 
-  dimension: feature_cluster {
+  dimension: cluster {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_cluster ;;
     hidden: no
   }
 
-  dimension: feature_compliance {
+  dimension: compliance {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_compliance ;;
     hidden: no
   }
 
-  dimension: feature_custom_brand {
+  dimension: custom_brand {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_custom_brand ;;
     hidden: no
   }
 
-  dimension: feature_custom_permissions_schemes {
+  dimension: custom_permissions_schemes {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_custom_permissions_schemes ;;
     hidden: no
   }
 
-  dimension: feature_data_retention {
+  dimension: data_retention {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_data_retention ;;
     hidden: no
   }
 
-  dimension: feature_elastic_search {
+  dimension: elastic_search {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_elastic_search ;;
     hidden: no
   }
 
-  dimension: feature_email_notification_contents {
+  dimension: email_notification_contents {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_email_notification_contents ;;
     hidden: no
   }
 
-  dimension: feature_future {
+  dimension: future {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_future ;;
     hidden: no
   }
 
-  dimension: feature_google {
+  dimension: google {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_google ;;
     hidden: no
   }
 
-  dimension: feature_guest_accounts {
+  dimension: guest_accounts {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_guest_accounts ;;
     hidden: no
   }
 
-  dimension: feature_guest_accounts_permissions {
+  dimension: guest_accounts_permissions {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_guest_accounts_permissions ;;
     hidden: no
   }
 
-  dimension: feature_id_loaded {
+  dimension: id_loaded {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_id_loaded ;;
     hidden: no
   }
 
-  dimension: feature_ldap {
+  dimension: ldap {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_ldap ;;
     hidden: no
   }
 
-  dimension: feature_ldap_groups {
+  dimension: ldap_groups {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_ldap_groups ;;
     hidden: no
   }
 
-  dimension: feature_lock_teammate_name_display {
+  dimension: lock_teammate_name_display {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_lock_teammate_name_display ;;
     hidden: no
   }
 
-  dimension: feature_message_export {
+  dimension: message_export {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_message_export ;;
     hidden: no
   }
 
-  dimension: feature_metrics {
+  dimension: metrics {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_metrics ;;
     hidden: no
   }
 
-  dimension: feature_mfa {
+  dimension: mfa {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_mfa ;;
     hidden: no
   }
 
-  dimension: feature_mhpns {
+  dimension: mhpns {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_mhpns ;;
     hidden: no
   }
 
-  dimension: feature_office365 {
+  dimension: office365 {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_office365 ;;
     hidden: no
   }
 
-  dimension: feature_password {
+  dimension: password {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_password ;;
     hidden: no
   }
 
-  dimension: feature_saml {
+  dimension: saml {
     description: ""
+    group_label: "Features"
     type: yesno
     sql: ${TABLE}.feature_saml ;;
     hidden: no
@@ -285,7 +342,8 @@ view: licenses {
 
   # DIMENSION GROUPS/DATES
   dimension_group: issued {
-    description: ""
+    label: "License Issued"
+    description: "The date the license was issued to the customer."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.issued_date ;;
@@ -293,7 +351,8 @@ view: licenses {
   }
 
   dimension_group: start {
-    description: ""
+    label: "License Start"
+    description: "The license start date."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.start_date ;;
@@ -301,27 +360,20 @@ view: licenses {
   }
 
   dimension_group: expire {
-    description: ""
+    label: "License Expire"
+    description: "The license expiration date."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
   }
 
-  dimension_group: server_expire {
+  dimension_group: timestamp {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.server_expire_date ;;
-    hidden: no
-  }
-
-  dimension_group: timestamp {
-  description: ""
-  type: time
-  timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
 
