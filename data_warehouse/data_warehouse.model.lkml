@@ -455,6 +455,7 @@ explore: current_potential_arr {
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
+    opportunitylineitem.total_potential_and_booked_arr,
     account.account_core*,
     account.arr_current,
     opportunity.opportunity_core*
