@@ -510,6 +510,7 @@ view: license_daily_details {
 
   measure: trial_license_count {
     label: " Trial License Count"
+    group_label: " License Counts"
     description: "The distinct count of trial licenses per grouping."
     type: count_distinct
     filters: {
@@ -540,7 +541,7 @@ view: license_daily_details {
   }
 
   measure: non_trial_server_count {
-    label: " Non-Trial Server Count"
+    label: "Non-Trial Server Count"
     group_label: " Server Counts"
     description: "The distinct count of non-trial License Servers per grouping."
     type: count_distinct
@@ -552,7 +553,7 @@ view: license_daily_details {
   }
 
   measure: trial_server_count {
-    label: " Trial Server Count"
+    label: "Trial Server Count"
     group_label: " Server Counts"
     description: "The distinct count of trial License Servers per grouping."
     type: count_distinct
@@ -572,7 +573,7 @@ view: license_daily_details {
   }
 
   measure: trial_customer_count {
-    label: " Trial Customer Count"
+    label: "Trial Customer Count"
     group_label: " Customer Counts"
     description: "The distinct count of Trial License Customers per grouping."
     type: count_distinct
@@ -583,9 +584,21 @@ view: license_daily_details {
     sql: ${customer_id} ;;
   }
 
+  measure: non_trial_customer_count {
+    label: "Non-Trial Customer Count"
+    group_label: " Customer Counts"
+    description: "The distinct count of Non-Trial License Customers per grouping."
+    type: count_distinct
+    filters: {
+      field: is_trial
+      value: "no"
+    }
+    sql: ${customer_id} ;;
+  }
+
   measure: users_sum {
     group_label: " License Users"
-    label: "License Users (Sum)"
+    label: " License Users (Sum)"
     description: "The sum of Users per grouping."
     type: sum
     sql: ${users} ;;
