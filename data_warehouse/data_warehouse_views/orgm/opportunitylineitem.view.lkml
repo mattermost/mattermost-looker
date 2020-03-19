@@ -43,7 +43,8 @@ view: opportunitylineitem {
       totalprice,
       total_quantity,
       total_price,
-      total_bookings
+      total_bookings,
+      is_prorated_expansion
     ]
   }
 
@@ -576,6 +577,14 @@ view: opportunitylineitem {
   measure: total_potential_arr {
     label: "Total Potential ARR"
     sql: ${potential_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
+  }
+
+  measure: total_potential_and_booked_arr {
+    label: "Total Potential & Booked ARR"
+    sql: ${potential_arr} + ${arr} ;;
     type: sum
     value_format_name: "usd_0"
     drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
