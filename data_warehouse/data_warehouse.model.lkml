@@ -307,6 +307,19 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: opportunityfieldhistory {
+  view_label: "Opportunity Field History"
+  group_label: "Salesforce"
+  extends: [_base_account_core_explore,_base_opportunity_explore]
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${opportunityfieldhistory.opportunityid} ;;
+  }
+
+  join: account {
+    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
+  }
+}
+
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
