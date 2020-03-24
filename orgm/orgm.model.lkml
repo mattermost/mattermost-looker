@@ -171,7 +171,7 @@ explore: opportunitylineitem_data_check {
   }
 
   join: delete_history {
-    sql_on: ${delete_history.sfid} = ${orgm_opportunitylineitem_data_check.sfid} ;;
+    sql_on: ${delete_history.object_id} = ${orgm_opportunitylineitem_data_check.sfid} ;;
     relationship: one_to_one
   }
 }

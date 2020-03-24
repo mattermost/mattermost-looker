@@ -124,6 +124,11 @@ view: product2 {
     type: string
   }
 
+  dimension: general_product {
+    sql: CASE WHEN ${name} like '%E10%' THEN 'E10' WHEN ${name} like '%E20%' THEN 'E20' ELSE 'Unknown' END  ;;
+    type: string
+  }
+
   # TODO: These netsuite fields do not exist in the db
   # dimension: netsuite_conn__item_category {
   #   group_item_label: "Item Category"
