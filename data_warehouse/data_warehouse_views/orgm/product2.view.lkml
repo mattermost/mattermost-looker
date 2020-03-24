@@ -244,4 +244,15 @@ view: product2 {
     label: "# of Product2s"
     type: count
   }
+
+  measure: list_of_general_products {
+    type: string
+    sql: LISTAGG(DISTINCT ${general_product}, ',') ;;
+    description: "A list of general products. General products groups products into E10, E20, etc."
+  }
+
+  measure: list_of_products {
+    type: string
+    sql: LISTAGG(DISTINCT ${name}, ',') ;;
+  }
 }
