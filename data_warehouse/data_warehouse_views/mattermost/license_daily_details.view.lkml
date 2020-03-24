@@ -26,11 +26,11 @@ view: license_daily_details {
     hidden: no
   }
 
-  dimension: server_id {
-    label: " Server ID"
-    description: "The server id associated with the license (if logged)."
-    type: string
-    sql: ${TABLE}.server_id ;;
+  dimension: server_count {
+    label: " Server Count"
+    description: "The number of unique servers associated with the license (null if no telemetry/server-license association)."
+    type: number
+    sql: ${TABLE}.servers ;;
     hidden: no
   }
 
@@ -172,7 +172,16 @@ view: license_daily_details {
     label: " License Users"
     description: "The number of user seats provisioned with the license."
     type: number
-    sql: ${TABLE}.users ;;
+    sql: ${TABLE}.license_users ;;
+    hidden: no
+  }
+
+  dimension: customer_users {
+    label: " Customer Users"
+    description: "The number of user seats provisioned with the license."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_users ;;
     hidden: no
   }
 
@@ -360,20 +369,38 @@ view: license_daily_details {
   }
 
   dimension: server_dau {
-    label: "Server DAU"
-    description: "The number of Daily Active Users recorded on the license Logging Date."
+    label: "License DAU"
+    description: "The sum of Daily Active Users recorded for all servers associated with the license on the license Logging Date."
     group_label: "Active Users"
     type: number
-    sql: ${TABLE}.server_dau ;;
+    sql: ${TABLE}.license_server_dau ;;
+    hidden: no
+  }
+
+  dimension: customer_dau {
+    label: "Customer DAU"
+    description: "The sum of Daily Active Users recorded for all servers associated with the customer_id on the Logging Date."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_server_dau ;;
     hidden: no
   }
 
   dimension: server_mau {
-    label: "Server MAU"
-    description: "The number of Monthly Active Users recorded on the license Logging Date."
+    label: "License MAU"
+    description: "The sum of Monthly Active Users recorded for all servers associated with the license on the license Logging Date."
     group_label: "Active Users"
     type: number
-    sql: ${TABLE}.server_mau ;;
+    sql: ${TABLE}.license_server_mau ;;
+    hidden: no
+  }
+
+  dimension: customer_mau {
+    label: "Customer MAU"
+    description: "The sum of Monthly Active Users recorded for all servers associated with the customer_id on the Logging Date."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_server_mau ;;
     hidden: no
   }
 
@@ -426,6 +453,17 @@ view: license_daily_details {
     value_format: "0.0\%"
     sql: (${server_mau}/${users})*100.0 ;;
     hidden: no
+  }
+
+  dimension: customer_mau_pct_licensed {
+    label: " MAU (% of License Users)"
+    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    group_label: "Customer Dimensions"
+    type: number
+    #value_format_name: percent_1
+    value_format: "0.0\%"
+    sql: (${customer_mau}/${customer_users})*100.0 ;;
+    hidden: yes
   }
 
   dimension: mau_pct_licensed_band {
@@ -489,7 +527,7 @@ view: license_daily_details {
     description: "The most recent date telemetry data was logged for the server associated with the license."
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.last_telemetry_date ;;
+    sql: ${TABLE}.last_customer_telemetry_date ;;
     hidden: no
   }
 
@@ -498,6 +536,33 @@ view: license_daily_details {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+  }
+
+  measure: mau_count {
+    type: count
+    filters: {
+      field: server_mau
+      value: ">0"
+    }
+    hidden: yes
+  }
+
+  measure: dau_count {
+    type: count
+    filters: {
+      field: server_dau
+      value: ">0"
+    }
+    hidden: yes
+  }
+
+  measure: users_count {
+    type: count
+    filters: {
+      field: users
+      value: ">0"
+    }
+    hidden: yes
   }
 
   measure: license_count {
@@ -532,36 +597,36 @@ view: license_daily_details {
     sql: ${license_id} ;;
   }
 
-  measure: server_count {
+  measure: server_count_sum {
     label: " Server Count"
     group_label: " Server Counts"
     description: "The distinct count of Licensed Servers per grouping."
-    type: count_distinct
-    sql: ${server_id} ;;
+    type: sum
+    sql: ${server_count} ;;
   }
 
-  measure: non_trial_server_count {
+  measure: non_trial_server_sum {
     label: "Non-Trial Server Count"
     group_label: " Server Counts"
     description: "The distinct count of non-trial License Servers per grouping."
-    type: count_distinct
+    type: sum
     filters: {
       field: is_trial
       value: "no"
     }
-    sql: ${server_id} ;;
+    sql: ${server_count} ;;
   }
 
   measure: trial_server_count {
     label: "Trial Server Count"
     group_label: " Server Counts"
     description: "The distinct count of trial License Servers per grouping."
-    type: count_distinct
+    type: sum
     filters: {
       field: is_trial
       value: "yes"
     }
-    sql: ${server_id} ;;
+    sql: ${server_count} ;;
   }
 
   measure: customer_count {
@@ -569,6 +634,90 @@ view: license_daily_details {
     group_label: " Customer Counts"
     description: "The distinct count of Customers per grouping."
     type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
+  measure: active_telemetry_customer_count {
+    label: "Customers w/ Active Telemetry"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ Telemetry data sent in the last 7 days per grouping."
+    type: count_distinct
+    filters: {
+      field: days_since_last_telemetry
+      value: "< 7"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: inactive_telemetry_customer_count {
+    label: "Customers w/ Inactive Telemetry"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ Telemetry data sent >= 7 days agp per grouping."
+    type: count_distinct
+    filters: {
+      field: days_since_last_telemetry
+      value: ">= 7"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: no_telemetry_customer_count {
+    label: "Customers w/ No Telemetry"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ No Telemetry data sent in their lifetime per grouping."
+    type: count_distinct
+    filters: {
+      field: days_since_last_telemetry
+      value: "NULL"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau100_customer_count {
+    label: "Customers w/ MAU > 100% Licensed"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU > 100% of Licensed Users."
+    type: count_distinct
+    filters: {
+      field: customer_mau_pct_licensed
+      value: "> 100"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau50_customer_count {
+    label: "Customers w/ MAU 50-100% Licensed"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU 50-100% of Licensed Users."
+    type: count_distinct
+    filters: {
+      field: customer_mau_pct_licensed
+      value: ">= 50 AND <= 100"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau49_customer_count {
+    label: "Customers w/ MAU < 50% Licensed"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU < 50% of Licensed Users."
+    type: count_distinct
+    filters: {
+      field: customer_mau_pct_licensed
+      value: "< 50"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: nomau_customer_count {
+    label: "Customers w/ No MAU Data"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ No MAU Data."
+    type: count_distinct
+    filters: {
+      field: customer_mau_pct_licensed
+      value: "NULL"
+    }
     sql: ${customer_id} ;;
   }
 
@@ -598,26 +747,37 @@ view: license_daily_details {
 
   measure: users_sum {
     group_label: " License Users"
-    label: " License Users (Sum)"
-    description: "The sum of Users per grouping."
+    description: "The sum of License Users per grouping."
     type: sum
     sql: ${users} ;;
+    hidden: no
+  }
+
+  measure: users_avg {
+    group_label: " License Users"
+    label: " License Users (Avg)"
+    description: "The average number of License Users per grouping."
+    type: average
+    sql: ${users} ;;
+    hidden: yes
   }
 
   measure: mau_pct_license_users_avg {
     group_label: " License Users"
-    label: "MAU % of License Users (Avg)"
+    label: "MAU % of License Users"
     description: "The average percent of Montly Active Users as a percent of License Users."
-    type: average
-    sql: ${mau_pct_licensed} ;;
+    type: number
+    value_format: "0.0\%"
+    sql: (${server_mau_sum}/nullif(${users_sum},0))*100.0 ;;
   }
 
   measure: dau_pct_license_users_avg {
     group_label: " License Users"
-    label: "DAU % of License Users (Avg)"
+    label: "DAU % of License Users"
     description: "The average percent of Daily Active Users as a percent of License Users."
-    type: average
-    sql: ${dau_pct_licensed} ;;
+    type: number
+    value_format: "0.0\%"
+    sql: (${server_dau_sum}/nullif(${users_sum},0))*100.0 ;;
   }
 
   measure: server_dau_sum {
@@ -642,14 +802,21 @@ view: license_daily_details {
     description: "The sum of License Server MAU per grouping."
     type: sum
     sql: ${server_mau} ;;
+    hidden: no
   }
 
   measure: server_mau_avg {
     group_label: "Monthly Active Users"
-    label: "MAU (avg)"
+    label: "MAU (Avg)"
     description: "The average of License Server MAU per grouping."
-    type: sum
+    type: average
     sql: ${server_mau} ;;
+    hidden: no
+  }
+
+  measure: max_logging_date {
+    type: date
+    sql: MAX(${TABLE}.date::DATE) ;;
   }
 
 
