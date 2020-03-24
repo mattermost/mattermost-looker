@@ -19,6 +19,10 @@ explore: opportunity {
   }
 }
 
+explore: profile {
+  group_label: "zHeroku Postgres OrgM"
+}
+
 explore: user {
   group_label: "zHeroku Postgres OrgM"
 }
