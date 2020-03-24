@@ -599,7 +599,7 @@ view: opportunity {
 
   measure: risk_amount_current_fy {
     group_label: "Current FY Close"
-    group_item_label: "Renewal Risk Amount"
+    group_item_label: "Renewal At Risk & Early Warning Amount"
     description: "The total number of open opportunities set to close this fiscal year"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
@@ -613,6 +613,69 @@ view: opportunity {
     filters: {
       field: close_current_fy
       value: "yes"
+    }
+  }
+
+  measure: at_risk_amount_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "Renewal At Risk Amount"
+    description: "The total number of open opportunities set to close this fiscal year"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
+    label: "Risk Amount (Curr FY Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
+    filters: {
+      field: renewal_risk_status
+      value: "At Risk"
+    }
+  }
+
+  measure: risk_amount_current_qtr {
+    group_label: "Current Qtr Close"
+    group_item_label: "Renewal At Risk & Early Warning Amount"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
+    label: "At Risk & Early Warning Amount (Curr Qtr Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_qtr
+      value: "yes"
+    }
+  }
+
+  measure: at_risk_amount_current_qtr {
+    group_label: "Current Qtr Close"
+    group_item_label: "Renewal At Risk Amount"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
+    label: "At Risk Amount (Curr Qtr Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_qtr
+      value: "yes"
+    }
+    filters: {
+      field: renewal_risk_status
+      value: "At Risk"
     }
   }
 
@@ -651,6 +714,15 @@ view: opportunity {
   }
 
   measure: total_renewal_risk_amount {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
+  }
+
+  measure: total_renewal_risk_amount_open {
     # description: "TODO"
     group_label: "Total Amounts"
     sql: ${renewal_risk_amount};;
