@@ -95,6 +95,11 @@ view: server_daily_details {
   dimension: account_sfid {
     label: "Account SFID"
     description: "The Salesforce Account ID of the Mattermost customer associated with the server (null if no Salesforce Account found)."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.account_sfid ;;
   }
@@ -119,6 +124,11 @@ view: server_daily_details {
     label: "License Contact SFID"
     description: "The Contact SFID of the License Email associated with the license provisioned to the Mattermost server."
     group_label: "License Info."
+    link: {
+      label: "Salesforce Contact Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.license_contact_sfid ;;
   }
