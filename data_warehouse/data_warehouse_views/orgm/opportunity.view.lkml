@@ -85,6 +85,11 @@ view: opportunity {
     label: "Account SFID"
   }
 
+  dimension: known_attrition_curr_fy {
+    type: yesno
+    sql: ${accountid} in ('0013600000j6g7oAAA','0013600000dCeAzAAK') ;;
+  }
+
   dimension: amount {
     description: "The estimated total sale amount. For opportunities with products, the amount is the sum of the related products. Any attempt to update this field, if the record has products, will be ignored. The update call will not be rejected, and other fields will be updated as specified, but the Amount will be unchanged."
     group_label: "Amounts"
@@ -600,7 +605,7 @@ view: opportunity {
   measure: risk_amount_current_fy {
     group_label: "Current FY Close"
     group_item_label: "Renewal At Risk & Early Warning Amount"
-    description: "The total number of open opportunities set to close this fiscal year"
+    description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
@@ -614,12 +619,16 @@ view: opportunity {
       field: close_current_fy
       value: "yes"
     }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
 
   measure: at_risk_amount_current_fy {
     group_label: "Current FY Close"
     group_item_label: "Renewal At Risk Amount"
-    description: "The total number of open opportunities set to close this fiscal year"
+    description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
@@ -637,11 +646,16 @@ view: opportunity {
       field: renewal_risk_status
       value: "At Risk"
     }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
 
   measure: risk_amount_current_qtr {
     group_label: "Current Qtr Close"
     group_item_label: "Renewal At Risk & Early Warning Amount"
+    description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
     label: "At Risk & Early Warning Amount (Curr Qtr Close)"
@@ -655,11 +669,16 @@ view: opportunity {
       field: close_current_qtr
       value: "yes"
     }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
 
   measure: at_risk_amount_current_qtr {
     group_label: "Current Qtr Close"
     group_item_label: "Renewal At Risk Amount"
+    description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
     sql: ${renewal_risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
     label: "At Risk Amount (Curr Qtr Close)"
@@ -676,6 +695,10 @@ view: opportunity {
     filters: {
       field: renewal_risk_status
       value: "At Risk"
+    }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
     }
   }
 
