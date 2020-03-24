@@ -7,7 +7,7 @@ view: license_daily_details {
   filter: active {
     description: "Boolean indicating the expiration date >= current date."
     type: yesno
-    sql: case when ${expire_date} >= CURRENT_DATE then true else false end ;;
+    sql: case when ${expire_date} >= CURRENT_DATE AND ${start_date} <= CURRENT_DATE AND lower(${company}) NOT LIKE '%mattermost%' then true else false end ;;
     hidden: no
   }
 
@@ -181,8 +181,87 @@ view: license_daily_details {
     description: "The number of user seats provisioned with the license."
     group_label: "Customer Dimensions"
     type: number
+    order_by_field: customer_users_sort
     sql: ${TABLE}.customer_users ;;
     hidden: no
+  }
+
+  dimension: customer_users_sort {
+    label: " Customer Users"
+    description: "The number of user seats provisioned with the license."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: CASE WHEN ${TABLE}.customer_users IS NULL THEN -100 ELSE ${TABLE}.customer_users END ;;
+    hidden: yes
+  }
+
+  dimension: registered_users {
+    label: " License Registered Users"
+    description: "The number of registered users recorded by all servers associated with the customer_id and its respective licenses."
+    type: number
+    sql: ${TABLE}.license_registered_users ;;
+    hidden: no
+  }
+
+  dimension: customer_registered_users {
+    label: " Customer Registered Users"
+    description: "The number of registered users recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    order_by_field: customer_registered_users_sort
+    sql: ${TABLE}.customer_registered_users - COALESCE(${customer_registered_deactivated_users},0);;
+    hidden: no
+  }
+
+  dimension: customer_registered_users_sort {
+    label: " Customer Registered Users"
+    description: "The number of registered users recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: CASE WHEN ${TABLE}.customer_registered_users IS NULL THEN -100 ELSE ${TABLE}.customer_registered_users END;;
+    hidden: yes
+  }
+
+  dimension: customer_registered_deactivated_users {
+    label: " Customer Registered Deactivated Users"
+    description: "The number of registered, deactivated users recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_registered_deactivated_users ;;
+    hidden: no
+  }
+
+  dimension: pct_registered_users {
+    label: "Registerd Users % of License Users"
+    description: "The percent of license users that are registered for all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    value_format: "0.0\%"
+    sql: (${customer_registered_users}/${customer_users})*100.0 ;;
+  }
+
+  dimension: customer_posts {
+    label: "Customer Posts"
+    description: "The sum of posts recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_posts ;;
+  }
+
+  dimension: customer_public_channels {
+    label: "Customer Public Channels"
+    description: "The sum of public channels recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_public_channels ;;
+  }
+
+  dimension: customer_server_version {
+    label: "Customer Server Version"
+    description: "The max server version recorded by all servers associated with the customer_id and its respective licenses."
+    group_label: "Customer Dimensions"
+    type: string
+    sql: ${TABLE}.customer_server_version ;;
   }
 
   dimension: cluster {
@@ -423,18 +502,18 @@ view: license_daily_details {
 
   dimension: dau_pct_licensed {
     label: " DAU (% of License Users)"
-    description: "The percentage Daily Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    description: "The percentage of License Users that are Daily Activer Users. Includes all licensed servers associated with the customer."
     group_label: " License Utilization (Active User %)"
     type: number
     #value_format_name: percent_1
     value_format: "0.0\%"
-    sql: (${server_dau}/${users})*100.0 ;;
+    sql: (${customer_dau}/${customer_users})*100.0 ;;
     hidden: no
   }
 
   dimension: dau_pct_licensed_band {
     label: "DAU (% of License Users) Band"
-    description: "The percentage Daily Activer Users, associated with the license, represents of License Users (Server MAU/License Users) stratified into bands."
+    description: "The percentage of License Users that are Daily Activer Users stratified into bands. Includes all licensed servers associated with the customer."
     group_label: " License Utilization (Active User %)"
     type: tier
     style: integer
@@ -446,18 +525,18 @@ view: license_daily_details {
 
   dimension: mau_pct_licensed {
     label: " MAU (% of License Users)"
-    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    description: "The percentage of License Users that are Monthly Activer Users. Includes all licensed servers associated with the customer."
     group_label: " License Utilization (Active User %)"
     type: number
     #value_format_name: percent_1
     value_format: "0.0\%"
-    sql: (${server_mau}/${users})*100.0 ;;
+    sql: (${customer_mau}/${customer_users})*100.0 ;;
     hidden: no
   }
 
   dimension: customer_mau_pct_licensed {
     label: " MAU (% of License Users)"
-    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users)."
+    description: "The percentage of License Users that are Monthly Activer Users. Includes all licensed servers associated with the customer."
     group_label: "Customer Dimensions"
     type: number
     #value_format_name: percent_1
@@ -468,13 +547,22 @@ view: license_daily_details {
 
   dimension: mau_pct_licensed_band {
     label: "MAU (% of License Users) Band"
-    description: "The percentage Monthly Activer Users, associated with the license, represents of License Users (Server MAU/License Users) stratified into bands."
+    description: "The percentage of License Users that are Monthly Activer Users stratified into bands."
     group_label: " License Utilization (Active User %)"
     type: tier
     style: integer
     tiers: [25, 50, 75, 100]
     value_format: "0.0\%"
     sql: ${mau_pct_licensed} ;;
+  }
+
+  dimension: customer_rank {
+    label: "Customer License Rank"
+    description: "A rank to assist surfacing the most relevant customer record (when there are dupes/fanning out) at the daily customer level."
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_rank ;;
+    hidden: no
   }
 
 
@@ -644,7 +732,7 @@ view: license_daily_details {
     type: count_distinct
     filters: {
       field: days_since_last_telemetry
-      value: "< 7"
+      value: "<= 7"
     }
     sql: ${customer_id} ;;
   }
@@ -656,7 +744,7 @@ view: license_daily_details {
     type: count_distinct
     filters: {
       field: days_since_last_telemetry
-      value: ">= 7"
+      value: "> 7"
     }
     sql: ${customer_id} ;;
   }
@@ -667,7 +755,7 @@ view: license_daily_details {
     description: "The distinct count of License Customers w/ No Telemetry data sent in their lifetime per grouping."
     type: count_distinct
     filters: {
-      field: days_since_last_telemetry
+      field: last_telemetry_date
       value: "NULL"
     }
     sql: ${customer_id} ;;
@@ -704,7 +792,7 @@ view: license_daily_details {
     type: count_distinct
     filters: {
       field: customer_mau_pct_licensed
-      value: "< 50"
+      value: "< 50 AND > 0"
     }
     sql: ${customer_id} ;;
   }
@@ -715,8 +803,8 @@ view: license_daily_details {
     description: "The distinct count of License Customers w/ No MAU Data."
     type: count_distinct
     filters: {
-      field: customer_mau_pct_licensed
-      value: "NULL"
+      field: customer_mau
+      value: "0"
     }
     sql: ${customer_id} ;;
   }
