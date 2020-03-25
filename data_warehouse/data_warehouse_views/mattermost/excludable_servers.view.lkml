@@ -11,8 +11,4 @@ view: excludable_servers {
     sql: ${TABLE}."SERVER_ID" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
 }
