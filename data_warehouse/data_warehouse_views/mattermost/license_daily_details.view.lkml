@@ -7,7 +7,7 @@ view: license_daily_details {
   filter: active {
     description: "Boolean indicating the expiration date >= current date."
     type: yesno
-    sql: case when ${expire_date} >= CURRENT_DATE AND ${start_date} <= CURRENT_DATE AND lower(${company}) NOT LIKE '%mattermost%' then true else false end ;;
+    sql: case when ${expire_date} >= CURRENT_DATE AND ${start_date} <= CURRENT_DATE AND lower(coalesce(${company}, '')) NOT LIKE '%mattermost%' then true else false end ;;
     hidden: no
   }
 
@@ -218,7 +218,7 @@ view: license_daily_details {
     description: "The number of registered users recorded by all servers associated with the customer_id and its respective licenses."
     group_label: "Customer Dimensions"
     type: number
-    sql: CASE WHEN ${TABLE}.customer_registered_users IS NULL THEN -100 ELSE ${TABLE}.customer_registered_users END;;
+    sql: CASE WHEN ${TABLE}.customer_registered_users IS NULL THEN -100 ELSE ${TABLE}.customer_registered_users - COALESCE(${customer_registered_deactivated_users},0) END;;
     hidden: yes
   }
 
@@ -792,7 +792,7 @@ view: license_daily_details {
     type: count_distinct
     filters: {
       field: customer_mau_pct_licensed
-      value: "< 50 AND > 0"
+      value: "< 50"
     }
     sql: ${customer_id} ;;
   }
@@ -804,7 +804,7 @@ view: license_daily_details {
     type: count_distinct
     filters: {
       field: customer_mau
-      value: "0"
+      value: "NULL"
     }
     sql: ${customer_id} ;;
   }
