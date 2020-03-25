@@ -565,6 +565,13 @@ view: license_daily_details {
     hidden: no
   }
 
+  dimension: days_to_expire {
+    label: " Days to Expiration"
+    description: "The number of days from the current date until the license expires."
+    type: number
+    sql: datediff(day, current_date, ${expire_date}) ;;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
