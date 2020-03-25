@@ -15,6 +15,12 @@ view: account_health_score {
     sql: ${TABLE}."CS_ATTRITION_LIKELIHOOD" ;;
   }
 
+  dimension: count_tickets_prev_90 {
+    label: "# of Tickets Prev 90 Days"
+    type: number
+    sql: ${TABLE}."COUNT_TICKETS_PREV_90" ;;
+  }
+
   dimension: days_since_last_task {
     group_label: "Tasks"
     type: number
