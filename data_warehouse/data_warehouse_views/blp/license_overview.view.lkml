@@ -4,103 +4,87 @@ view: license_overview {
   dimension: account_name {
     type: string
     sql: ${TABLE}."ACCOUNT_NAME" ;;
+    description: "Salesforce Account Name"
   }
 
   dimension: account_sfid {
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
+    description: "Salesforce Account SFID"
   }
 
   dimension: company {
     type: string
     sql: ${TABLE}."COMPANY" ;;
-  }
-
-  dimension: contact_email {
-    type: string
-    sql: ${TABLE}."CONTACT_EMAIL" ;;
+    description: "Company name entered in Licensing Server"
   }
 
   dimension: contact_sfid {
     type: string
     sql: ${TABLE}."CONTACT_SFID" ;;
+    description: "Contact SFID of email entered in Licensing Server"
   }
 
   dimension: customerid {
     type: string
     sql: ${TABLE}."CUSTOMERID" ;;
+    description: "Customer ID of email entered into Licensing Server"
   }
 
-  dimension_group: expiresat {
+  dimension_group: expires_at {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: ${TABLE}."EXPIRESAT" ;;
   }
 
-  dimension_group: issuedat {
+  dimension_group: issued_at {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: ${TABLE}."ISSUEDAT" ;;
   }
 
   dimension: license_email {
+    description: "Email entered in Licensing Server"
     type: string
     sql: ${TABLE}."LICENSE_EMAIL" ;;
   }
 
   dimension: licenseid {
+    label: "License ID"
     type: string
     sql: ${TABLE}."LICENSEID" ;;
   }
 
-  dimension: licenselength {
+  dimension: license_length {
     type: number
     sql: ${TABLE}."LICENSELENGTH" ;;
   }
 
-  dimension: master_account_name {
-    type: string
-    sql: ${TABLE}."MASTER_ACCOUNT_NAME" ;;
-  }
-
-  dimension: master_account_sfid {
-    type: string
-    sql: ${TABLE}."MASTER_ACCOUNT_SFID" ;;
-  }
-
-  dimension: opportunity_name {
-    type: string
-    sql: ${TABLE}."OPPORTUNITY_NAME" ;;
-  }
-
   dimension: opportunity_sfid {
+    label: "Opportunity SFID"
     type: string
     sql: ${TABLE}."OPPORTUNITY_SFID" ;;
   }
 
   dimension: stripeid {
+    label: "Strip ID"
     type: string
     sql: ${TABLE}."STRIPEID" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [opportunity_name, account_name, master_account_name]
+  measure: count_licenses {
+    label: "# of Licenses"
+    type: count_distinct
+    drill_fields: [account_name, company, opportunity.name, license_email, contact.email, issued_at_date, expires_at_date]
   }
 }
