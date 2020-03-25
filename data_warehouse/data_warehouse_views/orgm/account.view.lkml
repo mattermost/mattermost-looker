@@ -41,13 +41,13 @@ view: account {
       name,
       sfid,
       owner_name,
-      ownerid,
       csm_name,
       master_account_name,
       count,
       csm_enriched_region,
       customer_segmentation_tier,
-      industry_category
+      industry_category,
+      arr_current
     ]
   }
 
@@ -857,7 +857,7 @@ view: account {
   }
 
   dimension: master_account_name {
-    label: "Master Account"
+    label: "Master Account Name"
     sql: coalesce(${parent_account.name}, ${name}) ;;
     type: string
   }
@@ -937,6 +937,7 @@ view: account {
   }
 
   dimension: csm_enriched_region {
+    group_label: "CS"
     label: "CSM Enriched Region"
     sql: CASE
               WHEN ${csm_lookup} = '0051R00000I5RZBQA3' THEN 'EMEA'
@@ -985,7 +986,6 @@ view: account {
     label: "Account ID"
     primary_key: yes
     sql: ${TABLE}.sfid ;;
-    group_label: " Account Info."
     link: {
       label: "Salesforce Account"
       url: "@{salesforce_link}{{value}}"

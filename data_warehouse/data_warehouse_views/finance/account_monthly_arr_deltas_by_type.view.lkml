@@ -10,6 +10,8 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   dimension: last_and_next_12mo {
+    label: "Last & Next 12 Mo."
+    description: "ARR Month falls between 12 months ago and 12 months from now"
     sql: ${month_start_date} >= date_trunc('month',current_date()) - interval '12 month' AND ${month_start_date} <= date_trunc('month',current_date()) + interval '12 month'  ;;
     type: yesno
   }
@@ -59,29 +61,13 @@ view: account_monthly_arr_deltas_by_type {
   dimension: account_sfid {
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
-  }
-
-  dimension: account_name {
-    type: string
-    sql: ${account.name} ;;
-    link: {
-      label: "Salesforce Account"
-      url: "@{salesforce_link}{{account_sfid}}"
-    }
+    hidden: yes
   }
 
   dimension: master_account_sfid {
     type: string
     sql: ${TABLE}."MASTER_ACCOUNT_SFID" ;;
-  }
-
-  dimension: master_account_name {
-    type: string
-    sql: ${master_account.name} ;;
-    link: {
-      label: "Salesforce Master Account"
-      url: "@{salesforce_link}{{master_account_sfid}}"
-    }
+    hidden: yes
   }
 
   dimension_group: month_end {
@@ -117,13 +103,15 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   dimension: arr_type {
-    label: "ARR Type"
+    label: "ARR Change Type"
+    description: "ARR Change is due to New, Expansion, Resurrection, Contraction, or Churn"
     sql: ${TABLE}."ARR_TYPE" ;;
     type: string
     order_by_field: arr_type_order
   }
 
   dimension: arr_type_order {
+    hidden: yes
     case: {
       when: {
         label: "0"
@@ -167,7 +155,7 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   measure: total_arr_delta {
-    label: "Total ARR Delta"
+    label: "Total ARR Change"
     type: sum
     sql: ${TABLE}."TOTAL_ARR_DELTA" ;;
     value_format_name: "usd_0"
@@ -202,43 +190,36 @@ view: account_monthly_arr_deltas_by_type {
     drill_fields: [arr_change_details*]
   }
 
-  measure: count {
-    label: "Account Count"
-    type: count_distinct
-    sql: ${account_sfid} ;;
-    drill_fields: []
-  }
-
   measure: count_arr_new_accounts {
-    label: "Count ARR New Accounts"
+    label: "# of ARR New Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_NEW" > 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_explansion_accounts {
-    label: "Count ARR Explansion Accounts"
+    label: "# of ARR Explansion Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_EXPANSION" > 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_resurrection_accounts {
-    label: "Count ARR Resurrection Accounts"
+    label: "# of ARR Resurrection Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_RESURRECTION" > 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_contraction_accounts {
-    label: "Count ARR Contraction Accounts"
+    label: "# of ARR Contraction Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_CONTRACTION" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
   }
 
   measure: count_arr_churn_accounts {
-    label: "Count ARR Churn Accounts"
+    label: "# of ARR Churn Accounts"
     type: count_distinct
     sql: case when ${TABLE}."TOTAL_ARR_CHURN" < 0 then ${account_sfid} else null end ;;
     group_label: "ARR"
@@ -401,6 +382,6 @@ view: account_monthly_arr_deltas_by_type {
   }
 
   set: arr_change_details {
-    fields: [month_end_date, master_account_name, account_name, arr_type, total_arr_delta]
+    fields: [month_end_date, master_account.name, account.name, arr_type, total_arr_delta]
   }
 }
