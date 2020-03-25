@@ -46,7 +46,8 @@ view: account {
       master_account_name,
       count,
       csm_enriched_region,
-      customer_segmentation_tier
+      customer_segmentation_tier,
+      industry_category
     ]
   }
 
@@ -444,6 +445,13 @@ view: account {
     sql: ${TABLE}.industry ;;
     type: string
   }
+
+  dimension: industry_category {
+    label: "Industry Category"
+    sql: ${account_industry_mapping.industry_category} ;;
+    type: string
+  }
+
 
   dimension: isdeleted {
     sql: ${TABLE}.isdeleted ;;
