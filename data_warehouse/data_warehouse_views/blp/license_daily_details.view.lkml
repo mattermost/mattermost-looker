@@ -1,6 +1,6 @@
 # This is the view file for the analytics.mattermost.license_daily_details table.
 view: license_daily_details {
-  sql_table_name: mattermost.license_daily_details ;;
+  sql_table_name: blp.license_daily_details ;;
   view_label: "License Daily Details"
 
   # FILTERS
