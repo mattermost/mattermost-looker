@@ -1,6 +1,6 @@
 # This is the view file for the analytics.mattermost.licenses table.
 view: licenses {
-  sql_table_name: mattermost.licenses ;;
+  sql_table_name: blp.licenses ;;
   view_label: "Licenses"
 
   # FILTERS
