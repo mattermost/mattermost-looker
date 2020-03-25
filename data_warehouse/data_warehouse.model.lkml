@@ -293,20 +293,12 @@ explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
   group_label: "Finance"
   view_label: "Account Daily ARR Deltas"
-  extends: [_base_account_explore]
+  extends: [_base_account_core_explore]
 
   join: account {
     view_label: "Account Daily ARR Deltas"
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
-    fields: [name,sfid]
-  }
-
-  join: master_account {
-    from: account
-    sql_on: ${master_account.sfid} = ${account_daily_arr_deltas.master_account_sfid} ;;
-    relationship: many_to_one
-    fields: []
   }
 }
 

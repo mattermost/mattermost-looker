@@ -4,6 +4,7 @@ view: staff_github_usernames {
   dimension: username {
     type: string
     sql: ${TABLE}."USERNAME" ;;
+    description: "Mattermost staff GitHub usernames"
   }
 
 }
