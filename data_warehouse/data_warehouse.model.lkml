@@ -277,7 +277,6 @@ explore: master_account_monthly_arr_deltas_by_type {
     view_label: "Master Account Monthly ARR Changes"
     relationship: one_to_one
     sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
-    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
