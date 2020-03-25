@@ -229,18 +229,21 @@ explore: account {
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     view_label: "Account CSM"
+    fields: []
   }
 
   join: account_owner {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: parent_account {
     from: account
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
+    fields: []
   }
 
   join: opportunity {

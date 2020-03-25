@@ -856,6 +856,20 @@ view: account {
     type: string
   }
 
+  dimension: parent_account_name {
+    group_label: "Parent"
+    label: "Parent Account Name"
+    sql: ${parent_account.name} ;;
+    type: string
+  }
+
+  dimension: parent_account_arr {
+    group_label: "Parent"
+    label: "Parent Account ARR"
+    sql: ${parent_account.arr_current} ;;
+    type: number
+  }
+
   dimension: master_account_name {
     label: "Master Account Name"
     sql: coalesce(${parent_account.name}, ${name}) ;;
