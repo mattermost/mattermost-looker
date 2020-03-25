@@ -100,6 +100,12 @@ explore: _base_account_explore {
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
   }
+
+  join: account_industry_mapping {
+    sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: _base_account_core_explore {
@@ -129,6 +135,12 @@ explore: _base_account_core_explore {
     from: account
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
+    fields: []
+  }
+
+  join: account_industry_mapping {
+    sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
+    relationship: many_to_one
     fields: []
   }
 }
@@ -233,6 +245,12 @@ explore: account {
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+  }
+
+  join: account_industry_mapping {
+    sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
