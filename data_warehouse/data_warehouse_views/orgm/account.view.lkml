@@ -46,7 +46,8 @@ view: account {
       count,
       csm_enriched_region,
       customer_segmentation_tier,
-      industry_category
+      industry_category,
+      arr_current
     ]
   }
 
