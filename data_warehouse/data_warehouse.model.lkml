@@ -353,15 +353,6 @@ explore: lead {
   }
 }
 
-explore: staff_list {
-  group_label: "Contributors & Employees"
-  join: contributor_employee_map_data {
-    sql_on: ${staff_list.email} = ${contributor_employee_map_data.email};;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
 explore: contributor_employee_map_data {
   group_label: "Contributors & Employees"
 }
