@@ -7,7 +7,7 @@ view: license_daily_details {
   filter: active {
     description: "Boolean indicating the expiration date >= current date."
     type: yesno
-    sql: case when ${expire_date} >= CURRENT_DATE AND ${start_date} <= CURRENT_DATE AND lower(coalesce(${company}, '')) NOT LIKE '%mattermost%' then true else false end ;;
+    sql: case when ${expire_date} >= CURRENT_DATE AND ${issued_date} <= CURRENT_DATE AND lower(coalesce(${company}, '')) NOT LIKE '%mattermost%' then true else false end ;;
     hidden: no
   }
 
