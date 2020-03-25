@@ -258,20 +258,12 @@ explore: account {
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
   group_label: "Finance"
-  extends: [_base_account_explore]
-
-  join: master_account {
-    from: account
-    sql_on: ${master_account.sfid} = ${account_monthly_arr_deltas_by_type.master_account_sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
+  extends: [_base_account_core_explore]
 
   join: account {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: one_to_one
-    fields: [account.customer_segmentation_tier, account.arr_current]
   }
 }
 
