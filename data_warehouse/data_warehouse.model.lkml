@@ -222,6 +222,7 @@ explore: _base_opportunity_core_explore {
 explore: account {
   label: "Account to Line Item"
   group_label: "Salesforce"
+  description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
 
   join: account_csm {
@@ -372,6 +373,7 @@ explore: daily_page_visits {
 
 explore: downloads {
   group_label: "Product"
+  description: "Contains all downloads from Mattermost web properties including server and dekstop app downloads. Use this to trend downloads over time."
 }
 
 
@@ -517,6 +519,7 @@ explore: github_contributions {
 
 explore: server_daily_details {
   group_label: "Product"
+  description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
 
   join: server_fact {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
@@ -533,6 +536,7 @@ explore: delete_history {
 
 explore: server_fact {
   group_label: "Product"
+  description: "Contains the most recent data available for servers including first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
 }
 
 explore: dates {
@@ -660,26 +664,32 @@ explore: tva_all_by_fy {
 explore: events_registry {
   label: "Events Registry"
   group_label: "Product"
+  description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
 }
 explore: user_events_by_date {
   label: "User Events By Date"
   group_label: "Product"
+  description: "Contains all user events by day. 1 row per user per event that user performed each day. The sum of events is recorded for each row, which captures the total number of events performed by the user on the given date (>= 1)."
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
   group_label: "Product"
+  description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day >= the user's first event date i.e. captures dates where user does not perform events."
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 explore: snowflake_contract_rates {
   label: "Snowflake Contract Rates"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 explore: snowflake_warehouse_cost {
   label: "Snowflake Warehouse Cost"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 
 explore: licenses {
@@ -689,5 +699,6 @@ explore: licenses {
 }
 explore: license_daily_details {
   label: "License Daily Details"
-  group_label: "License"
+  group_label: "BLP"
+  description: "Contains a daily snapshot of license data including servers associated with the license, Salesforce account information, licensed users, registered users, MAU, DAU, and server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenes."
 }
