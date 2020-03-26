@@ -86,6 +86,12 @@ view: zendesk_ticket_details {
           ;;
   }
 
+  dimension: support_type_category {
+    type: string
+    sql: CASE WHEN ${support_type} IN ('Premium','E20','E10') THEN 'Paid' ELSE 'Free' END
+          ;;
+  }
+
   dimension: enterprise_edition_version {
     type: string
     sql: ${TABLE}."ENTERPRISE_EDITION_VERSION" ;;
@@ -152,7 +158,7 @@ view: zendesk_ticket_details {
 
   dimension: product_bug {
     label: "Is Product Bug?"
-    sql: ${tags} like '%jira%'or ${tags} like '%bug%';;
+    sql: ${tags} like '%jira%' or ${tags} like '%bug%';;
     type: yesno
   }
 
