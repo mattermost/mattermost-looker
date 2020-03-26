@@ -9,7 +9,9 @@ explore: delete_history {
   group_label: "zHeroku Postgres OrgM"
 }
 
-
+explore: hc_object_status {
+  group_label: "zHeroku Postgres OrgM"
+}
 explore: opportunity {
   group_label: "zHeroku Postgres OrgM"
 
