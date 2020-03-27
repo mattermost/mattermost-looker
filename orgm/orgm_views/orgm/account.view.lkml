@@ -961,4 +961,41 @@ view: account {
     sql: ${sfid} ;;
     drill_fields: [sfid, name]
   }
+
+  measure: vendor_count {
+    description: "The distinct count of 'Vendor' Account Types."
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: [type: "Vendor"]
+  }
+
+  measure: prospect_partner_count {
+    description: "The distinct count of 'Prospect Partner' Account Types."
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: [type: "Prospect Partner"]
+  }
+
+  measure: prospect_count {
+    description: "The distinct count of 'Prospect' Account Types."
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: [type: "Prospect"]
+  }
+
+  measure: partner_count {
+    description: "The distinct count of 'Partner' Account Types."
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: [type: "Partner"]
+  }
+
+  measure: customer_count {
+    description: "The distinct count of 'Customer' Account Types."
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: [type: "Customer"]
+  }
+
+
 }
