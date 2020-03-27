@@ -336,6 +336,14 @@ view: licenses {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
+    hidden: yes
+  }
+
+  dimension: license_duration {
+    label: "License Duration (Days)"
+    description: "The # of days between the license start date and the license expire date."
+    type: number
+    sql: datediff(day, ${start_date}, ${expire_date}) ;;
     hidden: no
   }
 
