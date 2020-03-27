@@ -103,12 +103,49 @@ view: nps_user_monthly_score {
     hidden: no
   }
 
+  dimension: user_age {
+    description: "The user's age at the time of NPS Score submission."
+    label: "User Age (Days)"
+    type: number
+    value_format_name: decimal_0
+    sql: datediff(day, ${user_created_at_date}::date, ${last_score_date}::date) ;;
+  }
+
+  dimension: user_age_band {
+    description: "The user's age at the time of NPS Score submission stratified into bands (30-60-90-180-365-730 Days)."
+    label: "User Age Band (Days)"
+    type: tier
+    style: integer
+    tiers: [31, 61, 91, 181, 366, 731]
+    value_format_name: decimal_0
+    sql: ${user_age}  ;;
+  }
+
   dimension_group: server_install {
     description: "The date the user's (responding to the NPS survey) server was installed."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
+  }
+
+  dimension: server_age {
+    label: "Server Age (Days)"
+    description: "The server's age at the time of NPS Score submission."
+    type: number
+    value_format_name: decimal_0
+    sql: datediff(day, ${server_install_date}::date, ${last_score_date}::date) ;;
+    hidden: no
+  }
+
+  dimension: server_age_band {
+    description: "The server's age at the time of NPS Score submission stratified into bands (30-60-90-180-365-730 Days)."
+    label: "Server Age Band (Days)"
+    type: tier
+    style: integer
+    tiers: [31, 61, 91, 181, 366, 731]
+    value_format_name: decimal_0
+    sql: ${server_age}  ;;
   }
 
   dimension_group: last_feedback {

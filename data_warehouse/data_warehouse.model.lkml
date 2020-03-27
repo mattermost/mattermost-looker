@@ -222,6 +222,7 @@ explore: _base_opportunity_core_explore {
 explore: account {
   label: "Account to Line Item"
   group_label: "Salesforce"
+  description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
 
   join: account_csm {
@@ -372,12 +373,14 @@ explore: daily_page_visits {
 
 explore: downloads {
   group_label: "Product"
+  description: "Contains all downloads from Mattermost web properties including server and dekstop app downloads. Use this to trend downloads over time."
 }
 
 
 explore: nps_data {
   label: "NPS Data"
   group_label: "Product"
+  description: "Contains raw NPS data. Typically you will want to use 'NPS User Monthly Score' instead of this, which contains a structured version of this data that allows you to trend the aggregate NPS score, not just the score at time of submission."
   extends: [_base_account_core_explore]
 
   join: license_overview {
@@ -517,6 +520,7 @@ explore: github_contributions {
 
 explore: server_daily_details {
   group_label: "Product"
+  description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
 
   join: server_fact {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
@@ -533,6 +537,7 @@ explore: delete_history {
 
 explore: server_fact {
   group_label: "Product"
+  description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
 }
 
 explore: dates {
@@ -598,6 +603,7 @@ explore: zendesk_ticket_details {
 explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Monthly Score"
+  description: "Contains NPS Score data per user per month for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS monthly by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
 
   join: license_overview {
@@ -615,6 +621,7 @@ explore: nps_user_monthly_score {
 explore: server_daily_details_ext {
   group_label: "Product"
   label: "Server Daily Details Ext"
+  description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
   extends: [_base_account_core_explore]
 
 
@@ -660,26 +667,32 @@ explore: tva_all_by_fy {
 explore: events_registry {
   label: "Events Registry"
   group_label: "Product"
+  description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
 }
 explore: user_events_by_date {
   label: "User Events By Date"
   group_label: "Product"
+  description: "Contains all 'white-list' user events by day - 1 row per user per event (that user performed across web, desktop, and mobile) per day. The sum of events are recorded for each row, which captures the total number of the specific event performed by the user on the given date (must be >= 1). Use this to track and trend the volume of individual events by day."
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
   group_label: "Product"
+  description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day >= the user's first event date (i.e. contains row for users on dates where user has not performed event)."
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 explore: snowflake_contract_rates {
   label: "Snowflake Contract Rates"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 explore: snowflake_warehouse_cost {
   label: "Snowflake Warehouse Cost"
   group_label: "zBizOps Spend"
+  description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 
 explore: licenses {
@@ -689,5 +702,6 @@ explore: licenses {
 }
 explore: license_daily_details {
   label: "License Daily Details"
-  group_label: "License"
+  group_label: "BLP"
+  description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
 }

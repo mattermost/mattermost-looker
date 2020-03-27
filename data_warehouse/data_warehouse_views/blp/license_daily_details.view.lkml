@@ -14,7 +14,7 @@ view: license_daily_details {
   filter: current_record {
     description: "Selects only records with the most recent logging date available in the table."
     type: yesno
-    sql: ${logging_date} = (SELECT MAX(date) FROM mattermost.license_daily_details) ;;
+    sql: ${logging_date} = (SELECT MAX(date) FROM blp.license_daily_details) ;;
   }
 
   # DIMENSIONS
