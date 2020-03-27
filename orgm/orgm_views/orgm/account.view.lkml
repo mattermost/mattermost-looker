@@ -114,20 +114,8 @@ view: account {
     group_label: "Marketing"
   }
 
-  dimension: cleaned_up_website {
-  #     TBD TO REMOVE
-    type: string
-    sql: ${TABLE}."cleaned_up_website__c" ;;
-    group_label: "System"
-    label: "Cleaned up Website"
-  }
 
-  dimension: commercial_rep {
-    type: string
-    sql: ${TABLE}."commercial_rep__c" ;;
-    group_label: "Owners"
-    label: "Commercial Rep"
-  }
+
 
   dimension: company_type {
     type: string
@@ -198,20 +186,7 @@ view: account {
     group_label: "CS"
   }
 
-  dimension_group: date_of_issue {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."date_of_issue__c" ;;
-  }
+
 
   dimension_group: demo_req_date {
     type: time
@@ -227,20 +202,7 @@ view: account {
     sql: ${TABLE}."demo_req_date__c" ;;
   }
 
-  dimension_group: deployonbitnamidate {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."deployonbitnamidate__c" ;;
-  }
+
 
   dimension: description {
     type: string
@@ -267,25 +229,8 @@ view: account {
     sql: ${TABLE}."fax" ;;
   }
 
-  dimension: field_rep {
-  #     TBD TO REMOVE
-    type: string
-    sql: ${TABLE}."field_rep__c" ;;
-    group_label: "Owners"
-    label: "Field Rep"
-  }
 
-  dimension: first_channel {
-    type: string
-    sql: ${TABLE}."first_channel__c" ;;
-    label: "First Channel"
-  }
 
-  dimension: first_channel_detail {
-    type: string
-    sql: ${TABLE}."first_channel_detail__c" ;;
-    label: "First Channel"
-  }
 
   dimension_group: first_created_date {
     type: time
@@ -337,12 +282,7 @@ view: account {
     sql: ${TABLE}."followup_date__c" ;;
   }
 
-  dimension: former_owner {
-    type: string
-    sql: ${TABLE}."former_owner__c" ;;
-    group_label: "Owners"
-    label: "Former Owner"
-  }
+
 
   dimension: g2k_rank {
     type: number
@@ -409,19 +349,6 @@ view: account {
     sql: ${TABLE}."isdeleted" ;;
   }
 
-  dimension_group: last_time_assignm_process_workflow_ran {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."last_time_assignm_process_workflow_ran__c" ;;
-  }
 
   dimension_group: lastactivitydate {
     type: time
@@ -514,45 +441,6 @@ view: account {
     sql: ${TABLE}."lead_created_date__c" ;;
   }
 
-  dimension: legal_contact {
-    type: string
-    sql: ${TABLE}."legal_contact__c" ;;
-    group_label: "Legal"
-  }
-
-  dimension: legal_right_for_case_studies {
-    type: string
-    sql: ${TABLE}."legal_right_for_case_studies__c" ;;
-    group_label: "Legal"
-  }
-
-  dimension: legal_right_to_use_name_logo {
-    type: string
-    sql: ${TABLE}."legal_right_to_use_name_logo__c" ;;
-    group_label: "Legal"
-  }
-
-  dimension: legally_agreed_to_joint_pr {
-    type: string
-    sql: ${TABLE}."legally_agreed_to_joint_pr__c" ;;
-    group_label: "Legal"
-  }
-
-  dimension: legally_agreed_to_pr {
-    type: string
-    sql: ${TABLE}."legally_agreed_to_pr__c" ;;
-    group_label: "Legal"
-  }
-
-  dimension: logo_sales_logos_dropbox {
-    type: string
-    sql: ${TABLE}."logo_sales_logos_dropbox__c" ;;
-  }
-
-  dimension: logo_used_on_our_website {
-    type: string
-    sql: ${TABLE}."logo_used_on_our_website__c" ;;
-  }
 
   dimension: masterrecordid {
     type: string
@@ -573,20 +461,7 @@ view: account {
     sql: ${TABLE}."meetingset_date__c" ;;
   }
 
-  dimension_group: mql_date {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."mql_date__c" ;;
-    group_label: "Funnel"
-  }
+
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
@@ -725,10 +600,6 @@ view: account {
     sql: ${TABLE}."other_customer_marketing_comment__c" ;;
   }
 
-  dimension: our_champion {
-    type: string
-    sql: ${TABLE}."our_champion__c" ;;
-  }
 
   dimension: ownerid {
     type: string
@@ -766,25 +637,7 @@ view: account {
     sql: ${TABLE}."photourl" ;;
   }
 
-  dimension_group: pr_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."pr_date__c" ;;
-  }
 
-  dimension: pr_link {
-    type: string
-    sql: ${TABLE}."pr_link__c" ;;
-  }
 
   dimension_group: pre_release_sign_up_date {
     type: time
@@ -825,13 +678,7 @@ view: account {
     sql: ${TABLE}."region__c" ;;
   }
 
-  dimension: renewal_rep {
-  #     TBD TO REMOVE
-    type: string
-    sql: ${TABLE}."renewal_rep__c" ;;
-    group_label: "Owners"
-    label: "Renewal Rep"
-  }
+
 
   dimension_group: request_a_quote_date {
     type: time
@@ -1074,30 +921,18 @@ view: account {
     sql: ${TABLE}."unqualified_date__c" ;;
   }
 
-  dimension_group: video_case_study_date {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."video_case_study_date__c" ;;
-  }
-
-  dimension: video_case_study_link {
-    type: string
-    sql: ${TABLE}."video_case_study_link__c" ;;
-  }
-
   dimension: website {
     type: string
     sql: ${TABLE}."website" ;;
+    label: "Website"
   }
+
+  dimension: website_domain {
+    type: string
+    sql: ${TABLE}."cbit__clearbitdomain__c" ;;
+    label: "Website Domain"
+  }
+
 
   dimension_group: x1stcontactusdate {
     type: time

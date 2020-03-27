@@ -85,26 +85,7 @@ view: account {
     type: number
   }
 
-  dimension: assigned_once_with_workflow {
-    group_label: "System"
-    label: "Assigned Once with WF"
-    sql: ${TABLE}.assigned_once_with_workflow__c ;;
-    type: yesno
-  }
 
-  dimension: assigned_owner {
-    group_label: "Owners"
-    sql: ${TABLE}.assigned_owner__c ;;
-    type: string
-    ##ditch
-  }
-
-  dimension: assigned_owner_id {
-    group_label: "Owners"
-    sql: ${TABLE}.assigned_owner_id__c ;;
-    type: string
-    ##ditch
-  }
 
   dimension: billing_city {
     group_label: "Billing Info"
@@ -179,19 +160,6 @@ view: account {
     type: string
   }
 
-  dimension: cleaned_up_website {
-    group_label: "System"
-    label: "Cleaned up Website"
-    sql: ${TABLE}.cleaned_up_website__c ;;
-    type: string
-  }
-
-  dimension: commercial_rep {
-    group_label: "Owners"
-    sql: ${TABLE}.commercial_rep__c ;;
-    type: string
-    ##ditch
-  }
 
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
@@ -229,20 +197,6 @@ view: account {
     type: string
   }
 
-  dimension_group: date_of_issue {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.date_of_issue__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension_group: demo_req {
     sql: ${TABLE}.demo_req_date__c ;;
@@ -258,20 +212,6 @@ view: account {
     type: time
   }
 
-  dimension_group: deploy_on_bitnami {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.deployonbitnamidate__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension: description {
     label: "Account Description"
@@ -313,15 +253,6 @@ view: account {
     ##ditch
   }
 
-  dimension: first_channel {
-    sql: ${TABLE}.first_channel__c ;;
-    type: string
-  }
-
-  dimension: first_channel_detail {
-    sql: ${TABLE}.first_channel_detail__c ;;
-    type: string
-  }
 
   dimension_group: first_created {
     convert_tz: no
@@ -373,11 +304,7 @@ view: account {
     type: time
   }
 
-  dimension: former_owner {
-    group_label: "Owners"
-    type: string
-    sql: ${TABLE}.former_owner__c ;;
-  }
+
 
   dimension: g2k_rank {
     sql: ${TABLE}.g2k_rank__c ;;
@@ -458,21 +385,7 @@ view: account {
     type: yesno
   }
 
-  dimension_group: last_time_assignm_process_workflow_ran {
-    # description: "TODO"
-    sql: ${TABLE}.last_time_assignm_process_workflow_ran__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-    ##ditch
-  }
+
 
   dimension_group: last_activity {
     convert_tz: no
@@ -566,37 +479,7 @@ view: account {
     type: time
   }
 
-  dimension: legal_contact {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_contact__c ;;
-    type: string
-  }
 
-  dimension: legal_right_for_case_studies {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_right_for_case_studies__c ;;
-    type: string
-  }
-
-  dimension: legal_right_to_use_name_logo {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_right_to_use_name_logo__c ;;
-    type: string
-  }
-
-  dimension: legally_agreed_to_joint_pr {
-    group_label: "Legal"
-    label: "Legally Agreed To Joint PR"
-    sql: ${TABLE}.legally_agreed_to_joint_pr__c ;;
-    type: string
-  }
-
-  dimension: legally_agreed_to_pr {
-    group_label: "Legal"
-    label: "Legally Agreed To PR"
-    sql: ${TABLE}.legally_agreed_to_pr__c ;;
-    type: string
-  }
 
   dimension: logo_sales_logos_dropbox {
     # description: "TODO"
@@ -636,21 +519,6 @@ view: account {
     type: time
   }
 
-  dimension_group: mql {
-    label: "MQL"
-    group_label: "Funnel"
-    sql: ${TABLE}.mql_date__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
@@ -692,54 +560,6 @@ view: account {
     type: time
   }
 
-  # TODO: These netsuite fields do not exist in the db
-  # dimension: netsuite_conn_account_balance {
-  #   group_item_label: "Account Balance"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Account Balance"
-  #   sql: ${TABLE}.netsuite_conn__account_balance__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_account_overdue_balance {
-  #   group_item_label: "Account Overdue Balance"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Account Overdue Balance"
-  #   sql: ${TABLE}.netsuite_conn__account_overdue_balance__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_channel_tier {
-  #   group_item_label: "Channel Tier"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Channel Tier"
-  #   sql: ${TABLE}.netsuite_conn__channel_tier__c ;;
-  #   type: string
-  # }
-
-  # dimension: netsuite_conn_credit_limit {
-  #   group_item_label: "Credit Limit"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Credit Limit"
-  #   sql: ${TABLE}.netsuite_conn__credit_limit__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_days_overdue {
-  #   group_item_label: "Days Overdue"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Days Overdue"
-  #   sql: ${TABLE}.netsuite_conn__days_overdue__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_unbilled_orders {
-  #   group_item_label: "Unbilled Orders"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Unbilled Orders"
-  #   sql: ${TABLE}.netsuite_conn__unbilled_orders__c ;;
-  #   type: number
-  # }
 
   dimension: netsuite_conn_celigo_update {
     group_item_label: "Celigo Update"
@@ -818,10 +638,7 @@ view: account {
     type: string
   }
 
-  dimension: our_champion {
-    sql: ${TABLE}.our_champion__c ;;
-    type: string
-  }
+
 
   dimension: ownerid {
     group_label: "Owners"
@@ -886,29 +703,7 @@ view: account {
     type: string
   }
 
-  # TODO: These fields do not exist in the database?
-  # dimension_group: pr {
-  #   convert_tz: no
-  #   datatype: date
-  #   label: "PR"
-  #   sql: ${TABLE}.pr_date__c ;;
-  #   timeframes: [
-  #     raw,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   type: time
-  # }
 
-
-  # dimension: pr_link {
-  #   label: "PR Link"
-  #   sql: ${TABLE}.pr_link__c ;;
-  #   type: string
-  # }
 
   dimension_group: pre_release_sign_up {
     # description: "TODO"
@@ -1175,6 +970,14 @@ view: account {
     type: string
   }
 
+
+  dimension: website_domain {
+    type: string
+    sql: ${TABLE}.cbit__clearbitdomain__c;;
+    label: "Website Domain"
+  }
+
+
   dimension_group: x1st_contact_us {
     sql: ${TABLE}.x1stcontactusdate__c ;;
     timeframes: [
@@ -1187,97 +990,6 @@ view: account {
       year
     ]
     type: time
-  }
-
-  dimension: zendesk_create_in_zendesk {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__create_in_zendesk__c ;;
-    type: yesno
-  }
-
-  dimension: zendesk_created_updated_flag {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__createdupdatedflag__c ;;
-    type: yesno
-  }
-
-  dimension_group: zendesk_last_sync {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__last_sync_date__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: zendesk_last_sync_status {
-    group_item_label: "Last Sync Status"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__last_sync_status__c ;;
-    type: string
-  }
-
-#   TODO: Delete these fields which are missing from the DB?
-#   dimension: zendesk_domain_mapping {
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__domain_mapping__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_notes {
-#     group_item_label: "Notes"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__notes__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_tags {
-#     group_item_label: "Tags"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__tags__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_old_tags {
-#     group_item_label: "Old Tags"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
-#     type: string
-#   }
-
-
-  dimension: zendesk_result {
-    group_item_label: "Result"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__result__c ;;
-    type: string
-  }
-
-  dimension: zendesk_organization {
-    group_item_label: "Organization"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_organization__c ;;
-    type: string
-  }
-
-  dimension: zendesk_organization_id {
-    group_item_label: "Organization ID"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_organization_id__c ;;
-    type: string
-  }
-
-  dimension: zendesk_out_of_sync {
-    group_item_label: "Out of Sync"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_outofsync__c ;;
-    type: yesno
   }
 
 
