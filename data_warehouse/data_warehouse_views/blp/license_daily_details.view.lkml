@@ -572,6 +572,33 @@ view: license_daily_details {
     sql: datediff(day, current_date, ${expire_date}) ;;
   }
 
+  dimension: license_duration {
+    label: "License Duration (Days)"
+    description: "The # of days between the license start date and the license expire date."
+    type: number
+    sql: datediff(day, ${start_date}, ${expire_date}) ;;
+    hidden: no
+  }
+
+  dimension: days_to_license {
+    label: "Days to License"
+    description: "The # of days between the license issue date and the first date a server associated with that license sends us telemetry data."
+    type: number
+    value_format_name: decimal_0
+    sql: datediff(day, ${first_telemetry_date}, ${issued_date}) ;;
+    hidden: no
+  }
+
+  dimension: days_to_license_band {
+    label: "Days to License Band"
+    description: "The # of days between the license issue date and the first date a server associated with that license sends us telemetry data stratified into bands."
+    type: tier
+    style: integer
+    tiers: [8, 31, 61, 91, 181, 366]
+    sql: ${days_to_license} ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
@@ -587,7 +614,7 @@ view: license_daily_details {
     label: "License Issued"
     description: "The date the license was issued to the customer."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.issued_date ;;
     hidden: no
   }
@@ -596,7 +623,7 @@ view: license_daily_details {
     label: "License Start"
     description: "The license start date."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.start_date ;;
     hidden: no
   }
@@ -605,7 +632,7 @@ view: license_daily_details {
     label: "License Expire"
     description: "The license expiration date."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
   }
@@ -619,10 +646,18 @@ view: license_daily_details {
   }
 
   dimension_group: last_telemetry {
-    description: "The most recent date telemetry data was logged for the server associated with the license."
+    description: "The most recent date telemetry data was logged for a server associated with the license."
     type: time
-    timeframes: [date, month, year]
-    sql: ${TABLE}.last_customer_telemetry_date ;;
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.last_license_telemetry_date ;;
+    hidden: no
+  }
+
+  dimension_group: first_telemetry {
+    description: "The first date telemetry data was logged for a server associated with the license."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_license_telemetry_date ;;
     hidden: no
   }
 
@@ -680,6 +715,24 @@ view: license_daily_details {
     sql: ${license_id} ;;
   }
 
+  measure: trial_activated_license_count {
+    label: " Trial Activated License Count"
+    group_label: " License Counts"
+    description: "The distinct count of trial, activated licenses per grouping."
+    type: count_distinct
+    filters: [is_trial: "yes", last_telemetry_date:"-NULL"]
+    sql: ${license_id} ;;
+  }
+
+  measure: trial_inactive_license_count {
+    label: " Trial Non-Activated License Count"
+    group_label: " License Counts"
+    description: "The distinct count of trial, not-activated licenses per grouping."
+    type: count_distinct
+    filters: [is_trial: "yes", last_telemetry_date:"NULL"]
+    sql: ${license_id} ;;
+  }
+
   measure: non_trial_license_count {
     label: " Non-Trial License Count"
     group_label: " License Counts"
@@ -691,6 +744,26 @@ view: license_daily_details {
     }
     sql: ${license_id} ;;
   }
+
+  measure: non_trial_activated_license_count {
+    label: " Non-Trial Activated License Count"
+    group_label: " License Counts"
+    description: "The distinct count of non-trial, activated licenses per grouping."
+    type: count_distinct
+    filters: [is_trial: "no", last_telemetry_date:"-NULL"]
+    sql: ${license_id} ;;
+  }
+
+  measure: non_trial_inactive_license_count {
+    label: " Non-Trial Non-Activated License Count"
+    group_label: " License Counts"
+    description: "The distinct count of non-trial, not-activated licenses per grouping."
+    type: count_distinct
+    filters: [is_trial: "no", last_telemetry_date:"NULL"]
+    sql: ${license_id} ;;
+  }
+
+
 
   measure: server_count_sum {
     label: " Server Count"
@@ -912,6 +985,14 @@ view: license_daily_details {
   measure: max_logging_date {
     type: date
     sql: MAX(${TABLE}.date::DATE) ;;
+  }
+
+  measure: avg_days_to_license {
+    label: "Avg. Days to License"
+    description: "The average number of days it took to activate a license within the grouping (days between license issued and first telemetry date)."
+    type: average
+    value_format_name: decimal_1
+    sql: ${days_to_license} ;;
   }
 
 
