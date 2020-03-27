@@ -38,6 +38,7 @@ view: zendesk_ticket_details {
   dimension_group: created {
     type: time
     timeframes: [
+      time,
       date,
       week,
       month,
@@ -166,6 +167,18 @@ view: zendesk_ticket_details {
     label: "Is Auto Closed?"
     sql: ${tags} like '%autoclosed%';;
     type: yesno
+  }
+
+  dimension: open {
+    label: "Is Open?"
+    sql: ${status} NOT IN ('closed','solved') ;;
+    type: yesno
+  }
+
+  dimension: calendar_days_open {
+    type: number
+    sql: coalesce(${full_resolution_time_in_minutes_cal}, TIMESTAMPDIFF(minutes, ${created_time}, current_timestamp)/(24*60)) ;;
+    value_format_name: decimal_0
   }
 
   dimension: tags {
