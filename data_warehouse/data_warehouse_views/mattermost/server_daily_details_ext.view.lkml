@@ -16,7 +16,7 @@ view: server_daily_details_ext {
 
   dimension: ip_address {
     label: " Ip Address"
-    description: ""
+    description: "Ths IP Address associated with the Mattermost Server on the given date."
     type: string
     sql: ${TABLE}.ip_address ;;
     hidden: no
@@ -31,8 +31,8 @@ view: server_daily_details_ext {
   }
 
   dimension: version {
-    label: " Version"
-    description: ""
+    label: " Server Version"
+    description: "The version of the Mattermost server."
     type: string
     sql: ${TABLE}.version ;;
     hidden: no
@@ -43,12 +43,12 @@ view: server_daily_details_ext {
     description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: edition {
     label: " Edition"
-    description: ""
+    description: "True if 'E0' Edition. False if 'Team' Edition."
     type: string
     sql: ${TABLE}.edition ;;
     hidden: no
@@ -57,7 +57,7 @@ view: server_daily_details_ext {
   dimension: active_user_count {
     label: " Active User Count"
     group_label: " Telemetry User Counts"
-    description: ""
+    description: "The number of active users associated with the server on a given logging date (Security)."
     type: number
     sql: ${TABLE}.active_user_count ;;
     hidden: no
@@ -66,7 +66,7 @@ view: server_daily_details_ext {
   dimension: user_count {
     label: " User Count"
     group_label: " Telemetry User Counts"
-    description: ""
+    description: "The number of registered users associated with the server on a given logging date (Security)."
     type: number
     sql: ${TABLE}.user_count ;;
     hidden: no
@@ -75,7 +75,7 @@ view: server_daily_details_ext {
   dimension: system_admins {
     label: " System Admins"
     group_label: " Telemetry User Counts"
-    description: ""
+    description: "The number of system admins associated with a server on a given logging date (mattermost2.server)."
     type: number
     sql: ${TABLE}.system_admins ;;
     hidden: no
@@ -83,15 +83,15 @@ view: server_daily_details_ext {
 
   dimension: operating_system {
     label: " Operating System"
-    description: ""
+    description: "The operating system the server is currently hosted on (Linux)."
     type: string
     sql: ${TABLE}.operating_system ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: database_type {
     label: " Database Type"
-    description: ""
+    description: "The database type the server is currently hosted on (MySQL or Postgres)."
     type: string
     sql: ${TABLE}.database_type ;;
     hidden: no
@@ -99,7 +99,12 @@ view: server_daily_details_ext {
 
   dimension: account_sfid {
     label: " Account Sfid"
-    description: ""
+    description: "The Salesforce Account ID associated with the server."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
     sql: ${TABLE}.account_sfid ;;
     hidden: no
@@ -107,7 +112,7 @@ view: server_daily_details_ext {
 
   dimension: license_id1 {
     label: " License Id"
-    description: ""
+    description: "The Mattermost License ID associated with the server."
     type: string
     sql: ${TABLE}.license_id1 ;;
     hidden: no
@@ -124,7 +129,7 @@ view: server_daily_details_ext {
   dimension: in_security {
     label: " TEDAS Server"
     group_label: ""
-    description: ""
+    description: "Indicates whether the server was logged in the security table on the given logging date i.e. true = Telemetry-Enabled server."
     type: yesno
     sql: ${TABLE}.in_security ;;
     hidden: no
@@ -133,7 +138,7 @@ view: server_daily_details_ext {
   dimension: in_mm2_server {
     label: " In Mattermost2.Server"
     group_label: " Data Quality"
-    description: ""
+    description: "Indicates whether the "
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
     hidden: no
@@ -167,162 +172,162 @@ view: server_daily_details_ext {
   }
 
   dimension: active_users {
-    description: ""
+    description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.active_users ;;
     hidden: no
   }
 
   dimension: active_users_daily {
-    description: ""
+    description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (different than active users - unsure why)."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.active_users_daily ;;
     hidden: no
   }
 
   dimension: active_users_monthly {
-    description: ""
+    description: "The number of distinct active users that logged in the last 30 days by the Server's activity diagnostic telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }
 
   dimension: bot_accounts {
-    description: ""
+    description: "The number of bot accounts logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.bot_accounts ;;
     hidden: no
   }
 
   dimension: bot_posts_previous_day {
-    description: ""
+    description: "The number of bot posts logged by the Server's activity diagnostics telemetry data the previous day before the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.bot_posts_previous_day ;;
     hidden: no
   }
 
   dimension: direct_message_channels {
-    description: ""
+    description: "The number of direct message channels logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.direct_message_channels ;;
     hidden: no
   }
 
   dimension: incoming_webhooks {
-    description: ""
+    description: "The number of incoming webhooks logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.incoming_webhooks ;;
     hidden: no
   }
 
   dimension: outgoing_webhooks {
-    description: ""
+    description: "The number of outgoing webhooks logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.outgoing_webhooks ;;
     hidden: no
   }
 
   dimension: posts {
-    description: ""
+    description: "The number of posts logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.posts ;;
     hidden: no
   }
 
   dimension: posts_previous_day {
-    description: ""
+    description: "The number of posts logged by the Server's activity diagnostics telemetry data the previous day before on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.posts_previous_day ;;
     hidden: no
   }
 
   dimension: private_channels {
-    description: ""
+    description: "The number of private channels logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.private_channels ;;
     hidden: no
   }
 
   dimension: private_channels_deleted {
-    description: ""
+    description: "The number of deleted private channels logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.private_channels_deleted ;;
     hidden: no
   }
 
   dimension: public_channels {
-    description: ""
+    description: "The number of public channels logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.public_channels ;;
     hidden: no
   }
 
   dimension: public_channels_deleted {
-    description: ""
+    description: "The number of deleted public channels logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.public_channels_deleted ;;
     hidden: no
   }
 
   dimension: registered_deactivated_users {
-    description: ""
+    description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
 
   dimension: registered_inactive_users {
-    description: ""
+    description: "The number of registered inactive users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.registered_inactive_users ;;
     hidden: no
   }
 
   dimension: registered_users {
-    description: ""
+    description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.registered_users ;;
     hidden: no
   }
 
   dimension: slash_commands {
-    description: ""
+    description: "The number of slash commands logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.slash_commands ;;
     hidden: no
   }
 
   dimension: teams {
-    description: ""
+    description: "The number of teams logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.teams ;;
     hidden: no
   }
 
   dimension: used_apiv3 {
-  label: "Used Apiv3"
-    description: ""
+  label: "Used APIv3"
+    description: "Boolean indicating whether APIv3 was used by the server on the given logging date (Activity Diagnostics)."
     type: yesno
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     sql: ${TABLE}.used_apiv3 ;;
     hidden: no
   }
@@ -340,7 +345,7 @@ view: server_daily_details_ext {
   label: "Allow Banner Dismissal"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.allow_banner_dismissal ;;
     hidden: no
   }
@@ -349,7 +354,7 @@ view: server_daily_details_ext {
   label: "Enable Banner"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.enable_banner ;;
     hidden: no
   }
@@ -358,7 +363,7 @@ view: server_daily_details_ext {
   label: "Isdefault Banner Color"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.isdefault_banner_color ;;
     hidden: no
   }
@@ -367,7 +372,7 @@ view: server_daily_details_ext {
   label: "Isdefault Banner Text Color"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.isdefault_banner_text_color ;;
     hidden: no
   }
@@ -4121,266 +4126,266 @@ view: server_daily_details_ext {
 
   measure: active_users_sum {
     description: "The sum of Active Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${active_users} ;;
   }
 
   measure: active_users_avg {
     description: "The average Active Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users} ;;
   }
 
   measure: active_users_daily_sum {
     description: "The sum of Active Users Daily per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${active_users_daily} ;;
   }
 
   measure: active_users_daily_avg {
     description: "The average Active Users Daily per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users_daily} ;;
   }
 
   measure: active_users_monthly_sum {
     description: "The sum of Active Users Monthly per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${active_users_monthly} ;;
   }
 
   measure: active_users_monthly_avg {
     description: "The average Active Users Monthly per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users_monthly} ;;
   }
 
   measure: bot_accounts_sum {
     description: "The sum of Bot Accounts per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${bot_accounts} ;;
   }
 
   measure: bot_accounts_avg {
     description: "The average Bot Accounts per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_accounts} ;;
   }
 
   measure: bot_posts_previous_day_sum {
     description: "The sum of Bot Posts Previous Day per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${bot_posts_previous_day} ;;
   }
 
   measure: bot_posts_previous_day_avg {
     description: "The average Bot Posts Previous Day per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_posts_previous_day} ;;
   }
 
   measure: direct_message_channels_sum {
     description: "The sum of Direct Message Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${direct_message_channels} ;;
   }
 
   measure: direct_message_channels_avg {
     description: "The average Direct Message Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${direct_message_channels} ;;
   }
 
   measure: incoming_webhooks_sum {
     description: "The sum of Incoming Webhooks per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${incoming_webhooks} ;;
   }
 
   measure: incoming_webhooks_avg {
     description: "The average Incoming Webhooks per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${incoming_webhooks} ;;
   }
 
   measure: outgoing_webhooks_sum {
     description: "The sum of Outgoing Webhooks per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${outgoing_webhooks} ;;
   }
 
   measure: outgoing_webhooks_avg {
     description: "The average Outgoing Webhooks per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${outgoing_webhooks} ;;
   }
 
   measure: posts_sum {
     description: "The sum of Posts per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${posts} ;;
   }
 
   measure: posts_avg {
     description: "The average Posts per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${posts} ;;
   }
 
   measure: posts_previous_day_sum {
     description: "The sum of Posts Previous Day per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${posts_previous_day} ;;
   }
 
   measure: posts_previous_day_avg {
     description: "The average Posts Previous Day per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${posts_previous_day} ;;
   }
 
   measure: private_channels_sum {
     description: "The sum of Private Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${private_channels} ;;
   }
 
   measure: private_channels_avg {
     description: "The average Private Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels} ;;
   }
 
   measure: private_channels_deleted_sum {
     description: "The sum of Private Channels Deleted per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${private_channels_deleted} ;;
   }
 
   measure: private_channels_deleted_avg {
     description: "The average Private Channels Deleted per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels_deleted} ;;
   }
 
   measure: public_channels_sum {
     description: "The sum of Public Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${public_channels} ;;
   }
 
   measure: public_channels_avg {
     description: "The average Public Channels per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${public_channels} ;;
   }
 
   measure: public_channels_deleted_sum {
     description: "The sum of Public Channels Deleted per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${public_channels_deleted} ;;
   }
 
   measure: public_channels_deleted_avg {
     description: "The average Public Channels Deleted per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${public_channels_deleted} ;;
   }
 
   measure: registered_deactivated_users_sum {
     description: "The sum of Registered Deactivated Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${registered_deactivated_users} ;;
   }
 
   measure: registered_deactivated_users_avg {
     description: "The average Registered Deactivated Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${registered_deactivated_users} ;;
   }
 
   measure: registered_inactive_users_sum {
     description: "The sum of Registered Inactive Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${registered_inactive_users} ;;
   }
 
   measure: registered_inactive_users_avg {
     description: "The average Registered Inactive Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${registered_inactive_users} ;;
   }
 
   measure: registered_users_sum {
     description: "The sum of Registered Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${registered_users} ;;
   }
 
   measure: registered_users_avg {
     description: "The average Registered Users per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${registered_users} ;;
   }
 
   measure: slash_commands_sum {
     description: "The sum of Slash Commands per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${slash_commands} ;;
   }
 
   measure: slash_commands_avg {
     description: "The average Slash Commands per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${slash_commands} ;;
   }
 
   measure: teams_sum {
     description: "The sum of Teams per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: sum
     sql: ${teams} ;;
   }
 
   measure: teams_avg {
     description: "The average Teams per grouping."
-    group_label: "Activity Configuration"
+    group_label: "Activity Diagnostics"
     type: average
     sql: ${teams} ;;
   }
