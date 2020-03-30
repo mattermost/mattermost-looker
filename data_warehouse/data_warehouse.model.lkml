@@ -172,7 +172,7 @@ explore: _base_opportunity_explore {
   join: opportunity_csm {
     view_label: "Opportunity CSM"
     from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
     relationship: many_to_one
   }
 }
@@ -207,7 +207,7 @@ explore: _base_opportunity_core_explore {
   join: opportunity_csm {
     view_label: "Opportunity CSM"
     from: user
-    sql_on: left(${opportunity.csm_owner_id},15) = left(${opportunity_csm.sfid},15) ;;
+    sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
     relationship: many_to_one
     fields: []
   }
