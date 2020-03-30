@@ -324,8 +324,8 @@ view: server_daily_details_ext {
   }
 
   dimension: used_apiv3 {
-  label: "Used Apiv3"
-    description: ""
+  label: "Used APIv3"
+    description: "Boolean indicating whether APIv3 was used by the server on the given logging date (Activity Diagnostics)."
     type: yesno
     group_label: "Activity Diagnostics"
     sql: ${TABLE}.used_apiv3 ;;
@@ -345,7 +345,7 @@ view: server_daily_details_ext {
   label: "Allow Banner Dismissal"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.allow_banner_dismissal ;;
     hidden: no
   }
@@ -354,7 +354,7 @@ view: server_daily_details_ext {
   label: "Enable Banner"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.enable_banner ;;
     hidden: no
   }
@@ -363,7 +363,7 @@ view: server_daily_details_ext {
   label: "Isdefault Banner Color"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.isdefault_banner_color ;;
     hidden: no
   }
@@ -372,7 +372,7 @@ view: server_daily_details_ext {
   label: "Isdefault Banner Text Color"
     description: ""
     type: yesno
-    group_label: "Annoucument Configuration"
+    group_label: "Annoucement Configuration"
     sql: ${TABLE}.isdefault_banner_text_color ;;
     hidden: no
   }
