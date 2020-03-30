@@ -169,6 +169,14 @@ view: nps_user_monthly_score {
     sql: ${TABLE}.responses_alltime ;;
   }
 
+  dimension: licensed {
+    label: "Licensed Server"
+    description: "Boolean indicating the server associated with the User NPS Response Submission was licensed at the time the response was recorded."
+    type: yesno
+    sql: CASE WHEN ${license_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
 
   # MEASURES
   measure: count {
