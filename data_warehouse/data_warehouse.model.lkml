@@ -712,3 +712,20 @@ explore: license_daily_details {
   group_label: "BLP"
   description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
 }
+
+explore: data_errors {
+  label: "Business Data Errors"
+  group_label: "zBizOps"
+
+  join: account {
+    sql_on: ${account.sfid} = ${data_errors.object_id} and ${data_errors.object} = 'account';;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${data_errors.object_id} and ${data_errors.object} = 'opportunity';;
+    relationship: many_to_many
+    fields: []
+  }
+}
