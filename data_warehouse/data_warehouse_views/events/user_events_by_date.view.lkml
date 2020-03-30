@@ -7,93 +7,114 @@ view: user_events_by_date {
 
   # DIMENSIONS
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: user_role {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_role ;;
     hidden: no
   }
 
   dimension: system_admin {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.system_admin ;;
     hidden: no
   }
 
   dimension: system_user {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.system_user ;;
     hidden: no
   }
 
   dimension: event_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_id ;;
     hidden: no
   }
 
   dimension: event_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_name ;;
     hidden: no
   }
 
   dimension: total_events {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.total_events ;;
     hidden: no
   }
 
   dimension: desktop_events {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.desktop_events ;;
     hidden: no
   }
 
   dimension: web_app_events {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.web_app_events ;;
     hidden: no
   }
 
   dimension: mobile_events {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.mobile_events ;;
     hidden: no
   }
 
-  
+  dimension: browser {
+    description: "The browser used to perform the event (If from mobile event logging table brwoser = device + app i.e. iPhone App."
+    type: string
+    sql: ${TABLE}.browser ;;
+    hidden: no
+  }
+
+  dimension: browser_version {
+    description: "The browser version used to perform the event."
+    type: string
+    sql: ${TABLE}.browser_version ;;
+    hidden: no
+  }
+
+  dimension: os {
+    description: "The operating system used to perform the event."
+    type: string
+    sql: ${TABLE}.os ;;
+    hidden: no
+  }
+
+
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
