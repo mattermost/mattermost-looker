@@ -642,6 +642,11 @@ explore: tva_all_by_mo {
   }
 }
 
+explore: target_fact {
+  group_label: "Target vs Actual"
+  label: "Target Definitions"
+}
+
 explore: tva_all_by_qtr {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"

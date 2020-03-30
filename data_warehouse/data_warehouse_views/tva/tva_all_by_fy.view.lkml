@@ -67,6 +67,7 @@ view: tva_all_by_fy {
       field: current_fiscal_year
       value: "yes"
     }
+    value_format_name: decimal_0
   }
 
   measure: current_actual {
@@ -77,12 +78,14 @@ view: tva_all_by_fy {
       field: current_fiscal_year
       value: "yes"
     }
+    value_format_name: decimal_0
   }
 
   measure: current_left {
     label: "Current FY Target Left"
     type: number
     sql: greatest(${current_target}-${current_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: not_current_target {
@@ -93,6 +96,7 @@ view: tva_all_by_fy {
       field: current_fiscal_year
       value: "no"
     }
+    value_format_name: decimal_0
   }
 
   measure: not_current_actual {
@@ -103,24 +107,28 @@ view: tva_all_by_fy {
       field: current_fiscal_year
       value: "no"
     }
+    value_format_name: decimal_0
   }
 
   measure: not_current_left {
     label: "Target Left"
     type: number
     sql: greatest(${not_current_target}-${not_current_actual},0) ;;
+    value_format_name: decimal_0
   }
 
   measure: total_target {
     label: "Total Target"
     type: sum
     sql: ${target} ;;
+    value_format_name: decimal_0
   }
 
   measure: total_actual {
     label: "Total Actual"
     type: sum
     sql: ${actual} ;;
+    value_format_name: decimal_0
   }
 
   measure: total_left {
