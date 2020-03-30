@@ -673,6 +673,13 @@ explore: user_events_by_date {
   label: "User Events By Date"
   group_label: "Product"
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
+
+  join: server_daily_details {
+    sql_on: ${user_events_by_date.server_id} = ${server_daily_details.server_id}
+    AND ${user_events_by_date.logging_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"

@@ -104,6 +104,44 @@ view: user_events_by_date {
     hidden: no
   }
 
+  dimension: os_version {
+    description: "The operating system version used to perform the event."
+    type: string
+    sql: ${TABLE}.os_version ;;
+    hidden: no
+  }
+
+  dimension: os_and_version {
+    label: "OS + OS Version"
+    description: "The operating system and operating system version used to perform the event."
+    type: string
+    sql: ${os} || ' ' || ${os_version} ;;
+    hidden: no
+  }
+
+  dimension: licensed_server {
+    description: "Indicates whether the server associated with the user performing the event has been provisioned a license."
+    type: yesno
+    sql: CASE WHEN ${server_daily_details.license_id} IS NOT NULL THEN true ELSE false end  ;;
+    hidden: no
+  }
+
+  dimension: os_and_browser {
+    label: "OS + Browser"
+    description: "The OS + Browser concatenated for visualization purposes."
+    type: string
+    sql: ${os} || ' ' || ${browser} ;;
+    hidden: no
+  }
+
+  dimension: os_browser_version {
+    label: "OS + Browser + Browser Version"
+    description: "The OS + Browser + Version concatenated for visualization purposes."
+    type: string
+    sql: ${os} || ' ' || ${browser} || ' ' || ${browser_version} ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
