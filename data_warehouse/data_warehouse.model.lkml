@@ -672,12 +672,12 @@ explore: events_registry {
 explore: user_events_by_date {
   label: "User Events By Date"
   group_label: "Product"
-  description: "Contains all 'white-list' user events by day - 1 row per user per event (that user performed across web, desktop, and mobile) per day. The sum of events are recorded for each row, which captures the total number of the specific event performed by the user on the given date (must be >= 1). Use this to track and trend the volume of individual events by day."
+  description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
   group_label: "Product"
-  description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day >= the user's first event date (i.e. contains row for users on dates where user has not performed event)."
+  description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day for all dates >= the user's first event date (i.e. contains row for users on dates where user has not performed event to track disengagement)."
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
