@@ -734,3 +734,7 @@ explore: data_errors {
     fields: []
   }
 }
+
+explore: user_fact {
+  label: "User Fact"
+}
