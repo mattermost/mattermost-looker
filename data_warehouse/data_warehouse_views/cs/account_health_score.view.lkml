@@ -9,10 +9,9 @@ view: account_health_score {
     sql: ${TABLE}."ACCOUNT_SFID" ;;
   }
 
-  dimension: cs_attrition_likelihood {
-    hidden: yes
+  dimension: risk_override_score {
     type: number
-    sql: ${TABLE}."CS_ATTRITION_LIKELIHOOD" ;;
+    sql: ${TABLE}."RISK_OVERRIDE_SCORE" ;;
   }
 
   dimension: count_tickets_prev_90 {
@@ -60,6 +59,13 @@ view: account_health_score {
     style: integer
     tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
     sql: ${health_score} ;;
+  }
+
+  dimension: health_score_no_override {
+    label: "Health Score (No Risk Override)"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.health_score_no_override ;;
   }
 
   dimension: tenure_health_score_tier {
