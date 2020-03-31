@@ -23,6 +23,11 @@ view: user_fact {
   dimension: account_sfid {
     description: "The Salesforce Account ID associated with a user."
     type: string
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     sql: ${TABLE}.account_sfid ;;
     hidden: no
   }
