@@ -737,4 +737,5 @@ explore: data_errors {
 
 explore: user_fact {
   label: "User Fact"
+  group_label: "Product"
 }
