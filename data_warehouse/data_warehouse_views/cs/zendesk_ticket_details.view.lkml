@@ -72,6 +72,11 @@ view: zendesk_ticket_details {
     sql: ${solved_at_date} = ${dates.date_date};;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}."CATEGORY" ;;
+  }
+
   dimension: customer_type {
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
@@ -155,6 +160,11 @@ view: zendesk_ticket_details {
     label: "Met Follow-up Internal SLA?"
     type:  yesno
     sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
+  }
+
+  dimension: pending_do_not_close {
+    type: yesno
+    sql: ${TABLE}."PENDING_DO_NOT_CLOSE" ;;
   }
 
   dimension: product_bug {
