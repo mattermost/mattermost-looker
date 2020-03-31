@@ -46,6 +46,13 @@ view: user_fact {
     hidden: no
   }
 
+  dimension: days_since_first_active {
+    description: "The number of days from a user's first active date (first event date) to the current date."
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE) ;;
+    hidden: no
+  }
+
   dimension: webapp_active_days {
     description: "The number of days the user has performed >= 1 WebApp event."
     type: number
@@ -200,6 +207,14 @@ view: user_fact {
     hidden: no
   }
 
+  dimension: user_age {
+    label: "User Age (Days)"
+    description: "The number of days between a user's created at date and the current date."
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE) ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: user_created_at {
@@ -323,8 +338,63 @@ view: user_fact {
 
   measure: user_count {
     label: " User Count"
+    group_label: "User Counts"
     description: "The distinct count of Users per grouping."
     type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: desktop_7day_active_user_count {
+    label: "Desktop 7-Day Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 7 distinct days."
+    type: count_distinct
+    filters: [desktop_active_days: ">=7"]
+    sql: ${user_id} ;;
+  }
+
+  measure: desktop_28day_active_user_count {
+    label: "Desktop 4-Week Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 28 distinct days."
+    type: count_distinct
+    filters: [desktop_active_days: ">=28"]
+    sql: ${user_id} ;;
+  }
+
+  measure: webapp_7day_active_user_count {
+    label: "WebApp 7-Day Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 7 distinct days."
+    type: count_distinct
+    filters: [webapp_active_days: ">=7"]
+    sql: ${user_id} ;;
+  }
+
+  measure: webapp_28day_active_user_count {
+    label: "WebApp 4-Week Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 28 distinct days."
+    type: count_distinct
+    filters: [webapp_active_days: ">=28"]
+    sql: ${user_id} ;;
+  }
+
+  measure: mobile_7day_active_user_count {
+    label: "Mobile 7-Day Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost Mobile Client for >= 7 distinct days."
+    type: count_distinct
+    filters: [mobile_active_days: ">=7"]
+    sql: ${user_id} ;;
+  }
+
+  measure: mobile_28day_active_user_count {
+    label: "Mobile 4-Week Active User Count"
+    group_label: "User Counts"
+    description: "The distinct count of Users that have been active on the Mattermost Mobile Client for >= 28 distinct days."
+    type: count_distinct
+    filters: [mobile_active_days: ">=28"]
     sql: ${user_id} ;;
   }
 
