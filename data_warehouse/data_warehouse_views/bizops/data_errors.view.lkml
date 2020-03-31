@@ -23,13 +23,12 @@ view: data_errors {
     sql: ${TABLE}."OBJECT_ID" ;;
   }
 
-  dimension: object_name {
+  dimension: sfdc_name {
     type: string
     sql: coalesce(${account.name},${opportunity.name},'Unknown');;
     link: {
       label: "SFDC Record"
       url: "@{salesforce_link}{{object_id._value}}"
- #     url: "https://mattermost.lightning.force.com/lightning/r/{{object_id._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     label: "SFDC Record"
@@ -38,6 +37,6 @@ view: data_errors {
 
   measure: count {
     type: count
-    drill_fields: [object, object_id, object_name, error_short, error_long]
+    drill_fields: [sfdc_name, error_short, error_long]
   }
 }
