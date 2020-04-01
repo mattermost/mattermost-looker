@@ -159,7 +159,7 @@ view: available_renewals {
       field: is_renewal
       value: "yes"
     }
-    drill_fields: [account.name, opportunity.name, total_bookings_forcast]
+    drill_fields: [account.name, opportunity.name, total_bookings_open]
   }
 
   measure: total_bookings_forcast {
