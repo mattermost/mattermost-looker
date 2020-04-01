@@ -739,3 +739,18 @@ explore: user_fact {
   label: "User Fact"
   group_label: "Product"
 }
+
+explore: available_renewals {
+  hidden: yes
+  group_label: "Customer Success"
+  extends: [_base_account_core_explore,_base_opportunity_core_explore]
+
+  join: account {
+    sql_on: ${account.sfid} = ${available_renewals.account_sfid} ;;
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.accountid} = ${account.sfid};;
+  }
+
+}

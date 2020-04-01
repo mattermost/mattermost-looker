@@ -40,6 +40,7 @@ view: opportunitylineitem {
       product_line_type,
       product_type,
       total_arr,
+      total_potential_arr,
       totalprice,
       total_quantity,
       total_price,
