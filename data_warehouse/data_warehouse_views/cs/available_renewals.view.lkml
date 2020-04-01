@@ -140,6 +140,32 @@ view: available_renewals {
     drill_fields: [account.name, opportunity.name, total_bookings_same_qtr]
   }
 
+  measure: total_bookings_not_same_qtr {
+    group_label: "Total Bookings"
+    group_item_label: "Closed Not in Renewal Qtr"
+    label: "Total Bookings Closed Not in Renewal Qtr"
+    sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.arr} else ${opportunitylineitem.totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "yes"
+    }
+    filters: {
+      field: close_same_qtr
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
+    filters: {
+      field: is_renewal
+      value: "yes"
+    }
+    drill_fields: [account.name, opportunity.name, total_bookings_not_same_qtr]
+  }
+
   measure: total_bookings_open {
     group_label: "Total Bookings"
     group_item_label: "Open Current Qtr"
@@ -159,7 +185,7 @@ view: available_renewals {
       field: is_renewal
       value: "yes"
     }
-    drill_fields: [account.name, opportunity.name, total_bookings_forcast]
+    drill_fields: [account.name, opportunity.name, total_bookings_open]
   }
 
   measure: total_bookings_forcast {
