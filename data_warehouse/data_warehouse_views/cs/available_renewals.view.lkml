@@ -97,8 +97,6 @@ view: available_renewals {
   }
 
   measure: total_bookings_curr_fy {
-    group_label: "Total Bookings"
-    group_item_label: "Current FY"
     label: "Total Bookings Current FY"
     sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.arr} else ${opportunitylineitem.totalprice} end;;
     type: sum
@@ -119,8 +117,6 @@ view: available_renewals {
   }
 
   measure: total_bookings_same_qtr {
-    group_label: "Total Bookings"
-    group_item_label: "Closed in Renewal Qtr"
     label: "Total Bookings Closed in Renewal Qtr"
     sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.arr} else ${opportunitylineitem.totalprice} end;;
     type: sum
@@ -140,10 +136,32 @@ view: available_renewals {
     drill_fields: [account.name, opportunity.name, total_bookings_same_qtr]
   }
 
+  measure: total_lost_same_qtr {
+    label: "Total Closed Lost in Renewal Qtr"
+    sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.lost_arr} else ${opportunitylineitem.totalprice} end;;
+    type: sum
+    value_format_name: "usd_0"
+    filters: {
+      field: opportunity.iswon
+      value: "no"
+    }
+    filters: {
+      field: opportunity.isclosed
+      value: "yes"
+    }
+    filters: {
+      field: close_same_qtr
+      value: "yes"
+    }
+    filters: {
+      field: is_renewal
+      value: "yes"
+    }
+    drill_fields: [account.name, opportunity.name, total_lost_same_qtr]
+  }
+
   measure: total_bookings_not_same_qtr {
-    group_label: "Total Bookings"
-    group_item_label: "Closed Not in Renewal Qtr"
-    label: "Total Bookings Closed Not in Renewal Qtr"
+    label: "Total Closed Not in Renewal Qtr"
     sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.arr} else ${opportunitylineitem.totalprice} end;;
     type: sum
     value_format_name: "usd_0"
@@ -167,8 +185,6 @@ view: available_renewals {
   }
 
   measure: total_bookings_open {
-    group_label: "Total Bookings"
-    group_item_label: "Open Current Qtr"
     label: "Total Bookings Open Current Qtr"
     sql: case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.potential_arr} else ${opportunitylineitem.totalprice} end;;
     type: sum
@@ -189,8 +205,6 @@ view: available_renewals {
   }
 
   measure: total_bookings_forcast {
-    group_label: "Total Bookings"
-    group_item_label: "Forecasted Current Qtr"
     label: "Total Bookings Forecasted Current Qtr"
     sql: ${opportunity.probability}/100.00 * (case when ${opportunitylineitem.length_days} >=365 then ${opportunitylineitem.potential_arr} else ${opportunitylineitem.totalprice} end);;
     type: sum
