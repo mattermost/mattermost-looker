@@ -72,6 +72,11 @@ view: zendesk_ticket_details {
     sql: ${solved_at_date} = ${dates.date_date};;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}."CATEGORY" ;;
+  }
+
   dimension: customer_type {
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
@@ -157,6 +162,11 @@ view: zendesk_ticket_details {
     sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
   }
 
+  dimension: pending_do_not_close {
+    type: yesno
+    sql: ${TABLE}."PENDING_DO_NOT_CLOSE" ;;
+  }
+
   dimension: product_bug {
     label: "Is Product Bug?"
     sql: ${tags} like '%jira%' or ${tags} like '%bug%';;
@@ -177,7 +187,7 @@ view: zendesk_ticket_details {
 
   dimension: calendar_days_open {
     type: number
-    sql: coalesce(${full_resolution_time_in_minutes_cal}, TIMESTAMPDIFF(minutes, ${created_time}, current_timestamp)/(24*60)) ;;
+    sql: coalesce(${full_resolution_time_in_minutes_cal}, TIMESTAMPDIFF(minutes, ${created_time}, current_timestamp))/(24*60) ;;
     value_format_name: decimal_0
   }
 
@@ -369,6 +379,12 @@ view: zendesk_ticket_details {
   measure: count_level_4 {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
+  }
+
+  measure: avg_calendar_days_open {
+    type: average
+    sql: ${calendar_days_open} ;;
+    value_format_name: decimal_0
   }
 
 }
