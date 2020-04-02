@@ -284,15 +284,15 @@ view: user_fact {
     group_label: " WebApp Client Activity"
     type: number
     sql: DATEDIFF(DAY, ${first_webapp_date}, ${last_webapp_date}) ;;
-    hidden: yes
+    hidden: no
   }
 
-  dimension: days_first_to_now_webapp {
-    description: "The number of days between a users first active WebApp date and last active WebApp date."
+  dimension: days_since_first_webapp_active {
+    description: "The number of days between a users first active WebApp date and the current date."
     group_label: " WebApp Client Activity"
     type: number
     sql: DATEDIFF(DAY, ${first_webapp_date}, CURRENT_DATE) ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension_group: first_desktop {
@@ -322,7 +322,7 @@ view: user_fact {
   dimension: days_first_to_now_desktop {
     label: "Days Desktop First Active to Now"
     group_label: " Desktop Client Activity"
-    description: "The number of days between a users first active desktop date and last active desktop date."
+    description: "The number of days between a users first active desktop date and the current date."
     type: number
     sql: DATEDIFF(DAY, ${first_desktop_date}, CURRENT_DATE) ;;
     hidden: no
@@ -346,9 +346,18 @@ view: user_fact {
 
   dimension: days_first_to_last_active_mobile {
     description: "The number of days between a users first active mobile date and last active mobile date."
+    group_label: " Mobile Client Activity"
     type: number
     sql: DATEDIFF(DAY, ${first_mobile_date}, ${last_mobile_date}) ;;
-    hidden: yes
+    hidden: no
+  }
+
+  dimension: days_since_first_mobile_active {
+    description: "The number of days since a user's first active mobile date and the current date."
+    group_label: " Mobile Client Activity"
+    type: number
+    sql: DATEDIFF(DAY, ${first_mobile_date}, CURRENT_DATE) ;;
+    hidden: no
   }
 
   dimension_group: first_nps {
