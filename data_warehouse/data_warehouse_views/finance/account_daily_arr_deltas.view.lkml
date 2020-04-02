@@ -3,7 +3,7 @@ view: account_daily_arr_deltas {
 
   dimension: compound_primary {
     type: string
-    sql: ${account_sfid}||${ ${new_day_date} ;;
+    sql: ${account_sfid}||${new_day_date} ;;
     primary_key: yes
     hidden: yes
   }
