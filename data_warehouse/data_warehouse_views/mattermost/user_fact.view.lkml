@@ -55,6 +55,7 @@ view: user_fact {
 
   dimension: webapp_active_days {
     description: "The number of days the user has performed >= 1 WebApp event."
+    group_label: " WebApp Client Activity"
     type: number
     sql: ${TABLE}.webapp_active_days ;;
     hidden: no
@@ -62,6 +63,7 @@ view: user_fact {
 
   dimension: desktop_active_days {
     description: "The number of days the user has performed >= 1 Desktop event."
+    group_label: " Desktop Client Activity"
     type: number
     sql: ${TABLE}.desktop_active_days ;;
     hidden: no
@@ -69,6 +71,7 @@ view: user_fact {
 
   dimension: mobile_active_days {
     description: "The number of days the user has performed >= 1 Mobile event."
+    group_label: " Mobile Client Activity"
     type: number
     sql: ${TABLE}.mobile_active_days ;;
     hidden: no
@@ -81,7 +84,7 @@ view: user_fact {
     hidden: no
   }
 
-  dimension: reengaged_count {
+  dimension: days_reengaged {
     description: "The number of times (days) a user has reengaged on the Mattermost platform after > 30 days of inactivity."
     type: number
     sql: ${TABLE}.reengaged_count ;;
@@ -95,7 +98,7 @@ view: user_fact {
     hidden: no
   }
 
-  dimension: disengaged_count {
+  dimension: days_newly_disengaged {
     description: "The number of time (days) a user has disengaged on the Mattermost platform after having been a part of MAU."
     type: number
     sql: ${TABLE}.disengaged_count ;;
@@ -132,6 +135,7 @@ view: user_fact {
 
   dimension: webapp_events_alltime {
     description: "The totoal number of WebApp events a user performed over their entire lifetime."
+    group_label: " WebApp Client Activity"
     type: number
     sql: ${TABLE}.webapp_events_alltime ;;
     hidden: no
@@ -139,6 +143,7 @@ view: user_fact {
 
   dimension: avg_webapp_events_per_day {
     description: "The average number of WebApp events a user performed each day they performed at least 1 or more events."
+    group_label: " WebApp Client Activity"
     type: number
     sql: ${TABLE}.avg_webapp_events_per_day ;;
     hidden: no
@@ -146,6 +151,7 @@ view: user_fact {
 
   dimension: desktop_events_alltime {
     description: "The total number of Desktop events a user performed over their entire lifetime on the Mattermost platform."
+    group_label: " Desktop Client Activity"
     type: number
     sql: ${TABLE}.desktop_events_alltime ;;
     hidden: no
@@ -153,6 +159,7 @@ view: user_fact {
 
   dimension: avg_desktop_events_per_day {
     description: "The average number of Desktop events a user performed each day they performed at least 1 or more events"
+    group_label: " Desktop Client Activity"
     type: number
     sql: ${TABLE}.avg_desktop_events_per_day ;;
     hidden: no
@@ -160,6 +167,7 @@ view: user_fact {
 
   dimension: mobile_events_alltime {
     description: "The total number of Mobile events a user performed over their entire lifetime on the Mattermost platform."
+    group_label: " Mobile Client Activity"
     type: number
     sql: ${TABLE}.mobile_events_alltime ;;
     hidden: no
@@ -167,6 +175,7 @@ view: user_fact {
 
   dimension: avg_mobile_events_per_day {
     description: "The average number of Mobile events a user performed each day they performed at least 1 or more events."
+    group_label: " Mobile Client Activity"
     type: number
     sql: ${TABLE}.avg_mobile_events_per_day ;;
     hidden: no
@@ -174,6 +183,7 @@ view: user_fact {
 
   dimension: first_nps_score {
     description: "The first nps score the user has submitted via the NPS survey (same as last score if only one NPS submission ever received)."
+    group_label: "NPS Info."
     type: number
     sql: ${TABLE}.first_nps_score ;;
     hidden: no
@@ -181,6 +191,7 @@ view: user_fact {
 
   dimension: last_nps_score {
     description: "The last nps score the user has submitted via the NPS survey (same as last score if only one NPS submission ever received)."
+    group_label: "NPS Info."
     type: number
     sql: ${TABLE}.last_nps_score ;;
     hidden: no
@@ -188,6 +199,7 @@ view: user_fact {
 
   dimension: avg_nps_score {
     description: "The average NPS score receieved by the user over their entire liftetime of NPS score submissions."
+    group_label: "NPS Info."
     type: number
     sql: ${TABLE}.avg_nps_score ;;
     hidden: no
@@ -195,6 +207,7 @@ view: user_fact {
 
   dimension: nps_responses_alltime {
     description: "The total number of NPS responses received by the user over their entire lifetime of NPS score submissions."
+    group_label: "NPS Info."
     type: number
     sql: ${TABLE}.nps_responses_alltime ;;
     hidden: no
@@ -202,6 +215,7 @@ view: user_fact {
 
   dimension: all_nps_feedback {
     description: "The aggregate list of all feedback ever received by the user over their entire lifetime of NPS score submissions."
+    group_label: "NPS Info."
     type: string
     sql: ${TABLE}.all_nps_feedback ;;
     hidden: no
@@ -211,7 +225,7 @@ view: user_fact {
     label: "User Age (Days)"
     description: "The number of days between a user's created at date and the current date."
     type: number
-    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE) ;;
+    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE - INTERVAL '1 DAY') ;;
     hidden: no
   }
 
@@ -220,7 +234,7 @@ view: user_fact {
   dimension_group: user_created_at {
     description: "The coalesced date representing the user created at date from NPS response data or the first event date if no NPS submissions."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.user_created_at ;;
     hidden: no
   }
@@ -228,7 +242,7 @@ view: user_fact {
   dimension_group: server_install {
     description: "The server install date. The coalesced date representing the server install date from NPS response data or the first date the server was logged in our telemetry data."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }
@@ -236,7 +250,7 @@ view: user_fact {
   dimension_group: first_active {
     description: "The first date a user performed an event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
     hidden: no
   }
@@ -244,7 +258,7 @@ view: user_fact {
   dimension_group: last_active {
     description: "The last date a user performed an event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_date ;;
     hidden: no
   }
@@ -252,7 +266,7 @@ view: user_fact {
   dimension_group: first_webapp {
     description: "The first date a user performed a WebApp event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_webapp_date ;;
     hidden: no
   }
@@ -260,15 +274,31 @@ view: user_fact {
   dimension_group: last_webapp {
     description: "The last date a user performed a WebApp event."
     type: time
-    timeframes: [date, month, year]
-    sql: ${TABLE}.lastt_webapp_date ;;
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.last_webapp_date ;;
     hidden: no
+  }
+
+  dimension: days_first_to_last_active_webapp {
+    description: "The number of days between a users first active WebApp date and last active WebApp date."
+    group_label: " WebApp Client Activity"
+    type: number
+    sql: DATEDIFF(DAY, ${first_webapp_date}, ${last_webapp_date}) ;;
+    hidden: yes
+  }
+
+  dimension: days_first_to_now_webapp {
+    description: "The number of days between a users first active WebApp date and last active WebApp date."
+    group_label: " WebApp Client Activity"
+    type: number
+    sql: DATEDIFF(DAY, ${first_webapp_date}, CURRENT_DATE) ;;
+    hidden: yes
   }
 
   dimension_group: first_desktop {
     description: "The first date a user performed a Desktop event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_desktop_date ;;
     hidden: no
   }
@@ -276,15 +306,32 @@ view: user_fact {
   dimension_group: last_desktop {
     description: "The last date a user performed a Desktop event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_desktop_date ;;
+    hidden: no
+  }
+
+  dimension: days_first_to_last_active_desktop {
+    description: "The number of days between a users first active desktop date and last active desktop date."
+    group_label: " Desktop Client Activity"
+    type: number
+    sql: DATEDIFF(DAY, ${first_desktop_date}, ${last_desktop_date}) ;;
+    hidden: no
+  }
+
+  dimension: days_first_to_now_desktop {
+    label: "Days Desktop First Active to Now"
+    group_label: " Desktop Client Activity"
+    description: "The number of days between a users first active desktop date and last active desktop date."
+    type: number
+    sql: DATEDIFF(DAY, ${first_desktop_date}, CURRENT_DATE) ;;
     hidden: no
   }
 
   dimension_group: first_mobile {
     description: "The first date a user performed a Mobile event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_mobile_date ;;
     hidden: no
   }
@@ -292,15 +339,22 @@ view: user_fact {
   dimension_group: last_mobile {
     description: "The last date a user performed a Mobile event."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_mobile_date ;;
     hidden: no
+  }
+
+  dimension: days_first_to_last_active_mobile {
+    description: "The number of days between a users first active mobile date and last active mobile date."
+    type: number
+    sql: DATEDIFF(DAY, ${first_mobile_date}, ${last_mobile_date}) ;;
+    hidden: yes
   }
 
   dimension_group: first_nps {
     description: "The first date a user submitted an NPS score."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_nps_date ;;
     hidden: no
   }
@@ -308,7 +362,7 @@ view: user_fact {
   dimension_group: last_nps {
     description: "The last date a user submitted an NPS score."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_nps_date ;;
     hidden: no
   }
@@ -316,7 +370,7 @@ view: user_fact {
   dimension_group: first_nps_feedback {
     description: "The first date a user submitted NPS Feedback."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_nps_feedback_date ;;
     hidden: no
   }
@@ -324,7 +378,7 @@ view: user_fact {
   dimension_group: last_nps_feedback {
     description: "The last date a user submitted NPS Feedback."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_nps_feedback_date ;;
     hidden: no
   }
@@ -349,7 +403,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 7 distinct days."
     type: count_distinct
-    filters: [desktop_active_days: ">=7"]
+    filters: [days_first_to_last_active_desktop: ">=7"]
     sql: ${user_id} ;;
   }
 
@@ -358,7 +412,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 28 distinct days."
     type: count_distinct
-    filters: [desktop_active_days: ">=28"]
+    filters: [days_first_to_last_active_desktop: ">=28"]
     sql: ${user_id} ;;
   }
 
@@ -367,7 +421,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 7 distinct days."
     type: count_distinct
-    filters: [webapp_active_days: ">=7"]
+    filters: [days_first_to_last_active_webapp: ">=7"]
     sql: ${user_id} ;;
   }
 
@@ -376,7 +430,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 28 distinct days."
     type: count_distinct
-    filters: [webapp_active_days: ">=28"]
+    filters: [days_first_to_last_active_webapp: ">=28"]
     sql: ${user_id} ;;
   }
 
@@ -385,7 +439,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost Mobile Client for >= 7 distinct days."
     type: count_distinct
-    filters: [mobile_active_days: ">=7"]
+    filters: [days_first_to_last_active_mobile: ">=7"]
     sql: ${user_id} ;;
   }
 
@@ -394,7 +448,7 @@ view: user_fact {
     group_label: "User Counts"
     description: "The distinct count of Users that have been active on the Mattermost Mobile Client for >= 28 distinct days."
     type: count_distinct
-    filters: [mobile_active_days: ">=28"]
+    filters: [days_first_to_last_active_mobile: ">=28"]
     sql: ${user_id} ;;
   }
 
@@ -432,7 +486,7 @@ view: user_fact {
     description: "The average number of days that all user[s] (per grouping) 'Reengaged' in MAU i.e. number of times users have reengaged on the platform after 30 days."
     type: average
     value_format_name: decimal_1
-    sql: ${reengaged_count} ;;
+    sql: ${days_reengaged} ;;
   }
 
   measure: days_not_in_mau_avg {
@@ -455,7 +509,7 @@ view: user_fact {
     description: "The average number of days that user[s] has 'Disengaged' ('Newly Disengaged' MAU Segment) per grouping."
     type: average
     value_format_name: decimal_1
-    sql: ${disengaged_count} ;;
+    sql: ${days_newly_disengaged} ;;
   }
 
   measure: avg_events_per_day_avg {
@@ -517,6 +571,56 @@ view: user_fact {
     type: average
     value_format_name: decimal_1
     sql: ${days_first_to_last_active} ;;
+  }
+
+  measure: days_active_sum {
+    label: "Days Active (Sum)"
+    description: "The sum of days where users performed >= 1 event per grouping."
+    type: sum
+    value_format_name: decimal_0
+    sql: ${days_active} ;;
+  }
+
+  measure: days_inactive_sum {
+    label: "Days Inactive (Sum)"
+    description: "The sum of days where users performed 0 events per grouping."
+    type: sum
+    value_format_name: decimal_0
+    sql: ${days_inactive} ;;
+  }
+
+  measure: days_first_to_last_active_sum {
+    label: "Days First to Last Active (Sum)"
+    description: "The sum of days from a users first active date to their last active date per grouping."
+    type: sum
+    value_format_name: decimal_0
+    sql: ${days_first_to_last_active} ;;
+    hidden: yes
+  }
+
+  measure: days_first_active_to_now_sum {
+    label: "Days First to Now (Sum)"
+    description: "The sum of days where from a users first active date to now per grouping."
+    type: sum
+    value_format_name: decimal_0
+    sql: ${days_since_first_active} ;;
+    hidden: no
+  }
+
+  measure: pct_days_active {
+    label: "Active Days %"
+    description: "The percent of total days (first active to now) that a user performed >= 1 event per grouping."
+    type: number
+    value_format: "0.0\%"
+    sql: (${days_active_sum}/nullif(${days_first_active_to_now_sum},0))*100.0 ;;
+  }
+
+  measure: days_active_to_inactive_ratio {
+    label: "Active:Inactive Days Ratio (%)"
+    description: "The ratio of days a user is active to days a user is inactive."
+    type: number
+    value_format: "0.0\%"
+    sql: (${days_active_sum}/nullif(${days_inactive_sum},0))*100.0 ;;
   }
 
 
