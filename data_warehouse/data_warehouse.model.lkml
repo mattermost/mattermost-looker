@@ -738,6 +738,12 @@ explore: data_errors {
 explore: user_fact {
   label: "User Fact"
   group_label: "Product"
+
+  join: account {
+    sql_on: ${user_fact.account_sfid} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: [account.account.account_core*]
+  }
 }
 
 explore: available_renewals {
