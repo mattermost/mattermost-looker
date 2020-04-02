@@ -382,7 +382,7 @@ explore: daily_traffic {
 
 explore: daily_page_visits {
   group_label: "Google Analytics"
-  label: "Daily Page Vistis"
+  label: "Daily Page Visits"
 }
 
 explore: downloads {
