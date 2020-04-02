@@ -69,11 +69,4 @@ view: daily_page_visits {
     sql: ${TABLE}."PAGEVIEWS" ;;
     description: "A pageview is reported when a page has been viewed by a user on the website"
   }
-
-  measure: unique_page_views {
-    label: "Total Unique Page Views"
-    type: sum
-    sql: ${TABLE}."UNIQUEPAGEVIEWS" ;;
-    description: "Counts a page once even if it was viewed multiple times within a single session."
-  }
 }
