@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.user_fact table.
-view: user_fact {
-  sql_table_name: mattermost.user_fact ;;
-  view_label: "User Fact"
+view: user_daily_details {
+  sql_table_name: mattermost.user_daily_details ;;
+  view_label: "User Daily Details"
 
   # FILTERS
 
@@ -49,8 +49,15 @@ view: user_fact {
   dimension: days_since_first_active {
     description: "The number of days from a user's first active date (first event date) to the current date."
     type: number
-    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE) ;;
+    sql: DATEDIFF(DAY, ${first_active_date}, ${logging_date}) ;;
     hidden: no
+  }
+
+  dimension: days_since_first_active_band {
+    type: tier
+    style: integer
+    tiers: [8, 31, 61, 91, 181, 366, 731]
+    sql: ${days_since_first_active} ;;
   }
 
   dimension: webapp_active_days {
@@ -225,12 +232,20 @@ view: user_fact {
     label: "User Age (Days)"
     description: "The number of days between a user's created at date and the current date."
     type: number
-    sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE - INTERVAL '1 DAY') ;;
+    sql: DATEDIFF(DAY, ${first_active_date}, ${logging_date}) ;;
     hidden: no
   }
 
 
   # DIMENSION GROUPS/DATES
+  dimension_group: logging {
+    description: "The logging date each row of data represents."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.date ;;
+    hidden: no
+  }
+
   dimension_group: user_created_at {
     description: "The coalesced date representing the user created at date from NPS response data or the first event date if no NPS submissions."
     type: time
@@ -291,7 +306,7 @@ view: user_fact {
     description: "The number of days between a users first active WebApp date and the current date."
     group_label: " WebApp Client Activity"
     type: number
-    sql: DATEDIFF(DAY, ${first_webapp_date}, CURRENT_DATE) ;;
+    sql: DATEDIFF(DAY, ${first_webapp_date}, ${logging_date}) ;;
     hidden: no
   }
 
@@ -324,7 +339,7 @@ view: user_fact {
     group_label: " Desktop Client Activity"
     description: "The number of days between a users first active desktop date and the current date."
     type: number
-    sql: DATEDIFF(DAY, ${first_desktop_date}, CURRENT_DATE) ;;
+    sql: DATEDIFF(DAY, ${first_desktop_date}, ${logging_date}) ;;
     hidden: no
   }
 
@@ -356,7 +371,7 @@ view: user_fact {
     description: "The number of days since a user's first active mobile date and the current date."
     group_label: " Mobile Client Activity"
     type: number
-    sql: DATEDIFF(DAY, ${first_mobile_date}, CURRENT_DATE) ;;
+    sql: DATEDIFF(DAY, ${first_mobile_date}, ${logging_date}) ;;
     hidden: no
   }
 
@@ -412,7 +427,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
     type: count_distinct
-    filters: [days_first_to_last_active: ">=7"]
+    filters: [days_active:">=7"]
     sql: ${user_id} ;;
   }
 
@@ -421,7 +436,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 28 days per grouping (Days between first and last active >= 28)."
     type: count_distinct
-    filters: [days_first_to_last_active: ">=28"]
+    filters: [days_active: ">=28"]
     sql: ${user_id} ;;
   }
 
