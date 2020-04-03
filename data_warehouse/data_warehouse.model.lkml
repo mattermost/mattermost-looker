@@ -752,22 +752,24 @@ explore: data_errors {
 explore: user_fact {
   label: "User Fact"
   group_label: "Product"
+  extends: [_base_account_core_explore]
 
   join: account {
     sql_on: ${user_fact.account_sfid} = ${account.sfid} ;;
     relationship: many_to_one
-    fields: [account.account.account_core*]
+    fields: [account.account_core*]
   }
 }
 
 explore: user_daily_details {
   label: "User Daily Details"
   group_label: "Product"
+  extends: [_base_account_core_explore]
 
   join: account {
     sql_on: ${user_daily_details.account_sfid} = ${account.sfid} ;;
     relationship: many_to_one
-    fields: [account.account.account_core*]
+    fields: [account.account_core*]
   }
 }
 

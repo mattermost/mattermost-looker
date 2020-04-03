@@ -53,6 +53,13 @@ view: user_daily_details {
     hidden: no
   }
 
+  dimension: days_since_first_active_band {
+    type: tier
+    style: integer
+    tiers: [8, 31, 61, 91, 181, 366, 731]
+    sql: ${days_since_first_active} ;;
+  }
+
   dimension: webapp_active_days {
     description: "The number of days the user has performed >= 1 WebApp event."
     group_label: " WebApp Client Activity"
@@ -420,7 +427,7 @@ view: user_daily_details {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
     type: count_distinct
-    filters: [days_first_to_last_active: ">=7"]
+    filters: [days_active:">=7"]
     sql: ${user_id} ;;
   }
 
@@ -429,7 +436,7 @@ view: user_daily_details {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 28 days per grouping (Days between first and last active >= 28)."
     type: count_distinct
-    filters: [days_first_to_last_active: ">=28"]
+    filters: [days_active: ">=28"]
     sql: ${user_id} ;;
   }
 
