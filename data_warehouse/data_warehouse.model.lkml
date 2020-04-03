@@ -746,6 +746,17 @@ explore: user_fact {
   }
 }
 
+explore: user_daily_details {
+  label: "User Daily Details"
+  group_label: "Product"
+
+  join: account {
+    sql_on: ${user_daily_details.account_sfid} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: [account.account.account_core*]
+  }
+}
+
 explore: available_renewals {
   hidden: yes
   group_label: "Customer Success"
