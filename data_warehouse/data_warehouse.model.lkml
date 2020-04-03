@@ -295,6 +295,20 @@ explore: account_daily_arr_deltas {
     sql_on: ${account.sfid} = ${account_daily_arr_deltas.account_sfid} ;;
     relationship: many_to_one
   }
+
+  join: opportunity {
+    view_label: "Related Opportunities"
+    sql_on: ${account.sfid} = ${opportunity.accountid} and ${opportunity.license_start_date}=${account_daily_arr_deltas.new_day_date} ;;
+    relationship: one_to_many
+    fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid]
+  }
+
+  join: opportunitylineitem {
+    view_label: "Related Opportunities"
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.start_date} = ${account_daily_arr_deltas.new_day_date};;
+    relationship: one_to_many
+    fields: [total_bookings_open_curr_fy, total_bookings_curr_fy]
+  }
 }
 
 explore: master_account_daily_arr_deltas {
@@ -368,7 +382,7 @@ explore: daily_traffic {
 
 explore: daily_page_visits {
   group_label: "Google Analytics"
-  label: "Daily Page Vistis"
+  label: "Daily Page Visits"
 }
 
 explore: downloads {
