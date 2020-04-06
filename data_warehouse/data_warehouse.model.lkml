@@ -787,3 +787,7 @@ explore: available_renewals {
   }
 
 }
+
+explore: server_upgrades {
+  label: "Server Upgrades"
+}
