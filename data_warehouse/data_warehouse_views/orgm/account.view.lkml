@@ -888,15 +888,7 @@ view: account {
     type: string
   }
 
-  dimension: solution_architect_1 {
-    sql: ${TABLE}.solution_architect_1__c ;;
-    type: string
-  }
 
-  dimension: solution_architect_2 {
-    sql: ${TABLE}.solution_architect_2__c ;;
-    type: string
-  }
 
   dimension: territory {
     group_label: "Region and Territory"
