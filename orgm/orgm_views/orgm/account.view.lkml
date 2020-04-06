@@ -806,17 +806,6 @@ view: account {
     sql: ${TABLE}."site" ;;
   }
 
-  dimension: solution_architect_1 {
-  #     TBD TO REMOVE
-    type: string
-    sql: ${TABLE}."solution_architect_1__c" ;;
-  }
-
-  dimension: solution_architect_2 {
-  #     TBD TO REMOVE
-    type: string
-    sql: ${TABLE}."solution_architect_2__c" ;;
-  }
 
   dimension_group: systemmodstamp {
     type: time
