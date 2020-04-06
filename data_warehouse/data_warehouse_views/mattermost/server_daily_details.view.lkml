@@ -82,7 +82,7 @@ view: server_daily_details {
     label: "Database Type"
     description: "The type of database the server is currently using (postgres vs. mysql)"
     type: string
-    sql: ${TABLE}.db_type ;;
+    sql: ${TABLE}.database_type ;;
   }
 
   dimension: os_type {

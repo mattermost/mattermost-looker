@@ -790,4 +790,20 @@ explore: available_renewals {
 
 explore: server_upgrades {
   label: "Server Upgrades"
+  group_label: "Product"
+  extends: [_base_account_core_explore]
+
+  join: account {
+    sql_on: ${server_upgrades.account_sfid} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: [account.account_core*]
+  }
+
+  join: license_daily_details {
+    sql_on: ${server_upgrades.license_id} = ${license_daily_details.license_id}
+    AND ${server_upgrades.logging_date} = ${license_daily_details.logging_date}
+    AND ${license_daily_details.customer_rank} = 1 ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
