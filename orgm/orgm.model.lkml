@@ -27,7 +27,12 @@ explore: profile {
 
 explore: territory__c {
   group_label: "zHeroku Postgres OrgM"
+
 }
+explore: territory_mapping__c {
+  group_label: "zHeroku Postgres OrgM"
+}
+
 
 explore: user {
   group_label: "zHeroku Postgres OrgM"
