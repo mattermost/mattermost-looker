@@ -427,7 +427,7 @@ view: user_daily_details {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
     type: count_distinct
-    filters: [days_active:">=7"]
+    filters: [days_first_to_last_active:">=7"]
     sql: ${user_id} ;;
   }
 
@@ -436,7 +436,7 @@ view: user_daily_details {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 28 days per grouping (Days between first and last active >= 28)."
     type: count_distinct
-    filters: [days_active: ">=28"]
+    filters: [days_first_to_last_active: ">=28"]
     sql: ${user_id} ;;
   }
 
