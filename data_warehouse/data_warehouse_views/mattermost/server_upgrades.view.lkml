@@ -13,6 +13,20 @@ view: server_upgrades {
     hidden: no
   }
 
+  dimension: account_sfid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.account_sfid ;;
+    hidden: no
+  }
+
+  dimension: license_id {
+    description: "" 
+    type: string
+    sql: ${TABLE}.license_id ;;
+    hidden: no
+  }
+
   dimension: prev_version {
     description: "" 
     type: string
@@ -63,6 +77,13 @@ view: server_upgrades {
     description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+  }
+
+  measure: license_count {
+    label: " License Count"
+    description: "The distinct count of Licenses per grouping."
+    type: count_distinct
+    sql: ${license_id} ;;
   }
 
 
