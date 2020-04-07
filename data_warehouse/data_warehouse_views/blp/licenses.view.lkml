@@ -381,7 +381,14 @@ view: licenses {
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
-    hidden: yes
+    hidden: no
+  }
+
+  dimension: is_activated {
+    description: "Indicates whether the license has sent us telemetry data."
+    type: yesno
+    sql: CASE WHEN ${timestamp_date} is not null then TRUE ELSE FALSE END ;;
+    hidden: no
   }
 
 
