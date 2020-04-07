@@ -152,6 +152,12 @@ explore: _base_opportunity_explore {
     relationship: many_to_one
   }
 
+  join: opportunity_ext {
+    view_label: "Opportunity"
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
+    relationship: one_to_one
+  }
+
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
     relationship: many_to_one
@@ -183,6 +189,12 @@ explore: _base_opportunity_core_explore {
   join: opportunity {
     relationship: many_to_one
     fields: [opportunity.opportunity_core*]
+  }
+
+  join: opportunity_ext {
+    view_label: "Opportunity"
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
+    relationship: one_to_one
   }
 
   join: opportunitylineitem {
@@ -303,6 +315,12 @@ explore: account_daily_arr_deltas {
     fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid]
   }
 
+  join: opportunity_ext {
+    view_label: "Related Opportunity"
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
+    relationship: one_to_one
+  }
+
   join: opportunitylineitem {
     view_label: "Related Opportunities"
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.start_date} = ${account_daily_arr_deltas.new_day_date};;
@@ -367,6 +385,12 @@ explore: lead {
 
   join: opportunity {
     sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+  }
+
+  join: opportunity_ext {
+    view_label: "Opportunity"
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
   }
 }
