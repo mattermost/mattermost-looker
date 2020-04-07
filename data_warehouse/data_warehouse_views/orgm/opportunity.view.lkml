@@ -227,6 +227,12 @@ view: opportunity {
     label: "CSM Name"
   }
 
+  dimension: e_purchase_date__c {
+    type: date
+    sql: ${TABLE}."e_purchase_date__c" ;;
+    label: "E-Purchase Date"
+  }
+
   dimension: expectedrevenue {
     description: "Calculated revenue based on the Amount and Probability fields."
     sql: ${TABLE}.expectedrevenue ;;
