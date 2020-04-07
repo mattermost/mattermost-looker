@@ -61,7 +61,7 @@ view: github_contributions {
 
   dimension: repo {
     label: "GitHub Repo"
-    type: number
+    type: string
     sql: ${TABLE}."REPO" ;;
   }
 
