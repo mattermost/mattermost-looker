@@ -763,6 +763,58 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Ren"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_multi_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Multi"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
 
   #
   # Hidden Fields (Used for derived values or joins)

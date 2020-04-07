@@ -592,4 +592,52 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
   }
 
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_new_amount]
+    filters: {
+      field: product_line_type
+      value: "New"
+    }
+  }
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_ren_amount]
+    filters: {
+      field: product_line_type
+      value: "Ren"
+    }
+  }
+
+  measure: total_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_exp_amount]
+    filters: {
+      field: product_line_type
+      value: "Expansion"
+    }
+  }
+
+  measure: total_multi_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_multi_amount]
+    filters: {
+      field: product_line_type
+      value: "Multi"
+    }
+  }
+
 }
