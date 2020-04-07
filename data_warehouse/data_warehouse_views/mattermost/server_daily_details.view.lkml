@@ -193,7 +193,7 @@ view: server_daily_details {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [0,31,61,91,181,366,731]
+    tiers: [1,8,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 

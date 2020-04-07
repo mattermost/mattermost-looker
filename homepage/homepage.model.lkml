@@ -18,12 +18,11 @@ view: _homepage {
   measure: _html {
     sql: 1 ;;
     html:
-    {% if {{_user_attributes['is_group_mlt']}} %}
+    {% if {{_user_attributes['is_mattermost_board_member']}} %}
     <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
-        <div style="font-size: 30px">MLT Looker Homepage</div>
-        <div style="font-size: 12px">BizOps created this MLT Only homepage to get you started on your MLT Metrics journey.</div>
-        <div style="font-size: 12px">There are many other ways to use Looker, but we wanted to make it super easy to get started.</div>
+        <div style="font-size: 30px">Mattermost Board Homepage</div>
+        <div style="font-size: 12px">This Mattermost Board Only homepage was created to get you started on digging into Mattermost Metrics.</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
             <br>
@@ -32,69 +31,131 @@ view: _homepage {
                 <li>
                   <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">Metrics Definitions</a>
                 </li>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">Automating Metrics Timeline</a>
-                </li>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">Looker at Mattermost</a>
-                </li>
-                <li>
-                  <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" target="_blank" style="@{css_link_style}">Provide Feedback on Looker Dashboards</a>
-                </li>
               </ul>
             <div style="font-size: 15px">Content in Looker</div>
             <ul>
               <li>
                 Community
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/15" style="@{css_link_style}">GitHub Contributors Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/69" style="@{css_link_style}">GitHub Contributors Dashboard</a></li>
                 </ul>
               </li>
               <li>
                 <div>Customer Success</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/49" style="@{css_link_style}">Customer Success Overview</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/72" style="@{css_link_style}">Customer Success Overview</a></li>
                 </ul>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">Customer Success Account Health Score</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/71" style="@{css_link_style}">Customer Success Account Health Score</a></li>
                 </ul>
               </li>
               <li>
                 <div>Finance</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">ARR Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/73" style="@{css_link_style}">ARR Overview Dashboard</a></li>
                 </ul>
               </li>
               <li>
                 <div>Product</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/70" style="@{css_link_style}">NPS Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/76" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/75" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
                 </ul>
               </li>
               <li>
                 <div>Customer Journey Lifecycle</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">Traffic &amp; Organic Google Search Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">Downloads Dashboard</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">Contact Us Requests Dashboard</li>
-                  <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trial Requests Dashboard</a></li>
-                  <li>MQL Dashboard - Coming Soon!</li>
+                  <li><a href="https://mattermost.looker.com/dashboards/77" style="@{css_link_style}">Traffic &amp; Organic Google Search Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/74" style="@{css_link_style}">Downloads Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/79" style="@{css_link_style}">Contact Us Requests Dashboard</li>
+                  <li><a href="https://mattermost.looker.com/dashboards/78" style="@{css_link_style}">Trial Requests Dashboard</a></li>
                 </ul>
               </li>
             </ul>
-            <div style="font-size: 20px;" >Looker Quick Links</div>
-            <div>
-            <a href="https://mattermost.looker.com/browse/favorites" style="@{css_link_style}">My Favorites</a>
-            - <a href="https://mattermost.looker.com/browse/recent" style="@{css_link_style}">Recently Viewed</a>
-            - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
-            - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
-            <br>
-            <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
           </div>
         </div>
       </td></tr></table>
+      </center>
+    {% elsif _user_attributes['is_group_mlt'] %}
+      <center>
+        <table><tr><td style="color:rgb(58,66,69,0.65);">
+          <div style="font-size: 30px">MLT Looker Homepage</div>
+          <div style="font-size: 12px">BizOps created this MLT Only homepage to get you started on your MLT Metrics journey.</div>
+          <div style="font-size: 12px">There are many other ways to use Looker, but we wanted to make it super easy to get started.</div>
+          <div style="font-size: 13px; text-align: left;">
+            <div ng-bind-html="element.body_text_as_html">
+              <br>
+              <div style="font-size: 15px">Handbook & Documentation Links</div>
+                <ul>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">Metrics Definitions</a>
+                  </li>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">Automating Metrics Timeline</a>
+                  </li>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">Looker at Mattermost</a>
+                  </li>
+                  <li>
+                    <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" target="_blank" style="@{css_link_style}">Provide Feedback on Looker Dashboards</a>
+                  </li>
+                </ul>
+              <div style="font-size: 15px">Content in Looker</div>
+              <ul>
+                <li>
+                  Community
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/15" style="@{css_link_style}">GitHub Contributors Dashboard</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <div>Customer Success</div>
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/49" style="@{css_link_style}">Customer Success Overview</a></li>
+                  </ul>
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">Customer Success Account Health Score</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <div>Finance</div>
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">ARR Overview Dashboard</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <div>Product</div>
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <div>Customer Journey Lifecycle</div>
+                  <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">Traffic &amp; Organic Google Search Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">Downloads Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">Contact Us Requests Dashboard</li>
+                    <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">Trial Requests Dashboard</a></li>
+                    <li>MQL Dashboard - Coming Soon!</li>
+                  </ul>
+                </li>
+              </ul>
+              <div style="font-size: 20px;" >Looker Quick Links</div>
+              <div>
+              <a href="https://mattermost.looker.com/browse/favorites" style="@{css_link_style}">My Favorites</a>
+              - <a href="https://mattermost.looker.com/browse/recent" style="@{css_link_style}">Recently Viewed</a>
+              - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
+              - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
+              <br>
+              <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
+            </div>
+          </div>
+        </td></tr></table>
       </center>
     {% elsif _user_attributes['assigned_to_group'] %}
       <center>
@@ -159,6 +220,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
                 </ul>
               </li>
               <li>
