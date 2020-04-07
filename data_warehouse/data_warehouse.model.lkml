@@ -723,7 +723,7 @@ explore: snowflake_warehouse_cost {
 
 explore: licenses {
   label: "Licenses"
-  group_label: "License"
+  group_label: "BLP"
   hidden: no
 }
 explore: license_daily_details {
