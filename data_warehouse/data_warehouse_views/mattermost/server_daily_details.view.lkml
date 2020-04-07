@@ -182,14 +182,18 @@ view: server_daily_details {
   }
 
   dimension: days_since_first_telemetry_enabled {
+    label: "Server Age (Days)"
+    description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
     sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
+    label: "Server Age Band (Days)"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1, 8, 31, 61, 91, 366]
+    tiers: [1,8,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
@@ -200,12 +204,13 @@ view: server_daily_details {
   }
 
   dimension: server_age {
-    label: "Age (Days)"
+    label: "Server Age Band (Days)"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
     sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+    hidden: yes
   }
 
   filter: is_telemetry_enabled {
@@ -241,11 +246,25 @@ view: server_daily_details {
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
   }
 
+  measure: server_1days_count {
+    label: "Server >=1 Day Old Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 1 days old across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 then ${server_id} else null end;;
+  }
+
   measure: server_7days_w_active_users_count {
     label: "Server >=7 Days Old w/ Active Users Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+  }
+
+  measure: server_1days_w_active_users_count {
+    label: "Server >=1 Day Old w/ Active Users Count"
+    description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
   }
 
   measure: server_w_active_users_count {
