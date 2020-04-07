@@ -353,7 +353,7 @@ view: licenses {
     label: "License Issued"
     description: "The date the license was issued to the customer."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.issued_date ;;
     hidden: no
   }
@@ -362,7 +362,7 @@ view: licenses {
     label: "License Start"
     description: "The license start date."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.start_date ;;
     hidden: no
   }
@@ -371,7 +371,7 @@ view: licenses {
     label: "License Expire"
     description: "The license expiration date."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
   }
@@ -379,7 +379,7 @@ view: licenses {
   dimension_group: timestamp {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
