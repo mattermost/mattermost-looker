@@ -61,6 +61,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/70" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/76" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/75" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
                 </ul>
               </li>
               <li>
@@ -130,6 +131,7 @@ view: _homepage {
                     <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
                   </ul>
                 </li>
                 <li>
@@ -218,6 +220,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
                 </ul>
               </li>
               <li>
