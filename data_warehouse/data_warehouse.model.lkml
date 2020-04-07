@@ -643,6 +643,14 @@ explore: server_daily_details_ext {
     sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
   }
+
+  join: license_daily_details {
+    view_label: "Licenses"
+    sql_on: ${license_daily_details.license_id} = ${server_daily_details_ext.license_id1}
+    AND ${license_daily_details.logging_date} = ${server_daily_details_ext.logging_date} ;;
+    relationship: many_to_one
+    fields: [license_daily_details.is_trial]
+  }
 }
 
 explore: tva_all_by_mo {

@@ -12,6 +12,7 @@ view: downloads {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       year,
