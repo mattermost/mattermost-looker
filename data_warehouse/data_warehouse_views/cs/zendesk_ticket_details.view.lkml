@@ -1,6 +1,5 @@
 view: zendesk_ticket_details {
-  sql_table_name: "CS"."ZENDESK_TICKET_DETAILS"
-    ;;
+  sql_table_name: "CS"."ZENDESK_TICKET_DETAILS";;
 
   dimension: account_sfid {
     hidden: yes
@@ -74,7 +73,19 @@ view: zendesk_ticket_details {
 
   dimension: category {
     type: string
-    sql: ${TABLE}."CATEGORY" ;;
+    sql: CASE
+          WHEN ${TABLE}."CATEGORY" = 'tsupport' THEN 'General Support'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_desktop' THEN 'Desktop'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_ldap' THEN 'LDAP'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_mobile' THEN 'Mobile'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_db' THEN 'DB'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_connectivity' THEN 'Connectivity'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_installation' THEN 'Installation'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
+          WHEN ${TABLE}."CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
+          WHEN ${TABLE}."CATEGORY" = 'user_issue' THEN 'User Issue'
+        ELSE 'Unknown' END
+    ;;
   }
 
   dimension: customer_type {
@@ -107,10 +118,10 @@ view: zendesk_ticket_details {
     label: "Level Tier"
     type: string
     sql: CASE
-            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
-            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
-            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
-            WHEN ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
+            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
+            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
+            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
+            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
           ELSE 'No Level' END;;
   }
 
@@ -191,6 +202,13 @@ view: zendesk_ticket_details {
     value_format_name: decimal_0
   }
 
+  dimension: calendar_days_open_buckets {
+    type: tier
+    sql: ${calendar_days_open} ;;
+    style: integer
+    tiers: [1, 3, 8, 16, 30, 60, 90, 120, 150, 180, 365]
+  }
+
   dimension: tags {
     type: string
     sql: ${TABLE}."TAGS" ;;
@@ -198,7 +216,7 @@ view: zendesk_ticket_details {
 
   dimension: status {
     type: string
-    sql: ${TABLE}."STATUS" ;;
+    sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' ELSE ${TABLE}."STATUS" END ;;
   }
 
   dimension: organization_name {
@@ -318,33 +336,57 @@ view: zendesk_ticket_details {
   measure: count_tickets {
     type: count_distinct
     sql: ${ticket_id} ;;
-    drill_fields: [organization_name, assignee_name]
+    drill_fields: [core_drill_fields*]
+  }
+
+  measure: median_full_resolution_time_in_minutes_bus {
+    # hidden: yes
+    label: "Median Minutes to Resolution (Bus)"
+    group_label: "Minutes to Resolution"
+    group_item_label: "Median Business Minutes"
+    type: median
+    sql: ${full_resolution_time_in_minutes_bus} ;;
+    drill_fields: [core_drill_fields*, median_full_resolution_time_in_minutes_bus]
+    value_format_name: decimal_0
+  }
+
+  measure: median_full_resolution_time_in_minutes_cal {
+    # hidden: yes
+    label: "Median Minutes to Resolution (Cal)"
+    group_label: "Minutes to Resolution"
+    group_item_label: "Median Calendar Minutes"
+    type: median
+    sql: ${full_resolution_time_in_minutes_bus} ;;
+    value_format_name: decimal_0
+    drill_fields: [core_drill_fields*,median_full_resolution_time_in_minutes_cal]
   }
 
   measure: avg_full_resolution_time_in_minutes_bus {
-    label: "Avg Time to Resolution (Bus)"
-    group_label: "Time to Resolution"
-    group_item_label: "Avg Business"
+    # hidden: yes
+    label: "Avg Minutes to Resolution (Bus)"
+    group_label: "Minutes to Resolution"
+    group_item_label: "Avg Business Minutes"
     type: average
     sql: ${full_resolution_time_in_minutes_bus} ;;
-    drill_fields: [organization_name, assignee_name]
+    drill_fields: [core_drill_fields*, avg_full_resolution_time_in_minutes_bus]
     value_format_name: decimal_0
   }
 
   measure: avg_full_resolution_time_in_minutes_cal {
-    label: "Avg Time to Resolution (Cal)"
-    group_label: "Time to Resolution"
-    group_item_label: "Avg Calendar"
+    # hidden: yes
+    label: "Avg Minutes to Resolution (Cal)"
+    group_label: "Minutes to Resolution"
+    group_item_label: "Avg Calendar Minutes"
     type: average
     sql: ${full_resolution_time_in_minutes_bus} ;;
-    drill_fields: [organization_name, assignee_name]
     value_format_name: decimal_0
+    drill_fields: [core_drill_fields*,avg_full_resolution_time_in_minutes_cal]
   }
 
   measure: count_tickets_solved_on_date {
     type: count_distinct
     sql: ${ticket_id} ;;
-    drill_fields: [organization_name, assignee_name]
+    drill_fields: [core_drill_fields*]
     filters: {
       field: solved_at_on_date
       value: "yes"
@@ -354,7 +396,7 @@ view: zendesk_ticket_details {
   measure: count_tickets_created_date {
     type: count_distinct
     sql: ${ticket_id} ;;
-    drill_fields: [organization_name, assignee_name]
+    drill_fields: [core_drill_fields*]
     filters: {
       field: created_on_date
       value: "yes"
@@ -364,27 +406,50 @@ view: zendesk_ticket_details {
   measure: count_level_1 {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 1' THEN ${ticket_id} ELSE NULL END ;;
+    drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_2 {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 2' THEN ${ticket_id} ELSE NULL END ;;
+    drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_3 {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 3' THEN ${ticket_id} ELSE NULL END ;;
+    drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_4 {
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
+    drill_fields: [core_drill_fields*]
   }
 
   measure: avg_calendar_days_open {
+    # hidden: yes
+    group_label: "Open Days"
+    label: "Avg Days Open (Cal)"
     type: average
     sql: ${calendar_days_open} ;;
     value_format_name: decimal_0
+    drill_fields: [core_drill_fields*, avg_calendar_days_open]
+  }
+
+  measure: median_calendar_days_open {
+    # hidden: yes
+    group_label: "Open Days"
+    label: "Median Days Open (Cal)"
+    type: median
+    sql: ${calendar_days_open} ;;
+    value_format_name: decimal_0
+    drill_fields: [core_drill_fields*, median_calendar_days_open]
+  }
+
+  set: core_drill_fields {
+    fields: [organization_name, name, assignee_name, ticket_id, support_type, e20_customer_level_tier, status, created_date, solved_at_date, calendar_days_open,
+            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla]
   }
 
 }
