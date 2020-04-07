@@ -59,6 +59,12 @@ view: github_contributions {
     sql: ${TABLE}."PR_NUMBER" ;;
   }
 
+  dimension: repo {
+    label: "GitHub Repo"
+    type: number
+    sql: ${TABLE}."REPO" ;;
+  }
+
   measure: count_contributions {
     label: "# of Contributions"
     type: count
