@@ -23,12 +23,20 @@ view: server_daily_details {
   }
 
   dimension: in_security {
+    description: "Is contained in the events.security table data on the given logging date."
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
 
+  dimension: in_mattermos2_server {
+    description: "Is contained in the mattermost2.server table data on the given logging date."
+    type: yesno
+    sql: ${TABLE}.in_mm2_server ;;
+  }
+
   dimension: has_dupes {
     label: "Has Duplicates"
+    group_label: "Data Validation"
     description: "Indicates whether the server is noted as having duplicate records in raw security and server tables."
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -36,6 +44,7 @@ view: server_daily_details {
 
   dimension: has_multi_ips {
     label: "Has Multiple IP's"
+    group_label: "Data Validation"
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
     sql: ${TABLE}.has_multii_ips ;;
@@ -82,7 +91,7 @@ view: server_daily_details {
     label: "Database Type"
     description: "The type of database the server is currently using (postgres vs. mysql)"
     type: string
-    sql: ${TABLE}.db_type ;;
+    sql: ${TABLE}.database_type ;;
   }
 
   dimension: os_type {
@@ -200,9 +209,15 @@ view: server_daily_details {
   }
 
   filter: is_telemetry_enabled {
-    description: "Boolean indicating server is telemetry enabled."
+    description: "Boolean indicating server is in the events.security table data on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
+  }
+
+  filter: is_tracking_enabled {
+    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.in_security OR ${in_mattermos2_server} THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: system_admins {
