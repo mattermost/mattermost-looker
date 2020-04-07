@@ -724,7 +724,7 @@ explore: snowflake_warehouse_cost {
 explore: licenses {
   label: "Licenses"
   group_label: "License"
-  hidden: yes
+  hidden: no
 }
 explore: license_daily_details {
   label: "License Daily Details"
