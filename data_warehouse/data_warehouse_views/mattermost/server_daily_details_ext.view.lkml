@@ -55,21 +55,39 @@ view: server_daily_details_ext {
   }
 
   dimension: active_user_count {
-    label: " Active User Count"
+    label: "Active Users"
     group_label: " Telemetry User Counts"
-    description: "The number of active users associated with the server on a given logging date (Security)."
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: number
     sql: ${TABLE}.active_user_count ;;
-    hidden: no
+  }
+
+  dimension: active_user_count_band {
+    label: "Active Users Band"
+    group_label: " Telemetry User Counts"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    type: tier
+    style: integer
+    tiers: [2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${active_user_count} ;;
   }
 
   dimension: user_count {
-    label: " User Count"
+    label: "Registered Users"
     group_label: " Telemetry User Counts"
-    description: "The number of registered users associated with the server on a given logging date (Security)."
+    description: "The count of all users registered/associated with the server."
     type: number
     sql: ${TABLE}.user_count ;;
-    hidden: no
+  }
+
+  dimension: user_count_band {
+    label: "Registered Users Band"
+    group_label: " Telemetry User Counts"
+    description: "The count of all users registered/associated with the server tiered into distinct ranges."
+    type: tier
+    style: integer
+    tiers: [2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${user_count} ;;
   }
 
   dimension: system_admins {
