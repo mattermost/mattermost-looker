@@ -536,19 +536,9 @@ view: opportunity {
   }
 
   dimension: status_wlo {
-    case: {
-      when: {
-        sql: ${iswon};;
-        label: "Won"
-      }
-      when: {
-        sql: ${isclosed};;
-        label: "Lost"
-      }
-      else: "Open"
-    }
+    sql: ${TABLE}.status_wlo__c;;
+    label: "Status WLO"
     type: string
-    label: "Status"
   }
 
   dimension: type {
