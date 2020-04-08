@@ -70,15 +70,35 @@ view: server_daily_details {
   }
 
   dimension: active_user_count {
-    description: "The count of users that have visited the Mattermost site in the last 24 hours on the server."
+    label: "Active Users"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: number
     sql: ${TABLE}.active_user_count ;;
   }
 
+  dimension: active_user_count_band {
+    label: "Active Users Band"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    type: tier
+    style: integer
+    tiers: [2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${active_user_count} ;;
+  }
+
   dimension: user_count {
-    description: "The count of all users provisioned to/associated with the server."
+    label: "Registered Users"
+    description: "The count of all users registered/associated with the server."
     type: number
     sql: ${TABLE}.user_count ;;
+  }
+
+  dimension: user_count_band {
+    label: "Registered Users Band"
+    description: "The count of all users registered/associated with the server tiered into distinct ranges."
+    type: tier
+    style: integer
+    tiers: [2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${user_count} ;;
   }
 
   dimension: version {
