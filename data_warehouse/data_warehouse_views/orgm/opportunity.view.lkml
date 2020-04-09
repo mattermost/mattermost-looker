@@ -71,14 +71,14 @@ view: opportunity {
 
   filter:   is_closed_curr_mo {
     type: yesno
-    sql: ${close_month} = get_sys_var('curr_mo') ;;
+    sql: ${close_month} = util.get_sys_var('curr_mo') ;;
     label: "Close Current Month"
 
   }
 
   filter:   is_closed_curr_yr {
     type: yesno
-    sql: ${close_fiscal_year} = get_sys_var('curr_fy') ;;
+    sql: ${close_fiscal_year} = util.get_sys_var('curr_fy') ;;
     label: "Close Current Fiscal Year"
 
   }
