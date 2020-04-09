@@ -66,7 +66,7 @@ explore: opportunity {
 
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 }
 
