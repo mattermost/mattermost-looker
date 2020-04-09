@@ -3,7 +3,7 @@ view: lead {
   drill_fields: [id]
 
   set: lead_drill_fields {
-    fields: [id, firstname, lastname, name, campaignmember.count]
+    fields: [name, firstname, lastname, email, status, ownerid, owner_name]
   }
 
   dimension: id {
@@ -623,6 +623,22 @@ view: lead {
   dimension: name {
     sql: ${TABLE}.NAME ;;
     type: string
+  }
+
+  dimension: ownerid {
+    sql: ${TABLE}.ownerid ;;
+    type: string
+  }
+
+  dimension: owner_name {
+    sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
+              WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
+              WHEN ${owner.sfid} LIKE '00G360000026ZoQ%' THEN 'Queue: Junk'
+              WHEN ${owner.sfid} LIKE '00G3p000005V9UP%' THEN 'Queue: Recycled'
+              ELSE 'Queue: Undefined'
+              END ;;
+    type: string
+    label: "Owner Name"
   }
 
   dimension: partner_email {
