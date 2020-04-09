@@ -10,7 +10,7 @@ explore: account {
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 
   join: account_csm {
