@@ -4,7 +4,7 @@ view: opportunity_ext {
   dimension: opportunityid {
     hidden: yes
     type: string
-    sql: ${TABLE}."OPPORTUNITYID" ;;
+    sql: ${TABLE}."OPPORTUNITY_SFID" ;;
   }
 
   dimension: expansion_amount {
