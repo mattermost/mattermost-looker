@@ -1,8 +1,11 @@
-view: territory__c {
-  sql_table_name: orgm.territory__c ;;
+  view: territory_mapping {
+  sql_table_name: orgm.territory_mapping__c ;;
   view_label: ""
 
-  drill_fields: [sfid, name, country_name__c, state_name__c, geo__c, territory__c, region__c]
+  set: all_drill_fields {
+      fields: [territory_name, country_name, state_name, geo, area, region, domain,
+               enterprise_rep_name, commercial_rep_name]
+  }
 
   dimension: id {
     primary_key: yes
@@ -23,21 +26,29 @@ view: territory__c {
     group_label: "HC"
   }
 
-  dimension: commercial_rep__c {
+
+  dimension: commercial_rep {
     type: string
     sql: ${TABLE}."commercial_rep__c" ;;
-    label: "Commercial Rep"
+    label: "Commercial Rep ID"
     group_label: "Sales Org"
   }
 
-  dimension: country_code__c {
+    dimension: commercial_rep_name {
+      type: string
+      sql: ${commercial_rep.name} ;;
+      label: "Commercial Rep Name"
+      group_label: "Sales Org"
+    }
+
+  dimension: country_code {
     type: string
     sql: ${TABLE}."country_code__c" ;;
     label: "Country Code"
     group_label: "Geo"
   }
 
-  dimension: country_name__c {
+  dimension: country_name {
     type: string
     sql: ${TABLE}."country_name__c" ;;
     label: "Country Name"
@@ -58,46 +69,39 @@ view: territory__c {
     group_label: "System"
   }
 
-  dimension: csm__c {
-    type: string
-    sql: ${TABLE}."csm__c" ;;
-    label: "CSM"
-    group_label: "Sales Org"
-  }
 
-  dimension: dwh_external_id__c {
+  dimension: dwh_external_id {
     type: string
     sql: ${TABLE}."dwh_external_id__c" ;;
     group_label: "HC"
   }
 
-  dimension: field_rep__c {
-    type: string
-    sql: ${TABLE}."field_rep__c" ;;
-    label: "Field Rep"
-    group_label: "Sales Org"
+  dimension: domain {
+      type: string
+      sql: ${TABLE}."domain__c" ;;
+      label: "Domain"
     }
 
-  dimension: former_commercial_rep__c {
+  dimension: enterprise_rep {
     type: string
-    sql: ${TABLE}."former_commercial_rep__c" ;;
-    label: "Former Commercial Rep"
+    sql: ${TABLE}."enterprise_rep__c" ;;
+    label: "Enterprise Rep ID"
     group_label: "Sales Org"
-    }
-
-  dimension: former_field_rep__c {
-    type: string
-    sql: ${TABLE}."former_field_rep__c" ;;
-    label: "Former Field Rep"
-    group_label: "Sales Org"
-    }
-
-  dimension: geo__c {
-    type: string
-    sql: ${TABLE}."geo__c" ;;
-    label: "Geo"
-    group_label: "Geo"
   }
+
+    dimension: enterprise_rep_name {
+      type: string
+      sql: ${enterprise_rep.name} ;;
+      label: "Enterprise Rep Name"
+      group_label: "Sales Org"
+    }
+
+  dimension: geo {
+      type: string
+      sql: ${TABLE}."geo__c" ;;
+      label: "Geo"
+      group_label: "Geo"
+    }
 
   dimension: isdeleted {
     type: yesno
@@ -164,15 +168,23 @@ view: territory__c {
     group_label: "System"
   }
 
-  dimension: name {
+    dimension: mapping_type {
+      type: string
+      sql: ${TABLE}."mapping_type__c" ;;
+      label: "Mapping Type"
+      group_label: "System"
+    }
+
+
+  dimension: territory_name {
     type: string
     sql: ${TABLE}."name" ;;
-    label: "Name"
+    label: "Territory Name"
     link: {
       label: "SFDC Record"
       url: "@{salesforce_link}{{sfid._value}}"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
-  }
+    }
   }
 
   dimension: ownerid {
@@ -181,18 +193,11 @@ view: territory__c {
     group_label: "System"
   }
 
-  dimension: region__c {
+  dimension: region {
     type: string
     sql: ${TABLE}."region__c" ;;
     label: "Region"
     group_label: "Geo"
-  }
-
-  dimension: renewal_rep__c {
-    type: string
-    sql: ${TABLE}."renewal_rep__c" ;;
-    label: "Renewal Rep"
-    group_label: "Sales Org"
   }
 
   dimension: sfid {
@@ -202,34 +207,21 @@ view: territory__c {
     group_label: "HC"
   }
 
-  dimension: solution_architect_1__c {
-    type: string
-    sql: ${TABLE}."solution_architect_1__c" ;;
-    label: "SA 1"
-    group_label: "Sales Org"
-  }
 
-  dimension: solution_architect_2__c {
-    type: string
-    sql: ${TABLE}."solution_architect_2__c" ;;
-    label: "SA 1"
-    group_label: "Sales Org"
-    }
-
-  dimension: state_code__c {
+  dimension: state_code {
     type: string
     sql: ${TABLE}."state_code__c" ;;
     label: "State Code"
     group_label: "Geo"
   }
 
-  dimension: state_name__c {
+  dimension: state_name {
     type: string
     sql: ${TABLE}."state_name__c" ;;
     label: "State Name"
     group_label: "Geo"
 
-    }
+  }
 
   dimension_group: systemmodstamp {
     type: time
@@ -247,15 +239,15 @@ view: territory__c {
 
   }
 
-  dimension: territory__c {
-    type: string
-    sql: ${TABLE}."territory__c" ;;
-    label: "Territory"
-  }
-
+    dimension: area {
+      type: string
+      sql: ${TABLE}."area__c" ;;
+      label: "Area"
+      group_label: "Geo"
+    }
   measure: count {
     type: count
-    drill_fields: [sfid, name, country_name__c, state_name__c, geo__c, territory__c, region__c]
+    drill_fields: [all_drill_fields*]
     label: "# Terr"
   }
 }

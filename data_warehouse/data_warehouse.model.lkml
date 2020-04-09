@@ -44,7 +44,7 @@ access_grant: mlt_only {
 
 # BP: Define your own global named value formats to make changing defaults easy
 named_value_format: mm_usd_short {
-  value_format: "$###,###"
+ value_format: "$###,##0"
 }
 
 named_value_format: mm_integer_percent {
