@@ -5,49 +5,12 @@ include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
 
-explore: delete_history {
-  group_label: "zHeroku Postgres OrgM"
-}
-
-explore: hc_object_status {
-  group_label: "zHeroku Postgres OrgM"
-}
-explore: opportunity {
-  group_label: "zHeroku Postgres OrgM"
-
-  join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
-    relationship: many_to_one
-  }
-}
-
-explore: profile {
-  group_label: "zHeroku Postgres OrgM"
-}
-
-explore: territory__c {
-  group_label: "zHeroku Postgres OrgM"
-
-}
-explore: territory_mapping__c {
-  group_label: "zHeroku Postgres OrgM"
-}
-
-
-explore: user {
-  group_label: "zHeroku Postgres OrgM"
-}
-
-explore: opportunity_snapshot {
-  group_label: "zHeroku Postgres OrgM"
-}
-
 explore: account {
   group_label: "zHeroku Postgres OrgM"
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 
   join: account_csm {
@@ -74,6 +37,67 @@ explore: account {
   }
 
 }
+
+explore: campaignmember {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+explore: delete_history {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+explore: hc_object_status {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+explore: lead {
+  group_label: "zHeroku Postgres OrgM"
+
+  join: owner {
+    from:  user
+    sql_on: ${lead.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: opportunity {
+  group_label: "zHeroku Postgres OrgM"
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: opportunity_snapshot {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+explore: profile {
+  group_label: "zHeroku Postgres OrgM"
+}
+
+
+explore: territory_mapping {
+  group_label: "zHeroku Postgres OrgM"
+
+  join: enterprise_rep {
+    from: user
+    sql_on: ${territory_mapping.enterprise_rep}= ${enterprise_rep.sfid} ;;
+    relationship: one_to_one
+    fields: []
+  }
+  join: commercial_rep {
+    from: user
+    sql_on: ${territory_mapping.commercial_rep}= ${commercial_rep.sfid} ;;
+    relationship: one_to_one
+    fields: []
+  }
+}
+
+
+
 
 explore: product_line_item {
   group_label: "zHeroku Postgres OrgM"
@@ -115,9 +139,6 @@ explore: product_line_item {
   }
 }
 
-explore: campaignmember {
-  group_label: "zHeroku Postgres OrgM"
-}
 
 explore: account_data_check {
   persist_for: "0 seconds"
@@ -189,4 +210,9 @@ explore: opportunitylineitem_data_check {
     sql_on: ${delete_history.object_id} = ${orgm_opportunitylineitem_data_check.sfid} ;;
     relationship: one_to_one
   }
+}
+
+
+explore: user {
+  group_label: "zHeroku Postgres OrgM"
 }

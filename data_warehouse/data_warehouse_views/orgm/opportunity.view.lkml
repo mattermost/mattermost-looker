@@ -30,7 +30,8 @@ view: opportunity {
   #
 
   set: opportunity_drill_fields {
-    fields: [account.name,name,owner_name,csm_name]
+    fields: [account.name,name,owner_name,csm_name, close_date, status_wlo, stagename,
+             forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
   }
 
   set: opportunity_core {
@@ -70,10 +71,18 @@ view: opportunity {
 
   filter:   is_closed_curr_mo {
     type: yesno
-    sql: ${close_month} = get_sys_var('curr_mo') ;;
+    sql: ${close_month} = util.get_sys_var('curr_mo') ;;
     label: "Close Current Month"
 
   }
+
+  filter:   is_closed_curr_yr {
+    type: yesno
+    sql: ${close_fiscal_year} = util.get_sys_var('curr_fy') ;;
+    label: "Close Current Fiscal Year"
+
+  }
+
 
 
   #
@@ -753,28 +762,15 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
-  measure: total_new_amount {
-    group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
-    type: sum
-    value_format_name: mm_usd_short
+  measure: total_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# Exp Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     filters: {
       field: opportunitylineitem.product_line_type
-      value: "New"
-    }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
-  }
-
-  measure: total_ren_amount {
-    group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
-    type: sum
-    value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_ren_amount]
-    filters: {
-      field: opportunitylineitem.product_line_type
-      value: "Ren"
+      value: "Expansion"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -791,6 +787,63 @@ view: opportunity {
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
+
+  measure: total_new_count {
+    group_label: "Product Line Type Counts"
+    label: "# New Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# New and Exp Oppts"
+    sql: ${total_new_count}+${total_exp_count};;
+    type: number
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+  }
+
+  measure: total_new_and_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount]
+  }
+
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Ren"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
 
   measure: total_multi_amount {
     group_label: "Product Line Type Totals"
