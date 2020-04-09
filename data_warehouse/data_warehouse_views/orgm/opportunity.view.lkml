@@ -102,7 +102,7 @@ view: opportunity {
     type: number
 
     # BP: Leverage named value formats
-    value_format_name: mm_usd_short
+    value_format: "@{mm_usd_short}"
   }
 
   dimension: amount_in_commit {

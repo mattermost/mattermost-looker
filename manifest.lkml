@@ -32,3 +32,8 @@ constant: colored_tiered_percent {
 constant: css_link_style {
   value: "color: #49719a;"
 }
+
+
+constant: mm_usd_short {
+  value: "$###,###"
+}
