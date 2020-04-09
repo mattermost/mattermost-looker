@@ -82,6 +82,12 @@ explore: _base_account_explore {
     relationship: many_to_one
   }
 
+  join: account_ext {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${account_ext.account_sfid};;
+    relationship: one_to_one
+  }
+
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
@@ -100,6 +106,14 @@ explore: _base_account_explore {
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
   }
+
+  join: parent_account_ext {
+    from: account_ext
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
+    relationship: one_to_one
+  }
+
 
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
@@ -236,6 +250,12 @@ explore: account {
   group_label: "Salesforce"
   description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
+
+  join: account_ext {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${account_ext.account_sfid};;
+    relationship: one_to_one
+  }
 
   join: account_csm {
     from: user
