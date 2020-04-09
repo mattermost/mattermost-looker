@@ -82,6 +82,12 @@ explore: _base_account_explore {
     relationship: many_to_one
   }
 
+  join: account_ext {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${account_ext.account_sfid};;
+    relationship: one_to_one
+  }
+
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
@@ -100,6 +106,14 @@ explore: _base_account_explore {
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
     relationship:one_to_one
   }
+
+  join: parent_account_ext {
+    from: account_ext
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
+    relationship: one_to_one
+  }
+
 
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
@@ -236,6 +250,12 @@ explore: account {
   group_label: "Salesforce"
   description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
+
+  join: account_ext {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${account_ext.account_sfid};;
+    relationship: one_to_one
+  }
 
   join: account_csm {
     from: user
@@ -559,6 +579,14 @@ explore: github_contributions {
 explore: server_daily_details {
   group_label: "Product"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
+  extends: [_base_account_core_explore]
+
+  join: account {
+    sql_on: ${server_daily_details.account_sfid} = ${account.sfid} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [account.account_core*]
+  }
 
   join: server_fact {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
@@ -671,9 +699,16 @@ explore: server_daily_details_ext {
   join: license_daily_details {
     view_label: "Licenses"
     sql_on: ${license_daily_details.license_id} = ${server_daily_details_ext.license_id1}
-    AND ${license_daily_details.logging_date} = ${server_daily_details_ext.logging_date} ;;
+    AND ${license_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
+    AND ${license_daily_details.customer_rank} = 1;;
     relationship: many_to_one
     fields: [license_daily_details.is_trial]
+  }
+
+  join: server_fact {
+    sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 

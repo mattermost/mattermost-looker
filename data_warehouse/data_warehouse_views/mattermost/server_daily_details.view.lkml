@@ -1,6 +1,24 @@
 view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
   view_label: "Server Daily Details"
+  # Filters
+  filter: last_day_of_month {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on server states in the given month."
+    sql: CASE WHEN ${logging_date} =
+                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                        ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: last_day_of_week {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the week. Useful when grouping by month to report on server states in the given week."
+    sql: CASE WHEN ${logging_date} =
+                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
 
   # Dimensions
   dimension: server_id {
@@ -23,6 +41,7 @@ view: server_daily_details {
   }
 
   dimension: in_security {
+    label: "  Telemetry Enabled"
     description: "Is contained in the events.security table data on the given logging date."
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -30,13 +49,14 @@ view: server_daily_details {
 
   dimension: in_mattermos2_server {
     description: "Is contained in the mattermost2.server table data on the given logging date."
+    group_label: " Data Quality"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
   }
 
   dimension: has_dupes {
     label: "Has Duplicates"
-    group_label: "Data Validation"
+    group_label: " Data Quality"
     description: "Indicates whether the server is noted as having duplicate records in raw security and server tables."
     type: yesno
     sql: ${TABLE}.has_dupes ;;
@@ -44,7 +64,7 @@ view: server_daily_details {
 
   dimension: has_multi_ips {
     label: "Has Multiple IP's"
-    group_label: "Data Validation"
+    group_label: " Data Quality"
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
     sql: ${TABLE}.has_multii_ips ;;
@@ -70,15 +90,64 @@ view: server_daily_details {
   }
 
   dimension: active_user_count {
-    description: "The count of users that have visited the Mattermost site in the last 24 hours on the server."
+    label: "Active Users"
+    group_label: " Telemetry User Counts"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: number
     sql: ${TABLE}.active_user_count ;;
   }
 
+  dimension: active_user_count_band {
+    label: "Active Users Band"
+    group_label: " Telemetry User Counts"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    type: tier
+    style: integer
+    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${active_user_count} ;;
+  }
+
   dimension: user_count {
-    description: "The count of all users provisioned to/associated with the server."
+    label: "Registered Users"
+    group_label: " Telemetry User Counts"
+    description: "The count of all users registered/associated with the server."
     type: number
     sql: ${TABLE}.user_count ;;
+  }
+
+  dimension: user_count_band {
+    label: "Registered Users Band"
+    group_label: " Telemetry User Counts"
+    description: "The count of all users registered/associated with the server tiered into distinct ranges."
+    type: tier
+    style: integer
+    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    sql: ${user_count} ;;
+  }
+
+  dimension: latest_record {
+    label: "  Latest Record"
+    description: "Indicates whether the record captures the last (most recent) date that telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  dimension: tracking_disabled {
+    label: " Tracking Disabled"
+    group_label: " Data Quality"
+    description: "True or false indicating whether the server sent telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline."
+    type: yesno
+    sql: ${TABLE}.tracking_disabled ;;
+    hidden: no
+  }
+
+  dimension: currently_sending_telemetry{
+    label: "  Telemetry Currently Enabled"
+    description: "Indicates the server sent telemetry data on the most recent logging date (current date - 1 day)."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
+    hidden: no
   }
 
   dimension: version {
@@ -237,13 +306,15 @@ view: server_daily_details {
     description: "Use this for counting distinct Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_count {
     label: "Server >= 7 Days Old Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_1days_count {
@@ -251,20 +322,23 @@ view: server_daily_details {
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 then ${server_id} else null end;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_w_active_users_count {
     label: "Server >=7 Days Old w/ Active Users Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_1days_w_active_users_count {
     label: "Server >=1 Day Old w/ Active Users Count"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_w_active_users_count {
@@ -272,6 +346,7 @@ view: server_daily_details {
     description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
     type: count_distinct
     sql: CASE WHEN ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: total_active_user_count {
