@@ -836,6 +836,7 @@ explore: data_errors {
 
 explore: user_fact {
   label: "User Fact"
+  description: "Contains the current state (or last recorded state) of a user including first active dates, all time event/activity counts, NPS scores/dates, etc."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
@@ -848,6 +849,7 @@ explore: user_fact {
 
 explore: user_daily_details {
   label: "User Daily Details"
+  description: "Use this to trend the state of a users activity (events), mau status, NPS score, etc. over time. Contains a daily snapshot of user allowing you to trend by various dimensions and measures including user age at the time of the logging data (snapshot date)."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
@@ -875,6 +877,7 @@ explore: available_renewals {
 
 explore: server_upgrades {
   label: "Server Upgrades"
+  description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
