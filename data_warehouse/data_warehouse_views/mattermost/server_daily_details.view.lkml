@@ -254,7 +254,7 @@ view: server_daily_details {
     label: "Server Age (Days)"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_monthly_score.server_install_date}), ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -278,7 +278,7 @@ view: server_daily_details {
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
-    sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_monthly_score.server_install_date}), ${logging_date}) ;;
     hidden: yes
   }
 
