@@ -898,6 +898,7 @@ explore: server_upgrades {
 
 explore: nps_server_monthly_score {
   label: "Nps Server Monthly Score"
+  group_label: "Product"
   description: "Use this explore to trend NPS at the monthly server level to track how a servers NPS changes over time."
   hidden: no
 }
