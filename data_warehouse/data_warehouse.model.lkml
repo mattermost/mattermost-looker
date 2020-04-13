@@ -874,3 +874,7 @@ explore: server_upgrades {
     fields: []
   }
 }
+
+explore: nps_server_monthly_score {
+  label: "Nps Server Monthly Score"
+}
