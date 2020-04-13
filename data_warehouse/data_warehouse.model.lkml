@@ -678,7 +678,7 @@ explore: zendesk_ticket_details {
 explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Monthly Score"
-  description: "Contains NPS Score data per user per month for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS monthly by server version, server age, user role, user age, etc.."
+  description: "Contains NPS Score data per user per month for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by month by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
 
   join: license_overview {
