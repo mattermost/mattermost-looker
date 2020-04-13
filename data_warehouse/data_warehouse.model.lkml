@@ -594,6 +594,15 @@ explore: server_daily_details {
     type: inner
     fields: []
   }
+
+  join: nps_server_monthly_score {
+    view_label: "NPS Score"
+    sql_on: ${nps_server_monthly_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_monthly_score.month_date}::DATE = DATE_TRUNC('month', ${server_daily_details.logging_date}::DATE);;
+    relationship: one_to_one
+    type: left_outer
+    fields: [nps_server_monthly_score.nps_server_core*]
+  }
 }
 
 explore: delete_history {
@@ -709,6 +718,15 @@ explore: server_daily_details_ext {
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: nps_server_monthly_score {
+    view_label: "NPS Score"
+    sql_on: ${nps_server_monthly_score.server_id} = ${server_daily_details_ext.server_id}
+    AND ${nps_server_monthly_score.month_date}::DATE = DATE_TRUNC('month', ${server_daily_details_ext.logging_date}::DATE);;
+    relationship: one_to_one
+    type: left_outer
+    fields: [nps_server_monthly_score.nps_server_core*]
   }
 }
 
@@ -877,4 +895,6 @@ explore: server_upgrades {
 
 explore: nps_server_monthly_score {
   label: "Nps Server Monthly Score"
+  description: "Use this explore to trend NPS at the monthly server level to track how a servers NPS changes over time."
+  hidden: no
 }
