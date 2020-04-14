@@ -1,9 +1,29 @@
 # This is the view file for the analytics.mattermost.nps_user_monthly_score table.
 view: nps_user_monthly_score {
-  sql_table_name: mattermost.nps_user_monthly_score ;;
-  view_label: "Nps User Monthly Score"
+  sql_table_name: mattermost.nps_user_daily_score ;;
+  view_label: "Nps User Daily Score"
 
   # FILTERS
+  filter: last_day_of_month {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on server states in the given month."
+    sql: CASE WHEN ${month_date} =
+                                      CASE WHEN DATE_TRUNC('month', ${month_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                        ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${month_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: score_submission_date {
+    type: yesno
+    description: "Filters so the only rows that appear are days where a new NPS submission was received. Useful when displaying raw data to prevent fanning out by logging date."
+    sql: CASE WHEN ${month_date}::date = ${last_score_date}::date THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: feeedback_submission_date {
+    type: yesno
+    description: "Filters so the only rows that appear are days where a new NPS Feedback submission was received. Useful when displaying raw data to prevent fanning out by logging date."
+    sql: CASE WHEN ${month_date}::date = ${last_feedback_date}::date THEN TRUE ELSE FALSE END ;;
+  }
 
   # DIMENSIONS
   dimension: server_id {
@@ -83,7 +103,7 @@ view: nps_user_monthly_score {
     description: "The month and year the current row of NPS data represents. It projects forward for all users that have ever submitted an NPS score so that their most recent scores are represented in all future months when calculating NPS."
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.month ;;
+    sql: ${TABLE}.date ;;
     hidden: no
   }
 
@@ -204,7 +224,7 @@ view: nps_user_monthly_score {
     label: "Count Users"
     description: "The distinct count of Users that responded to an NPS survey in the record month."
     type: count_distinct
-    sql: case when ${month_date}::date =  date_trunc('month', ${last_score_date}::date) then ${user_id} else null end ;;
+    sql: case when ${month_date}::date =  date_trunc('day', ${last_score_date}::date) then ${user_id} else null end ;;
   }
 
   measure: count_promoters {
