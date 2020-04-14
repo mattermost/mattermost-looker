@@ -20,7 +20,7 @@ view: user_events_by_date {
     hidden: no
   }
 
-  dimension: event_type {
+  dimension: event_client {
     description: "The Mattermost Application client that was used to perform the event (Desktop, Mobile, or Web App)."
     type: string
     sql: ${TABLE}.event_type ;;
