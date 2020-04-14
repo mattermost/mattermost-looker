@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.nps_server_monthly_score table.
-view: nps_server_monthly_score {
-  sql_table_name: mattermost.nps_server_monthly_score ;;
-  view_label: "Nps Server Monthly Score"
+view: nps_server_daily_score {
+  sql_table_name: mattermost.nps_server_daily_score ;;
+  view_label: "Nps Server Daily Score"
   # SETS
   set: nps_server_core {
     fields: [promoters, detractors, passives, nps_users, avg_score, avg_nps_score, nps_score, responses, responses_alltime, feedback, feedback_responses,
@@ -14,7 +14,7 @@ view: nps_server_monthly_score {
   filter: current_record {
     description: "Boolean indicating the data provided shows the state of each server's NPS in the current month."
     type: yesno
-    sql: CASE WHEN ${month_date} = DATE_TRUNC('month', CURRENT_DATE) THEN True ELSE False END ;;
+    sql: CASE WHEN ${date_date} = DATE_TRUNC('day', CURRENT_DATE) THEN True ELSE False END ;;
   }
 
   # DIMENSIONS
@@ -123,12 +123,12 @@ view: nps_server_monthly_score {
 
 
   # DIMENSION GROUPS/DATES
-  dimension_group: month {
+  dimension_group: date {
     label: "Logging"
     description: "The month and year the current row of NPS data represents. It projects forward for all servers that have ever had a user submit an NPS score, which allows us to track the servers scores regardless of whether an NPS submissions took place in the given month."
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.month ;;
+    sql: ${TABLE}.date ;;
     hidden: no
   }
 

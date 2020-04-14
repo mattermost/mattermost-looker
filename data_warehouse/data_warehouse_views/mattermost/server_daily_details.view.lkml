@@ -254,7 +254,7 @@ view: server_daily_details {
     label: "Server Age (Days)"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_monthly_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -278,7 +278,7 @@ view: server_daily_details {
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
-    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_monthly_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
     hidden: yes
   }
 
@@ -365,23 +365,23 @@ view: server_daily_details {
     label: "Servers w/ NPS Score Count"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
-    sql: CASE WHEN COALESCE(${nps_server_monthly_score.nps_users},0) > 0 THEN ${server_id} ELSE NULL END ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, nps_server_monthly_score.nps_score, nps_server_monthly_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_month, server_id, account_sfid, account.name, version, nps_server_daily_score.nps_score, nps_server_daily_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: servers_w_positive_nps_count {
     label: "Servers w/ Positive NPS Count"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
-    sql: CASE WHEN COALESCE(${nps_server_monthly_score.nps_users},0) > 0 AND COALESCE(${nps_server_monthly_score.nps_score},0) > 0 THEN ${server_id} ELSE NULL END ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, nps_server_monthly_score.nps_score, nps_server_monthly_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 AND COALESCE(${nps_server_daily_score.nps_score},0) > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_month, server_id, account_sfid, account.name, version, nps_server_daily_score.nps_score, nps_server_daily_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: servers_w_positive_nps_active_users_count {
     label: "Servers w/ Positive NPS & Active Users Count"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server and have active users on the given logging date."
     type: count_distinct
-    sql: CASE WHEN COALESCE(${nps_server_monthly_score.nps_users},0) > 0 AND COALESCE(${nps_server_monthly_score.nps_score},0) > 0 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, nps_server_monthly_score.nps_score, nps_server_monthly_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 AND COALESCE(${nps_server_daily_score.nps_score},0) > 0 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_month, server_id, account_sfid, account.name, version, nps_server_daily_score.nps_score, nps_server_daily_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 }

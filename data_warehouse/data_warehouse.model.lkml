@@ -595,13 +595,13 @@ explore: server_daily_details {
     fields: []
   }
 
-  join: nps_server_monthly_score {
+  join: nps_server_daily_score {
     view_label: "NPS Score"
-    sql_on: ${nps_server_monthly_score.server_id} = ${server_daily_details.server_id}
-      AND ${nps_server_monthly_score.month_date}::DATE = DATE_TRUNC('month', ${server_daily_details.logging_date}::DATE);;
+    sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details.logging_date}::DATE);;
     relationship: one_to_one
     type: left_outer
-    fields: [nps_server_monthly_score.nps_server_core*]
+    fields: [nps_server_daily_score.nps_server_core*]
   }
 }
 
@@ -677,12 +677,12 @@ explore: zendesk_ticket_details {
 
 explore: nps_user_monthly_score {
   group_label: "Product"
-  label: "NPS User Monthly Score"
-  description: "Contains NPS Score data per user per month for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by month by server version, server age, user role, user age, etc.."
+  label: "NPS User Daily Score"
+  description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
 
   join: license_overview {
-    sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
+    sql_on: ${nps_user_monthly_score.license_id}  = ${license_overview.licenseid}  ;;
     relationship: many_to_many
     fields: []
   }
@@ -720,13 +720,13 @@ explore: server_daily_details_ext {
     fields: []
   }
 
-  join: nps_server_monthly_score {
+  join: nps_server_daily_score {
     view_label: "NPS Score"
-    sql_on: ${nps_server_monthly_score.server_id} = ${server_daily_details_ext.server_id}
-    AND ${nps_server_monthly_score.month_date}::DATE = DATE_TRUNC('month', ${server_daily_details_ext.logging_date}::DATE);;
+    sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details_ext.server_id}
+    AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details_ext.logging_date}::DATE);;
     relationship: one_to_one
     type: left_outer
-    fields: [nps_server_monthly_score.nps_server_core*]
+    fields: [nps_server_daily_score.nps_server_core*]
   }
 }
 
@@ -896,9 +896,9 @@ explore: server_upgrades {
   }
 }
 
-explore: nps_server_monthly_score {
-  label: "Nps Server Monthly Score"
+explore: nps_server_daily_score {
+  label: "Nps Server Daily Score"
   group_label: "Product"
-  description: "Use this explore to trend NPS at the monthly server level to track how a servers NPS changes over time."
+  description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
   hidden: no
 }
