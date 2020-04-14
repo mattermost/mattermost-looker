@@ -4,7 +4,7 @@ view: server_daily_details {
   # Filters
   filter: last_day_of_month {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each month. Useful when grouping by month to report on server states in the given month."
+    description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
     CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
     CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
@@ -47,7 +47,7 @@ view: server_daily_details {
 
   filter: last_day_of_week {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each week. Useful when grouping by month to report on server states in the given week."
+    description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
                                       CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END

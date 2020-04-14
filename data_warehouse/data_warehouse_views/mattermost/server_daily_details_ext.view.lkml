@@ -6,7 +6,7 @@ view: server_daily_details_ext {
   # FILTERS
   filter: last_day_of_month {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each month. Useful when grouping by month to report on server states in the given month."
+    description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
 #     sql: CASE WHEN ${logging_date} =
 #                                       CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
 #                                         ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY' END
@@ -53,7 +53,7 @@ view: server_daily_details_ext {
 
   filter: last_day_of_week {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each week. Useful when grouping by month to report on server states in the given week."
+    description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
     CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
     ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
@@ -266,14 +266,14 @@ view: server_daily_details_ext {
     type: number
     group_label: "Activity Diagnostics"
     sql: ${TABLE}.active_users ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: active_users_daily {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (different than active users - unsure why)."
     type: number
     group_label: "Activity Diagnostics"
-    sql: ${TABLE}.active_users_daily ;;
+    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
     hidden: no
   }
 
@@ -393,7 +393,7 @@ view: server_daily_details_ext {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
     group_label: "Activity Diagnostics"
-    sql: ${TABLE}.registered_users ;;
+    sql: ${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0) ;;
     hidden: no
   }
 
