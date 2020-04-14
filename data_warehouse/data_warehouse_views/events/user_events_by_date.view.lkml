@@ -20,22 +20,29 @@ view: user_events_by_date {
     hidden: no
   }
 
+  dimension: event_client {
+    description: "The Mattermost Application client that was used to perform the event (Desktop, Mobile, or Web App)."
+    type: string
+    sql: ${TABLE}.event_type ;;
+    hidden: no
+  }
+
   dimension: user_role {
-    description: ""
+    description: "The role of the user, if logged (system_user, system admin, or null)."
     type: string
     sql: ${TABLE}.user_role ;;
     hidden: no
   }
 
   dimension: system_admin {
-    description: ""
+    description: "Boolean indicating the user performing the event is a system admin (system_admin)."
     type: yesno
     sql: ${TABLE}.system_admin ;;
     hidden: no
   }
 
   dimension: system_user {
-    description: ""
+    description: "Boolean indicating the user perfoming the event is an end user (system_user)."
     type: yesno
     sql: ${TABLE}.system_user ;;
     hidden: no
@@ -49,35 +56,40 @@ view: user_events_by_date {
   }
 
   dimension: event_name {
-    description: ""
+    description: "The name of the event performed by the user."
     type: string
     sql: ${TABLE}.event_name ;;
     hidden: no
   }
 
   dimension: total_events {
-    description: ""
+    label: " Total Events"
+    description: "The total number of events performed by a specific user on a given date."
+    group_label: "Event Dimensions"
     type: number
     sql: ${TABLE}.total_events ;;
     hidden: no
   }
 
   dimension: desktop_events {
-    description: ""
+    description: "The total number of Desktop events performed by a specific user on a given date."
+    group_label: "Event Dimensions"
     type: number
     sql: ${TABLE}.desktop_events ;;
     hidden: no
   }
 
   dimension: web_app_events {
-    description: ""
+    description: "The total number of Web App events performed by a specific user on a given date."
+    group_label: "Event Dimensions"
     type: number
     sql: ${TABLE}.web_app_events ;;
     hidden: no
   }
 
   dimension: mobile_events {
-    description: ""
+    description: "The total number of Mobile events performed by a specific user on a given date."
+    group_label: "Event Dimensions"
     type: number
     sql: ${TABLE}.mobile_events ;;
     hidden: no
@@ -145,7 +157,7 @@ view: user_events_by_date {
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: ""
+    description: "The logging date that each event was performed."
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.date ;;

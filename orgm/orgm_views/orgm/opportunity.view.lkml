@@ -263,6 +263,19 @@ view: opportunity {
     sql: ${TABLE}."renewed_by_opportunity_id__c" ;;
   }
 
+  dimension: stage_name {
+    type: string
+    sql: ${TABLE}."stagename" ;;
+    label: "Stage"
+  }
+
+  dimension: status_wlo {
+    type: string
+    sql: ${TABLE}."status_wlo__c" ;;
+    label: "Status WLO"
+  }
+
+
   dimension: sfid {
     type: string
     primary_key: yes
@@ -298,12 +311,18 @@ view: opportunity {
     sql: ${TABLE}."type" ;;
   }
 
+
   measure: count {
     type: count_distinct
     sql: ${sfid} ;;
     drill_fields: [sfid, name, opportunitylineitem.count]
   }
 
+  measure: total_amount {
+    type: sum
+    value_format_name: usd_0
+    sql: ${amount} ;;
+  }
   measure: total_arr {
     label: "Total ARR"
     type: sum

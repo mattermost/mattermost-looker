@@ -594,6 +594,15 @@ explore: server_daily_details {
     type: inner
     fields: []
   }
+
+  join: nps_server_daily_score {
+    view_label: "NPS Score"
+    sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details.logging_date}::DATE);;
+    relationship: one_to_one
+    type: left_outer
+    fields: [nps_server_daily_score.nps_server_core*]
+  }
 }
 
 explore: delete_history {
@@ -668,12 +677,12 @@ explore: zendesk_ticket_details {
 
 explore: nps_user_monthly_score {
   group_label: "Product"
-  label: "NPS User Monthly Score"
-  description: "Contains NPS Score data per user per month for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS monthly by server version, server age, user role, user age, etc.."
+  label: "NPS User Daily Score"
+  description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
 
   join: license_overview {
-    sql_on: ${nps_user_monthly_score.license_id} = ${license_overview.licenseid}  ;;
+    sql_on: ${nps_user_monthly_score.license_id}  = ${license_overview.licenseid}  ;;
     relationship: many_to_many
     fields: []
   }
@@ -709,6 +718,15 @@ explore: server_daily_details_ext {
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: nps_server_daily_score {
+    view_label: "NPS Score"
+    sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details_ext.server_id}
+    AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details_ext.logging_date}::DATE);;
+    relationship: one_to_one
+    type: left_outer
+    fields: [nps_server_daily_score.nps_server_core*]
   }
 }
 
@@ -818,6 +836,7 @@ explore: data_errors {
 
 explore: user_fact {
   label: "User Fact"
+  description: "Contains the current state (or last recorded state) of a user including first active dates, all time event/activity counts, NPS scores/dates, etc."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
@@ -830,6 +849,7 @@ explore: user_fact {
 
 explore: user_daily_details {
   label: "User Daily Details"
+  description: "Use this to trend the state of a users activity (events), mau status, NPS score, etc. over time. Contains a daily snapshot of user allowing you to trend by various dimensions and measures including user age at the time of the logging data (snapshot date)."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
@@ -857,6 +877,7 @@ explore: available_renewals {
 
 explore: server_upgrades {
   label: "Server Upgrades"
+  description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
 
@@ -873,4 +894,11 @@ explore: server_upgrades {
     relationship: many_to_one
     fields: []
   }
+}
+
+explore: nps_server_daily_score {
+  label: "Nps Server Daily Score"
+  group_label: "Product"
+  description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
+  hidden: no
 }
