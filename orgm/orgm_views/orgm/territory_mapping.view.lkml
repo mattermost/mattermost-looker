@@ -215,6 +215,16 @@
     group_label: "Geo"
   }
 
+  dimension: state {
+     map_layer_name: us_states
+    sql: ${TABLE}.state_code__c ;;
+  }
+
+  dimension: country {
+    map_layer_name: countries
+    sql: ${TABLE}.country_code__c ;;
+  }
+
   dimension: state_name {
     type: string
     sql: ${TABLE}."state_name__c" ;;
