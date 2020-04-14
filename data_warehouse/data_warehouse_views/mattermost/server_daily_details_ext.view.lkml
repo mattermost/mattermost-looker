@@ -6,20 +6,58 @@ view: server_daily_details_ext {
   # FILTERS
   filter: last_day_of_month {
     type: yesno
-    description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on server states in the given month."
+    description: "Filters so the logging date is equal to the last Friday of each month. Useful when grouping by month to report on server states in the given month."
+#     sql: CASE WHEN ${logging_date} =
+#                                       CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+#                                         ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY' END
+#           THEN TRUE ELSE FALSE END ;;
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-                                        ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY' END
-          THEN TRUE ELSE FALSE END ;;
+    CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
+    CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
+    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+    WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
+    AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
+    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
+    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
+    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+    THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) < 6
+    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) > 0
+    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+    THEN (SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)
+    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) < 6
+    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) > 0
+    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+    THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
+    ELSE  (SELECT MAX(date) FROM mattermost.server_daily_details) END
+    ELSE
+    CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
+    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
+    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
+    ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
+    END
+    THEN TRUE ELSE FALSE END ;;
   }
 
   filter: last_day_of_week {
     type: yesno
-    description: "Filters so the logging date is equal to the last day of the week. Useful when grouping by month to report on server states in the given week."
+    description: "Filters so the logging date is equal to the last Friday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '1 DAY' END
-          THEN TRUE ELSE FALSE END ;;
+    CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+    ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
+    THEN TRUE ELSE FALSE END ;;
   }
 
 
