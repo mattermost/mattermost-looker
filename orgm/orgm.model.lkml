@@ -212,6 +212,29 @@ explore: opportunitylineitem_data_check {
   }
 }
 
+explore: opportunity_field_history {
+  group_label: "zHeroku Postgres OrgM"
+  from:  opportunityfieldhistory
+  join: opportunity {
+    sql_on: ${opportunity_field_history.opportunityid} = ${opportunity.sfid} ;;
+    relationship: many_to_one
+    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stage_name, opportunity.status_wlo,
+             opportunity.probability, opportunity.sfid, opportunity.total_amount]
+  }
+}
+
+explore: opportunity_history {
+  group_label: "zHeroku Postgres OrgM"
+  from:  opportunityhistory
+
+  join: opportunity {
+    sql_on: ${opportunity_history.opportunityid} = ${opportunity.sfid} ;;
+    relationship: many_to_one
+    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stage_name, opportunity.status_wlo,
+      opportunity.probability, opportunity.sfid, opportunity.total_amount]
+  }
+}
+
 
 explore: user {
   group_label: "zHeroku Postgres OrgM"
