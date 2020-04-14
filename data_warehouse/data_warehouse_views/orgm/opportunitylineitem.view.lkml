@@ -41,6 +41,7 @@ view: opportunitylineitem {
       product_type,
       total_arr,
       potential_arr,
+      total_lost_arr,
       lost_arr,
       totalprice,
       total_quantity,
@@ -104,6 +105,13 @@ view: opportunitylineitem {
     sql: ${TABLE}.is_prorated_expansion__c;;
     type: string
   }
+
+  dimension: is_loe {
+    hidden: yes
+    sql: ${is_prorated_expansion} = 'Leftover Expansion';;
+    type: yesno
+  }
+
 
   dimension: is_deleted {
     sql: ${TABLE}.isdeleted;;
@@ -582,6 +590,14 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
+  }
+
+  measure: total_lost_arr {
+    label: "Total Lost ARR"
+    sql: ${lost_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_lost_arr]
   }
 
   measure: total_potential_and_booked_arr {

@@ -34,12 +34,12 @@
     group_label: "Sales Org"
   }
 
-    dimension: commercial_rep_name {
-      type: string
-      sql: ${commercial_rep.name} ;;
-      label: "Commercial Rep Name"
-      group_label: "Sales Org"
-    }
+  dimension: commercial_rep_name {
+    type: string
+    sql: ${commercial_rep.name} ;;
+    label: "Commercial Rep Name"
+    group_label: "Sales Org"
+  }
 
   dimension: country_code {
     type: string
@@ -80,7 +80,7 @@
       type: string
       sql: ${TABLE}."domain__c" ;;
       label: "Domain"
-    }
+  }
 
   dimension: enterprise_rep {
     type: string
@@ -89,19 +89,19 @@
     group_label: "Sales Org"
   }
 
-    dimension: enterprise_rep_name {
-      type: string
-      sql: ${enterprise_rep.name} ;;
-      label: "Enterprise Rep Name"
-      group_label: "Sales Org"
-    }
+  dimension: enterprise_rep_name {
+    type: string
+    sql: ${enterprise_rep.name} ;;
+    label: "Enterprise Rep Name"
+    group_label: "Sales Org"
+  }
 
   dimension: geo {
       type: string
       sql: ${TABLE}."geo__c" ;;
       label: "Geo"
       group_label: "Geo"
-    }
+  }
 
   dimension: isdeleted {
     type: yesno
@@ -168,13 +168,12 @@
     group_label: "System"
   }
 
-    dimension: mapping_type {
-      type: string
-      sql: ${TABLE}."mapping_type__c" ;;
-      label: "Mapping Type"
-      group_label: "System"
-    }
-
+  dimension: mapping_type {
+    type: string
+    sql: ${TABLE}."mapping_type__c" ;;
+    label: "Mapping Type"
+    group_label: "System"
+  }
 
   dimension: territory_name {
     type: string
@@ -206,7 +205,6 @@
     label: "SFID"
     group_label: "HC"
   }
-
 
   dimension: state_code {
     type: string
