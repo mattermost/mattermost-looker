@@ -397,6 +397,24 @@ view: opportunity {
     group_label: "License"
   }
 
+  dimension: lost_reason {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_reason__c ;;
+  }
+
+  dimension: lost_to_competitor {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_to_competitor__c ;;
+  }
+
+  dimension: lost_reason_details {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.closed_lost_other__c ;;
+  }
+
   dimension_group: mql {
     description: "Marketing Qualified Lead Date"
     sql: ${TABLE}.mql_date__c ;;
