@@ -96,6 +96,13 @@ view: server_daily_details {
     sql: ${TABLE}.has_dupes ;;
   }
 
+  dimension: edition {
+    label: "Edition"
+    description: "The server edition (not license related). Either E0 or TE."
+    type: string
+    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
+  }
+
   dimension: has_multi_ips {
     label: "Has Multiple IP's"
     group_label: " Data Quality"
