@@ -172,17 +172,6 @@ explore: _base_opportunity_explore {
     relationship: one_to_one
   }
 
-  join: opportunitylineitem {
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
-    relationship: one_to_many
-  }
-
-  join: product2 {
-    view_label: "Product"
-    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
-    relationship: many_to_one
-  }
-
   join: opportunity_owner {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
@@ -195,6 +184,30 @@ explore: _base_opportunity_explore {
     sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
     relationship: many_to_one
   }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+  }
+
+  join: product2 {
+    view_label: "Product"
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunitycontactrole {
+    view_label: "Oppt Contact Role"
+    sql_on: ${opportunity.sfid} = ${opportunitycontactrole.opportunityid};;
+    relationship: one_to_many
+  }
+
+  join: contact {
+    view_label: "Oppt Contact Role (Contact)"
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid};;
+    relationship: many_to_one
+  }
+
 }
 
 explore: _base_opportunity_core_explore {
@@ -369,11 +382,13 @@ explore: opportunityfieldhistory {
   group_label: "Salesforce"
   extends: [_base_account_core_explore,_base_opportunity_explore]
   join: opportunity {
-    sql_on: ${opportunity.sfid} = ${opportunityfieldhistory.opportunityid} ;;
+    sql_on: ${opportunityfieldhistory.opportunityid} = ${opportunity.sfid} ;;
+    relationship: many_to_one
   }
 
   join: account {
     sql_on: ${opportunity.accountid} = ${account.sfid} ;;
+    relationship: many_to_one
   }
 }
 
