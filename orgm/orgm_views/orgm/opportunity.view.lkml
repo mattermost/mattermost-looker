@@ -1,6 +1,40 @@
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
 
+  #
+  # Sets
+  #
+
+  set: opportunity_drill_fields {
+    fields: [close_date, status_wlo, stagename,
+      forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
+  }
+
+  set: opportunity_core {
+    fields: [
+      name,
+      sfid,
+      close_date,
+      close_month,
+      close_fiscal_quarter_of_year,
+      close_fiscal_year,
+      forecastcategory,
+      license_start_date,
+      license_start_month,
+      license_start_fiscal_quarter_of_year,
+      license_start_fiscal_year,
+      license_end_date,
+      license_end_month,
+      license_end_fiscal_quarter_of_year,
+      license_end_fiscal_year,
+      iswon,
+      isclosed,
+      stagename,
+      probability,
+      type
+    ]
+  }
+
 
 # Filters
   filter: is_close_curr_mo {
@@ -37,18 +71,19 @@ view: opportunity {
   }
 
   dimension_group: close {
-    type: time
+    convert_tz: no
+    description: "Date when the opportunity is expected to close."
+    sql: ${TABLE}.closedate ;;
     timeframes: [
       date,
       month,
-      quarter,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       year,
       fiscal_year
     ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."closedate" ;;
+    type: time
+    group_label: "Closed"
   }
 
   dimension: contactid {
@@ -80,6 +115,20 @@ view: opportunity {
   dimension: expectedrevenue {
     type: number
     sql: ${TABLE}."expectedrevenue" ;;
+  }
+
+  dimension: forecastcategory {
+    type: string
+    sql: ${TABLE}.forecastcategory ;;
+    group_label: "Forecast"
+    label: "Forecast Category"
+  }
+
+  dimension: forecastcategoryname {
+    type: string
+    sql: ${TABLE}.forecastcategoryname ;;
+    group_label: "Forecast"
+    label: "Forecast Category Name"
   }
 
   dimension: id {
@@ -163,6 +212,38 @@ view: opportunity {
   dimension: leadsource {
     type: string
     sql: ${TABLE}."lead_source_text__c" ;;
+  }
+
+  dimension_group: license_end {
+    convert_tz: no
+    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
+    sql: ${TABLE}.license_end_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
+  }
+
+  dimension_group: license_start {
+    convert_tz: no
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: ${TABLE}.license_start_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
   }
 
   dimension_group: mql_date {
@@ -263,7 +344,7 @@ view: opportunity {
     sql: ${TABLE}."renewed_by_opportunity_id__c" ;;
   }
 
-  dimension: stage_name {
+  dimension: stagename {
     type: string
     sql: ${TABLE}."stagename" ;;
     label: "Stage"
@@ -329,6 +410,128 @@ view: opportunity {
     sql: ${opportunitylineitem.arr} ;;
   }
 
+  measure: total_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# Exp Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "no"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_with_loe_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_count {
+    group_label: "Product Line Type Counts"
+    label: "# New Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# New and Exp Oppts"
+    sql: ${total_new_count}+${total_exp_count};;
+    type: number
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+  }
+
+  measure: total_new_and_exp_with_loe_amount {
+    label: "Total New and Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+  }
+
+  measure: total_new_and_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+  }
+
+
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Ren"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+
+  measure: total_multi_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Multi"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
 
 
 }

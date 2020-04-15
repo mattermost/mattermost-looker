@@ -811,6 +811,7 @@ view: opportunity {
   }
 
   measure: total_exp_with_loe_amount {
+    label: "Total Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum

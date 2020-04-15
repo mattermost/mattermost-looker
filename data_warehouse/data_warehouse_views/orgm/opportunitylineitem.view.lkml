@@ -642,6 +642,23 @@ view: opportunitylineitem {
       field: product_line_type
       value: "Expansion"
     }
+    filters: {
+      field: is_loe
+      value: "no"
+    }
+  }
+
+  measure: total_exp_with_loe_amount {
+    label: "Total Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_exp_amount]
+    filters: {
+      field: product_line_type
+      value: "Expansion"
+    }
   }
 
   measure: total_multi_amount {

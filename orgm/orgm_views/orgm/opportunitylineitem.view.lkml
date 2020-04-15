@@ -57,6 +57,7 @@ view: opportunitylineitem {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."end_date__c" ;;
+    group_label: "License End"
   }
 
   dimension: is_prorated_expansion {
@@ -67,6 +68,12 @@ view: opportunitylineitem {
   dimension: isdeleted {
     type: yesno
     sql: ${TABLE}."isdeleted" ;;
+  }
+
+  dimension: is_loe {
+    hidden: yes
+    sql: ${is_prorated_expansion} = 'Leftover Expansion';;
+    type: yesno
   }
 
   dimension: lastmodifiedbyid {
@@ -183,6 +190,7 @@ view: opportunitylineitem {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."start_date__c" ;;
+    group_label: "License Start"
   }
 
   dimension: subtotal {
