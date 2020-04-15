@@ -111,7 +111,7 @@ explore: _base_account_explore {
     from: account_ext
     view_label: "Parent Account"
     sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 
 
@@ -148,7 +148,7 @@ explore: _base_account_core_explore {
   join: parent_account {
     from: account
     sql_on: ${account.parentid} = ${parent_account.sfid} ;;
-    relationship:one_to_one
+    relationship:many_to_one
     fields: []
   }
 
@@ -174,7 +174,7 @@ explore: _base_opportunity_explore {
 
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 
   join: product2 {
@@ -213,7 +213,7 @@ explore: _base_opportunity_core_explore {
 
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
-    relationship: many_to_one
+    relationship: one_to_many
     fields: [opportunitylineitem.opportunitylineitem_core*]
   }
 
