@@ -4,6 +4,19 @@ include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
 fiscal_month_offset: -11
 
+#
+# Formats
+#
+
+# BP: Define your own global named value formats to make changing defaults easy
+named_value_format: mm_usd_short {
+  value_format: "$###,##0"
+}
+
+named_value_format: mm_integer_percent {
+  value_format: "0\%"
+}
+
 
 explore: account {
   group_label: "zHeroku Postgres OrgM"
@@ -68,7 +81,19 @@ explore: opportunity {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
     relationship: one_to_many
   }
+
+  join: opportunitycontactrole {
+    sql_on: ${opportunity.sfid} = ${opportunitycontactrole.opportunityid} ;;
+    relationship: one_to_many
+  }
+
+  join: contact {
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid} ;;
+    relationship: many_to_one
+  }
+
 }
+
 
 explore: opportunity_snapshot {
   group_label: "zHeroku Postgres OrgM"
@@ -218,7 +243,7 @@ explore: opportunity_field_history {
   join: opportunity {
     sql_on: ${opportunity_field_history.opportunityid} = ${opportunity.sfid} ;;
     relationship: many_to_one
-    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stage_name, opportunity.status_wlo,
+    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stagename, opportunity.status_wlo,
              opportunity.probability, opportunity.sfid, opportunity.total_amount]
   }
 }
@@ -230,7 +255,7 @@ explore: opportunity_history {
   join: opportunity {
     sql_on: ${opportunity_history.opportunityid} = ${opportunity.sfid} ;;
     relationship: many_to_one
-    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stage_name, opportunity.status_wlo,
+    fields: [opportunity.name, opportunity.close_date, opportunity.close_month, opportunity.stagename, opportunity.status_wlo,
       opportunity.probability, opportunity.sfid, opportunity.total_amount]
   }
 }
