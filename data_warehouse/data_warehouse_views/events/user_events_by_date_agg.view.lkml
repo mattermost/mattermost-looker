@@ -231,7 +231,7 @@ view: user_events_by_date_agg {
   dimension_group: logging {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
@@ -239,7 +239,7 @@ view: user_events_by_date_agg {
   dimension_group: first_active {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
     hidden: no
   }
@@ -247,7 +247,7 @@ view: user_events_by_date_agg {
   dimension_group: last_active {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_date ;;
     hidden: no
   }

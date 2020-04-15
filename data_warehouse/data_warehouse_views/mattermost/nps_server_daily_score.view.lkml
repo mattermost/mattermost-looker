@@ -127,7 +127,7 @@ view: nps_server_daily_score {
     label: "Logging"
     description: "The month and year the current row of NPS data represents. It projects forward for all servers that have ever had a user submit an NPS score, which allows us to track the servers scores regardless of whether an NPS submissions took place in the given month."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
@@ -135,7 +135,7 @@ view: nps_server_daily_score {
   dimension_group: server_install {
     description: "The date the server was installed."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }

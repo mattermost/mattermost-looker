@@ -605,7 +605,7 @@ view: license_daily_details {
     label: " Logging"
     description: "The date the license data was logged."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
@@ -640,7 +640,7 @@ view: license_daily_details {
   dimension_group: timestamp {
   description: ""
   type: time
-  timeframes: [date, month, year]
+  timeframes: [date, week, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: yes
   }

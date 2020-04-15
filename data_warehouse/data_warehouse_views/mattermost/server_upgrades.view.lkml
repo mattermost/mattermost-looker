@@ -28,9 +28,9 @@ view: server_upgrades {
   }
 
   dimension: prev_version {
-    label: "Previous Day Server Version"
-    group_label: "Server Version"
-    description: "The previous days server version of the server on the given logging date."
+    label: "Previous Server Version"
+    group_label: " Server Versions"
+    description: "The previous days server version for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
     type: string
     sql: ${TABLE}.prev_version ;;
     hidden: no
@@ -38,7 +38,7 @@ view: server_upgrades {
 
   dimension: current_version {
     label: "Current Server Version"
-    group_label: "Server Version"
+    group_label: " Server Version "
     description: "The current server version of the server on the given logging date."
     type: string
     sql: ${TABLE}.current_version ;;

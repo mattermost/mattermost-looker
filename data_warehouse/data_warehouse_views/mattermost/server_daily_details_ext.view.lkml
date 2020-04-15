@@ -87,7 +87,8 @@ view: server_daily_details_ext {
   }
 
   dimension: version {
-    label: " Server Version"
+    group_label: " Server Versions"
+    label: " Server Version (Current)"
     description: "The version of the Mattermost server."
     type: string
     sql: ${TABLE}.version ;;
@@ -1574,7 +1575,7 @@ view: server_daily_details_ext {
   dimension_group: start {
     description: "The start date of the license associated with Mattermost server."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     group_label: "License Configuration"
     sql: ${TABLE}.start_date ;;
     hidden: no
@@ -1591,7 +1592,7 @@ view: server_daily_details_ext {
   dimension_group: expire {
     description: "The expiration date of the license associated with the Mattermost server."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     group_label: "License Configuration"
     sql: ${TABLE}.expire_date ;;
     hidden: no
@@ -1798,7 +1799,7 @@ view: server_daily_details_ext {
   dimension_group: issued {
     description: "The issued date of the license assoicated with the Mattermost server."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     group_label: "License Configuration"
     sql: ${TABLE}.issued ;;
     hidden: no
