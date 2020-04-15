@@ -97,10 +97,19 @@ view: server_daily_details {
   }
 
   dimension: edition {
-    label: "Edition"
-    description: "The server edition (not license related). Either E0 or TE."
+    label: " Server Edition (Current)"
+    group_label: "Server Editions"
+    description: "The server edition. Either E0 or TE."
     type: string
     sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
+  }
+
+  dimension: first_server_edition {
+    label: "First Server Edition"
+    group_label: "Server Editions"
+    description: "The first server edition logged via telemetry for the server. Either E0 or TE."
+    type: string
+    sql: ${server_fact.first_server_edition} ;;
   }
 
   dimension: has_multi_ips {
@@ -305,7 +314,7 @@ view: server_daily_details {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1,8,31,61,91,181,366,731]
+    tiers: [1,7,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
