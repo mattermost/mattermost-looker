@@ -397,6 +397,24 @@ view: opportunity {
     group_label: "License"
   }
 
+  dimension: lost_reason {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_reason__c ;;
+  }
+
+  dimension: lost_to_competitor {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_to_competitor__c ;;
+  }
+
+  dimension: lost_reason_details {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.closed_lost_other__c ;;
+  }
+
   dimension_group: mql {
     description: "Marketing Qualified Lead Date"
     sql: ${TABLE}.mql_date__c ;;
@@ -785,10 +803,14 @@ view: opportunity {
       field: opportunitylineitem.product_line_type
       value: "Expansion"
     }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "no"
+    }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
-  measure: total_exp_less_loe_amount {
+  measure: total_exp_with_loe_amount {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -797,10 +819,6 @@ view: opportunity {
     filters: {
       field: opportunitylineitem.product_line_type
       value: "Expansion"
-    }
-    filters: {
-      field: opportunitylineitem.is_loe
-      value: "no"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -845,15 +863,15 @@ view: opportunity {
     sql: ${total_new_amount}+${total_exp_amount};;
     type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount]
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
   }
 
   measure: total_new_and_exp_amount {
     group_label: "Product Line Type Totals"
-    sql: ${total_new_amount}+${total_exp_less_loe_amount};;
+    sql: ${total_new_amount}+${total_exp_amount};;
     type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_less_loe_amount,total_new_and_exp_amount]
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
 
 
