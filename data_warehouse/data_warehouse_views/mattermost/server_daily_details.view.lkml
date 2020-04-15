@@ -287,14 +287,14 @@ view: server_daily_details {
   }
 
   dimension: days_since_first_telemetry_enabled {
-    label: "Server Age (Days)"
+    label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
     sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
-    label: "Server Age Band (Days)"
+    label: "Days Since First Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
@@ -350,9 +350,18 @@ view: server_daily_details {
   measure: tedas_server_count {
     group_label: " Server Counts"
     label: "   TEDAS Servers"
-    description: "Use this for counting distinct TEDAS Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is used to track TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
     type: count_distinct
     sql: CASE WHEN ${in_security} THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: new_tedas_server_count {
+    group_label: " Server Counts"
+    label: "  New TEDAS Servers"
+    description: "Use this to trend the count of new, distinct TEDAS Servers by logging date."
+    type: count_distinct
+    sql: CASE WHEN ${in_security} AND ${logging_date} = ${first_telemetry_enabled_date} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
