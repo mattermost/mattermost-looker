@@ -309,6 +309,13 @@ view: server_daily_details {
     sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
+  dimension: days_from_first_telemetry_to_paid_license {
+    label: "Days to Paid License"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: number
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
+  }
+
   dimension: days_since_first_telemetry_enabled_band {
     label: "Days Since First Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
@@ -386,7 +393,34 @@ view: server_daily_details {
     label: "  Server >= 7 Days Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
-    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 then ${server_id} else null end;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_7days_converted_to_paid_count {
+    group_label: " Server Counts"
+    label: "  Server >= 7 Days Old & Converted to Paid < 7 Days"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and converted to paid, licensed customers across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} < 7 then ${server_id} else null end;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_7days_converted_count {
+    group_label: " Server Counts"
+    label: "  Server >= 7 Days Old & Converted to Paid >= 7 Days"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that converted to a paid SKU in >= 7 days since their first telemetry date across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 then ${server_id} else null end;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_7days_did_not_convert_count {
+    group_label: " Server Counts"
+    label: "  Server >= 7 Days Old & Not Converted to Paid"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that either: converted to a paid SKU in >= 7 days since their first telemetry date or did not converted to paid across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) then ${server_id} else null end;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 

@@ -112,6 +112,20 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.last_active_user_date ;;
   }
 
+  dimension_group: first_paid_license {
+    description: "The date the server first sent telemetry data that associated it with a paid license."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_paid_license_date ;;
+  }
+
+  dimension_group: first_trial_license {
+    description: "The date the server first sent telemetry data that associated it with a trial license."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_trial_license_date ;;
+  }
+
   dimension: dau {
     group_label: "Active User Dimensions"
     label: "   Total DAU"
