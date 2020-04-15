@@ -102,7 +102,7 @@ view: nps_user_monthly_score {
     label: "NPS Logging"
     description: "The month and year the current row of NPS data represents. It projects forward for all users that have ever submitted an NPS score so that their most recent scores are represented in all future months when calculating NPS."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
@@ -110,7 +110,7 @@ view: nps_user_monthly_score {
   dimension_group: last_score {
     description: "The last time the user provided an NPS response."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_score_date ;;
     hidden: no
   }
@@ -118,7 +118,7 @@ view: nps_user_monthly_score {
   dimension_group: user_created_at {
     description: "The date the NPS user was first created."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.user_created_at ;;
     hidden: no
   }
@@ -144,7 +144,7 @@ view: nps_user_monthly_score {
   dimension_group: server_install {
     description: "The date the user's (responding to the NPS survey) server was installed."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }
@@ -171,7 +171,7 @@ view: nps_user_monthly_score {
   dimension_group: last_feedback {
     description: "The last time the user provided an NPS Feedback response."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_feedback_date ;;
     hidden: no
   }

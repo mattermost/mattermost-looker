@@ -4,7 +4,7 @@ view: server_daily_details {
   # Filters
   filter: last_day_of_month {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each month. Useful when grouping by month to report on server states in the given month."
+    description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
     CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
     CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
@@ -47,7 +47,7 @@ view: server_daily_details {
 
   filter: last_day_of_week {
     type: yesno
-    description: "Filters so the logging date is equal to the last Friday of each week. Useful when grouping by month to report on server states in the given week."
+    description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
                                       CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
@@ -64,7 +64,7 @@ view: server_daily_details {
   dimension_group: logging {
     description: "The date the server details were logged."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
   }
 
@@ -185,6 +185,8 @@ view: server_daily_details {
   }
 
   dimension: version {
+    group_label: " Server Versions"
+    label: " Server Version (Current)"
     description: "The version of Mattermost the server is currently using (example: 5.9.0.5.9.8)"
     type: string
     sql: ${TABLE}.version ;;
@@ -285,14 +287,14 @@ view: server_daily_details {
   }
 
   dimension: days_since_first_telemetry_enabled {
-    label: "Server Age (Days)"
+    label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
     sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
-    label: "Server Age Band (Days)"
+    label: "Days Since First Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
@@ -302,7 +304,7 @@ view: server_daily_details {
 
   dimension_group: first_telemetry_enabled {
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
   }
 
@@ -337,14 +339,35 @@ view: server_daily_details {
 
   # Measures
   measure: server_count {
-    description: "Use this for counting distinct Server ID's across dimensions. This measure is used to calculate TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    label: "   Server Count"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
+  measure: tedas_server_count {
+    group_label: " Server Counts"
+    label: "   TEDAS Servers"
+    description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is used to track TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    type: count_distinct
+    sql: CASE WHEN ${in_security} THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: new_tedas_server_count {
+    group_label: " Server Counts"
+    label: "  New TEDAS Servers"
+    description: "Use this to trend the count of new, distinct TEDAS Servers by logging date."
+    type: count_distinct
+    sql: CASE WHEN ${in_security} AND ${logging_date} = ${first_telemetry_enabled_date} THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
   measure: server_7days_count {
-    label: "Server >= 7 Days Old Count"
+    group_label: " Server Counts"
+    label: "  Server >= 7 Days Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then ${server_id} else null end;;
@@ -352,7 +375,8 @@ view: server_daily_details {
   }
 
   measure: server_1days_count {
-    label: "Server >=1 Day Old Count"
+    group_label: " Server Counts"
+    label: "Server >=1 Day Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 then ${server_id} else null end;;
@@ -360,7 +384,8 @@ view: server_daily_details {
   }
 
   measure: server_7days_w_active_users_count {
-    label: "Server >=7 Days Old w/ Active Users Count"
+    group_label: " Server Counts"
+    label: "  Server >=7 Days Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
@@ -368,7 +393,8 @@ view: server_daily_details {
   }
 
   measure: server_1days_w_active_users_count {
-    label: "Server >=1 Day Old w/ Active Users Count"
+    group_label: " Server Counts"
+    label: "Server >=1 Day Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
@@ -376,27 +402,33 @@ view: server_daily_details {
   }
 
   measure: server_w_active_users_count {
-    label: "Server w/ Active Users Count"
-    description: "Use this to count distinct Server ID's with > 0 active users across dimensions."
+    group_label: " Server Counts"
+    label: " Server w/ Active Users"
+    description: "Use this to count distinct TEDAS Server ID's with > 0 active users across dimensions. Servers w/ active users are automatically idenfitiable as Telemetry Enabled because the active user count is provided via telemetry."
     type: count_distinct
     sql: CASE WHEN ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: total_active_user_count {
-    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level."
+    group_label: "User Counts"
+    label: "Active Users"
+    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level. It is the active user count logged via diagnostics.go."
     type: sum
     sql: ${active_user_count} ;;
   }
 
   measure: total_user_count {
+    group_label: "User Counts"
+    label: "Registered Users"
     description: "Use this for summing user counts across dimensions."
     type: sum
     sql: ${user_count} ;;
   }
 
   measure: servers_w_nps_count {
-    label: "Servers w/ NPS Score Count"
+    group_label: " Server Counts"
+    label: "Servers w/ NPS Submissions"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
     sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 THEN ${server_id} ELSE NULL END ;;
@@ -404,7 +436,8 @@ view: server_daily_details {
   }
 
   measure: servers_w_positive_nps_count {
-    label: "Servers w/ Positive NPS Count"
+    group_label: " Server Counts"
+    label: "Servers w/ Positive NPS Scores"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
     sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 AND COALESCE(${nps_server_daily_score.nps_score},0) > 0 THEN ${server_id} ELSE NULL END ;;
@@ -412,7 +445,8 @@ view: server_daily_details {
   }
 
   measure: servers_w_positive_nps_active_users_count {
-    label: "Servers w/ Positive NPS & Active Users Count"
+    group_label: " Server Counts"
+    label: "Servers w/ Active Users & Positive NPS Scores"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server and have active users on the given logging date."
     type: count_distinct
     sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 AND COALESCE(${nps_server_daily_score.nps_score},0) > 0 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;

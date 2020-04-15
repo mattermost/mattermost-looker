@@ -159,7 +159,7 @@ view: user_events_by_date {
   dimension_group: logging {
     description: "The logging date that each event was performed."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }

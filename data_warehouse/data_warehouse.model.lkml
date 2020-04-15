@@ -604,19 +604,28 @@ explore: server_daily_details {
   }
 
   join: server_fact {
+    view_label: "Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
-    fields: []
+    fields: [server_fact.first_server_version]
   }
 
   join: nps_server_daily_score {
-    view_label: "NPS Score"
+    view_label: "Server NPS"
     sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details.server_id}
       AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details.logging_date}::DATE);;
     relationship: one_to_one
     type: left_outer
     fields: [nps_server_daily_score.nps_server_core*]
+  }
+
+  join: server_upgrades {
+    view_label: "Server Daily Details"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
+      AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
+    relationship: one_to_one
+    fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
   }
 }
 
@@ -730,9 +739,10 @@ explore: server_daily_details_ext {
   }
 
   join: server_fact {
+    view_label: "Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.first_server_version]
   }
 
   join: nps_server_daily_score {
@@ -742,6 +752,14 @@ explore: server_daily_details_ext {
     relationship: one_to_one
     type: left_outer
     fields: [nps_server_daily_score.nps_server_core*]
+  }
+
+  join: server_upgrades {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id}
+    AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
+    relationship: one_to_one
+    fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
   }
 }
 
