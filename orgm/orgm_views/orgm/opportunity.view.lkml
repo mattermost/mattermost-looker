@@ -73,7 +73,7 @@ view: opportunity {
   dimension_group: close {
     convert_tz: no
     description: "Date when the opportunity is expected to close."
-    sql: ${TABLE}.closedate ;;
+    sql: ${TABLE}."closedate" ;;
     timeframes: [
       date,
       month,
@@ -84,6 +84,41 @@ view: opportunity {
     ]
     type: time
     group_label: "Closed"
+  }
+
+  dimension: close_current_fy {
+    type:  yesno
+    sql: ${close_fiscal_year} = util.fiscal_year(current_date);;
+    group_label: "Closed"
+    label: "Close Current FY"
+  }
+
+  dimension: close_current_qtr {
+    type:  yesno
+    sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date) AND ${close_fiscal_year} = util.fiscal_year(current_date);;
+    group_label: "Closed"
+    label: "Close Current Qtr"
+  }
+
+  dimension: close_in_renewal_qtr {
+    type:  yesno
+    sql: util.fiscal_quarter(${TABLE}.closedate) ||'-'|| util.fiscal_year(${TABLE}.closedate) = util.fiscal_quarter(${license_start_date}) ||'-'|| util.fiscal_year(${license_start_date});;
+    group_label: "Closed"
+    label: "Closed in Renewal Qtr?"
+  }
+
+  dimension: close_vs_renewal_qtr {
+    type:  string
+    sql: CASE WHEN ${close_fiscal_quarter} < ${license_start_fiscal_quarter} THEN 'Early' WHEN ${close_fiscal_quarter} = ${license_start_fiscal_quarter} THEN 'Same' ELSE 'Late' END;;
+    group_label: "Closed"
+    label: "Same, Early or Later Renewal by Qtr"
+  }
+
+  dimension: close_current_mo {
+    type:  yesno
+    sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
+    group_label: "Closed"
+    label: "Close Current Mo"
   }
 
   dimension: contactid {
