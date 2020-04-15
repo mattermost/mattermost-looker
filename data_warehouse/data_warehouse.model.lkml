@@ -603,6 +603,14 @@ explore: server_daily_details {
     type: left_outer
     fields: [nps_server_daily_score.nps_server_core*]
   }
+
+  join: server_upgrades {
+    view_label: "Server Daily Details"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
+      AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
+    relationship: one_to_one
+    fields: [server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+  }
 }
 
 explore: delete_history {
@@ -727,6 +735,14 @@ explore: server_daily_details_ext {
     relationship: one_to_one
     type: left_outer
     fields: [nps_server_daily_score.nps_server_core*]
+  }
+
+  join: server_upgrades {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id}
+    AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
+    relationship: one_to_one
+    fields: [server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
   }
 }
 

@@ -88,6 +88,7 @@ view: server_upgrades {
   }
 
   measure: server_version_upgrades {
+    group_label: "Server Upgrades"
     label: "Server Version Upgrades"
     description: "The distinct count of server version upgrades i.e. a server upgrades from an older Mattermost Server Version to a newer Mattermost Server Version."
     type: count_distinct
@@ -95,6 +96,7 @@ view: server_upgrades {
   }
 
   measure: server_edition_upgrades {
+    group_label: "Server Upgrades"
     label: "Server Edition Upgrades"
     description: "The distinct count of server edition upgrades i.e. a server upgrades from team edition to enterprise edition."
     type: count_distinct
