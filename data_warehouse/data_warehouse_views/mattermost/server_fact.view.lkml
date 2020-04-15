@@ -11,14 +11,16 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: server_version {
-    label: "  Server Version"
+    group_label: " Server Versions"
+    label: "  Server Version (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
     sql: ${TABLE}.version ;;
   }
 
   dimension: first_server_version {
-    label: " First Server Version"
+    group_label: " Server Versions"
+    label: "First Server Version"
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
     sql: ${TABLE}.first_server_version ;;
@@ -55,28 +57,28 @@ sql_table_name: mattermost.server_fact ;;
   dimension_group: first_active {
     description: "The date the server was first active (first recorded instance of server appearing server logging data)."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
   }
 
   dimension_group: last_active {
     description: "The date the server was last active (last recorded instance of server appearing server logging data)."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_date ;;
   }
 
   dimension_group: first_telemetry_active {
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
   dimension_group: last_telemetry_active {
     description: "The date the server was last active (last recorded telemetry enabled date)."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
@@ -90,7 +92,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension_group: last_active_user {
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_user_date ;;
   }
 
