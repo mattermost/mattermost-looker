@@ -8,14 +8,14 @@ view: opportunity_ext {
   }
 
   dimension: expansion_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_EXPANSION_AMOUNT" ;;
   }
 
   dimension: expansion_w_proration_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     label: "Expansion w/ Co-Term & Leftover Proration "
     value_format_name: usd_0
     type: number
@@ -23,28 +23,28 @@ view: opportunity_ext {
   }
 
   dimension: multi_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_MULTI_AMOUNT" ;;
   }
 
   dimension: new_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_NEW_AMOUNT" ;;
   }
 
   dimension: renewal_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_RENEWAL_AMOUNT" ;;
   }
 
   dimension: new_and_expansion_amount {
-    group_label: "Product Line Type Totals"
+    group_label: "Line Item Totals"
     label: "New & Expansion w/Proration Amount"
     value_format_name: usd_0
     type: number
