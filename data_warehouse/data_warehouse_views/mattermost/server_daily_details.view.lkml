@@ -64,7 +64,7 @@ view: server_daily_details {
   dimension_group: logging {
     description: "The date the server details were logged."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
   }
 
@@ -320,7 +320,7 @@ view: server_daily_details {
 
   dimension_group: first_telemetry_enabled {
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
   }
 
