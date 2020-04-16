@@ -26,6 +26,12 @@ view: opportunitycontactrole {
     sql: ${TABLE}."contactid" ;;
   }
 
+  dimension: contactname {
+    type: string
+    sql: ${ocr_contact.name} ;;
+    label: "OCR Contact Name"
+  }
+
   dimension: createdbyid {
     type: string
     sql: ${TABLE}."createdbyid" ;;

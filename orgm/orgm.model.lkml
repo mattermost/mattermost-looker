@@ -87,9 +87,11 @@ explore: opportunity {
     relationship: one_to_many
   }
 
-  join: contact {
-    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid} ;;
+  join: ocr_contact {
+    from: contact
+    sql_on: ${opportunitycontactrole.contactid} = ${ocr_contact.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
 }
