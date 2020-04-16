@@ -869,7 +869,7 @@ view: opportunity {
     sql: ${opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
     filters: {
       field: opportunitylineitem.product_line_type
       value: "Expansion"
@@ -914,7 +914,7 @@ view: opportunity {
   measure: total_new_and_exp_with_loe_amount {
     label: "Total New and Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
-    sql: ${total_new_amount}+${total_exp_amount};;
+    sql: ${total_new_amount}+${total_exp_with_loe_amount};;
     type: number
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
