@@ -98,6 +98,13 @@ view: opportunitylineitem {
     group_label: "License End"
   }
 
+  dimension: end_yyyy_mm {
+    description: "Date when the license is ending. "
+    sql: to_char(${TABLE}.end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License End"
+    label: "End YYYY-MM"
+  }
 
   dimension: is_prorated_expansion {
     type: string

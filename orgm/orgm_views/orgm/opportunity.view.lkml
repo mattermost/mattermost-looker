@@ -83,41 +83,56 @@ view: opportunity {
       fiscal_year
     ]
     type: time
-    group_label: "Closed"
+    group_label: "Close"
   }
+
+  dimension: close_yyyy_mm {
+    type: string
+    sql: to_char(${TABLE}."closedate",'YYYY-MM');;
+    label: "Close YYYY-MM"
+    group_label: "Close"
+  }
+
+  dimension: close_yyyy_qq {
+    type: string
+    sql: ${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
+    label: "Close YYYY-QQ"
+    group_label: "Close"
+  }
+
 
   dimension: close_current_fy {
     type:  yesno
     sql: ${close_fiscal_year} = util.fiscal_year(current_date);;
-    group_label: "Closed"
+    group_label: "Close"
     label: "Close Current FY"
   }
 
   dimension: close_current_qtr {
     type:  yesno
     sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date) AND ${close_fiscal_year} = util.fiscal_year(current_date);;
-    group_label: "Closed"
+    group_label: "Close"
     label: "Close Current Qtr"
   }
 
   dimension: close_in_renewal_qtr {
     type:  yesno
     sql: util.fiscal_quarter(${TABLE}.closedate) ||'-'|| util.fiscal_year(${TABLE}.closedate) = util.fiscal_quarter(${license_start_date}) ||'-'|| util.fiscal_year(${license_start_date});;
-    group_label: "Closed"
+    group_label: "Close"
     label: "Closed in Renewal Qtr?"
   }
 
   dimension: close_vs_renewal_qtr {
     type:  string
     sql: CASE WHEN ${close_fiscal_quarter} < ${license_start_fiscal_quarter} THEN 'Early' WHEN ${close_fiscal_quarter} = ${license_start_fiscal_quarter} THEN 'Same' ELSE 'Late' END;;
-    group_label: "Closed"
+    group_label: "Close"
     label: "Same, Early or Later Renewal by Qtr"
   }
 
   dimension: close_current_mo {
     type:  yesno
     sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
-    group_label: "Closed"
+    group_label: "Close"
     label: "Close Current Mo"
   }
 
@@ -217,36 +232,43 @@ view: opportunity {
       year
     ]
     sql: ${TABLE}."lead_created_date__c" ;;
+    group_label: "Lead"
   }
 
   dimension: lead_source_detail {
     type: string
     sql: ${TABLE}."lead_source_detail__c" ;;
+    group_label: "Lead"
   }
 
   dimension: lead_source_detail_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_detail_upon_conversion__c" ;;
+    group_label: "Lead"
   }
 
   dimension: lead_source_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_upon_conversion__c" ;;
+    group_label: "Lead"
   }
 
   dimension: lead_type {
     type: string
     sql: ${TABLE}."lead_type__c" ;;
+    group_label: "Lead"
   }
 
   dimension: leadid {
     type: string
     sql: ${TABLE}."leadid__c" ;;
+    group_label: "Lead"
   }
 
   dimension: leadsource {
     type: string
     sql: ${TABLE}."lead_source_text__c" ;;
+    group_label: "Lead"
   }
 
   dimension_group: license_end {
@@ -265,6 +287,21 @@ view: opportunity {
     group_label: "License"
   }
 
+  dimension: license_end_yyyy_mm {
+    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License"
+    label: "License End YYYY-MM"
+  }
+
+  dimension: license_end_yyyy_qq {
+    type: string
+    sql: ${license_end_fiscal_year} || '-' || ${license_end_fiscal_quarter_of_year};;
+    label: "License End YYYY-QQ"
+    group_label: "License"
+  }
+
   dimension_group: license_start {
     convert_tz: no
     description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
@@ -279,6 +316,22 @@ view: opportunity {
     ]
     type: time
     group_label: "License"
+  }
+
+  dimension: license_start_yyyy_qq {
+    type: string
+    sql: ${license_start_fiscal_year} || '-' || ${license_start_fiscal_quarter_of_year};;
+    label: "License End YYYY-QQ"
+    group_label: "License"
+  }
+
+
+  dimension: license_start_yyyy_mm {
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License"
+    label: "License Start YYYY-MM"
   }
 
   dimension_group: mql_date {
