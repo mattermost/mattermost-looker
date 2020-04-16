@@ -18,7 +18,7 @@ view: user {
   #
 
   set: user_drill_fields {
-    fields: [id, sender_name, name, username]
+    fields: [id, name, username]
   }
 
 
@@ -76,25 +76,10 @@ view: user {
     type: yesno
   }
 
-  dimension: sender_email {
-    sql: ${TABLE}.SENDEREMAIL ;;
-    type: string
-  }
-
-  dimension: sender_name {
-    sql: ${TABLE}.SENDERNAME ;;
-    type: string
-  }
-
   dimension: sfid {
     label: "User ID"
     primary_key: yes
     sql: ${TABLE}.SFID ;;
-    type: string
-  }
-
-  dimension: signature {
-    sql: ${TABLE}.SIGNATURE ;;
     type: string
   }
 
@@ -141,6 +126,11 @@ view: user {
   dimension: user_type {
     sql: ${TABLE}.USERTYPE ;;
     type: string
+  }
+
+  dimension: validation_exempt {
+    sql: ${TABLE}.VALIDATION_EXEMPT__C ;;
+    type: yesno
   }
 
 

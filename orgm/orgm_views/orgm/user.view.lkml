@@ -113,15 +113,6 @@ view: user {
     sql: ${TABLE}.SALES_OPS__C ;;
   }
 
-  dimension: senderemail {
-    type: string
-    sql: ${TABLE}.SENDEREMAIL ;;
-  }
-
-  dimension: sendername {
-    type: string
-    sql: ${TABLE}.SENDERNAME ;;
-  }
 
   dimension: sfid {
     primary_key: yes
@@ -129,10 +120,6 @@ view: user {
     sql: ${TABLE}.SFID ;;
   }
 
-  dimension: signature {
-    type: string
-    sql: ${TABLE}.SIGNATURE ;;
-  }
 
   dimension_group: start_date {
     type: time
@@ -192,8 +179,13 @@ view: user {
     sql: ${TABLE}.USERTYPE ;;
   }
 
+  dimension: validation_exempt {
+    type: string
+    sql: ${TABLE}.VALIDATION_EXEMPT__C ;;
+  }
+
   measure: count {
     type: count
-    drill_fields: [id, sendername, name, username]
+    drill_fields: [id, name, username]
   }
 }

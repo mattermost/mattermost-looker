@@ -18,7 +18,7 @@ view: opportunity {
       close_month,
       close_fiscal_quarter_of_year,
       close_fiscal_year,
-      forecastcategory,
+      forecastcategoryname,
       license_start_date,
       license_start_month,
       license_start_fiscal_quarter_of_year,
@@ -167,12 +167,7 @@ view: opportunity {
     sql: ${TABLE}."expectedrevenue" ;;
   }
 
-  dimension: forecastcategory {
-    type: string
-    sql: ${TABLE}.forecastcategory ;;
-    group_label: "Forecast"
-    label: "Forecast Category"
-  }
+
 
   dimension: forecastcategoryname {
     type: string
