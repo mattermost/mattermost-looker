@@ -241,7 +241,7 @@ view: user_daily_details {
   dimension_group: logging {
     description: "The logging date each row of data represents."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
@@ -249,7 +249,7 @@ view: user_daily_details {
   dimension_group: user_created_at {
     description: "The coalesced date representing the user created at date from NPS response data or the first event date if no NPS submissions."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.user_created_at ;;
     hidden: no
   }
@@ -257,7 +257,7 @@ view: user_daily_details {
   dimension_group: server_install {
     description: "The server install date. The coalesced date representing the server install date from NPS response data or the first date the server was logged in our telemetry data."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }
@@ -265,7 +265,7 @@ view: user_daily_details {
   dimension_group: first_active {
     description: "The first date a user performed an event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
     hidden: no
   }
@@ -273,7 +273,7 @@ view: user_daily_details {
   dimension_group: last_active {
     description: "The last date a user performed an event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
     hidden: no
   }
@@ -281,7 +281,7 @@ view: user_daily_details {
   dimension_group: first_webapp {
     description: "The first date a user performed a WebApp event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_webapp_date ;;
     hidden: no
   }
@@ -289,7 +289,7 @@ view: user_daily_details {
   dimension_group: last_webapp {
     description: "The last date a user performed a WebApp event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_webapp_date ;;
     hidden: no
   }
@@ -313,7 +313,7 @@ view: user_daily_details {
   dimension_group: first_desktop {
     description: "The first date a user performed a Desktop event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_desktop_date ;;
     hidden: no
   }
@@ -321,7 +321,7 @@ view: user_daily_details {
   dimension_group: last_desktop {
     description: "The last date a user performed a Desktop event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_desktop_date ;;
     hidden: no
   }
@@ -346,7 +346,7 @@ view: user_daily_details {
   dimension_group: first_mobile {
     description: "The first date a user performed a Mobile event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_mobile_date ;;
     hidden: no
   }
@@ -354,7 +354,7 @@ view: user_daily_details {
   dimension_group: last_mobile {
     description: "The last date a user performed a Mobile event."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_mobile_date ;;
     hidden: no
   }
@@ -378,7 +378,7 @@ view: user_daily_details {
   dimension_group: first_nps {
     description: "The first date a user submitted an NPS score."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_nps_date ;;
     hidden: no
   }
@@ -386,7 +386,7 @@ view: user_daily_details {
   dimension_group: last_nps {
     description: "The last date a user submitted an NPS score."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_nps_date ;;
     hidden: no
   }
@@ -394,7 +394,7 @@ view: user_daily_details {
   dimension_group: first_nps_feedback {
     description: "The first date a user submitted NPS Feedback."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_nps_feedback_date ;;
     hidden: no
   }
@@ -402,7 +402,7 @@ view: user_daily_details {
   dimension_group: last_nps_feedback {
     description: "The last date a user submitted NPS Feedback."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_nps_feedback_date ;;
     hidden: no
   }
