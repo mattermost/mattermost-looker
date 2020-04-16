@@ -250,7 +250,7 @@ view: server_daily_details_ext {
     label: "  Latest Record"
     description: "Indicates whether the record captures the last (most recent) date that telemetry was logged for the server."
     type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
@@ -4174,6 +4174,22 @@ view: server_daily_details_ext {
     style: integer
     tiers: [1,7,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
+  }
+
+  dimension: days_from_first_telemetry_to_paid_license {
+    label: "Days to Paid License"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: number
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
+  }
+
+  dimension: days_from_first_telemetry_to_paid_license_band {
+    label: "Days to Paid License Band"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_from_first_telemetry_to_paid_license} ;;
   }
 
 

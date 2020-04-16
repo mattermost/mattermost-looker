@@ -202,8 +202,8 @@ view: server_daily_details {
 
   dimension: version {
     group_label: " Server Versions"
-    label: " Server Version (Current)"
-    description: "The version of Mattermost the server is currently using (example: 5.9.0.5.9.8)"
+    label: " Server Version"
+    description: "The version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
     sql: ${TABLE}.version ;;
   }
@@ -276,7 +276,7 @@ view: server_daily_details {
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: string
     order_by_field: server_status_sort
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
               when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
               when ${active_user_count} > 0 then  '< 7 Days Old w/ Active Users'
               else '< 7 Days Old w/out Active Users' end ;;
@@ -286,7 +286,7 @@ view: server_daily_details {
     label: "Server Status"
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: number
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then 1
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 1
               when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then 2
               when ${active_user_count} > 0 then  3
               else 4 end ;;
@@ -309,13 +309,6 @@ view: server_daily_details {
     sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
-  dimension: days_from_first_telemetry_to_paid_license {
-    label: "Days to Paid License"
-    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
-    type: number
-    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
-  }
-
   dimension: days_since_first_telemetry_enabled_band {
     label: "Days Since First Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
@@ -331,13 +324,29 @@ view: server_daily_details {
     sql: ${server_fact.first_telemetry_active_date}::date ;;
   }
 
+  dimension: days_from_first_telemetry_to_paid_license {
+    label: "Days to Paid License"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: number
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
+  }
+
+  dimension: days_from_first_telemetry_to_paid_license_band {
+    label: "Days to Paid License Band"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_from_first_telemetry_to_paid_license} ;;
+  }
+
   dimension: server_age {
     label: "Server Age Band (Days)"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
-    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
     hidden: yes
   }
 
@@ -359,6 +368,13 @@ view: server_daily_details {
     sql: ${TABLE}.system_admins ;;
   }
 
+  dimension: company {
+    group_label: "License Info."
+    description: "The company derived from the license associated with the server."
+    type: string
+    sql: ${licenses.company} ;;
+  }
+
 
   # Measures
   measure: server_count {
@@ -372,8 +388,8 @@ view: server_daily_details {
 
   measure: tedas_server_count {
     group_label: " Server Counts"
-    label: "   TEDAS Servers"
-    description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is used to track TEDAS (Telemetry-Enabled Daily Active Servers) when aggregated at the daily level."
+    label: "   TEDAS Count"
+    description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is prefiltered to only count TEDAS. Use to track TEDAS (Telemetry-Enabled Daily Active Servers) when grouped by logging dates."
     type: count_distinct
     sql: CASE WHEN ${in_security} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
@@ -381,7 +397,7 @@ view: server_daily_details {
 
   measure: new_tedas_server_count {
     group_label: " Server Counts"
-    label: "  New TEDAS Servers"
+    label: "  New TEDAS Count"
     description: "Use this to trend the count of new, distinct TEDAS Servers by logging date."
     type: count_distinct
     sql: CASE WHEN ${in_security} AND ${logging_date} = ${first_telemetry_enabled_date} THEN ${server_id} ELSE NULL END ;;
@@ -389,7 +405,7 @@ view: server_daily_details {
   }
 
   measure: server_7days_count {
-    group_label: " Server Counts"
+    group_label: " Server Counts >= 7 Days Old"
     label: "  Server >= 7 Days Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
@@ -398,30 +414,30 @@ view: server_daily_details {
   }
 
   measure: server_7days_converted_to_paid_count {
-    group_label: " Server Counts"
-    label: "  Server >= 7 Days Old & Converted to Paid < 7 Days"
+    group_label: " Server Counts >= 7 Days Old"
+    label: "Server >= 7 Days Old & Converted to Paid < 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and converted to paid, licensed customers across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} < 7 then ${server_id} else null end;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version,  days_from_first_telemetry_to_paid_license, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_converted_count {
-    group_label: " Server Counts"
-    label: "  Server >= 7 Days Old & Converted to Paid >= 7 Days"
+    group_label: " Server Counts >= 7 Days Old"
+    label: "Server >= 7 Days Old & Converted to Paid >= 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that converted to a paid SKU in >= 7 days since their first telemetry date across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 then ${server_id} else null end;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_did_not_convert_count {
-    group_label: " Server Counts"
-    label: "  Server >= 7 Days Old & Not Converted to Paid"
+    group_label: " Server Counts >= 7 Days Old"
+    label: "Server >= 7 Days Old & Not Converted to Paid"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that either: converted to a paid SKU in >= 7 days since their first telemetry date or did not converted to paid across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) then ${server_id} else null end;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_1days_count {
@@ -434,7 +450,7 @@ view: server_daily_details {
   }
 
   measure: server_7days_w_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Server Counts >= 7 Days Old"
     label: "  Server >=7 Days Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
@@ -477,7 +493,7 @@ view: server_daily_details {
   }
 
   measure: servers_w_nps_count {
-    group_label: " Server Counts"
+    group_label: " Server w/ NPS Data Counts"
     label: "Servers w/ NPS Submissions"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
@@ -486,7 +502,7 @@ view: server_daily_details {
   }
 
   measure: servers_w_positive_nps_count {
-    group_label: " Server Counts"
+    group_label: " Server w/ NPS Data Counts"
     label: "Servers w/ Positive NPS Scores"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server."
     type: count_distinct
@@ -495,7 +511,7 @@ view: server_daily_details {
   }
 
   measure: servers_w_positive_nps_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Server w/ NPS Data Counts"
     label: "Servers w/ Active Users & Positive NPS Scores"
     description: "The count of the number of servers w/ NPS Score submissions from users associated with the server and have active users on the given logging date."
     type: count_distinct

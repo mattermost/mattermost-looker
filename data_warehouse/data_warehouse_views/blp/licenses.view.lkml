@@ -358,6 +358,15 @@ view: licenses {
     hidden: no
   }
 
+  dimension_group: logging {
+    label: "Logging"
+    description: "The logging date representing the state of the license on that given date for each row of data."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.date ;;
+    hidden: no
+  }
+
   dimension_group: start {
     label: "License Start"
     description: "The license start date."
