@@ -99,6 +99,7 @@ explore: _base_account_explore {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
+    fields: [name, email, owner_type, system_type, sales_ops, username, is_active, validation_exempt]
   }
 
   join: parent_account {
@@ -176,6 +177,7 @@ explore: _base_opportunity_explore {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
+    fields: [name, email, owner_type, system_type, sales_ops, username, is_active, validation_exempt]
   }
 
   join: opportunity_csm {
@@ -183,6 +185,7 @@ explore: _base_opportunity_explore {
     from: user
     sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: opportunitylineitem {
