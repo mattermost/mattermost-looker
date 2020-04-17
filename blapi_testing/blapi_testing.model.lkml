@@ -28,7 +28,7 @@ explore: blapi {
 }
 
 explore: account_to_line_item {
-  label: "{ blapi } account_to_line_item"
+  label: "{ blapi } Account to Line Item"
   from: account
   view_name: account
   group_label: "zzz { blapi } TESTING"
@@ -89,7 +89,7 @@ explore: account_to_line_item {
 }
 
 explore: sales_requests {
-  label: "{ blapi } sales_requests"
+  label: "{ blapi } Sales Requests"
   from: contact
   view_name: contact
   group_label: "zzz { blapi } TESTING"
@@ -105,7 +105,7 @@ explore: sales_requests {
   }
 }
 explore: lead_explore {
-  label: "{ blapi } lead_explore"
+  label: "{ blapi } Lead Explore"
   from: lead
   view_name: lead
   group_label: "zzz { blapi } TESTING"
