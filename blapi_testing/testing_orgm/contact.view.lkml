@@ -2,11 +2,13 @@ view: contact {
   sql_table_name: testing_orgm.contact ;;
 
   dimension: accountid {
+    hidden: yes
     type: string
     sql: ${TABLE}."accountid" ;;
   }
 
-  dimension: dwh_external_id__c {
+  dimension: dwh_external_id {
+    hidden: yes
     type: string
     sql: ${TABLE}."dwh_external_id__c" ;;
   }
@@ -17,11 +19,13 @@ view: contact {
   }
 
   dimension: firstname {
+    hidden: yes
     type: string
     sql: ${TABLE}."firstname" ;;
   }
 
   dimension: lastname {
+    hidden: yes
     type: string
     sql: ${TABLE}."lastname" ;;
   }
@@ -32,27 +36,27 @@ view: contact {
   }
 
   dimension: ownerid {
+    hidden: yes
     type: string
     sql: ${TABLE}."ownerid" ;;
   }
 
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
 
   dimension: sfid {
+    hidden: yes
     type: string
     sql: ${TABLE}."sfid" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [name, firstname, lastname]
-  }
 }

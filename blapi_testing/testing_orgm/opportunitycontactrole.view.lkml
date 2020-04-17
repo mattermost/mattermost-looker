@@ -1,22 +1,25 @@
 view: opportunitycontactrole {
   sql_table_name: testing_orgm.opportunitycontactrole ;;
+  view_label: "Opportunity Contact Role"
 
   dimension: contactid {
+    hidden: yes
     type: string
     sql: ${TABLE}."contactid" ;;
   }
 
-  dimension: isdeleted {
+  dimension: deleted {
     type: yesno
     sql: ${TABLE}."isdeleted" ;;
   }
 
-  dimension: isprimary {
+  dimension: primary {
     type: yesno
     sql: ${TABLE}."isprimary" ;;
   }
 
   dimension: opportunityid {
+    hidden: yes
     type: string
     sql: ${TABLE}."opportunityid" ;;
   }
@@ -27,22 +30,21 @@ view: opportunitycontactrole {
   }
 
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
 
   dimension: sfid {
+    hidden: yes
     type: string
     sql: ${TABLE}."sfid" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
 }

@@ -12,33 +12,34 @@ view: pricebookentry {
   }
 
   dimension: product2id {
+    hidden: yes
     type: string
     sql: ${TABLE}."product2id" ;;
   }
 
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
 
   dimension: sfid {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."sfid" ;;
   }
 
   dimension: unitprice {
+    group_label: "Pricing"
     label: "Pricebook Price"
     type: number
     sql: ${TABLE}."unitprice" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [name]
-  }
 }

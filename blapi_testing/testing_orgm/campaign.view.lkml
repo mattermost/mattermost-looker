@@ -1,22 +1,7 @@
 view: campaign {
   sql_table_name: testing_orgm.campaign ;;
 
-  dimension_group: enddate {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."enddate" ;;
-  }
-
-  dimension: isactive {
+  dimension: active {
     type: yesno
     sql: ${TABLE}."isactive" ;;
   }
@@ -27,38 +12,27 @@ view: campaign {
   }
 
   dimension: parentid {
+    hidden: yes
     type: string
     sql: ${TABLE}."parentid" ;;
   }
 
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
 
   dimension: sfid {
+    hidden: yes
     type: string
     sql: ${TABLE}."sfid" ;;
-  }
-
-  dimension_group: startdate {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."startdate" ;;
   }
 
   dimension: status {
@@ -71,8 +45,4 @@ view: campaign {
     sql: ${TABLE}."type" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [name]
-  }
 }
