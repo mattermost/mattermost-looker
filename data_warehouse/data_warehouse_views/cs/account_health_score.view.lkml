@@ -192,6 +192,29 @@ view: account_health_score {
     drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
+measure: accounts_under_51_health_scoren{
+  label: "High Risk Customers"
+  type:count_distinct
+  sql: ${account_sfid} ;;
+  filters: [health_score: "< 51"]
+  drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+}
+
+  measure: accounts_between_51_to_75_health_scoren{
+    label: "Medium Risk Customers"
+    type:count_distinct
+    sql: ${account_sfid} ;;
+    filters: [health_score: "> 50 AND < 76"]
+    drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+ }
+
+  measure: accounts_over_75_health_scoren{
+    label: "Low Risk Customers"
+    type:count_distinct
+    sql: ${account_sfid} ;;
+    filters: [health_score: "> 75"]
+    drill_fields: [account.name, account_csm.name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+  }
 
   measure: avg_health_score {
     label: "Average Health Score"
