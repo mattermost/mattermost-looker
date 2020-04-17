@@ -3,7 +3,10 @@ connection: "orgm"
 include: "/blapi_testing/testing_blapi/*.view.lkml"
 include: "/blapi_testing/testing_orgm/*.view.lkml"
 
-
+explore: scenarios {
+  label: "{ blapi } Scenarios"
+  group_label: "zzz { blapi } TESTING"
+}
 
 explore: blapi {
   label: "{ blapi }"
