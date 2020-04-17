@@ -718,7 +718,7 @@ explore: nps_user_monthly_score {
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
   always_filter: {
-    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0", excludable_servers.reason: "NULL"]
+    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0"]
   }
 
   join: licenses {
