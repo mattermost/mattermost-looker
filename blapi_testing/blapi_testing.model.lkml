@@ -57,6 +57,11 @@ explore: account_to_line_item {
     relationship: one_to_many
   }
 
+  join: subscriptions_version {
+    sql_on: ${subscriptions_version.version_id} = ${opportunitylineitem.version_id} AND ${subscriptions_version.id} = ${opportunitylineitem.subscription_id};;
+    relationship: one_to_one
+  }
+
   join: opportunitycontactrole {
     sql_on: ${opportunitycontactrole.opportunityid} = ${opportunity.sfid} ;;
     relationship: one_to_many
