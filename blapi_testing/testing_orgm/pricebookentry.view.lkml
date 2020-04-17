@@ -32,6 +32,7 @@ view: pricebookentry {
   }
 
   dimension: unitprice {
+    label: "Pricebook Price"
     type: number
     sql: ${TABLE}."unitprice" ;;
   }

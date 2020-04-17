@@ -71,6 +71,11 @@ view: opportunitylineitem {
     sql: ${TABLE}."opportunity__dwh_external_id__c" ;;
   }
 
+  dimension: opportunityid {
+    type: string
+    sql: ${TABLE}."opportunityid" ;;
+  }
+
   dimension: previous_version_id {
     type: string
     sql: ${TABLE}."previous_version_id" ;;

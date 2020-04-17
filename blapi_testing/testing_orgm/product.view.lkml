@@ -2,6 +2,7 @@ view: product {
   sql_table_name: testing_orgm.product2 ;;
 
   dimension: name {
+    label: "Product Name"
     type: string
     sql: ${TABLE}."name" ;;
   }
