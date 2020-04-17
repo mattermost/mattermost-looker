@@ -61,6 +61,11 @@ view: opportunity {
     sql: ${TABLE}."ownerid" ;;
   }
 
+  dimension: opportunity_owner {
+    type: string
+    sql: ${opportunity_owner.name} ;;
+  }
+
   dimension: scenario {
     type: string
     sql: ${TABLE}."scenario" ;;

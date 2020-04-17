@@ -1,6 +1,11 @@
 view: account {
   sql_table_name: testing_orgm.account ;;
 
+  dimension: account_owner {
+    type: string
+    sql: ${account_owner.name} ;;
+  }
+
   dimension: billingcity {
     type: string
     sql: ${TABLE}."billingcity" ;;
