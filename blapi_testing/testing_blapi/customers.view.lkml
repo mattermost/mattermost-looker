@@ -13,31 +13,15 @@ view: customers {
     sql: ${TABLE}."company_name" ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: created_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."created_at" ;;
   }
 
-  dimension_group: deleted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: deleted_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."deleted_at" ;;
   }
 
@@ -51,17 +35,14 @@ view: customers {
     sql: ${TABLE}."name" ;;
   }
 
-  dimension: previous_version_id {
-    type: string
-    sql: ${TABLE}."previous_version_id" ;;
-  }
-
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
@@ -76,39 +57,10 @@ view: customers {
     sql: ${TABLE}."stripe_id" ;;
   }
 
-  dimension_group: updated {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: updated_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."updated_at" ;;
   }
 
-  dimension: version_id {
-    type: string
-    sql: ${TABLE}."version_id" ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      company_name,
-      name,
-      addresses.count,
-      subscriptions.count,
-      subscriptions_version.count
-    ]
-  }
 }

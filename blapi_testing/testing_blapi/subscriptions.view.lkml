@@ -8,74 +8,44 @@ view: subscriptions {
     sql: ${TABLE}."id" ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: created_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."created_at" ;;
   }
 
   dimension: customer_id {
     type: string
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}."customer_id" ;;
   }
 
-  dimension_group: deleted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: deleted_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."deleted_at" ;;
   }
 
-  dimension_group: end {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: end_date {
+    group_label: "Subscription"
+    type: date_time
     sql: ${TABLE}."end_date" ;;
   }
 
-  dimension_group: license_issued {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: license_issued_at {
+    group_label: "Subscription"
+    type: date_time
     sql: ${TABLE}."license_issued_at" ;;
   }
 
   dimension: license_payload {
+    group_label: "Subscription"
     type: string
     sql: ${TABLE}."license_payload" ;;
   }
 
   dimension: num_seats {
+    group_label: "Subscription"
     type: number
     sql: ${TABLE}."num_seats" ;;
   }
@@ -86,55 +56,44 @@ view: subscriptions {
   }
 
   dimension: product_id {
+    group_label: "Subscription"
     type: string
     sql: ${TABLE}."product_id" ;;
   }
 
   dimension: scenario {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario" ;;
   }
 
   dimension: scenario_category {
+    group_label: "Scenario"
     type: string
     sql: ${TABLE}."scenario_category" ;;
   }
 
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: start_date {
+    group_label: "Subscription"
+    type: date_time
     sql: ${TABLE}."start_date" ;;
   }
 
   dimension: state {
+    group_label: "Subscription"
     type: string
     sql: ${TABLE}."state" ;;
   }
 
   dimension: total_in_cents {
+    group_label: "Subscription"
     type: number
     sql: ${TABLE}."total_in_cents" ;;
   }
 
-  dimension_group: updated {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: updated_at {
+    group_label: "System"
+    type: date_time
     sql: ${TABLE}."updated_at" ;;
   }
 
@@ -143,8 +102,4 @@ view: subscriptions {
     sql: ${TABLE}."version_id" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, customers.id, customers.company_name, customers.name]
-  }
 }

@@ -3,7 +3,6 @@ view: subscriptions_version {
   drill_fields: [id]
 
   dimension: id {
-    group_label: "Subscription"
     primary_key: yes
     type: string
     sql: ${TABLE}."id" ;;
@@ -107,7 +106,6 @@ view: subscriptions_version {
   }
 
   dimension: previous_version_id {
-    group_label: "Subscription"
     type: string
     sql: ${TABLE}."previous_version_id" ;;
   }
@@ -197,7 +195,6 @@ view: subscriptions_version {
   }
 
   dimension: version_id {
-    group_label: "Subscription"
     type: string
     sql: ${TABLE}."version_id" ;;
   }
