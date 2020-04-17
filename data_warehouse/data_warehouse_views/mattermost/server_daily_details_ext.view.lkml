@@ -105,51 +105,51 @@ view: server_daily_details_ext {
 
   dimension: edition {
     label: " Edition"
-    description: "True if 'E0' Edition. False if 'Team' Edition."
+    description: "The Mattermost SKU edition associated with"
     type: string
-    sql: ${TABLE}.edition ;;
+    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
     hidden: no
   }
 
   dimension: active_user_count {
     label: "Active Users"
-    group_label: " Telemetry User Counts"
-    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    group_label: " User Counts: Security Telemetry"
+    description: "The count of registered users that have logged in to the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: number
     sql: ${TABLE}.active_user_count ;;
   }
 
   dimension: active_user_count_band {
     label: "Active Users Band"
-    group_label: " Telemetry User Counts"
-    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    group_label: " User Counts: Security Telemetry"
+    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: tier
     style: integer
-    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]
     sql: ${active_user_count} ;;
   }
 
   dimension: user_count {
     label: "Registered Users"
-    group_label: " Telemetry User Counts"
-    description: "The count of all users registered/associated with the server."
+    group_label: " User Counts: Security Telemetry"
+    description: "The count of all users registered/associated with the server (logged via security_update_check.go)."
     type: number
     sql: ${TABLE}.user_count ;;
   }
 
   dimension: user_count_band {
     label: "Registered Users Band"
-    group_label: " Telemetry User Counts"
-    description: "The count of all users registered/associated with the server tiered into distinct ranges."
+    group_label: " User Counts: Security Telemetry"
+    description: "The count of all users registered/associated with the server tiered into distinct ranges (logged via security_update_check.go)."
     type: tier
     style: integer
-    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
     sql: ${user_count} ;;
   }
 
   dimension: system_admins {
     label: " System Admins"
-    group_label: " Telemetry User Counts"
+    group_label: " User Counts: Security Telemetry"
     description: "The number of system admins associated with a server on a given logging date (mattermost2.server)."
     type: number
     sql: ${TABLE}.system_admins ;;
@@ -250,7 +250,7 @@ view: server_daily_details_ext {
     label: "  Latest Record"
     description: "Indicates whether the record captures the last (most recent) date that telemetry was logged for the server."
     type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
@@ -271,17 +271,28 @@ view: server_daily_details_ext {
   }
 
   dimension: active_users_daily {
-    description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (different than active users - unsure why)."
+    label: "Active Users (Daily)"
+    description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " User Counts: Activity Diagnostics"
     sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
+    hidden: no
+  }
+
+  dimension: active_users_daily_band {
+    description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
+    type: tier
+    style: integer
+    tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]
+    group_label: " User Counts: Activity Diagnostics"
+    sql: ${active_users_daily}  ;;
     hidden: no
   }
 
   dimension: active_users_monthly {
     description: "The number of distinct active users that logged in the last 30 days by the Server's activity diagnostic telemetry data on the given logging date."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " User Counts: Activity Diagnostics"
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }
@@ -377,7 +388,7 @@ view: server_daily_details_ext {
   dimension: registered_deactivated_users {
     description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " User Counts: Activity Diagnostics"
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
@@ -385,16 +396,26 @@ view: server_daily_details_ext {
   dimension: registered_inactive_users {
     description: "The number of registered inactive users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " User Counts: Activity Diagnostics"
     sql: ${TABLE}.registered_inactive_users ;;
     hidden: no
   }
 
   dimension: registered_users {
-    description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date."
+    description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " User Counts: Activity Diagnostics"
     sql: ${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0) ;;
+    hidden: no
+  }
+
+  dimension: registered_users_band {
+    description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
+    type: tier
+    style: integer
+    tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001] #[2, 5, 8, 11, 16, 20, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001, 5001, 10001]
+    group_label: " User Counts: Activity Diagnostics"
+    sql: ${registered_users} ;;
     hidden: no
   }
 
@@ -4161,10 +4182,35 @@ view: server_daily_details_ext {
   }
 
   dimension: days_since_first_telemetry_enabled {
-    label: "Server Age (Days)"
+    label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+  }
+
+  dimension: days_since_first_telemetry_enabled_band {
+    label: "Days Since First Telemetry Band"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_since_first_telemetry_enabled} ;;
+  }
+
+  dimension: days_from_first_telemetry_to_paid_license {
+    label: "Days to Paid License"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: number
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
+  }
+
+  dimension: days_from_first_telemetry_to_paid_license_band {
+    label: "Days to Paid License Band"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_from_first_telemetry_to_paid_license} ;;
   }
 
 
@@ -4185,21 +4231,21 @@ view: server_daily_details_ext {
 
   measure: active_user_count_sum {
     description: "The sum of telemetry-enabledActive User Count per grouping."
-    group_label: " Telemetry User Counts"
+    group_label: " User Counts: Security Telemetry"
     type: sum
     sql: ${active_user_count} ;;
   }
 
   measure: user_count_sum {
     description: "The sum of telemetry-enabledUser Count per grouping."
-    group_label: " Telemetry User Counts"
+    group_label: " User Counts: Security Telemetry"
     type: sum
     sql: ${user_count} ;;
   }
 
   measure: system_admins_sum {
     description: "The sum of telemetry-enabledSystem Admins per grouping."
-    group_label: " Telemetry User Counts"
+    group_label: " User Counts: Security Telemetry"
     type: sum
     sql: ${system_admins} ;;
   }

@@ -40,6 +40,8 @@ view: opportunitylineitem {
       product_line_type,
       product_type,
       total_arr,
+      open_arr,
+      total_open_arr,
       potential_arr,
       total_lost_arr,
       lost_arr,
@@ -261,8 +263,15 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
+  dimension: open_arr {
+    label: "Open ARR"
+    sql: case when not ${opportunity.isclosed} AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
   dimension: potential_arr {
-    label: "Potential ARR"
+    label: "Potential Renewal & Expansion ARR"
     sql: case when not ${opportunity.isclosed} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
@@ -337,7 +346,7 @@ view: opportunitylineitem {
   measure: total_bookings_all {
     group_label: "Historical"
     label: "Total Bookings All"
-    sql: case when ${length_days} >=365 then ${arr} + ${potential_arr} + ${lost_arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${arr} + ${open_arr} + ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     drill_fields: [opportunitylineitem_drill*,total_bookings]
@@ -359,7 +368,7 @@ view: opportunitylineitem {
   measure: total_bookings_open {
     group_label: "Historical"
     label: "Total Bookings Open"
-    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     filters: {
@@ -424,7 +433,7 @@ view: opportunitylineitem {
     group_label: "Current FY"
     group_item_label: "Total Bookings Open"
     label: "Total Bookings Open (Curr FY)"
-    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     filters: {
@@ -482,7 +491,7 @@ view: opportunitylineitem {
     group_label: "Current Qtr"
     group_item_label: "Total Bookings Open"
     label: "Total Bookings Open (Curr Qtr)"
-    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     filters: {
@@ -540,7 +549,7 @@ view: opportunitylineitem {
     group_label: "Current Mo"
     group_item_label: "Total Bookings Open"
     label: "Total Bookings Open (Curr Mo)"
-    sql: case when ${length_days} >=365 then ${potential_arr} else ${totalprice} end;;
+    sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
     filters: {
@@ -584,8 +593,16 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_price,total_arr]
   }
 
+  measure: total_open_arr {
+    label: "Total Open ARR"
+    sql: ${open_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_open_arr]
+  }
+
   measure: total_potential_arr {
-    label: "Total Potential ARR"
+    label: "Total Potential Renewal & Expansion ARR"
     sql: ${potential_arr} ;;
     type: sum
     value_format_name: "usd_0"
@@ -600,12 +617,12 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_price,total_lost_arr]
   }
 
-  measure: total_potential_and_booked_arr {
-    label: "Total Potential & Booked ARR"
-    sql: ${potential_arr} + ${arr} ;;
+  measure: total_open_and_booked_arr {
+    label: "Total Open & Booked ARR"
+    sql: ${open_arr} + ${arr} ;;
     type: sum
     value_format_name: "usd_0"
-    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
+    drill_fields: [opportunitylineitem_drill*,total_price,total_open_arr,total_arr,total_open_and_booked_arr]
   }
 
   measure: total_new_amount {

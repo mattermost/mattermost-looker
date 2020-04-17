@@ -99,6 +99,7 @@ explore: _base_account_explore {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
     relationship: many_to_one
+    fields: [name, email, owner_type, system_type, sales_ops, username, is_active, validation_exempt]
   }
 
   join: parent_account {
@@ -176,6 +177,7 @@ explore: _base_opportunity_explore {
     from: user
     sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
+    fields: [name, email, owner_type, system_type, sales_ops, username, is_active, validation_exempt]
   }
 
   join: opportunity_csm {
@@ -183,6 +185,7 @@ explore: _base_opportunity_explore {
     from: user
     sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
     relationship: many_to_one
+    fields: []
   }
 
   join: opportunitylineitem {
@@ -539,7 +542,7 @@ explore: current_potential_arr {
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
-    opportunitylineitem.total_potential_and_booked_arr,
+    opportunitylineitem.total_open_and_booked_arr,
     account.account_core*,
     account.arr_current,
     opportunity.opportunity_core*
@@ -608,7 +611,9 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
-    fields: [server_fact.first_server_version]
+    fields: [server_fact.first_server_version, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
+      server_fact.last_telemetry_active_year, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year]
   }
 
   join: nps_server_daily_score {
@@ -626,6 +631,14 @@ explore: server_daily_details {
       AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
     relationship: one_to_one
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+  }
+
+  join: licenses {
+    sql_on: ${licenses.server_id} = ${server_daily_details.server_id}
+    AND ${licenses.logging_date} = ${server_daily_details.logging_date}
+    AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
+    relationship: one_to_one
+    fields: []
   }
 }
 

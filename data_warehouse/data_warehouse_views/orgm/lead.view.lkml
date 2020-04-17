@@ -341,10 +341,10 @@ view: lead {
     type: string
   }
 
-#   dimension: lead_source {
-#     sql: ${TABLE}.LEADSOURCE ;;
-#     type: string
-#   }
+  dimension: lead_source {
+    sql: ${TABLE}.LEAD_SOURCE_TEXT__C ;;
+    type: string
+  }
 
   dimension: mobile_phone {
     sql: ${TABLE}.MOBILEPHONE ;;

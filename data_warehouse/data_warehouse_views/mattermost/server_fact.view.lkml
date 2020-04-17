@@ -26,6 +26,22 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.first_server_version ;;
   }
 
+  dimension: first_server_edition {
+    group_label: " Server Editions"
+    label: "First Server Edition"
+    description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
+    type: string
+    sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' ELSE 'TE' END;;
+  }
+
+  dimension: server_edition {
+    group_label: " Server Editions"
+    label: " Server Edition (Current)"
+    description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
+    type: string
+    sql: CASE WHEN ${TABLE}.server_edition = 'true' THEN 'E0' ELSE 'TE' END;;
+  }
+
   dimension: version_upgrades {
     group_label: "Upgrade Dimensions"
     description: "The total number of server version upgrades performed by the server i.e. number of times the server has been upgraded to a later version."
@@ -94,6 +110,20 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_user_date ;;
+  }
+
+  dimension_group: first_paid_license {
+    description: "The date the server first sent telemetry data that associated it with a paid license."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_paid_license_date ;;
+  }
+
+  dimension_group: first_trial_license {
+    description: "The date the server first sent telemetry data that associated it with a trial license."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_trial_license_date ;;
   }
 
   dimension: dau {
