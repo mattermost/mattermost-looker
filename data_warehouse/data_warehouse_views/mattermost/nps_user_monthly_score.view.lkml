@@ -69,9 +69,9 @@ view: nps_user_monthly_score {
   }
 
   dimension: license_sku {
-    description: "The Mattermost License SKU associated with the user's mattermost license (E10 & E20)."
+    description: "The Mattermost License SKU associated with the user's mattermost license coalesced with the edition associated with server if unlicensed (E10 E20)."
     type: string
-    sql: ${TABLE}.license_sku ;;
+    sql: COALESCE(${TABLE}.license_sku, ${licenses.edition}, ${server_daily_details.edition}) ;;
     hidden: no
   }
 
@@ -94,6 +94,7 @@ view: nps_user_monthly_score {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
 
