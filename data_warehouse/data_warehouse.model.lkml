@@ -971,3 +971,7 @@ explore: excludable_servers {
   label: "Excludable Servers"
   hidden: yes
 }
+
+explore: server_events_by_date {
+  label: "Server Events By Date"
+}
