@@ -948,3 +948,7 @@ explore: nps_server_daily_score {
   description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
   hidden: no
 }
+
+explore: excludable_servers {
+  label: "Excludable Servers"
+}
