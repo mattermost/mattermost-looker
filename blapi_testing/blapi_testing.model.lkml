@@ -9,7 +9,7 @@ explore: blapi {
   label: "{ blapi }"
   from: customers
   view_name: customers
-  group_label: "zzzz BLAPI TESTING"
+  group_label: "zzz { blapi } TESTING"
 
   join: addresses {
     sql_on: ${addresses.customer_id} = ${customers.id} ;;
@@ -28,9 +28,10 @@ explore: blapi {
 }
 
 explore: account_to_line_item {
+  label: "{ blapi } account_to_line_item"
   from: account
   view_name: account
-  group_label: "zzzz BLAPI TESTING"
+  group_label: "zzz { blapi } TESTING"
 
   join: account_owner {
     from: user
@@ -88,9 +89,10 @@ explore: account_to_line_item {
 }
 
 explore: sales_requests {
+  label: "{ blapi } sales_requests"
   from: contact
   view_name: contact
-  group_label: "zzzz BLAPI TESTING"
+  group_label: "zzz { blapi } TESTING"
 
   join: campaignmember {
     sql_on: ${campaignmember.contactid} = ${contact.sfid} ;;
@@ -103,9 +105,10 @@ explore: sales_requests {
   }
 }
 explore: lead_explore {
+  label: "{ blapi } lead_explore"
   from: lead
   view_name: lead
-  group_label: "zzzz BLAPI TESTING"
+  group_label: "zzz { blapi } TESTING"
 
   join: lead_contact {
     from: contact
