@@ -94,6 +94,7 @@ view: nps_user_monthly_score {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
 

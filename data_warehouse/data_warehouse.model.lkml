@@ -718,7 +718,7 @@ explore: nps_user_monthly_score {
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
   always_filter: {
-    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0"]
+    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0", excludable_servers.reason: "NULL"]
   }
 
   join: licenses {
@@ -739,6 +739,12 @@ explore: nps_user_monthly_score {
     AND ${nps_user_monthly_score.month_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: []
+  }
+
+  join: excludable_servers {
+    sql_on: ${excludable_servers.server_id} = ${nps_user_monthly_score.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
   }
 }
 
@@ -963,4 +969,5 @@ explore: nps_server_daily_score {
 
 explore: excludable_servers {
   label: "Excludable Servers"
+  hidden: yes
 }
