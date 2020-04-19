@@ -28,7 +28,7 @@ view: data_errors {
     sql: coalesce(${account.name},${opportunity.name},'Unknown');;
     link: {
       label: "SFDC Record"
-      url: "@{salesforce_link}{{object_id._value}}"
+      url: "@{salesforce_link}{{sfid}}"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     label: "SFDC Record"
