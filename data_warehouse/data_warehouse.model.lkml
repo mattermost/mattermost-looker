@@ -380,6 +380,18 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: forecast_ww {
+  label: "Forecast (WW)"
+  group_label: "Target vs Actual"
+
+  join: forecast_ww_history {
+    sql_on: ${forecast_ww.sfid} = ${forecast_ww_history.fc_to_history};;
+    relationship: one_to_many
+  }
+
+}
+
+
 explore: opportunityfieldhistory {
   view_label: "Opportunity Field History"
   group_label: "Salesforce"

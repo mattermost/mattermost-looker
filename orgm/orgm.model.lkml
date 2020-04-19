@@ -59,6 +59,18 @@ explore: delete_history {
   group_label: "zHeroku Postgres OrgM"
 }
 
+
+explore: forecast_ww {
+  label: "Forecast (WW)"
+  group_label: "zHeroku Postgres OrgM"
+
+  join: forecast_ww_history {
+    sql_on: ${forecast_ww.sfid} = ${forecast_ww_history.fc_to_history};;
+    relationship: one_to_many
+  }
+
+}
+
 explore: hc_object_status {
   group_label: "zHeroku Postgres OrgM"
 }
