@@ -640,6 +640,14 @@ explore: server_daily_details {
     relationship: one_to_one
     fields: []
   }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details"
+    sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
+      AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
+  }
 }
 
 explore: delete_history {
@@ -791,6 +799,14 @@ explore: server_daily_details_ext {
     AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+  }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${server_daily_details_ext.server_id} = ${server_events_by_date.server_id}
+    AND ${server_daily_details_ext.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
   }
 }
 
@@ -974,4 +990,5 @@ explore: excludable_servers {
 
 explore: server_events_by_date {
   label: "Server Events By Date"
+  hidden: yes
 }
