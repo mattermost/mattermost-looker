@@ -6,43 +6,43 @@ view: server_daily_details {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
-    CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
-    CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
-    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
-    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
-    ELSE  (SELECT MAX(date) FROM mattermost.server_daily_details) END
-    ELSE
-    CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
-    ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
-    END
-    THEN TRUE ELSE FALSE END ;;
+                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
+                                        CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
+                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
+                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
+                                          ELSE (SELECT MAX(date) FROM mattermost.server_daily_details) END
+                                      ELSE
+                                        CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
+                                          ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
+                                      END
+            THEN TRUE ELSE FALSE END ;;
   }
 
   filter: last_day_of_week {
@@ -52,6 +52,18 @@ view: server_daily_details {
                                       CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: is_telemetry_enabled {
+    description: "Boolean indicating server is in the events.security table data on the given date."
+    type: yesno
+    sql: ${TABLE}.in_security ;;
+  }
+
+  filter: is_tracking_enabled {
+    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.in_security OR ${in_mattermos2_server} THEN TRUE ELSE FALSE END ;;
   }
 
   # Dimensions
@@ -350,18 +362,6 @@ view: server_daily_details {
     hidden: yes
   }
 
-  filter: is_telemetry_enabled {
-    description: "Boolean indicating server is in the events.security table data on the given date."
-    type: yesno
-    sql: ${TABLE}.in_security ;;
-  }
-
-  filter: is_tracking_enabled {
-    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
-    type: yesno
-    sql: CASE WHEN ${TABLE}.in_security OR ${in_mattermos2_server} THEN TRUE ELSE FALSE END ;;
-  }
-
   dimension: system_admins {
     description: "The number of system admins associated with the Mattermost server."
     type: number
@@ -373,6 +373,33 @@ view: server_daily_details {
     description: "The company derived from the license associated with the server."
     type: string
     sql: ${licenses.company} ;;
+  }
+
+  dimension: events {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The total number of events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The number of post events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Posts Per User"
+    description: "The number of posts per active user for the server on the given logging."
+    type: number
+    value_format_name: decimal_1
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
   }
 
 
@@ -517,5 +544,31 @@ view: server_daily_details {
     type: count_distinct
     sql: CASE WHEN COALESCE(${nps_server_daily_score.nps_users},0) > 0 AND COALESCE(${nps_server_daily_score.nps_score},0) > 0 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_month, server_id, account_sfid, account.name, version, nps_server_daily_score.nps_score, nps_server_daily_score.nps_users, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: avg_posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: posts_sum {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The sum of all posts performed by all active user across all servers within the given grouping."
+    type: sum
+    sql: ${posts} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: events_sum {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The sum of all events performed by all active user across all servers within the given grouping."
+    type: sum
+    sql: ${events} ;;
+    value_format_name: decimal_0
   }
 }

@@ -670,6 +670,7 @@ explore: delete_history {
 explore: server_fact {
   group_label: "Product"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
+  hidden: yes
 }
 
 explore: dates {
