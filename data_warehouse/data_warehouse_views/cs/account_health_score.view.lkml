@@ -192,25 +192,28 @@ view: account_health_score {
     drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
-measure: accounts_under_51_health_scoren{
+measure: accounts_under_51_health_score {
   label: "High Risk Customers"
-  type:count_distinct
+  description: "The count of 'High-Risk' Accounts with (Account Health Score <= 50)."
+  type: count_distinct
   sql: ${account_sfid} ;;
-  filters: [health_score: "< 51"]
+  filters: [health_score: "<= 50"]
   drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
 }
 
-  measure: accounts_between_51_to_75_health_scoren{
+  measure: accounts_between_51_to_75_health_score {
     label: "Medium Risk Customers"
-    type:count_distinct
+    description: "The count of 'Medium-Risk' Accounts (Account Health Score between 51 and 75)."
+    type: count_distinct
     sql: ${account_sfid} ;;
-    filters: [health_score: "> 50 AND < 76"]
+    filters: [health_score: "> 50 AND <= 75"]
     drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
  }
 
-  measure: accounts_over_75_health_scoren{
+  measure: accounts_over_75_health_score {
     label: "Low Risk Customers"
-    type:count_distinct
+    description: "The count of 'Low-Risk' Accounts (Account Health Score > 75)."
+    type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 75"]
     drill_fields: [account.name, account_csm.name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
