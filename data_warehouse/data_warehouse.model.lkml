@@ -380,6 +380,18 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: forecast_ww {
+  label: "Forecast (WW)"
+  group_label: "Target vs Actual"
+
+  join: forecast_ww_history {
+    sql_on: ${forecast_ww.sfid} = ${forecast_ww_history.fc_to_history};;
+    relationship: one_to_many
+  }
+
+}
+
+
 explore: opportunityfieldhistory {
   view_label: "Opportunity Field History"
   group_label: "Salesforce"
@@ -640,6 +652,14 @@ explore: server_daily_details {
     relationship: one_to_one
     fields: []
   }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details"
+    sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
+      AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
+  }
 }
 
 explore: delete_history {
@@ -650,6 +670,7 @@ explore: delete_history {
 explore: server_fact {
   group_label: "Product"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
+  hidden: yes
 }
 
 explore: dates {
@@ -717,16 +738,34 @@ explore: nps_user_monthly_score {
   label: "NPS User Daily Score"
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
+  always_filter: {
+    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0"]
+  }
 
-  join: license_overview {
-    sql_on: ${nps_user_monthly_score.license_id}  = ${license_overview.licenseid}  ;;
+  join: licenses {
+    sql_on: ${nps_user_monthly_score.license_id}  = ${licenses.license_id}
+    AND ${licenses.logging_date} = ${nps_user_monthly_score.month_date};;
     relationship: many_to_many
     fields: []
   }
 
   join: account {
-    sql_on: ${license_overview.account_sfid} = ${account.sfid} ;;
+    sql_on: ${licenses.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
+    relationship: many_to_one
+  }
+
+  join: server_daily_details {
+    sql_on: ${nps_user_monthly_score.server_id} = ${server_daily_details.server_id}
+    AND ${nps_user_monthly_score.month_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: excludable_servers {
+    sql_on: ${excludable_servers.server_id} = ${nps_user_monthly_score.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
   }
 }
 
@@ -773,6 +812,14 @@ explore: server_daily_details_ext {
     AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+  }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${server_daily_details_ext.server_id} = ${server_events_by_date.server_id}
+    AND ${server_daily_details_ext.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
   }
 }
 
@@ -926,6 +973,7 @@ explore: server_upgrades {
   description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
     sql_on: ${server_upgrades.account_sfid} = ${account.sfid} ;;
@@ -947,4 +995,14 @@ explore: nps_server_daily_score {
   group_label: "Product"
   description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
   hidden: no
+}
+
+explore: excludable_servers {
+  label: "Excludable Servers"
+  hidden: yes
+}
+
+explore: server_events_by_date {
+  label: "Server Events By Date"
+  hidden: yes
 }
