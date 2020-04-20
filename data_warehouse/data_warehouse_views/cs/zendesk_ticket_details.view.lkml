@@ -447,6 +447,18 @@ view: zendesk_ticket_details {
     drill_fields: [core_drill_fields*, median_calendar_days_open]
   }
 
+  measure: avg_reply_time_in_minutes_bus {
+    # hidden: yes
+    description: "Average reply time in minutes between business hours of 9am-5pm pacific time for all tickets"
+    label: "Avg Reply Time in Min (Bus)"
+    group_label: "Minutes to Reply"
+    group_item_label: "Avg Business Minutes"
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+    drill_fields: [core_drill_fields*, avg_reply_time_in_minutes_bus]
+    value_format_name: decimal_0
+  }
+
   set: core_drill_fields {
     fields: [account.name, ticket_id, assignee_name, status, support_type, category,  created_date, solved_at_date, calendar_days_open,e20_customer_level_tier,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla]
