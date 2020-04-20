@@ -311,7 +311,7 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " User Counts: Activity Diagnostics"
-    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
+    sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
     hidden: no
   }
 
@@ -7663,5 +7663,23 @@ view: server_daily_details_ext {
     type: sum
     sql: ${events} ;;
     value_format_name: decimal_0
+  }
+
+  measure: server_7days_w_active_users_count {
+    group_label: " Server Counts >= 7 Days Old"
+    label: "  Server >=7 Days Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_1days_w_active_users_count {
+    group_label: " Server Counts"
+    label: "Server >=1 Day Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 }
