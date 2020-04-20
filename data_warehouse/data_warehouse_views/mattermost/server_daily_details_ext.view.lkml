@@ -104,12 +104,21 @@ view: server_daily_details_ext {
   }
 
   dimension: edition {
-    label: " Edition"
-    description: "The Mattermost SKU edition associated with"
+    label: " Server Edition (Current)"
+    group_label: " Server Editions"
+    description: "The server edition. Either E0 or TE."
     type: string
     sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
-    hidden: no
   }
+
+  dimension: first_server_edition {
+    label: "First Server Edition"
+    group_label: " Server Editions"
+    description: "The first server edition logged via telemetry for the server. Either E0 or TE."
+    type: string
+    sql: ${server_fact.first_server_edition} ;;
+  }
+
 
   dimension: active_user_count {
     label: "Active Users"
@@ -260,6 +269,33 @@ view: server_daily_details_ext {
     type: yesno
     sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details_ext) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
     hidden: no
+  }
+
+  dimension: events {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The total number of events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts2 {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The number of post events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Posts Per User"
+    description: "The number of posts per active user for the server on the given logging."
+    type: number
+    value_format_name: decimal_1
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
   }
 
   dimension: active_users {
@@ -4408,7 +4444,7 @@ view: server_daily_details_ext {
   }
 
   measure: posts_sum {
-    description: "The sum of Posts per grouping."
+    description: "The sum of Posts performed by all users across all servers per grouping (from activity server telemetry)."
     group_label: "Activity Diagnostics"
     type: sum
     sql: ${posts} ;;
@@ -7603,5 +7639,29 @@ view: server_daily_details_ext {
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
   }
 
+  measure: avg_posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day} ;;
+    value_format_name: decimal_1
+  }
 
+  measure: posts_sum2 {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
+    type: sum
+    sql: ${posts} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: events_sum {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The sum of all events performed by all active user across all servers within the given grouping."
+    type: sum
+    sql: ${events} ;;
+    value_format_name: decimal_0
+  }
 }
