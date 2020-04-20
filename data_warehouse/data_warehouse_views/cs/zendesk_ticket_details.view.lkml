@@ -30,11 +30,13 @@ view: zendesk_ticket_details {
   }
 
   dimension: assignee_name {
+    description: "Name of Support Engineer working on the ticket"
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
   }
 
   dimension_group: created {
+    description: "Timeframe ticket was created in Zendesk"
     type: time
     timeframes: [
       time,
@@ -445,6 +447,18 @@ view: zendesk_ticket_details {
     sql: ${calendar_days_open} ;;
     value_format_name: decimal_0
     drill_fields: [core_drill_fields*, median_calendar_days_open]
+  }
+
+  measure: avg_reply_time_in_minutes_bus {
+    # hidden: yes
+    description: "Average reply time in minutes between business hours of 9am-5pm pacific time for all tickets"
+    label: "Avg Reply Time in Min (Bus)"
+    group_label: "Minutes to Reply"
+    group_item_label: "Avg Business Minutes"
+    type: average
+    sql: ${reply_time_in_minutes_bus} ;;
+    drill_fields: [core_drill_fields*, avg_reply_time_in_minutes_bus]
+    value_format_name: decimal_0
   }
 
   set: core_drill_fields {
