@@ -104,12 +104,21 @@ view: server_daily_details_ext {
   }
 
   dimension: edition {
-    label: " Edition"
-    description: "The Mattermost SKU edition associated with"
+    label: " Server Edition (Current)"
+    group_label: " Server Editions"
+    description: "The server edition. Either E0 or TE."
     type: string
     sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
-    hidden: no
   }
+
+  dimension: first_server_edition {
+    label: "First Server Edition"
+    group_label: " Server Editions"
+    description: "The first server edition logged via telemetry for the server. Either E0 or TE."
+    type: string
+    sql: ${server_fact.first_server_edition} ;;
+  }
+
 
   dimension: active_user_count {
     label: "Active Users"
@@ -262,6 +271,33 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: events {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The total number of events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts2 {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The number of post events by active users associated with the server on the given logging."
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_events_by_date.post_events} ;;
+  }
+
+  dimension: posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Posts Per User"
+    description: "The number of posts per active user for the server on the given logging."
+    type: number
+    value_format_name: decimal_1
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
+  }
+
   dimension: active_users {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
@@ -275,7 +311,7 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " User Counts: Activity Diagnostics"
-    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
+    sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
     hidden: no
   }
 
@@ -4408,7 +4444,7 @@ view: server_daily_details_ext {
   }
 
   measure: posts_sum {
-    description: "The sum of Posts per grouping."
+    description: "The sum of Posts performed by all users across all servers per grouping (from activity server telemetry)."
     group_label: "Activity Diagnostics"
     type: sum
     sql: ${posts} ;;
@@ -7603,5 +7639,47 @@ view: server_daily_details_ext {
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
   }
 
+  measure: avg_posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day} ;;
+    value_format_name: decimal_1
+  }
 
+  measure: posts_sum2 {
+    group_label: "Server Events"
+    label: "Posts"
+    description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
+    type: sum
+    sql: ${posts} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: events_sum {
+    group_label: "Server Events"
+    label: "Total Events"
+    description: "The sum of all events performed by all active user across all servers within the given grouping."
+    type: sum
+    sql: ${events} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: server_7days_w_active_users_count {
+    group_label: " Server Counts >= 7 Days Old"
+    label: "  Server >=7 Days Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_1days_w_active_users_count {
+    group_label: " Server Counts"
+    label: "Server >=1 Day Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+  }
 }

@@ -652,6 +652,14 @@ explore: server_daily_details {
     relationship: one_to_one
     fields: []
   }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details"
+    sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
+      AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
+  }
 }
 
 explore: delete_history {
@@ -662,6 +670,7 @@ explore: delete_history {
 explore: server_fact {
   group_label: "Product"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
+  hidden: yes
 }
 
 explore: dates {
@@ -803,6 +812,14 @@ explore: server_daily_details_ext {
     AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+  }
+
+  join: server_events_by_date {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${server_daily_details_ext.server_id} = ${server_events_by_date.server_id}
+    AND ${server_daily_details_ext.logging_date} = ${server_events_by_date.logging_date};;
+    relationship: one_to_one
+    fields: []
   }
 }
 
@@ -956,6 +973,7 @@ explore: server_upgrades {
   description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
     sql_on: ${server_upgrades.account_sfid} = ${account.sfid} ;;
@@ -981,5 +999,10 @@ explore: nps_server_daily_score {
 
 explore: excludable_servers {
   label: "Excludable Servers"
+  hidden: yes
+}
+
+explore: server_events_by_date {
+  label: "Server Events By Date"
   hidden: yes
 }
