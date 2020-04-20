@@ -30,11 +30,13 @@ view: zendesk_ticket_details {
   }
 
   dimension: assignee_name {
+    description: "Name of Support Engineer working on the ticket"
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
   }
 
   dimension_group: created {
+    description: "Timeframe ticket was created in Zendesk"
     type: time
     timeframes: [
       time,
