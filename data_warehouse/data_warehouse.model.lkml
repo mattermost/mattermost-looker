@@ -973,6 +973,7 @@ explore: server_upgrades {
   description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
     sql_on: ${server_upgrades.account_sfid} = ${account.sfid} ;;

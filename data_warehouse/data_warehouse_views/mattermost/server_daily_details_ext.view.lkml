@@ -104,12 +104,21 @@ view: server_daily_details_ext {
   }
 
   dimension: edition {
-    label: " Edition"
-    description: "The Mattermost SKU edition associated with"
+    label: " Server Edition (Current)"
+    group_label: " Server Editions"
+    description: "The server edition. Either E0 or TE."
     type: string
     sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
-    hidden: no
   }
+
+  dimension: first_server_edition {
+    label: "First Server Edition"
+    group_label: " Server Editions"
+    description: "The first server edition logged via telemetry for the server. Either E0 or TE."
+    type: string
+    sql: ${server_fact.first_server_edition} ;;
+  }
+
 
   dimension: active_user_count {
     label: "Active Users"
