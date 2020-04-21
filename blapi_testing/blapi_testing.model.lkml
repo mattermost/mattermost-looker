@@ -36,6 +36,12 @@ explore: account_to_line_item {
   view_name: account
   group_label: "zzz { blapi } TESTING"
 
+  join: account_contact {
+    from: contact
+    sql_on: ${account.sfid} = ${account_contact.accountid} ;;
+    relationship: one_to_many
+  }
+
   join: account_owner {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
