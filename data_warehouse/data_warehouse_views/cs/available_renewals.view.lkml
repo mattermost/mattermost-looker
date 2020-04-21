@@ -114,6 +114,7 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_bookings_curr_fy]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_bookings_same_qtr {
@@ -134,6 +135,7 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_bookings_same_qtr]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_lost_same_qtr {
@@ -158,6 +160,7 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_lost_same_qtr]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_bookings_not_same_qtr {
@@ -182,6 +185,7 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_bookings_not_same_qtr]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_bookings_open {
@@ -202,6 +206,7 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_bookings_open]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_bookings_forcast {
@@ -222,5 +227,6 @@ view: available_renewals {
       value: "yes"
     }
     drill_fields: [account.name, opportunity.name, total_bookings_forcast]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 }
