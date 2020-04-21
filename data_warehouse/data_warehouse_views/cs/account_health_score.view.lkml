@@ -36,12 +36,12 @@ view: account_health_score {
     sql: ${days_since_last_task} <= 30;;
   }
 
-  dimension: last_task_over_30 {
+  dimension: last_task_between_30_to_90_days{
     group_label: "Tasks"
-    description: "Customer activity has not been logged in over 30 days at the activity level in Salesforce on a customer account"
-    label: "Last Task > 30 Days Ago"
+    description: "Customer activity has not been logged is between 30 and 90 days at the activity level in Salesforce on a customer account"
+    label: "Last Task > 30 AND <= 90 days"
     type: yesno
-    sql: ${days_since_last_task} > 30;;
+    sql: ${days_since_last_task} > 30 AND <= 90 days;;
   }
 
   dimension: last_task_over_90 {
@@ -173,6 +173,7 @@ view: account_health_score {
   }
 
   measure: count_last_task_under_30 {
+    description: "Customers with last activity in SFDC under 30 days"
     group_label: "Tasks"
     label: "# Accounts w/ Last Task <= 30 days"
     type: count_distinct
@@ -184,19 +185,21 @@ view: account_health_score {
     drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
-  measure: count_last_task_over_30 {
+  measure: count_last_task_between_30_to_90_days {
+    description: "Customers with last activity in SFDC between 30 to 90 days"
     group_label: "Tasks"
-    label: "# Accounts w/ Last Task > 30 days"
+    label: "# Accounts w/ Last Task between 30 to 90 days"
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: {
-      field: last_task_over_30
+      field: last_task_between_30_to_90_days
       value: "yes"
     }
     drill_fields: [account.name, account_csm.name, days_since_last_task]
   }
 
   measure: count_last_task_over_90 {
+    description: "Customers with last activity in SFDC over 90 days"
     group_label: "Tasks"
     label: "# Accounts w/ Last Task > 90 days"
     type: count_distinct

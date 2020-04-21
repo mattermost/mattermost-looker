@@ -62,6 +62,7 @@ view: zendesk_ticket_details {
     description:"Timeframe ticket was set to resolved status"
     type: time
     timeframes: [
+      hour,
       date,
       week,
       month,
