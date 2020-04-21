@@ -20,17 +20,19 @@ view: zendesk_ticket_details {
   }
 
   dimension: subject {
+   description: "Single line of text that provides a quick description of the issue.  More details of ticket in Description field."
     type: string
     sql: ${TABLE}."RAW_SUBJECT" ;;
   }
 
   dimension: description {
+    description: "Text of the support request. The description is the first comment in the ticket."
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
   }
 
   dimension: assignee_name {
-    description: "Name of Support Engineer working on the ticket"
+    description: "Support Engineer currently assigned to the ticket"
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
   }
@@ -50,14 +52,17 @@ view: zendesk_ticket_details {
   }
 
   dimension: created_on_date {
+    description: "Date the ticket was created in Zendesk"
     hidden: yes
     type: yesno
     sql: ${created_date} = ${dates.date_date};;
   }
 
   dimension_group: solved_at {
+    description:"Timeframe ticket was set to resolved status"
     type: time
     timeframes: [
+      hour,
       date,
       week,
       month,
@@ -68,12 +73,14 @@ view: zendesk_ticket_details {
   }
 
   dimension: solved_at_on_date {
+    description:"Date the ticket was set to resolved status"
     hidden: yes
     type: yesno
     sql: ${solved_at_date} = ${dates.date_date};;
   }
 
   dimension: category {
+    description: "How tickets are classified by area of help needed, ie: product, IT issues, end user or sales request"
     type: string
     sql: CASE
           WHEN ${TABLE}."CATEGORY" = 'tsupport' THEN 'General Support'
@@ -91,11 +98,13 @@ view: zendesk_ticket_details {
   }
 
   dimension: customer_type {
+    description: "Classification if ticket is for a customer, trial, potential customer, noncustomer, reseller"
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
   }
 
   dimension: support_type {
+    description: "Type of license: Team Edition, E10, E20, Premiere"
     type: string
     sql: CASE
             WHEN ${premium_support} THEN 'Premium'
