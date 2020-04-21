@@ -787,7 +787,7 @@ explore: server_daily_details_ext {
     AND ${license_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
     AND ${license_daily_details.customer_rank} = 1;;
     relationship: many_to_one
-    fields: [license_daily_details.is_trial]
+    fields: [license_daily_details.is_trial, license_daily_details.company]
   }
 
   join: server_fact {

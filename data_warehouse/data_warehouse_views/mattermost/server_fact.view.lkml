@@ -31,7 +31,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "First Server Edition"
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
-    sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' ELSE 'TE' END;;
+    sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' WHEN {TABLE}.first_server_edition THEN 'TE' ELSE NULL END;;
   }
 
   dimension: server_edition {
@@ -39,7 +39,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " Server Edition (Current)"
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
-    sql: CASE WHEN ${TABLE}.server_edition = 'true' THEN 'E0' ELSE 'TE' END;;
+    sql: CASE WHEN ${TABLE}.server_edition = 'true' THEN 'E0' WHEN ${TABLE}.server_edition = 'false' THEN 'TE' ELSE NULL END;;
   }
 
   dimension: version_upgrades {
@@ -85,17 +85,31 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_telemetry_active {
-    description: "The date the server was first active (first recorded telemetry enabled date)."
+    description: "The date the server first recorded telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
   dimension_group: last_telemetry_active {
-    description: "The date the server was last active (last recorded telemetry enabled date)."
+    description: "The date the server last recorded telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.last_telemetry_active_date ;;
+  }
+
+  dimension_group: last_mm2_telemetry {
+    description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.last_mm2_telemetry_date ;;
+  }
+
+  dimension_group: first_mm2_telemetry {
+    description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_mm2_telemetry_date ;;
   }
 
   dimension: max_active_user_count {
