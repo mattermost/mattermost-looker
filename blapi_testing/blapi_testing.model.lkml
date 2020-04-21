@@ -71,8 +71,9 @@ explore: account_to_line_item {
     relationship: one_to_many
   }
 
-  join: contact {
-    sql_on: ${contact.sfid} = ${opportunitycontactrole.contactid} ;;
+  join: opportunity_contact_role_contact {
+    from: contact
+    sql_on: ${opportunity_contact_role_contact.sfid} = ${opportunitycontactrole.contactid} ;;
     relationship: many_to_one
   }
 
