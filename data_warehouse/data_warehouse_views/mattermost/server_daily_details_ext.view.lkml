@@ -60,6 +60,30 @@ view: server_daily_details_ext {
     THEN TRUE ELSE FALSE END ;;
   }
 
+  filter: latest_telemetry_record {
+    label: "  Latest Security Telemetry Record"
+    description: "Indicates whether the record captures the last (most recent) date that security diagnostics telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: latest_segment_telemetry_record {
+    label: "  Latest Activity Record"
+    description: "Indicates whether the record captures the last (most recent) date that segment diagnostic telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: before_last_segment_telemetry_date {
+    label: "  <= Last Activity Date"
+    description: "Indicates whether the record's logging date is before the server's last (most recent) date that segment diagnostic telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
 
   # DIMENSIONS
   dimension: server_id {
@@ -108,7 +132,7 @@ view: server_daily_details_ext {
     group_label: " Server Editions"
     description: "The server edition. Either E0 or TE."
     type: string
-    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
+    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN 'false' THEN 'TE' ELSE NULL END ;;
   }
 
   dimension: first_server_edition {
@@ -298,6 +322,22 @@ view: server_daily_details_ext {
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
   }
 
+  dimension: mau {
+    group_label: " Server DAU/MAU"
+    label: "MAU"
+    description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.mau_total} ;;
+  }
+
+  dimension: dau {
+    group_label: " Server DAU/MAU"
+    label: "DAU"
+    description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.dau_total} ;;
+  }
+
   dimension: active_users {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
@@ -441,7 +481,7 @@ view: server_daily_details_ext {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
     group_label: " User Counts: Activity Diagnostics"
-    sql: ${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0) ;;
+    sql: NULLIF(${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0),0) ;;
     hidden: no
   }
 
@@ -4268,22 +4308,22 @@ view: server_daily_details_ext {
   measure: active_user_count_sum {
     description: "The sum of telemetry-enabledActive User Count per grouping."
     group_label: " User Counts: Security Telemetry"
-    type: sum
-    sql: ${active_user_count} ;;
+    type: number
+    sql: SUM(${active_user_count}) ;;
   }
 
   measure: user_count_sum {
     description: "The sum of telemetry-enabledUser Count per grouping."
     group_label: " User Counts: Security Telemetry"
-    type: sum
-    sql: ${user_count} ;;
+    type: number
+    sql: SUM(${user_count}) ;;
   }
 
   measure: system_admins_sum {
     description: "The sum of telemetry-enabledSystem Admins per grouping."
     group_label: " User Counts: Security Telemetry"
-    type: sum
-    sql: ${system_admins} ;;
+    type: number
+    sql: SUM(${system_admins}) ;;
   }
 
   measure: in_security_count {
@@ -4334,8 +4374,9 @@ view: server_daily_details_ext {
   measure: active_users_sum {
     description: "The sum of Active Users per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${active_users} ;;
+    type: number
+    sql: SUM(${active_users}) ;;
+    hidden: yes
   }
 
   measure: active_users_avg {
@@ -4343,34 +4384,49 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users} ;;
+    hidden: yes
   }
 
   measure: active_users_daily_sum {
     description: "The sum of Active Users Daily per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${active_users_daily} ;;
+    type: number
+    sql: SUM(${active_users_daily}) ;;
+  }
+
+  measure: active_users_daily_max {
+    description: "The max of Active Users Daily per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${active_users_daily}) ;;
   }
 
   measure: active_users_daily_avg {
     description: "The average Active Users Daily per grouping."
     group_label: "Activity Diagnostics"
-    type: average
-    sql: ${active_users_daily} ;;
+    type: number
+    sql: average(${active_users_daily}) ;;
   }
 
   measure: active_users_monthly_sum {
     description: "The sum of Active Users Monthly per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${active_users_monthly} ;;
+    type: number
+    sql: SUM(${active_users_monthly}) ;;
+  }
+
+  measure: active_users_monthly_max {
+    description: "The max of Active Users Monthly per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${active_users_monthly}) ;;
   }
 
   measure: active_users_monthly_avg {
     description: "The average Active Users Monthly per grouping."
     group_label: "Activity Diagnostics"
-    type: average
-    sql: ${active_users_monthly} ;;
+    type: number
+    sql: AVERAGE(${active_users_monthly}) ;;
   }
 
   measure: bot_accounts_sum {
@@ -4404,8 +4460,15 @@ view: server_daily_details_ext {
   measure: direct_message_channels_sum {
     description: "The sum of Direct Message Channels per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${direct_message_channels} ;;
+    type: number
+    sql: SUM(${direct_message_channels}) ;;
+  }
+
+  measure: direct_message_channels_max {
+    description: "The max of Direct Message Channels per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${direct_message_channels}) ;;
   }
 
   measure: direct_message_channels_avg {
@@ -4446,8 +4509,8 @@ view: server_daily_details_ext {
   measure: posts_sum {
     description: "The sum of Posts performed by all users across all servers per grouping (from activity server telemetry)."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${posts} ;;
+    type: number
+    sql: SUM(${posts}) ;;
   }
 
   measure: posts_avg {
@@ -4474,8 +4537,15 @@ view: server_daily_details_ext {
   measure: private_channels_sum {
     description: "The sum of Private Channels per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${private_channels} ;;
+    type: number
+    sql: SUM(${private_channels}) ;;
+  }
+
+  measure: private_channels_max {
+    description: "The max of Private Channels per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${private_channels}) ;;
   }
 
   measure: private_channels_avg {
@@ -4502,8 +4572,15 @@ view: server_daily_details_ext {
   measure: public_channels_sum {
     description: "The sum of Public Channels per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${public_channels} ;;
+    type: number
+    sql: SUM(${public_channels}) ;;
+  }
+
+  measure: public_channels_max {
+    description: "The max of Public Channels per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${public_channels}) ;;
   }
 
   measure: public_channels_avg {
@@ -4558,8 +4635,15 @@ view: server_daily_details_ext {
   measure: registered_users_sum {
     description: "The sum of Registered Users per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${registered_users} ;;
+    type: number
+    sql: SUM(${registered_users}) ;;
+  }
+
+  measure: registered_users_max {
+    description: "The max of Registered Users per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${registered_users}) ;;
   }
 
   measure: registered_users_avg {
@@ -4586,8 +4670,8 @@ view: server_daily_details_ext {
   measure: teams_sum {
     description: "The sum of Teams per grouping."
     group_label: "Activity Diagnostics"
-    type: sum
-    sql: ${teams} ;;
+    type: number
+    sql: SUM(${teams}) ;;
   }
 
   measure: teams_avg {
@@ -7652,7 +7736,7 @@ view: server_daily_details_ext {
     label: "Posts"
     description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
     type: sum
-    sql: ${posts} ;;
+    sql: ${posts2} ;;
     value_format_name: decimal_0
   }
 
@@ -7662,6 +7746,24 @@ view: server_daily_details_ext {
     description: "The sum of all events performed by all active user across all servers within the given grouping."
     type: sum
     sql: ${events} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: dau_sum {
+    group_label: "Server Events"
+    label: "DAU (Sum)"
+    description: "The sum of all daily active users across all servers within the given grouping."
+    type: number
+    sql: SUM(CASE WHEN ${dau} >= COALESCE(${active_users_daily},0) THEN ${dau} ELSE ${active_users_daily} END) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: mau_sum {
+    group_label: "Server Events"
+    label: "MAU (Sum)"
+    description: "The sum of all daily active users across all servers within the given grouping."
+    type: number
+    sql: SUM(CASE WHEN ${mau} >= COALESCE(${active_users_monthly},0) THEN ${mau} ELSE ${active_users_monthly} END) ;;
     value_format_name: decimal_0
   }
 
