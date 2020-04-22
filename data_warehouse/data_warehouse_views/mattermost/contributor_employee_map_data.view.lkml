@@ -32,9 +32,4 @@ view: contributor_map_data {
     sql: ${TABLE}.count ;;
   }
 
-  measure: count_location_label {
-    label: "# of Location Labels"
-    type: count_distinct
-    sql: ${location_label} ;;
-  }
 }
