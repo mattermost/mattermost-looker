@@ -17,4 +17,9 @@ view: scenarios {
     sql: ${TABLE}."source" ;;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}."category" ;;
+  }
+
 }

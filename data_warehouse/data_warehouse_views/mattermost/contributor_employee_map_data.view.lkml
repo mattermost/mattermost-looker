@@ -1,16 +1,14 @@
-view: contributor_employee_map_data {
-  sql_table_name: MATTERMOST.CONTRIBUTOR_EMPLOYEE_MAP_DATA ;;
+view: contributor_map_data {
+  sql_table_name: MATTERMOST.CONTRIBUTOR_MAP_DATA ;;
 
   dimension: latitude {
-    hidden: yes
     type: number
-    sql: ROUND(${TABLE}.lat,4);;
+    sql: ${TABLE}.latitude;;
   }
 
   dimension: longitude {
-    hidden: yes
     type: number
-    sql: ROUND(${TABLE}.lng,4);;
+    sql: ${TABLE}.longitude;;
   }
 
   dimension: location {
@@ -19,16 +17,13 @@ view: contributor_employee_map_data {
     sql_longitude:${longitude} ;;
   }
 
-  dimension: reason {
-    description: "Reason the person is considered a contributor or an employee"
-    type: string
-    sql: ${TABLE}.REASON ;;
+  dimension: location_label {
+    sql: ${TABLE}.location ;;
   }
 
-  dimension: email {
-    description: "Email of the person, if available"
+  dimension: reason {
     type: string
-    sql: ${TABLE}.email ;;
+    sql: ${TABLE}.REASON ;;
   }
 
   measure: count {
@@ -36,4 +31,5 @@ view: contributor_employee_map_data {
     type: sum
     sql: ${TABLE}.count ;;
   }
+
 }

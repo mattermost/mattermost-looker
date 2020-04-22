@@ -15,17 +15,17 @@ explore: blapi {
   group_label: "zzz { blapi } TESTING"
 
   join: addresses {
-    sql_on: ${addresses.customer_id} = ${customers.id} ;;
+    sql_on: ${addresses.customer_id} = ${customers.id} AND ${addresses.scenario} = ${customers.scenario};;
     relationship: one_to_many
   }
 
   join: subscriptions {
-    sql_on: ${subscriptions.customer_id} = ${customers.id} ;;
+    sql_on: ${subscriptions.customer_id} = ${customers.id} AND ${subscriptions.scenario} = ${customers.scenario};;
     relationship: one_to_many
   }
 
   join: subscriptions_version {
-    sql_on: ${subscriptions_version.customer_id} = ${customers.id} AND ${subscriptions_version.id} = ${subscriptions.id};;
+    sql_on: ${subscriptions_version.customer_id} = ${customers.id} AND ${subscriptions_version.id} = ${subscriptions.id} AND ${subscriptions_version.scenario} = ${subscriptions.scenario};;
     relationship: one_to_many
   }
 }
@@ -35,6 +35,12 @@ explore: account_to_line_item {
   from: account
   view_name: account
   group_label: "zzz { blapi } TESTING"
+
+  join: account_contact {
+    from: contact
+    sql_on: ${account.sfid} = ${account_contact.accountid} ;;
+    relationship: one_to_many
+  }
 
   join: account_owner {
     from: user
