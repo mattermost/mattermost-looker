@@ -221,7 +221,7 @@ view: account {
 
   dimension: dwh_external_id__c {
     type: string
-    sql: ${TABLE}."dwh_external_id__c" ;;
+    sql: ${TABLE}.dwh_external_id__c ;;
     group_label: "System"
     label: "DWH External ID"
   }
@@ -889,20 +889,48 @@ view: account {
   }
 
 
-
-  dimension: territory {
-    group_label: "Region and Territory"
-    label: "Territory Name"
-    sql: ${TABLE}.territory__c ;;
+  dimension: territory_geo {
     type: string
+    sql: ${TABLE}.territory_geo__c ;;
+    group_label: "Territory"
+    label: "Territory Geo"
   }
 
-  dimension: territoryid {
-    group_label: "Region and Territory"
-    label: "Territory ID"
-    sql: ${TABLE}.territoryid__c ;;
+  dimension: territory_area {
     type: string
+    sql: ${TABLE}.territory_area__c ;;
+    group_label: "Territory"
+    label: "Territory Area"
   }
+
+  dimension: territory_region {
+    type: string
+    sql: ${TABLE}.territory_region__c ;;
+    group_label: "Territory"
+    label: "Territory Region"
+  }
+
+  dimension: territory_ent_rep {
+    type: string
+    sql: ${TABLE}.territory_ent_rep__c ;;
+    group_label: "Territory"
+    label: "Territory Ent Rep"
+  }
+
+  dimension: territory_comm_rep {
+    type: string
+    sql: ${TABLE}.territory_comm_rep__c ;;
+    group_label: "Territory"
+    label: "Territory Comm Rep"
+  }
+
+  dimension: territory_last_updated {
+    type: string
+    sql: ${TABLE}.territory_last_updated__c ;;
+    group_label: "Territory"
+    label: "Territory Last Updated"
+  }
+
 
   # TODO: These fields don't seem to be in the database
   # dimension: testimonial_1_from {
