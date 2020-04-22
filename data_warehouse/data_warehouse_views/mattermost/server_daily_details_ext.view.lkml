@@ -7761,6 +7761,14 @@ view: server_daily_details_ext {
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
   }
 
+  measure: avg_posts_per_user_per_day2 {
+    group_label: "Activity Diagnostics"
+    label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day2} ;;
+    value_format_name: decimal_1
+  }
+
   measure: avg_posts_per_user_per_day {
     group_label: "Server Events"
     label: "Avg. Posts Per User"
