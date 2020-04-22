@@ -902,7 +902,7 @@ explore: snowflake_warehouse_cost {
 explore: licenses {
   label: "Licenses"
   group_label: "BLP"
-  hidden: no
+  hidden: yes
 }
 explore: license_daily_details {
   label: "License Daily Details"
@@ -1006,3 +1006,39 @@ explore: server_events_by_date {
   label: "Server Events By Date"
   hidden: yes
 }
+
+explore: nps_server_version_daily_score {
+  label: "Nps Server Version Daily Score"
+  extends: [_base_account_core_explore]
+  always_filter: {
+    filters: [nps_server_version_daily_score.license_sku: "E10, E20, TE, E0"]
+  }
+
+  join: licenses_grouped {
+    sql_on: ${nps_server_version_daily_score.license_id}  = ${licenses_grouped.license_id}
+      AND ${nps_server_version_daily_score.server_id} = ${licenses_grouped.server_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${licenses_grouped.account_sfid} = ${account.sfid} ;;
+    fields: [account.account_core*]
+    relationship: many_to_one
+  }
+
+  join: server_daily_details {
+    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_version_daily_score.logging_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: excludable_servers {
+    sql_on: ${excludable_servers.server_id} = ${nps_server_version_daily_score.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+}
+
+explore: licenses_grouped {}
