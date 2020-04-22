@@ -1006,3 +1006,7 @@ explore: server_events_by_date {
   label: "Server Events By Date"
   hidden: yes
 }
+
+explore: nps_server_version_daily_score {
+  label: "Nps Server Version Daily Score"
+}
