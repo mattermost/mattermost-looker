@@ -52,6 +52,7 @@ named_value_format: mm_integer_percent {
 }
 
 
+week_start_day: sunday
 
 #
 # Views
@@ -411,6 +412,14 @@ explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
   extends: [_base_account_core_explore,_base_opportunity_core_explore]
+
+  join: owner {
+    from:  user
+    view_label: "Lead Owner"
+    sql_on: ${lead.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
+  }
 
   join: lead_status_dates {
     sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
