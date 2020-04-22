@@ -10,31 +10,41 @@ explore: scenarios {
 
 explore: blapi {
   label: "{ blapi }"
-  from: customers
-  view_name: customers
+  from: scenarios
+  view_name: scenarios
   group_label: "zzz { blapi } TESTING"
 
+  join: customers {
+    sql_on: ${scenarios.id} = ${customers.scenario} ;;
+    relationship: one_to_many
+  }
+
   join: addresses {
-    sql_on: ${addresses.customer_id} = ${customers.id} AND ${addresses.scenario} = ${customers.scenario};;
+    sql_on: ${addresses.customer_id} = ${customers.id} AND ${addresses.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: subscriptions {
-    sql_on: ${subscriptions.customer_id} = ${customers.id} AND ${subscriptions.scenario} = ${customers.scenario};;
+    sql_on: ${subscriptions.customer_id} = ${customers.id} AND ${subscriptions.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: subscriptions_version {
-    sql_on: ${subscriptions_version.customer_id} = ${customers.id} AND ${subscriptions_version.id} = ${subscriptions.id} AND ${subscriptions_version.scenario} = ${subscriptions.scenario};;
+    sql_on: ${subscriptions_version.customer_id} = ${customers.id} AND ${subscriptions_version.id} = ${subscriptions.id} AND ${subscriptions_version.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 }
 
 explore: account_to_line_item {
   label: "{ blapi } Account to Line Item"
-  from: account
-  view_name: account
+  from: scenarios
+  view_name: scenarios
   group_label: "zzz { blapi } TESTING"
+
+  join: account {
+    sql_on: ${scenarios.id} = ${account.scenario} ;;
+    relationship: one_to_many
+  }
 
   join: account_contact {
     from: contact
@@ -100,9 +110,14 @@ explore: account_to_line_item {
 
 explore: sales_requests {
   label: "{ blapi } Sales Requests"
-  from: contact
-  view_name: contact
+  from: scenarios
+  view_name: scenarios
   group_label: "zzz { blapi } TESTING"
+
+  join: contact {
+    sql_on: ${scenarios.id} = ${contact.scenario} ;;
+    relationship: one_to_many
+  }
 
   join: campaignmember {
     sql_on: ${campaignmember.contactid} = ${contact.sfid} ;;
@@ -114,11 +129,17 @@ explore: sales_requests {
     relationship: many_to_one
   }
 }
+
 explore: lead_explore {
   label: "{ blapi } Lead Explore"
-  from: lead
-  view_name: lead
+  from: scenarios
+  view_name: scenarios
   group_label: "zzz { blapi } TESTING"
+
+  join: lead {
+    sql_on: ${scenarios.id} = ${lead.scenario} ;;
+    relationship: one_to_many
+  }
 
   join: lead_contact {
     from: contact
