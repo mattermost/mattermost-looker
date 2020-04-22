@@ -421,6 +421,15 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: posts_per_user_per_day2 {
+    label: "Posts Per User Per Day"
+    description: "The number of posts per active user logged by the Server's activity diagnostics telemetry data on the given logging date."
+    type: number
+    group_label: "Activity Diagnostics"
+    sql: ${posts}::float/NULLIF(${active_users_daily},0)::FLOAT ;;
+    hidden: no
+  }
+
   dimension: posts_previous_day {
     description: "The number of posts logged by the Server's activity diagnostics telemetry data the previous day before on the given logging date."
     type: number
@@ -4511,6 +4520,13 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${posts}) ;;
+  }
+
+  measure: posts_max {
+    description: "The max of Posts performed by all users across all servers per grouping (from activity server telemetry)."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${posts}) ;;
   }
 
   measure: posts_avg {
