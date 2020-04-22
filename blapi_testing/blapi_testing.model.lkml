@@ -48,61 +48,61 @@ explore: account_to_line_item {
 
   join: account_contact {
     from: contact
-    sql_on: ${account.sfid} = ${account_contact.accountid} ;;
+    sql_on: ${account.sfid} = ${account_contact.accountid} AND ${account.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: account_owner {
     from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    sql_on: ${account.ownerid} = ${account_owner.sfid} AND ${account.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} ;;
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: opportunity_owner {
     from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} AND ${opportunity_owner.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunitylineitem {
     view_label: "Opportunity Line Item"
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid} ;;
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid} AND ${opportunitylineitem.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: subscriptions_version {
-    sql_on: ${subscriptions_version.version_id} = ${opportunitylineitem.version_id} AND ${subscriptions_version.id} = ${opportunitylineitem.subscription_id};;
+    sql_on: ${subscriptions_version.version_id} = ${opportunitylineitem.version_id} AND ${subscriptions_version.id} = ${opportunitylineitem.subscription_id} AND ${subscriptions_version.scenario} = ${scenarios.id};;
     relationship: one_to_one
   }
 
   join: opportunitycontactrole {
-    sql_on: ${opportunitycontactrole.opportunityid} = ${opportunity.sfid} ;;
+    sql_on: ${opportunitycontactrole.opportunityid} = ${opportunity.sfid} AND ${opportunitycontactrole.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: opportunity_contact_role_contact {
     from: contact
-    sql_on: ${opportunity_contact_role_contact.sfid} = ${opportunitycontactrole.contactid} ;;
+    sql_on: ${opportunity_contact_role_contact.sfid} = ${opportunitycontactrole.contactid} AND ${opportunity_contact_role_contact.scenario} = ${scenarios.id};;
     relationship: many_to_one
   }
 
   join: product {
     view_label: "Opportunity Line Item"
-    sql_on: ${product.sfid} = ${opportunitylineitem.product2id} ;;
+    sql_on: ${product.sfid} = ${opportunitylineitem.product2id} AND ${product.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: [product.name]
   }
 
   join: pricebookentry {
     view_label: "Opportunity Line Item"
-    sql_on: ${pricebookentry.product2id} = ${product.sfid} ;;
+    sql_on: ${pricebookentry.product2id} = ${product.sfid} AND ${pricebookentry.scenario} = ${scenarios.id};;
     relationship: one_to_many
     fields: [pricebookentry.unitprice]
   }
@@ -120,12 +120,12 @@ explore: sales_requests {
   }
 
   join: campaignmember {
-    sql_on: ${campaignmember.contactid} = ${contact.sfid} ;;
+    sql_on: ${campaignmember.contactid} = ${contact.sfid} AND ${campaignmember.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: campaign {
-    sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
+    sql_on: ${campaign.sfid} = ${campaignmember.campaignid} AND ${campaign.scenario} = ${scenarios.id};;
     relationship: many_to_one
   }
 }
@@ -143,74 +143,74 @@ explore: lead_explore {
 
   join: lead_contact {
     from: contact
-    sql_on: ${lead_contact.sfid} = ${lead.convertedcontactid} ;;
+    sql_on: ${lead_contact.sfid} = ${lead.convertedcontactid} AND ${lead_contact.scenario} = ${scenarios.id};;
     relationship: one_to_one
   }
 
   join: lead_account {
     from: account
-    sql_on: ${lead_account.sfid} = ${lead.convertedaccountid} ;;
+    sql_on: ${lead_account.sfid} = ${lead.convertedaccountid} AND ${lead_account.scenario} = ${scenarios.id};;
     relationship: one_to_one
   }
 
   join: lead_opportunity {
     from: opportunity
-    sql_on: ${lead_opportunity.sfid} = ${lead.convertedopportunityid} ;;
+    sql_on: ${lead_opportunity.sfid} = ${lead.convertedopportunityid} AND ${lead_opportunity.scenario} = ${scenarios.id};;
     relationship: one_to_one
   }
 
   join: lead_opportunity_account {
     from: account
-    sql_on: ${lead_opportunity_account.sfid} = ${lead_opportunity.accountid} ;;
+    sql_on: ${lead_opportunity_account.sfid} = ${lead_opportunity.accountid} AND ${lead_opportunity_account.scenario} = ${scenarios.id};;
     relationship: one_to_one
   }
 
   join: account_owner {
     from: user
-    sql_on: ${lead_account.ownerid} = ${account_owner.sfid} ;;
+    sql_on: ${lead_account.ownerid} = ${account_owner.sfid} AND ${lead_account.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunity {
-    sql_on: ${opportunity.accountid} = ${lead_account.sfid} ;;
+    sql_on: ${opportunity.accountid} = ${lead_account.sfid} AND ${opportunity.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: opportunity_owner {
     from: user
-    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} ;;
+    sql_on: ${opportunity.ownerid} = ${opportunity_owner.sfid} AND ${opportunity.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunitylineitem {
     view_label: "Opportunity Line Item"
-    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid} ;;
+    sql_on: ${opportunitylineitem.opportunityid} = ${opportunity.sfid} AND ${opportunitylineitem.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: opportunitycontactrole {
-    sql_on: ${opportunitycontactrole.opportunityid} = ${opportunity.sfid} ;;
+    sql_on: ${opportunitycontactrole.opportunityid} = ${opportunity.sfid} AND ${opportunitycontactrole.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: opportunity_contact {
     from: contact
-    sql_on: ${opportunity_contact.sfid} = ${opportunitycontactrole.contactid} ;;
+    sql_on: ${opportunity_contact.sfid} = ${opportunitycontactrole.contactid} AND ${opportunity_contact.scenario} = ${scenarios.id};;
     relationship: many_to_one
   }
 
   join: product {
     view_label: "Opportunity Line Item"
-    sql_on: ${product.sfid} = ${opportunitylineitem.product2id} ;;
+    sql_on: ${product.sfid} = ${opportunitylineitem.product2id} AND ${product.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: [product.name]
   }
 
   join: pricebookentry {
     view_label: "Opportunity Line Item"
-    sql_on: ${pricebookentry.product2id} = ${product.sfid} ;;
+    sql_on: ${pricebookentry.product2id} = ${product.sfid} AND ${pricebookentry.scenario} = ${scenarios.id};;
     relationship: one_to_many
     fields: [pricebookentry.unitprice]
   }
