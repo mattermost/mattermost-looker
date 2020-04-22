@@ -2,15 +2,13 @@ view: contributor_map_data {
   sql_table_name: MATTERMOST.CONTRIBUTOR_MAP_DATA ;;
 
   dimension: latitude {
-    hidden: yes
     type: number
-    sql: ROUND(${TABLE}.lat,4);;
+    sql: ${TABLE}.latitude;;
   }
 
   dimension: longitude {
-    hidden: yes
     type: number
-    sql: ROUND(${TABLE}.lng,4);;
+    sql: ${TABLE}.longitude;;
   }
 
   dimension: location {
@@ -32,5 +30,11 @@ view: contributor_map_data {
     label: "# of People"
     type: sum
     sql: ${TABLE}.count ;;
+  }
+
+  measure: count_location_label {
+    label: "# of Location Labels"
+    type: count_distinct
+    sql: ${location_label} ;;
   }
 }
