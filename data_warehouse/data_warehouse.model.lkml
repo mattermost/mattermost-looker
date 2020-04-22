@@ -994,7 +994,7 @@ explore: nps_server_daily_score {
   label: "Nps Server Daily Score"
   group_label: "Product"
   description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
-  hidden: no
+  hidden: yes
 }
 
 explore: excludable_servers {
@@ -1009,6 +1009,7 @@ explore: server_events_by_date {
 
 explore: nps_server_version_daily_score {
   label: "Nps Server Version Daily Score"
+  group_label: "Product"
   extends: [_base_account_core_explore]
   always_filter: {
     filters: [nps_server_version_daily_score.license_sku: "E10, E20, TE, E0"]
@@ -1041,4 +1042,6 @@ explore: nps_server_version_daily_score {
   }
 }
 
-explore: licenses_grouped {}
+explore: licenses_grouped {
+  hidden: yes
+}
