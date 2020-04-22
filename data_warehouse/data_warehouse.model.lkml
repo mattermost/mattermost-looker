@@ -445,8 +445,8 @@ explore: lead {
   }
 }
 
-explore: contributor_employee_map_data {
-  group_label: "Contributors & Employees"
+explore: contributor_map_data {
+  group_label: "Contributors"
 }
 
 explore: daily_traffic {
