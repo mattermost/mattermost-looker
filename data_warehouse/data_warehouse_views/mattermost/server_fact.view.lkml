@@ -31,7 +31,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "First Server Edition"
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
-    sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' WHEN ${TABLE}.first_server_edition THEN 'TE' ELSE NULL END;;
+    sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' WHEN ${TABLE}.first_server_edition = 'false' THEN 'TE' ELSE NULL END;;
   }
 
   dimension: server_edition {

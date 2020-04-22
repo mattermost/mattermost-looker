@@ -113,7 +113,7 @@ view: server_daily_details {
     group_label: " Server Editions"
     description: "The server edition. Either E0 or TE."
     type: string
-    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' ELSE 'TE' END ;;
+    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN  ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
   }
 
   dimension: first_server_edition {
