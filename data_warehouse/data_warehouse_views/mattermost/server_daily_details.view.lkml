@@ -217,7 +217,7 @@ view: server_daily_details {
     label: " Server Version"
     description: "The version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: ${TABLE}.version ;;
+    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
   }
 
   dimension: db_type {

@@ -32,7 +32,7 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The previous days server version for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
     type: string
-    sql: ${TABLE}.prev_version ;;
+    sql: regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
     hidden: no
   }
 
@@ -41,7 +41,7 @@ view: server_upgrades {
     group_label: " Server Version "
     description: "The current server version of the server on the given logging date."
     type: string
-    sql: ${TABLE}.current_version ;;
+    sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
     hidden: no
   }
 
