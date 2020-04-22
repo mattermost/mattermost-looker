@@ -1009,4 +1009,34 @@ explore: server_events_by_date {
 
 explore: nps_server_version_daily_score {
   label: "Nps Server Version Daily Score"
+  extends: [_base_account_core_explore]
+  always_filter: {
+    filters: [nps_server_version_daily_score.license_sku: "E10, E20, TE, E0"]
+  }
+
+  join: licenses {
+    sql_on: ${nps_server_version_daily_score.license_id}  = ${licenses.license_id}
+      AND ${licenses.logging_date} = ${nps_server_version_daily_score.logging_date};;
+    relationship: many_to_many
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${licenses.account_sfid} = ${account.sfid} ;;
+    fields: [account.account_core*]
+    relationship: many_to_one
+  }
+
+  join: server_daily_details {
+    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_version_daily_score.logging_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: excludable_servers {
+    sql_on: ${excludable_servers.server_id} = ${nps_server_version_daily_score.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
