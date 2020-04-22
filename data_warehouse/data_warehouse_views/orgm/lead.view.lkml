@@ -462,7 +462,7 @@ view: lead {
   }
 
 
-  dimension: hit_qso {
+  dimension: qso_yn {
     group_label: "Lead Lifecycle: QSO"
     label: "QSO?"
     type: yesno
@@ -812,7 +812,7 @@ view: lead {
   measure: count_hit_qso {
     sql: ${sfid} ;;
     filters: {
-      field: hit_qso
+      field: qso_yn
       value: "yes"
     }
     drill_fields: [lead_drill_fields*]
