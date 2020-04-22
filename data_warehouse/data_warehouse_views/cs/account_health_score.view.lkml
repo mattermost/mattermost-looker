@@ -41,7 +41,7 @@ view: account_health_score {
     description: "Customer activity has not been logged is between 30 and 90 days at the activity level in Salesforce on a customer account"
     label: "Last Task > 30 AND <= 90 days"
     type: yesno
-    sql: ${days_since_last_task} > 30 AND <= 90 days;;
+    sql: ${days_since_last_task} > 30 AND ${days_since_last_task} <= 90;;
   }
 
   dimension: last_task_over_90 {
