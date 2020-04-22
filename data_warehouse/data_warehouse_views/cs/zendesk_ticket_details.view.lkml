@@ -62,7 +62,8 @@ view: zendesk_ticket_details {
     description:"Timeframe ticket was set to resolved status"
     type: time
     timeframes: [
-      hour,
+      hour12,
+      time,
       date,
       week,
       month,
@@ -471,7 +472,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category,  created_date, solved_at_date, calendar_days_open,e20_customer_level_tier,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category,  created_date, solved_at_time, calendar_days_open,e20_customer_level_tier,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla]
   }
 
