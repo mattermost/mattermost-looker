@@ -20,6 +20,11 @@ view: opportunity {
     sql: ${TABLE}."amount" ;;
   }
 
+  dimension: billing_entity_id {
+    type: string
+    sql: ${TABLE}."billing_entity_id__c" ;;
+  }
+
   dimension: closedate {
     label: "Close Date"
     type: date

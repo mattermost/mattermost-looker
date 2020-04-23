@@ -48,13 +48,13 @@ explore: account_to_line_item {
 
   join: account_contact {
     from: contact
-    sql_on: ${account.sfid} = ${account_contact.accountid} AND ${account.scenario} = ${scenarios.id};;
+    sql_on: ${account_contact.scenario} = ${scenarios.id};;
     relationship: one_to_many
   }
 
   join: account_owner {
     from: user
-    sql_on: ${account.ownerid} = ${account_owner.sfid} AND ${account.scenario} = ${scenarios.id};;
+    sql_on: ${account.ownerid} = ${account_owner.sfid} AND ${account_owner.scenario} = ${scenarios.id};;
     relationship: many_to_one
     fields: []
   }
@@ -62,6 +62,11 @@ explore: account_to_line_item {
   join: opportunity {
     sql_on: ${opportunity.accountid} = ${account.sfid} AND ${opportunity.scenario} = ${scenarios.id};;
     relationship: one_to_many
+  }
+
+  join: billing_entity {
+    sql_on: ${billing_entity.sfid} = ${opportunity.billing_entity_id} AND ${billing_entity.scenario} = ${scenarios.id};;
+    relationship: many_to_one
   }
 
   join: opportunity_owner {
@@ -175,6 +180,11 @@ explore: lead_explore {
   join: opportunity {
     sql_on: ${opportunity.accountid} = ${lead_account.sfid} AND ${opportunity.scenario} = ${scenarios.id};;
     relationship: one_to_many
+  }
+
+  join: billing_entity {
+    sql_on: ${billing_entity.sfid} = ${opportunity.billing_entity_id} AND ${billing_entity.scenario} = ${scenarios.id};;
+    relationship: many_to_one
   }
 
   join: opportunity_owner {
