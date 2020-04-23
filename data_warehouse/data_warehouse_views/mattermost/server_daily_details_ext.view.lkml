@@ -7,48 +7,44 @@ view: server_daily_details_ext {
   filter: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
-#     sql: CASE WHEN ${logging_date} =
-#                                       CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-#                                         ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY' END
-#           THEN TRUE ELSE FALSE END ;;
     sql: CASE WHEN ${logging_date} =
-    CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
-    CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
-    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
-    THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)
-    WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) < 6
-    AND DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) > 0
-    AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
-    THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
-    ELSE  (SELECT MAX(date) FROM mattermost.server_daily_details) END
-    ELSE
-    CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
-    WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
-    THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
-    ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
-    END
-    THEN TRUE ELSE FALSE END ;;
+                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
+                                        CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
+                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
+                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '2 DAY') FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) > 0
+                                            AND DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
+                                            THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
+                                          ELSE (SELECT MAX(date) FROM mattermost.server_daily_details) END
+                                      ELSE
+                                        CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
+                                          ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
+                                      END
+            THEN TRUE ELSE FALSE END ;;
   }
 
   filter: last_day_of_week {
@@ -69,8 +65,8 @@ view: server_daily_details_ext {
   }
 
   filter: latest_segment_telemetry_record {
-    label: "  Latest Activity Record"
-    description: "Indicates whether the record captures the last (most recent) date that segment diagnostic telemetry was logged for the server."
+    label: "  Latest Activity/Server Telemetry Record"
+    description: "Indicates whether the record captures the last (most recent) date that Activity/Server diagnostic telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -78,10 +74,31 @@ view: server_daily_details_ext {
 
   filter: before_last_segment_telemetry_date {
     label: "  <= Last Activity Date"
-    description: "Indicates whether the record's logging date is before the server's last (most recent) date that segment diagnostic telemetry was logged for the server."
+    description: "Indicates whether the record's logging date is before the server's last (most recent) date that Activity/Server diagnostic telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+  }
+
+  filter: is_telemetry_enabled {
+    label: "In Security Diagnostics"
+    description: "Boolean indicating server is in the events.security table data (security diagnostics data) on the given date."
+    type: yesno
+    sql: ${TABLE}.in_security ;;
+  }
+
+  filter: is_tracking_enabled {
+    label: "In Security or Activity/Server Diagnostics"
+    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: in_mattermost2_server {
+    description: "Boolean indicating the server is in mattermost2.server table data on the given logging date."
+    label: "In Activity/Server Diagnostics"
+    type: yesno
+    sql: ${TABLE}.in_mm2_server ;;
   }
 
 
@@ -115,7 +132,7 @@ view: server_daily_details_ext {
     label: " Server Version (Current)"
     description: "The version of the Mattermost server."
     type: string
-    sql: ${TABLE}.version ;;
+    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
     hidden: no
   }
 
@@ -183,7 +200,7 @@ view: server_daily_details_ext {
   dimension: system_admins {
     label: " System Admins"
     group_label: " User Counts: Security Telemetry"
-    description: "The number of system admins associated with a server on a given logging date (mattermost2.server)."
+    description: "The number of system admins associated with a server on a given logging date (mattermost2.server logged via diagnostics.go)."
     type: number
     sql: ${TABLE}.system_admins ;;
     hidden: no
@@ -236,8 +253,8 @@ view: server_daily_details_ext {
 
   dimension: in_security {
     label: "  Telemetry Enabled"
-    group_label: ""
-    description: "Indicates whether the server was logged in the security table on the given logging date i.e. true = Telemetry-Enabled server."
+    group_label: " Data Quality"
+    description: "Indicates whether the server was logged in the security table on the given logging date i.e. true = Telemetry-Enabled server (events.security logged via security_update_check.go)."
     type: yesno
     sql: ${TABLE}.in_security ;;
     hidden: no
@@ -246,7 +263,7 @@ view: server_daily_details_ext {
   dimension: in_mm2_server {
     label: " In Mattermost2.Server"
     group_label: " Data Quality"
-    description: "Indicates whether the "
+    description: "Indicates whether the server appears in the mattermost2.server table on a given logging date (logged via diagnostics.go)."
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
     hidden: no
@@ -255,7 +272,7 @@ view: server_daily_details_ext {
   dimension: tracking_disabled {
     label: " Tracking Disabled"
     group_label: " Data Quality"
-    description: "True or false indicating whether the server sent telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline."
+    description: "True or false indicating the server did not send telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline (server does not appear in diagnostics.go or security_update_check.go data)."
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
     hidden: no

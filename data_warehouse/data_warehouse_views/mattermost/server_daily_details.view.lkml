@@ -55,15 +55,24 @@ view: server_daily_details {
   }
 
   filter: is_telemetry_enabled {
-    description: "Boolean indicating server is in the events.security table data on the given date."
+    label: "In Security Diagnostics"
+    description: "Boolean indicating server is in the events.security table data (security diagnostics data) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
 
   filter: is_tracking_enabled {
+    label: "In Security or Activity/Server Diagnostics"
     description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
     type: yesno
     sql: CASE WHEN ${TABLE}.in_security OR ${in_mattermos2_server} THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: in_mm2_server {
+    description: "Boolean indicating the server is in mattermost2.server table data on the given logging date."
+    label: "In Activity/Server Diagnostics"
+    type: yesno
+    sql: ${TABLE}.in_mm2_server ;;
   }
 
   # Dimensions
@@ -217,7 +226,7 @@ view: server_daily_details {
     label: " Server Version"
     description: "The version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: ${TABLE}.version ;;
+    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
   }
 
   dimension: db_type {

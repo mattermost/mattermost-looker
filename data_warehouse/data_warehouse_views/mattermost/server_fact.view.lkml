@@ -15,7 +15,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "  Server Version (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
-    sql: ${TABLE}.version ;;
+    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
   }
 
   dimension: first_server_version {
@@ -23,7 +23,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "First Server Version"
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
-    sql: ${TABLE}.first_server_version ;;
+    sql: regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
   }
 
   dimension: first_server_edition {
@@ -71,7 +71,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
-    description: "The date the server was first active (first recorded instance of server appearing server logging data)."
+    description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server or events.security)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
