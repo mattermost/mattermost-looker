@@ -22,4 +22,9 @@ view: scenarios {
     sql: ${TABLE}."category" ;;
   }
 
+  dimension: setup_compplete {
+    type: yesno
+    sql: ${TABLE}."setup_compplete" ;;
+  }
+
 }
