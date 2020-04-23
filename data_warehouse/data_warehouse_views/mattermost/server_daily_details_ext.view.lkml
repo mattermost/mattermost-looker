@@ -134,6 +134,18 @@ view: server_daily_details_ext {
     type: string
     sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
     hidden: no
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major_sort {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+          CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
+            ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    hidden: yes
   }
 
   dimension: context_library_version {
