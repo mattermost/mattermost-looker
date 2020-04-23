@@ -22,9 +22,9 @@ view: scenarios {
     sql: ${TABLE}."category" ;;
   }
 
-  dimension: setup_compplete {
+  dimension: setup_completed {
     type: yesno
-    sql: ${TABLE}."setup_compplete" ;;
+    sql: ${TABLE}."setup_completed" ;;
   }
 
 }
