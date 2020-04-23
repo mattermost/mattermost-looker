@@ -7,23 +7,24 @@ view: version_release_dates {
 
   # DIMENSIONS
   dimension: version {
-    description: "" 
+    description: "The server version associated with the release date."
     type: string
     sql: ${TABLE}.version ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: release {
-    description: "" 
+    label: "Server Version Release"
+    description: "The date the server version was released."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week]
     sql: ${TABLE}.release_date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

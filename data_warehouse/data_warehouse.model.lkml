@@ -776,6 +776,13 @@ explore: nps_user_monthly_score {
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
+
+  join: version_release_dates {
+    view_label: "NPS User Daily Score"
+    sql_on: ${nps_user_monthly_score.server_version} = ${version_release_dates.version} ;;
+    relationship: many_to_one
+    fields: [version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
+  }
 }
 
 explore: server_daily_details_ext {
@@ -1017,7 +1024,7 @@ explore: server_events_by_date {
 }
 
 explore: nps_server_version_daily_score {
-  label: "Nps Server Version Daily Score"
+  label: "NPS Server Version Daily Score"
   group_label: "Product"
   extends: [_base_account_core_explore]
   always_filter: {
@@ -1049,6 +1056,13 @@ explore: nps_server_version_daily_score {
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
+
+  join: version_release_dates {
+    view_label: "NPS Server Version Daily Score"
+    sql_on: ${nps_server_version_daily_score.server_version} = ${version_release_dates.version} ;;
+    relationship: many_to_one
+    fields: [version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
+  }
 }
 
 explore: licenses_grouped {
@@ -1057,4 +1071,5 @@ explore: licenses_grouped {
 
 explore: version_release_dates {
   label: "Version Release Dates"
+  hidden: yes
 }
