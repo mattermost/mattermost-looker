@@ -44,7 +44,6 @@ view: account {
       csm_name,
       master_account_name,
       count,
-      csm_enriched_region,
       customer_segmentation_tier,
       industry_category,
       arr_current
@@ -246,13 +245,6 @@ view: account {
     type: string
   }
 
-  dimension: field_rep {
-    group_label: "Owners"
-    sql: ${TABLE}.field_rep__c ;;
-    type: string
-    ##ditch
-  }
-
 
   dimension_group: first_created {
     convert_tz: no
@@ -383,6 +375,7 @@ view: account {
   dimension: isdeleted {
     sql: ${TABLE}.isdeleted ;;
     type: yesno
+    group_label: "System"
   }
 
 
@@ -434,6 +427,7 @@ view: account {
       year
     ]
     type: time
+    group_label: "System"
   }
 
   dimension_group: last_reviewed {
@@ -498,12 +492,6 @@ view: account {
     type: string
   }
 
-  dimension: mattermost_rep {
-    group_label: "Owners"
-    label: "Mattermost Rep"
-    sql: ${TABLE}.mattermost_rep__c ;;
-    type: string
-  }
 
   dimension_group: meeting_set {
     sql: ${TABLE}.meetingset_date__c ;;
@@ -745,18 +733,6 @@ view: account {
     type: string
   }
 
-  dimension: csm_enriched_region {
-    group_label: "CS"
-    label: "CSM Enriched Region"
-    sql: CASE
-              WHEN ${csm_lookup} = '0051R00000I5RZBQA3' THEN 'EMEA'
-              WHEN ${csm_lookup} = '0051R00000GnXMsQAN' THEN 'East'
-              WHEN ${csm_lookup} = '00536000009uaDQAAY' THEN 'West/APAC'
-              WHEN ${csm_lookup} = '0051R00000HTEzFQAX' THEN 'Global Self-Service'
-              WHEN ${csm_lookup} = '0051R00000GndedQAB' THEN 'Fed'
-              ELSE NULL END ;;
-    type: string
-  }
 
   dimension_group: request_a_quote {
     sql: ${TABLE}.request_a_quote_date__c ;;
@@ -932,18 +908,6 @@ view: account {
   }
 
 
-  # TODO: These fields don't seem to be in the database
-  # dimension: testimonial_1_from {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial1_from__c ;;
-  #   type: string
-  # }
-
-  # dimension: testimonial_1 {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_1__c ;;
-  #   type: string
-  # }
 
   dimension: ticker_symbol {
     sql: ${TABLE}.tickersymbol ;;

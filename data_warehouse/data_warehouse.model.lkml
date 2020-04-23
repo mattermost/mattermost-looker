@@ -52,6 +52,7 @@ named_value_format: mm_integer_percent {
 }
 
 
+week_start_day: sunday
 
 #
 # Views
@@ -412,6 +413,14 @@ explore: lead {
   group_label: "Salesforce"
   extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
+  join: owner {
+    from:  user
+    view_label: "Lead Owner"
+    sql_on: ${lead.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: [name]
+  }
+
   join: lead_status_dates {
     sql_on: ${lead.sfid} = ${lead_status_dates.leadid} ;;
     relationship: one_to_one
@@ -445,8 +454,8 @@ explore: lead {
   }
 }
 
-explore: contributor_employee_map_data {
-  group_label: "Contributors & Employees"
+explore: contributor_map_data {
+  group_label: "Contributors"
 }
 
 explore: daily_traffic {
@@ -902,7 +911,7 @@ explore: snowflake_warehouse_cost {
 explore: licenses {
   label: "Licenses"
   group_label: "BLP"
-  hidden: no
+  hidden: yes
 }
 explore: license_daily_details {
   label: "License Daily Details"
@@ -994,7 +1003,7 @@ explore: nps_server_daily_score {
   label: "Nps Server Daily Score"
   group_label: "Product"
   description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
-  hidden: no
+  hidden: yes
 }
 
 explore: excludable_servers {
@@ -1004,5 +1013,44 @@ explore: excludable_servers {
 
 explore: server_events_by_date {
   label: "Server Events By Date"
+  hidden: yes
+}
+
+explore: nps_server_version_daily_score {
+  label: "Nps Server Version Daily Score"
+  group_label: "Product"
+  extends: [_base_account_core_explore]
+  always_filter: {
+    filters: [nps_server_version_daily_score.license_sku: "E10, E20, TE, E0"]
+  }
+
+  join: licenses_grouped {
+    sql_on: ${nps_server_version_daily_score.license_id}  = ${licenses_grouped.license_id}
+      AND ${nps_server_version_daily_score.server_id} = ${licenses_grouped.server_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account {
+    sql_on: ${licenses_grouped.account_sfid} = ${account.sfid} ;;
+    fields: [account.account_core*]
+    relationship: many_to_one
+  }
+
+  join: server_daily_details {
+    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id}
+      AND ${nps_server_version_daily_score.logging_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: excludable_servers {
+    sql_on: ${excludable_servers.server_id} = ${nps_server_version_daily_score.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+}
+
+explore: licenses_grouped {
   hidden: yes
 }
