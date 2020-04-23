@@ -132,7 +132,7 @@ view: server_daily_details_ext {
     group_label: " Server Editions"
     description: "The server edition. Either E0 or TE."
     type: string
-    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN 'false' THEN 'TE' ELSE NULL END ;;
+    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
   }
 
   dimension: first_server_edition {
@@ -322,6 +322,16 @@ view: server_daily_details_ext {
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
   }
 
+  dimension: posts_per_user_per_day_band {
+    group_label: "Server Events"
+    label: "Posts Per User Band"
+    description: "The number of posts per active user for the server on the given logging."
+    type: tier
+    style: integer
+    tiers: [3, 6, 11, 16, 21, 31, 51, 101]
+    sql: ${posts_per_user_per_day} ;;
+  }
+
   dimension: mau {
     group_label: " Server DAU/MAU"
     label: "MAU"
@@ -418,6 +428,27 @@ view: server_daily_details_ext {
     type: number
     group_label: "Activity Diagnostics"
     sql: ${TABLE}.posts ;;
+    hidden: no
+  }
+
+  dimension: posts_per_user_per_day2 {
+    label: "Posts Per User"
+    description: "The number of posts per active user logged by the Server's activity diagnostics telemetry data on the given logging date."
+    type: number
+    group_label: "Activity Diagnostics"
+    value_format_name: decimal_1
+    sql: ${posts}::float/NULLIF(${active_users_daily},0)::FLOAT ;;
+    hidden: no
+  }
+
+  dimension: posts_per_user_per_day_band2 {
+    label: "Posts Per User Band"
+    description: "The number of posts per active user logged by the Server's activity diagnostics telemetry data on the given logging date."
+    type: tier
+    style: integer
+    tiers: [3, 6, 11, 16, 21, 31, 51, 101]
+    group_label: "Activity Diagnostics"
+    sql: ${posts_per_user_per_day2} ;;
     hidden: no
   }
 
@@ -4513,6 +4544,13 @@ view: server_daily_details_ext {
     sql: SUM(${posts}) ;;
   }
 
+  measure: posts_max {
+    description: "The max of Posts performed by all users across all servers per grouping (from activity server telemetry)."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: MAX(${posts}) ;;
+  }
+
   measure: posts_avg {
     description: "The average Posts per grouping."
     group_label: "Activity Diagnostics"
@@ -7721,6 +7759,14 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
+  }
+
+  measure: avg_posts_per_user_per_day2 {
+    group_label: "Activity Diagnostics"
+    label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day2} ;;
+    value_format_name: decimal_1
   }
 
   measure: avg_posts_per_user_per_day {

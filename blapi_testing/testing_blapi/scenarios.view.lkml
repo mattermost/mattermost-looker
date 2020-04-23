@@ -3,7 +3,7 @@ view: scenarios {
 
   dimension: id {
     primary_key: yes
-    type: number
+    type: string
     sql: ${TABLE}."id" ;;
   }
 
@@ -15,6 +15,11 @@ view: scenarios {
   dimension: source {
     type: string
     sql: ${TABLE}."source" ;;
+  }
+
+  dimension: category {
+    type: string
+    sql: ${TABLE}."category" ;;
   }
 
 }

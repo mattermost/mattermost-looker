@@ -2,7 +2,6 @@ view: contact {
   sql_table_name: testing_orgm.contact ;;
 
   dimension: accountid {
-    hidden: yes
     type: string
     sql: ${TABLE}."accountid" ;;
   }
