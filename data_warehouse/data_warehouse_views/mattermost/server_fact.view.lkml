@@ -71,7 +71,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
-    description: "The date the server was first active (first recorded instance of server appearing server logging data)."
+    description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server or events.security)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
