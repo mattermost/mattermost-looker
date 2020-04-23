@@ -106,6 +106,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_telemetry_active {
+    label: "First Security Telemetry"
     description: "The date the server first recorded telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
@@ -113,6 +114,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_telemetry_active {
+    label: "Last Security Telemetry"
     description: "The date the server last recorded telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
@@ -120,6 +122,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_mm2_telemetry {
+    label: "Last Diagnostics Telemetry"
     description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
     type: time
     timeframes: [date, week, month, year]
@@ -127,6 +130,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_mm2_telemetry {
+    label: "First Diagnostics Telemetry"
     description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
     type: time
     timeframes: [date, week, month, year]

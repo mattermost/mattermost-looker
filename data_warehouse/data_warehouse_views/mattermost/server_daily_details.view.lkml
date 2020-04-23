@@ -230,6 +230,15 @@ view: server_daily_details {
     order_by_field: server_version_major_sort
   }
 
+  dimension: server_version_major {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current)"
+    description: "The version of the Mattermost server omitting the dot release."
+    type: string
+    sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
+    order_by_field: server_version_major_sort
+  }
+
   dimension: server_version_major_sort {
     group_label: " Server Versions"
     label: "  Server Version: Major (Current)"
