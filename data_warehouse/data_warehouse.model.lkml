@@ -1054,3 +1054,7 @@ explore: nps_server_version_daily_score {
 explore: licenses_grouped {
   hidden: yes
 }
+
+explore: version_release_dates {
+  label: "Version Release Dates"
+}
