@@ -4,7 +4,7 @@ view: scenarios {
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}."id" ;;
+    sql: ${TABLE}."id"::varchar ;;
     link: {
       label: "Filter on Scenario"
       url: "/dashboards/92?Scenario ID={{value}}"
