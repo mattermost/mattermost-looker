@@ -58,15 +58,15 @@ view: server_daily_details_ext {
 
   filter: latest_telemetry_record {
     label: "  Latest Security Telemetry Record"
-    description: "Indicates whether the record captures the last (most recent) date that security diagnostics telemetry was logged for the server."
+    description: "Indicates whether the record captures the last (most recent) date that Security (security_update_check.go) diagnostics telemetry was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
   filter: latest_segment_telemetry_record {
-    label: "  Latest Activity/Server Telemetry Record"
-    description: "Indicates whether the record captures the last (most recent) date that Activity/Server diagnostic telemetry data was logged for the server."
+    label: "  Latest Diagnostics Telemetry Record"
+    description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -74,7 +74,7 @@ view: server_daily_details_ext {
 
   filter: before_last_segment_telemetry_date {
     label: "  <= Last Activity Date"
-    description: "Indicates whether the record's logging date is before the server's last (most recent) date that Activity/Server diagnostic telemetry data was logged for the server."
+    description: "Indicates whether the record's logging date is before the server's last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -82,20 +82,20 @@ view: server_daily_details_ext {
 
   filter: is_telemetry_enabled {
     label: "In Security Diagnostics"
-    description: "Boolean indicating server is in the events.security table data (security diagnostics data) on the given date."
+    description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
 
   filter: is_tracking_enabled {
     label: "In Security or Activity/Server Diagnostics"
-    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
+    description: "Boolean indicating the server appears in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
     type: yesno
     sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
   }
 
   filter: in_mattermost2_server {
-    description: "Boolean indicating the server is in mattermost2.server table data on the given logging date."
+    description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Activity/Server Diagnostics"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -275,7 +275,7 @@ view: server_daily_details_ext {
   dimension: in_security {
     label: "  Telemetry Enabled"
     group_label: " Data Quality"
-    description: "Indicates whether the server was logged in the security table on the given logging date i.e. true = Telemetry-Enabled server (events.security logged via security_update_check.go)."
+    description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
     hidden: no
@@ -284,7 +284,7 @@ view: server_daily_details_ext {
   dimension: in_mm2_server {
     label: " In Mattermost2.Server"
     group_label: " Data Quality"
-    description: "Indicates whether the server appears in the mattermost2.server table on a given logging date (logged via diagnostics.go)."
+    description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
     hidden: no
@@ -293,7 +293,7 @@ view: server_daily_details_ext {
   dimension: tracking_disabled {
     label: " Tracking Disabled"
     group_label: " Data Quality"
-    description: "True or false indicating the server did not send telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline (server does not appear in diagnostics.go or security_update_check.go data)."
+    description: "Boolean indicating the server did not send telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline (server does not appear in diagnostics.go or security_update_check.go data)."
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
     hidden: no
@@ -319,7 +319,7 @@ view: server_daily_details_ext {
 
   dimension: latest_record {
     label: "  Latest Record"
-    description: "Indicates whether the record captures the last (most recent) date that telemetry was logged for the server."
+    description: "Boolean indicating the record captures the last (most recent) date that telemetry was logged for the server (via security_update_check.go or diagnostics.go)."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -327,7 +327,7 @@ view: server_daily_details_ext {
 
   dimension: currently_sending_telemetry{
     label: "  Telemetry Currently Enabled"
-    description: "Indicates the server sent telemetry data on the most recent logging date (current date - 1 day)."
+    description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
     type: yesno
     sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details_ext) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -4303,19 +4303,35 @@ view: server_daily_details_ext {
   }
 
   dimension_group: first_active_telemetry {
-    label: " First Active Telemetry"
-    description: "The date the server first sent telemetry data. Typically, all servers will send telemetry data the first date they're active until the telemetry diagnostics features is manually disabled by user or organization associated with the server."
+    label: " First Security Telemetry"
+    description: "The date the server first recorded telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
   }
 
   dimension_group: last_active_telemetry {
-    label: " Last Active Telemetry"
-    description: "The date the server last sent telemetry data. Typically, all servers will send telemetry data the first date they're active until the telemetry diagnostics features is manually disabled by user or organization associated with the server."
+    label: " Last Security Telemetry"
+    description: "The date the server last recorded telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_telemetry_active_date}::date ;;
+  }
+
+  dimension_group: last_mm2_telemetry {
+    label: " Last Diagnostics Telemetry"
+    description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${server_fact.last_mm2_telemetry_date} ;;
+  }
+
+  dimension_group: first_mm2_telemetry {
+    label: " First Diagnostics Telemetry"
+    description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${server_fact.first_mm2_telemetry_date} ;;
   }
 
   dimension_group: timestamp {

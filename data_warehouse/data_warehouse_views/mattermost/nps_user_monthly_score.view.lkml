@@ -90,7 +90,7 @@ view: nps_user_monthly_score {
   dimension: license_sku {
     description: "The Mattermost License SKU associated with the user's mattermost license coalesced with the edition associated with server if unlicensed (E10 E20)."
     type: string
-    sql: COALESCE(${TABLE}.license_sku, ${licenses.edition}, ${server_fact.server_edition}) ;;
+    sql: COALESCE(${TABLE}.license_sku, ${licenses_grouped.edition}, ${server_fact.server_edition}) ;;
     hidden: no
   }
 

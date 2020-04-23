@@ -54,22 +54,53 @@ view: server_daily_details {
           THEN TRUE ELSE FALSE END ;;
   }
 
+  filter: in_mm2_server {
+    description: "Boolean indicating the server is in mattermost2.server table data on the given logging date."
+    label: "In Activity/Server Diagnostics"
+    type: yesno
+    sql: ${TABLE}.in_mm2_server ;;
+  }
+
+  filter: latest_telemetry_record {
+    label: "  Latest Security Telemetry Record"
+    description: "Indicates whether the record captures the last (most recent) date that Security (security_update_check.go) diagnostics telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: latest_segment_telemetry_record {
+    label: "  Latest Diagnostics Telemetry Record"
+    description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: before_last_segment_telemetry_date {
+    label: "  <= Last Activity Date"
+    description: "Indicates whether the record's logging date is before the server's last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
   filter: is_telemetry_enabled {
     label: "In Security Diagnostics"
-    description: "Boolean indicating server is in the events.security table data (security diagnostics data) on the given date."
+    description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
 
   filter: is_tracking_enabled {
     label: "In Security or Activity/Server Diagnostics"
-    description: "Boolean indicating server is in the events.security or mattermost2.server table data on the given date."
+    description: "Boolean indicating the server appears in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
     type: yesno
-    sql: CASE WHEN ${TABLE}.in_security OR ${in_mattermos2_server} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: in_mm2_server {
-    description: "Boolean indicating the server is in mattermost2.server table data on the given logging date."
+  filter: in_mattermost2_server {
+    description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Activity/Server Diagnostics"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -233,7 +264,7 @@ view: server_daily_details {
   dimension: server_version_major {
     group_label: " Server Versions"
     label: "  Server Version: Major (Current)"
-    description: "The version of the Mattermost server omitting the dot release."
+    description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
     type: string
     sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
     order_by_field: server_version_major_sort
@@ -361,9 +392,35 @@ view: server_daily_details {
   }
 
   dimension_group: first_telemetry_enabled {
+    label: "First Security Telemetry"
+    description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
+  }
+
+  dimension_group: last_telemetry_enabled {
+    label: "Last Security Telemetry"
+    description: "The date the server last recorded security telemetry data in the security diagnostics data."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${server_fact.last_telemetry_active_date}::date ;;
+  }
+
+  dimension_group: last_mm2_telemetry {
+    label: "Last Diagnostics Telemetry"
+    description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${server_fact.last_mm2_telemetry_date} ;;
+  }
+
+  dimension_group: first_mm2_telemetry {
+    label: "First Diagnostics Telemetry"
+    description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${server_fact.first_mm2_telemetry_date} ;;
   }
 
   dimension: days_from_first_telemetry_to_paid_license {
