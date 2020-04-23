@@ -5,6 +5,10 @@ view: scenarios {
     primary_key: yes
     type: string
     sql: ${TABLE}."id" ;;
+    link: {
+      label: "Filter on Scenario"
+      url: "/dashboards/92?Scenario ID={{value}}"
+    }
   }
 
   dimension: detail {
