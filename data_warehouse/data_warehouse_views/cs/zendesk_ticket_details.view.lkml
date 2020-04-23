@@ -37,7 +37,7 @@ view: zendesk_ticket_details {
   dimension: account_at_risk {
     description: "Account is flagged At Risk in SFDC and pulled into ZenDesk organization table."
     type: yesno
-    sql: ${TABLE}."AACCOUNT_OPPT_EARLY_WARNING" > 0;;
+    sql: ${TABLE}."ACCOUNT_OPPT_EARLY_WARNING" > 0;;
   }
 
   dimension: account_early_warning {
