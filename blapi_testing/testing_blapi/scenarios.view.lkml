@@ -27,4 +27,9 @@ view: scenarios {
     sql: ${TABLE}."setup_completed" ;;
   }
 
+  dimension: phase {
+    type: number
+    sql: ${TABLE}."phase" ;;
+  }
+
 }
