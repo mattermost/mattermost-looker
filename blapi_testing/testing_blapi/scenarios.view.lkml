@@ -2,9 +2,16 @@ view: scenarios {
   sql_table_name: testing_blapi.scenarios ;;
 
   dimension: id {
-    primary_key: yes
+    hidden: yes
     type: string
-    sql: ${TABLE}."id" ;;
+    sql: ${TABLE}."id"::varchar ;;
+  }
+
+  dimension: id_int {
+    label: "Scenario ID"
+    primary_key: yes
+    type: number
+    sql: ${TABLE}."id";;
     link: {
       label: "Filter on Scenario"
       url: "/dashboards/92?Scenario ID={{value}}"
@@ -34,6 +41,21 @@ view: scenarios {
   dimension: phase {
     type: number
     sql: ${TABLE}."phase" ;;
+  }
+
+  dimension: sku {
+    type: string
+    sql: ${TABLE}."sku" ;;
+  }
+
+  dimension: quantity {
+    type: string
+    sql: ${TABLE}."quantity" ;;
+  }
+
+  dimension: price {
+    type: string
+    sql: ${TABLE}."price" ;;
   }
 
 }
