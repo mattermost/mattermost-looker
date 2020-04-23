@@ -5,6 +5,10 @@ view: scenarios {
     primary_key: yes
     type: string
     sql: ${TABLE}."id" ;;
+    link: {
+      label: "Filter on Scenario"
+      url: "/dashboards/92?Scenario ID={{value}}"
+    }
   }
 
   dimension: detail {
@@ -22,9 +26,14 @@ view: scenarios {
     sql: ${TABLE}."category" ;;
   }
 
-  dimension: setup_compplete {
+  dimension: setup_completed {
     type: yesno
-    sql: ${TABLE}."setup_compplete" ;;
+    sql: ${TABLE}."setup_completed" ;;
+  }
+
+  dimension: phase {
+    type: number
+    sql: ${TABLE}."phase" ;;
   }
 
 }
