@@ -679,7 +679,7 @@ explore: delete_history {
 explore: server_fact {
   group_label: "Product"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
-  hidden: yes
+  hidden: no
 }
 
 explore: dates {
@@ -748,7 +748,7 @@ explore: nps_user_monthly_score {
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
   always_filter: {
-    filters: [nps_user_monthly_score.license_sku: "E10, E20, TE, E0"]
+    filters: [21days_since_release: "yes"]
   }
 
   join: licenses {
@@ -764,9 +764,8 @@ explore: nps_user_monthly_score {
     relationship: many_to_one
   }
 
-  join: server_daily_details {
-    sql_on: ${nps_user_monthly_score.server_id} = ${server_daily_details.server_id}
-    AND ${nps_user_monthly_score.month_date} = ${server_daily_details.logging_date};;
+  join: server_fact {
+    sql_on: ${nps_user_monthly_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
     fields: []
   }
@@ -1028,7 +1027,7 @@ explore: nps_server_version_daily_score {
   group_label: "Product"
   extends: [_base_account_core_explore]
   always_filter: {
-    filters: [nps_server_version_daily_score.license_sku: "E10, E20, TE, E0"]
+    filters: [21days_since_release: "yes"]
   }
 
   join: licenses_grouped {
@@ -1044,9 +1043,8 @@ explore: nps_server_version_daily_score {
     relationship: many_to_one
   }
 
-  join: server_daily_details {
-    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id}
-      AND ${nps_server_version_daily_score.logging_date} = ${server_daily_details.logging_date};;
+  join: server_fact {
+    sql_on: ${nps_server_version_daily_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
     fields: []
   }

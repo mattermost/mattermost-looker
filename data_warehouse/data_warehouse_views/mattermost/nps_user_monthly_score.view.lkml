@@ -1,14 +1,14 @@
 # This is the view file for the analytics.mattermost.nps_user_monthly_score table.
 view: nps_user_monthly_score {
   sql_table_name: mattermost.nps_user_daily_score ;;
-  view_label: "Nps User Daily Score"
+  view_label: "NPS User Daily Score"
 
   # FILTERS
   filter: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${month_date} =
-                                      CASE WHEN DATE_TRUNC('month', ${month_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                      CASE WHEN DATE_TRUNC('month', ${month_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.nps_user_daily_score)
                                         ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${month_date}::date)) - INTERVAL '1 DAY' END
           THEN TRUE ELSE FALSE END ;;
   }
@@ -23,6 +23,13 @@ view: nps_user_monthly_score {
     type: yesno
     description: "Filters so the only rows that appear are days where a new NPS Feedback submission was received. Useful when displaying raw data to prevent fanning out by logging date."
     sql: CASE WHEN ${month_date}::date = ${last_feedback_date}::date THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: 21days_since_release {
+    label: "Response >= 21 Days Since Release"
+    type: yesno
+    description: "Boolean indicating the response for the server version associated with the NPS submissions was >= 21 since the release date."
+    sql: CASE WHEN ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
   }
 
   # DIMENSIONS
@@ -71,7 +78,7 @@ view: nps_user_monthly_score {
   dimension: license_sku {
     description: "The Mattermost License SKU associated with the user's mattermost license coalesced with the edition associated with server if unlicensed (E10 E20)."
     type: string
-    sql: COALESCE(${TABLE}.license_sku, ${licenses.edition}, ${server_daily_details.edition}) ;;
+    sql: COALESCE(${TABLE}.license_sku, ${licenses.edition}, ${server_fact.server_edition}) ;;
     hidden: no
   }
 
@@ -203,6 +210,7 @@ view: nps_user_monthly_score {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_servers {
@@ -210,6 +218,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Server Id's per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_users {
@@ -218,6 +227,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Users that have ever responded to an NPS Survey."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_users_current {
@@ -226,6 +236,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Users that responded to an NPS survey in the record month."
     type: count_distinct
     sql: case when ${month_date}::date =  date_trunc('day', ${last_score_date}::date) then ${user_id} else null end ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_promoters {
@@ -236,6 +247,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_detractors {
@@ -246,6 +258,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: count_passive {
@@ -256,6 +269,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: pct_promoter_score {
@@ -264,6 +278,7 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_promoters}::float/NULLIF(${count_users}::float, 0) ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: pct_detractor_score {
@@ -272,7 +287,9 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_detractors}::float/NULLIF(${count_users}::float, 0) ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
+
 
   measure: pct_passive_score {
     group_label: "Percents"
@@ -280,6 +297,7 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_passive}::float/NULLIF(${count_users}::float, 0) ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: nps_score {
@@ -288,6 +306,7 @@ view: nps_user_monthly_score {
     value_format: "@{decimal}"
     type: number
     sql: 100*(${pct_promoter_score} - ${pct_detractor_score}) ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: avg_score {
@@ -296,6 +315,7 @@ view: nps_user_monthly_score {
     value_format: "@{decimal}"
     type: average
     sql: ${score} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: avg_promoter_score {
@@ -308,6 +328,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: avg_detractor_score {
@@ -320,6 +341,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: avg_passive_score {
@@ -332,6 +354,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: sum_responses {
@@ -341,6 +364,7 @@ view: nps_user_monthly_score {
     value_format_name: decimal_0
     type: sum
     sql: ${responses} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
   measure: sum_responses_all_time {
@@ -350,6 +374,7 @@ view: nps_user_monthly_score {
     value_format_name: decimal_0
     type: sum
     sql: ${responses_alltime} ;;
+    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
 }
