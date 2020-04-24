@@ -4499,7 +4499,7 @@ view: server_daily_details_ext {
     description: "The average Active Users Daily per grouping."
     group_label: "Activity Diagnostics"
     type: number
-    sql: average(${active_users_daily}) ;;
+    sql: avg(${active_users_daily}) ;;
   }
 
   measure: active_users_monthly_sum {
@@ -4520,7 +4520,7 @@ view: server_daily_details_ext {
     description: "The average Active Users Monthly per grouping."
     group_label: "Activity Diagnostics"
     type: number
-    sql: AVERAGE(${active_users_monthly}) ;;
+    sql: AVG(${active_users_monthly}) ;;
   }
 
   measure: bot_accounts_sum {
