@@ -751,15 +751,15 @@ explore: nps_user_monthly_score {
     filters: [21days_since_release: "yes"]
   }
 
-  join: licenses {
-    sql_on: ${nps_user_monthly_score.license_id}  = ${licenses.license_id}
-    AND ${licenses.logging_date} = ${nps_user_monthly_score.month_date};;
-    relationship: many_to_many
+  join: licenses_grouped {
+    sql_on: ${nps_user_monthly_score.license_id}  = ${licenses_grouped.license_id}
+      AND ${nps_user_monthly_score.server_id} = ${licenses_grouped.server_id};;
+    relationship: many_to_one
     fields: []
   }
 
   join: account {
-    sql_on: ${licenses.account_sfid} = ${account.sfid} ;;
+    sql_on: ${licenses_grouped.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
     relationship: many_to_one
   }
