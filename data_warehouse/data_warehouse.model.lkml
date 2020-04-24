@@ -1003,6 +1003,12 @@ explore: server_upgrades {
     relationship: many_to_one
     fields: []
   }
+
+  join: server_fact {
+    sql_on: ${server_fact.server_id} = ${server_upgrades.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: nps_server_daily_score {
