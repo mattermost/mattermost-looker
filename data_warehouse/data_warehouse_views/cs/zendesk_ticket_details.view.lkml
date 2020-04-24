@@ -9,6 +9,7 @@ view: zendesk_ticket_details {
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
+    group_label: "Ticket Details"
     label: "Account Name"
     link: {
       label: "Salesforce Account"
@@ -19,20 +20,42 @@ view: zendesk_ticket_details {
     type: string
   }
 
+  dimension: Priority {
+    description: "Prioirity drop-down on a ZenDesk ticket. Priority options are as Urgent, High, Normal and Low."
+    group_label: "SLAs"
+    type: string
+    sql: ${TABLE}."PRIORITY" ;;
+  }
+
   dimension: subject {
    description: "Single line of text that provides a quick description of the issue.  More details of ticket in Description field."
+    group_label: "Ticket Details"
     type: string
     sql: ${TABLE}."RAW_SUBJECT" ;;
   }
 
+  dimension: account_at_risk {
+    description: "Account is flagged At Risk in SFDC and pulled into ZenDesk organization table."
+    type: yesno
+    sql: ${TABLE}."ACCOUNT_OPPT_EARLY_WARNING" > 0;;
+  }
+
+  dimension: account_early_warning {
+    description: "Account is flagged Early Warning in SFDC and pulled into ZenDesk organization table."
+    type: yesno
+    sql: ${TABLE}."ACCOUNT_OPPT_AT_RISK" > 0;;
+  }
+
   dimension: description {
     description: "Text of the support request. The description is the first comment in the ticket."
+    group_label: "Ticket Details"
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
   }
 
   dimension: assignee_name {
     description: "Support Engineer currently assigned to the ticket"
+    group_label: "Ticket Details"
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
   }
@@ -60,6 +83,7 @@ view: zendesk_ticket_details {
 
   dimension_group: solved_at {
     description:"Timeframe ticket was set to resolved status"
+    group_label: "SLAs"
     type: time
     timeframes: [
       hour12,
@@ -82,6 +106,7 @@ view: zendesk_ticket_details {
 
   dimension: category {
     description: "How tickets are classified by area of help needed, ie: product, IT issues, end user or sales request"
+    group_label: "Ticket Details"
     type: string
     sql: CASE
           WHEN ${TABLE}."CATEGORY" = 'tsupport' THEN 'General Support'
@@ -100,12 +125,14 @@ view: zendesk_ticket_details {
 
   dimension: customer_type {
     description: "Classification if ticket is for a customer, trial, potential customer, noncustomer, reseller"
+    group_label: "Ticket Details"
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
   }
 
   dimension: support_type {
     description: "Type of license: Team Edition, E10, E20, Premiere"
+    group_label: "Ticket Details"
     type: string
     sql: CASE
             WHEN ${premium_support} THEN 'Premium'
@@ -116,6 +143,8 @@ view: zendesk_ticket_details {
   }
 
   dimension: support_type_category {
+    description: "Classifies ticket as free or paid customer"
+    group_label: "Ticket Details"
     type: string
     sql: CASE WHEN ${support_type} IN ('Premium','E20','E10') THEN 'Paid' ELSE 'Free' END
           ;;
@@ -127,6 +156,8 @@ view: zendesk_ticket_details {
   }
 
   dimension: e20_customer_level_tier {
+    description: "E20 and Premiere support priority level.  Level 1: Critial Business Impact, Level 2:Major Business Impact, Level 3: Moderate Business Impact, Level 4: Minor Busienss Impact. "
+    group_label: "SLAs"
     label: "Level Tier"
     type: string
     sql: CASE
@@ -138,6 +169,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: first_response_sla {
+    description: "The duration between ticket creation and the first public agent reply on the ticket."
     group_label: "SLAs"
     label: "First Response SLA (min)"
     type: number
@@ -155,7 +187,8 @@ view: zendesk_ticket_details {
   }
 
   dimension: followup_internal_sla {
-    label: "Follow-up Internal SLA (min)"
+    description: "The duration between ticket's first reply time and next reply time, unless otherwise communicated."
+    label: "Next Reply Time Internal SLA (min)"
     group_label: "SLAs"
     type: number
     sql: CASE
@@ -172,6 +205,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: met_first_response_sla {
+    description: "First response time SLA met. Option is yes or no."
     group_label: "SLAs"
     label: "Met First Response SLA?"
     type:  yesno
@@ -179,20 +213,29 @@ view: zendesk_ticket_details {
   }
 
   dimension: met_followup_internal_sla {
+    description: "Internal Followup Reply Time SLA met. Option is yes or no."
     group_label: "SLAs"
-    label: "Met Follow-up Internal SLA?"
+    label: "Followup Reply Time Internal SLA?"
     type:  yesno
     sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
   }
 
   dimension: pending_do_not_close {
+    description: "Checkbox on the ticket. This is used for tickets that are expected to be open for a long period of time. This stops the clock. Examples are customer requests ticket remain open after a solution is provided, the customer is on vacation, or the customer is out ill."
     type: yesno
     sql: ${TABLE}."PENDING_DO_NOT_CLOSE" ;;
   }
 
-  dimension: product_bug {
-    label: "Is Product Bug?"
-    sql: ${tags} like '%jira%' or ${tags} like '%bug%';;
+  dimension: escalated_to_SET {
+    description: "Tickets that have the tag jira_escalated in ticket details. These tickets have been escalated to Sustained Engineering Team for further help."
+    label: "Ticket escalated to SET?"
+    sql: ${tags} like '%jira%' ;;
+    type: yesno
+  }
+
+  dimension: is_product_bug {
+    description: "Tickets that have the tag client_software_bug or server_software_bug in ticket details."
+    sql: ${tags} like '%bug%' ;;
     type: yesno
   }
 
@@ -416,24 +459,28 @@ view: zendesk_ticket_details {
   }
 
   measure: count_level_1 {
+    description: "Critical Business Impact: Critical issue on production system preventing business operations. A large number of users are prevented from working, and no procedural workaround is available."
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 1' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_2 {
+    description: "Major Business Impact: Major issue on the production system severely impacting business operations."
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 2' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_3 {
+    description: "Moderate Business Impact: Moderate issue causing a partial or non-critical loss of functionality on the production system. A small number of users are affected."
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 3' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_4 {
+    description: "Business Impact: Minor issue on non-production system or question, comment, feature request, documentation issue or other non-impacting issues."
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
@@ -441,6 +488,7 @@ view: zendesk_ticket_details {
 
   measure: avg_calendar_days_open {
     # hidden: yes
+    description: "Average # of calendar days tickets are open"
     group_label: "Open Days"
     label: "Avg Days Open (Cal)"
     type: average
@@ -472,8 +520,8 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category,  created_date, solved_at_time, calendar_days_open,e20_customer_level_tier,
-            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla]
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, Priority,created_date, solved_at_time, calendar_days_open,e20_customer_level_tier,
+            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
 }
