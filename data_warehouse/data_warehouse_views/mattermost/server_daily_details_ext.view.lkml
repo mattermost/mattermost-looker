@@ -398,7 +398,7 @@ view: server_daily_details_ext {
   dimension: active_users {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${TABLE}.active_users ;;
     hidden: yes
   }
@@ -407,7 +407,7 @@ view: server_daily_details_ext {
     label: "Active Users (Daily)"
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
     hidden: no
   }
@@ -417,7 +417,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${active_users_daily}  ;;
     hidden: no
   }
@@ -425,7 +425,7 @@ view: server_daily_details_ext {
   dimension: active_users_monthly {
     description: "The number of distinct active users that logged in the last 30 days by the Server's activity diagnostic telemetry data on the given logging date."
     type: number
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }
@@ -542,7 +542,7 @@ view: server_daily_details_ext {
   dimension: registered_deactivated_users {
     description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
@@ -550,7 +550,7 @@ view: server_daily_details_ext {
   dimension: registered_inactive_users {
     description: "The number of registered inactive users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${TABLE}.registered_inactive_users ;;
     hidden: no
   }
@@ -568,7 +568,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001] #[2, 5, 8, 11, 16, 20, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001, 5001, 10001]
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity Diagnostics User Counts"
     sql: ${registered_users} ;;
     hidden: no
   }
