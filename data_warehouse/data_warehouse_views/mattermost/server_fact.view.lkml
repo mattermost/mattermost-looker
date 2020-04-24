@@ -77,6 +77,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.edition_upgrade_count ;;
   }
 
+  dimension: gitlab_install {
+    label: " Gitlab Install"
+    description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
+    type: yesno
+    sql: ${TABLE}.gitlab_install ;;
+  }
+
   dimension: account_sfid {
     label: "Account SFID"
     description: "The Salesforce Account ID of the Mattermost customer associated with the server (null if no Salesforce Account found)."
@@ -92,6 +99,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
+    label: " First Active Telemetry"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
@@ -99,6 +107,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_active {
+    label: " Last Active Telemetry"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
@@ -106,7 +115,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_telemetry_active {
-    label: "First Security Telemetry"
+    label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
@@ -114,7 +123,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_telemetry_active {
-    label: "Last Security Telemetry"
+    label: " Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
@@ -122,7 +131,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_mm2_telemetry {
-    label: "Last Diagnostics Telemetry"
+    label: " Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year]
@@ -130,7 +139,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_mm2_telemetry {
-    label: "First Diagnostics Telemetry"
+    label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year]

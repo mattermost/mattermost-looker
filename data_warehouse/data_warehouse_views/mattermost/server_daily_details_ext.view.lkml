@@ -88,15 +88,15 @@ view: server_daily_details_ext {
   }
 
   filter: is_tracking_enabled {
-    label: "In Security or Activity/Server Diagnostics"
-    description: "Boolean indicating the server appears in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
+    label: "In Security or Diagnostics Telemetry"
+    description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
     type: yesno
     sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
   }
 
   filter: in_mattermost2_server {
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
-    label: "In Activity/Server Diagnostics"
+    label: "In Diagnostics Telemetry"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
   }
@@ -184,7 +184,7 @@ view: server_daily_details_ext {
 
   dimension: active_user_count {
     label: "Active Users"
-    group_label: " User Counts: Security Telemetry"
+    group_label: " Security User Counts"
     description: "The count of registered users that have logged in to the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: number
     sql: ${TABLE}.active_user_count ;;
@@ -192,7 +192,7 @@ view: server_daily_details_ext {
 
   dimension: active_user_count_band {
     label: "Active Users Band"
-    group_label: " User Counts: Security Telemetry"
+    group_label: " Security User Counts"
     description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: tier
     style: integer
@@ -202,7 +202,7 @@ view: server_daily_details_ext {
 
   dimension: user_count {
     label: "Registered Users"
-    group_label: " User Counts: Security Telemetry"
+    group_label: " Security User Counts"
     description: "The count of all users registered/associated with the server (logged via security_update_check.go)."
     type: number
     sql: ${TABLE}.user_count ;;
@@ -210,7 +210,7 @@ view: server_daily_details_ext {
 
   dimension: user_count_band {
     label: "Registered Users Band"
-    group_label: " User Counts: Security Telemetry"
+    group_label: " Security User Counts"
     description: "The count of all users registered/associated with the server tiered into distinct ranges (logged via security_update_check.go)."
     type: tier
     style: integer
@@ -220,7 +220,7 @@ view: server_daily_details_ext {
 
   dimension: system_admins {
     label: " System Admins"
-    group_label: " User Counts: Security Telemetry"
+    group_label: " Diagnostics User Counts"
     description: "The number of system admins associated with a server on a given logging date (mattermost2.server logged via diagnostics.go)."
     type: number
     sql: ${TABLE}.system_admins ;;
@@ -241,6 +241,13 @@ view: server_daily_details_ext {
     type: string
     sql: ${TABLE}.database_type ;;
     hidden: no
+  }
+
+  dimension: gitlab_install {
+    label: "  Gitlab Install"
+    description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
+    type: yesno
+    sql: ${server_fact.gitlab_install} ;;
   }
 
   dimension: account_sfid {
@@ -273,8 +280,8 @@ view: server_daily_details_ext {
   }
 
   dimension: in_security {
-    label: "  Telemetry Enabled"
-    group_label: " Data Quality"
+    label: "   In Security Telemetry"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -282,8 +289,8 @@ view: server_daily_details_ext {
   }
 
   dimension: in_mm2_server {
-    label: " In Mattermost2.Server"
-    group_label: " Data Quality"
+    label: "  In Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
@@ -291,9 +298,9 @@ view: server_daily_details_ext {
   }
 
   dimension: tracking_disabled {
-    label: " Tracking Disabled"
-    group_label: " Data Quality"
-    description: "Boolean indicating the server did not send telemetry data to Mattermost on the record date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline (server does not appear in diagnostics.go or security_update_check.go data)."
+    label: " Telemetry Disabled"
+    group_label: "  Telemetry Flags"
+    description: "Boolean indicating the Server does not appear in Diagnostics or Server telemetry on the given logging date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline."
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
     hidden: no
@@ -318,7 +325,8 @@ view: server_daily_details_ext {
   }
 
   dimension: latest_record {
-    label: "  Latest Record"
+    label: "  Latest Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record captures the last (most recent) date that telemetry was logged for the server (via security_update_check.go or diagnostics.go)."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
@@ -327,9 +335,10 @@ view: server_daily_details_ext {
 
   dimension: currently_sending_telemetry{
     label: "  Telemetry Currently Enabled"
+    group_label: "  Telemetry Flags"
     description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
     type: yesno
-    sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details_ext) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
@@ -389,7 +398,7 @@ view: server_daily_details_ext {
   dimension: active_users {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: "Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${TABLE}.active_users ;;
     hidden: yes
   }
@@ -398,7 +407,7 @@ view: server_daily_details_ext {
     label: "Active Users (Daily)"
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
     hidden: no
   }
@@ -408,7 +417,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${active_users_daily}  ;;
     hidden: no
   }
@@ -416,7 +425,7 @@ view: server_daily_details_ext {
   dimension: active_users_monthly {
     description: "The number of distinct active users that logged in the last 30 days by the Server's activity diagnostic telemetry data on the given logging date."
     type: number
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }
@@ -533,7 +542,7 @@ view: server_daily_details_ext {
   dimension: registered_deactivated_users {
     description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
@@ -541,7 +550,7 @@ view: server_daily_details_ext {
   dimension: registered_inactive_users {
     description: "The number of registered inactive users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${TABLE}.registered_inactive_users ;;
     hidden: no
   }
@@ -549,7 +558,7 @@ view: server_daily_details_ext {
   dimension: registered_users {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: NULLIF(${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0),0) ;;
     hidden: no
   }
@@ -559,7 +568,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001] #[2, 5, 8, 11, 16, 20, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001, 5001, 10001]
-    group_label: " User Counts: Activity Diagnostics"
+    group_label: " Diagnostics User Counts"
     sql: ${registered_users} ;;
     hidden: no
   }
@@ -4294,7 +4303,7 @@ view: server_daily_details_ext {
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    label:  " Logging"
+    label:  "   Logging"
     description: "The date that the servers state and configuration was logged. This table contains 1 row per server per day for all servers actively sending telemetry data."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
