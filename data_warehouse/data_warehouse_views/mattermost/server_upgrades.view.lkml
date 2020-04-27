@@ -63,6 +63,13 @@ view: server_upgrades {
     hidden: no
   }
 
+  dimension: gitlab_install {
+    label: "  Gitlab Install"
+    description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
+    type: yesno
+    sql: ${server_fact.gitlab_install} ;;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {

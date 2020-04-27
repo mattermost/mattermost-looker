@@ -16,6 +16,27 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
     sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: string
+    sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major_sort {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+    CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
+      ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    hidden: yes
   }
 
   dimension: first_server_version {
@@ -56,6 +77,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.edition_upgrade_count ;;
   }
 
+  dimension: gitlab_install {
+    label: " Gitlab Install"
+    description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
+    type: yesno
+    sql: ${TABLE}.gitlab_install ;;
+  }
+
   dimension: account_sfid {
     label: "Account SFID"
     description: "The Salesforce Account ID of the Mattermost customer associated with the server (null if no Salesforce Account found)."
@@ -71,42 +99,48 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
-    description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server or events.security)."
+    label: " First Active Telemetry"
+    description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_active_date ;;
   }
 
   dimension_group: last_active {
-    description: "The date the server was last active (last recorded instance of server appearing server logging data)."
+    label: " Last Active Telemetry"
+    description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.last_active_date ;;
   }
 
   dimension_group: first_telemetry_active {
-    description: "The date the server first recorded telemetry data in the security diagnostics data."
+    label: " First Security Telemetry"
+    description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
   dimension_group: last_telemetry_active {
-    description: "The date the server last recorded telemetry data in the security diagnostics data."
+    label: " Last Security Telemetry"
+    description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
   dimension_group: last_mm2_telemetry {
-    description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
+    label: " Last Diagnostics Telemetry"
+    description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.last_mm2_telemetry_date ;;
   }
 
   dimension_group: first_mm2_telemetry {
-    description: "The date the server last recorded telemetry data in the segment mattermost2 diagnostics data."
+    label: " First Diagnostics Telemetry"
+    description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_mm2_telemetry_date ;;
@@ -143,7 +177,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: dau {
     group_label: "Active User Dimensions"
     label: "   Total DAU"
-    description: "The current Daily Active User count based on all users that performed events on the last complete day (current date - 1 day)."
+    description: "The current Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.dau_total;;
   }
@@ -151,7 +185,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: mobile_dau {
     group_label: "Active User Dimensions"
     label: "  Mobile DAU"
-    description: "The current Mobile Daily Active User count based on all users that performed events on the last complete day (current date - 1 day)."
+    description: "The current Mobile Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.mobile_dau;;
   }
@@ -159,7 +193,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: mau {
     group_label: "Active User Dimensions"
     label: "   Total MAU"
-    description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (current date - 1 day)."
+    description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.mau_total;;
   }
@@ -167,7 +201,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: first_time_mau {
     group_label: "Active User Dimensions"
     label: " First-Time MAU"
-    description: "The current First Time Monthly Active User count based on all users that performed events for the first time on the last complete day (current date - 1 day)."
+    description: "The current First Time Monthly Active User count based on all users that performed events for the first time on the last complete day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.first_time_mau;;
   }
@@ -175,7 +209,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: reengaged_mau {
     group_label: "Active User Dimensions"
     label: " Reengaged MAU"
-    description: "The current Reengaged Monthly Active User count based on all users that performed an event for the first time in 30 days on the last complete day (current date - 1 day)."
+    description: "The current Reengaged Monthly Active User count based on all users that performed an event for the first time in 30 days on the last complete day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.reengaged_mau;;
   }
@@ -183,7 +217,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: current_mau {
     group_label: "Active User Dimensions"
     label: " Current MAU"
-    description: "The current Monthly Active User count based on all users that performed an event in the last 30 days that do not fall into the first-time or reengaged MAU categories (current date - 1 day)."
+    description: "The current Monthly Active User count based on all users that performed an event in the last 30 days that do not fall into the first-time or reengaged MAU categories ( on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.current_mau;;
   }
@@ -191,7 +225,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: total_events {
     group_label: "Event Dimensions"
     label: "   Total Events"
-    description: "The total number of events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
     sql: ${TABLE}.total_events;;
   }
@@ -199,7 +233,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: web_app_events {
     group_label: "Event Dimensions"
     label: "Web App Events"
-    description: "The total number of Web App client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Web App client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
     sql: ${TABLE}.web_app_events;;
   }
@@ -207,7 +241,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: desktop_events {
     group_label: "Event Dimensions"
     label: "Desktop Events"
-    description: "The total number of Desktop client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Desktop client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
     sql: ${TABLE}.desktop_events;;
   }
@@ -215,7 +249,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: mobile_events {
     group_label: "Event Dimensions"
     label: "Mobile Events"
-    description: "The total number of Mobile client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Mobile client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
     sql: ${TABLE}.mobile_events;;
   }
@@ -223,7 +257,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: events_alltime {
     group_label: "Event Dimensions"
     label: "  Total Events (All Time)"
-    description: "The total number of events performed by all users associated with the server since the servers install date to the last current day (current date - 1 day)."
+    description: "The total number of events performed by all users associated with the server since the servers install date to the last current day ( on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.events_alltime;;
   }
@@ -231,7 +265,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: mobile_events_alltime {
     group_label: "Event Dimensions"
     label: " Mobile Events (All Time)"
-    description: "The total number of mobile events performed by all users associated with the server since the servers install date to the last current day (current date - 1 day)."
+    description: "The total number of mobile events performed by all users associated with the server since the servers install date to the last current day (on the last date the server logged user-level events.)."
     type: number
     sql: ${TABLE}.mobile_events_alltime;;
   }
@@ -279,6 +313,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "Use this for counting distinct Server ID's across many servers, days, or dates."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [server_id, server_version, first_server_version, server_edition, first_server_edition, first_telemetry_active_date, first_mm2_telemetry_date, dau, mau, max_active_user_count, nps_users, nps_score_all]
   }
 
   measure: nps_users_sum {
@@ -332,7 +367,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: dau_sum {
     group_label: "Active User Measures"
     label: "   Total DAU"
-    description: "The current Daily Active User count based on all users that performed events on the last complete day (current date - 1 day)."
+    description: "The current Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.dau_total;;
   }
@@ -340,7 +375,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: mobile_dau_sum {
     group_label: "Active User Measures"
     label: "  Mobile DAU"
-    description: "The current Mobile Daily Active User count based on all users that performed events on the last complete day (current date - 1 day)."
+    description: "The current Mobile Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.mobile_dau;;
   }
@@ -348,7 +383,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: mau_sum {
     group_label: "Active User Measures"
     label: "  Total MAU"
-    description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (current date - 1 day)."
+    description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.mau_total;;
   }
@@ -356,7 +391,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: first_time_mau_sum {
     group_label: "Active User Measures"
     label: "First-Time MAU"
-    description: "The current First Time Monthly Active User count based on all users that performed events for the first time on the last complete day (current date - 1 day)."
+    description: "The current First Time Monthly Active User count based on all users that performed events for the first time on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.first_time_mau;;
   }
@@ -364,7 +399,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: reengaged_mau_sum {
     group_label: "Active User Measures"
     label: "Reengaged MAU"
-    description: "The current Reengaged Monthly Active User count based on all users that performed an event for the first time in 30 days on the last complete day (current date - 1 day)."
+    description: "The current Reengaged Monthly Active User count based on all users that performed an event for the first time in 30 days on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.reengaged_mau;;
   }
@@ -372,7 +407,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: current_mau_sum {
     group_label: "Active User Measures"
     label: " Current MAU"
-    description: "The current Monthly Active User count based on all users that performed an event in the last 30 days that do not fall into the first-time or reengaged MAU categories (current date - 1 day)."
+    description: "The current Monthly Active User count based on all users that performed an event in the last 30 days that do not fall into the first-time or reengaged MAU categories (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.current_mau;;
   }
@@ -380,7 +415,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: total_events_sum {
     group_label: "Event Measures"
     label: "  Total Events"
-    description: "The total number of events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.total_events;;
   }
@@ -388,7 +423,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: web_app_events_sum {
     group_label: "Event Measures"
     label: "Web App Events"
-    description: "The total number of Web App client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Web App client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.web_app_events;;
   }
@@ -396,7 +431,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: desktop_events_sum {
     group_label: "Event Measures"
     label: "Desktop Events"
-    description: "The total number of Desktop client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Desktop client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.desktop_events;;
   }
@@ -404,7 +439,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: mobile_events_sum {
     group_label: "Event Measures"
     label: "Mobile Events"
-    description: "The total number of Mobile client events performed by all users associated with the server in the last complete day (current date - 1 day)."
+    description: "The total number of Mobile client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.mobile_events;;
   }
@@ -412,7 +447,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: events_alltime_sum {
     group_label: "Event Measures"
     label: "  Total Events (All Time)"
-    description: "The total number of events performed by all users associated with the server since the servers install date to the last current day (current date - 1 day)."
+    description: "The total number of events performed by all users associated with the server since the servers install date to the last current day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.events_alltime;;
   }
@@ -420,7 +455,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: mobile_events_alltime_sum {
     group_label: "Event Measures"
     label: " Mobile Events (All Time)"
-    description: "The total number of mobile events performed by all users associated with the server since the servers install date to the last current day (current date - 1 day)."
+    description: "The total number of mobile events performed by all users associated with the server since the servers install date to the last current day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.mobile_events_alltime;;
   }
