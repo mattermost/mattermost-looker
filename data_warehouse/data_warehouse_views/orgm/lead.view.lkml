@@ -49,11 +49,13 @@ view: lead {
   dimension: channel {
     sql: ${TABLE}.CHANNEL__C ;;
     type: string
-  }
+    group_label: "Marketing"
+    }
 
   dimension: channel_detail {
     sql: ${TABLE}.CHANNEL_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: company {
@@ -87,6 +89,13 @@ view: lead {
     type: time
     group_label: "Lead Lifecycle: Converted"
 
+  }
+
+  dimension: converted_yn {
+    label: "Converted?"
+    sql: CASE WHEN ${TABLE}.CONVERTEDDATE IS NULL THEN False ELSE True END ;;
+    type: yesno
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension: convertedopportunityid {
@@ -141,10 +150,7 @@ view: lead {
     type: string
   }
 
-  dimension: matched_account {
-    sql: ${TABLE}.engagio__Matched_Account__c ;;
-    type: string
-  }
+
 
   dimension: first_action {
     sql: ${TABLE}.FIRST_ACTION__C ;;
@@ -251,6 +257,12 @@ view: lead {
     group_label: "System"
   }
 
+  dimension: lead_source {
+    sql: ${TABLE}.LEAD_SOURCE_TEXT__C ;;
+    type: string
+    group_label: "Marketing"
+  }
+
   dimension: lead_source_detail {
     sql: ${TABLE}.LEAD_SOURCE_DETAIL__C ;;
     type: string
@@ -268,11 +280,12 @@ view: lead {
     type: string
   }
 
-  dimension: lead_source {
-    sql: ${TABLE}.LEAD_SOURCE_TEXT__C ;;
+
+  dimension: matched_account {
+    sql: ${TABLE}.engagio__Matched_Account__c ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension: mobile_phone {
     sql: ${TABLE}.MOBILEPHONE ;;
@@ -583,16 +596,16 @@ view: lead {
   }
 
 
-#  dimension: owner_name {
-#    sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
-#              WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
-#              WHEN ${owner.sfid} LIKE '00G360000026ZoQ%' THEN 'Queue: Junk'
-#              WHEN ${owner.sfid} LIKE '00G3p000005V9UP%' THEN 'Queue: Recycled'
-#              ELSE 'Queue: Undefined'
-#              END ;;
-#    type: string
-#    label: "Owner Name"
-#  }
+  dimension: owner_name {
+    sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
+              WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
+              WHEN ${owner.sfid} LIKE '00G360000026ZoQ%' THEN 'Queue: Junk'
+              WHEN ${owner.sfid} LIKE '00G3p000005V9UP%' THEN 'Queue: Recycled'
+              ELSE 'Queue: Undefined'
+              END ;;
+    type: string
+    label: "Owner Name"
+  }
 
 #  dimension: owner_name {
 #    sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
@@ -738,7 +751,7 @@ view: lead {
   }
 
   dimension: website {
-    sql: ${TABLE}.WEBSITE ;;
+    sql: ${TABLE}.CLEANED_UP_WEBSITE__C ;;
     type: string
   }
 
@@ -753,6 +766,29 @@ view: lead {
     label: "# Leads"
     type: count_distinct
   }
+
+  measure: count_conv_y {
+    sql: ${sfid} ;;
+    filters: {
+      field: converted_yn
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# Conv=Y"
+    type: count_distinct
+  }
+
+  measure: count_conv_n {
+    sql: ${sfid} ;;
+    filters: {
+      field: converted_yn
+      value: "no"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# Conv=N"
+    type: count_distinct
+  }
+
 
   measure: count_hit_mcl {
     sql: ${sfid} ;;
