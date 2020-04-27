@@ -580,7 +580,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, days_since_last_comment, created_date, solved_at_time, e20_customer_level_tier, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
