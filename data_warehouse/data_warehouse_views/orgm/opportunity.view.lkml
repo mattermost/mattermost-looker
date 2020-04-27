@@ -378,6 +378,11 @@ view: opportunity {
     label: "Lead Source"
   }
 
+  dimension: license_key {
+    type: string
+    sql: ${TABLE}.license_key__c ;;
+  }
+
   dimension_group: license_end {
     convert_tz: no
     description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
