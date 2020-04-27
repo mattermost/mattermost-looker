@@ -7826,7 +7826,7 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day2 {
     group_label: "Activity Diagnostics"
-    label: "Avg. Posts Per User"
+    label: "Avg. Posts Per User Per Day"
     type: number
     sql: ${posts_sum}::float/${active_users_daily_sum}::float ;;
     value_format_name: decimal_1
@@ -7834,9 +7834,9 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day {
     group_label: "Server Events"
-    label: "Avg. Posts Per User"
-    type: average
-    sql: ${posts_per_user_per_day} ;;
+    label: "Avg. Posts Per User Per Day"
+    type: number
+    sql: ${posts_sum2}::float/${dau_sum}::float ;;
     value_format_name: decimal_1
   }
 
