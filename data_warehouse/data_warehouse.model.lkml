@@ -415,10 +415,9 @@ explore: lead {
 
   join: owner {
     from:  user
-    view_label: "Lead Owner"
     sql_on: ${lead.ownerid} = ${owner.sfid} ;;
     relationship: many_to_one
-    fields: [name]
+    fields: []
   }
 
   join: lead_status_dates {
@@ -582,6 +581,13 @@ explore: campaign {
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: owner {
+    from:  user
+    sql_on: ${lead.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
   }
 
   join: lead_status_dates {
