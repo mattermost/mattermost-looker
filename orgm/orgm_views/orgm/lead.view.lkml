@@ -4,7 +4,7 @@ view: lead {
 
   set: lead_drill_fields {
     fields: [name, email, status, owner_name, created_date, first_mcl_date, first_mql_date, first_scl_date,
-             first_qsc_date, first_qso_date, first_recycle_date, first_junk_date]
+             first_qsc_date, first_qso_date, first_recycle_date, first_junk_date, converted_date]
   }
 
   dimension: id {
