@@ -110,7 +110,7 @@ view: user_events_by_date_agg {
     description: ""
     group_label: "Events by Event Categories"
     type: number
-    sql: ${TABLE}.plugins_events ;;
+    sql: ${TABLE}.plugin_events ;;
     hidden: no
   }
 
