@@ -815,7 +815,9 @@ explore: server_daily_details_ext {
     view_label: "Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_server_version]
+    fields: [server_fact.first_server_version, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.last_active_date,
+      server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year]
   }
 
   join: nps_server_daily_score {
