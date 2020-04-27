@@ -142,6 +142,7 @@ view: account_health_score {
     group_label: "Tasks"
     type: number
     sql: ${TABLE}."TASK_HEALTH_SCORE" ;;
+    value_format_name: decimal_0
   }
 
   dimension: tenure_health_score {
@@ -149,12 +150,14 @@ view: account_health_score {
     group_label: "Tenure"
     type: number
     sql: ${TABLE}."TENURE_HEALTH_SCORE" ;;
+    value_format_name: decimal_0
   }
 
   dimension: tenure_in_yrs {
     group_label: "Tenure"
     type: number
     sql: ${TABLE}."TENURE_IN_YRS" ;;
+    value_format_name: decimal_2
   }
 
   dimension: ticket_health_score {
@@ -162,6 +165,7 @@ view: account_health_score {
     group_label: "Tickets"
     type: number
     sql: ${TABLE}."TICKET_HEALTH_SCORE" ;;
+    value_format_name: decimal_0
   }
 
   measure: count_accounts {

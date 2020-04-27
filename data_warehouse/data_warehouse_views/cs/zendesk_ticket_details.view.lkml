@@ -20,28 +20,58 @@ view: zendesk_ticket_details {
     type: string
   }
 
-  dimension: Priority {
+  dimension: last_comment_at {
+    description: "Date last coment was added on a ticket."
+    group_label: "Last Comment"
+    label: "Last Comment Date"
+    type: date
+    sql: ${TABLE}."LAST_COMMENT_AT";;
+  }
+
+  dimension: days_since_last_comment {
+    description: "Number of days since last comment on a ticket."
+    group_label: "Last Comment"
+    label: "Days Since Last Comment"
+    type: number
+    sql: current_date - ${last_comment_at}::date;;
+  }
+
+  dimension: days_since_last_comment_range {
+    group_label: "Last Comment"
+    label: "Days since last comment range"
+    description: "Range of days since last comment on a ticket."
+    type: tier
+    style: integer
+    tiers: [1, 4, 8, 14]
+    sql: ${days_since_last_comment} ;;
+  }
+
+  dimension: priority {
     description: "Prioirity drop-down on a ZenDesk ticket. Priority options are as Urgent, High, Normal and Low."
     group_label: "SLAs"
+    label: "Priority"
     type: string
-    sql: ${TABLE}."PRIORITY" ;;
+    sql: ${TABLE}."PRIORITY";;
   }
 
   dimension: subject {
    description: "Single line of text that provides a quick description of the issue.  More details of ticket in Description field."
     group_label: "Ticket Details"
+    label: "Subject"
     type: string
     sql: ${TABLE}."RAW_SUBJECT" ;;
   }
 
   dimension: account_at_risk {
     description: "Account is flagged At Risk in SFDC and pulled into ZenDesk organization table."
+    label: "Customer At Risk?"
     type: yesno
     sql: ${TABLE}."ACCOUNT_OPPT_EARLY_WARNING" > 0;;
   }
 
   dimension: account_early_warning {
     description: "Account is flagged Early Warning in SFDC and pulled into ZenDesk organization table."
+    label: "Customer Early Warning?"
     type: yesno
     sql: ${TABLE}."ACCOUNT_OPPT_AT_RISK" > 0;;
   }
@@ -49,6 +79,7 @@ view: zendesk_ticket_details {
   dimension: description {
     description: "Text of the support request. The description is the first comment in the ticket."
     group_label: "Ticket Details"
+    label: "Description"
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
   }
@@ -62,10 +93,12 @@ view: zendesk_ticket_details {
 
   dimension_group: created {
     description: "Timeframe ticket was created in Zendesk"
+    group_label: "Created Date"
     type: time
     timeframes: [
       time,
       date,
+      hour_of_day,
       week,
       month,
       fiscal_quarter,
@@ -107,6 +140,7 @@ view: zendesk_ticket_details {
   dimension: category {
     description: "How tickets are classified by area of help needed, ie: product, IT issues, end user or sales request"
     group_label: "Ticket Details"
+    label: "Category"
     type: string
     sql: CASE
           WHEN ${TABLE}."CATEGORY" = 'tsupport' THEN 'General Support'
@@ -126,6 +160,7 @@ view: zendesk_ticket_details {
   dimension: customer_type {
     description: "Classification if ticket is for a customer, trial, potential customer, noncustomer, reseller"
     group_label: "Ticket Details"
+    label: "Customer Type"
     type: string
     sql: ${TABLE}."CUSTOMER_TYPE" ;;
   }
@@ -133,6 +168,7 @@ view: zendesk_ticket_details {
   dimension: support_type {
     description: "Type of license: Team Edition, E10, E20, Premiere"
     group_label: "Ticket Details"
+    label: "Type of License"
     type: string
     sql: CASE
             WHEN ${premium_support} THEN 'Premium'
@@ -145,6 +181,7 @@ view: zendesk_ticket_details {
   dimension: support_type_category {
     description: "Classifies ticket as free or paid customer"
     group_label: "Ticket Details"
+    label: "Free/Paid"
     type: string
     sql: CASE WHEN ${support_type} IN ('Premium','E20','E10') THEN 'Paid' ELSE 'Free' END
           ;;
@@ -158,7 +195,7 @@ view: zendesk_ticket_details {
   dimension: e20_customer_level_tier {
     description: "E20 and Premiere support priority level.  Level 1: Critial Business Impact, Level 2:Major Business Impact, Level 3: Moderate Business Impact, Level 4: Minor Busienss Impact. "
     group_label: "SLAs"
-    label: "Level Tier"
+    label: "E20 Customer Level Tier"
     type: string
     sql: CASE
             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
@@ -222,42 +259,52 @@ view: zendesk_ticket_details {
 
   dimension: pending_do_not_close {
     description: "Checkbox on the ticket. This is used for tickets that are expected to be open for a long period of time. This stops the clock. Examples are customer requests ticket remain open after a solution is provided, the customer is on vacation, or the customer is out ill."
+    group_label: "Status"
+    label: "Pending - Do Not Close"
     type: yesno
     sql: ${TABLE}."PENDING_DO_NOT_CLOSE" ;;
   }
 
   dimension: escalated_to_SET {
     description: "Tickets that have the tag jira_escalated in ticket details. These tickets have been escalated to Sustained Engineering Team for further help."
-    label: "Ticket escalated to SET?"
+    group_label: "Status"
+   label: "Ticket escalated to SET?"
     sql: ${tags} like '%jira%' ;;
     type: yesno
   }
 
   dimension: is_product_bug {
     description: "Tickets that have the tag client_software_bug or server_software_bug in ticket details."
+    group_label: "Status"
+    label: "Ticket identified as bug?"
     sql: ${tags} like '%bug%' ;;
     type: yesno
   }
 
   dimension: autoclosed {
     label: "Is Auto Closed?"
+    group_label: "Status"
     sql: ${tags} like '%autoclosed%';;
     type: yesno
   }
 
   dimension: open {
     label: "Is Open?"
+    description: "Is the ticket status not equal to solved or closed."
+    group_label: "Status"
     sql: ${status} NOT IN ('closed','solved') ;;
     type: yesno
   }
 
   dimension: calendar_days_open {
+    group_label: "SLAs"
     type: number
     sql: coalesce(${full_resolution_time_in_minutes_cal}, TIMESTAMPDIFF(minutes, ${created_time}, current_timestamp))/(24*60) ;;
     value_format_name: decimal_0
   }
 
   dimension: calendar_days_open_buckets {
+    group_label: "SLAs"
     type: tier
     sql: ${calendar_days_open} ;;
     style: integer
@@ -265,11 +312,17 @@ view: zendesk_ticket_details {
   }
 
   dimension: tags {
+    group_label: "Ticket Details"
+    description: "Custom field at the ticket level in Zendesk."
+    label: "Ticket Tags"
     type: string
     sql: ${TABLE}."TAGS" ;;
   }
 
   dimension: status {
+    group_label: "Status"
+    description: "Status of the ticket."
+    label: "Ticket Status"
     type: string
     sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' ELSE ${TABLE}."STATUS" END ;;
   }
@@ -282,6 +335,7 @@ view: zendesk_ticket_details {
 
   dimension: premium_support {
     label: "Premium Support?"
+    description: "Premiere Support Customer?"
     type: yesno
     sql: CASE WHEN ${TABLE}."PREMIUM_SUPPORT" = 'true' THEN true ELSE false END ;;
   }
@@ -301,6 +355,9 @@ view: zendesk_ticket_details {
   }
 
   dimension: ticket_id {
+    group_label: "Ticket Details"
+    label: "Ticket ID"
+    description: "Ticket ID # in Zendesk"
     type: number
     value_format_name: id
     sql: ${TABLE}.TICKET_ID ;;
@@ -359,18 +416,21 @@ view: zendesk_ticket_details {
   }
 
   dimension: reply_time_in_minutes_bus {
+    group_label: "SLAs"
 #     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_BUS" ;;
   }
 
   dimension: reply_time_in_minutes_cal {
+    group_label: "SLAs"
 #     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
 
   dimension: followup_internal {
+    group_label: "SLAs"
     description: "Time a customer waited for follow up between first reply, while a ticket was open and being worked, and close time"
     type: number
     sql: ${requester_wait_time_in_minutes_bus} - ${reply_time_in_minutes_bus} - ${on_hold_time_in_minutes_bus} ;;
@@ -520,7 +580,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, Priority,created_date, solved_at_time, calendar_days_open,e20_customer_level_tier,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, days_since_last_comment, created_date, solved_at_time, e20_customer_level_tier, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
