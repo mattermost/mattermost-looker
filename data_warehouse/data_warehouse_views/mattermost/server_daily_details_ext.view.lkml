@@ -380,16 +380,16 @@ view: server_daily_details_ext {
   }
 
   dimension: mau {
-    group_label: " Server DAU/MAU"
-    label: "MAU"
+    group_label: "Server Events"
+    label: "Monthly Active Users"
     description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.mau_total} ;;
   }
 
   dimension: dau {
-    group_label: " Server DAU/MAU"
-    label: "DAU"
+    group_label: "Server Events"
+    label: "Daily Active Users"
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.dau_total} ;;
@@ -408,7 +408,7 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
+    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
     hidden: no
   }
 
@@ -7826,17 +7826,17 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day2 {
     group_label: "Activity Diagnostics"
-    label: "Avg. Posts Per User"
-    type: average
-    sql: ${posts_per_user_per_day2} ;;
+    label: "Avg. Posts Per User Per Day"
+    type: number
+    sql: ${posts_sum}::float/${active_users_daily_sum}::float ;;
     value_format_name: decimal_1
   }
 
   measure: avg_posts_per_user_per_day {
     group_label: "Server Events"
-    label: "Avg. Posts Per User"
-    type: average
-    sql: ${posts_per_user_per_day} ;;
+    label: "Avg. Posts Per User Per Day"
+    type: number
+    sql: ${posts_sum2}::float/${dau_sum}::float ;;
     value_format_name: decimal_1
   }
 
