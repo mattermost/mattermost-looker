@@ -161,6 +161,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_paid_license {
+    label: " First Paid License"
     description: "The date the server first sent telemetry data that associated it with a paid license."
     type: time
     timeframes: [date, week, month, year]
@@ -168,6 +169,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_trial_license {
+    label: " First Trial License"
     description: "The date the server first sent telemetry data that associated it with a trial license."
     type: time
     timeframes: [date, week, month, year]

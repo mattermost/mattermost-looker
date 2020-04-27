@@ -3,7 +3,8 @@ view: lead {
   drill_fields: [id]
 
   set: lead_drill_fields {
-    fields: [name, firstname, lastname, email, status, ownerid, owner_name]
+    fields: [name, email, status, owner_name, created_date, first_mcl_date, first_mql_date, first_scl_date,
+             first_qsc_date, first_qso_date, first_recycle_date, first_junk_date, converted_date]
   }
 
   dimension: id {
@@ -14,42 +15,44 @@ view: lead {
   dimension: _hc_err {
     type: string
     sql: ${TABLE}."_hc_err" ;;
+    group_label: "System"
   }
 
   dimension: _hc_lastop {
     type: string
     sql: ${TABLE}._HC_LASTOP ;;
+    group_label: "System"
   }
 
   dimension: api_id {
     label: "API ID"
     sql: ${TABLE}.API_ID__C ;;
     type: string
-  }
-
-  dimension: assigned_owner {
-    sql: ${TABLE}.ASSIGNED_OWNER__C ;;
-    type: string
+    group_label: "System"
   }
 
   dimension: behavior_score {
     sql: ${TABLE}.BEHAVIOR_SCORE__C ;;
     type: number
+    group_label: "Marketing"
   }
 
   dimension: campaign_id {
     sql: ${TABLE}.CAMPAIGN_ID__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: channel {
     sql: ${TABLE}.CHANNEL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: channel_detail {
     sql: ${TABLE}.CHANNEL_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: company {
@@ -61,12 +64,14 @@ view: lead {
     label: "Converted Account ID"
     sql: ${TABLE}.CONVERTEDACCOUNTID ;;
     type: string
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension: convertedcontactid {
     label: "Converted Contact ID"
     sql: ${TABLE}.CONVERTEDCONTACTID ;;
     type: string
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension_group: converted {
@@ -79,29 +84,41 @@ view: lead {
       fiscal_year
     ]
     type: time
+    group_label: "Lead Lifecycle: Converted"
+  }
+
+  dimension: converted_yn {
+    label: "Converted?"
+    sql: CASE WHEN ${TABLE}.CONVERTEDDATE IS NULL THEN False ELSE True END ;;
+    type: yesno
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension: convertedopportunityid {
     label: "Converted Opportunity ID"
     sql: ${TABLE}.CONVERTEDOPPORTUNITYID ;;
     type: string
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension: country {
     map_layer_name: countries
     sql: ${TABLE}.COUNTRY ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: country_code {
     sql: ${TABLE}.COUNTRYCODE ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: createdbyid {
     label: "Created By ID"
     sql: ${TABLE}.CREATEDBYID ;;
     type: string
+    group_label: "Lead Lifecycle: Created"
   }
 
   dimension_group: created {
@@ -115,134 +132,26 @@ view: lead {
       fiscal_year
     ]
     type: time
+    group_label: "Lead Lifecycle: Created"
   }
 
-  dimension: current_sequence_status {
-    sql: ${TABLE}.CURRENT_SEQUENCE_STATUS__C ;;
-    type: string
-  }
-
-  dimension: e_b {
-    # description: "TODO"
-    sql: ${TABLE}.E_B__C ;;
-    type: string
-  }
-
-  dimension_group: ebq_added {
-    sql: ${TABLE}.EBQ_ADDED__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension: ebq_cadence {
-    sql: ${TABLE}.EBQ_CADENCE__C ;;
-    type: string
-  }
-
-  dimension: ebq_comments {
-    sql: ${TABLE}.EBQ_COMMENTS__C ;;
-    type: string
-  }
-
-  dimension_group: ebq_completed {
-    sql: ${TABLE}.EBQ_COMPLETED__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension_group: ebq {
-    sql: ${TABLE}.EBQ_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension_group: ebq_first_touch {
-    sql: ${TABLE}.EBQ_FIRST_TOUCH__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension_group: ebq_next_step {
-    sql: ${TABLE}.EBQ_NEXT_STEP__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension: ebq_rating {
-    sql: ${TABLE}.EBQ_RATING__C ;;
-    type: string
-  }
-
-  dimension: ebq_rep {
-    sql: ${TABLE}.EBQ_REP__C ;;
-    type: string
-  }
-
-  dimension_group: ebq_set {
-    sql: ${TABLE}.EBQ_SET__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension: ebq_touches {
-    sql: ${TABLE}.EBQ_TOUCHES__C ;;
-    type: number
-  }
 
   dimension: email {
     sql: ${TABLE}.EMAIL ;;
     type: string
   }
 
-  dimension: matched_account {
-    sql: ${TABLE}.engagio__Matched_Account__c ;;
-    type: string
-  }
 
   dimension: first_action {
     sql: ${TABLE}.FIRST_ACTION__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: first_action_detail {
     sql: ${TABLE}.FIRST_ACTION_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: firstname {
@@ -253,26 +162,31 @@ view: lead {
   dimension: geo {
     sql: ${TABLE}.GEO__C ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: has_opted_out_of_email {
     sql: ${TABLE}.HASOPTEDOUTOFEMAIL ;;
     type: yesno
+    group_label: "Marketing"
   }
 
   dimension: has_opted_out_of_fax {
     sql: ${TABLE}.HASOPTEDOUTOFFAX ;;
     type: yesno
+    group_label: "Marketing"
   }
 
   dimension: inbound_outbound {
     sql: ${TABLE}.INBOUND_OUTBOUND__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: indirect_lead {
     sql: ${TABLE}.INDIRECT_LEAD__C ;;
     type: yesno
+    group_label: "Marketing"
   }
 
   #   dimension: industry {
@@ -283,6 +197,7 @@ view: lead {
   dimension: is_deleted {
     sql: ${TABLE}.ISDELETED ;;
     type: yesno
+    group_label: "System"
   }
 
   dimension: job_function {
@@ -293,6 +208,8 @@ view: lead {
   dimension: lastmodifiedbyid {
     sql: ${TABLE}.LASTMODIFIEDBYID ;;
     type: string
+    group_label: "System"
+
   }
 
   dimension_group: last_modified {
@@ -305,7 +222,9 @@ view: lead {
       fiscal_year
     ]
     type: time
+    group_label: "System"
   }
+
 
   dimension: lastname {
     sql: ${TABLE}.LASTNAME ;;
@@ -315,27 +234,37 @@ view: lead {
   dimension: lead2_conv_days {
     sql: ${TABLE}.LEAD2CONVDAYS__C ;;
     type: number
+    group_label: "Lead Lifecycle: Converted"
   }
 
-  dimension: lead2_trial_days {
-    sql: ${TABLE}.LEAD2TRIALDAYS__C ;;
-    type: number
-  }
+#  dimension: lead2_trial_days {
+#    sql: ${TABLE}.LEAD2TRIALDAYS__C ;;
+#    type: number
+#  }
 
   dimension: lead_number {
     label: "Lead #"
     sql: ${TABLE}.LEAD_NUMBER__C ;;
     type: string
+    group_label: "System"
+  }
+
+  dimension: lead_source {
+    sql: ${TABLE}.LEAD_SOURCE_TEXT__C ;;
+    type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_source_detail {
     sql: ${TABLE}.LEAD_SOURCE_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: lead_status_at_conversion {
     sql: ${TABLE}.LEAD_STATUS_AT_CONVERSION__C ;;
     type: string
+    group_label: "Lead Lifecycle: Converted"
   }
 
   dimension: lead_type {
@@ -343,10 +272,12 @@ view: lead {
     type: string
   }
 
-  #   dimension: lead_source {
-  #     sql: ${TABLE}.LEADSOURCE ;;
-  #     type: string
-  #   }
+
+  dimension: matched_account {
+    sql: ${TABLE}.engagio__Matched_Account__c ;;
+    type: string
+    group_label: "Marketing"
+   }
 
   dimension: mobile_phone {
     sql: ${TABLE}.MOBILEPHONE ;;
@@ -356,21 +287,23 @@ view: lead {
   dimension: most_recent_action_detail {
     sql: ${TABLE}.MOST_RECENT_ACTION_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: most_recent_lead_source {
     sql: ${TABLE}.MOST_RECENT_LEAD_SOURCE__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: most_recent_lead_source_detail {
     sql: ${TABLE}.MOST_RECENT_LEAD_SOURCE_DETAIL__C ;;
     type: string
+    group_label: "Marketing"
   }
-
-  dimension_group: first_mcl {
-    group_label: "Lead Lifecycle"
-    label: "First MCL"
+   dimension_group: first_mcl {
+    group_label: "Lead Lifecycle: MCL"
+    label: "MCL First"
     sql: ${TABLE}.FIRST_MCL_DATE__C ;;
     timeframes: [
       date,
@@ -380,53 +313,20 @@ view: lead {
       fiscal_year
     ]
     type: time
+
   }
 
-  dimension_group: most_recent_mcl {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent MCL"
-    sql: ${TABLE}.MOST_RECENT_MCL_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
+  dimension: mcl_yn {
+    group_label: "Lead Lifecycle: MCL"
+    label: "MCL?"
+    type: yesno
+    sql: ${first_mcl_date} IS NOT NULL ;;
   }
 
-  dimension_group: first_mel {
-    group_label: "Lead Lifecycle"
-    label: "First MEL"
-    sql: ${TABLE}.FIRST_MEL_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
-
-  dimension_group: most_recent_mel {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent MEL"
-    sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
 
   dimension_group: first_mql {
-    group_label: "Lead Lifecycle"
-    label: "First MQL"
+    group_label: "Lead Lifecycle: MQL"
+    label: "MQL First"
     sql: ${TABLE}.FIRST_MQL_DATE__C ;;
     timeframes: [
       date,
@@ -439,9 +339,9 @@ view: lead {
   }
 
   dimension_group: most_recent_mql {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent MQL"
-    sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
+    group_label: "Lead Lifecycle: MQL"
+    label: "MQL Most Recent"
+    sql: coalesce(${TABLE}.MOST_RECENT_MQL_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -452,9 +352,16 @@ view: lead {
     type: time
   }
 
+  dimension: mql_yn {
+    group_label: "Lead Lifecycle: MQL"
+    label: "MQL?"
+    type: yesno
+    sql: ${first_mql_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_scl {
-    group_label: "Lead Lifecycle"
-    label: "First SCL"
+    group_label: "Lead Lifecycle: SCL"
+    label: "SCL First"
     sql: ${TABLE}.FIRST_SCL_DATE__C ;;
     timeframes: [
       date,
@@ -467,9 +374,9 @@ view: lead {
   }
 
   dimension_group: most_recent_scl {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent SCL"
-    sql: ${TABLE}.MOST_RECENT_SCL_DATE__C ;;
+    group_label: "Lead Lifecycle: SCL"
+    label: "SCL Most Recent"
+    sql: coalesce(${TABLE}.MOST_RECENT_SCL_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -480,9 +387,16 @@ view: lead {
     type: time
   }
 
+  dimension: scl_yn {
+    group_label: "Lead Lifecycle: SCL"
+    label: "SCL?"
+    type: yesno
+    sql: ${first_scl_date} IS NOT NULL ;;
+  }
+
   dimension_group: first_qsc {
-    group_label: "Lead Lifecycle"
-    label: "First QSC"
+    group_label: "Lead Lifecycle: QSC"
+    label: "QSC First"
     sql: ${TABLE}.FIRST_QSC_DATE__C ;;
     timeframes: [
       date,
@@ -494,23 +408,18 @@ view: lead {
     type: time
   }
 
-  dimension_group: most_recent_qsc {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent QSC"
-    sql: ${TABLE}.MOST_RECENT_QSC_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
+
+
+  dimension: qsc_yn {
+    group_label: "Lead Lifecycle: QSC"
+    label: "QSC?"
+    type: yesno
+    sql: ${first_qsc_date} IS NOT NULL ;;
   }
 
   dimension_group: first_qso {
-    group_label: "Lead Lifecycle"
-    label: "First QSO"
+    group_label: "Lead Lifecycle: QSO"
+    label: "QSO First"
     sql: ${TABLE}.FIRST_QSO_DATE__C ;;
     timeframes: [
       date,
@@ -522,23 +431,17 @@ view: lead {
     type: time
   }
 
-  dimension_group: most_recent_qso {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent QSO"
-    sql: ${TABLE}.MOST_RECENT_QSO_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
+
+  dimension: qso_yn {
+    group_label: "Lead Lifecycle: QSO"
+    label: "QSO?"
+    type: yesno
+    sql: ${first_qso_date} IS NOT NULL ;;
   }
 
-  dimension_group: first_not_a_lead {
-    group_label: "Lead Lifecycle"
-    label: "First Not a Lead"
+  dimension_group: first_junk {
+    group_label: "Lead Lifecycle: Junk"
+    label: "Junk"
     sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
     timeframes: [
       date,
@@ -550,51 +453,58 @@ view: lead {
     type: time
   }
 
-  dimension_group: first_pql {
-    group_label: "Lead Lifecycle"
-    label: "First PQL"
-    sql: ${TABLE}.FIRST_PQL_DATE__c ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
+  dimension: junk_yn {
+    group_label: "Lead Lifecycle: Junk"
+    label: "Junk?"
+    type: yesno
+    sql: ${first_junk_date} IS NOT NULL ;;
   }
 
-  dimension: first_pql_type {
-    group_label: "Lead Lifecycle"
-    label: "First PQL Type"
-    sql: ${TABLE}.FIRST_PQL_TYPE__c ;;
-    type: string
-  }
+#  dimension_group: first_pql {
+#    group_label: "Lead Lifecycle: PQL"
+#    label: "PQL First"
+#    sql: ${TABLE}.FIRST_PQL_DATE__c ;;
+#    timeframes: [
+#      date,
+#      week,
+#      month,
+#      fiscal_quarter,
+#      fiscal_year
+#    ]
+#    type: time
+#  }
 
-  dimension_group: most_recent_pql {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent PQL"
-    sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    type: time
-  }
+#  dimension: first_pql_type {
+#    group_label: "Lead Lifecycle: PQL"
+#    label: "PQL First Type"
+#    sql: ${TABLE}.FIRST_PQL_TYPE__c ;;
+#    type: string
+#  }
 
-  dimension: most_recent_pql_type {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent PQLType"
-    sql: ${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
-    type: string
-  }
+#  dimension_group: most_recent_pql {
+#    group_label: "Lead Lifecycle: PQL"
+#    label: "PQL Most Recent"
+#    sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
+#    timeframes: [
+#      date,
+#      week,
+#      month,
+#      fiscal_quarter,
+#      fiscal_year
+#    ]
+#    type: time
+#  }
+
+#  dimension: most_recent_pql_type {
+#    group_label: "Lead Lifecycle: PQL"
+#    label: "PQL Most Recent Type"
+#    sql: ${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
+#    type: string
+#  }
 
   dimension_group: first_recycle {
-    group_label: "Lead Lifecycle"
-    label: "First Recycle"
+    group_label: "Lead Lifecycle: Recycle"
+    label: "Recycle First"
     sql: ${TABLE}.FIRST_RECYCLE_DATE__C ;;
     timeframes: [
       date,
@@ -607,9 +517,9 @@ view: lead {
   }
 
   dimension_group: most_recent_recycle {
-    group_label: "Lead Lifecycle"
-    label: "Most Recent Recycle"
-    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
+    group_label: "Lead Lifecycle: Recycle"
+    label: "Recycle Most Recent"
+    sql: coalesce(${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -620,9 +530,22 @@ view: lead {
     type: time
   }
 
+  dimension: recycle_yn {
+    group_label: "Lead Lifecycle: Recycle"
+    label: "Recycle?"
+    type: yesno
+    sql: ${first_recycle_date} IS NOT NULL ;;
+  }
+
+
   dimension: name {
     sql: ${TABLE}.NAME ;;
     type: string
+    link: {
+      label: "SFDC Record"
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension: ownerid {
@@ -632,9 +555,9 @@ view: lead {
 
   dimension: owner_name {
     sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
-              WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
-              WHEN ${owner.sfid} LIKE '00G360000026ZoQ%' THEN 'Queue: Junk'
-              WHEN ${owner.sfid} LIKE '00G3p000005V9UP%' THEN 'Queue: Recycled'
+              WHEN ${ownerid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
+              WHEN ${ownerid} = '00G360000026ZoQEAU' THEN 'Queue: Junk'
+              WHEN ${ownerid} = '00G3p000005V9UPEA0' THEN 'Queue: Recycled'
               ELSE 'Queue: Undefined'
               END ;;
     type: string
@@ -644,17 +567,21 @@ view: lead {
   dimension: partner_email {
     sql: ${TABLE}.PARTNER_EMAIL__C ;;
     type: string
+    group_label: "Partner"
   }
 
   dimension: partner_name {
     sql: ${TABLE}.PARTNER_NAME__C ;;
     type: string
+    group_label: "Partner"
   }
 
   dimension: persona {
     sql: ${TABLE}.PERSONA__C ;;
     type: string
+    group_label: "Marketing"
   }
+
 
   dimension: phone {
     sql: ${TABLE}.PHONE ;;
@@ -664,16 +591,19 @@ view: lead {
   dimension: postal_code {
     sql: ${TABLE}.POSTALCODE ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: quality {
     sql: ${TABLE}.QUALITY__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: quality_star_rating {
     sql: ${TABLE}.QUALITY_STAR_RATING__C ;;
     type: string
+    group_label: "Marketing"
   }
 
   dimension: sfid {
@@ -686,34 +616,32 @@ view: lead {
   dimension: state {
     sql: ${TABLE}.STATE ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: state_code {
     sql: ${TABLE}.STATECODE ;;
     type: string
+    group_label: "Geo"
   }
 
   dimension: status {
-    sql: ${TABLE}.STATUS ;;
+    sql: CASE
+           WHEN ${TABLE}.STATUS = 'Not a Lead' THEN 'Junk'
+           WHEN ${TABLE}.STATUS = 'MEL' THEN 'MCL'
+           ELSE ${TABLE}.STATUS
+         END ;;
     type: string
     order_by_field: status_order
   }
 
   dimension: status_order {
-    hidden: yes
     case: {
-      when: {
-        sql: ${status} = 'Not a Lead';;
-        label: "0"
-      }
       when: {
         sql: ${status} = 'MCL';;
         label: "1"
       }
-      when: {
-        sql: ${status} = 'Recycle';;
-        label: "2"
-      }
+
       when: {
         sql: ${status} = 'MEL';;
         label: "3"
@@ -734,22 +662,31 @@ view: lead {
         sql: ${status} = 'QSO';;
         label: "7"
       }
+      when: {
+        sql: ${status} = 'Recycle';;
+        label: "2"
+      }
+      when: {
+        sql: ${status} = 'Junk';;
+        label: "8"
+      }
       else: "null"
     }
     type: string
   }
 
 
-  dimension: territory {
-    sql: ${TABLE}.TERRITORY__C ;;
-    type: string
-  }
 
-  dimension: territoryid {
-    label: "Territory ID"
-    sql: ${TABLE}.TERRITORYID__C ;;
-    type: string
-  }
+#  dimension: territory {
+ #   sql: ${TABLE}.TERRITORY__C ;;
+#    type: string
+ # }
+
+#  dimension: territoryid {
+#    label: "Territory ID"
+#    sql: ${TABLE}.TERRITORYID__C ;;
+#    type: string
+#  }
 
   dimension: timeline {
     sql: ${TABLE}.TIMELINE__C ;;
@@ -757,7 +694,7 @@ view: lead {
   }
 
   dimension: website {
-    sql: ${TABLE}.WEBSITE ;;
+    sql: ${TABLE}.CLEANED_UP_WEBSITE__C ;;
     type: string
   }
 
@@ -766,9 +703,120 @@ view: lead {
   # Measures
   #
 
-  measure: count {
-    drill_fields: [lead_drill_fields*]
-    label: "# of Leads"
-    type: count
+ measure: count {
+  sql: ${sfid} ;;
+  drill_fields: [lead_drill_fields*]
+  label: "# Leads"
+  type: count_distinct
+}
+
+measure: count_hit_mcl {
+  sql: ${sfid} ;;
+  filters: {
+    field: mcl_yn
+    value: "yes"
   }
+  drill_fields: [lead_drill_fields*]
+  label: "# MCL"
+  type: count_distinct
+}
+
+#  measure: count_hit_mel {
+#    sql: ${sfid} ;;
+#    filters: {
+#      field: hit_mel
+#      value: "yes"
+#    }
+#    drill_fields: [lead_drill_fields*]
+#    label: "# of Leads Hit MEL"
+#    type: count_distinct
+#  }
+
+  measure: count_conv_y {
+    sql: ${sfid} ;;
+    filters: {
+      field: converted_yn
+      value: "yes"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# Conv=Y"
+    type: count_distinct
+  }
+
+  measure: count_conv_n {
+    sql: ${sfid} ;;
+    filters: {
+      field: converted_yn
+      value: "no"
+    }
+    drill_fields: [lead_drill_fields*]
+    label: "# Conv=N"
+    type: count_distinct
+  }
+
+measure: count_hit_mql {
+  sql: ${sfid} ;;
+  filters: {
+    field: mql_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# MQL"
+  type: count_distinct
+}
+
+measure: count_hit_scl {
+  sql: ${sfid} ;;
+  filters: {
+    field: scl_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# SCL"
+  type: count_distinct
+}
+
+measure: count_hit_qsc {
+  sql: ${sfid} ;;
+  filters: {
+    field: qsc_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# QSC"
+  type: count_distinct
+}
+
+measure: count_hit_qso {
+  sql: ${sfid} ;;
+  filters: {
+    field: qso_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# QSO"
+  type: count_distinct
+}
+
+measure: count_hit_recycle {
+  sql: ${sfid} ;;
+  filters: {
+    field: recycle_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# Recycle"
+  type: count_distinct
+}
+
+measure: count_junk {
+  sql: ${sfid} ;;
+  filters: {
+    field: junk_yn
+    value: "yes"
+  }
+  drill_fields: [lead_drill_fields*]
+  label: "# Junk"
+  type: count_distinct
+}
 }

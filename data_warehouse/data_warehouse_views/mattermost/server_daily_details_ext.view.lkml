@@ -380,16 +380,16 @@ view: server_daily_details_ext {
   }
 
   dimension: mau {
-    group_label: " Server DAU/MAU"
-    label: "MAU"
+    group_label: "Server Events"
+    label: "Monthly Active Users"
     description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.mau_total} ;;
   }
 
   dimension: dau {
-    group_label: " Server DAU/MAU"
-    label: "DAU"
+    group_label: "Server Events"
+    label: "Daily Active Users"
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.dau_total} ;;
@@ -408,7 +408,7 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: COALESCE(nullif(${TABLE}.active_users_daily,0), NULLIF(${TABLE}.active_users,0), ${active_user_count})  ;;
+    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
     hidden: no
   }
 
@@ -4400,24 +4400,45 @@ view: server_daily_details_ext {
   }
 
   measure: active_user_count_sum {
-    description: "The sum of telemetry-enabledActive User Count per grouping."
+    description: "The sum of security telemetry-enabled Active Users per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${active_user_count}) ;;
   }
 
+  measure: active_user_count_max {
+    description: "The max of security telemetry-enabled Active Users per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${active_user_count}) ;;
+  }
+
   measure: user_count_sum {
-    description: "The sum of telemetry-enabledUser Count per grouping."
+    description: "The sum of security telemetry-enabled Registered Users per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${user_count}) ;;
   }
 
+  measure: user_count_max {
+    description: "The max of security telemetry-enabled User Count per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${user_count}) ;;
+  }
+
   measure: system_admins_sum {
-    description: "The sum of telemetry-enabledSystem Admins per grouping."
+    description: "The sum of diagnostics telemetry-enabled System Admins per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${system_admins}) ;;
+  }
+
+  measure: system_admins_max {
+    description: "The sum of diagnostics telemetry-enabled System Admins per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${system_admins}) ;;
   }
 
   measure: in_security_count {
@@ -4499,7 +4520,7 @@ view: server_daily_details_ext {
     description: "The average Active Users Daily per grouping."
     group_label: "Activity Diagnostics"
     type: number
-    sql: average(${active_users_daily}) ;;
+    sql: avg(${active_users_daily}) ;;
   }
 
   measure: active_users_monthly_sum {
@@ -4520,7 +4541,7 @@ view: server_daily_details_ext {
     description: "The average Active Users Monthly per grouping."
     group_label: "Activity Diagnostics"
     type: number
-    sql: AVERAGE(${active_users_monthly}) ;;
+    sql: AVG(${active_users_monthly}) ;;
   }
 
   measure: bot_accounts_sum {
@@ -7826,17 +7847,17 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day2 {
     group_label: "Activity Diagnostics"
-    label: "Avg. Posts Per User"
-    type: average
-    sql: ${posts_per_user_per_day2} ;;
+    label: "Avg. Posts Per User Per Day"
+    type: number
+    sql: ${posts_sum}::float/${active_users_daily_sum}::float ;;
     value_format_name: decimal_1
   }
 
   measure: avg_posts_per_user_per_day {
     group_label: "Server Events"
-    label: "Avg. Posts Per User"
-    type: average
-    sql: ${posts_per_user_per_day} ;;
+    label: "Avg. Posts Per User Per Day"
+    type: number
+    sql: ${posts_sum2}::float/${dau_sum}::float ;;
     value_format_name: decimal_1
   }
 
