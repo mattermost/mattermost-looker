@@ -117,7 +117,15 @@ explore: profile {
   group_label: "zHeroku Postgres OrgM"
 }
 
-
+explore: task {
+  group_label: "zHeroku Postgres OrgM"
+  join: creator {
+    from: user
+    sql_on: ${task.createdbyid}= ${creator.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
 explore: territory_mapping {
   group_label: "zHeroku Postgres OrgM"
 
