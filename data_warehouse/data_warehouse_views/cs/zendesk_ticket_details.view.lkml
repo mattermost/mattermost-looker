@@ -324,7 +324,8 @@ view: zendesk_ticket_details {
     description: "Status of the ticket."
     label: "Ticket Status"
     type: string
-    sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' ELSE ${TABLE}."STATUS" END ;;
+    sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' WHEN ${TABLE}."STATUS" = 'pending' THEN 'waiting on customer' ELSE ${TABLE}."STATUS" END
+    ;;
   }
 
   dimension: organization_name {
