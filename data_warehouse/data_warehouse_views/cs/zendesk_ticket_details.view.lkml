@@ -51,7 +51,12 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Priority"
     type: string
-    sql: ${TABLE}."PRIORITY";;
+    sql: CASE
+    WHEN ${TABLE}."PRIORITY" = 'urgent' THEN 'L1 (Urgent)'
+    WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
+    WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
+    WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
+    ELSE 'Unkown' END;;
   }
 
   dimension: subject {
@@ -324,7 +329,8 @@ view: zendesk_ticket_details {
     description: "Status of the ticket."
     label: "Ticket Status"
     type: string
-    sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' ELSE ${TABLE}."STATUS" END ;;
+    sql: CASE WHEN ${pending_do_not_close} THEN 'do not close' WHEN ${TABLE}."STATUS" = 'pending' THEN 'waiting on customer' ELSE ${TABLE}."STATUS" END
+    ;;
   }
 
   dimension: organization_name {
