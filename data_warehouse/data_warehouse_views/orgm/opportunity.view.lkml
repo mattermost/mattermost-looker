@@ -317,6 +317,7 @@ view: opportunity {
       fiscal_year
     ]
     sql: ${TABLE}.lastmodifieddate ;;
+    group_label: "System"
   }
 
 
@@ -396,14 +397,14 @@ view: opportunity {
       fiscal_year
     ]
     type: time
-    group_label: "License End"
+    group_label: "License Dates (Deprecating)"
   }
 
   dimension: license_end_yyyy_mm {
 #    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
     sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
     type: string
-    group_label: "License End"
+    group_label: "License Dates (Deprecating)"
     label: "License End YYYY-MM"
   }
 
@@ -411,8 +412,8 @@ view: opportunity {
     type: string
     sql: ${license_end_fiscal_year} || '-' || ${license_end_fiscal_quarter_of_year};;
     label: "License End YYYY-QQ"
-    group_label: "License End"
-  }
+    group_label: "License Dates (Deprecating)"
+    }
 
   dimension_group: license_start {
     convert_tz: no
@@ -427,22 +428,22 @@ view: opportunity {
       fiscal_year
     ]
     type: time
-    group_label: "License Start"
-  }
+    group_label: "License Dates (Deprecating)"
+    }
 
   dimension: license_start_yyyy_qq {
     type: string
     sql: ${license_start_fiscal_year} || '-' || ${license_start_fiscal_quarter_of_year};;
     label: "License Start YYYY-QQ"
-    group_label: "License Start"
-  }
+    group_label: "License Dates (Deprecating)"
+    }
 
 
   dimension: license_start_yyyy_mm {
     description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
     sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
     type: string
-    group_label: "License Start"
+    group_label: "License Dates (Deprecating)"
     label: "License Start YYYY-MM"
   }
 
