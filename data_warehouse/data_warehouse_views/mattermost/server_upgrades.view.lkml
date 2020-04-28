@@ -4,6 +4,17 @@ view: server_upgrades {
   view_label: "Server Upgrades"
 
   # FILTERS
+  filter: is_version_upgrade_date {
+    description: "Boolean indicating a version upgrade took place on the given logging date."
+    type: yesno
+    sql: CASE WHEN ${current_version} > COALESCE(${prev_version}, ${current_version}) THEN TRUE ELSE FALSE END ;;
+  }
+
+    filter: is_edition_upgrade_date {
+    description: "Boolean indicating a version upgrade took place on the given logging date."
+    type: yesno
+    sql: CASE WHEN ${current_edition} = 'E0' AND ${prev_edition} = 'TE' THEN TRUE ELSE FALSE END ;;
+  }
 
   # DIMENSIONS
   dimension: server_id {
@@ -38,7 +49,7 @@ view: server_upgrades {
 
   dimension: current_version {
     label: "Current Server Version"
-    group_label: " Server Version "
+    group_label: " Server Versions"
     description: "The current server version of the server on the given logging date."
     type: string
     sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
@@ -50,7 +61,7 @@ view: server_upgrades {
     group_label: "Server Edition"
     description: "The previous day's server edition on the given logging date."
     type: string
-    sql: CASE WHEN ${TABLE}.prev_edition = 'true' THEN 'Enterprise Edition' ELSE 'Team Edition' END ;;
+    sql: CASE WHEN ${TABLE}.prev_edition = 'true' THEN 'E0' ELSE 'TE' END ;;
     hidden: no
   }
 
@@ -59,7 +70,7 @@ view: server_upgrades {
     group_label: "Server Edition"
     description: "The current server edition on the given logging date."
     type: string
-    sql: CASE WHEN ${TABLE}.current_edition = 'true' THEN 'Enterprise Edition' ELSE 'Team Edition' END ;;
+    sql: CASE WHEN ${TABLE}.current_edition = 'true' THEN 'E0' ELSE 'TE' END ;;
     hidden: no
   }
 
@@ -107,7 +118,7 @@ view: server_upgrades {
     label: "Server Edition Upgrades"
     description: "The distinct count of server edition upgrades i.e. a server upgrades from team edition to enterprise edition."
     type: count_distinct
-    sql: CASE WHEN ${current_edition} = 'Enterprise Edition' AND ${prev_edition} = 'Team Edition' THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${current_edition} = 'E0' AND ${prev_edition} = 'TE' THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: license_count {
