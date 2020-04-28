@@ -51,7 +51,12 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Priority"
     type: string
-    sql: ${TABLE}."PRIORITY";;
+    sql: CASE
+    WHEN ${TABLE}."PRIORITY" = 'urgent' THEN 'L1 (Urgent)'
+    WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
+    WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
+    WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
+    ELSE 'Unkown' END;;
   }
 
   dimension: subject {
