@@ -4400,24 +4400,45 @@ view: server_daily_details_ext {
   }
 
   measure: active_user_count_sum {
-    description: "The sum of telemetry-enabledActive User Count per grouping."
+    description: "The sum of security telemetry-enabled Active Users per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${active_user_count}) ;;
   }
 
+  measure: active_user_count_max {
+    description: "The max of security telemetry-enabled Active Users per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${active_user_count}) ;;
+  }
+
   measure: user_count_sum {
-    description: "The sum of telemetry-enabledUser Count per grouping."
+    description: "The sum of security telemetry-enabled Registered Users per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${user_count}) ;;
   }
 
+  measure: user_count_max {
+    description: "The max of security telemetry-enabled User Count per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${user_count}) ;;
+  }
+
   measure: system_admins_sum {
-    description: "The sum of telemetry-enabledSystem Admins per grouping."
+    description: "The sum of diagnostics telemetry-enabled System Admins per grouping."
     group_label: " User Counts: Security Telemetry"
     type: number
     sql: SUM(${system_admins}) ;;
+  }
+
+  measure: system_admins_max {
+    description: "The sum of diagnostics telemetry-enabled System Admins per grouping."
+    group_label: " User Counts: Security Telemetry"
+    type: number
+    sql: MAX(${system_admins}) ;;
   }
 
   measure: in_security_count {
