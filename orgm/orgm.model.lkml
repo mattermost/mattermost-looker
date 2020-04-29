@@ -261,11 +261,10 @@ explore: opportunitylineitem_data_check {
 
 explore: lead_data_check {
   persist_for: "0 seconds"
-  fields: [lead.sfid, orgm_lead_data_check.sfid, lead.count,
-    lead.systemmodstamp_time, orgm_lead_data_check.systemmodstamp_time,
-    lead.created_time, orgm_lead_data_check.created_time,
-    orgm_lead_data_check.processed_time, orgm_lead_data_check.count,
-    delete_history.name,delete_history.deleted_time]
+  fields: [lead.sfid, lead.ownerid, lead.status, lead.email, lead.status, lead.status_order, lead.converted_time, lead.created_time, lead.systemmodstamp_time, lead.count,
+          orgm_lead_data_check.sfid, orgm_lead_data_check.ownerid, orgm_lead_data_check.email, orgm_lead_data_check.status, orgm_lead_data_check.converted_time,
+          orgm_lead_data_check.created_time, orgm_lead_data_check.systemmodstamp_time, orgm_lead_data_check.count,
+          orgm_lead_data_check.processed_time, delete_history.name,delete_history.deleted_time]
   group_label: "zHeroku Postgres OrgM"
   from: lead
   view_name: lead

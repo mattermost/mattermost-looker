@@ -77,6 +77,7 @@ view: lead {
   dimension_group: converted {
     sql: ${TABLE}.CONVERTEDDATE ;;
     timeframes: [
+      time,
       date,
       week,
       month,
