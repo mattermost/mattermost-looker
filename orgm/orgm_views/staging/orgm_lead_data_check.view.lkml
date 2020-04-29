@@ -46,6 +46,9 @@ view: orgm_lead_data_check {
   }
 
   measure: count {
-    type: count
+    sql: ${sfid} ;;
+    drill_fields: [sfid,email,status,ownerid,created_time,systemmodstamp_time,processed_time,converted_time]
+    label: "# Leads"
+    type: count_distinct
   }
 }
