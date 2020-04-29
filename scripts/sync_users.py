@@ -235,10 +235,6 @@ def sync_with_looker(file_users):
         # Add user
         new_file_users.append(new_user)
 
-        # TODO: Determine if any user attributes are different and then "sync" them to looker
-        # TODO set_user_attribute_user_value(user_id, user_attribute_id, body)
-
-
     # Deal with only in Looker, copy all values into the spreadsheet
     for email in emails_only_in_looker:
         new_user = {
