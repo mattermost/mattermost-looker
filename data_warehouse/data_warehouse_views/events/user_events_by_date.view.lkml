@@ -179,9 +179,33 @@ view: user_events_by_date {
   }
 
   measure: user_count {
-    label: " User Count"
+    label: " User Count (DAU)"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: mobile_dau {
+    label: " Mobile DAU"
+    description: "The distinct count of Users  per grouping."
+    type: count_distinct
+    filters: [mobile_events: ">0"]
+    sql: ${user_id} ;;
+  }
+
+  measure: webapp_dau {
+    label: " WebApp DAU"
+    description: "The distinct count of Users  per grouping."
+    type: count_distinct
+    filters: [web_app_events: ">0"]
+    sql: ${user_id} ;;
+  }
+
+  measure: desktop_dau {
+    label: " Desktop DAU"
+    description: "The distinct count of Users  per grouping."
+    type: count_distinct
+    filters: [desktop_events: ">0"]
     sql: ${user_id} ;;
   }
 
