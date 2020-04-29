@@ -675,6 +675,13 @@ explore: server_daily_details {
     relationship: one_to_one
     fields: []
   }
+
+  join: excludable_servers {
+    view_label: "Server Daily Details"
+    sql_on: ${excludable_servers.server_id} = ${server_daily_details.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: delete_history {
@@ -844,6 +851,13 @@ explore: server_daily_details_ext {
     relationship: one_to_one
     fields: []
   }
+
+  join: excludable_servers {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${excludable_servers.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: tva_all_by_mo {
@@ -892,13 +906,22 @@ explore: events_registry {
 explore: user_events_by_date {
   label: "User Events By Date"
   group_label: "Product"
+  extends: [server_daily_details]
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
 
   join: server_daily_details {
+    view_label: "Server Details"
     sql_on: ${user_events_by_date.server_id} = ${server_daily_details.server_id}
     AND ${user_events_by_date.logging_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
-    fields: []
+    fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: server_fact {
+    view_label: "Server Details"
+    sql_on: ${server_fact.server_id} = ${user_events_by_date.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year]
   }
 }
 explore: user_events_by_date_agg {
