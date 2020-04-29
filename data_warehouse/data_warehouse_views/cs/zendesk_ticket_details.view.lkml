@@ -8,7 +8,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: name {
-    description: "Name of account that opportunity is linked to Salesforce"
+    description: "Account Name pulled from Salesforce"
     group_label: "Ticket Details"
     label: "Account Name"
     link: {
@@ -21,7 +21,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: last_comment_at {
-    description: "Date last coment was added on a ticket."
+    description: "Date last coment was added on a ticket"
     group_label: "Last Comment"
     label: "Last Comment Date"
     type: date
@@ -82,7 +82,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: description {
-    description: "Text of the support request. The description is the first comment in the ticket."
+    description: "Description of a ticket,- usually a customer question, issue or feedback. The description is the first comment in the ticket."
     group_label: "Ticket Details"
     label: "Description"
     type: string
@@ -92,6 +92,7 @@ view: zendesk_ticket_details {
   dimension: assignee_name {
     description: "Support Engineer currently assigned to the ticket"
     group_label: "Ticket Details"
+    label: "Support Engineer Assigned"
     type: string
     sql: ${TABLE}."ASSIGNEE_NAME" ;;
   }
@@ -143,7 +144,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: category {
-    description: "How tickets are classified by area of help needed, ie: product, IT issues, end user or sales request"
+    description: "The reason a case was created. For example: mobile, database, server, notifications."
     group_label: "Ticket Details"
     label: "Category"
     type: string
@@ -163,7 +164,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: customer_type {
-    description: "Classification if ticket is for a customer, trial, potential customer, noncustomer, reseller"
+    description: "Type of customer logging ticket.  Options are customer, trial, potential customer, noncustomer, reseller"
     group_label: "Ticket Details"
     label: "Customer Type"
     type: string
@@ -173,7 +174,7 @@ view: zendesk_ticket_details {
   dimension: support_type {
     description: "Type of license: Team Edition, E10, E20, Premiere"
     group_label: "Ticket Details"
-    label: "Type of License"
+    label: "License Type"
     type: string
     sql: CASE
             WHEN ${premium_support} THEN 'Premium'
@@ -193,12 +194,15 @@ view: zendesk_ticket_details {
   }
 
   dimension: enterprise_edition_version {
+    label: "Enterprise Edition"
+    description: "Broken out by enterprise version.  Options are E10 or E20"
+    group_label: "Ticket Details"
     type: string
     sql: ${TABLE}."ENTERPRISE_EDITION_VERSION" ;;
   }
 
   dimension: e20_customer_level_tier {
-    description: "E20 and Premiere support priority level.  Level 1: Critial Business Impact, Level 2:Major Business Impact, Level 3: Moderate Business Impact, Level 4: Minor Busienss Impact. "
+    description: "E20 and Premiere support SLA ticket level. Options: L1, L2, L3, L4"
     group_label: "SLAs"
     label: "E20 Customer Level Tier"
     type: string
@@ -211,7 +215,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: first_response_sla {
-    description: "The duration between ticket creation and the first public agent reply on the ticket."
+    description: "External SLA: The duration between ticket creation and the first public agent reply on the ticket."
     group_label: "SLAs"
     label: "First Response SLA (min)"
     type: number
@@ -229,7 +233,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: followup_internal_sla {
-    description: "The duration between ticket's first reply time and next reply time, unless otherwise communicated."
+    description: "Internal SLA: The duration between ticket's first reply time and next reply time, unless otherwise communicated."
     label: "Next Reply Time Internal SLA (min)"
     group_label: "SLAs"
     type: number
@@ -247,7 +251,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: met_first_response_sla {
-    description: "First response time SLA met. Option is yes or no."
+    description: "First response time SLA met? Yes/No"
     group_label: "SLAs"
     label: "Met First Response SLA?"
     type:  yesno
@@ -255,7 +259,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: met_followup_internal_sla {
-    description: "Internal Followup Reply Time SLA met. Option is yes or no."
+    description: "Followup Reply Time SLA met? Yes/No"
     group_label: "SLAs"
     label: "Followup Reply Time Internal SLA?"
     type:  yesno
@@ -273,13 +277,13 @@ view: zendesk_ticket_details {
   dimension: escalated_to_SET {
     description: "Tickets that have the tag jira_escalated in ticket details. These tickets have been escalated to Sustained Engineering Team for further help."
     group_label: "Status"
-   label: "Ticket escalated to SET?"
+    label: "Ticket escalated to SET?"
     sql: ${tags} like '%jira%' ;;
     type: yesno
   }
 
   dimension: is_product_bug {
-    description: "Tickets that have the tag client_software_bug or server_software_bug in ticket details."
+    description: "Tickets that have the tag client_software_bug or server_software_bug tag in Zendesk? Yes/No"
     group_label: "Status"
     label: "Ticket identified as bug?"
     sql: ${tags} like '%bug%' ;;
@@ -289,13 +293,14 @@ view: zendesk_ticket_details {
   dimension: autoclosed {
     label: "Is Auto Closed?"
     group_label: "Status"
+    description: "Was the ticket auto closed? Yes/No"
     sql: ${tags} like '%autoclosed%';;
     type: yesno
   }
 
   dimension: open {
     label: "Is Open?"
-    description: "Is the ticket status not equal to solved or closed."
+    description: "Is the ticket status not equal to solved or closed? Yes/No"
     group_label: "Status"
     sql: ${status} NOT IN ('closed','solved') ;;
     type: yesno
@@ -303,6 +308,8 @@ view: zendesk_ticket_details {
 
   dimension: calendar_days_open {
     group_label: "SLAs"
+    label: "Calendar days open"
+    description: "Duration ticket is open (if not closed).  During ticket was open (if closed)."
     type: number
     sql: coalesce(${full_resolution_time_in_minutes_cal}, TIMESTAMPDIFF(minutes, ${created_time}, current_timestamp))/(24*60) ;;
     value_format_name: decimal_0
@@ -310,6 +317,8 @@ view: zendesk_ticket_details {
 
   dimension: calendar_days_open_buckets {
     group_label: "SLAs"
+    label: "Calendar days open range"
+    description: "Day ranges ticket is open."
     type: tier
     sql: ${calendar_days_open} ;;
     style: integer
@@ -318,7 +327,7 @@ view: zendesk_ticket_details {
 
   dimension: tags {
     group_label: "Ticket Details"
-    description: "Custom field at the ticket level in Zendesk."
+    description: "Tags are words, or combinations of words that are used to add more context to tickets."
     label: "Ticket Tags"
     type: string
     sql: ${TABLE}."TAGS" ;;
@@ -341,21 +350,24 @@ view: zendesk_ticket_details {
 
   dimension: premium_support {
     label: "Premium Support?"
-    description: "Premiere Support Customer?"
+    group_label: "Ticket Details"
+    description: "Premiere Support Customer? Yes/No"
     type: yesno
     sql: CASE WHEN ${TABLE}."PREMIUM_SUPPORT" = 'true' THEN true ELSE false END ;;
   }
 
   dimension: satisfaction_rating_reason {
-    group_label: "Satisfation"
-    group_item_label: "Reason"
+    group_label: "CSAT"
+    label: "CSAT Reason"
+    description: "Reason for CSAT score"
     type: string
     sql: ${TABLE}."SATISFACTION_RATING_REASON" ;;
   }
 
   dimension: satisfaction_rating_score {
-    group_label: "Satisfation"
-    group_item_label: "Score"
+    group_label: "CSAT"
+    label: "CSAT Score"
+    description: "CSAT score rating. Options are good or bad."
     type: string
     sql: ${TABLE}."SATISFACTION_RATING_SCORE" ;;
   }
@@ -422,13 +434,17 @@ view: zendesk_ticket_details {
   }
 
   dimension: reply_time_in_minutes_bus {
+    label: "Reply time (business time minutes)"
     group_label: "SLAs"
+    description: "Reply time in tickets in business time minutes.  Business time is M-F 9am-5pm pacific time."
 #     hidden: yes
     type: number
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_BUS" ;;
   }
 
   dimension: reply_time_in_minutes_cal {
+    label: "Reply time (calendar time minutes)"
+    description: "Reply time in tickets in calendar days - non bus time."
     group_label: "SLAs"
 #     hidden: yes
     type: number
@@ -437,7 +453,8 @@ view: zendesk_ticket_details {
 
   dimension: followup_internal {
     group_label: "SLAs"
-    description: "Time a customer waited for follow up between first reply, while a ticket was open and being worked, and close time"
+    label: "Followup time (business time minutes)"
+    description: "Time a customer waited for follow up between first reply, while a ticket was open and being worked, and close time. Based on business time minutes."
     type: number
     sql: ${requester_wait_time_in_minutes_bus} - ${reply_time_in_minutes_bus} - ${on_hold_time_in_minutes_bus} ;;
   }
@@ -455,6 +472,8 @@ view: zendesk_ticket_details {
   }
 
   measure: count_tickets {
+    label: "# of Tickets"
+    description: "# of tickets"
     type: count_distinct
     sql: ${ticket_id} ;;
     drill_fields: [core_drill_fields*]
@@ -474,7 +493,7 @@ view: zendesk_ticket_details {
   measure: median_full_resolution_time_in_minutes_cal {
     # hidden: yes
     label: "Median Minutes to Resolution (Cal)"
-    group_label: "Minutes to Resolution"
+    group_label: "Minutes to Rsolution"
     group_item_label: "Median Calendar Minutes"
     type: median
     sql: ${full_resolution_time_in_minutes_bus} ;;
@@ -505,6 +524,8 @@ view: zendesk_ticket_details {
   }
 
   measure: count_tickets_solved_on_date {
+    label: "# of Tickets Solved"
+    description: "# of tickets solved based on filter or dimension date range selected "
     type: count_distinct
     sql: ${ticket_id} ;;
     drill_fields: [core_drill_fields*]
@@ -515,6 +536,8 @@ view: zendesk_ticket_details {
   }
 
   measure: count_tickets_created_date {
+    label: "# of Tickets Created"
+    description: "# of tickets created based on filter or dimension date range selected "
     type: count_distinct
     sql: ${ticket_id} ;;
     drill_fields: [core_drill_fields*]
@@ -525,28 +548,36 @@ view: zendesk_ticket_details {
   }
 
   measure: count_level_1 {
-    description: "Critical Business Impact: Critical issue on production system preventing business operations. A large number of users are prevented from working, and no procedural workaround is available."
+    label: "# of L1 Tickets"
+    group_label: "SLAs"
+    description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 1' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_2 {
-    description: "Major Business Impact: Major issue on the production system severely impacting business operations."
+    label: "# of L2 Tickets"
+    group_label: "SLAs"
+    description: "# of E20 and premiere support tickets created as L2"
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 2' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_3 {
-    description: "Moderate Business Impact: Moderate issue causing a partial or non-critical loss of functionality on the production system. A small number of users are affected."
+    label: "# of L3 Tickets"
+    group_label: "SLAs"
+    description: "# of E20 and premiere support tickets created as L3"
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 3' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
   measure: count_level_4 {
-    description: "Business Impact: Minor issue on non-production system or question, comment, feature request, documentation issue or other non-impacting issues."
+    label: "# of L4 Tickets"
+    group_label: "SLAs"
+    description: "# of E20 and premiere support tickets created as L4"
     type: count_distinct
     sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
@@ -586,7 +617,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, days_since_last_comment, created_date, solved_at_time, e20_customer_level_tier, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, priority, days_since_last_comment, created_date, solved_at_time, e20_customer_level_tier, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
