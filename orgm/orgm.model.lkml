@@ -259,6 +259,30 @@ explore: opportunitylineitem_data_check {
   }
 }
 
+explore: lead_data_check {
+  persist_for: "0 seconds"
+  fields: [lead.sfid, orgm_lead_data_check.sfid, lead.count,
+    lead.systemmodstamp_time, orgm_lead_data_check.systemmodstamp_time,
+    lead.created_time, orgm_lead_data_check.created_time,
+    orgm_lead_data_check.processed_time, orgm_lead_data_check.count,
+    delete_history.name,delete_history.deleted_time]
+  group_label: "zHeroku Postgres OrgM"
+  from: lead
+  view_name: lead
+
+  join: orgm_lead_data_check {
+    view_label: "Snowflake Lead"
+    type: full_outer
+    relationship: one_to_one
+    sql_on: ${lead.sfid} = ${orgm_lead_data_check.sfid} ;;
+  }
+
+  join: delete_history {
+    sql_on: ${delete_history.sfid} = ${orgm_lead_data_check.sfid} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: opportunity_field_history {
   group_label: "zHeroku Postgres OrgM"
   from:  opportunityfieldhistory
