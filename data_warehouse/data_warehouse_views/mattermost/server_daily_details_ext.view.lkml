@@ -64,6 +64,14 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  filter: latest_telemetry_record_2 {
+    label: "  Latest Telemetry Record"
+    description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
   filter: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
     description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."

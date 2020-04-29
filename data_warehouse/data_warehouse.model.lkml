@@ -657,7 +657,7 @@ explore: server_daily_details {
     sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
       AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
     relationship: one_to_one
-    fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades]
+    fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades, server_upgrades.is_version_upgrade_date, server_upgrades.is_edition_upgrade_date]
   }
 
   join: licenses {
@@ -1009,7 +1009,7 @@ explore: server_upgrades {
   description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
-  hidden: yes
+  hidden: no
 
   join: account {
     sql_on: ${server_upgrades.account_sfid} = ${account.sfid} ;;

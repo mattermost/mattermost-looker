@@ -17,6 +17,13 @@ view: license_daily_details {
     sql: ${logging_date} = (SELECT MAX(date) FROM blp.license_daily_details) ;;
   }
 
+  filter: is_last_telemetry_date {
+    description: "Boolean that filters the data so the row represented represents that last row of data the customer/trial sent telemetry data to Mattermost."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${last_telemetry_date} THEN TRUE ELSE FALSE END ;;
+
+  }
+
   # DIMENSIONS
   dimension: license_id {
     description: ""
@@ -837,6 +844,42 @@ view: license_daily_details {
     filters: {
       field: last_telemetry_date
       value: "NULL"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau_10plus_user {
+    label: "Customers w/ MAU >= 10 Users"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU >= 10."
+    type: count_distinct
+    filters: {
+      field: server_mau
+      value: ">= 10"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau_between_5_10_user {
+    label: "Customers w/ MAU 5-9 Users"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU between 5 and 9."
+    type: count_distinct
+    filters: {
+      field: server_mau
+      value: ">= 5 AND <= 9"
+    }
+    sql: ${customer_id} ;;
+  }
+
+  measure: mau_below_5_user {
+    label: "Customers w/ MAU < 5 Users"
+    group_label: " Customer Counts"
+    description: "The distinct count of License Customers w/ MAU < 5 Users."
+    type: count_distinct
+    filters: {
+      field: server_mau
+      value: "< 5"
     }
     sql: ${customer_id} ;;
   }

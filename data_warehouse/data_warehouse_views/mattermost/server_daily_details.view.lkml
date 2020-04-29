@@ -62,6 +62,14 @@ view: server_daily_details {
     hidden: no
   }
 
+  filter: latest_telemetry_record_2 {
+    label: "  Latest Telemetry Record"
+    description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
   filter: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
     description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) telemetry data."
@@ -346,6 +354,14 @@ view: server_daily_details {
     group_label: "License Info."
     type: yesno
     sql: case when ${license_id} is not null then true else false end ;;
+  }
+
+  dimension: edition2 {
+    label: " Edition (w/ License SKU)"
+    description: "Indicates whether the server is registered/paired with a licensed customer (If yes then licensed, else unlicensed)."
+    group_label: "License Info."
+    type: string
+    sql: COALESCE(${licenses.edition}, ${edition}) ;;
   }
 
   dimension: server_status {
