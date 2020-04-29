@@ -40,13 +40,11 @@ view: contact {
   dimension_group: created {
     sql: ${TABLE}.CREATEDDATE ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -66,35 +64,254 @@ view: contact {
     type: yesno
   }
 
-  dimension_group: mel {
-    sql: ${TABLE}.MEL_DATE__C ;;
+  dimension_group: first_mcl {
+    group_label: "Lead Lifecycle: MCL"
+    label: "MCL First"
+    sql: ${TABLE}.FIRST_MCL_DATE__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
 
-  dimension: is_mql {
-    sql: ${TABLE}.MQL__C ;;
-    type: yesno
-  }
-
-  dimension_group: mql {
-    sql: ${TABLE}.MQL_DATE__C ;;
+  dimension_group: most_recent_mcl {
+    group_label: "Lead Lifecycle: MCL"
+    label: "MCL Most Recent"
+    sql: ${TABLE}.MOST_RECENT_MCL_DATE__C ;;
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_mel {
+    group_label: "Lead Lifecycle: MEL"
+    label: "MEL First"
+    sql: ${TABLE}.FIRST_MEL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_mel {
+    group_label: "Lead Lifecycle: MEL"
+    label: "MEL Most Recent"
+    sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_mql {
+    group_label: "Lead Lifecycle: MQL"
+    label: "MQL First"
+    sql: ${TABLE}.FIRST_MQL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_mql {
+    group_label: "Lead Lifecycle: MQL"
+    label: "MQL Most Recent"
+    sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_scl {
+    group_label: "Lead Lifecycle: SCL"
+    label: "SCL First"
+    sql: ${TABLE}.FIRST_SCL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_scl {
+    group_label: "Lead Lifecycle: SCL"
+    label: "SCL Most Recent"
+    sql: ${TABLE}.MOST_RECENT_SCL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_qsc {
+    group_label: "Lead Lifecycle: QSC"
+    label: "QSC First"
+    sql: ${TABLE}.FIRST_QSC_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_qsc {
+    group_label: "Lead Lifecycle: QSC"
+    label: "QSC Most Recent"
+    sql: ${TABLE}.MOST_RECENT_QSC_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_qso {
+    group_label: "Lead Lifecycle: QSO"
+    label: "QSO First"
+    sql: ${TABLE}.FIRST_QSO_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_qso {
+    group_label: "Lead Lifecycle: QSO"
+    label: "QSO Most Recent"
+    sql: ${TABLE}.MOST_RECENT_QSO_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_junk {
+    group_label: "Lead Lifecycle: Junk"
+    label: "Junk First"
+    sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: first_pql {
+    group_label: "Lead Lifecycle: PQL"
+    label: "PQL First"
+    sql: ${TABLE}.FIRST_PQL_DATE__c ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension: first_pql_type {
+    group_label: "Lead Lifecycle: PQL"
+    label: "PQL First Type"
+    sql: ${TABLE}.FIRST_PQL_TYPE__c ;;
+    type: string
+  }
+
+  dimension_group: most_recent_pql {
+    group_label: "Lead Lifecycle: PQL"
+    label: "PQL Most Recent"
+    sql: ${TABLE}.MOST_RECENT_PQL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension: most_recent_pql_type {
+    group_label: "Lead Lifecycle: PQL"
+    label: "PQL Most Recent Type"
+    sql: ${TABLE}.MOST_RECENT_PQL_TYPE__c ;;
+    type: string
+  }
+
+  dimension_group: first_recycled {
+    group_label: "Lead Lifecycle: Recycled"
+    label: "Recycled First"
+    sql: ${TABLE}.FIRST_RECYCLED_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: most_recent_recycled {
+    group_label: "Lead Lifecycle: Recycled"
+    label: "Recycled Most Recent"
+    sql: ${TABLE}.MOST_RECYCLED_QSO_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
     ]
     type: time
   }
@@ -110,39 +327,11 @@ view: contact {
     type: string
   }
 
-  dimension_group: sal {
-    sql: ${TABLE}.SAL_DATE__C ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
   dimension: sfid {
     label: "Contact ID"
     primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
-  }
-
-  dimension_group: sql {
-    sql: ${TABLE}.SQL_DATE__C ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
   }
 
 

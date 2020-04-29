@@ -1,14 +1,14 @@
-view: contributor_employee_map_data {
-  sql_table_name: MATTERMOST.CONTRIBUTOR_EMPLOYEE_MAP_DATA ;;
+view: contributor_map_data {
+  sql_table_name: MATTERMOST.CONTRIBUTOR_MAP_DATA ;;
 
   dimension: latitude {
     type: number
-    sql: ROUND(${TABLE}.lat,4);;
+    sql: ${TABLE}.latitude;;
   }
 
   dimension: longitude {
     type: number
-    sql: ROUND(${TABLE}.lng,4);;
+    sql: ${TABLE}.longitude;;
   }
 
   dimension: location {
@@ -17,18 +17,19 @@ view: contributor_employee_map_data {
     sql_longitude:${longitude} ;;
   }
 
+  dimension: location_label {
+    sql: ${TABLE}.location ;;
+  }
+
   dimension: reason {
     type: string
     sql: ${TABLE}.REASON ;;
   }
 
-  dimension: email {
-    type: string
-    sql: ${TABLE}.email ;;
-  }
-
   measure: count {
+    label: "# of People"
     type: sum
     sql: ${TABLE}.count ;;
   }
+
 }

@@ -3,7 +3,6 @@ view: campaignmember {
   drill_fields: [id]
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}."id" ;;
   }
@@ -188,20 +187,6 @@ view: campaignmember {
     sql: ${TABLE}."firstname" ;;
   }
 
-  dimension_group: firstrespondeddate {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."firstrespondeddate" ;;
-  }
 
   dimension: g2k_rank__c {
     type: number
@@ -397,6 +382,7 @@ view: campaignmember {
   }
 
   dimension: sfid {
+    primary_key: yes
     type: string
     sql: ${TABLE}."sfid" ;;
   }

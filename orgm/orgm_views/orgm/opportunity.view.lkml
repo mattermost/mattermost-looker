@@ -1,6 +1,39 @@
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
-  drill_fields: [original_opportunity_id__c]
+
+  #
+  # Sets
+  #
+
+  set: opportunity_drill_fields {
+    fields: [close_date, status_wlo, stagename,
+      forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
+  }
+
+  set: opportunity_core {
+    fields: [
+      name,
+      sfid,
+      close_date,
+      close_month,
+      close_fiscal_quarter_of_year,
+      close_fiscal_year,
+      forecastcategoryname,
+      license_start_date,
+      license_start_month,
+      license_start_fiscal_quarter_of_year,
+      license_start_fiscal_year,
+      license_end_date,
+      license_end_month,
+      license_end_fiscal_quarter_of_year,
+      license_end_fiscal_year,
+      iswon,
+      isclosed,
+      stagename,
+      probability,
+      type
+    ]
+  }
 
 
 # Filters
@@ -9,12 +42,6 @@ view: opportunity {
     sql: to_char(${close_date},'YYYY-MM') = get_sys_var('curr_mo') ;;
     label: "Close Current Month"
 
-  }
-
-
-  dimension: original_opportunity_id__c {
-    type: string
-    sql: ${TABLE}."original_opportunity_id__c" ;;
   }
 
   dimension: _hc_err {
@@ -37,15 +64,6 @@ view: opportunity {
     sql: ${TABLE}."amount" ;;
   }
 
-  dimension: amount_in_commit__c {
-    type: number
-    sql: ${TABLE}."amount_in_commit__c" ;;
-  }
-
-  dimension: amount_in_pipeline__c {
-    type: number
-    sql: ${TABLE}."amount_in_pipeline__c" ;;
-  }
 
   dimension: campaignid {
     type: string
@@ -53,18 +71,69 @@ view: opportunity {
   }
 
   dimension_group: close {
-    type: time
+    convert_tz: no
+    description: "Date when the opportunity is expected to close."
+    sql: ${TABLE}."closedate" ;;
     timeframes: [
       date,
       month,
-      quarter,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       year,
       fiscal_year
     ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."closedate" ;;
+    type: time
+    group_label: "Close"
+  }
+
+  dimension: close_yyyy_mm {
+    type: string
+    sql: to_char(${TABLE}."closedate",'YYYY-MM');;
+    label: "Close YYYY-MM"
+    group_label: "Close"
+  }
+
+  dimension: close_yyyy_qq {
+    type: string
+    sql: ${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
+    label: "Close YYYY-QQ"
+    group_label: "Close"
+  }
+
+
+  dimension: close_current_fy {
+    type:  yesno
+    sql: ${close_fiscal_year} = util.fiscal_year(current_date);;
+    group_label: "Close"
+    label: "Close Current FY"
+  }
+
+  dimension: close_current_qtr {
+    type:  yesno
+    sql:${close_fiscal_quarter_of_year} = util.fiscal_quarter(current_date) AND ${close_fiscal_year} = util.fiscal_year(current_date);;
+    group_label: "Close"
+    label: "Close Current Qtr"
+  }
+
+  dimension: close_in_renewal_qtr {
+    type:  yesno
+    sql: util.fiscal_quarter(${TABLE}.closedate) ||'-'|| util.fiscal_year(${TABLE}.closedate) = util.fiscal_quarter(${license_start_date}) ||'-'|| util.fiscal_year(${license_start_date});;
+    group_label: "Close"
+    label: "Closed in Renewal Qtr?"
+  }
+
+  dimension: close_vs_renewal_qtr {
+    type:  string
+    sql: CASE WHEN ${close_fiscal_quarter} < ${license_start_fiscal_quarter} THEN 'Early' WHEN ${close_fiscal_quarter} = ${license_start_fiscal_quarter} THEN 'Same' ELSE 'Late' END;;
+    group_label: "Close"
+    label: "Same, Early or Later Renewal by Qtr"
+  }
+
+  dimension: close_current_mo {
+    type:  yesno
+    sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
+    group_label: "Close"
+    label: "Close Current Mo"
   }
 
   dimension: contactid {
@@ -77,33 +146,34 @@ view: opportunity {
     sql: ${TABLE}."createdbyid" ;;
   }
 
-  dimension_group: createddate {
+  dimension_group: created {
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}."createddate" ;;
+    label: "Create Date"
   }
 
-  dimension: days_past_renewal__c {
-    type: number
-    sql: ${TABLE}."days_past_renewal__c" ;;
-  }
-
-  dimension: delta_amount__c {
-    type: number
-    sql: ${TABLE}."delta_amount__c" ;;
+  dimension: e_purchase_date__c {
+    type: date
+    sql: ${TABLE}."e_purchase_date__c" ;;
+    label: "E-Purchase Date"
   }
 
   dimension: expectedrevenue {
     type: number
     sql: ${TABLE}."expectedrevenue" ;;
+  }
+
+
+
+  dimension: forecastcategoryname {
+    type: string
+    sql: ${TABLE}.forecastcategoryname ;;
+    group_label: "Forecast"
+    label: "Forecast Category Name"
   }
 
   dimension: id {
@@ -145,7 +215,7 @@ view: opportunity {
     sql: ${TABLE}."lastmodifieddate" ;;
   }
 
-  dimension_group: lead_created_date__c {
+  dimension_group: lead_created {
     type: time
     timeframes: [
       raw,
@@ -157,39 +227,109 @@ view: opportunity {
       year
     ]
     sql: ${TABLE}."lead_created_date__c" ;;
+    group_label: "Lead"
   }
 
-  dimension: lead_source_detail__c {
+  dimension: lead_source_detail {
     type: string
     sql: ${TABLE}."lead_source_detail__c" ;;
+    group_label: "Lead"
   }
 
-  dimension: lead_source_detail_upon_conversion__c {
+  dimension: lead_source_detail_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_detail_upon_conversion__c" ;;
+    group_label: "Lead"
   }
 
-  dimension: lead_source_upon_conversion__c {
+  dimension: lead_source_upon_conversion {
     type: string
     sql: ${TABLE}."lead_source_upon_conversion__c" ;;
+    group_label: "Lead"
   }
 
-  dimension: lead_type__c {
+  dimension: lead_type {
     type: string
     sql: ${TABLE}."lead_type__c" ;;
+    group_label: "Lead"
   }
 
-  dimension: leadid__c {
+  dimension: leadid {
     type: string
     sql: ${TABLE}."leadid__c" ;;
+    group_label: "Lead"
   }
 
   dimension: leadsource {
     type: string
-    sql: ${TABLE}."leadsource" ;;
+    sql: ${TABLE}."lead_source_text__c" ;;
+    group_label: "Lead"
   }
 
-  dimension_group: mql_date__c {
+  dimension_group: license_end {
+    convert_tz: no
+    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
+    sql: ${TABLE}.license_end_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
+  }
+
+  dimension: license_end_yyyy_mm {
+    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License"
+    label: "License End YYYY-MM"
+  }
+
+  dimension: license_end_yyyy_qq {
+    type: string
+    sql: ${license_end_fiscal_year} || '-' || ${license_end_fiscal_quarter_of_year};;
+    label: "License End YYYY-QQ"
+    group_label: "License"
+  }
+
+  dimension_group: license_start {
+    convert_tz: no
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: ${TABLE}.license_start_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License"
+  }
+
+  dimension: license_start_yyyy_qq {
+    type: string
+    sql: ${license_start_fiscal_year} || '-' || ${license_start_fiscal_quarter_of_year};;
+    label: "License End YYYY-QQ"
+    group_label: "License"
+  }
+
+
+  dimension: license_start_yyyy_mm {
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License"
+    label: "License Start YYYY-MM"
+  }
+
+  dimension_group: mql_date {
     type: time
     timeframes: [
       raw,
@@ -204,58 +344,32 @@ view: opportunity {
   }
 
   dimension: name {
+    description: "Name of opportunity in Salesforce"
+    label: "Opportunity Name"
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
+    sql: ${TABLE}.name ;;
     type: string
-    sql: ${TABLE}."name" ;;
   }
 
-  dimension: new_expansion_total__c {
-    type: number
-    sql: ${TABLE}."new_expansion_total__c" ;;
-  }
-
-  dimension: new_logo__c {
+  dimension: new_logo {
     type: string
     sql: ${TABLE}."new_logo__c" ;;
   }
 
-  dimension: order_type__c {
+  dimension: order_type {
     type: string
     sql: ${TABLE}."order_type__c" ;;
   }
 
-  dimension: original_opportunity__c {
+  dimension: original_opportunity_sfid {
+    # description: "TODO"
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunityid__c ;;
     type: string
-    sql: ${TABLE}."original_opportunity__c" ;;
-  }
-
-  dimension: original_opportunity_amount__c {
-    type: number
-    sql: ${TABLE}."original_opportunity_amount__c" ;;
-  }
-
-  dimension_group: original_opportunity_end_date__c {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."original_opportunity_end_date__c" ;;
-  }
-
-  dimension: original_opportunity_length_in_months__c {
-    type: number
-    sql: ${TABLE}."original_opportunity_length_in_months__c" ;;
-  }
-
-  dimension: original_opportunityid__c {
-    type: string
-    sql: ${TABLE}."original_opportunityid__c" ;;
+    label: "Original Opportunity SFID"
   }
 
   dimension: ownerid {
@@ -268,12 +382,7 @@ view: opportunity {
     sql: ${TABLE}."probability" ;;
   }
 
-  dimension: renewal_amount_total__c {
-    type: number
-    sql: ${TABLE}."renewal_amount_total__c" ;;
-  }
-
-  dimension_group: renewal_created_date__c {
+  dimension_group: renewal_created_date {
     type: time
     timeframes: [
       raw,
@@ -288,50 +397,58 @@ view: opportunity {
     sql: ${TABLE}."renewal_created_date__c" ;;
   }
 
-  dimension: renewal_includes_leftover_expansion__c {
-    type: string
-    sql: ${TABLE}."renewal_includes_leftover_expansion__c" ;;
-  }
-
-  dimension: renewal_risk_amount__c {
+  dimension: renewal_risk_amount {
     type: number
     sql: ${TABLE}."renewal_risk_amount__c" ;;
   }
 
-  dimension: renewal_risk_competitor__c {
+  dimension: renewal_risk_competitor {
     type: string
     sql: ${TABLE}."renewal_risk_competitor__c" ;;
   }
 
-  dimension: renewal_risk_reason_additional_details__c {
+  dimension: renewal_risk_reason_additional_details {
     type: string
     sql: ${TABLE}."renewal_risk_reason_additional_details__c" ;;
   }
 
-  dimension: renewal_risk_reasons__c {
+  dimension: renewal_risk_reasons {
     type: string
     sql: ${TABLE}."renewal_risk_reasons__c" ;;
   }
 
-  dimension: renewal_risk_status__c {
+  dimension: renewal_risk_status {
     type: string
     sql: ${TABLE}."renewal_risk_status__c" ;;
   }
 
-  dimension: renewed_by_opp_prob__c {
-    type: number
-    sql: ${TABLE}."renewed_by_opp_prob__c" ;;
-  }
-
-  dimension: renewed_by_opportunity_id__c {
+  dimension: renewed_by_opportunity_id {
     type: string
     sql: ${TABLE}."renewed_by_opportunity_id__c" ;;
   }
+
+  dimension: stagename {
+    type: string
+    sql: ${TABLE}."stagename" ;;
+    label: "Stage"
+  }
+
+  dimension: status_wlo {
+    type: string
+    sql: ${TABLE}."status_wlo__c" ;;
+    label: "Status WLO"
+  }
+
 
   dimension: sfid {
     type: string
     primary_key: yes
     sql: ${TABLE}."sfid" ;;
+    link: {
+      label: "Salesforce Opportunity"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension_group: systemmodstamp {
@@ -348,7 +465,7 @@ view: opportunity {
     sql: ${TABLE}."systemmodstamp" ;;
   }
 
-  dimension: territory__c {
+  dimension: territory {
     type: string
     sql: ${TABLE}."territory__c" ;;
   }
@@ -358,8 +475,146 @@ view: opportunity {
     sql: ${TABLE}."type" ;;
   }
 
+
   measure: count {
-    type: count
-    drill_fields: [original_opportunity_id__c, name, opportunitylineitem.count]
+    type: count_distinct
+    sql: ${sfid} ;;
+    drill_fields: [sfid, name, opportunitylineitem.count]
   }
+
+  measure: total_amount {
+    type: sum
+    value_format_name: usd_0
+    sql: ${amount} ;;
+  }
+  measure: total_arr {
+    label: "Total ARR"
+    type: sum
+    sql: ${opportunitylineitem.arr} ;;
+  }
+
+  measure: total_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# Exp Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "no"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_with_loe_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_count {
+    group_label: "Product Line Type Counts"
+    label: "# New Oppts"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_exp_count {
+    group_label: "Product Line Type Counts"
+    label: "# New and Exp Oppts"
+    sql: ${total_new_count}+${total_exp_count};;
+    type: number
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+  }
+
+  measure: total_new_and_exp_with_loe_amount {
+    label: "Total New and Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+  }
+
+  measure: total_new_and_exp_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+  }
+
+
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Ren"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+
+  measure: total_multi_amount {
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Multi"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+
 }

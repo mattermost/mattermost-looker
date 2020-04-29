@@ -7,35 +7,27 @@ view: github_contributors {
   }
 
   dimension_group: min_contribution {
-    description: "The date when each user last ordered"
+    description: "The first time a contributor contributed."
     type: time
     timeframes: [
       time,
-      date,
-      week,
       month,
-      fiscal_quarter,
-      year,
-      fiscal_year
     ]
     sql: ${TABLE}.min_contribution ;;
   }
 
   dimension_group: max_contribution {
+    description: "The last time a contributor contributed."
     type: time
     timeframes: [
       time,
-      date,
-      week,
       month,
-      fiscal_quarter,
-      year,
-      fiscal_year
     ]
     sql: ${TABLE}.max_contribution ;;
   }
 
   dimension: total_contributions {
+    description: "Total Contributions by a Contributor"
     type: number
     sql: ${TABLE}.total_contributions ;;
   }

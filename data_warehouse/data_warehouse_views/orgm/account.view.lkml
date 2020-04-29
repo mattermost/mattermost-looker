@@ -41,12 +41,12 @@ view: account {
       name,
       sfid,
       owner_name,
-      ownerid,
       csm_name,
-      parent_account_name,
+      master_account_name,
       count,
-      csm_enriched_region,
-      customer_segmentation_tier
+      customer_segmentation_tier,
+      industry_category,
+      arr_current
     ]
   }
 
@@ -55,29 +55,10 @@ view: account {
   # Dimensions
   #
 
-  dimension: account_id_18_digit {
-    sql: ${TABLE}.account_id_18_digit__c ;;
-    group_label: "Ditch"
-  }
-
   dimension: account_number {
     label: "Account #"
     sql: ${TABLE}.account_number__c ;;
     type: string
-  }
-
-  dimension: account_end_date {
-    label: "Account End Date"
-    sql: ${TABLE}.account_end_date__c ;;
-    type: date
-    group_label: "Ditch"
-  }
-
-  dimension: account_start_date {
-    label: "Account Start Date"
-    sql: ${TABLE}.account_start_date__c ;;
-    type: date
-    group_label: "Ditch"
   }
 
   dimension: account_source {
@@ -85,36 +66,25 @@ view: account {
     type: string
   }
 
+  dimension: licensed_account {
+    label: "Currently Licensed?"
+    sql: ${arr_current} > 1 ;;
+    type: yesno
+  }
+
   dimension: annual_revenue {
     sql: ${TABLE}.annualrevenue ;;
     type: number
   }
 
-  dimension: api_id {
-    group_label: "System"
-    label: "API ID"
-    sql: ${TABLE}.api_id__c ;;
-    type: string
+  dimension: arr_current {
+    label: "Current ARR"
+    sql: ${TABLE}.arr_current__c ;;
+    value_format_name: "usd_0"
+    type: number
   }
 
-  dimension: assigned_once_with_workflow {
-    group_label: "System"
-    label: "Assigned Once with WF"
-    sql: ${TABLE}.assigned_once_with_workflow__c ;;
-    type: yesno
-  }
 
-  dimension: assigned_owner {
-    group_label: "Owners"
-    sql: ${TABLE}.assigned_owner__c ;;
-    type: string
-  }
-
-  dimension: assigned_owner_id {
-    group_label: "Owners"
-    sql: ${TABLE}.assigned_owner_id__c ;;
-    type: string
-  }
 
   dimension: billing_city {
     group_label: "Billing Info"
@@ -189,18 +159,6 @@ view: account {
     type: string
   }
 
-  dimension: cleaned_up_website {
-    group_label: "System"
-    label: "Cleaned up Website"
-    sql: ${TABLE}.cleaned_up_website__c ;;
-    type: string
-  }
-
-  dimension: commercial_rep {
-    group_label: "Owners"
-    sql: ${TABLE}.commercial_rep__c ;;
-    type: string
-  }
 
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
@@ -225,45 +183,11 @@ view: account {
     type: date
   }
 
-  dimension: csm {
-    group_label: "Owners"
-    label: "CSM Name"
-    sql: ${TABLE}.csm__c ;;
-    type: string
-  }
-
-  dimension: csm_auto_assigned {
+  dimension: csm_lookup {
     group_label: "CS"
-    label: "CSM Auto-assigned"
-    sql: ${TABLE}.csm_auto_assigned__c ;;
+    label: "CSM Owner"
+    sql: ${TABLE}.csm_lookup__c ;;
     type: string
-  }
-
-  dimension: csm_id {
-    group_label: "Owners"
-    label: "CSM ID"
-    sql: ${TABLE}.csm_id__c ;;
-    type: string
-  }
-
-  dimension: csm_override {
-    group_label: "CS"
-    label: "CSM Override"
-    sql: ${TABLE}.csm_override__c ;;
-    type: string
-  }
-
-  dimension: csm_territory {
-    group_label: "CS"
-    label: "CS Territory"
-    sql: ${TABLE}.csm_territory__c ;;
-    type: string
-  }
-
-  dimension: customer_churned {
-    group_label: "CS"
-    sql: ${TABLE}.customer_churned__c ;;
-    type: yesno
   }
 
   dimension: customer_segmentation_tier {
@@ -272,26 +196,6 @@ view: account {
     type: string
   }
 
-  dimension_group: date_of_issue {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.date_of_issue__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: days_past_renewal {
-    group_label: "CS"
-    sql: ${TABLE}.days_past_renewal__c ;;
-    type: number
-  }
 
   dimension_group: demo_req {
     sql: ${TABLE}.demo_req_date__c ;;
@@ -307,26 +211,20 @@ view: account {
     type: time
   }
 
-  dimension_group: deploy_on_bitnami {
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.deployonbitnamidate__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension: description {
     label: "Account Description"
     sql: ${TABLE}.description ;;
     type: string
   }
+
+  dimension: dwh_external_id__c {
+    type: string
+    sql: ${TABLE}.dwh_external_id__c ;;
+    group_label: "System"
+    label: "DWH External ID"
+  }
+
 
   dimension_group: e_purchase {
     sql: ${TABLE}.e_purchase_date__c ;;
@@ -347,21 +245,6 @@ view: account {
     type: string
   }
 
-  dimension: field_rep {
-    group_label: "Owners"
-    sql: ${TABLE}.field_rep__c ;;
-    type: string
-  }
-
-  dimension: first_channel {
-    sql: ${TABLE}.first_channel__c ;;
-    type: string
-  }
-
-  dimension: first_channel_detail {
-    sql: ${TABLE}.first_channel_detail__c ;;
-    type: string
-  }
 
   dimension_group: first_created {
     convert_tz: no
@@ -413,11 +296,7 @@ view: account {
     type: time
   }
 
-  dimension: former_owner {
-    group_label: "Owners"
-    type: string
-    sql: ${TABLE}.former_owner__c ;;
-  }
+
 
   dimension: g2k_rank {
     sql: ${TABLE}.g2k_rank__c ;;
@@ -456,6 +335,11 @@ view: account {
     type: yesno
   }
 
+  dimension: health_score {
+    sql: ${TABLE}.health_score__c ;;
+    type: number
+  }
+
   dimension: imported_case_study_note {
     group_label: "Imported"
     label: "Case Study Note"
@@ -481,25 +365,20 @@ view: account {
     type: string
   }
 
-  dimension: is_deleted {
-    sql: ${TABLE}.isdeleted ;;
-    type: yesno
+  dimension: industry_category {
+    label: "Industry Category"
+    sql: ${account_industry_mapping.industry_category} ;;
+    type: string
   }
 
-  dimension_group: last_time_assignm_process_workflow_ran {
-    # description: "TODO"
-    sql: ${TABLE}.last_time_assignm_process_workflow_ran__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
+
+  dimension: isdeleted {
+    sql: ${TABLE}.isdeleted ;;
+    type: yesno
+    group_label: "System"
   }
+
+
 
   dimension_group: last_activity {
     convert_tz: no
@@ -548,6 +427,7 @@ view: account {
       year
     ]
     type: time
+    group_label: "System"
   }
 
   dimension_group: last_reviewed {
@@ -593,37 +473,7 @@ view: account {
     type: time
   }
 
-  dimension: legal_contact {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_contact__c ;;
-    type: string
-  }
 
-  dimension: legal_right_for_case_studies {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_right_for_case_studies__c ;;
-    type: string
-  }
-
-  dimension: legal_right_to_use_name_logo {
-    group_label: "Legal"
-    sql: ${TABLE}.legal_right_to_use_name_logo__c ;;
-    type: string
-  }
-
-  dimension: legally_agreed_to_joint_pr {
-    group_label: "Legal"
-    label: "Legally Agreed To Joint PR"
-    sql: ${TABLE}.legally_agreed_to_joint_pr__c ;;
-    type: string
-  }
-
-  dimension: legally_agreed_to_pr {
-    group_label: "Legal"
-    label: "Legally Agreed To PR"
-    sql: ${TABLE}.legally_agreed_to_pr__c ;;
-    type: string
-  }
 
   dimension: logo_sales_logos_dropbox {
     # description: "TODO"
@@ -642,28 +492,6 @@ view: account {
     type: string
   }
 
-  dimension: mattermost_rep {
-    group_label: "Owners"
-    label: "Mattermost Rep"
-    sql: ${TABLE}.mattermost_rep__c ;;
-    type: string
-  }
-
-  dimension_group: max_closed_won {
-    convert_tz: no
-    datatype: date
-    label: "Closed / Won"
-    sql: ${TABLE}.max_closed_won_date__c ;;
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension_group: meeting_set {
     sql: ${TABLE}.meetingset_date__c ;;
@@ -679,30 +507,15 @@ view: account {
     type: time
   }
 
-  dimension_group: mql {
-    label: "MQL"
-    group_label: "Funnel"
-    sql: ${TABLE}.mql_date__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
 
   dimension: name {
     description: "Name of account that opportunity is linked to Salesforce"
-    group_label: "Account"
     label: "Account Name"
     link: {
       label: "Salesforce Account"
       # BP: Leverage constants to enable more reused
       url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     sql: ${TABLE}.name ;;
     type: string
@@ -735,54 +548,6 @@ view: account {
     type: time
   }
 
-  # TODO: These netsuite fields do not exist in the db
-  # dimension: netsuite_conn_account_balance {
-  #   group_item_label: "Account Balance"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Account Balance"
-  #   sql: ${TABLE}.netsuite_conn__account_balance__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_account_overdue_balance {
-  #   group_item_label: "Account Overdue Balance"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Account Overdue Balance"
-  #   sql: ${TABLE}.netsuite_conn__account_overdue_balance__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_channel_tier {
-  #   group_item_label: "Channel Tier"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Channel Tier"
-  #   sql: ${TABLE}.netsuite_conn__channel_tier__c ;;
-  #   type: string
-  # }
-
-  # dimension: netsuite_conn_credit_limit {
-  #   group_item_label: "Credit Limit"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Credit Limit"
-  #   sql: ${TABLE}.netsuite_conn__credit_limit__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_days_overdue {
-  #   group_item_label: "Days Overdue"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Days Overdue"
-  #   sql: ${TABLE}.netsuite_conn__days_overdue__c ;;
-  #   type: number
-  # }
-
-  # dimension: netsuite_conn_unbilled_orders {
-  #   group_item_label: "Unbilled Orders"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Unbilled Orders"
-  #   sql: ${TABLE}.netsuite_conn__unbilled_orders__c ;;
-  #   type: number
-  # }
 
   dimension: netsuite_conn_celigo_update {
     group_item_label: "Celigo Update"
@@ -840,40 +605,10 @@ view: account {
     type: yesno
   }
 
-  dimension: number_of_open_opportunities {
-    label: "# of Open Opportunities"
-    sql: ${TABLE}.number_of_open_opportunities__c ;;
-    type: number
-  }
-
-  dimension: number_of_opportunities {
-    label: "# of Opportunities"
-    sql: ${TABLE}.number_of_opportunities__c ;;
-    type: number
-  }
-
-  dimension: number_of_won_opportunities {
-    label: "# of Won Opportunities"
-    sql: ${TABLE}.number_of_won_opportunities__c ;;
-    type: number
-  }
-
   dimension: number_of_employees {
     label: "# of Employees"
     sql: ${TABLE}.numberofemployees ;;
     type: number
-  }
-
-  dimension: obsolete_region {
-    sql: ${TABLE}.obsoleteregion__c ;;
-    type: string
-    group_label: "Ditch"
-  }
-
-  dimension: obsolete_territory {
-    sql: ${TABLE}.obsoleteterritory__c ;;
-    type: string
-    group_label: "Ditch"
   }
 
   dimension: offer {
@@ -891,10 +626,7 @@ view: account {
     type: string
   }
 
-  dimension: our_champion {
-    sql: ${TABLE}.our_champion__c ;;
-    type: string
-  }
+
 
   dimension: ownerid {
     group_label: "Owners"
@@ -911,7 +643,7 @@ view: account {
 
   dimension: csm_name {
     group_label: "Owners"
-    label: "CSM Name (based on id)"
+    label: "CSM Name"
     sql: ${account_csm.name};;
     type: string
   }
@@ -930,7 +662,21 @@ view: account {
   }
 
   dimension: parent_account_name {
-    label: "Master Account"
+    group_label: "Parent"
+    label: "Parent Account Name"
+    sql: ${parent_account.name} ;;
+    type: string
+  }
+
+  dimension: parent_account_arr {
+    group_label: "Parent"
+    label: "Parent Account ARR"
+    sql: ${parent_account.arr_current} ;;
+    type: number
+  }
+
+  dimension: master_account_name {
+    label: "Master Account Name"
     sql: coalesce(${parent_account.name}, ${name}) ;;
     type: string
   }
@@ -945,29 +691,7 @@ view: account {
     type: string
   }
 
-  # TODO: These fields do not exist in the database?
-  # dimension_group: pr {
-  #   convert_tz: no
-  #   datatype: date
-  #   label: "PR"
-  #   sql: ${TABLE}.pr_date__c ;;
-  #   timeframes: [
-  #     raw,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   type: time
-  # }
 
-
-  # dimension: pr_link {
-  #   label: "PR Link"
-  #   sql: ${TABLE}.pr_link__c ;;
-  #   type: string
-  # }
 
   dimension_group: pre_release_sign_up {
     # description: "TODO"
@@ -1009,27 +733,6 @@ view: account {
     type: string
   }
 
-  dimension: csm_enriched_region {
-    label: "CSM Enriched Region"
-    sql: CASE
-              WHEN left(${csm_id},15) = '0051R00000I5RZB' THEN 'EMEA'
-              WHEN left(${csm_id},15) = '0051R00000GnXMs' THEN 'East'
-              WHEN left(${csm_id},15) = '00536000009uaDQ' THEN 'West/APAC'
-              WHEN left(${csm_id},15) = '0051R00000HTEzF' THEN 'Global Self-Service'
-              WHEN left(${csm_id},15) = '0051R00000Gnded' THEN 'Fed'
-              WHEN ${csm} in ('Jenn Lawler','jenn lawler','Jenn lawler') THEN 'West/APAC'
-              WHEN ${csm} in ('Jeff Johnson','Jeff johnson') THEN 'Global Self-Service'
-              WHEN ${csm} in ('Sasa Cosic') THEN 'EMEA'
-              ELSE NULL END ;;
-    type: string
-  }
-
-  dimension: renewal_rep {
-    group_label: "Owners"
-    label: "Renewal Rep"
-    sql: ${TABLE}.renewal_rep__c ;;
-    type: string
-  }
 
   dimension_group: request_a_quote {
     sql: ${TABLE}.request_a_quote_date__c ;;
@@ -1068,6 +771,11 @@ view: account {
     label: "Account ID"
     primary_key: yes
     sql: ${TABLE}.sfid ;;
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{value}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     type: string
   }
 
@@ -1138,12 +846,6 @@ view: account {
     type: string
   }
 
-  # TODO: This field is always the same as sic_desc
-  # dimension: sic_description {
-  #   sql: ${TABLE}.sic_description__c ;;
-  #   type: string
-  # }
-
   dimension: sic_desc {
     description: "The description of the Standard Industrial Classification"
     label: "SIC Description"
@@ -1162,67 +864,53 @@ view: account {
     type: string
   }
 
-  dimension: solution_architect_1 {
-    sql: ${TABLE}.solution_architect_1__c ;;
+
+  dimension: territory_geo {
     type: string
+    sql: ${TABLE}.territory_geo__c ;;
+    group_label: "Territory"
+    label: "Territory Geo"
   }
 
-  dimension: solution_architect_2 {
-    sql: ${TABLE}.solution_architect_2__c ;;
+  dimension: territory_area {
     type: string
+    sql: ${TABLE}.territory_area__c ;;
+    group_label: "Territory"
+    label: "Territory Area"
   }
 
-  dimension: territory {
-    group_label: "Region and Territory"
-    label: "Territory Name"
-    sql: ${TABLE}.territory__c ;;
+  dimension: territory_region {
     type: string
+    sql: ${TABLE}.territory_region__c ;;
+    group_label: "Territory"
+    label: "Territory Region"
   }
 
-  dimension: territoryid {
-    group_label: "Region and Territory"
-    label: "Territory ID"
-    sql: ${TABLE}.territoryid__c ;;
+  dimension: territory_ent_rep {
     type: string
+    sql: ${TABLE}.territory_ent_rep__c ;;
+    group_label: "Territory"
+    label: "Territory Ent Rep"
   }
 
-  # TODO: These fields don't seem to be in the database
-  # dimension: testimonial_1_from {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial1_from__c ;;
-  #   type: string
-  # }
+  dimension: territory_comm_rep {
+    type: string
+    sql: ${TABLE}.territory_comm_rep__c ;;
+    group_label: "Territory"
+    label: "Territory Comm Rep"
+  }
 
-  # dimension: testimonial_1 {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_1__c ;;
-  #   type: string
-  # }
+  dimension: territory_last_updated {
+    type: string
+    sql: ${TABLE}.territory_last_updated__c ;;
+    group_label: "Territory"
+    label: "Territory Last Updated"
+  }
 
-  # dimension: testimonial_2 {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_2__c ;;
-  #   type: string
-  # }
 
-  # dimension: testimonial_2_from {
-  #   group_label: "Marketing"
-  #   sql: ${TABLE}.testimonial_2_from__c ;;
-  #   type: string
-  # }
 
   dimension: ticker_symbol {
     sql: ${TABLE}.tickersymbol ;;
-    type: string
-  }
-
-  dimension: total_sales {
-    sql: ${TABLE}.total_sales__c ;;
-    type: number
-  }
-
-  dimension: total_seats {
-    sql: ${TABLE}.total_seats__c ;;
     type: string
   }
 
@@ -1247,11 +935,6 @@ view: account {
     type: string
   }
 
-  dimension: unique_accounts {
-    sql: ${TABLE}.unique_accounts__c ;;
-    type: number
-  }
-
   dimension_group: unqualified {
     sql: ${TABLE}.unqualified_date__c ;;
     timeframes: [
@@ -1266,31 +949,18 @@ view: account {
     type: time
   }
 
-#   TODO: These don't exist in the db
-#   dimension_group: video_case_study {
-#     convert_tz: no
-#     datatype: date
-#     sql: ${TABLE}.video_case_study_date__c ;;
-#     timeframes: [
-#       raw,
-#       date,
-#       week,
-#       month,
-#       quarter,
-#       year
-#     ]
-#     type: time
-#   }
-#
-#   dimension: video_case_study_link {
-#     sql: ${TABLE}.video_case_study_link__c ;;
-#     type: string
-#   }
-
   dimension: website {
     sql: ${TABLE}.website ;;
     type: string
   }
+
+
+  dimension: website_domain {
+    type: string
+    sql: ${TABLE}.cbit__clearbitdomain__c;;
+    label: "Website Domain"
+  }
+
 
   dimension_group: x1st_contact_us {
     sql: ${TABLE}.x1stcontactusdate__c ;;
@@ -1306,97 +976,6 @@ view: account {
     type: time
   }
 
-  dimension: zendesk_create_in_zendesk {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__create_in_zendesk__c ;;
-    type: yesno
-  }
-
-  dimension: zendesk_created_updated_flag {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__createdupdatedflag__c ;;
-    type: yesno
-  }
-
-  dimension_group: zendesk_last_sync {
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__last_sync_date__c ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
-
-  dimension: zendesk_last_sync_status {
-    group_item_label: "Last Sync Status"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__last_sync_status__c ;;
-    type: string
-  }
-
-#   TODO: Delete these fields which are missing from the DB?
-#   dimension: zendesk_domain_mapping {
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__domain_mapping__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_notes {
-#     group_item_label: "Notes"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__notes__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_tags {
-#     group_item_label: "Tags"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__tags__c ;;
-#     type: string
-#   }
-
-#   dimension: zendesk_old_tags {
-#     group_item_label: "Old Tags"
-#     group_label: "Zendesk"
-#     sql: ${TABLE}.zendesk__zendesk_oldtags__c ;;
-#     type: string
-#   }
-
-
-  dimension: zendesk_result {
-    group_item_label: "Result"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__result__c ;;
-    type: string
-  }
-
-  dimension: zendesk_organization {
-    group_item_label: "Organization"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_organization__c ;;
-    type: string
-  }
-
-  dimension: zendesk_organization_id {
-    group_item_label: "Organization ID"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_organization_id__c ;;
-    type: string
-  }
-
-  dimension: zendesk_out_of_sync {
-    group_item_label: "Out of Sync"
-    group_label: "Zendesk"
-    sql: ${TABLE}.zendesk__zendesk_outofsync__c ;;
-    type: yesno
-  }
-
 
   #
   # Measures
@@ -1409,15 +988,31 @@ view: account {
     type: count_distinct
   }
 
+  measure: avg_health_score {
+    label: "Avg Health Score"
+    sql: ${health_score} ;;
+    type: average
+    value_format_name: decimal_0
+  }
 
-  #
-  # Hidden Fields (Used for derived values or joins)
-  #
 
-  dimension: account_number_int {
-    hidden:  yes
-    sql: ${TABLE}.account_number_int__c ;;
-    type: number
+  measure: count_of_licensed_accounts{
+    drill_fields: [sfid, name]
+    label: "# of Licensed Accounts"
+    sql: ${sfid} ;;
+    type: count_distinct
+    filters: {
+      field: licensed_account
+      value: "yes"
+    }
+  }
+
+  measure: total_current_arr {
+    drill_fields: [sfid, name, arr_current]
+    label: "Total Current ARR"
+    sql: ${arr_current} ;;
+    type: sum_distinct
+    value_format_name: usd_0
   }
 
 }

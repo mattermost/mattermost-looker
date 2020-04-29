@@ -12,6 +12,7 @@ view: downloads {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       year,
@@ -99,9 +100,42 @@ view: downloads {
     sql: ${ip_address} ;;
   }
 
+  measure: unique_team_download_count {
+    label: "Unique Team Downloads"
+    description: "The count of unique IP's that have performed a team edition server download."
+    type: count_distinct
+    sql: CASE WHEN ${download_type} = 'team' THEN ${ip_address} ELSE null END;;
+  }
+
+  measure: unique_enterprise_download_count {
+    label: "Unique Enterprise Downloads"
+    description: "The count of unique IP's that have performed a enterprise edition server download."
+    type: count_distinct
+    sql: CASE WHEN ${download_type} = 'enterprise' THEN ${ip_address} ELSE null END;;
+  }
+
   measure: download_count {
     label: "Total Downloads"
     description: "The total number of downloads performed"
+    type: count
+    drill_fields: [log_date, ip_address, download_category, download_type, version, source, creferrer, useragent, download_count]
+  }
+
+  measure: app_downloads {
+    description: "The total number of desktop app downloads performed."
+    filters: {
+      field: download_category
+      value: "app"
+    }
+    type: count
+  }
+
+  measure: server_downloads {
+    description: "The total number of server downloads performed."
+    filters: {
+      field: download_category
+      value: "server"
+    }
     type: count
   }
 

@@ -12,6 +12,10 @@ constant: salesforce_link {
   value: "https://mattermost.lightning.force.com/"
 }
 
+constant: zendesk_link {
+  value: "https://mattermost.zendesk.com/agent/"
+}
+
 constant: percent {
   value: "0.0\%"
 }
@@ -27,4 +31,9 @@ constant: colored_tiered_percent {
 
 constant: css_link_style {
   value: "color: #49719a;"
+}
+
+
+constant: mm_usd_short {
+  value: "$###,###"
 }

@@ -3,20 +3,14 @@ view: daily_traffic {
 
   dimension: channelgrouping {
     label: "Channel Grouping"
+    description: "Channel Grouping is a rule-based grouping of the most common sources of traffic, like Paid Search and Direct"
     sql: ${TABLE}."CHANNELGROUPING" ;;
     type: string
   }
 
-  dimension_group: end {
-    type: time
-    timeframes: [
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."END_DATE" ;;
+  dimension: date {
+    type: date
+    sql: ${TABLE}."START_DATE" ;;
   }
 
   dimension: site {
@@ -25,23 +19,13 @@ view: daily_traffic {
   }
 
   dimension: source {
+    description: "Source is the origin of traffic, such as a search engine (google.com) or a domain (example.com)"
     type: string
     sql: ${TABLE}."SOURCE" ;;
   }
 
-  dimension_group: start {
-    type: time
-    timeframes: [
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."START_DATE" ;;
-  }
-
   measure: count_users {
+    label: "# of Users"
     type: sum
     sql: ${TABLE}.users ;;
   }

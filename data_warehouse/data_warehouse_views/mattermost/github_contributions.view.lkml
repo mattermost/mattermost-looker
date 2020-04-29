@@ -4,30 +4,35 @@ view: github_contributions {
   dimension: author {
     type: string
     sql: ${TABLE}."AUTHOR" ;;
+    description: "Username of GitHub contribution"
   }
 
   dimension: is_staff {
     sql: ${staff_github_usernames.username} IS NOT NULL ;;
     type: yesno
-    label: "Is Staff?"
+    label: "Staff?"
+    description: "The contributor is a Mattermost employee"
   }
 
   dimension: is_first_contribution {
-    sql: ${github_contributors.min_contribution_time} = ${merged_time} ;;
+    sql: ${github_contributors.min_contribution_time} = ${TABLE}."MERGED_AT" ;;
     type: yesno
-    label: "Is First Contribution?"
+    label: "First Contribution?"
+    description: "The first time someone contributed."
   }
 
   dimension: is_first_time_contributor {
     sql: ${github_contributors.min_contribution_month} = ${merged_month} ;;
     type: yesno
-    label: "Is First Time Contributor?"
+    label: "First Time Contributor?"
+    description: "The first month someone contributes, they considered a First Time Contributor the whole month."
   }
 
   dimension: is_last_contribution {
-    sql: ${github_contributors.max_contribution_time} = ${merged_time} ;;
+    sql: ${github_contributors.max_contribution_time} = ${TABLE}."MERGED_AT" ;;
     type: yesno
-    label: "Is Last Contribution?"
+    label: "Last Contribution?"
+    description: "The last time someone contributed."
   }
 
   dimension: compound_primary {
@@ -40,27 +45,33 @@ view: github_contributions {
   dimension_group: merged {
     type: time
     timeframes: [
-      time,
       date,
-      week,
       month,
       fiscal_quarter,
-      year,
       fiscal_year
     ]
     sql: ${TABLE}."MERGED_AT" ;;
   }
 
   dimension: pr_number {
+    label: "PR Number"
     type: number
     sql: ${TABLE}."PR_NUMBER" ;;
   }
 
+  dimension: repo {
+    label: "GitHub Repo"
+    type: string
+    sql: ${TABLE}."REPO" ;;
+  }
+
   measure: count_contributions {
+    label: "# of Contributions"
     type: count
   }
 
   measure: count_users {
+    label: "# of Contributors"
     type: count_distinct
     sql: ${author} ;;
   }
