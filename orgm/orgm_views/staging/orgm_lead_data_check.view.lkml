@@ -32,8 +32,12 @@ view: orgm_lead_data_check {
   }
 
   dimension: status {
+    sql: CASE
+           WHEN ${TABLE}.STATUS = 'Not a Lead' THEN 'Junk'
+           WHEN ${TABLE}.STATUS = 'MEL' THEN 'MCL'
+           ELSE ${TABLE}.STATUS
+         END ;;
     type: string
-    sql: ${TABLE}."status" ;;
   }
 
   dimension: systemmodstamp_time {
