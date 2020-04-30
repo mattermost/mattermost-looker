@@ -872,6 +872,12 @@ explore: tva_all_by_mo {
   }
 }
 
+explore: financial_statements {
+  required_access_grants: [mlt_only]
+  group_label: "Finance"
+  label: "Monthly Financial Statements"
+}
+
 explore: target_fact {
   group_label: "Target vs Actual"
   label: "Target Definitions"
