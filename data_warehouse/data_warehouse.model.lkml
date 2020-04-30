@@ -639,8 +639,9 @@ explore: server_daily_details {
     relationship: many_to_one
     type: inner
     fields: [server_fact.first_server_version, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
-      server_fact.last_telemetry_active_year, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
-      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year]
+      server_fact.last_telemetry_active_year, server_fact.last_telemetry_active_fiscal_quarter, server_fact.last_telemetry_active_fiscal_year,
+      server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
   }
 
   join: nps_server_daily_score {
