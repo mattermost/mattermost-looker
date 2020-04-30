@@ -1,5 +1,5 @@
 view: opportunity {
-  sql_table_name: orgm.opportunity ;;
+  sql_table_name: sandbox.opportunity ;;
 
   #
   # Sets
@@ -154,6 +154,11 @@ view: opportunity {
     ]
     sql: ${TABLE}."createddate" ;;
     label: "Create Date"
+  }
+
+  dimension: billing_entity_id {
+    type: string
+    sql: ${TABLE}."lu_billing_entity_id__c" ;;
   }
 
   dimension: e_purchase_date__c {

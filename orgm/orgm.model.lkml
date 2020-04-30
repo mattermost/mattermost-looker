@@ -26,6 +26,16 @@ explore: account {
     relationship: one_to_many
   }
 
+  join: billing_entity {
+    sql_on: ${billing_entity.sfid} = ${opportunity.billing_entity_id};;
+    relationship: many_to_one
+  }
+
+  join: contact {
+    sql_on: ${billing_entity.contactid} = ${contact.sfid};;
+    relationship: many_to_one
+  }
+
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;

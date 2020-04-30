@@ -1,5 +1,5 @@
 view: opportunitycontactrole {
-  sql_table_name: orgm.opportunitycontactrole ;;
+  sql_table_name: sandbox.opportunitycontactrole ;;
   drill_fields: [id]
 
   dimension: id {
