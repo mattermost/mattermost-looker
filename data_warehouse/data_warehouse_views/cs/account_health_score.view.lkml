@@ -9,12 +9,23 @@ view: account_health_score {
     sql: ${TABLE}."ACCOUNT_SFID" ;;
   }
 
+  dimension: csm_name {
+    label: "CSM Name"
+    description: "CSM assigned in Salesforce at the account level"
+    sql: ${account_csm.name};;
+    type: string
+  }
+
   dimension: risk_override_score {
+    group_label: "CS Risk Assigned"
+    label: "CS Risk Assigned"
+    description: "If account has open opportunity w/renewal risk status of At Risk or Early Warning, it will override all other Healthscore metrics. At Risk is assigned 20, Early warning is assigned 50 in the healthscore."
     type: number
     sql: ${TABLE}."RISK_OVERRIDE_SCORE" ;;
   }
 
   dimension: count_tickets_prev_90 {
+    group_label: "Tickets"
     description: "Number of tickets a customer has logged in last 90 days"
     label: "# of Tickets Prev 90 Days"
     type: number
@@ -23,6 +34,7 @@ view: account_health_score {
 
   dimension: days_since_last_task {
     group_label: "Tasks"
+    label: "Days Since Last Task"
     description: "Days since a call, email, or notes were added at the activity level in Salesforce on a cusotmer account"
     type: number
     sql: ${TABLE}."DAYS_SINCE_LAST_TASK" ;;
@@ -76,6 +88,7 @@ view: account_health_score {
   }
 
   dimension: tenure_health_score_tier {
+    label: "Tenure Health Score Tier"
     description: "Tenure health score in buckets of 5"
     group_label: "Tenure"
     type: tier
@@ -88,7 +101,7 @@ view: account_health_score {
     description: "License end date health score in buckets of 5"
     group_label: "License End"
     group_item_label: "Health Score Tier"
-    label: "License End Health Score Tier"
+    label: "License End Date Health Score Tier"
     type: tier
     style: integer
     tiers: [5, 10, 15, 20, 25]
@@ -98,6 +111,7 @@ view: account_health_score {
   dimension: task_health_score_tier {
     description: "Task health score in buckets of 5"
     group_label: "Tasks"
+    label: "Task Health Score Tier"
     type: tier
     style: integer
     tiers: [5, 10, 15, 20, 25]
@@ -107,6 +121,7 @@ view: account_health_score {
   dimension: ticket_health_score_tier {
     description: "# of tickets logged health score in buckets of 5"
     group_label: "Tickets"
+    label: "Ticket Health Score Tier"
     type: tier
     style: integer
     tiers: [5, 10, 15, 20, 25]
@@ -115,6 +130,7 @@ view: account_health_score {
 
   dimension_group: license_end {
     group_label: "License End"
+    description: "Date the customer license ends"
     type: time
     timeframes: [
       date,
@@ -155,6 +171,7 @@ view: account_health_score {
 
   dimension: tenure_in_yrs {
     group_label: "Tenure"
+    description: "Length of time customer has licensed Mattermost in years."
     type: number
     sql: ${TABLE}."TENURE_IN_YRS" ;;
     value_format_name: decimal_2
@@ -170,9 +187,10 @@ view: account_health_score {
 
   measure: count_accounts {
     label: "# of Accounts"
+    description: "Number of accounts tied to a dimension of filter selected"
     type: count_distinct
     sql: ${account_sfid} ;;
-    drill_fields: [account.name,account_csm.name,health_score,tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
+    drill_fields: [account.name,csm_name,health_score,tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
                    ticket_health_score,days_since_last_task,task_health_score]
   }
 
@@ -186,7 +204,7 @@ view: account_health_score {
       field: last_task_under_30
       value: "yes"
     }
-    drill_fields: [account.name, account_csm.name, days_since_last_task]
+    drill_fields: [account.name, csm_name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_between_30_to_90_days {
@@ -199,7 +217,7 @@ view: account_health_score {
       field: last_task_between_30_to_90_days
       value: "yes"
     }
-    drill_fields: [account.name, account_csm.name, days_since_last_task]
+    drill_fields: [account.name, csm_name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_over_90 {
@@ -212,40 +230,45 @@ view: account_health_score {
       field: last_task_over_90
       value: "yes"
     }
-    drill_fields: [account.name, account_csm.name, days_since_last_task]
+    drill_fields: [account.name, csm_name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
 measure: accounts_under_51_health_score {
   label: "High Risk Customers"
+  group_label: "Risk"
   description: "The count of 'High-Risk' Accounts with (Account Health Score <= 50)."
   type: count_distinct
   sql: ${account_sfid} ;;
   filters: [health_score: "<= 50"]
-  drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+  drill_fields: [account.name, csm_name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
 }
 
   measure: accounts_between_51_to_75_health_score {
     label: "Medium Risk Customers"
+    group_label: "Risk"
     description: "The count of 'Medium-Risk' Accounts (Account Health Score between 51 and 75)."
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 50 AND <= 75"]
-    drill_fields: [account.name, account_csm.name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
  }
 
   measure: accounts_over_75_health_score {
     label: "Low Risk Customers"
+    group_label: "Risk"
     description: "The count of 'Low-Risk' Accounts (Account Health Score > 75)."
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 75"]
-    drill_fields: [account.name, account_csm.name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: avg_health_score {
     label: "Average Health Score"
+    description: "Average health score of accounts based on filter or dimension selected."
     type: average_distinct
     value_format: "0"
     sql: ${health_score} ;;
+    drill_fields: [account.name, csm_name,health_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 }
