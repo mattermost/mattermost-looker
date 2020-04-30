@@ -77,6 +77,7 @@ view: lead {
   dimension_group: converted {
     sql: ${TABLE}.CONVERTEDDATE ;;
     timeframes: [
+      time,
       date,
       week,
       month,
@@ -125,6 +126,7 @@ view: lead {
     label: "Created"
     sql: ${TABLE}.CREATEDDATE ;;
     timeframes: [
+      time,
       date,
       week,
       month,
@@ -673,6 +675,11 @@ view: lead {
       else: "null"
     }
     type: string
+  }
+
+  dimension: systemmodstamp_time {
+    type: date_time
+    sql: ${TABLE}."systemmodstamp" ;;
   }
 
 
