@@ -928,7 +928,23 @@ explore: user_events_by_date {
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
   group_label: "Product"
+  extends: [server_daily_details]
   description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day for all dates >= the user's first event date (i.e. contains row for users on dates where user has not performed event to track disengagement)."
+
+  join: server_daily_details {
+    view_label: "Server Details"
+    sql_on: ${user_events_by_date_agg.server_id} = ${server_daily_details.server_id}
+      AND ${user_events_by_date_agg.logging_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: server_fact {
+    view_label: "Server Details"
+    sql_on: ${server_fact.server_id} = ${user_events_by_date_agg.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id]
+  }
 }
 explore: snowflake_amortized_rates {
   label: "Snowflake Amortized Rates"
