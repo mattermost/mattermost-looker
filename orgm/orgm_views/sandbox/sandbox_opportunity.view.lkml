@@ -1,5 +1,5 @@
 view: opportunity {
-  sql_table_name: orgm.opportunity ;;
+  sql_table_name: sandbox.opportunity ;;
 
   #
   # Sets

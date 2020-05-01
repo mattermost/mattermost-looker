@@ -1,5 +1,5 @@
 view: user {
-  sql_table_name: sandbox."user" ;;
+  sql_table_name: orgm."user" ;;
   drill_fields: [id]
 
   dimension: id {

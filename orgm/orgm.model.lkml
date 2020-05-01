@@ -26,16 +26,6 @@ explore: account {
     relationship: one_to_many
   }
 
-  join: billing_entity {
-    sql_on: ${billing_entity.sfid} = ${opportunity.billing_entity_id};;
-    relationship: many_to_one
-  }
-
-  join: contact {
-    sql_on: ${billing_entity.contactid} = ${contact.sfid};;
-    relationship: many_to_one
-  }
-
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
@@ -56,6 +46,42 @@ explore: account {
     from: account
     view_label: "Parent Account"
     sql_on: ${parent_account.sfid} = ${account.parentid} ;;
+    relationship: many_to_one
+  }
+
+}
+
+explore: sandbox_account {
+  group_label: "zHeroku Postgres OrgM"
+
+  join: sandbox_opportunity {
+    sql_on: ${sandbox_account.sfid} = ${sandbox_opportunity.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: sandbox_billing_entity {
+    sql_on: ${sandbox_billing_entity.sfid} = ${sandbox_opportunity.billing_entity_id};;
+    relationship: many_to_one
+  }
+
+  join: sandbox_contact {
+    sql_on: ${sandbox_billing_entity.contactid} = ${sandbox_contact.sfid};;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${sandbox_account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: sandbox_opportunitylineitem {
+    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+
+  join: product2 {
+    sql_on: ${sandbox_opportunitylineitem.product2id} = ${product2.sfid} ;;
     relationship: many_to_one
   }
 

@@ -1,5 +1,5 @@
 view: contact {
-  sql_table_name: sandbox.contact ;;
+  sql_table_name: orgm.contact ;;
   drill_fields: [contact_drill_fields*]
 
 

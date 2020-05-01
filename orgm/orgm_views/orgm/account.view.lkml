@@ -1,6 +1,6 @@
 view: account {
   view_label: ""
-  sql_table_name: sandbox.account ;;
+  sql_table_name: orgm.account ;;
   drill_fields: [sfid]
 
   dimension: _hc_err {

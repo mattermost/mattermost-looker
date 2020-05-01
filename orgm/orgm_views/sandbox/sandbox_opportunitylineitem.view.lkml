@@ -1,5 +1,5 @@
 view: opportunitylineitem {
-  sql_table_name: orgm.opportunitylineitem ;;
+  sql_table_name: sandbox.opportunitylineitem ;;
 
   set: opportunitylineitem_drill {
     fields: [account.name,opportunity.name,opportunity.close_date,opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]

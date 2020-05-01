@@ -1,5 +1,5 @@
 view: billing_entity {
-  sql_table_name: orgm.billing_entity__c ;;
+  sql_table_name: sandbox.billing_entity__c ;;
   drill_fields: [id]
 
   dimension: id {
