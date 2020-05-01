@@ -1758,7 +1758,7 @@ view: server_daily_details_ext {
   dimension_group: start {
     description: "The start date of the license associated with Mattermost server."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     group_label: "License Configuration"
     sql: ${TABLE}.start_date ;;
     hidden: no
@@ -1775,7 +1775,7 @@ view: server_daily_details_ext {
   dimension_group: expire {
     description: "The expiration date of the license associated with the Mattermost server."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     group_label: "License Configuration"
     sql: ${TABLE}.expire_date ;;
     hidden: no
@@ -1982,7 +1982,7 @@ view: server_daily_details_ext {
   dimension_group: issued {
     description: "The issued date of the license assoicated with the Mattermost server."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     group_label: "License Configuration"
     sql: ${TABLE}.issued ;;
     hidden: no
@@ -4306,7 +4306,7 @@ view: server_daily_details_ext {
   dimension: license_users {
     description: "The number of seats (users) provisioned to the license associated with the server (if a license is provisioned and active on the given logging date)."
     type: number
-    sql: ${license_daily_details.users} ;;
+    sql: ${licenses.users} ;;
   }
 
   # DIMENSION GROUPS/DATES
@@ -4339,7 +4339,7 @@ view: server_daily_details_ext {
     label: " Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_mm2_telemetry_date} ;;
   }
 
@@ -4347,14 +4347,14 @@ view: server_daily_details_ext {
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_mm2_telemetry_date} ;;
   }
 
   dimension_group: timestamp {
   description: ""
   type: time
-  timeframes: [date, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
     hidden: yes
   }

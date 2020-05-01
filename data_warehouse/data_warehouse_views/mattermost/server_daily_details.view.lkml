@@ -135,14 +135,14 @@ view: server_daily_details {
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
-
-  dimension: in_mattermos2_server {
-    label: "  In Diagnostics Telemetry"
-    description: "Is contained in the mattermost2.server table data on the given logging date."
-    group_label: "  Telemetry Flags"
-    type: yesno
-    sql: ${TABLE}.in_mm2_server ;;
-  }
+#
+#   dimension: in_mattermos2_server {
+#     label: "  In Diagnostics Telemetry"
+#     description: "Is contained in the mattermost2.server table data on the given logging date."
+#     group_label: "  Telemetry Flags"
+#     type: yesno
+#     sql: ${TABLE}.in_mm2_server ;;
+#   }
 
   dimension: has_dupes {
     label: "Has Duplicates"
@@ -415,7 +415,7 @@ view: server_daily_details {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
   }
 
@@ -423,7 +423,7 @@ view: server_daily_details {
     label: "Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_telemetry_active_date}::date ;;
   }
 
@@ -431,7 +431,7 @@ view: server_daily_details {
     label: "Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_mm2_telemetry_date} ;;
   }
 
@@ -439,7 +439,7 @@ view: server_daily_details {
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_mm2_telemetry_date} ;;
   }
 

@@ -92,8 +92,8 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: license_id {
-    label: "License ID"
-    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    label: "License ID (Current)"
+    description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
     type: string
     sql: ${TABLE}.last_license_id1 ;;
   }
@@ -102,7 +102,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Active Telemetry"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
   }
 
@@ -110,7 +110,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " Last Active Telemetry"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
   }
 
@@ -118,7 +118,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
@@ -126,7 +126,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
@@ -134,7 +134,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_mm2_telemetry_date ;;
   }
 
@@ -142,7 +142,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_mm2_telemetry_date ;;
   }
 
@@ -156,7 +156,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension_group: last_active_user {
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_user_date ;;
   }
 
@@ -164,7 +164,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Paid License"
     description: "The date the server first sent telemetry data that associated it with a paid license."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_paid_license_date ;;
   }
 
@@ -172,7 +172,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Trial License"
     description: "The date the server first sent telemetry data that associated it with a trial license."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_trial_license_date ;;
   }
 
