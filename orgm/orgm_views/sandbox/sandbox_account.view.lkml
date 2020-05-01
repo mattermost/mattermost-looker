@@ -1,6 +1,6 @@
   view: sandbox_account {
     view_label: ""
-    sql_table_name: orgm.account ;;
+    sql_table_name: sandbox.account ;;
     drill_fields: [sfid]
 
     dimension: _hc_err {
@@ -158,18 +158,6 @@
       group_label: "Owners"
       label: "CSM Name"
       sql: ${account_csm.name};;
-      type: string
-    }
-
-    dimension: csm_enriched_region {
-      label: "CSM Enriched Region"
-      sql: CASE
-              WHEN ${csm_lookup} = '0051R00000I5RZBQA3' THEN 'EMEA'
-              WHEN ${csm_lookup} = '0051R00000GnXMsQAN' THEN 'East'
-              WHEN ${csm_lookup} = '00536000009uaDQAAY' THEN 'West/APAC'
-              WHEN ${csm_lookup} = '0051R00000HTEzFQAX' THEN 'Global Self-Service'
-              WHEN ${csm_lookup} = '0051R00000GndedQAB' THEN 'Fed'
-              ELSE NULL END ;;
       type: string
     }
 

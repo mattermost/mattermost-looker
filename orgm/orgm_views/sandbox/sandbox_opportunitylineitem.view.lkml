@@ -324,6 +324,62 @@ view: sandbox_opportunitylineitem {
     value_format_name: "usd"
   }
 
+  dimension: subs_id {
+    type: string
+    sql: ${TABLE}."subs_id" ;;
+  }
+
+  dimension: subs_version_id__c {
+    type: string
+    sql: ${TABLE}."subs_version_id__c" ;;
+  }
+
+  dimension: subs_prev_version_id {
+    type: string
+    sql: ${TABLE}."subs_prev_version_id" ;;
+  }
+
+  dimension: amount_manual_override {
+    type: yesno
+    sql: ${TABLE}."amount_manual_override" ;;
+  }
+
+  dimension: new_amount {
+    type: number
+    sql: ${TABLE}."new_amount" ;;
+    value_format_name: "usd"
+  }
+
+  dimension: renewal_amount {
+    type: number
+    sql: ${TABLE}."renewal_amount" ;;
+    value_format_name: "usd"
+  }
+
+  dimension: expansion_amount {
+    type: number
+    sql: ${TABLE}."expansion_amount" ;;
+    value_format_name: "usd"
+  }
+
+  dimension: coterm_expansion_amount {
+    type: number
+    sql: ${TABLE}."coterm_expansion_amount" ;;
+    value_format_name: "usd"
+  }
+
+  dimension: leftover_expansion_amount {
+    type: number
+    sql: ${TABLE}."leftover_expansion_amount" ;;
+    value_format_name: "usd"
+  }
+
+  dimension: multi_amount {
+    type: number
+    sql: ${TABLE}."multi_amount" ;;
+    value_format_name: "usd"
+  }
+
   #
   # Measures
   #

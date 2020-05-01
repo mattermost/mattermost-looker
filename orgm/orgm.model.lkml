@@ -54,36 +54,70 @@ explore: account {
 
 explore: sandbox_account {
   group_label: "zHeroku Postgres OrgM"
+  sql_always_where:
+  ${sandbox_account.createdbyid} = '0051R00000I5BTgQAN' OR
+  ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' OR
+  ${sandbox_billing_entity.createdbyid} = '0051R00000I5BTgQAN' OR
+  ${sandbox_opportunitylineitem.createdbyid} = '0051R00000I5BTgQAN'
+  ;;
 
   join: sandbox_opportunity {
+    view_label: "Oppportunity"
     sql_on: ${sandbox_account.sfid} = ${sandbox_opportunity.accountid} ;;
     relationship: one_to_many
+    fields: [sfid,name,type,amount,close_date,close_month,close_fiscal_quarter,close_fiscal_year,stagename,e_purchase_date__c]
+  }
+
+  join: sandbox_opportunitycontactrole {
+    view_label: "OCR Contacts"
+    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitycontactrole.opportunityid} ;;
+    relationship: one_to_many
+    fields: [sandbox_opportunitycontactrole.role]
+  }
+
+  join: opportunitycontactrole_contact {
+    view_label: "OCR Contacts"
+    from: sandbox_contact
+    sql_on: ${sandbox_opportunitycontactrole.contactid} = ${opportunitycontactrole_contact.sfid};;
+    relationship: many_to_one
+    fields: [opportunitycontactrole_contact.name, opportunitycontactrole_contact.email, opportunitycontactrole_contact.sfid]
   }
 
   join: sandbox_billing_entity {
+    view_label: "Billing Entity"
     sql_on: ${sandbox_billing_entity.sfid} = ${sandbox_opportunity.billing_entity_id};;
     relationship: many_to_one
+    fields: [sfid,cust_company,cust_email,cust_firstname,cust_lastname,cust_payment_method,cust_payment_method_detail,cust_id]
   }
 
-  join: sandbox_contact {
-    sql_on: ${sandbox_billing_entity.contactid} = ${sandbox_contact.sfid};;
+  join: billing_entity_contact {
+    from: sandbox_contact
+    sql_on: ${sandbox_billing_entity.contactid} = ${billing_entity_contact.sfid};;
     relationship: many_to_one
+    fields: [billing_entity_contact.name, billing_entity_contact.email, billing_entity_contact.sfid]
+  }
+
+  join: sandbox_opportunitylineitem {
+    view_label: "Opportunity Line Item"
+    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+    fields: [sfid,name,quantity,unitprice,totalprice,listprice,discount,discounted_unit_price,end_date,start_date,
+      is_prorated_expansion,product_type,product_line_type,subs_id,subs_version_id__c,subs_prev_version_id,
+      amount_manual_override,new_amount,renewal_amount,expansion_amount,coterm_expansion_amount,leftover_expansion_amount,multi_amount]
   }
 
   join: account_csm {
     from: user
     sql_on: ${sandbox_account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
-  }
-
-  join: sandbox_opportunitylineitem {
-    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitylineitem.opportunityid} ;;
-    relationship: many_to_one
+    fields: []
   }
 
   join: product2 {
+    view_label: "Opportunity Line Item"
     sql_on: ${sandbox_opportunitylineitem.product2id} = ${product2.sfid} ;;
     relationship: many_to_one
+    fields: [product2.name]
   }
 
   join: parent_account {
@@ -91,6 +125,7 @@ explore: sandbox_account {
     view_label: "Parent Account"
     sql_on: ${parent_account.sfid} = ${sandbox_account.parentid} ;;
     relationship: many_to_one
+    fields: []
   }
 
 }
