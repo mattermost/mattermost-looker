@@ -92,7 +92,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: license_id {
-    label: "License ID"
+    label: "License ID (Current)"
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     type: string
     sql: ${TABLE}.last_license_id1 ;;

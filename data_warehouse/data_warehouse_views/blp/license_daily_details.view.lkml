@@ -30,6 +30,10 @@ view: license_daily_details {
     label: " License ID"
     type: string
     sql: ${TABLE}.license_id ;;
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+    }
     hidden: no
   }
 
@@ -46,6 +50,10 @@ view: license_daily_details {
     description: "The unique customer id associated with the license."
     type: string
     sql: ${TABLE}.customer_id ;;
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+    }
     hidden: no
   }
 
@@ -54,6 +62,10 @@ view: license_daily_details {
     description: "The company name provided at time of license provisioning."
     type: string
     sql: ${TABLE}.company ;;
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+    }
     hidden: no
   }
 
@@ -81,6 +93,10 @@ view: license_daily_details {
       url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_daily_details.license_id.value }}"
+    }
     type: string
     sql: ${TABLE}.master_account_sfid ;;
     hidden: no
@@ -93,6 +109,10 @@ view: license_daily_details {
       label: "Salesforce Master Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ master_account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
     }
     type: string
     sql: ${TABLE}.master_account_name ;;
@@ -107,6 +127,10 @@ view: license_daily_details {
       url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+    }
     type: string
     sql: ${TABLE}.account_sfid ;;
     hidden: no
@@ -119,6 +143,10 @@ view: license_daily_details {
       label: "Salesforce Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
     }
     type: string
     sql: ${TABLE}.account_name ;;

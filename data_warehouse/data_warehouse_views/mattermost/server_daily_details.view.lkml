@@ -135,14 +135,14 @@ view: server_daily_details {
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
-
-  dimension: in_mattermos2_server {
-    label: "  In Diagnostics Telemetry"
-    description: "Is contained in the mattermost2.server table data on the given logging date."
-    group_label: "  Telemetry Flags"
-    type: yesno
-    sql: ${TABLE}.in_mm2_server ;;
-  }
+#
+#   dimension: in_mattermos2_server {
+#     label: "  In Diagnostics Telemetry"
+#     description: "Is contained in the mattermost2.server table data on the given logging date."
+#     group_label: "  Telemetry Flags"
+#     type: yesno
+#     sql: ${TABLE}.in_mm2_server ;;
+#   }
 
   dimension: has_dupes {
     label: "Has Duplicates"

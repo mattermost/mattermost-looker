@@ -810,13 +810,13 @@ explore: server_daily_details_ext {
     fields: [account.account_core*]
   }
 
-  join: license_daily_details {
+  join: licenses {
     view_label: "Licenses"
-    sql_on: ${license_daily_details.license_id} = ${server_daily_details_ext.license_id1}
-    AND ${license_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
-    AND ${license_daily_details.customer_rank} = 1;;
+    sql_on: ${licenses.license_id} = ${server_daily_details_ext.license_id1}
+    AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
+    AND ${licenses.server_id} = ${server_daily_details_ext.server_id};;
     relationship: many_to_one
-    fields: [license_daily_details.is_trial, license_daily_details.company]
+    fields: [licenses.trial, licenses.company]
   }
 
   join: server_fact {
@@ -825,7 +825,7 @@ explore: server_daily_details_ext {
     relationship: many_to_one
     fields: [server_fact.first_server_version, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.last_active_date,
-      server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year]
+      server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.license_id]
   }
 
   join: nps_server_daily_score {
@@ -1066,9 +1066,10 @@ explore: server_upgrades {
   }
 
   join: server_fact {
+    view_label: "Server Upgrades"
     sql_on: ${server_fact.server_id} = ${server_upgrades.server_id} ;;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.license_id]
   }
 }
 
