@@ -92,11 +92,11 @@ test: END_ARR_FY19 {
   }
 
   assert: count_expected_value {
-    expression: ${account.count} = 529 ;;
+    expression: ${account.count} = 528 ;;
   }
 
   assert: total_arr_expected_value {
-    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 8210000;;
+    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 82100;;
   }
 
 }
