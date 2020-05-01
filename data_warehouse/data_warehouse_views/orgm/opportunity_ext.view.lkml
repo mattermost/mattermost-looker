@@ -7,6 +7,7 @@ view: opportunity_ext {
     sql: ${TABLE}."OPPORTUNITY_SFID" ;;
   }
 
+
   dimension: expansion_amount {
     group_label: "Line Item Totals"
     value_format_name: usd_0
@@ -20,6 +21,45 @@ view: opportunity_ext {
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_EXPANSION_W_PRORATION_AMOUNT" ;;
+  }
+
+  dimension_group: first_commit_date {
+    group_label: "Commit Date (First)"
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.FIRST_COMMIT_DATE ;;
+    label: "First Commit"
+    description: "First date an opportunity reaches Commit"
+  }
+
+  dimension_group: last_commit_date {
+    group_label: "Commit Date (Last)"
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.LAST_COMMIT_DATE ;;
+    label: "Last Commit"
+    description: "Last date an opportunity reaches Commit"
+  }
+
+  dimension: num_times_commit {
+    type: number
+    sql: ${TABLE}.NUM_TIMES_SLIPPED ;;
+    label: "# Commit Months"
+    description: "# of unique months that a deal has been committed"
   }
 
   dimension_group: license_min_end_date {
