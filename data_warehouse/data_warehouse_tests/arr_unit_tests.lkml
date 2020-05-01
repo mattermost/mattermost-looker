@@ -16,10 +16,6 @@ test: BEGIN_ARR_FY18 {
     }
   }
 
-  assert: count_expected_value {
-    expression: ${account.count} = 144 ;;
-  }
-
   assert: total_arr_expected_value {
     expression: ${opportunitylineitem.total_arr} > 1030000 AND ${opportunitylineitem.total_arr} < 1040000;;
   }
@@ -39,10 +35,6 @@ test: END_ARR_FY18 {
       field: dates.date_fiscal_year
       value: "2018/01/31"
     }
-  }
-
-  assert: count_expected_value {
-    expression: ${account.count} = 362 ;;
   }
 
   assert: total_arr_expected_value {
@@ -66,10 +58,6 @@ test: BEGIN_ARR_FY19 {
     }
   }
 
-  assert: count_expected_value {
-    expression: ${account.count} = 362 ;;
-  }
-
   assert: total_arr_expected_value {
     expression: ${opportunitylineitem.total_arr} > 3870000   AND ${opportunitylineitem.total_arr} < 3900000;;
   }
@@ -90,13 +78,8 @@ test: END_ARR_FY19 {
       value: "2019/01/31"
     }
   }
-
-  assert: count_expected_value {
-    expression: ${account.count} = 528 ;;
-  }
-
   assert: total_arr_expected_value {
-    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 82100;;
+    expression: ${opportunitylineitem.total_arr} > 8200000 AND ${opportunitylineitem.total_arr} < 8210000;;
   }
 
 }
@@ -114,10 +97,6 @@ test: BEGIN_ARR_FY20 {
       field: dates.next_fiscal_year
       value: "2019/02/01"
     }
-  }
-
-  assert: count_expected_value {
-    expression: ${account.count} = 529 ;;
   }
 
   assert: total_arr_expected_value {
