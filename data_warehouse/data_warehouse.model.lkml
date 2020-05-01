@@ -1049,7 +1049,7 @@ explore: available_renewals {
   }
 
   join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid};;
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND (util.fiscal_year(${opportunity.license_start_date}::date - interval '1 day') ||'-'|| util.fiscal_quarter(${opportunity.license_start_date}::date - interval '1 day')) = ${available_renewals.license_end_qtr};;
   }
 }
 

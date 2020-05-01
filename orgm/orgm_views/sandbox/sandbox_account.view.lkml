@@ -596,6 +596,13 @@
       label: "Owner ID"
     }
 
+    dimension: owner {
+      type: string
+      sql: ${account_owner.name} ;;
+      group_label: "Owners"
+      label: "Owner Name"
+    }
+
     dimension: ownership {
       type: string
       sql: ${TABLE}."ownership" ;;
