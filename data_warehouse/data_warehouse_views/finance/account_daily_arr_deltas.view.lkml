@@ -26,12 +26,22 @@ view: account_daily_arr_deltas {
     hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension: master_account_sfid {
     hidden: yes
     type: string
     sql: ${TABLE}."MASTER_ACCOUNT_SFID" ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension_group: new_day {
@@ -104,7 +114,11 @@ view: account_daily_arr_deltas {
     sql: ${new_day_arr} ;;
     value_format_name: "usd_0"
     group_label: "ARR"
-    drill_fields: []
+    link: {
+      label: "ARR Overview Dashboard"
+      url: "https://mattermost.looker.com/dashboards/14"
+    }
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
   }
 
   measure: previous_day_total_arr {
@@ -134,5 +148,6 @@ view: account_daily_arr_deltas {
     value_format_name: "usd_0"
     sql: ${new_day_arr} ;;
     group_label: "ARR"
+    drill_fields: [account.name, new_day_date, new_day_total_arr]
     }
 }
