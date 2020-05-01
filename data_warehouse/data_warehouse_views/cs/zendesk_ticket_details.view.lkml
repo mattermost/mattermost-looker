@@ -28,6 +28,13 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."LAST_COMMENT_AT";;
   }
 
+  dimension: billing_support{
+    label: "Billing Support"
+    description: "Tickets assigned to SalesOps for billing issues, licensing issues/questions or renewal issues/questions."
+    type: yesno
+   sql: ${assignee_name} = 'Elaine Yue' and ${assignee_name} = 'Melissa Warner';;
+  }
+
   dimension: days_since_last_comment {
     description: "Number of days since last comment on a ticket."
     group_label: "Last Comment"
