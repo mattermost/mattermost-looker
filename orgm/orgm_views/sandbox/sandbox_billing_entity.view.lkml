@@ -1,4 +1,4 @@
-view: billing_entity {
+view: sandbox_billing_entity {
   sql_table_name: sandbox.billing_entity__c ;;
   drill_fields: [id]
 

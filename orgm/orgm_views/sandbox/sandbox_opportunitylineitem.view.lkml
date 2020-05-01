@@ -1,4 +1,4 @@
-view: opportunitylineitem {
+view: sandbox_opportunitylineitem {
   sql_table_name: sandbox.opportunitylineitem ;;
 
   set: opportunitylineitem_drill {
@@ -148,7 +148,7 @@ view: opportunitylineitem {
 
   dimension: lost_arr {
     label: "Lost ARR"
-    sql: case when ${opportunity.isclosed} AND not ${opportunity.iswon} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when ${sandbox_opportunity.isclosed} AND not ${sandbox_opportunity.iswon} AND ${sandbox_opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
@@ -173,7 +173,7 @@ view: opportunitylineitem {
 
   dimension: potential_arr {
     label: "Potential ARR"
-    sql: case when not ${opportunity.isclosed} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when not ${sandbox_opportunity.isclosed} AND ${sandbox_opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
@@ -367,7 +367,7 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings]
@@ -380,7 +380,7 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "no"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_open]
@@ -393,11 +393,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "yes"
     }
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "no"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost]
@@ -413,7 +413,7 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
 
     filters: {
-      field: opportunity.close_current_fy
+      field: sandbox_opportunity.close_current_fy
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_price_curr_fy]
@@ -427,11 +427,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "yes"
     }
     filters: {
-      field: opportunity.close_current_fy
+      field: sandbox_opportunity.close_current_fy
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_fy]
@@ -445,11 +445,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_fy
+      field: sandbox_opportunity.close_current_fy
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_fy]
@@ -463,15 +463,15 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "yes"
     }
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_fy
+      field: sandbox_opportunity.close_current_fy
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_fy]
@@ -485,11 +485,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "yes"
     }
     filters: {
-      field: opportunity.close_current_qtr
+      field: sandbox_opportunity.close_current_qtr
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_qtr]
@@ -503,11 +503,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_qtr
+      field: sandbox_opportunity.close_current_qtr
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_qtr]
@@ -521,15 +521,15 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "yes"
     }
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_qtr
+      field: sandbox_opportunity.close_current_qtr
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_qtr]
@@ -543,11 +543,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "yes"
     }
     filters: {
-      field: opportunity.close_current_mo
+      field: sandbox_opportunity.close_current_mo
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_mo]
@@ -561,11 +561,11 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_mo
+      field: sandbox_opportunity.close_current_mo
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_mo]
@@ -579,15 +579,15 @@ view: opportunitylineitem {
     type: sum
     value_format_name: "usd_0"
     filters: {
-      field: opportunity.isclosed
+      field: sandbox_opportunity.isclosed
       value: "yes"
     }
     filters: {
-      field: opportunity.iswon
+      field: sandbox_opportunity.iswon
       value: "no"
     }
     filters: {
-      field: opportunity.close_current_mo
+      field: sandbox_opportunity.close_current_mo
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_mo]
@@ -668,7 +668,7 @@ view: opportunitylineitem {
   measure: total_exp_with_loe_amount {
     label: "Total Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_exp_amount]

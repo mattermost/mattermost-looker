@@ -1,4 +1,4 @@
-view: opportunitycontactrole {
+view: sandbox_opportunitycontactrole {
   sql_table_name: sandbox.opportunitycontactrole ;;
   drill_fields: [id]
 

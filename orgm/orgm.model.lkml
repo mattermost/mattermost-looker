@@ -2,6 +2,7 @@ connection: "orgm"
 
 include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
+include: "/orgm/orgm_views/sandbox/*.view.lkml"
 fiscal_month_offset: -11
 
 #
@@ -82,6 +83,13 @@ explore: sandbox_account {
 
   join: product2 {
     sql_on: ${sandbox_opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: parent_account {
+    from: sandbox_account
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${sandbox_account.parentid} ;;
     relationship: many_to_one
   }
 
