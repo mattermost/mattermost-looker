@@ -39,6 +39,7 @@ view: account_daily_arr_deltas {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_year
@@ -52,6 +53,7 @@ view: account_daily_arr_deltas {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_year
@@ -123,4 +125,14 @@ view: account_daily_arr_deltas {
     group_label: "ARR"
     drill_fields: [account.name, new_day_date, type_of_change, total_arr_delta]
   }
+
+  measure: new_arr {
+    label: "Total New ARR on Day"
+    description: "The sum of new ARR on each given day. New ARR is ARR on the first date an Account has ARR."
+    type: sum
+    filters: [account_new_arr: "TRUE"]
+    value_format_name: "usd_0"
+    sql: ${new_day_arr} ;;
+    group_label: "ARR"
+    }
 }
