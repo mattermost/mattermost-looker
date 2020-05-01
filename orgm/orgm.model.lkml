@@ -54,12 +54,7 @@ explore: account {
 
 explore: sandbox_account {
   group_label: "zHeroku Postgres OrgM"
-  sql_always_where:
-  ${sandbox_account.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_billing_entity.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_opportunitylineitem.createdbyid} = '0051R00000I5BTgQAN'
-  ;;
+  sql_always_where: ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' AND ${sandbox_opportunity.type} != 'Renewal';;
   fields: [
             sandbox_account.sfid,sandbox_account.name,sandbox_account.owner,sandbox_account.website,
             sandbox_account.billingstate,sandbox_account.billingcountry,sandbox_account.billingcountrycode,

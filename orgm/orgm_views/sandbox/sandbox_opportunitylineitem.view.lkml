@@ -326,7 +326,7 @@ view: sandbox_opportunitylineitem {
 
   dimension: subs_id {
     type: string
-    sql: ${TABLE}."subs_id" ;;
+    sql: ${TABLE}."subs_id__c" ;;
   }
 
   dimension: subs_version_id__c {
@@ -336,47 +336,47 @@ view: sandbox_opportunitylineitem {
 
   dimension: subs_prev_version_id {
     type: string
-    sql: ${TABLE}."subs_prev_version_id" ;;
+    sql: ${TABLE}."subs_prev_version_id__c" ;;
   }
 
   dimension: amount_manual_override {
     type: yesno
-    sql: ${TABLE}."amount_manual_override" ;;
+    sql: ${TABLE}."amount_manual_override__c" ;;
   }
 
   dimension: new_amount {
     type: number
-    sql: ${TABLE}."new_amount" ;;
+    sql: ${TABLE}."new_amount__c" ;;
     value_format_name: "usd"
   }
 
   dimension: renewal_amount {
     type: number
-    sql: ${TABLE}."renewal_amount" ;;
+    sql: ${TABLE}."renewal_amount__c" ;;
     value_format_name: "usd"
   }
 
   dimension: expansion_amount {
     type: number
-    sql: ${TABLE}."expansion_amount" ;;
+    sql: ${TABLE}."expansion_amount__c" ;;
     value_format_name: "usd"
   }
 
   dimension: coterm_expansion_amount {
     type: number
-    sql: ${TABLE}."coterm_expansion_amount" ;;
+    sql: ${TABLE}."coterm_expansion_amount__c" ;;
     value_format_name: "usd"
   }
 
   dimension: leftover_expansion_amount {
     type: number
-    sql: ${TABLE}."leftover_expansion_amount" ;;
+    sql: ${TABLE}."leftover_expansion_amount__c" ;;
     value_format_name: "usd"
   }
 
   dimension: multi_amount {
     type: number
-    sql: ${TABLE}."multi_amount" ;;
+    sql: ${TABLE}."multi_amount__c" ;;
     value_format_name: "usd"
   }
 
