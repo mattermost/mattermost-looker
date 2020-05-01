@@ -64,7 +64,7 @@ view: license_daily_details {
     sql: ${TABLE}.company ;;
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Company={{ value }}%25"
     }
     hidden: no
   }
@@ -146,7 +146,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Company={{ company._value }}%25"
     }
     type: string
     sql: ${TABLE}.account_name ;;

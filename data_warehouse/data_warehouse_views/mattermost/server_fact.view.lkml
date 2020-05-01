@@ -93,7 +93,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: license_id {
     label: "License ID (Current)"
-    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
     type: string
     sql: ${TABLE}.last_license_id1 ;;
   }
