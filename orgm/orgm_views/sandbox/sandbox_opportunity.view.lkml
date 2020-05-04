@@ -1,5 +1,5 @@
-view: opportunity {
-  sql_table_name: orgm.opportunity ;;
+view: sandbox_opportunity {
+  sql_table_name: sandbox.opportunity ;;
 
   #
   # Sets
@@ -27,6 +27,7 @@ view: opportunity {
       license_end_month,
       license_end_fiscal_quarter_of_year,
       license_end_fiscal_year,
+      e_purchase_date__c,
       iswon,
       isclosed,
       stagename,
@@ -495,76 +496,76 @@ view: opportunity {
   measure: total_arr {
     label: "Total ARR"
     type: sum
-    sql: ${opportunitylineitem.arr} ;;
+    sql: ${sandbox_opportunitylineitem.arr} ;;
   }
 
   measure: total_exp_count {
     group_label: "Product Line Type Counts"
     label: "# Exp Oppts"
-    sql: ${opportunitylineitem.sfid};;
+    sql: ${sandbox_opportunitylineitem.sfid};;
     type: count_distinct
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "Expansion"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
   measure: total_exp_amount {
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_exp_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "Expansion"
     }
     filters: {
-      field: opportunitylineitem.is_loe
+      field: sandbox_opportunitylineitem.is_loe
       value: "no"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
   measure: total_exp_with_loe_amount {
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_exp_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "Expansion"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
   measure: total_new_count {
     group_label: "Product Line Type Counts"
     label: "# New Oppts"
-    sql: ${opportunitylineitem.sfid};;
+    sql: ${sandbox_opportunitylineitem.sfid};;
     type: count_distinct
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "New"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
   measure: total_new_amount {
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "New"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
   measure: total_new_exp_count {
@@ -596,29 +597,29 @@ view: opportunity {
 
   measure: total_ren_amount {
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_ren_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "Ren"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
 
   measure: total_multi_amount {
     group_label: "Product Line Type Totals"
-    sql: ${opportunitylineitem.totalprice};;
+    sql: ${sandbox_opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_multi_amount]
     filters: {
-      field: opportunitylineitem.product_line_type
+      field: sandbox_opportunitylineitem.product_line_type
       value: "Multi"
     }
-    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+    sql_distinct_key: ${sandbox_opportunitylineitem.sfid} ;;
   }
 
 
