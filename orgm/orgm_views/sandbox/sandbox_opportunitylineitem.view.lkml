@@ -159,7 +159,7 @@ view: sandbox_opportunitylineitem {
     link: {
       label: "Salesforce Opportunity Line Item"
       # BP: Leverage constants to enable more reused
-      url: "@{salesforce_link}{{sfid}}"
+      url: "https://mattermost--aortauat.lightning.force.com/{{sfid}}"
     }
     sql: ${TABLE}.name ;;
     type: string
