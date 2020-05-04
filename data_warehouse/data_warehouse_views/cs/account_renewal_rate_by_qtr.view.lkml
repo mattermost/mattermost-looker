@@ -1,0 +1,61 @@
+view: account_renewal_rate_by_qtr {
+  sql_table_name: "CS"."ACCOUNT_RENEWAL_RATE_BY_QTR"
+    ;;
+
+  dimension: license_end_qtr {
+    type: string
+    sql: ${TABLE}."LICENSE_END_QTR" ;;
+  }
+
+  dimension: account_forecast_renewal_rate_by_qtr {
+    hidden: yes
+    type: number
+    sql: ${TABLE}."ACCOUNT_FORECAST_RENEWAL_RATE_BY_QTR" ;;
+  }
+
+  dimension: account_renewal_rate_by_qtr {
+    hidden: yes
+    sql: ${TABLE}."ACCOUNT_RENEWAL_RATE_BY_QTR" ;;
+  }
+
+  dimension: account_sfid {
+    hidden: yes
+    sql: ${TABLE}."ACCOUNT_SFID" ;;
+  }
+
+  measure: available_renewals {
+    type: sum
+    sql: ${TABLE}."AVAILABLE_RENEWALS" ;;
+    drill_fields: [account.name, account.account_owner, available_renewals]
+    value_format_name: usd_0
+  }
+
+  measure: gross_forecasted_renewal_total_amount {
+    type: sum
+    sql: ${TABLE}."GROSS_FORECASTED_RENEWAL_TOTAL_AMOUNT" ;;
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_forecasted_renewal_total_amount, forecast_renewal_rate_by_qtr]
+    value_format_name: usd_0
+  }
+
+  measure: gross_renewal_amount {
+    type: sum
+    sql: ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
+    value_format_name: usd_0
+  }
+
+  measure: forecast_renewal_rate_by_qtr {
+    type: number
+    sql: (${gross_forecasted_renewal_total_amount}+${gross_renewal_amount})/${available_renewals} ;;
+    value_format_name: percent_1
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_forecasted_renewal_total_amount, forecast_renewal_rate_by_qtr]
+  }
+
+  measure: renewal_rate_by_qtr {
+    type: number
+    sql: ${gross_renewal_amount}/${available_renewals} ;;
+    value_format_name: percent_1
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
+  }
+
+}
