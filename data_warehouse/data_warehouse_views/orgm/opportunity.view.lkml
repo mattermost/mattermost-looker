@@ -146,6 +146,7 @@ view: opportunity {
     sql: ${TABLE}.closedate ;;
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_quarter_of_year,

@@ -130,6 +130,26 @@ view: downloads {
     type: count
   }
 
+  measure: unique_app_downloads {
+    description: "The count of unique IP's that have performed a desktop app download."
+    filters: {
+      field: download_category
+      value: "app"
+    }
+    type: count_distinct
+    sql: ${ip_address} ;;
+  }
+
+  measure: unique_server_downloads {
+    description: "The count of unique IP's that have performed a server download."
+    filters: {
+      field: download_category
+      value: "server"
+    }
+    type: count_distinct
+    sql: ${ip_address} ;;
+  }
+
   measure: server_downloads {
     description: "The total number of server downloads performed."
     filters: {

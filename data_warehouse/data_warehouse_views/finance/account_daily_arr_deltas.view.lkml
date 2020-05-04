@@ -1,6 +1,15 @@
 view: account_daily_arr_deltas {
   sql_table_name: FINANCE.ACCOUNT_DAILY_ARR_DELTAS ;;
 
+  filter: last_day_of_week {
+    type: yesno
+    description: "Filters so the ARR date is equal to the last day of each week (or if the current week then the last complete date recorded in the table). Useful when grouping by week to report on ARR at a weekly level."
+    sql: CASE WHEN ${new_day_date} =
+                                      CASE WHEN DATE_TRUNC('week', ${new_day_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(new_day) FROM FINANCE.ACCOUNT_DAILY_ARR_DELTAS)
+                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${new_day_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: compound_primary {
     type: string
     sql: ${account_sfid}||${new_day_date} ;;
@@ -26,12 +35,22 @@ view: account_daily_arr_deltas {
     hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT_SFID" ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension: master_account_sfid {
     hidden: yes
     type: string
     sql: ${TABLE}."MASTER_ACCOUNT_SFID" ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension_group: new_day {
@@ -39,6 +58,7 @@ view: account_daily_arr_deltas {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_year
@@ -52,6 +72,7 @@ view: account_daily_arr_deltas {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_year
@@ -102,7 +123,11 @@ view: account_daily_arr_deltas {
     sql: ${new_day_arr} ;;
     value_format_name: "usd_0"
     group_label: "ARR"
-    drill_fields: []
+    link: {
+      label: "ARR Overview Dashboard"
+      url: "https://mattermost.looker.com/dashboards/14"
+    }
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
   }
 
   measure: previous_day_total_arr {
@@ -121,6 +146,101 @@ view: account_daily_arr_deltas {
     sql: ${arr_delta} ;;
     value_format_name: "usd_0"
     group_label: "ARR"
-    drill_fields: [account.name, new_day_date, type_of_change, total_arr_delta]
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: expansion_arr {
+    label: "Total Expansion ARR"
+    description: "The sum of expansion ARR for all accounts w/ positive ARR change from the previous day: ARR on Day - Previous Day ARR."
+    type: sum
+    filters: [type_of_change: "Increase",previous_day_arr: ">0"]
+    sql: ${arr_delta} ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: contraction_arr {
+    label: "Total Contraction ARR"
+    description: "The sum of contraction ARR for all accounts w/ negative ARR change from the previous day: ARR on Day - Previous Day ARR."
+    type: sum
+    filters: [type_of_change: "Decrease",new_day_arr: ">0"]
+    sql: ${arr_delta} ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: churn_arr {
+    label: "Total Churn ARR"
+    description: "The sum of churned ARR for all accounts w/ negative ARR change from the previous day that now have ARR = $0: ARR on Day - Previous Day ARR."
+    type: sum
+    filters: [type_of_change: "Decrease",new_day_arr: "=0"]
+    sql: ${arr_delta} ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: resurrection_arr {
+    label: "Total Resurrection ARR"
+    description: "The sum of resurrection ARR for all accounts w/ positive ARR on the current day that did not have ARR on the previous day, and that have been customers previously: ARR on Day - Previous Day ARR."
+    type: sum
+    filters: [type_of_change: "Increase",previous_day_arr: "=0",account_new_arr: "FALSE"]
+    sql: ${arr_delta} ;;
+    value_format_name: "usd_0"
+    group_label: "ARR"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: new_arr {
+    label: "Total New ARR on Day"
+    description: "The sum of new ARR on a given day. New ARR is ARR on the first date an Account has ARR."
+    type: sum
+    filters: [account_new_arr: "TRUE"]
+    value_format_name: "usd_0"
+    sql: ${new_day_arr} ;;
+    group_label: "ARR"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+    }
+
+  measure: customer_count {
+    label: "Customers"
+    description: "The count of distinct OrgM (Salesforce) Accounts that have > $0 ARR on a given day."
+    type: count_distinct
+    filters: [new_day_arr: ">0"]
+    sql: ${account_sfid} ;;
+    group_label: "Customer Counts"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: new_customer_count {
+    label: "New Customers"
+    description: "The count of new, distinct OrgM (Salesforce) Accounts that have > $0 New ARR on a given day."
+    type: count_distinct
+    filters: [new_day_arr: ">0", account_new_arr: "TRUE"]
+    sql: ${account_sfid} ;;
+    group_label: "Customer Counts"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: resurrected_customer_count {
+    label: "Resurrected Customers"
+    description: "The count of resurrected, distinct OrgM (Salesforce) Accounts that have > $0 New ARR on the given day, $0 ARR on the previous day, and have previously had >$0 ARR."
+    type: count_distinct
+    filters: [new_day_arr: ">0", account_new_arr: "FALSE", previous_day_arr: "0"]
+    sql: ${account_sfid} ;;
+    group_label: "Customer Counts"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
+  }
+
+  measure: lost_customer_count {
+    label: "Churned Customers"
+    description: "The count of churned, distinct OrgM (Salesforce) Accounts that have $0 ARR on a given day and >$0 ARR on the previous day."
+    type: count_distinct
+    filters: [type_of_change: "Decrease",new_day_arr: "=0"]
+    sql: ${account_sfid} ;;
+    group_label: "Customer Counts"
+    drill_fields: [account.name, new_day_date, account_new_arr, new_day_total_arr, previous_day_arr, type_of_change, total_arr_delta]
   }
 }

@@ -6,10 +6,19 @@ view: nps_user_monthly_score {
   # FILTERS
   filter: last_day_of_month {
     type: yesno
-    description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on server states in the given month."
+    description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on NPS at the end of each given month."
     sql: CASE WHEN ${month_date} =
                                       CASE WHEN DATE_TRUNC('month', ${month_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.nps_user_daily_score)
                                         ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${month_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: last_day_of_week {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the week. Useful when grouping by week to report on NPS at the end of each given week."
+    sql: CASE WHEN ${month_date} =
+                                      CASE WHEN DATE_TRUNC('week', ${month_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.nps_user_daily_score)
+                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${month_date}::date)) - INTERVAL '1 DAY' END
           THEN TRUE ELSE FALSE END ;;
   }
 
