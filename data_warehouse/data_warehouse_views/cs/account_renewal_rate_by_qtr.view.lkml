@@ -2,6 +2,11 @@ view: account_renewal_rate_by_qtr {
   sql_table_name: "CS"."ACCOUNT_RENEWAL_RATE_BY_QTR"
     ;;
 
+  dimension: curr_qtr {
+    type: yesno
+    sql: ${license_end_qtr} = (util.fiscal_year(current_date - interval '1 day') || '-' || util.fiscal_quarter(current_date - interval '1 day'));;
+  }
+
   dimension: license_end_qtr {
     type: string
     sql: ${TABLE}."LICENSE_END_QTR" ;;
