@@ -1,5 +1,5 @@
 view: hist_available_renewals {
-  sql_table_name: "CS"."FY20_AVAILABLE_RENEWALS";;
+  sql_table_name: "CS"."HIST_AVAILABLE_RENEWALS";;
   view_label: "Historical Available Renewals"
 
   dimension: compound_primary {
