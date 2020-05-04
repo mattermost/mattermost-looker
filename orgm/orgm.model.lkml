@@ -2,6 +2,7 @@ connection: "orgm"
 
 include: "/orgm/orgm_views/orgm/*.view.lkml"
 include: "/orgm/orgm_views/staging/*.view.lkml"
+include: "/orgm/orgm_views/sandbox/*.view.lkml"
 fiscal_month_offset: -11
 
 #
@@ -47,6 +48,108 @@ explore: account {
     view_label: "Parent Account"
     sql_on: ${parent_account.sfid} = ${account.parentid} ;;
     relationship: many_to_one
+  }
+
+}
+
+explore: sandbox_account {
+  group_label: "zHeroku Postgres OrgM"
+  sql_always_where: ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' AND ${sandbox_opportunity.type} != 'Renewal';;
+  fields: [
+            sandbox_account.sfid,sandbox_account.name,sandbox_account.owner,sandbox_account.website,
+            sandbox_account.billingstate,sandbox_account.billingcountry,sandbox_account.billingcountrycode,
+            sandbox_account.billingstreet,sandbox_account.billingstatecode,sandbox_account.billingcity,
+            sandbox_account.billingpostalcode,
+
+            sandbox_opportunity.sfid,sandbox_opportunity.name,sandbox_opportunity.type,sandbox_opportunity.amount,
+            sandbox_opportunity.close_date,sandbox_opportunity.close_month,sandbox_opportunity.close_fiscal_quarter,
+            sandbox_opportunity.close_fiscal_year,sandbox_opportunity.stagename,sandbox_opportunity.e_purchase_date__c,
+
+            sandbox_opportunitycontactrole.role,
+
+            opportunitycontactrole_contact.name, opportunitycontactrole_contact.email, opportunitycontactrole_contact.sfid,
+
+            sandbox_billing_entity.sfid,sandbox_billing_entity.cust_company,sandbox_billing_entity.cust_email,
+            sandbox_billing_entity.cust_firstname,sandbox_billing_entity.cust_lastname,sandbox_billing_entity.cust_payment_method,
+            sandbox_billing_entity.cust_payment_method_detail,sandbox_billing_entity.cust_id,
+
+            billing_entity_contact.name, billing_entity_contact.email, billing_entity_contact.sfid,
+
+            sandbox_opportunitylineitem.sfid,sandbox_opportunitylineitem.name,sandbox_opportunitylineitem.quantity,
+            sandbox_opportunitylineitem.unitprice,sandbox_opportunitylineitem.totalprice,sandbox_opportunitylineitem.listprice,
+            sandbox_opportunitylineitem.discount,sandbox_opportunitylineitem.discounted_unit_price,sandbox_opportunitylineitem.end_date,
+            sandbox_opportunitylineitem.start_date,sandbox_opportunitylineitem.is_prorated_expansion,sandbox_opportunitylineitem.product_type,
+            sandbox_opportunitylineitem.product_line_type,sandbox_opportunitylineitem.subs_id,sandbox_opportunitylineitem.subs_version_id__c,
+            sandbox_opportunitylineitem.subs_prev_version_id,sandbox_opportunitylineitem.amount_manual_override,sandbox_opportunitylineitem.new_amount,
+            sandbox_opportunitylineitem.renewal_amount,sandbox_opportunitylineitem.expansion_amount,sandbox_opportunitylineitem.coterm_expansion_amount,
+            sandbox_opportunitylineitem.leftover_expansion_amount,sandbox_opportunitylineitem.multi_amount
+
+          ]
+
+  join: sandbox_opportunity {
+    view_label: "Oppportunity"
+    sql_on: ${sandbox_account.sfid} = ${sandbox_opportunity.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: sandbox_opportunitycontactrole {
+    view_label: "OCR Contacts"
+    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitycontactrole.opportunityid} ;;
+    relationship: one_to_many
+  }
+
+  join: opportunitycontactrole_contact {
+    view_label: "OCR Contacts"
+    from: sandbox_contact
+    sql_on: ${sandbox_opportunitycontactrole.contactid} = ${opportunitycontactrole_contact.sfid};;
+    relationship: many_to_one
+  }
+
+  join: sandbox_billing_entity {
+    view_label: "Billing Entity"
+    sql_on: ${sandbox_billing_entity.sfid} = ${sandbox_opportunity.billing_entity_id};;
+    relationship: many_to_one
+  }
+
+  join: billing_entity_contact {
+    from: sandbox_contact
+    sql_on: ${sandbox_billing_entity.contactid} = ${billing_entity_contact.sfid};;
+    relationship: many_to_one
+  }
+
+  join: sandbox_opportunitylineitem {
+    view_label: "Opportunity Line Item"
+    sql_on: ${sandbox_opportunity.sfid} = ${sandbox_opportunitylineitem.opportunityid} ;;
+    relationship: many_to_one
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${sandbox_account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${sandbox_account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: product2 {
+    view_label: "Opportunity Line Item"
+    sql_on: ${sandbox_opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+    fields: [product2.name]
+  }
+
+  join: parent_account {
+    from: sandbox_account
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${sandbox_account.parentid} ;;
+    relationship: many_to_one
+    fields: []
   }
 
 }
