@@ -28,8 +28,8 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."LAST_COMMENT_AT";;
   }
 
-  dimension: billing_support{
-    label: "Billing Support"
+  dimension: sales_support{
+    label: "Sales Support"
     description: "Tickets assigned to SalesOps for billing issues, licensing issues/questions or renewal issues/questions."
     type: yesno
    sql: ${assignee_name} = 'Elaine Yue' and ${assignee_name} = 'Melissa Warner';;
@@ -169,6 +169,9 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."CATEGORY" = 'billing' THEN 'General Billing'
           WHEN ${TABLE}."CATEGORY" = 'licensing' THEN 'Licensing'
           WHEN ${TABLE}."CATEGORY" = 'renewals' THEN 'Renewals'
+          WHEN ${TABLE}."CATEGORY" = 'pricing' THEN 'Pricing'
+          WHEN ${TABLE}."CATEGORY" = 'product' THEN 'Product'
+          WHEN ${TABLE}."CATEGORY" = 'credit_card' THEN 'Credit Card'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_login' THEN 'Login'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
