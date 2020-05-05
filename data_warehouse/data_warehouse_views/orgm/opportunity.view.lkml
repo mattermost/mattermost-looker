@@ -661,7 +661,6 @@ view: opportunity {
 # Measure
   measure: count {
     description: "The total number of opportunities"
-    # BP
     sql: ${sfid} ;;
     drill_fields: [opportunity_drill_fields*]
     label: "# Oppts"

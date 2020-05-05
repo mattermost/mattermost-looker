@@ -37,10 +37,19 @@ view: account_renewal_rate_by_qtr {
 
   measure: gross_forecasted_renewal_total_amount {
     type: sum
-    sql: ${TABLE}."GROSS_FORECASTED_RENEWAL_TOTAL_AMOUNT" ;;
+    sql: ${TABLE}."GROSS_FORECASTED_RENEWAL_TOTAL_AMOUNT" + ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
     drill_fields: [account.name, account.account_owner, available_renewals, gross_forecasted_renewal_total_amount, forecast_renewal_rate_by_qtr]
     value_format_name: usd_0
   }
+
+  dimension: gross_renewal_amount_dim {
+    hidden: yes
+    type: number
+    sql: ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
+    value_format_name: usd_0
+  }
+
 
   measure: gross_renewal_amount {
     type: sum
@@ -51,7 +60,7 @@ view: account_renewal_rate_by_qtr {
 
   measure: forecast_renewal_rate_by_qtr {
     type: number
-    sql: (${gross_forecasted_renewal_total_amount}+${gross_renewal_amount})/${available_renewals} ;;
+    sql: (${gross_forecasted_renewal_total_amount})/${available_renewals} ;;
     value_format_name: percent_1
     drill_fields: [account.name, account.account_owner, available_renewals, gross_forecasted_renewal_total_amount, forecast_renewal_rate_by_qtr]
   }
@@ -60,6 +69,16 @@ view: account_renewal_rate_by_qtr {
     type: number
     sql: ${gross_renewal_amount}/${available_renewals} ;;
     value_format_name: percent_1
+    drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
+  }
+
+  measure: count_accounts {
+    type: count_distinct
+    sql: ${account_sfid} ;;
+    filters: {
+      field: gross_renewal_amount_dim
+      value: ">0"
+    }
     drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
   }
 
