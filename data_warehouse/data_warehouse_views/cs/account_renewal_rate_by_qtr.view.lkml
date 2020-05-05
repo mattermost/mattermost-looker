@@ -8,6 +8,7 @@ view: account_renewal_rate_by_qtr {
   }
 
   dimension: license_end_qtr {
+    label: "Renewal Qtr"
     type: string
     sql: ${TABLE}."LICENSE_END_QTR" ;;
   }
