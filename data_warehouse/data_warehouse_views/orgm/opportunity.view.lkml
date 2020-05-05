@@ -257,7 +257,7 @@ view: opportunity {
 
   dimension: e_purchase_date__c {
     type: date
-    sql: ${TABLE}."e_purchase_date__c" ;;
+    sql: ${TABLE}.e_purchase_date__c ;;
     label: "E-Purchase Date"
   }
 
