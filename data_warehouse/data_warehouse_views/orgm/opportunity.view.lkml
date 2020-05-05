@@ -276,6 +276,18 @@ view: opportunity {
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecasting"
     label: "Forecast Category Name"
+    order_by_field: forecastcategoryname_sort
+  }
+
+  dimension: forecastcategoryname_sort {
+    type: number
+    sql: CASE WHEN ${forecastcategoryname} = 'Commit' THEN 1
+          WHEN ${forecastcategoryname} = 'Best Case' THEN 2
+          WHEN ${forecastcategoryname} = 'Pipeline' THEN 3
+          ELSE 4 END ;;
+    group_label: "Forecasting"
+    label: "Forecast Category Name"
+    hidden: yes
   }
 
   # BP: use is_ for yes/no fields
