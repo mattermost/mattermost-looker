@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [sfid, contact.name, firstname, lastname, count]
+    fields: [fullname, company, lead_source, first_action, first_mcl_date, first_mql_date]
   }
 
 
@@ -232,6 +232,16 @@ view: lead {
     ]
     type: time
     group_label: "System"
+  }
+
+  dimension: fullname {
+    sql: ${TABLE}.LASTNAME || ', ' || ${TABLE}.FIRSTNAME ;;
+    type: string
+    link: {
+      label: "Salesforce Lead"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: lastname {
