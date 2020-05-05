@@ -831,6 +831,26 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
+  measure: total_renewal_at_risk_amount {
+    label: "At Risk Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "At Risk"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
+  }
+
+  measure: total_renewal_early_warning_amount {
+    label: "Early Warning Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "Early Warning"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
+  }
+
   measure: total_renewal_risk_amount_open {
     # description: "TODO"
     group_label: "Total Amounts"

@@ -3,10 +3,26 @@ view: account_daily_arr_deltas {
 
   filter: last_day_of_week {
     type: yesno
-    description: "Filters so the ARR date is equal to the last day of each week (or if the current week then the last complete date recorded in the table). Useful when grouping by week to report on ARR at a weekly level."
+    description: "Filters so the ARR date is equal to the last day of each week (or if the current week then the last complete date recorded in the dataset). Useful when grouping by week to report on ARR at a weekly level."
     sql: CASE WHEN ${new_day_date} =
                                       CASE WHEN DATE_TRUNC('week', ${new_day_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(new_day) FROM FINANCE.ACCOUNT_DAILY_ARR_DELTAS)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${new_day_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: last_day_of_month {
+    type: yesno
+    description: "Filters so the ARR date is equal to the last day of each month(or if the current month then the last complete date recorded in the dataset). Useful when grouping by month to report on ARR at a weekly level."
+    sql: CASE WHEN ${new_day_date} =
+                                      CASE WHEN DATE_TRUNC('MONTH', ${new_day_date}::date) = DATE_TRUNC('MONTH', CURRENT_DATE) THEN (SELECT MAX(new_day) FROM FINANCE.ACCOUNT_DAILY_ARR_DELTAS)
+                                        ELSE DATEADD(MONTH, 1, DATE_TRUNC('MONTH',${new_day_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  filter: ytd_yoy_comparison {
+    type: yesno
+    description: "Filters so the ARR date is equal to the last day of the current fiscal year for each previous fiscal year. Useful for YTD YoY comparisons."
+    sql: CASE WHEN (LEFT(DATE_TRUNC('DAY', CURRENT_DATE),4) || '-' || RIGHT(DATE_TRUNC('day', ${new_day_date}::date), 5))::DATE = DATE_TRUNC('DAY', CURRENT_DATE)
           THEN TRUE ELSE FALSE END ;;
   }
 
