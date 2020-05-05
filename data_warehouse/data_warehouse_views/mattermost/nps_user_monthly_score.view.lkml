@@ -324,7 +324,7 @@ view: nps_user_monthly_score {
   measure: nps_score {
     label: "NPS Score"
     description: "The NPS score calculated as: NPS Score = 100 * (% Promoters - % Detractors)."
-    value_format: "@{decimal}"
+    value_format_name: decimal_1
     type: number
     sql: 100*(${pct_promoter_score} - ${pct_detractor_score}) ;;
     drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
