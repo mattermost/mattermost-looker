@@ -7,22 +7,24 @@ view: excludable_servers {
 
   # DIMENSIONS
   dimension: reason {
-    description: "" 
+    label: "Excludability Reason"
+    group_label: "Excludability Filters"
+    description: "The excludability reason for manually identified testing (or other excludable) servers."
     type: string
     sql: ${TABLE}.reason ;;
     hidden: no
   }
 
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
