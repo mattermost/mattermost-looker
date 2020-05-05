@@ -1145,6 +1145,19 @@ view: opportunity {
     }
   }
 
+  measure: count_5k_plus {
+    description: "The total number of opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts ($5k+)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
+    }
+  }
+
 
   #
   # Hidden Fields (Used for derived values or joins)
