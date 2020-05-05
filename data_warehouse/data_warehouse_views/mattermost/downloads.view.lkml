@@ -34,6 +34,13 @@ view: downloads {
     sql: ${TABLE}.uri;;
   }
 
+  dimension: cs_uri_query {
+    label: "CS URI Query"
+    description: "Uniform Resource Identifier (URI) identifying the downloaded source."
+    type: string
+    sql: ${TABLE}.cs_uri_query;;
+  }
+
   dimension: download_category {
     label: "Download Category"
     description: "The download category ie App vs. Server"
