@@ -53,6 +53,11 @@ view: sandbox_contact {
     type: yesno
   }
 
+  dimension: duplicate_lead_id {
+    sql: ${TABLE}.DUPLICATE_LEAD_ID__C ;;
+    type: string
+  }
+
   dimension: email {
     sql: ${TABLE}.EMAIL ;;
     type: string
