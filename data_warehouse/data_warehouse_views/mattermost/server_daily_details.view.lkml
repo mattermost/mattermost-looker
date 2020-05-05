@@ -135,14 +135,14 @@ view: server_daily_details {
     type: yesno
     sql: ${TABLE}.in_security ;;
   }
-
-  dimension: in_mattermos2_server {
-    label: "  In Diagnostics Telemetry"
-    description: "Is contained in the mattermost2.server table data on the given logging date."
-    group_label: "  Telemetry Flags"
-    type: yesno
-    sql: ${TABLE}.in_mm2_server ;;
-  }
+#
+#   dimension: in_mattermos2_server {
+#     label: "  In Diagnostics Telemetry"
+#     description: "Is contained in the mattermost2.server table data on the given logging date."
+#     group_label: "  Telemetry Flags"
+#     type: yesno
+#     sql: ${TABLE}.in_mm2_server ;;
+#   }
 
   dimension: has_dupes {
     label: "Has Duplicates"
@@ -539,8 +539,8 @@ view: server_daily_details {
   }
 
   measure: server_7days_count {
-    group_label: " Server Counts >= 7 Days Old"
-    label: "  Server >= 7 Days Old"
+    group_label: " Server Counts"
+    label: "  Servers >= 7 Days Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 then ${server_id} else null end;;
@@ -548,8 +548,8 @@ view: server_daily_details {
   }
 
   measure: server_7days_converted_to_paid_count {
-    group_label: " Server Counts >= 7 Days Old"
-    label: "Server >= 7 Days Old & Converted to Paid < 7 Days"
+    group_label: " Server Paid Conversion Counts"
+    label: "Servers >= 7 Days Old & Converted to Paid < 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and converted to paid, licensed customers across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} < 7 then ${server_id} else null end;;
@@ -557,8 +557,8 @@ view: server_daily_details {
   }
 
   measure: server_7days_converted_count {
-    group_label: " Server Counts >= 7 Days Old"
-    label: "Server >= 7 Days Old & Converted to Paid >= 7 Days"
+    group_label: " Server Paid Conversion Counts"
+    label: "Servers >= 7 Days Old & Converted to Paid >= 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that converted to a paid SKU in >= 7 days since their first telemetry date across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 then ${server_id} else null end;;
@@ -566,8 +566,8 @@ view: server_daily_details {
   }
 
   measure: server_7days_did_not_convert_count {
-    group_label: " Server Counts >= 7 Days Old"
-    label: "Server >= 7 Days Old & Not Converted to Paid"
+    group_label: " Server Paid Conversion Counts"
+    label: "Servers >= 7 Days Old & Not Converted to Paid"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that either: converted to a paid SKU in >= 7 days since their first telemetry date or did not converted to paid across dimensions."
     type: count_distinct
     sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) then ${server_id} else null end;;
@@ -576,7 +576,7 @@ view: server_daily_details {
 
   measure: server_1days_count {
     group_label: " Server Counts"
-    label: "Server >=1 Day Old"
+    label: "Servers >=1 Day Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 then ${server_id} else null end;;
@@ -584,17 +584,53 @@ view: server_daily_details {
   }
 
   measure: server_7days_w_active_users_count {
-    group_label: " Server Counts >= 7 Days Old"
-    label: "  Server >=7 Days Old w/ Active Users"
+    group_label: " Server Counts"
+    label: "  Servers >=7 Days Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 
+  measure: server_30days_w_active_users_count {
+    group_label: " Server Counts"
+    label: "  Servers >=4 Weeks Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 30 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 30 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_30days_count {
+    group_label: " Server Counts"
+    label: "  Servers >=4 Weeks Old"
+    description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 30 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_60days_w_active_users_count {
+    group_label: " Server Counts"
+    label: "  Servers >=8 Weeks Old w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that are >= 60 days old and have active users > 0 across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 60 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: server_60days_count {
+    group_label: " Server Counts"
+    label: "  Servers >=8 Weeks Old"
+    description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
+    type: count_distinct
+    sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 60 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
   measure: server_1days_w_active_users_count {
     group_label: " Server Counts"
-    label: "Server >=1 Day Old w/ Active Users"
+    label: "Servers >=1 Day Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
@@ -603,7 +639,7 @@ view: server_daily_details {
 
   measure: server_w_active_users_count {
     group_label: " Server Counts"
-    label: " Server w/ Active Users"
+    label: " Servers w/ Active Users"
     description: "Use this to count distinct TEDAS Server ID's with > 0 active users across dimensions. Servers w/ active users are automatically idenfitiable as Telemetry Enabled because the active user count is provided via telemetry."
     type: count_distinct
     sql: CASE WHEN ${active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;

@@ -28,6 +28,13 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."LAST_COMMENT_AT";;
   }
 
+  dimension: sales_support{
+    label: "Sales Support"
+    description: "Tickets assigned to SalesOps for billing issues, licensing issues/questions or renewal issues/questions."
+    type: yesno
+   sql: ${assignee_name} = 'Elaine Yue' and ${assignee_name} = 'Melissa Warner';;
+  }
+
   dimension: days_since_last_comment {
     description: "Number of days since last comment on a ticket."
     group_label: "Last Comment"
@@ -102,6 +109,7 @@ view: zendesk_ticket_details {
     group_label: "Created Date"
     type: time
     timeframes: [
+      day_of_week_index,
       time,
       date,
       hour_of_day,
@@ -125,6 +133,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     type: time
     timeframes: [
+      day_of_week_index,
       hour12,
       time,
       date,
@@ -153,12 +162,34 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."CATEGORY" = 'tsupport_desktop' THEN 'Desktop'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_ldap' THEN 'LDAP'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_mobile' THEN 'Mobile'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_db' THEN 'DB'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_db' THEN 'Database'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_connectivity' THEN 'Connectivity'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_installation' THEN 'Installation'
           WHEN ${TABLE}."CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
           WHEN ${TABLE}."CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
           WHEN ${TABLE}."CATEGORY" = 'user_issue' THEN 'User Issue'
+          WHEN ${TABLE}."CATEGORY" = 'billing' THEN 'General Billing'
+          WHEN ${TABLE}."CATEGORY" = 'licensing' THEN 'Licensing'
+          WHEN ${TABLE}."CATEGORY" = 'renewals' THEN 'Renewals'
+          WHEN ${TABLE}."CATEGORY" = 'pricing' THEN 'Pricing'
+          WHEN ${TABLE}."CATEGORY" = 'product' THEN 'Product'
+          WHEN ${TABLE}."CATEGORY" = 'credit_card' THEN 'Credit Card'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_login' THEN 'Login'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_search' THEN 'Search'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_ui' THEN 'User Interface'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_system' THEN 'System Console'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_roles' THEN 'Roles & Permissions'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_utc_management' THEN 'User, Team & Channel Management'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_audit' THEN 'Compliance & Auditing'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_branding' THEN 'Branding'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_server' THEN 'Server Issues'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_devops' THEN 'DevOps Command Center'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_inport_export' THEN 'Data Export and Import'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_toolkit' THEN 'Developer Toolkit'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_integrations' THEN 'Integrations'
+          WHEN ${TABLE}."CATEGORY" = 'tsupport_onboarding' THEN 'Onboarding'
         ELSE 'Unknown' END
     ;;
   }

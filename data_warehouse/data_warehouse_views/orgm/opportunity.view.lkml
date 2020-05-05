@@ -146,6 +146,7 @@ view: opportunity {
     sql: ${TABLE}.closedate ;;
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_quarter_of_year,
@@ -275,6 +276,18 @@ view: opportunity {
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecasting"
     label: "Forecast Category Name"
+    order_by_field: forecastcategoryname_sort
+  }
+
+  dimension: forecastcategoryname_sort {
+    type: number
+    sql: CASE WHEN ${forecastcategoryname} = 'Commit' THEN 1
+          WHEN ${forecastcategoryname} = 'Best Case' THEN 2
+          WHEN ${forecastcategoryname} = 'Pipeline' THEN 3
+          ELSE 4 END ;;
+    group_label: "Forecasting"
+    label: "Forecast Category Name"
+    hidden: yes
   }
 
   # BP: use is_ for yes/no fields
@@ -648,7 +661,6 @@ view: opportunity {
 # Measure
   measure: count {
     description: "The total number of opportunities"
-    # BP
     sql: ${sfid} ;;
     drill_fields: [opportunity_drill_fields*]
     label: "# Oppts"
@@ -830,6 +842,26 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
+  measure: total_renewal_at_risk_amount {
+    label: "At Risk Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "At Risk"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
+  }
+
+  measure: total_renewal_early_warning_amount {
+    label: "Early Warning Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "Early Warning"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
+  }
+
   measure: total_renewal_risk_amount_open {
     # description: "TODO"
     group_label: "Total Amounts"
@@ -853,6 +885,7 @@ view: opportunity {
   }
 
   measure: total_exp_amount {
+    label: "Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -869,8 +902,70 @@ view: opportunity {
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
+  measure: total_exp_amount_5k_plus {
+    label: "Exp Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "no"
+    }
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_loe_amount {
+    label: "LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "yes"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_loe_amount_5k_plus {
+    label: "LOE Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunitylineitem.is_loe
+      value: "yes"
+    }
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
   measure: total_exp_with_loe_amount {
-    label: "Total Exp w/LOE Amount"
+    label: "Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -879,6 +974,24 @@ view: opportunity {
     filters: {
       field: opportunitylineitem.product_line_type
       value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_exp_with_loe_amount_5k_plus {
+    label: "Exp w/LOE Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -897,6 +1010,7 @@ view: opportunity {
   }
 
   measure: total_new_amount {
+    label: "New Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -905,6 +1019,25 @@ view: opportunity {
     filters: {
       field: opportunitylineitem.product_line_type
       value: "New"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+
+  measure: total_new_amount_5k_plus {
+    label: "New Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "New"
+    }
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -918,7 +1051,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_with_loe_amount {
-    label: "Total New and Exp w/LOE Amount"
+    label: "New and Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_with_loe_amount};;
     type: number
@@ -927,8 +1060,27 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_amount {
+    label: "New and Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+  }
+
+  measure: total_new_and_exp_with_loe_amount_5k_plus {
+    label: "New and Exp w/LOE Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount_5k_plus}+${total_exp_with_loe_amount_5k_plus};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+  }
+
+  measure: total_new_and_exp_amount_5k_plus {
+    label: "New and Exp Amount ($5k+)"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount_5k_plus}+${total_exp_amount_5k_plus};;
     type: number
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
@@ -937,6 +1089,7 @@ view: opportunity {
 
 
   measure: total_ren_amount {
+    label: "Ren Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -951,6 +1104,7 @@ view: opportunity {
 
 
   measure: total_multi_amount {
+    label: "Multi Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
@@ -961,6 +1115,47 @@ view: opportunity {
       value: "Multi"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: new_logo_count {
+    label: "New Logo"
+    group_label: "Counts"
+    sql: ${opportunity.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,new_logo]
+    filters: {
+      field: new_logo
+      value: "Yes"
+    }
+  }
+
+  measure: new_logo_count_5k_plus {
+    label: "New Logo ($5k+)"
+    group_label: "Counts"
+    sql: ${opportunity.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,new_logo]
+    filters: {
+      field: new_logo
+      value: "Yes"
+    }
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
+    }
+  }
+
+  measure: count_5k_plus {
+    description: "The total number of opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts ($5k+)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: opportunity_ext.new_and_expansion_amount
+      value: ">5000"
+    }
   }
 
 

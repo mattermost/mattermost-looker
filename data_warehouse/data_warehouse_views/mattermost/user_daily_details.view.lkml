@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.user_fact table.
 view: user_daily_details {
   sql_table_name: mattermost.user_daily_details ;;
-  view_label: "User Daily Details"
+  view_label: " User Daily Details"
 
   # FILTERS
 

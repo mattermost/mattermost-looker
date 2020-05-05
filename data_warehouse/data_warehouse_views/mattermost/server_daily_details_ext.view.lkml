@@ -4306,7 +4306,7 @@ view: server_daily_details_ext {
   dimension: license_users {
     description: "The number of seats (users) provisioned to the license associated with the server (if a license is provisioned and active on the given logging date)."
     type: number
-    sql: ${license_daily_details.users} ;;
+    sql: ${licenses.users} ;;
   }
 
   # DIMENSION GROUPS/DATES

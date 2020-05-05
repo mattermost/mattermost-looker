@@ -45,6 +45,18 @@ sql_table_name: mattermost.server_fact ;;
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
     sql: regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    order_by_field: first_server_version_sort
+  }
+
+  dimension: first_server_version_sort {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+          CASE WHEN split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
+            ELSE split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    hidden: yes
   }
 
   dimension: first_server_edition {
@@ -92,8 +104,8 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: license_id {
-    label: "License ID"
-    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    label: "License ID (Current)"
+    description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
     type: string
     sql: ${TABLE}.last_license_id1 ;;
   }
