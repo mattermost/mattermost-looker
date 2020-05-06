@@ -21,7 +21,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: last_comment_at {
-    description: "Date last coment was added on a ticket"
+    description: "Date last comment was added on a ticket"
     group_label: "Last Comment"
     label: "Last Comment Date"
     type: date
@@ -38,14 +38,14 @@ view: zendesk_ticket_details {
   dimension: days_since_last_comment {
     description: "Number of days since last comment on a ticket."
     group_label: "Last Comment"
-    label: "Days Since Last Comment"
+    label: "Days Since Last Comment (Open Tickets)"
     type: number
-    sql: current_date - ${last_comment_at}::date;;
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
   }
 
   dimension: days_since_last_comment_range {
     group_label: "Last Comment"
-    label: "Days since last comment range"
+    label: "Days since last comment range (Open Tickets)"
     description: "Range of days since last comment on a ticket."
     type: tier
     style: integer
@@ -232,10 +232,11 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."ENTERPRISE_EDITION_VERSION" ;;
   }
 
-  dimension: e20_customer_level_tier {
+ dimension: e20_customer_level_tier {
+  hidden: yes
     description: "E20 and Premiere support SLA ticket level. Options: L1, L2, L3, L4"
     group_label: "SLAs"
-    label: "E20 Customer Level Tier"
+    label: "E20 Customer Level Tier - Depricate"
     type: string
     sql: CASE
             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
@@ -251,14 +252,14 @@ view: zendesk_ticket_details {
     label: "First Response SLA (min)"
     type: number
     sql: CASE
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 60
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 120
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 480
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 240
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 480
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 1440
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${premium_support} AND ${priority} = 'L1 (Urgent)' THEN 60
+            WHEN ${premium_support} AND ${priority} = 'L2 (High)' THEN 120
+            WHEN ${premium_support} AND ${priority} = 'L3 (Normal)' THEN 480
+            WHEN ${premium_support} AND ${priority} = 'L4 (Low)' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L1 (Urgent)' THEN 240
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L2 (High)' THEN 480
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L3 (Normal)' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L4 (Low)' THEN 1440
             WHEN ${enterprise_edition_version} = 'e10' THEN 1440
           ELSE NULL END;;
   }
@@ -269,14 +270,14 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     type: number
     sql: CASE
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 120
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 240
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 480
-            WHEN ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 1' THEN 240
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 2' THEN 480
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 3' THEN 1440
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${e20_customer_level_tier} = 'Level 4' THEN 1440
+            WHEN ${premium_support} AND ${priority} = 'L1 (Urgent)' THEN 120
+            WHEN ${premium_support} AND ${priority} = 'L2 (High)' THEN 240
+            WHEN ${premium_support} AND ${priority} = 'L3 (Normal)' THEN 480
+            WHEN ${premium_support} AND ${priority} = 'L4 (Low)' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L1 (Urgent)' THEN 240
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L2 (High)' THEN 480
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L3 (Normal)' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L4 (Low)' THEN 1440
             WHEN ${enterprise_edition_version} = 'e10' THEN 1440
           ELSE NULL END;;
   }
@@ -583,7 +584,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
-    sql: CASE WHEN ${e20_customer_level_tier} = 'Level 1' THEN ${ticket_id} ELSE NULL END ;;
+    sql: CASE WHEN ${priority} = 'L1 (Urgent)' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
@@ -592,7 +593,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L2"
     type: count_distinct
-    sql: CASE WHEN ${e20_customer_level_tier} = 'Level 2' THEN ${ticket_id} ELSE NULL END ;;
+    sql: CASE WHEN ${priority} = 'L2 (High)' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
@@ -601,7 +602,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L3"
     type: count_distinct
-    sql: CASE WHEN ${e20_customer_level_tier} = 'Level 3' THEN ${ticket_id} ELSE NULL END ;;
+    sql: CASE WHEN ${priority} = 'L3 (Normal)' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
@@ -610,7 +611,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L4"
     type: count_distinct
-    sql: CASE WHEN ${e20_customer_level_tier} = 'Level 4' THEN ${ticket_id} ELSE NULL END ;;
+    sql: CASE WHEN ${priority} = 'L4 (Low)' THEN ${ticket_id} ELSE NULL END ;;
     drill_fields: [core_drill_fields*]
   }
 
@@ -648,7 +649,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, priority, days_since_last_comment, created_date, solved_at_time, e20_customer_level_tier, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 

@@ -28,8 +28,8 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
-access_grant: full_financial {
-  user_attribute: full_financial
+access_grant: can_see_confidential_finance {
+  user_attribute: can_see_confidential_finance
   allowed_values: [ "yes" ]
 }
 
@@ -758,13 +758,6 @@ explore: zendesk_ticket_details {
   }
 }
 
-# BP: Method to hide an explore based on a user attribute
-# explore: test_full_financial {
-#   from: user
-#   group_label: "Test"
-#   required_access_grants: [full_financial]
-# }
-
 explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Daily Score"
@@ -882,7 +875,7 @@ explore: tva_all_by_mo {
 }
 
 explore: financial_statements {
-  required_access_grants: [mlt_only]
+  required_access_grants: [can_see_confidential_finance]
   group_label: "Finance"
   label: "Monthly Financial Statements"
 }
