@@ -232,19 +232,19 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."ENTERPRISE_EDITION_VERSION" ;;
   }
 
- dimension: e20_customer_level_tier_depr {
-  hidden: yes
-    description: "E20 and Premiere support SLA ticket level. Options: L1, L2, L3, L4"
-    group_label: "SLAs"
-    label: "E20 Customer Level Tier"
-    type: string
-    sql: CASE
-            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
-            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
-            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
-            WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
-          ELSE 'No Level' END;;
-  }
+#  dimension: e20_customer_level_tier {
+#   hidden: yes
+#     description: "E20 and Premiere support SLA ticket level. Options: L1, L2, L3, L4"
+#     group_label: "SLAs"
+#     label: "E20 Customer Level Tier - Depricate"
+#     type: string
+#     sql: CASE
+#             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_1___critical_business_impact' THEN 'Level 1'
+#             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_2___major_business_impact' THEN 'Level 2'
+#             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_3___moderate_business_impact' THEN 'Level 3'
+#             WHEN ${support_type} in ('E20','Premium') AND ${TABLE}."E20_CUSTOMER_LEVEL_TIER" = 'level_4___minor_business_impact' THEN 'Level 4'
+#           ELSE 'No Level' END;;
+#   }
 
   dimension: first_response_sla {
     description: "External SLA: The duration between ticket creation and the first public agent reply on the ticket."
