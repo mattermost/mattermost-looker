@@ -8,8 +8,11 @@ view: daily_traffic {
     type: string
   }
 
-  dimension: date {
-    type: date
+  dimension_group: date {
+    label: "Logging"
+    description: "The date the web traffic was recorded."
+    type: time
+    timeframes: [date, week, month, year]
     sql: ${TABLE}."START_DATE" ;;
   }
 

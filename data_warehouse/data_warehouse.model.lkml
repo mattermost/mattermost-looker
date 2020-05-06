@@ -28,6 +28,11 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: can_see_confidential_finance {
+  user_attribute: can_see_confidential_finance
+  allowed_values: [ "yes" ]
+}
+
 access_grant: mlt_only {
   user_attribute: is_group_mlt
   allowed_values: [ "yes" ]
@@ -753,13 +758,6 @@ explore: zendesk_ticket_details {
   }
 }
 
-# BP: Method to hide an explore based on a user attribute
-# explore: test_full_financial {
-#   from: user
-#   group_label: "Test"
-#   required_access_grants: [full_financial]
-# }
-
 explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Daily Score"
@@ -876,6 +874,12 @@ explore: tva_all_by_mo {
   }
 }
 
+explore: financial_statements {
+  required_access_grants: [can_see_confidential_finance]
+  group_label: "Finance"
+  label: "Monthly Financial Statements"
+}
+
 explore: target_fact {
   group_label: "Target vs Actual"
   label: "Target Definitions"
@@ -909,9 +913,8 @@ explore: events_registry {
   description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
 }
 explore: user_events_by_date {
-  label: "User Events By Date"
+  label: " User Events By Date"
   group_label: "Product"
-  extends: [server_daily_details, server_fact]
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
 
   join: server_daily_details {
@@ -920,6 +923,15 @@ explore: user_events_by_date {
     AND ${user_events_by_date.logging_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: licenses {
+    view_label: "Server Details"
+    sql_on: ${licenses.server_id} = ${server_daily_details.server_id}
+          AND ${licenses.logging_date} = ${server_daily_details.logging_date}
+          AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
+    relationship: one_to_one
+    fields: []
   }
 
   join: server_fact {
@@ -932,14 +944,21 @@ explore: user_events_by_date {
   join: licenses_grouped {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${licenses_grouped.server_id}
-      AND ${server_fact.license_id} = ${licenses.license_id};;
+      AND ${server_fact.license_id} = ${licenses_grouped.license_id};;
     fields: [licenses_grouped.company, licenses_grouped.trial]
+    relationship: one_to_many
+  }
+
+  join: events_registry {
+    view_label: " User Events By Date"
+    sql_on: ${events_registry.event_name} = ${user_events_by_date.event_name} ;;
+    relationship: many_to_one
+    fields: [events_registry.event_category]
   }
 }
 explore: user_events_by_date_agg {
   label: "User Events By Date Agg"
   group_label: "Product"
-  extends: [server_daily_details, server_fact]
   description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day for all dates >= the user's first event date (i.e. contains row for users on dates where user has not performed event to track disengagement)."
 
   join: server_daily_details {
@@ -948,6 +967,15 @@ explore: user_events_by_date_agg {
       AND ${user_events_by_date_agg.logging_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: licenses {
+    view_label: "Server Details"
+    sql_on: ${licenses.server_id} = ${server_daily_details.server_id}
+          AND ${licenses.logging_date} = ${server_daily_details.logging_date}
+          AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
+    relationship: one_to_one
+    fields: []
   }
 
   join: server_fact {
@@ -960,8 +988,9 @@ explore: user_events_by_date_agg {
   join: licenses_grouped {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${licenses_grouped.server_id}
-    AND ${server_fact.license_id} = ${licenses.license_id};;
+    AND ${server_fact.license_id} = ${licenses_grouped.license_id};;
     fields: [licenses_grouped.company, licenses_grouped.trial]
+    relationship: many_to_one
   }
 }
 explore: snowflake_amortized_rates {
@@ -1034,33 +1063,30 @@ explore: user_daily_details {
   }
 }
 
-explore: available_renewals {
+explore: account_available_renewals_by_qtr {
   hidden: yes
   group_label: "Customer Success"
   extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: account {
-    sql_on: ${account.sfid} = ${available_renewals.account_sfid} ;;
+    sql_on: ${account.sfid} = ${account_available_renewals_by_qtr.account_sfid} ;;
   }
 
   join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND (util.fiscal_year(${opportunity.license_start_date}::date - interval '1 day') ||'-'|| util.fiscal_quarter(${opportunity.license_start_date}::date - interval '1 day')) = ${available_renewals.license_end_qtr};;
+    sql_on: ${opportunity.accountid} = ${account.sfid} AND (util.fiscal_year(${opportunity.license_start_date}::date - interval '1 day') ||'-'|| util.fiscal_quarter(${opportunity.license_start_date}::date - interval '1 day')) = ${account_available_renewals_by_qtr.license_end_qtr};;
   }
 }
 
-explore: hist_available_renewals {
-  hidden: yes
+explore: account_renewal_rate_by_qtr {
+#   hidden: yes
   group_label: "Customer Success"
-  extends: [_base_account_core_explore,_base_opportunity_core_explore]
+  extends: [_base_account_core_explore]
 
   join: account {
-    sql_on: ${account.sfid} = ${hist_available_renewals.account_sfid} ;;
-  }
-
-  join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid};;
+    sql_on: ${account.sfid} = ${account_renewal_rate_by_qtr.account_sfid} ;;
   }
 }
+
 
 explore: server_upgrades {
   label: "Server Upgrades"

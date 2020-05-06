@@ -46,7 +46,9 @@ view: account {
       count,
       customer_segmentation_tier,
       industry_category,
-      arr_current
+      arr_current,
+      website,
+      website_count
     ]
   }
 
@@ -1013,6 +1015,12 @@ view: account {
     sql: ${arr_current} ;;
     type: sum_distinct
     value_format_name: usd_0
+  }
+
+  measure: website_count {
+    hidden: yes
+    type: count_distinct
+    sql: regexp_replace(replace(replace(replace(${website},'http://',''),'www.',''),'https://',''),'/$','') ;;
   }
 
 }

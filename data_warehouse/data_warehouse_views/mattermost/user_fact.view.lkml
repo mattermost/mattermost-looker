@@ -222,11 +222,20 @@ view: user_fact {
   }
 
   dimension: user_age {
-    label: "User Age (Days)"
+    label: "Days Since First Active"
     description: "The number of days between a user's created at date and the current date."
     type: number
     sql: DATEDIFF(DAY, ${first_active_date}, CURRENT_DATE - INTERVAL '1 DAY') ;;
     hidden: no
+  }
+
+  dimension: days_since_first_active_band {
+    label: "Days First to Last Active"
+    description: "Displays the age in days of the user (since first active) bucketed into groupings. Age is calculated as days between the first active date and logging date of the record."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_first_to_last_active} ;;
   }
 
 

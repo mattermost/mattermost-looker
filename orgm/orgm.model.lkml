@@ -54,12 +54,7 @@ explore: account {
 
 explore: sandbox_account {
   group_label: "zHeroku Postgres OrgM"
-  sql_always_where:
-  ${sandbox_account.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_billing_entity.createdbyid} = '0051R00000I5BTgQAN' OR
-  ${sandbox_opportunitylineitem.createdbyid} = '0051R00000I5BTgQAN'
-  ;;
+  sql_always_where: ${sandbox_opportunity.createdbyid} = '0051R00000I5BTgQAN' AND ${sandbox_opportunity.type} != 'Renewal';;
   fields: [
             sandbox_account.sfid,sandbox_account.name,sandbox_account.owner,sandbox_account.website,
             sandbox_account.billingstate,sandbox_account.billingcountry,sandbox_account.billingcountrycode,
@@ -87,7 +82,9 @@ explore: sandbox_account {
             sandbox_opportunitylineitem.product_line_type,sandbox_opportunitylineitem.subs_id,sandbox_opportunitylineitem.subs_version_id__c,
             sandbox_opportunitylineitem.subs_prev_version_id,sandbox_opportunitylineitem.amount_manual_override,sandbox_opportunitylineitem.new_amount,
             sandbox_opportunitylineitem.renewal_amount,sandbox_opportunitylineitem.expansion_amount,sandbox_opportunitylineitem.coterm_expansion_amount,
-            sandbox_opportunitylineitem.leftover_expansion_amount,sandbox_opportunitylineitem.multi_amount
+            sandbox_opportunitylineitem.leftover_expansion_amount,sandbox_opportunitylineitem.multi_amount,
+
+            lead.email,lead.sfid,lead.converted_date
 
           ]
 
@@ -119,6 +116,12 @@ explore: sandbox_account {
   join: billing_entity_contact {
     from: sandbox_contact
     sql_on: ${sandbox_billing_entity.contactid} = ${billing_entity_contact.sfid};;
+    relationship: many_to_one
+  }
+
+  join: lead {
+    from: lead
+    sql_on: ${billing_entity_contact.duplicate_lead_id} = ${lead.sfid} ;;
     relationship: many_to_one
   }
 

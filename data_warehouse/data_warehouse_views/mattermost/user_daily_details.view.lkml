@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.user_fact table.
 view: user_daily_details {
   sql_table_name: mattermost.user_daily_details ;;
-  view_label: "User Daily Details"
+  view_label: " User Daily Details"
 
   # FILTERS
 
@@ -44,6 +44,13 @@ view: user_daily_details {
     type: number
     sql: ${TABLE}.days_first_to_last_active ;;
     hidden: no
+  }
+
+  dimension: days_since_first_to_last_active_band {
+    type: tier
+    style: integer
+    tiers: [8, 31, 61, 91, 181, 366, 731]
+    sql: ${days_first_to_last_active} ;;
   }
 
   dimension: days_since_first_active {
@@ -608,9 +615,28 @@ view: user_daily_details {
   }
 
   measure: avg_days_first_to_last_active {
+    group_label: "First to Last Active"
     label: "Avg. Days First to Last Active"
     description: "The average number of days between a user's first active date to their last active date."
     type: average
+    value_format_name: decimal_1
+    sql: ${days_first_to_last_active} ;;
+  }
+
+  measure: min_days_first_to_last_active {
+    group_label: "First to Last Active"
+    label: "Min. Days First to Last Active"
+    description: "The minimum number of days between a user's first active date to their last active date within the current grouping."
+    type: min
+    value_format_name: decimal_1
+    sql: ${days_first_to_last_active} ;;
+  }
+
+  measure: max_days_first_to_last_active {
+    group_label: "First to Last Active"
+    label: "Max. Days First to Last Active"
+    description: "The maximum number of days between a user's first active date to their last active date within the current grouping."
+    type: max
     value_format_name: decimal_1
     sql: ${days_first_to_last_active} ;;
   }

@@ -1,6 +1,6 @@
-view: hist_available_renewals {
-  sql_table_name: "CS"."FY20_AVAILABLE_RENEWALS";;
-  view_label: "Historical Available Renewals"
+view: account_available_renewals_by_qtr {
+  sql_table_name: "CS"."ACCOUNT_AVAILABLE_RENEWALS_BY_QTR";;
+  view_label: "Account Available Renewals by Qtr"
 
   dimension: compound_primary {
     hidden: yes

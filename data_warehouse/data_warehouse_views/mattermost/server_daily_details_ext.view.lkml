@@ -4340,7 +4340,7 @@ view: server_daily_details_ext {
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${server_fact.last_mm2_telemetry_date} ;;
+    sql: ${server_fact.last_mm2_telemetry_date}::date ;;
   }
 
   dimension_group: first_mm2_telemetry {
@@ -4348,7 +4348,7 @@ view: server_daily_details_ext {
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${server_fact.first_mm2_telemetry_date} ;;
+    sql: ${server_fact.first_mm2_telemetry_date}::date ;;
   }
 
   dimension_group: timestamp {
@@ -7903,6 +7903,15 @@ view: server_daily_details_ext {
     type: number
     sql: SUM(CASE WHEN ${mau} >= COALESCE(${active_users_monthly},0) THEN ${mau} ELSE ${active_users_monthly} END) ;;
     value_format_name: decimal_0
+  }
+
+  measure: server_w_active_users_count {
+    group_label: " Server Counts"
+    label: "  Servers w/ Active Users"
+    description: "Use this for counting distinct Server ID's for servers that have active users > 0 (from activity diagnostics telemetry) across dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_w_active_users_count {

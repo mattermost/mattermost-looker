@@ -109,6 +109,7 @@ view: zendesk_ticket_details {
     group_label: "Created Date"
     type: time
     timeframes: [
+      day_of_week_index,
       time,
       date,
       hour_of_day,
@@ -132,6 +133,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     type: time
     timeframes: [
+      day_of_week_index,
       hour12,
       time,
       date,

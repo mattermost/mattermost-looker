@@ -34,6 +34,13 @@ view: downloads {
     sql: ${TABLE}.uri;;
   }
 
+  dimension: cs_uri_query {
+    label: "CS URI Query"
+    description: "Uniform Resource Identifier (URI) identifying the downloaded source."
+    type: string
+    sql: ${TABLE}.cs_uri_query;;
+  }
+
   dimension: download_category {
     label: "Download Category"
     description: "The download category ie App vs. Server"
@@ -128,6 +135,26 @@ view: downloads {
       value: "app"
     }
     type: count
+  }
+
+  measure: unique_app_downloads {
+    description: "The count of unique IP's that have performed a desktop app download."
+    filters: {
+      field: download_category
+      value: "app"
+    }
+    type: count_distinct
+    sql: ${ip_address} ;;
+  }
+
+  measure: unique_server_downloads {
+    description: "The count of unique IP's that have performed a server download."
+    filters: {
+      field: download_category
+      value: "server"
+    }
+    type: count_distinct
+    sql: ${ip_address} ;;
   }
 
   measure: server_downloads {
