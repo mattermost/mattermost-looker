@@ -765,6 +765,11 @@ view: lead {
     type: string
   }
 
+  dimension: where_are_you_with_mattermost {
+    sql: ${TABLE}.WHERE_ARE_YOU_WITH_MATTERMOST__C ;;
+    type: string
+  }
+
 
   #
   # Measures
