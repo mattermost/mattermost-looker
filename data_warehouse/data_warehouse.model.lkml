@@ -28,11 +28,6 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
-access_grant: full_financial {
-  user_attribute: full_financial
-  allowed_values: [ "yes" ]
-}
-
 access_grant: mlt_only {
   user_attribute: is_group_mlt
   allowed_values: [ "yes" ]
