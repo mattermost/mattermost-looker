@@ -602,7 +602,7 @@ view: opportunity {
 
   dimension: renewal_risk_status {
     # description: "TODO"
-    sql: ${TABLE}.renewal_risk_status__c ;;
+    sql: ${TABLE}.renewal_risk_status__c;;
     type: string
     group_label: "Renewals"
   }
