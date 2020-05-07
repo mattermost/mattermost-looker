@@ -425,7 +425,5 @@ explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
   group_label: "zHeroku Postgres OrgM"
-  always_filter: {
-    filters: [system_type: "Rep"]
-  }
+  sql_always_where: ${system_type} >= 'Rep';;
 }
