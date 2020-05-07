@@ -411,7 +411,8 @@ explore: opportunityfieldhistory {
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
-  extends: [_base_account_core_explore,_base_opportunity_core_explore]
+  extends: [_base_account_explore,_base_opportunity_explore]
+#  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: owner {
     from:  user
@@ -427,6 +428,7 @@ explore: lead {
   }
 
   join: created_by {
+    view_label: "Lead Created By"
     from: user
     sql_on: ${lead.createdbyid} = ${created_by.sfid} ;;
     relationship: many_to_one
