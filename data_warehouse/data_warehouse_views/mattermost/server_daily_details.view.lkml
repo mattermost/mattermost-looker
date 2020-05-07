@@ -332,7 +332,7 @@ view: server_daily_details {
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     type: string
-    sql: ${TABLE}.account_sfid ;;
+    sql: ${server_fact.account_sfid} ;;
   }
 
   dimension: license_id {

@@ -290,7 +290,7 @@ view: server_daily_details_ext {
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     type: string
-    sql: ${TABLE}.account_sfid ;;
+    sql: ${server_fact.account_sfid} ;;
     hidden: no
   }
 
