@@ -1021,6 +1021,7 @@ view: account {
     hidden: yes
     type: count_distinct
     sql: regexp_replace(replace(replace(replace(${website},'http://',''),'www.',''),'https://',''),'/$','') ;;
+    drill_fields: [name, owner_name, csm_name, account_daily_arr_deltas.new_day_arr]
   }
 
 }
