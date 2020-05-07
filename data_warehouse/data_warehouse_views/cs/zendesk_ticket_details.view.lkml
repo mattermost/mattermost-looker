@@ -28,11 +28,25 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."LAST_COMMENT_AT";;
   }
 
-  dimension: sales_support{
-    label: "Sales Support"
-    description: "Tickets assigned to SalesOps for billing issues, licensing issues/questions or renewal issues/questions."
+  dimension: sales_support {
+    label: "Sales & Billings Support"
+    description: "Tickets assigned to Sales Support queue in Zendesk.  Tickets in this queue are bliing questions, pricing issues, licensing questions or general sales inquiry."
     type: yesno
-   sql: ${assignee_name} = 'Elaine Yue' and ${assignee_name} = 'Melissa Warner';;
+   sql: ${sales_billing_support_category} IS NOT NULL;;
+  }
+
+  dimension: tech_support {
+    label: "Technical Support"
+    description: "Tickets assigned to Technical Support queue in Zendesk.  Tickets in this queue are product related."
+    type: yesno
+    sql: ${sales_billing_support_category} IS NULL;;
+  }
+
+  dimension: ticket_support_type {
+    label: "Ticket Support Type"
+    description: "Technical or Sales & Billings Support"
+    type: string
+    sql: CASE WHEN ${sales_billing_support_category} IS NULL THEN 'Technical' WHEN ${sales_billing_support_category} IS NOT NULL THEN 'Sales & Billings Support' ELSE NULL END;;
   }
 
   dimension: days_since_last_comment {
@@ -154,7 +168,7 @@ view: zendesk_ticket_details {
 
 
   dimension: tech_support_category {
-    description: "The reason a case was created. For example: mobile, database, server, notifications."
+    description: "Category options selected for technical support queue. Category examples are desktop, server, database, LDAP, Mobile"
     group_label: "Ticket Details"
     label: "Tech Support Category"
     type: string
@@ -169,12 +183,6 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'user_issue' THEN 'User Issue'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'billing' THEN 'General Billing'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'licensing' THEN 'Licensing'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'renewals' THEN 'Renewals'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'pricing' THEN 'Pricing'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'product' THEN 'Product'
-          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'credit_card' THEN 'Credit Card'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_login' THEN 'Login'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
@@ -191,12 +199,13 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_toolkit' THEN 'Developer Toolkit'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_integrations' THEN 'Integrations'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_onboarding' THEN 'Onboarding'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" IS NOT NULL THEN 'Unknown'
         ELSE NULL END
     ;;
   }
 
   dimension: sales_billing_support_category {
-    description: ""
+    description: "Category options selected for billing/sales support queue. Category examples are pricing, licensing, renewal, general questions."
     group_label: "Ticket Details"
     label: "Sales & Billings Category"
     type: string
@@ -206,22 +215,24 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales-product' THEN 'Product'
           WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales-renewals' THEN 'Renewals'
           WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales_credit_card_issues' THEN 'Credit Card Issues'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales_general' THEN 'General'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" IS NOT NULL THEN 'Unknown'
         ELSE NULL END
     ;;
   }
 
   dimension: ticket_form {
-    description: "Name of the form filled out"
+    description: "Name of the form filled out.  Options are Sales/Billing Support Form or Technical Support Form."
     group_label: "Ticket Details"
     label: "Form Name"
     type: string
     sql: ${TABLE}.form_name ;;
   }
 
-  dimension: category {
-    description: "The reason a case was created. For example: mobile, database, server, notifications."
+  dimension: old_category {
+    description: "Old ticket categories pre self-service forms"
     group_label: "Ticket Details"
-    label: "Category"
+    label: "Old Category (depr)"
     type: string
     sql: CASE
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport' THEN 'General Support'
@@ -260,14 +271,13 @@ view: zendesk_ticket_details {
     ;;
   }
 
-  dimension: new_category {
-    description: ""
+  dimension: category {
+    description: "Combines both Sales/Billing support and Technical Support Categories."
     group_label: "Ticket Details"
     label: "Category"
     type: string
     sql: coalesce(${sales_billing_support_category},${tech_support_category}) ;;
   }
-
 
   dimension: customer_type {
     description: "Type of customer logging ticket.  Options are customer, trial, potential customer, noncustomer, reseller"
@@ -711,7 +721,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, ticket_form, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
