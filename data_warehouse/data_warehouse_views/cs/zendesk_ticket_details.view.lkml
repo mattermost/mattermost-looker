@@ -152,47 +152,122 @@ view: zendesk_ticket_details {
     sql: ${solved_at_date} = ${dates.date_date};;
   }
 
+
+  dimension: tech_support_category {
+    description: "The reason a case was created. For example: mobile, database, server, notifications."
+    group_label: "Ticket Details"
+    label: "Tech Support Category"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport' THEN 'General Support'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_desktop' THEN 'Desktop'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_ldap' THEN 'LDAP'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_mobile' THEN 'Mobile'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_db' THEN 'Database'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_connectivity' THEN 'Connectivity'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_installation' THEN 'Installation'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'user_issue' THEN 'User Issue'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'billing' THEN 'General Billing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'licensing' THEN 'Licensing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'renewals' THEN 'Renewals'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'pricing' THEN 'Pricing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'product' THEN 'Product'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'credit_card' THEN 'Credit Card'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_login' THEN 'Login'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_search' THEN 'Search'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_ui' THEN 'User Interface'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_system' THEN 'System Console'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_roles' THEN 'Roles & Permissions'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_utc_management' THEN 'User, Team & Channel Management'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_audit' THEN 'Compliance & Auditing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_branding' THEN 'Branding'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_server' THEN 'Server Issues'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_devops' THEN 'DevOps Command Center'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_inport_export' THEN 'Data Export and Import'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_toolkit' THEN 'Developer Toolkit'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_integrations' THEN 'Integrations'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_onboarding' THEN 'Onboarding'
+        ELSE NULL END
+    ;;
+  }
+
+  dimension: sales_billing_support_category {
+    description: ""
+    group_label: "Ticket Details"
+    label: "Sales & Billings Category"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales_pricing' THEN 'Pricing'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales-licensing' THEN 'Licensing'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales-product' THEN 'Product'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales-renewals' THEN 'Renewals'
+          WHEN ${TABLE}."SALES_BILLINGS_SUPPORT_CATEGORY" = 'sales_credit_card_issues' THEN 'Credit Card Issues'
+        ELSE NULL END
+    ;;
+  }
+
+  dimension: ticket_form {
+    description: "Name of the form filled out"
+    group_label: "Ticket Details"
+    label: "Form Name"
+    type: string
+    sql: ${TABLE}.form_name ;;
+  }
+
   dimension: category {
     description: "The reason a case was created. For example: mobile, database, server, notifications."
     group_label: "Ticket Details"
     label: "Category"
     type: string
     sql: CASE
-          WHEN ${TABLE}."CATEGORY" = 'tsupport' THEN 'General Support'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_desktop' THEN 'Desktop'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_ldap' THEN 'LDAP'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_mobile' THEN 'Mobile'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_db' THEN 'Database'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_connectivity' THEN 'Connectivity'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_installation' THEN 'Installation'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
-          WHEN ${TABLE}."CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
-          WHEN ${TABLE}."CATEGORY" = 'user_issue' THEN 'User Issue'
-          WHEN ${TABLE}."CATEGORY" = 'billing' THEN 'General Billing'
-          WHEN ${TABLE}."CATEGORY" = 'licensing' THEN 'Licensing'
-          WHEN ${TABLE}."CATEGORY" = 'renewals' THEN 'Renewals'
-          WHEN ${TABLE}."CATEGORY" = 'pricing' THEN 'Pricing'
-          WHEN ${TABLE}."CATEGORY" = 'product' THEN 'Product'
-          WHEN ${TABLE}."CATEGORY" = 'credit_card' THEN 'Credit Card'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_login' THEN 'Login'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_search' THEN 'Search'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_ui' THEN 'User Interface'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_system' THEN 'System Console'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_roles' THEN 'Roles & Permissions'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_utc_management' THEN 'User, Team & Channel Management'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_audit' THEN 'Compliance & Auditing'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_branding' THEN 'Branding'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_server' THEN 'Server Issues'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_devops' THEN 'DevOps Command Center'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_inport_export' THEN 'Data Export and Import'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_toolkit' THEN 'Developer Toolkit'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_integrations' THEN 'Integrations'
-          WHEN ${TABLE}."CATEGORY" = 'tsupport_onboarding' THEN 'Onboarding'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport' THEN 'General Support'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_desktop' THEN 'Desktop'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_ldap' THEN 'LDAP'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_mobile' THEN 'Mobile'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_db' THEN 'Database'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_connectivity' THEN 'Connectivity'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_installation' THEN 'Installation'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_upgrading' THEN 'Upgrading'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'general_inquiry' THEN 'General Inquiry'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'user_issue' THEN 'User Issue'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'billing' THEN 'General Billing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'licensing' THEN 'Licensing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'renewals' THEN 'Renewals'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'pricing' THEN 'Pricing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'product' THEN 'Product'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'credit_card' THEN 'Credit Card'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_login' THEN 'Login'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_messaging' THEN 'Messaging'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_status' THEN 'Notifications & Status'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_search' THEN 'Search'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_ui' THEN 'User Interface'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_system' THEN 'System Console'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_roles' THEN 'Roles & Permissions'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_utc_management' THEN 'User, Team & Channel Management'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_audit' THEN 'Compliance & Auditing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_branding' THEN 'Branding'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_server' THEN 'Server Issues'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_devops' THEN 'DevOps Command Center'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_inport_export' THEN 'Data Export and Import'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_toolkit' THEN 'Developer Toolkit'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_integrations' THEN 'Integrations'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_onboarding' THEN 'Onboarding'
         ELSE 'Unknown' END
     ;;
   }
+
+  dimension: new_category {
+    description: ""
+    group_label: "Ticket Details"
+    label: "Category"
+    type: string
+    sql: coalesce(${sales_billing_support_category},${tech_support_category}) ;;
+  }
+
 
   dimension: customer_type {
     description: "Type of customer logging ticket.  Options are customer, trial, potential customer, noncustomer, reseller"
