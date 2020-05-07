@@ -109,6 +109,29 @@ view: server_daily_details_ext {
     sql: ${TABLE}.in_mm2_server ;;
   }
 
+  filter: first_telemetry_record {
+    label: "  First Telemetry Record"
+    description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: first_security_telemetry_record {
+    label: "  First Security Telemetry Record"
+    description: "Boolean indicating the record is the first date that the server sent Security (security_update_chech.go) telemetry data."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.first_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
+
+  filter: first_diagnostics_telemetry_record {
+    label: "  First Diagnostics Telemetry Record"
+    description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) telemetry data."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.first_mm2_telemetry_date}::date THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
 
   # DIMENSIONS
   dimension: server_id {
@@ -7930,5 +7953,12 @@ view: server_daily_details_ext {
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 1 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: license_expire_date_max {
+    label: "Max. License Expire Date"
+    group_label: "License Configuration"
+    type: date
+    sql: MAX(${expire_date}::date) ;;
   }
 }
