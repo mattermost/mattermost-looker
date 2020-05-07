@@ -257,7 +257,7 @@ view: opportunity {
 
   dimension: e_purchase_date__c {
     type: date
-    sql: ${TABLE}."e_purchase_date__c" ;;
+    sql: ${TABLE}.e_purchase_date__c ;;
     label: "E-Purchase Date"
   }
 
@@ -668,6 +668,19 @@ view: opportunity {
     type: count_distinct
   }
 
+  measure: count_lost_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts (Lost)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: status_wlo
+      value: "Lost"
+    }
+  }
+
   measure: count_open_oppt {
     description: "The total number of open opportunities"
     sql: ${sfid} ;;
@@ -676,8 +689,21 @@ view: opportunity {
     group_label: "Counts"
     type: count_distinct
     filters: {
-      field: isclosed
-      value: "no"
+      field: status_wlo
+      value: "Open"
+    }
+  }
+
+  measure: count_won_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts (Won)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: status_wlo
+      value: "Won"
     }
   }
 
@@ -1118,7 +1144,7 @@ view: opportunity {
   }
 
   measure: new_logo_count {
-    label: "New Logo"
+    label: "# New Logo"
     group_label: "Counts"
     sql: ${opportunity.sfid};;
     type: count_distinct
@@ -1130,7 +1156,7 @@ view: opportunity {
   }
 
   measure: new_logo_count_5k_plus {
-    label: "New Logo ($5k+)"
+    label: "# New Logo ($5k+)"
     group_label: "Counts"
     sql: ${opportunity.sfid};;
     type: count_distinct
