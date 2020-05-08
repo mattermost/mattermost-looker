@@ -167,6 +167,8 @@ view: opportunity {
     label: "E-Purchase Date"
   }
 
+
+
   dimension: expectedrevenue {
     type: number
     sql: ${TABLE}."expectedrevenue" ;;
@@ -430,6 +432,13 @@ view: opportunity {
   dimension: renewed_by_opportunity_id {
     type: string
     sql: ${TABLE}."renewed_by_opportunity_id__c" ;;
+  }
+
+  dimension: sales_channel {
+    type: string
+    sql: CASE WHEN ${e_purchase_date__c} IS NULL THEN 'Direct Sales' ELSE 'Self Service' END;;
+    label: "Sales Channel"
+    description: "Direct Sales or Self Service"
   }
 
   dimension: stagename {

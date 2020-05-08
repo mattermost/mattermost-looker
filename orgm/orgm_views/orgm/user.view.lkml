@@ -135,6 +135,11 @@ view: user {
     sql: ${TABLE}.START_DATE__C ;;
   }
 
+  dimension: sales_segment {
+    type: string
+    sql: ${TABLE}.SALES_SEGMENT__C ;;
+  }
+
   dimension: system_type {
     type: string
     sql: ${TABLE}.SYSTEM_TYPE__C ;;
