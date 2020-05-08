@@ -64,7 +64,7 @@ view: license_daily_details {
     sql: ${TABLE}.company ;;
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Company={{ value }}%25"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
     }
     hidden: no
   }
@@ -112,7 +112,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.master_account_name ;;
@@ -129,7 +129,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.account_sfid ;;
@@ -146,7 +146,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Company={{ company._value }}%25"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.account_name ;;
