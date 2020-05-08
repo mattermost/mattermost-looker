@@ -80,6 +80,12 @@ view: tva_all_by_mo {
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
+  dimension: to_date {
+    hidden: yes
+    type: yesno
+    sql: ${period_last_day} < current_date ;;
+  }
+
   dimension: current_quarter {
     group_label: "Time Period"
     label: " Is Current Qtr?"
@@ -190,6 +196,10 @@ view: tva_all_by_mo {
       field: current_quarter
       value: "yes"
     }
+    filters: {
+      field: to_date
+      value: "yes"
+    }
   }
 
   measure: total_target_curr_qtr {
@@ -201,6 +211,10 @@ view: tva_all_by_mo {
     value_format_name: decimal_0
     filters: {
       field: current_quarter
+      value: "yes"
+    }
+    filters: {
+      field: to_date
       value: "yes"
     }
   }
@@ -234,6 +248,10 @@ view: tva_all_by_mo {
       field: current_fiscal_year
       value: "yes"
     }
+    filters: {
+      field: to_date
+      value: "yes"
+    }
   }
 
   measure: total_target_curr_fy {
@@ -244,6 +262,10 @@ view: tva_all_by_mo {
     sql: ${target} ;;
     filters: {
       field: current_fiscal_year
+      value: "yes"
+    }
+    filters: {
+      field: to_date
       value: "yes"
     }
   }
