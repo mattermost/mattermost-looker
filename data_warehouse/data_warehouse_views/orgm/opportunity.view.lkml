@@ -928,6 +928,28 @@ view: opportunity {
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
+  measure: total_exp_with_loe_amount {
+    label: "Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Expansion"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_new_and_exp_with_loe_amount {
+    label: "New and Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_with_loe_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+  }
 
 
 
@@ -963,16 +985,20 @@ view: opportunity {
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
-  measure: total_exp_with_loe_amount {
-    label: "Exp w/LOE Amount"
+  measure: total_exp_amount_self_serve {
+    label: "Exp Amount (Self Serve)"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
     filters: {
       field: opportunitylineitem.product_line_type
       value: "Expansion"
+    }
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1022,8 +1048,6 @@ view: opportunity {
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
-
-
   measure: total_new_exp_count {
     group_label: "Counts"
     label: "# OLI (New & Exp)"
@@ -1041,17 +1065,14 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
 
-  measure: total_new_and_exp_with_loe_amount {
-    label: "New and Exp w/LOE Amount"
+  measure: total_new_and_exp_amount_self_serve {
+    label: "New and Exp Amount (Self Serve)"
     group_label: "Product Line Type Totals"
-    sql: ${total_new_amount}+${total_exp_with_loe_amount};;
+    sql: ${total_new_amount_self_serv}+${total_exp_amount_self_serve};;
     type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
-
-
-
 
   measure: total_ren_amount {
     label: "Ren Amount"
@@ -1066,7 +1087,6 @@ view: opportunity {
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-
 
   measure: total_multi_amount {
     label: "Multi Amount"
