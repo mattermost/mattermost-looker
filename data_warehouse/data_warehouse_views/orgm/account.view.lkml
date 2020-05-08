@@ -888,6 +888,13 @@ view: account {
     label: "Territory Region"
   }
 
+  dimension: territory_sales_segment {
+    type: string
+    sql: ${TABLE}.territory_segment__c ;;
+    group_label: "Territory"
+    label: "Territory Sales Segment"
+  }
+
   dimension: territory_ent_rep {
     type: string
     sql: ${TABLE}.territory_ent_rep__c ;;
