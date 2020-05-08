@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [fullname, company, lead_source, first_action, first_mcl_date, first_mql_date]
+    fields: [fullname, email, company, status, lead_source, first_action, first_mcl_date, first_mql_date]
   }
 
 

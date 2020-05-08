@@ -75,6 +75,8 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 # Base Explores for Extensions
 #
 
+
+
 explore: _base_account_explore {
   extension: required
 
@@ -411,7 +413,8 @@ explore: opportunityfieldhistory {
 explore: lead {
   label: "Lead to Account"
   group_label: "Salesforce"
-  extends: [_base_account_core_explore,_base_opportunity_core_explore]
+  extends: [_base_account_explore,_base_opportunity_explore]
+#  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: owner {
     from:  user
@@ -427,6 +430,7 @@ explore: lead {
   }
 
   join: created_by {
+    view_label: "Lead Created By"
     from: user
     sql_on: ${lead.createdbyid} = ${created_by.sfid} ;;
     relationship: many_to_one
@@ -938,7 +942,7 @@ explore: user_events_by_date {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id]
+    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid]
   }
 
   join: licenses_grouped {
@@ -982,7 +986,7 @@ explore: user_events_by_date_agg {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date_agg.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id]
+    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid]
   }
 
   join: licenses_grouped {
