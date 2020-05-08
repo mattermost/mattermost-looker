@@ -10,7 +10,7 @@ view: tva_all_by_mo {
 
   dimension: drill_dimension {
     type: string
-    sql: COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')) ;;
+    sql: CASE WHEN COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')) = 'AMER_APAC' THEN 'AMER/APAC' ELSE COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')) END;;
   }
 
   dimension_group: tva {
