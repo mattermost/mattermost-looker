@@ -50,6 +50,11 @@ view: user {
     type: string
   }
 
+  dimension: employeenumber {
+    sql: ${TABLE}.EMPLOYEENUMBER ;;
+    type: string
+  }
+
   dimension: is_active {
     sql: ${TABLE}.ISACTIVE ;;
     type: yesno

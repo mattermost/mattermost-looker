@@ -867,17 +867,6 @@ explore: server_daily_details_ext {
   }
 }
 
-explore: tva_all_by_mo {
-  required_access_grants: [mlt_only]
-  group_label: "Target vs Actual"
-  label: "Monthly TvA"
-
-  join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_mo.target_slug};;
-    relationship: many_to_one
-  }
-}
-
 explore: financial_statements {
   required_access_grants: [can_see_confidential_finance]
   group_label: "Finance"
@@ -889,14 +878,37 @@ explore: target_fact {
   label: "Target Definitions"
 }
 
+explore: tva_all_by_mo {
+  required_access_grants: [mlt_only]
+  group_label: "Target vs Actual"
+  label: "Monthly TvA"
+
+  join: target_fact {
+    sql_on: CONTAINS(${tva_all_by_mo.target_slug},${target_fact.slug}) ;;
+    relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'bookings_new_and_exp_by_rep_by_mo_') ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 explore: tva_all_by_qtr {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"
   label: "Quarterly TvA"
 
   join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_qtr.target_slug};;
+    sql_on: CONTAINS(${tva_all_by_qtr.target_slug},${target_fact.slug}) ;;
     relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'bookings_new_and_exp_by_rep_by_qtr_') ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
@@ -906,8 +918,14 @@ explore: tva_all_by_fy {
   label: "Fiscal Year TvA"
 
   join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_fy.target_slug};;
+    sql_on: CONTAINS(${tva_all_by_fy.target_slug},${target_fact.slug});;
     relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'bookings_new_and_exp_by_rep_by_fy_') ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 

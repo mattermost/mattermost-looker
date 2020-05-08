@@ -8,6 +8,11 @@ view: tva_all_by_qtr {
     hidden: yes
   }
 
+  dimension: drill_dimension {
+    type: string
+    sql: COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_qtr_')) ;;
+  }
+
   dimension: qtr {
     label: "Fiscal Quarter"
     group_label: "Time Period"
