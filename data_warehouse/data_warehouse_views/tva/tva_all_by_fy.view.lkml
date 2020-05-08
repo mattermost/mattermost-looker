@@ -8,6 +8,11 @@ view: tva_all_by_fy {
     hidden: yes
   }
 
+  dimension: drill_dimension {
+    type: string
+    sql: COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_fy_')) ;;
+  }
+
   dimension: fiscal_year {
     group_label: "Time Period"
     type: string
