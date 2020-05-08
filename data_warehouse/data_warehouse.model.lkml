@@ -889,7 +889,7 @@ explore: tva_all_by_mo {
   }
 
   join: user {
-    sql_on: ${user.sfid} = REPLACE(${tva_all_by_mo.target_slug},'bookings_new_and_exp_by_rep_by_mo_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'bookings_new_and_exp_by_rep_by_mo_') ;;
     relationship: many_to_one
     fields: []
   }
@@ -906,7 +906,7 @@ explore: tva_all_by_qtr {
   }
 
   join: user {
-    sql_on: ${user.sfid} = REPLACE(${tva_all_by_qtr.target_slug},'bookings_new_and_exp_by_rep_by_qtr_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'bookings_new_and_exp_by_rep_by_qtr_') ;;
     relationship: many_to_one
     fields: []
   }
@@ -923,7 +923,7 @@ explore: tva_all_by_fy {
   }
 
   join: user {
-    sql_on: ${user.sfid} = REPLACE(${tva_all_by_fy.target_slug},'bookings_new_and_exp_by_rep_by_fy_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'bookings_new_and_exp_by_rep_by_fy_') ;;
     relationship: many_to_one
     fields: []
   }
