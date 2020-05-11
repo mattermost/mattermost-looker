@@ -84,6 +84,18 @@ view: tva_all_by_qtr {
     sql: util.fiscal_year(${period_first_day}) = util.fiscal_year(current_date());;
   }
 
+  dimension: qtd {
+    hidden: yes
+    type: yesno
+    sql: ${period_first_day} < current_date ;;
+  }
+
+  dimension: ytd {
+    hidden: yes
+    type: yesno
+    sql: util.fiscal_quarter_end(util.fiscal_year(${period_first_day})||'-'||util.fiscal_quarter(${period_first_day})) < current_date ;;
+  }
+
   measure: current_target {
     group_label: "Current Quarter"
     group_item_label: "Target"
@@ -120,6 +132,7 @@ view: tva_all_by_qtr {
   }
 
   measure: not_current_target {
+    hidden: yes
     group_label: "Not Current Quarter"
     group_item_label: "Target"
     label: "Target (Not Current Quarter)"
@@ -133,6 +146,7 @@ view: tva_all_by_qtr {
   }
 
   measure: not_current_actual {
+    hidden: yes
     group_label: "Not Current Quarter"
     group_item_label: "Actual"
     label: "Actual (Not Current Quarter)"
@@ -146,12 +160,116 @@ view: tva_all_by_qtr {
   }
 
   measure: not_current_left {
+    hidden: yes
     group_label: "Not Current Quarter"
     group_item_label: "Target Left"
     label: "Target Left (Not Current Quarter)"
     type: number
     sql: greatest(${not_current_target}-${not_current_actual},0) ;;
     value_format_name: decimal_0
+  }
+
+  measure: total_actual_curr_qtr {
+    label: "Actual Current Quarter (TD)"
+    group_label: "To Date"
+    group_item_label: "Actual (Quarter)"
+    type: sum
+    sql: ${actual} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_quarter
+      value: "yes"
+    }
+    filters: {
+      field: qtd
+      value: "yes"
+    }
+  }
+
+  measure: total_target_curr_qtr {
+    label: "Target Current Quarter (TD)"
+    group_label: "To Date"
+    group_item_label: "Target (Quarter)"
+    type: sum
+    sql: ${target} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_quarter
+      value: "yes"
+    }
+    filters: {
+      field: qtd
+      value: "yes"
+    }
+  }
+
+  measure: total_left_curr_qtr {
+    label: "Target Left Current Quarter (TD)"
+    group_label: "To Date"
+    group_item_label: "Target Left (Quarter)"
+    type: number
+    sql: greatest(${total_target_curr_qtr}-${total_actual_curr_qtr},0) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: td_curr_qtr {
+    label: "Quarter TD"
+    group_label: "To Date"
+    group_item_label: "TD % (QTD)"
+    type: number
+    value_format: "@{percent}"
+    sql: 100*${total_actual_curr_qtr}/${total_target_curr_qtr};;
+  }
+
+  measure: total_actual_curr_fy {
+    label: "Actual Current FY (TD)"
+    group_label: "To Date"
+    group_item_label: "Actual (Fiscal Year)"
+    type: sum
+    sql: ${actual} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_fiscal_year
+      value: "yes"
+    }
+    filters: {
+      field: ytd
+      value: "yes"
+    }
+  }
+
+  measure: total_target_curr_fy {
+    label: "Target Current FY (TD)"
+    group_label: "To Date"
+    group_item_label: "Target (Fiscal Year)"
+    type: sum
+    sql: ${target} ;;
+    filters: {
+      field: current_fiscal_year
+      value: "yes"
+    }
+    filters: {
+      field: ytd
+      value: "yes"
+    }
+  }
+
+  measure: total_left_curr_fy {
+    label: "Target Left Current Quarter (TD)"
+    group_label: "To Date"
+    group_item_label: "Target Left (Fiscal Year)"
+    type: number
+    sql: greatest(${total_target_curr_fy}-${total_actual_curr_fy},0) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: td_curr_fy {
+    label: "Year TD"
+    group_label: "To Date"
+    group_item_label: "TD % (YTD)"
+    type: number
+    value_format: "@{percent}"
+    sql: 100*${total_actual_curr_fy}/${total_target_curr_fy};;
   }
 
   measure: total_target {

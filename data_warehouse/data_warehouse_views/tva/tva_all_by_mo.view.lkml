@@ -157,6 +157,7 @@ view: tva_all_by_mo {
   }
 
   measure: not_current_target {
+    hidden: yes
     group_item_label: "Target"
     group_label: "Not Current Month"
     label: "Target (Not Current Month)"
@@ -170,6 +171,7 @@ view: tva_all_by_mo {
   }
 
   measure: not_current_actual {
+    hidden: yes
     group_item_label: "Actual"
     group_label: "Not Current Month"
     label: "Actual (Not Current Month)"
@@ -183,6 +185,7 @@ view: tva_all_by_mo {
   }
 
   measure: not_current_left {
+    hidden: yes
     group_item_label: "Target Left"
     group_label: "Not Current Month"
     label: "Target Left (Not Current Month)"
