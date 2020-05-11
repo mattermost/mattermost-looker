@@ -9,8 +9,14 @@ view: tva_all_by_mo {
   }
 
   dimension: drill_dimension {
+    label: "Additional Granularity"
+    group_label: "Target Info"
     type: string
-    sql: CASE WHEN COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')) = 'AMER_APAC' THEN 'AMER/APAC' ELSE COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')) END;;
+    sql: CASE
+          WHEN ${user.name} IS NOT NULL THEN ${user.name}
+          WHEN REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_') = 'AMER_APAC' THEN 'AMER/APAC'
+          WHEN ${target_slug} like 'bookings_new_and_exp_by_segment_by_mo_%' THEN REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_mo_')
+          ELSE NULL END;;
   }
 
   dimension_group: tva {
@@ -80,6 +86,18 @@ view: tva_all_by_mo {
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
+  dimension: qtd {
+    hidden: yes
+    type: yesno
+    sql: ${period_first_day} < current_date ;;
+  }
+
+  dimension: ytd {
+    hidden: yes
+    type: yesno
+    sql: util.fiscal_quarter_end(util.fiscal_year(${period_first_day})||'-'||util.fiscal_quarter(${period_first_day})) < current_date ;;
+  }
+
   dimension: current_quarter {
     group_label: "Time Period"
     label: " Is Current Qtr?"
@@ -138,13 +156,14 @@ view: tva_all_by_mo {
   measure: td_curr_mo {
     label: "Month TD"
     group_label: "To Date"
-    group_item_label: "Month %"
+    group_item_label: "TD % (MTD)"
     type: number
     value_format: "@{percent}"
-    sql: 100*${total_actual_curr_fy}/${total_target_curr_fy};;
+    sql: 100*${total_actual_curr_mo}/${total_target_curr_mo};;
   }
 
   measure: not_current_target {
+    hidden: yes
     group_item_label: "Target"
     group_label: "Not Current Month"
     label: "Target (Not Current Month)"
@@ -158,6 +177,7 @@ view: tva_all_by_mo {
   }
 
   measure: not_current_actual {
+    hidden: yes
     group_item_label: "Actual"
     group_label: "Not Current Month"
     label: "Actual (Not Current Month)"
@@ -171,11 +191,47 @@ view: tva_all_by_mo {
   }
 
   measure: not_current_left {
+    hidden: yes
     group_item_label: "Target Left"
     group_label: "Not Current Month"
     label: "Target Left (Not Current Month)"
     type: number
     sql: greatest(${not_current_target}-${not_current_actual},0) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_actual_curr_mo {
+    label: "Actual Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Actual (Month)"
+    type: sum
+    sql: ${actual} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_month
+      value: "yes"
+    }
+  }
+
+  measure: total_target_curr_mo {
+    label: "Target Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Target (Month)"
+    type: sum
+    sql: ${target} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_month
+      value: "yes"
+    }
+  }
+
+  measure: total_left_curr_mo {
+    label: "Target Left Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Target Left (Month)"
+    type: number
+    sql: greatest(${total_target_curr_mo}-${total_actual_curr_mo},0) ;;
     value_format_name: decimal_0
   }
 
@@ -188,6 +244,10 @@ view: tva_all_by_mo {
     value_format_name: decimal_0
     filters: {
       field: current_quarter
+      value: "yes"
+    }
+    filters: {
+      field: qtd
       value: "yes"
     }
   }
@@ -203,10 +263,14 @@ view: tva_all_by_mo {
       field: current_quarter
       value: "yes"
     }
+    filters: {
+      field: qtd
+      value: "yes"
+    }
   }
 
   measure: total_left_curr_qtr {
-    label: "Target Left Current FY (TD)"
+    label: "Target Left Current Quarter (TD)"
     group_label: "To Date"
     group_item_label: "Target Left (Quarter)"
     type: number
@@ -217,7 +281,7 @@ view: tva_all_by_mo {
   measure: td_curr_qtr {
     label: "Quarter TD"
     group_label: "To Date"
-    group_item_label: "Quarter %"
+    group_item_label: "TD % (QTD)"
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual_curr_qtr}/${total_target_curr_qtr};;
@@ -234,6 +298,10 @@ view: tva_all_by_mo {
       field: current_fiscal_year
       value: "yes"
     }
+    filters: {
+      field: ytd
+      value: "yes"
+    }
   }
 
   measure: total_target_curr_fy {
@@ -244,6 +312,10 @@ view: tva_all_by_mo {
     sql: ${target} ;;
     filters: {
       field: current_fiscal_year
+      value: "yes"
+    }
+    filters: {
+      field: ytd
       value: "yes"
     }
   }
@@ -258,9 +330,9 @@ view: tva_all_by_mo {
   }
 
   measure: td_curr_fy {
-    label: "Fiscal Year TD"
+    label: "Year TD"
     group_label: "To Date"
-    group_item_label: "Fiscal Year %"
+    group_item_label: "TD % (YTD)"
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual_curr_fy}/${total_target_curr_fy};;
