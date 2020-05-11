@@ -13,6 +13,7 @@ view: target_fact {
   }
 
   dimension: ga {
+    hidden: yes
     label: "Is GA?"
     type: yesno
     sql: ${TABLE}."GA" ;;
@@ -24,7 +25,7 @@ view: target_fact {
   }
 
   dimension: tva_enabled {
-    label: "TD Enabled"
+    label: "TvA Enabled"
     type: yesno
     sql: true ;;
   }
@@ -41,6 +42,7 @@ view: target_fact {
   }
 
   dimension: name_by_period {
+    hidden: yes
     type: string
     sql: ${TABLE}."NAME_BY_PERIOD" ;;
   }
@@ -51,6 +53,7 @@ view: target_fact {
   }
 
   dimension: slug {
+    hidden: yes
     type: string
     sql: ${TABLE}."SLUG" ;;
   }
@@ -61,6 +64,7 @@ view: target_fact {
   }
 
   dimension: visibility {
+    hidden: yes
     type: string
     sql: ${TABLE}."VISIBILITY" ;;
   }
