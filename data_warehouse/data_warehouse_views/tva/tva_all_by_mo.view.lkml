@@ -80,10 +80,16 @@ view: tva_all_by_mo {
     sql: ${TABLE}."PERIOD_LAST_DAY" ;;
   }
 
-  dimension: to_date {
+  dimension: qtd {
     hidden: yes
     type: yesno
-    sql: ${period_last_day} < current_date ;;
+    sql: ${period_first_day} < current_date ;;
+  }
+
+  dimension: ytd {
+    hidden: yes
+    type: yesno
+    sql: util.fiscal_quarter_end(util.fiscal_year(${period_first_day})||'-'||util.fiscal_quarter(${period_first_day})) < current_date ;;
   }
 
   dimension: current_quarter {
@@ -144,10 +150,10 @@ view: tva_all_by_mo {
   measure: td_curr_mo {
     label: "Month TD"
     group_label: "To Date"
-    group_item_label: "Month %"
+    group_item_label: "TD % (MTD)"
     type: number
     value_format: "@{percent}"
-    sql: 100*${total_actual_curr_fy}/${total_target_curr_fy};;
+    sql: 100*${total_actual_curr_mo}/${total_target_curr_mo};;
   }
 
   measure: not_current_target {
@@ -185,6 +191,41 @@ view: tva_all_by_mo {
     value_format_name: decimal_0
   }
 
+  measure: total_actual_curr_mo {
+    label: "Actual Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Actual (Month)"
+    type: sum
+    sql: ${actual} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_month
+      value: "yes"
+    }
+  }
+
+  measure: total_target_curr_mo {
+    label: "Target Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Target (Month)"
+    type: sum
+    sql: ${target} ;;
+    value_format_name: decimal_0
+    filters: {
+      field: current_month
+      value: "yes"
+    }
+  }
+
+  measure: total_left_curr_mo {
+    label: "Target Left Current Month (TD)"
+    group_label: "To Date"
+    group_item_label: "Target Left (Month)"
+    type: number
+    sql: greatest(${total_target_curr_mo}-${total_actual_curr_mo},0) ;;
+    value_format_name: decimal_0
+  }
+
   measure: total_actual_curr_qtr {
     label: "Actual Current Quarter (TD)"
     group_label: "To Date"
@@ -197,7 +238,7 @@ view: tva_all_by_mo {
       value: "yes"
     }
     filters: {
-      field: to_date
+      field: qtd
       value: "yes"
     }
   }
@@ -214,13 +255,13 @@ view: tva_all_by_mo {
       value: "yes"
     }
     filters: {
-      field: to_date
+      field: qtd
       value: "yes"
     }
   }
 
   measure: total_left_curr_qtr {
-    label: "Target Left Current FY (TD)"
+    label: "Target Left Current Quarter (TD)"
     group_label: "To Date"
     group_item_label: "Target Left (Quarter)"
     type: number
@@ -231,7 +272,7 @@ view: tva_all_by_mo {
   measure: td_curr_qtr {
     label: "Quarter TD"
     group_label: "To Date"
-    group_item_label: "Quarter %"
+    group_item_label: "TD % (QTD)"
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual_curr_qtr}/${total_target_curr_qtr};;
@@ -249,7 +290,7 @@ view: tva_all_by_mo {
       value: "yes"
     }
     filters: {
-      field: to_date
+      field: ytd
       value: "yes"
     }
   }
@@ -265,7 +306,7 @@ view: tva_all_by_mo {
       value: "yes"
     }
     filters: {
-      field: to_date
+      field: ytd
       value: "yes"
     }
   }
@@ -280,9 +321,9 @@ view: tva_all_by_mo {
   }
 
   measure: td_curr_fy {
-    label: "Fiscal Year TD"
+    label: "Year TD"
     group_label: "To Date"
-    group_item_label: "Fiscal Year %"
+    group_item_label: "TD % (YTD)"
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual_curr_fy}/${total_target_curr_fy};;
