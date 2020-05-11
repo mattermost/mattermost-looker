@@ -9,8 +9,14 @@ view: tva_all_by_qtr {
   }
 
   dimension: drill_dimension {
+    label: "Additional Granularity"
+    group_label: "Target Info"
     type: string
-    sql: CASE WHEN COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_qtr_')) = 'AMER_APAC' THEN 'AMER/APAC' ELSE COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_qtr_')) END;;
+    sql: CASE
+          WHEN ${user.name} IS NOT NULL THEN ${user.name}
+          WHEN REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_qtr_') = 'AMER_APAC' THEN 'AMER/APAC'
+          WHEN ${target_slug} like 'bookings_new_and_exp_by_segment_by_qtr_%' THEN REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_qtr_')
+          ELSE NULL END;;
   }
 
   dimension: qtr {
