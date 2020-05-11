@@ -104,7 +104,7 @@ view: user {
 
   dimension: sales_segment {
     type: string
-    sql: ${TABLE}.SALES_SEGMENT__C ;;
+    sql: CASE WHEN  ${TABLE}.SALES_SEGMENT__C = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.SALES_SEGMENT__C END;;
   }
 
   dimension: system_type {
