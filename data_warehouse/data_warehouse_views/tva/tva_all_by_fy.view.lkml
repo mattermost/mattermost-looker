@@ -8,6 +8,11 @@ view: tva_all_by_fy {
     hidden: yes
   }
 
+  dimension: drill_dimension {
+    type: string
+    sql: CASE WHEN COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_fy_')) = 'AMER_APAC' THEN 'AMER/APAC' ELSE COALESCE(${user.name},REPLACE(${target_slug},'bookings_new_and_exp_by_segment_by_fy_')) END;;
+  }
+
   dimension: fiscal_year {
     group_label: "Time Period"
     type: string

@@ -425,5 +425,5 @@ explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
   group_label: "zHeroku Postgres OrgM"
-  sql_always_where: ${system_type} >= 'Rep';;
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
 }

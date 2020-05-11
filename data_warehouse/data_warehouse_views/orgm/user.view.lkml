@@ -50,6 +50,11 @@ view: user {
     type: string
   }
 
+  dimension: employeenumber {
+    sql: ${TABLE}.EMPLOYEENUMBER ;;
+    type: string
+  }
+
   dimension: is_active {
     sql: ${TABLE}.ISACTIVE ;;
     type: yesno
@@ -95,6 +100,11 @@ view: user {
       year
     ]
     type: time
+  }
+
+  dimension: sales_segment {
+    type: string
+    sql: ${TABLE}.SALES_SEGMENT__C ;;
   }
 
   dimension: system_type {
