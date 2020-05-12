@@ -891,7 +891,7 @@ explore: target_fact {
 }
 
 explore: tva_all_by_mo {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "Monthly TvA"
 
@@ -909,7 +909,7 @@ explore: tva_all_by_mo {
 }
 
 explore: tva_all_by_qtr {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "Quarterly TvA"
 
@@ -927,7 +927,7 @@ explore: tva_all_by_qtr {
 }
 
 explore: tva_all_by_fy {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "TvA by Fiscal Year"
 
