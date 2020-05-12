@@ -189,7 +189,7 @@ view: server_daily_details {
     group_label: " Data Quality"
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
-    sql: ${TABLE}.has_multii_ips ;;
+    sql: ${TABLE}.has_multi_ips ;;
   }
 
   dimension: ip_address {
