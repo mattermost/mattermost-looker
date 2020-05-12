@@ -48,7 +48,8 @@ view: account {
       industry_category,
       arr_current,
       website,
-      website_count
+      website_count,
+      territory_sales_segment
     ]
   }
 
