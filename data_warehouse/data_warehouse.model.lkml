@@ -66,6 +66,7 @@ include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
@@ -382,6 +383,17 @@ explore: master_account_daily_arr_deltas {
     fields: [name,sfid]
   }
 }
+
+explore: commit_ww {
+  label: "Commits (WW)"
+  group_label: "Target vs Actual"
+}
+
+explore: commit_segment {
+  label: "Commits (Segment)"
+  group_label: "Target vs Actual"
+}
+
 
 explore: forecast_ww {
   label: "Forecast (WW)"

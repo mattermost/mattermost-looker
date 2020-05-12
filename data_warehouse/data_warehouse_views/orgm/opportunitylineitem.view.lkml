@@ -18,7 +18,8 @@ view: opportunitylineitem {
   #
 
   set: opportunitylineitem_drill {
-    fields: [account.name,opportunity.name, account.csm_name, account.owner_name, opportunity.close_date,opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
+    fields: [account.name,opportunity.name, account.csm_name, account.owner_name, opportunity.close_date,
+             opportunity.forecastcategoryname, opportunity.probability, opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
   }
 
   set: opportunitylineitem_core {
