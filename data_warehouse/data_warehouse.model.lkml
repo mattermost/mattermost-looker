@@ -28,16 +28,6 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
-access_grant: can_see_confidential_finance {
-  user_attribute: can_see_confidential_finance
-  allowed_values: [ "yes" ]
-}
-
-access_grant: mlt_only {
-  user_attribute: is_group_mlt
-  allowed_values: [ "yes" ]
-}
-
 #
 # Formats
 #
@@ -880,7 +870,7 @@ explore: server_daily_details_ext {
 }
 
 explore: financial_statements {
-  required_access_grants: [can_see_confidential_finance]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
   label: "Monthly Financial Statements"
 }
@@ -891,7 +881,7 @@ explore: target_fact {
 }
 
 explore: tva_all_by_mo {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "Monthly TvA"
 
@@ -909,7 +899,7 @@ explore: tva_all_by_mo {
 }
 
 explore: tva_all_by_qtr {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "Quarterly TvA"
 
@@ -927,7 +917,7 @@ explore: tva_all_by_qtr {
 }
 
 explore: tva_all_by_fy {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "TvA by Fiscal Year"
 
