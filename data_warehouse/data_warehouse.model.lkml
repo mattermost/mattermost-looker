@@ -28,16 +28,6 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
-access_grant: can_see_confidential_finance {
-  user_attribute: can_see_confidential_finance
-  allowed_values: [ "yes" ]
-}
-
-access_grant: mlt_only {
-  user_attribute: is_group_mlt
-  allowed_values: [ "yes" ]
-}
-
 #
 # Formats
 #
