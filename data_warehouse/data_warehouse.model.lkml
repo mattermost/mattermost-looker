@@ -880,7 +880,7 @@ explore: server_daily_details_ext {
 }
 
 explore: financial_statements {
-  required_access_grants: [can_see_confidential_finance]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
   label: "Monthly Financial Statements"
 }
