@@ -48,7 +48,8 @@ view: account {
       industry_category,
       arr_current,
       website,
-      website_count
+      website_count,
+      territory_sales_segment
     ]
   }
 
@@ -890,7 +891,7 @@ view: account {
 
   dimension: territory_sales_segment {
     type: string
-    sql: ${TABLE}.territory_segment__c ;;
+    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
     group_label: "Territory"
     label: "Territory Sales Segment"
   }

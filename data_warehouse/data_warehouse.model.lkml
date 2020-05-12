@@ -884,12 +884,13 @@ explore: tva_all_by_mo {
   label: "Monthly TvA"
 
   join: target_fact {
+    view_label: "TvA by Month"
     sql_on: CONTAINS(${tva_all_by_mo.target_slug},${target_fact.slug}) ;;
     relationship: many_to_one
   }
 
   join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'bookings_new_and_exp_by_rep_by_mo_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'attain_new_and_exp_by_rep_by_mo_') ;;
     relationship: many_to_one
     fields: []
   }
@@ -901,12 +902,13 @@ explore: tva_all_by_qtr {
   label: "Quarterly TvA"
 
   join: target_fact {
+    view_label: "TvA by Quarter"
     sql_on: CONTAINS(${tva_all_by_qtr.target_slug},${target_fact.slug}) ;;
     relationship: many_to_one
   }
 
   join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'bookings_new_and_exp_by_rep_by_qtr_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'attain_new_and_exp_by_rep_by_qtr_') ;;
     relationship: many_to_one
     fields: []
   }
@@ -915,15 +917,16 @@ explore: tva_all_by_qtr {
 explore: tva_all_by_fy {
   required_access_grants: [mlt_only]
   group_label: "Target vs Actual"
-  label: "Fiscal Year TvA"
+  label: "TvA by Fiscal Year"
 
   join: target_fact {
+    view_label: "Fiscal TvA"
     sql_on: CONTAINS(${tva_all_by_fy.target_slug},${target_fact.slug});;
     relationship: many_to_one
   }
 
   join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'bookings_new_and_exp_by_rep_by_fy_') ;;
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'attain_new_and_exp_by_rep_by_fy_') ;;
     relationship: many_to_one
     fields: []
   }

@@ -18,7 +18,7 @@ view: _homepage {
   measure: _html {
     sql: 1 ;;
     html:
-    {% if {{_user_attributes['is_mattermost_board_member']}} %}
+    {% if _user_attributes['homepage_group'] =='boardmember' %}
     <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
         <div style="font-size: 30px">Mattermost Board Homepage</div>
@@ -78,7 +78,7 @@ view: _homepage {
         </div>
       </td></tr></table>
       </center>
-    {% elsif _user_attributes['is_group_mlt'] %}
+    {% elsif _user_attributes['homepage_group'] =='mlt' %}
       <center>
         <table><tr><td style="color:rgb(58,66,69,0.65);">
           <div style="font-size: 30px">MLT Looker Homepage</div>
@@ -163,7 +163,55 @@ view: _homepage {
           </div>
         </td></tr></table>
       </center>
-    {% elsif _user_attributes['assigned_to_group'] %}
+    {% elsif _user_attributes['homepage_group'] =='sales' %}
+      <center>
+        <table><tr><td style="color:rgb(58,66,69,0.65);">
+          <div style="font-size: 30px">Sales Looker Homepage</div>
+          <div style="font-size: 13px; text-align: left;">
+            <div ng-bind-html="element.body_text_as_html">
+              <br>
+              <div style="font-size: 15px">Handbook & Documentation Links</div>
+                <ul>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">Metrics Definitions</a>
+                  </li>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">Automating Metrics Timeline</a>
+                  </li>
+                  <li>
+                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">Looker at Mattermost</a>
+                  </li>
+                  <li>
+                    <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" target="_blank" style="@{css_link_style}">Provide Feedback on Looker Dashboards</a>
+                  </li>
+                </ul>
+              <div style="font-size: 15px">Sales Content in Looker</div>
+              <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">Sales (WW)</a></li>
+              </ul>
+              <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/127" style="@{css_link_style}">Sales (Segment)</a></li>
+              </ul>
+              <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/113" style="@{css_link_style}">Sales (Self Service)</a></li>
+              </ul>
+              <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/50" style="@{css_link_style}">Available Renewals</a></li>
+              </ul>
+
+              <div style="font-size: 20px;" >Looker Quick Links</div>
+              <div>
+              <a href="https://mattermost.looker.com/browse/favorites" style="@{css_link_style}">My Favorites</a>
+              - <a href="https://mattermost.looker.com/browse/recent" style="@{css_link_style}">Recently Viewed</a>
+              - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
+              - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
+              <br>
+              <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
+            </div>
+          </div>
+        </td></tr></table>
+      </center>
+    {% elsif _user_attributes['homepage_group'] =='default' %}
       <center>
       <table><tr><td style="color:rgb(58,66,69,0.65);">
         <div style="font-size: 30px">Welcome to Looker, {{ _user_attributes['first_name'] }}!</div>
