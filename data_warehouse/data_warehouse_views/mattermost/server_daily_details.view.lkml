@@ -342,7 +342,7 @@ view: server_daily_details {
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     group_label: "License Info."
     type: string
-    sql: ${TABLE}.license_id1 ;;
+    sql: ${server_fact.license_id} ;;
   }
 
   dimension: license_email {

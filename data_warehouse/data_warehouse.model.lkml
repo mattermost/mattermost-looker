@@ -668,12 +668,21 @@ explore: server_daily_details {
   }
 
   join: licenses {
-    view_label: "License Details"
+    view_label: "License Details (Hist)"
     sql_on: ${licenses.server_id} = ${server_daily_details.server_id}
     AND ${licenses.logging_date} = ${server_daily_details.logging_date}
     AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
     relationship: one_to_one
-    fields: [licenses.company, licenses.trial]
+    fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+      licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+  }
+
+  join: licenses_grouped {
+    view_label: "License Details (Current)"
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details.license_id} AND ${licenses_grouped.server_id} = ${server_daily_details.server_id} ;;
+    relationship: one_to_one
+    fields: [licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
+      licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_events_by_date {
@@ -819,12 +828,21 @@ explore: server_daily_details_ext {
   }
 
   join: licenses {
-    view_label: "License Details"
-    sql_on: ${licenses.license_id} = ${server_daily_details_ext.license_id1}
-    AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
-    AND ${licenses.server_id} = ${server_daily_details_ext.server_id};;
-    relationship: many_to_one
-    fields: [licenses.trial, licenses.company]
+    view_label: "License Details (Hist)"
+    sql_on: ${licenses.server_id} = ${server_daily_details_ext.server_id}
+          AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
+          AND ${licenses.license_id} = ${server_daily_details_ext.license_id} ;;
+    relationship: one_to_one
+    fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+      licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+  }
+
+  join: licenses_grouped {
+    view_label: "License Details (Current)"
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details_ext.license_id} and ${licenses_grouped.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: one_to_one
+    fields: [licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
+      licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_fact {
