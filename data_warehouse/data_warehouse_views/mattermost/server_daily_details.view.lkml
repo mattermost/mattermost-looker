@@ -189,7 +189,7 @@ view: server_daily_details {
     group_label: " Data Quality"
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
-    sql: ${TABLE}.has_multii_ips ;;
+    sql: ${TABLE}.has_multi_ips ;;
   }
 
   dimension: ip_address {
@@ -278,7 +278,9 @@ view: server_daily_details {
     label: " Server Version"
     description: "The version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+    regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+    ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: server_version_major_sort
   }
 
@@ -287,7 +289,7 @@ view: server_daily_details {
     label: "  Server Version: Major (Current)"
     description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
     type: string
-    sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
+    sql: split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2)  ;;
     order_by_field: server_version_major_sort
   }
 
@@ -296,9 +298,9 @@ view: server_daily_details {
     label: "  Server Version: Major (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
-    sql: (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-            ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    sql: (split_part(${version}, '.', 1) ||
+          CASE WHEN split_part(${version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
 
