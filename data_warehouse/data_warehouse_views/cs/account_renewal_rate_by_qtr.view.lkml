@@ -63,6 +63,7 @@ view: account_renewal_rate_by_qtr {
     type: number
     sql: (${gross_forecasted_renewal_total_amount})/${available_renewals} ;;
     value_format_name: percent_1
+#    html: @{cond_style_attain} ;;
     drill_fields: [account.name, account.account_owner, available_renewals, gross_forecasted_renewal_total_amount, forecast_renewal_rate_by_qtr]
   }
 
@@ -71,7 +72,8 @@ view: account_renewal_rate_by_qtr {
     sql: ${gross_renewal_amount}/${available_renewals} ;;
     value_format_name: percent_1
     drill_fields: [account.name, account.account_owner, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
-  }
+#    html: @{cond_style_attain} ;;
+    }
 
   measure: count_accounts {
     type: count_distinct

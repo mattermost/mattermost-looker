@@ -150,7 +150,10 @@ view: lead {
     type: string
   }
 
-
+  dimension: existing_account__c {
+    sql: ${TABLE}.EXISTING_ACCOUNT__C ;;
+    type: string
+  }
 
   dimension: first_action {
     sql: ${TABLE}.FIRST_ACTION__C ;;
@@ -277,7 +280,7 @@ view: lead {
     sql: ${TABLE}.LEAD_SOURCE_DETAIL__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension: lead_status_at_conversion {
     sql: ${TABLE}.LEAD_STATUS_AT_CONVERSION__C ;;
@@ -615,6 +618,12 @@ view: lead {
               END ;;
     type: string
     label: "Owner Name"
+  }
+
+  dimension: owner_segment {
+    type: string
+    label: "Lead Owner Segment"
+    sql: ${owner.sales_segment} ;;
   }
 
 #  dimension: owner_name {
