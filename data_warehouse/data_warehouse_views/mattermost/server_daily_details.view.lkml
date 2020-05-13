@@ -1,6 +1,6 @@
 view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
-  view_label: "Server Daily Details"
+  view_label: " Server Daily Details"
   # Filters
   filter: last_day_of_month {
     type: yesno
@@ -342,7 +342,16 @@ view: server_daily_details {
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     group_label: "License Info."
     type: string
+    sql: ${TABLE}.license_id1 ;;
+  }
+
+  dimension: license_id2 {
+    label: "License ID"
+    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    group_label: "License Info."
+    type: string
     sql: ${server_fact.license_id} ;;
+    hidden: yes
   }
 
   dimension: license_email {
@@ -535,6 +544,24 @@ view: server_daily_details {
     description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: servers_w_trials {
+    label: "   Trial Server Count"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.first_trial_license_date} IS NOT NULL THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: trial_paid_conversion_server_count {
+    label: "   Trials to Paid Server Count"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.first_trial_license_date} < ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 

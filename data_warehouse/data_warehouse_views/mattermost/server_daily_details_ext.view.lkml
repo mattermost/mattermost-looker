@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.server_daily_details_ext table.
 view: server_daily_details_ext {
   sql_table_name: mattermost.server_daily_details_ext ;;
-  view_label: "Server Daily Details Ext"
+  view_label: " Server Daily Details Ext"
 
   # FILTERS
   filter: last_day_of_month {
@@ -309,6 +309,14 @@ view: server_daily_details_ext {
     description: ""
     type: string
     sql: ${TABLE}.license_id2 ;;
+    hidden: yes
+  }
+
+  dimension: license_id3 {
+    label: " License Id"
+    description: "The Mattermost License ID associated with the server."
+    type: string
+    sql: ${server_fact.license_id} ;;
     hidden: yes
   }
 
