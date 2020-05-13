@@ -913,6 +913,7 @@ view: opportunity {
   measure: total_loe_amount {
     label: "LOE Amount"
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'Expansion' and Is Prorated Expansion = 'Leftover Expansion'"
     sql: ${opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
@@ -929,6 +930,7 @@ view: opportunity {
   }
 
   measure: total_exp_with_loe_amount {
+    description: "Total where Product Line Type = 'Expansion' (includes Co-Term and Leftover Expansion)"
     label: "Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -943,6 +945,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_with_loe_amount {
+    description: "Total where Product Line Type = 'New' or 'Expansion' (includes Co-Term and Leftover Expansion)"
     label: "New and Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_with_loe_amount};;
@@ -968,6 +971,7 @@ view: opportunity {
   }
 
   measure: total_exp_amount {
+    description: "Total where Product Line Type = 'Expansion'"
     label: "Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -986,6 +990,7 @@ view: opportunity {
   }
 
   measure: total_exp_amount_self_serve {
+    description: "Total where Product Line Type = 'Expansion' and E Purchase Date is Filled In"
     label: "Exp Amount (Self Serve)"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -1031,6 +1036,7 @@ view: opportunity {
   }
 
   measure: total_new_amount_self_serv {
+    description: "Total where Product Line Type = 'New' and E Purchase Date is Filled In"
     label: "New Amount (Self Serve)"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -1057,6 +1063,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_amount {
+    description: "Total where Product Line Type = 'New' or 'Expansion' (includes Co-Term and Leftover Expansion)"
     label: "New and Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
@@ -1066,6 +1073,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_amount_self_serve {
+    description: "Total where Product Line Type = 'New' or 'Expansion' (includes Co-Term and Leftover Expansion) and E Purchase Date is Filled In"
     label: "New and Exp Amount (Self Serve)"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount_self_serv}+${total_exp_amount_self_serve};;
@@ -1075,6 +1083,7 @@ view: opportunity {
   }
 
   measure: total_ren_amount {
+    description: "Total where Product Line Type = 'Ren'"
     label: "Ren Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -1088,7 +1097,27 @@ view: opportunity {
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
+  measure: total_ren_amount_self_serve {
+    description: "Total where Product Line Type = 'Ren' and E Purchase Date is Filled In"
+    label: "Ren Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Ren"
+    }
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
   measure: total_multi_amount {
+    description: "Total where Product Line Type = 'Multi'"
     label: "Multi Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.totalprice};;
@@ -1098,6 +1127,25 @@ view: opportunity {
     filters: {
       field: opportunitylineitem.product_line_type
       value: "Multi"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_multi_amount_self_service {
+    description: "Total where Product Line Type = 'Multi' and E Purchase Date is Filled In"
+    label: "Multi Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.totalprice};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunitylineitem.product_line_type
+      value: "Multi"
+    }
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }

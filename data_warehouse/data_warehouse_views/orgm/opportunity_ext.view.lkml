@@ -10,6 +10,7 @@ view: opportunity_ext {
 
   dimension: expansion_amount {
     group_label: "Line Item Totals"
+    description: "Total where Product Line Type = 'Expansion' (includes Co-Term and Leftover Expansion) "
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_EXPANSION_AMOUNT" ;;
@@ -18,6 +19,7 @@ view: opportunity_ext {
   dimension: expansion_w_proration_amount {
     group_label: "Line Item Totals"
     label: "Expansion w/ Co-Term & Leftover Proration "
+    description: "Annualized total where Product Line Type = 'Expansion' (includes Co-Term and Leftover Expansion) "
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_EXPANSION_W_PRORATION_AMOUNT" ;;
@@ -128,6 +130,7 @@ view: opportunity_ext {
 
   dimension: multi_amount {
     group_label: "Line Item Totals"
+    description: "Total where Product Line Type = 'Multi' "
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_MULTI_AMOUNT" ;;
@@ -135,6 +138,7 @@ view: opportunity_ext {
 
   dimension: new_amount {
     group_label: "Line Item Totals"
+    description: "Total where Product Line Type = 'New' "
     value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_NEW_AMOUNT" ;;
@@ -156,7 +160,7 @@ view: opportunity_ext {
 
   dimension: renewal_amount {
     group_label: "Line Item Totals"
-    value_format_name: usd_0
+    description: "Total where Product Line Type = 'Ren' "
     type: number
     sql: ${TABLE}."SUM_RENEWAL_AMOUNT" ;;
   }
@@ -164,6 +168,7 @@ view: opportunity_ext {
   dimension: new_and_expansion_amount {
     group_label: "Line Item Totals"
     label: "New & Expansion w/Proration Amount"
+    description: "Annualized total where Product Line Type = 'New' or 'Expansion' (includes Co-Term and Leftover Expansion)"
     value_format_name: usd_0
     type: number
     sql: ${new_amount} + ${expansion_w_proration_amount} ;;
