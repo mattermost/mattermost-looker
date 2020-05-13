@@ -629,6 +629,7 @@ explore: github_contributions {
 
 explore: server_daily_details {
   group_label: "Product"
+  label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
   extends: [_base_account_core_explore]
 
@@ -640,7 +641,7 @@ explore: server_daily_details {
   }
 
   join: server_fact {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
@@ -660,7 +661,7 @@ explore: server_daily_details {
   }
 
   join: server_upgrades {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
       AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
     relationship: one_to_one
@@ -673,20 +674,18 @@ explore: server_daily_details {
     AND ${licenses.logging_date} = ${server_daily_details.logging_date}
     AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
     relationship: one_to_one
-    fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
-      licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+#     fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+#       licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
   }
 
   join: licenses_grouped {
     view_label: "License Details (Current)"
-    sql_on: ${licenses_grouped.license_id} = ${server_daily_details.license_id} AND ${licenses_grouped.server_id} = ${server_daily_details.server_id} ;;
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details.license_id2} AND ${licenses_grouped.server_id} = ${server_daily_details.server_id} ;;
     relationship: one_to_one
-    fields: [licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
-      licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_events_by_date {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
       AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
     relationship: one_to_one
@@ -694,7 +693,7 @@ explore: server_daily_details {
   }
 
   join: excludable_servers {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${excludable_servers.server_id} = ${server_daily_details.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -817,7 +816,7 @@ explore: nps_user_monthly_score {
 
 explore: server_daily_details_ext {
   group_label: "Product"
-  label: "Server Daily Details Ext"
+  label: " Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
   extends: [_base_account_core_explore]
 
@@ -833,20 +832,20 @@ explore: server_daily_details_ext {
           AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
           AND ${licenses.license_id} = ${server_daily_details_ext.license_id} ;;
     relationship: one_to_one
-    fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
-      licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+#     fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+#       licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
   }
 
   join: licenses_grouped {
     view_label: "License Details (Current)"
-    sql_on: ${licenses_grouped.license_id} = ${server_daily_details_ext.license_id} and ${licenses_grouped.server_id} = ${server_daily_details_ext.server_id} ;;
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details_ext.license_id3} and ${licenses_grouped.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
-    fields: [licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
-      licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
+#     fields: [licenses_grouped.license_id, licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
+#       licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_fact {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
@@ -864,7 +863,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_upgrades {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id}
     AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
@@ -880,7 +879,7 @@ explore: server_daily_details_ext {
   }
 
   join: excludable_servers {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${excludable_servers.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
