@@ -29,6 +29,10 @@ constant: colored_tiered_percent {
   value: "{% if value <= 25 %}<p style=\"color:red; \">Low</p>{% elsif value > 25 and value <= 75  %}<p style=\"color:#FFBF00; \">Medium</p>{% else %}<p style=\"color:green; \">High</p>{% endif %}"
 }
 
+constant: cond_style_attain {
+  value: "{% if value < 75 %}<p style=\"color:red; \">{{ rendered_value }}</p>{% elsif value > 75 and value < 100  %}<p style=\"color:#FFBF00; \">{{ rendered_value }}</p>{% else %}<p style=\"color:green; \">{{ rendered_value }}</p>{% endif %}"
+}
+
 constant: css_link_style {
   value: "color: #49719a;"
 }
