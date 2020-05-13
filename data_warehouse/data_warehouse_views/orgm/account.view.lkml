@@ -49,7 +49,8 @@ view: account {
       arr_current,
       website,
       website_count,
-      territory_sales_segment
+      territory_sales_segment,
+      company_type_major
     ]
   }
 
@@ -165,6 +166,11 @@ view: account {
 
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
+    type: string
+  }
+
+  dimension: company_type_major {
+    sql: case when ${TABLE}.company_type__c in ('Commercial','Academic','Non-Profit') then 'Commercial' else ${TABLE}.company_type__c end ;;
     type: string
   }
 
