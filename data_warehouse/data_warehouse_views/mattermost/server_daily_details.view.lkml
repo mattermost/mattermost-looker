@@ -559,7 +559,7 @@ view: server_daily_details {
     description: "Use this for counting all distinct Trial Server ID's across dimensions. This provides a count of all currently trial licensed servers on the given logging date."
     type: count_distinct
     sql: CASE WHEN ${licenses.trial} THEN ${server_id} ELSE NULL END ;;
-    drill_fields: [server_id, account_sfid, account.name, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
+    drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
   }
 
   measure: trial_paid_conversion_server_count {
@@ -568,7 +568,7 @@ view: server_daily_details {
     description: "Use this for counting all distinct Server ID's that converted from a trial license to a paid license across dimensions. This provides a count of all trial licensed servers on the given logging date that have since converted to paid licensed servers."
     type: count_distinct
     sql: CASE WHEN ${licenses.trial} and ${server_fact.first_trial_license_date} <= ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
-    drill_fields: [server_id, account_sfid, account.name, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
+    drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
     }
 
   measure: tedas_server_count {
