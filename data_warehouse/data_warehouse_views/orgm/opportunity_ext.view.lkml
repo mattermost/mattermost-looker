@@ -161,6 +161,7 @@ view: opportunity_ext {
   dimension: renewal_amount {
     group_label: "Line Item Totals"
     description: "Total where Product Line Type = 'Ren' "
+    value_format_name: usd_0
     type: number
     sql: ${TABLE}."SUM_RENEWAL_AMOUNT" ;;
   }
