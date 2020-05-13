@@ -1107,20 +1107,6 @@ explore: user_daily_details {
   }
 }
 
-explore: account_available_renewals_by_qtr {
-  hidden: yes
-  group_label: "Customer Success"
-  extends: [_base_account_core_explore,_base_opportunity_core_explore]
-
-  join: account {
-    sql_on: ${account.sfid} = ${account_available_renewals_by_qtr.account_sfid} ;;
-  }
-
-  join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND (util.fiscal_year(${opportunity.license_start_date}::date - interval '1 day') ||'-'|| util.fiscal_quarter(${opportunity.license_start_date}::date - interval '1 day')) = ${account_available_renewals_by_qtr.license_end_qtr};;
-  }
-}
-
 explore: account_renewal_rate_by_qtr {
 #   hidden: yes
   group_label: "Customer Success"
