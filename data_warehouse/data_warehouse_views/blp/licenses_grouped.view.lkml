@@ -10,45 +10,51 @@ view: licenses_grouped {
       , issued_date
       , start_date
       , expire_date
-      , server_expire_date
-      , master_account_sfid
-      , master_account_name
-      , account_sfid
-      , account_name
-      , license_email
-      , contact_sfid
-      , contact_email
-      , number
-      , stripeid
-      , users
-      , feature_cluster
-      , feature_compliance
-      , feature_custom_brand
-      , feature_custom_permissions_schemes
-      , feature_data_retention
-      , feature_elastic_search
-      , feature_email_notification_contents
-      , feature_future
-      , feature_google
-      , feature_guest_accounts
-      , feature_guest_accounts_permissions
-      , feature_id_loaded
-      , feature_ldap
-      , feature_ldap_groups
-      , feature_lock_teammate_name_display
-      , feature_message_export
-      , feature_metrics
-      , feature_mfa
-      , feature_mhpns
-      , feature_office365
-      , feature_password
-      , feature_saml
-      , MAX(timestamp) AS timestamp
+      , MAX(server_expire_date) AS server_expire_date
+      , MAX(master_account_sfid) AS master_account_sfid
+      , MAX(master_account_name) AS master_account_name
+      , MAX(account_sfid) AS account_sfid
+      , MAX(account_name) AS account_name
+      , MAX(license_email) AS license_email
+      , MAX(contact_sfid) AS contact_sfid
+      , MAX(contact_email) AS contact_email
+      , MAX(number) AS number
+      , MAX(stripeid) AS stripeid
+      , MAX(users) AS users
+      , MAX(feature_cluster) AS feature_cluster
+      , MAX(feature_compliance) AS feature_compliance
+      , MAX(feature_custom_brand) AS feature_custom_brand
+      , MAX(feature_custom_permissions_schemes) AS feature_custom_permissions_schemes
+      , MAX(feature_data_retention) AS feature_data_retention
+      , MAX(feature_elastic_search) AS feature_elastic_search
+      , MAX(feature_email_notification_contents) AS feature_email_notification_contents
+      , MAX(feature_future) AS feature_future
+      , MAX(feature_google) AS feature_google
+      , MAX(feature_guest_accounts) AS feature_guest_accounts
+      , MAX(feature_guest_accounts_permissions) AS feature_guest_accounts_permissions
+      , MAX(feature_id_loaded) AS feature_id_loaded
+      , MAX(feature_ldap) AS feature_ldap
+      , MAX(feature_ldap_groups) AS feature_ldap_groups
+      , MAX(feature_lock_teammate_name_display) AS feature_lock_teammate_name_display
+      , MAX(feature_message_export) AS feature_message_export
+      , MAX(feature_metrics) AS feature_metrics
+      , MAX(feature_mfa) AS feature_mfa
+      , MAX(feature_mhpns) AS feature_mhpns
+      , MAX(feature_office365) AS feature_office365
+      , MAX(feature_password) AS feature_password
+      , MAX(feature_saml) AS feature_saml
+      , MIN(timestamp) AS timestamp
+      , MIN(license_activation_date) AS license_activation_date
       , MAX(edition)   AS edition
     FROM blp.licenses
-    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-           , 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41 ;;
+    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8 ;;
   }
+
+  # DRILL SETS
+  set: server_drill {
+    fields: [license_id, server_id, edition, trial, users, license_activation_date, company,  account_name, issued_date, start_date, expire_date, license_duration]
+  }
+
   # FILTERS
 
   # DIMENSIONS
@@ -430,6 +436,14 @@ view: licenses_grouped {
     hidden: no
   }
 
+  dimension_group: license_activation {
+    description: ""
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.license_activation_date ;;
+    hidden: no
+  }
+
   dimension: is_activated {
     description: "Indicates whether the license has sent us telemetry data."
     type: yesno
@@ -449,6 +463,7 @@ view: licenses_grouped {
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: server_count {
@@ -456,6 +471,7 @@ view: licenses_grouped {
     description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: customer_count {
@@ -463,6 +479,7 @@ view: licenses_grouped {
     description: "The distinct count of Customers per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [server_drill*]
   }
 
 

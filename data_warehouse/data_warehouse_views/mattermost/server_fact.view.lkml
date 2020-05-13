@@ -15,36 +15,40 @@ sql_table_name: mattermost.server_fact ;;
     label: "  Server Version (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
-    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+    regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+    ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: server_version_major_sort
   }
 
   dimension: server_version_major {
     group_label: " Server Versions"
     label: "  Server Version: Major (Current)"
-    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    description: "The current server version - excluding the trailing '.' release, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
-    sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
+    sql: split_part(${server_version}, '.', 1) || '.' || split_part(${server_version}, '.', 2)  ;;
     order_by_field: server_version_major_sort
   }
 
   dimension: server_version_major_sort {
     group_label: " Server Versions"
     label: "  Server Version: Major (Current)"
-    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    description: "The current server version - excluding the trailing '.' release, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
-    sql: (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-    CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-      ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    sql: (split_part(${server_version}, '.', 1) ||
+    CASE WHEN split_part(${server_version}, '.', 2) = '10' THEN '99'
+      ELSE split_part(${server_version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
 
   dimension: first_server_version {
     group_label: " Server Versions"
     label: "First Server Version"
-    description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
+    description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server."
     type: string
-    sql: regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.first_server_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+    regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+    ELSE regexp_substr(regexp_substr(${TABLE}.first_server_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: first_server_version_sort
   }
 
@@ -53,11 +57,31 @@ sql_table_name: mattermost.server_fact ;;
     label: "  Server Version: Major (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
-    sql: (split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          CASE WHEN split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-            ELSE split_part(regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    sql: (split_part(${first_server_version}, '.', 1) ||
+          CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
+
+  dimension: first_server_version_major {
+    group_label: " Server Versions"
+    label: "First Server Version: Major"
+    description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
+    type: string
+    sql: split_part(${first_server_version}, '.', 1) || '.' || split_part(${first_server_version}, '.', 2)  ;;
+    order_by_field: first_server_version_major_sort
+  }
+
+  dimension: first_server_version_major_sort {
+  group_label: " Server Versions"
+  label: "  First Server Version: Major"
+  description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
+  type: number
+  sql: (split_part(${first_server_version}, '.', 1) ||
+    CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
+      ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
+  hidden: yes
+}
 
   dimension: first_server_edition {
     group_label: " Server Editions"

@@ -135,6 +135,11 @@ view: user {
     sql: ${TABLE}.START_DATE__C ;;
   }
 
+  dimension: sales_segment {
+    type: string
+    sql: CASE WHEN  ${TABLE}.SALES_SEGMENT__C = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.SALES_SEGMENT__C END;;
+  }
+
   dimension: system_type {
     type: string
     sql: ${TABLE}.SYSTEM_TYPE__C ;;

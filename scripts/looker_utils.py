@@ -1,10 +1,10 @@
 import os, sys
-from looker_sdk import client
+import looker_sdk
 
 
 # This depends on either having the environment variables or the looker.ini file
-looker_client = client.setup()
-
+# looker_client = client.setup()
+looker_client = looker_sdk.init31()
 
 def do_on_all_models(func, *args):
     models = looker_client.all_lookml_models()

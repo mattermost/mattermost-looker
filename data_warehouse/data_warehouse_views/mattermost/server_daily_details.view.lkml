@@ -1,6 +1,6 @@
 view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
-  view_label: "Server Daily Details"
+  view_label: " Server Daily Details"
   # Filters
   filter: last_day_of_month {
     type: yesno
@@ -189,7 +189,7 @@ view: server_daily_details {
     group_label: " Data Quality"
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
-    sql: ${TABLE}.has_multii_ips ;;
+    sql: ${TABLE}.has_multi_ips ;;
   }
 
   dimension: ip_address {
@@ -278,7 +278,9 @@ view: server_daily_details {
     label: " Server Version"
     description: "The version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+    regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+    ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: server_version_major_sort
   }
 
@@ -287,7 +289,7 @@ view: server_daily_details {
     label: "  Server Version: Major (Current)"
     description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
     type: string
-    sql: split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)  ;;
+    sql: split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2)  ;;
     order_by_field: server_version_major_sort
   }
 
@@ -296,9 +298,9 @@ view: server_daily_details {
     label: "  Server Version: Major (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
-    sql: (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-            ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    sql: (split_part(${version}, '.', 1) ||
+          CASE WHEN split_part(${version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
 
@@ -332,7 +334,7 @@ view: server_daily_details {
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     type: string
-    sql: ${TABLE}.account_sfid ;;
+    sql: ${server_fact.account_sfid} ;;
   }
 
   dimension: license_id {
@@ -341,6 +343,15 @@ view: server_daily_details {
     group_label: "License Info."
     type: string
     sql: ${TABLE}.license_id1 ;;
+  }
+
+  dimension: license_id2 {
+    label: "License ID"
+    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    group_label: "License Info."
+    type: string
+    sql: ${server_fact.license_id} ;;
+    hidden: yes
   }
 
   dimension: license_email {
@@ -533,6 +544,24 @@ view: server_daily_details {
     description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: servers_w_trials {
+    label: "   Trial Server Count"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.first_trial_license_date} IS NOT NULL THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
+  }
+
+  measure: trial_paid_conversion_server_count {
+    label: "   Trials to Paid Server Count"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.first_trial_license_date} < ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, first_telemetry_enabled_date, server_fact.last_telemetry_active_date]
   }
 

@@ -2,6 +2,10 @@
 view: licenses {
   sql_table_name: blp.licenses ;;
   view_label: "Licenses"
+  # DRILL SETS
+  set: server_drill {
+    fields: [license_id, server_id, edition, trial, users, license_activation_date, company,  account_name, issued_date, start_date, expire_date, license_duration]
+  }
 
   # FILTERS
 
@@ -385,6 +389,15 @@ view: licenses {
     hidden: no
   }
 
+  dimension_group: license_activation{
+    label: "License Activation"
+    description: "The first date the license key was associated with a server sending us telemetry."
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.license_activation_date ;;
+    hidden: no
+  }
+
   dimension_group: timestamp {
     description: ""
     type: time
@@ -412,6 +425,7 @@ view: licenses {
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: server_count {
@@ -419,6 +433,7 @@ view: licenses {
     description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: customer_count {
@@ -426,6 +441,7 @@ view: licenses {
     description: "The distinct count of Customers per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [server_drill*]
   }
 
 

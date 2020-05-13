@@ -28,16 +28,6 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
-access_grant: can_see_confidential_finance {
-  user_attribute: can_see_confidential_finance
-  allowed_values: [ "yes" ]
-}
-
-access_grant: mlt_only {
-  user_attribute: is_group_mlt
-  allowed_values: [ "yes" ]
-}
-
 #
 # Formats
 #
@@ -66,6 +56,7 @@ include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
@@ -383,6 +374,17 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: commit_ww {
+  label: "Commits (WW)"
+  group_label: "Target vs Actual"
+}
+
+explore: commit_segment {
+  label: "Commits (Segment)"
+  group_label: "Target vs Actual"
+}
+
+
 explore: forecast_ww {
   label: "Forecast (WW)"
   group_label: "Target vs Actual"
@@ -411,7 +413,7 @@ explore: opportunityfieldhistory {
 }
 
 explore: lead {
-  label: "Lead to Account"
+  label: "Lead Lifecycle"
   group_label: "Salesforce"
   extends: [_base_account_explore,_base_opportunity_explore]
 #  extends: [_base_account_core_explore,_base_opportunity_core_explore]
@@ -442,7 +444,8 @@ explore: lead {
   }
 
   join: account {
-    sql_on: ${contact.accountid} = ${account.sfid} ;;
+    sql_on: coalesce(${contact.accountid},${lead.existing_account__c}) = ${account.sfid} ;;
+    relationship: many_to_one
   }
 
   join: opportunity {
@@ -627,6 +630,7 @@ explore: github_contributions {
 
 explore: server_daily_details {
   group_label: "Product"
+  label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
   extends: [_base_account_core_explore]
 
@@ -638,11 +642,11 @@ explore: server_daily_details {
   }
 
   join: server_fact {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
-    fields: [server_fact.first_server_version, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
+    fields: [server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
       server_fact.last_telemetry_active_year, server_fact.last_telemetry_active_fiscal_quarter, server_fact.last_telemetry_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
@@ -658,7 +662,7 @@ explore: server_daily_details {
   }
 
   join: server_upgrades {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
       AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
     relationship: one_to_one
@@ -666,16 +670,23 @@ explore: server_daily_details {
   }
 
   join: licenses {
-    view_label: "License Details"
+    view_label: "License Details (Hist)"
     sql_on: ${licenses.server_id} = ${server_daily_details.server_id}
     AND ${licenses.logging_date} = ${server_daily_details.logging_date}
     AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
     relationship: one_to_one
-    fields: [licenses.company, licenses.trial]
+#     fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+#       licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+  }
+
+  join: licenses_grouped {
+    view_label: "License Details (Current)"
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details.license_id2} AND ${licenses_grouped.server_id} = ${server_daily_details.server_id} ;;
+    relationship: one_to_one
   }
 
   join: server_events_by_date {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
       AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
     relationship: one_to_one
@@ -683,7 +694,7 @@ explore: server_daily_details {
   }
 
   join: excludable_servers {
-    view_label: "Server Daily Details"
+    view_label: " Server Daily Details"
     sql_on: ${excludable_servers.server_id} = ${server_daily_details.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -806,7 +817,7 @@ explore: nps_user_monthly_score {
 
 explore: server_daily_details_ext {
   group_label: "Product"
-  label: "Server Daily Details Ext"
+  label: " Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
   extends: [_base_account_core_explore]
 
@@ -817,19 +828,28 @@ explore: server_daily_details_ext {
   }
 
   join: licenses {
-    view_label: "License Details"
-    sql_on: ${licenses.license_id} = ${server_daily_details_ext.license_id1}
-    AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
-    AND ${licenses.server_id} = ${server_daily_details_ext.server_id};;
-    relationship: many_to_one
-    fields: [licenses.trial, licenses.company]
+    view_label: "License Details (Hist)"
+    sql_on: ${licenses.server_id} = ${server_daily_details_ext.server_id}
+          AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
+          AND ${licenses.license_id} = ${server_daily_details_ext.license_id} ;;
+    relationship: one_to_one
+#     fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
+#       licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
+  }
+
+  join: licenses_grouped {
+    view_label: "License Details (Current)"
+    sql_on: ${licenses_grouped.license_id} = ${server_daily_details_ext.license_id3} and ${licenses_grouped.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: one_to_one
+#     fields: [licenses_grouped.license_id, licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
+#       licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_fact {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_server_version, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
+    fields: [server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.last_active_date,
       server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.license_id]
   }
@@ -844,7 +864,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_upgrades {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id}
     AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
@@ -860,26 +880,15 @@ explore: server_daily_details_ext {
   }
 
   join: excludable_servers {
-    view_label: "Server Daily Details Ext"
+    view_label: " Server Daily Details Ext"
     sql_on: ${excludable_servers.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 }
 
-explore: tva_all_by_mo {
-  required_access_grants: [mlt_only]
-  group_label: "Target vs Actual"
-  label: "Monthly TvA"
-
-  join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_mo.target_slug};;
-    relationship: many_to_one
-  }
-}
-
 explore: financial_statements {
-  required_access_grants: [can_see_confidential_finance]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
   label: "Monthly Financial Statements"
 }
@@ -889,25 +898,57 @@ explore: target_fact {
   label: "Target Definitions"
 }
 
+explore: tva_all_by_mo {
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
+  group_label: "Target vs Actual"
+  label: "Monthly TvA"
+
+  join: target_fact {
+    view_label: "TvA by Month"
+    sql_on: CONTAINS(${tva_all_by_mo.target_slug},${target_fact.slug}) ;;
+    relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'attain_new_and_exp_by_rep_by_mo_') ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 explore: tva_all_by_qtr {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
   label: "Quarterly TvA"
 
   join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_qtr.target_slug};;
+    view_label: "TvA by Quarter"
+    sql_on: CONTAINS(${tva_all_by_qtr.target_slug},${target_fact.slug}) ;;
     relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'attain_new_and_exp_by_rep_by_qtr_') ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
 explore: tva_all_by_fy {
-  required_access_grants: [mlt_only]
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
   group_label: "Target vs Actual"
-  label: "Fiscal Year TvA"
+  label: "TvA by Fiscal Year"
 
   join: target_fact {
-    sql_on: ${target_fact.slug} = ${tva_all_by_fy.target_slug};;
+    view_label: "Fiscal TvA"
+    sql_on: CONTAINS(${tva_all_by_fy.target_slug},${target_fact.slug});;
     relationship: many_to_one
+  }
+
+  join: user {
+    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'attain_new_and_exp_by_rep_by_fy_') ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
@@ -942,7 +983,7 @@ explore: user_events_by_date {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id]
+    fields: [server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: licenses_grouped {
@@ -986,7 +1027,7 @@ explore: user_events_by_date_agg {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date_agg.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id]
+    fields: [server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: licenses_grouped {

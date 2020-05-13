@@ -18,7 +18,8 @@ view: opportunitylineitem {
   #
 
   set: opportunitylineitem_drill {
-    fields: [account.name,opportunity.name, account.csm_name, account.owner_name, opportunity.close_date,opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
+    fields: [account.name,opportunity.name, account.csm_name, account.owner_name, opportunity.close_date,
+             opportunity.forecastcategoryname, opportunity.probability, opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
   }
 
   set: opportunitylineitem_core {
@@ -627,6 +628,7 @@ view: opportunitylineitem {
 
   measure: total_new_amount {
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'New' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
@@ -639,6 +641,7 @@ view: opportunitylineitem {
 
   measure: total_ren_amount {
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'Ren' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
@@ -651,6 +654,7 @@ view: opportunitylineitem {
 
   measure: total_exp_amount {
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'Expansion' (includes Co-Term) "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
@@ -668,6 +672,7 @@ view: opportunitylineitem {
   measure: total_exp_with_loe_amount {
     label: "Total Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'Expansion' (includes Co-Term & Leftover Expansion) "
     sql: ${opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
@@ -680,6 +685,7 @@ view: opportunitylineitem {
 
   measure: total_multi_amount {
     group_label: "Product Line Type Totals"
+    description: "Total where Product Line Type = 'Multi' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short

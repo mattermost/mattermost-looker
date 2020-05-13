@@ -48,7 +48,9 @@ view: account {
       industry_category,
       arr_current,
       website,
-      website_count
+      website_count,
+      territory_sales_segment,
+      company_type_major
     ]
   }
 
@@ -164,6 +166,11 @@ view: account {
 
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
+    type: string
+  }
+
+  dimension: company_type_major {
+    sql: case when ${TABLE}.company_type__c in ('Commercial','Academic','Non-Profit') then 'Commercial' else ${TABLE}.company_type__c end ;;
     type: string
   }
 
@@ -886,6 +893,13 @@ view: account {
     sql: ${TABLE}.territory_region__c ;;
     group_label: "Territory"
     label: "Territory Region"
+  }
+
+  dimension: territory_sales_segment {
+    type: string
+    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    group_label: "Territory"
+    label: "Territory Sales Segment"
   }
 
   dimension: territory_ent_rep {
