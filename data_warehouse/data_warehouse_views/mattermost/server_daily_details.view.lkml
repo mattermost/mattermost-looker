@@ -1,6 +1,6 @@
 view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
-  view_label: "Server Daily Details"
+  view_label: " Server Daily Details"
   # Filters
   filter: last_day_of_month {
     type: yesno
@@ -342,7 +342,16 @@ view: server_daily_details {
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     group_label: "License Info."
     type: string
+    sql: ${TABLE}.license_id1 ;;
+  }
+
+  dimension: license_id2 {
+    label: "License ID"
+    description: "The Mattermost Customer License ID associated with the server (null if no license found)."
+    group_label: "License Info."
+    type: string
     sql: ${server_fact.license_id} ;;
+    hidden: yes
   }
 
   dimension: license_email {
