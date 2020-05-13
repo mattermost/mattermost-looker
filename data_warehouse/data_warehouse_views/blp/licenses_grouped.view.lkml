@@ -49,6 +49,12 @@ view: licenses_grouped {
     FROM blp.licenses
     GROUP BY 1, 2, 3, 4, 5, 6, 7, 8 ;;
   }
+
+  # DRILL SETS
+  set: server_drill {
+    fields: [license_id, server_id, edition, trial, users, license_activation_date, company,  account_name, issued_date, start_date, expire_date, license_duration]
+  }
+
   # FILTERS
 
   # DIMENSIONS
@@ -457,6 +463,7 @@ view: licenses_grouped {
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: server_count {
@@ -464,6 +471,7 @@ view: licenses_grouped {
     description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: customer_count {
@@ -471,6 +479,7 @@ view: licenses_grouped {
     description: "The distinct count of Customers per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [server_drill*]
   }
 
 

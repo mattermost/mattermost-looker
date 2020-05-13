@@ -425,6 +425,7 @@ view: licenses {
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: server_count {
@@ -440,6 +441,7 @@ view: licenses {
     description: "The distinct count of Customers per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [server_drill*]
   }
 
 
