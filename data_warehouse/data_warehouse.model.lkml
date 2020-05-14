@@ -300,6 +300,12 @@ explore: account {
   }
 }
 
+explore: user_sales_reps {
+  from:  user
+  label: "Sales Reps"
+  group_label: "Sales Force"
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
+}
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
