@@ -3,7 +3,7 @@ view: account_renewal_rate_by_qtr {
     ;;
 
   set: standard_drill_fields {
-    fields: [account.name, account.account_owner, account.csm, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
+    fields: [account.name, account.owner_name, account.csm_name, available_renewals, gross_renewal_amount, renewal_rate_by_qtr]
   }
 
 
