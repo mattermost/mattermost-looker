@@ -413,16 +413,16 @@ explore: opportunityfieldhistory {
 }
 
 explore: lead {
-  label: "Lead to Account"
+  label: "Lead Lifecycle"
   group_label: "Salesforce"
   extends: [_base_account_explore,_base_opportunity_explore]
 #  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: owner {
+    view_label: "Lead Owner"
     from:  user
     sql_on: ${lead.ownerid} = ${owner.sfid} ;;
     relationship: many_to_one
-    fields: []
   }
 
   join: lead_status_dates {
@@ -444,7 +444,8 @@ explore: lead {
   }
 
   join: account {
-    sql_on: ${contact.accountid} = ${account.sfid} ;;
+    sql_on: coalesce(${contact.accountid},${lead.existing_account__c}) = ${account.sfid} ;;
+    relationship: many_to_one
   }
 
   join: opportunity {
