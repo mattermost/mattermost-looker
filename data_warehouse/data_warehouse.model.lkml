@@ -419,10 +419,10 @@ explore: lead {
 #  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: owner {
+    view_label: "Lead Owner"
     from:  user
     sql_on: ${lead.ownerid} = ${owner.sfid} ;;
     relationship: many_to_one
-    fields: []
   }
 
   join: lead_status_dates {
