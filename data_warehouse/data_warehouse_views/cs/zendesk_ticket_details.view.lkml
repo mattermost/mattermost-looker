@@ -192,6 +192,7 @@ view: zendesk_ticket_details {
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_roles' THEN 'Roles & Permissions'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_utc_management' THEN 'User, Team & Channel Management'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_audit' THEN 'Compliance & Auditing'
+          WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_authentication' THEN 'Authentication & Provisioning'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_branding' THEN 'Branding'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_server' THEN 'Server Issues'
           WHEN ${TABLE}."TECH_SUPPORT_CATEGORY" = 'tsupport_devops' THEN 'DevOps Command Center'
