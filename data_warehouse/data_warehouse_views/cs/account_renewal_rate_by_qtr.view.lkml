@@ -38,14 +38,19 @@ view: account_renewal_rate_by_qtr {
     type: sum
     sql: ${TABLE}."AVAILABLE_RENEWALS" ;;
     drill_fields: [standard_drill_fields*]
-    #    html: @{cond_style_attain} ;;
+#     html: {% if value*100 < 70 %}
+#     <p style="color:red; ">{{ rendered_value }}</p>
+#     {% elsif value*100 >= 70 and value < 100  %}<p style="color:#FFBF00;">{{ rendered_value }}</p>
+#     {% else %}<p style="color:green;">{{ rendered_value }}</p>
+#     {% endif %} ;;
     value_format_name: usd_0
   }
 
   measure: gross_forecasted_renewal_total_amount {
     type: sum
     sql: ${TABLE}."GROSS_FORECASTED_RENEWAL_TOTAL_AMOUNT" + ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
+    drill_fields: [standard_drill_fields*]
+#     html: @{cond_style_attain} ;;
     value_format_name: usd_0
   }
 
@@ -67,16 +72,17 @@ view: account_renewal_rate_by_qtr {
 
   measure: forecast_renewal_rate_by_qtr {
     type: number
-    sql: (${gross_forecasted_renewal_total_amount})/${available_renewals} ;;
-    value_format_name: percent_1
-#    html: @{cond_style_attain} ;;
+    sql: ((${gross_forecasted_renewal_total_amount})/${available_renewals})*100 ;;
+    value_format: "@{percent}"
+   html: @{cond_style_attain} ;;
     drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
     }
 
   measure: renewal_rate_by_qtr {
     type: number
-    sql: ${gross_renewal_amount}/${available_renewals} ;;
-    value_format_name: percent_1
+    sql: (${gross_renewal_amount}/${available_renewals})*100 ;;
+    value_format: "@{percent}"
+    html: @{cond_style_attain} ;;
     drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
     }
 
