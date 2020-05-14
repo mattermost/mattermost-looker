@@ -30,7 +30,11 @@ constant: colored_tiered_percent {
 }
 
 constant: cond_style_attain {
-  value: "{% if value < 75 %}<p style=\"color:red; \">{{ rendered_value }}</p>{% elsif value > 75 and value < 100  %}<p style=\"color:#FFBF00; \">{{ rendered_value }}</p>{% else %}<p style=\"color:green; \">{{ rendered_value }}</p>{% endif %}"
+  value: "{% if value < 70 %}
+    <p style=\"color:#A00706; \">{{ rendered_value }}</p>
+    {% elsif value >= 70 and value < 100  %}<p style=\"color:#F1A40A;\">{{ rendered_value }}</p>
+    {% else %}<p style=\"color:#306843;\">{{ rendered_value }}</p>
+    {% endif %}"
 }
 
 constant: css_link_style {
