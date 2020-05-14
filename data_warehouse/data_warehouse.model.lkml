@@ -1221,3 +1221,15 @@ explore: version_release_dates {
   label: "Version Release Dates"
   hidden: yes
 }
+
+
+explore: hist_license_mapping {
+  label: "Legacy License Mapping"
+  view_label: "Legacy License Mapping"
+  join: account {
+    view_label: "Legacy License Mapping"
+    relationship: many_to_one
+    sql_on: ${hist_license_mapping.account_sfid} = ${account.sfid} ;;
+    fields: [name, sfid]
+  }
+}
