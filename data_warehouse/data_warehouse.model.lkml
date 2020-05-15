@@ -705,6 +705,14 @@ explore: server_daily_details {
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
+
+  join: server_daily_details_ext {
+    view_label: " Server Daily Details"
+    sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
+    AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: one_to_one
+    fields: []
+  }
 }
 
 explore: delete_history {
