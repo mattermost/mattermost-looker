@@ -5,6 +5,7 @@ view: daily_page_visits {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_year
