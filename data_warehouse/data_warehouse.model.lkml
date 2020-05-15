@@ -1235,7 +1235,15 @@ explore: nps_server_version_daily_score {
 }
 
 explore: licenses_grouped {
+  label: "Licenses (Server Level)"
+  group_label: "BLP"
   hidden: yes
+}
+
+explore: licenses_only {
+  label: "Licenses"
+  group_label: "BLP"
+  hidden: no
 }
 
 explore: version_release_dates {

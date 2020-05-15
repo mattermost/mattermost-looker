@@ -444,5 +444,12 @@ view: licenses {
     drill_fields: [server_drill*]
   }
 
+  measure: activated_licenses {
+    description: "The count of activated licenses based on whether a license was associated with a server sending us telemetry data."
+    type: count_distinct
+    sql: CASE WHEN ${license_activation_date} IS NOT NULL THEN ${license_id} ELSE NULL END ;;
+    drill_fields: [server_drill*]
+  }
+
 
 }
