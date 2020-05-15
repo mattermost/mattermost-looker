@@ -591,6 +591,12 @@ explore: campaign {
     relationship: one_to_many
   }
 
+  join: campaignmember_ext {
+    sql_on: ${campaignmember.sfid} = ${campaignmember_ext.cm_sfid} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
