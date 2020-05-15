@@ -300,6 +300,12 @@ explore: account {
   }
 }
 
+explore: user_sales_reps {
+  from:  user
+  label: "Sales Reps"
+  group_label: "Sales Force"
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
+}
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
@@ -419,10 +425,10 @@ explore: lead {
 #  extends: [_base_account_core_explore,_base_opportunity_core_explore]
 
   join: owner {
+    view_label: "Lead Owner"
     from:  user
     sql_on: ${lead.ownerid} = ${owner.sfid} ;;
     relationship: many_to_one
-    fields: []
   }
 
   join: lead_status_dates {
@@ -1116,20 +1122,6 @@ explore: user_daily_details {
   }
 }
 
-explore: account_available_renewals_by_qtr {
-  hidden: yes
-  group_label: "Customer Success"
-  extends: [_base_account_core_explore,_base_opportunity_core_explore]
-
-  join: account {
-    sql_on: ${account.sfid} = ${account_available_renewals_by_qtr.account_sfid} ;;
-  }
-
-  join: opportunity {
-    sql_on: ${opportunity.accountid} = ${account.sfid} AND (util.fiscal_year(${opportunity.license_start_date}::date - interval '1 day') ||'-'|| util.fiscal_quarter(${opportunity.license_start_date}::date - interval '1 day')) = ${account_available_renewals_by_qtr.license_end_qtr};;
-  }
-}
-
 explore: account_renewal_rate_by_qtr {
 #   hidden: yes
   group_label: "Customer Success"
@@ -1243,4 +1235,16 @@ explore: licenses_grouped {
 explore: version_release_dates {
   label: "Version Release Dates"
   hidden: yes
+}
+
+
+explore: hist_license_mapping {
+  label: "Legacy License Mapping"
+  view_label: "Legacy License Mapping"
+  join: account {
+    view_label: "Legacy License Mapping"
+    relationship: many_to_one
+    sql_on: ${hist_license_mapping.account_sfid} = ${account.sfid} ;;
+    fields: [name, sfid]
+  }
 }
