@@ -7,32 +7,14 @@ view: campaignmember_ext {
     sql: ${TABLE}."CAMPAIGNMEMBER_SFID" ;;
   }
 
-  dimension_group: contact_us_request {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}."CONTACT_US_REQUEST_DATE" AS TIMESTAMP_NTZ) ;;
+  dimension: contact_us_request {
+    type: date_time
+    sql: ${TABLE}."CONTACT_US_REQUEST_DATE";;
   }
 
-  dimension_group: trial_request {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}."TRIAL_REQUEST_DATE" AS TIMESTAMP_NTZ) ;;
+  dimension: trial_request {
+    type: date_time
+    sql: ${TABLE}."TRIAL_REQUEST_DATE";;
   }
 
 
