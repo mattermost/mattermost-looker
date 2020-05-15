@@ -68,7 +68,7 @@ view: campaignmember {
       quarter,
       year
     ]
-    sql: ${campaignmember_ext.contact_us_request_date};;
+    sql: ${campaignmember_ext.contact_us_request}::timestamp;;
   }
 
   dimension_group: trial_req {
@@ -83,7 +83,7 @@ view: campaignmember {
       quarter,
       year
     ]
-    sql: ${campaignmember_ext.trial_request_date};;
+    sql: ${campaignmember_ext.trial_request}::timestamp;;
   }
 
   dimension_group: converted {
