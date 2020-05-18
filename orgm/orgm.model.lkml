@@ -429,6 +429,7 @@ explore: user_sales_reps {
 }
 
 explore: _trigger_log {
+  persist_for: "0 seconds"
   join: account {
     relationship: many_to_many
     sql_on: ${_trigger_log.table_name} = 'account' and ${account.id} = ${_trigger_log.record_id};;
