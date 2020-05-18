@@ -384,7 +384,7 @@ view: server_daily_details_ext {
   }
 
   dimension: events {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Total Events"
     description: "The total number of events by active users associated with the server on the given logging."
     type: number
@@ -393,7 +393,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts2 {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts"
     description: "The number of post events by active users associated with the server on the given logging."
     type: number
@@ -402,7 +402,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts_per_user_per_day {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts Per User"
     description: "The number of posts per active user for the server on the given logging."
     type: number
@@ -411,7 +411,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts_per_user_per_day_band {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts Per User Band"
     description: "The number of posts per active user for the server on the given logging."
     type: tier
@@ -421,7 +421,7 @@ view: server_daily_details_ext {
   }
 
   dimension: mau {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Monthly Active Users"
     description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
@@ -429,7 +429,7 @@ view: server_daily_details_ext {
   }
 
   dimension: dau {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Daily Active Users"
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
@@ -7895,15 +7895,23 @@ view: server_daily_details_ext {
   }
 
   measure: avg_posts_per_user_per_day {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Avg. Posts Per User Per Day"
-    type: number
-    sql: ${posts_sum2}::float/${dau_sum}::float ;;
+    type: average
+    sql: ${posts2}::float/nullif(${dau}::float,0) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_posts_per_user_per_day {
+    group_label: "Server-Level User Events"
+    label: "Median Posts Per User Per Day"
+    type: median
+    sql: ${posts2}::float/nullif(${dau}::float,0) ;;
     value_format_name: decimal_1
   }
 
   measure: posts_sum2 {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts"
     description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
     type: sum
@@ -7912,7 +7920,7 @@ view: server_daily_details_ext {
   }
 
   measure: events_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Total Events"
     description: "The sum of all events performed by all active user across all servers within the given grouping."
     type: sum
@@ -7921,7 +7929,7 @@ view: server_daily_details_ext {
   }
 
   measure: dau_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "DAU (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
@@ -7930,7 +7938,7 @@ view: server_daily_details_ext {
   }
 
   measure: mau_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "MAU (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
