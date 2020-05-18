@@ -217,6 +217,12 @@ view: contact {
     type: time
   }
 
+  dimension: id {
+    type: number
+    sql: ${TABLE}.id ;;
+    hidden: yes
+  }
+
   dimension_group: most_recent_qso {
     group_label: "Lead Lifecycle: QSO"
     label: "Most Recent"
