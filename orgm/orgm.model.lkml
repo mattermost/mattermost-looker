@@ -427,3 +427,47 @@ explore: user_sales_reps {
   group_label: "zHeroku Postgres OrgM"
   sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
 }
+
+explore: _trigger_log {
+  persist_for: "0 seconds"
+  join: account {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'account' and ${account.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: opportunity {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'opportunity' and ${opportunity.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: opportunitylineitem {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'opportunitylineitem' and ${opportunitylineitem.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: billing_entity {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'billing_entity__c' and ${billing_entity.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: contact {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'contact' and ${contact.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: opportunitycontactrole {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'opportunitycontactrole' and ${opportunitycontactrole.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: campaignmember {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'campaignmember' and ${campaignmember.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+  join: lead {
+    relationship: many_to_many
+    sql_on: ${_trigger_log.table_name} = 'lead' and ${lead.id} = ${_trigger_log.record_id};;
+    fields: []
+  }
+}

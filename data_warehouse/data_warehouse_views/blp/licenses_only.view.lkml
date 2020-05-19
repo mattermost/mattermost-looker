@@ -1,9 +1,9 @@
-view: licenses_grouped {
+view: licenses_only {
   derived_table: {
     sql:
     SELECT
         license_id
-      , server_id
+      , MAX(server_id) AS server_id
       , customer_id
       , company
       , trial
@@ -47,7 +47,7 @@ view: licenses_grouped {
       , MIN(license_activation_date) AS license_activation_date
       , MAX(edition)   AS edition
     FROM blp.licenses
-    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8 ;;
+    GROUP BY 1, 3, 4, 5, 6, 7, 8 ;;
   }
 
   # DRILL SETS
