@@ -303,7 +303,7 @@ explore: account {
 explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
-  group_label: "Sales Force"
+  group_label: "Salesforce"
   sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
 }
 
@@ -1275,6 +1275,8 @@ explore: enterprise_license_fact {
 }
 
 explore: trial_licenses {
+  label: "Trial Licenses"
+  sql_always_where: ${license_daily_details.is_trial} ;;
   from: license_daily_details
   view_label: "License Daily Details"
   view_name: license_daily_details
