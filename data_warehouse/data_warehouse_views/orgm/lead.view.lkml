@@ -148,6 +148,11 @@ view: lead {
   dimension: email {
     sql: ${TABLE}.EMAIL ;;
     type: string
+    link: {
+      label: "Salesforce Lead"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: existing_account__c {

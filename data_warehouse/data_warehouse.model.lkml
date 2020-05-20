@@ -303,8 +303,8 @@ explore: account {
 explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
-  group_label: "Sales Force"
-  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
+  group_label: "Salesforce"
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt', 'CSM');;
 }
 
 explore: account_monthly_arr_deltas_by_type {
@@ -1105,6 +1105,7 @@ explore: licenses {
   group_label: "BLP"
   hidden: yes
 }
+
 explore: license_daily_details {
   label: "License Daily Details"
   group_label: "BLP"
@@ -1281,10 +1282,51 @@ explore: version_release_dates {
 explore: hist_license_mapping {
   label: "Legacy License Mapping"
   view_label: "Legacy License Mapping"
+  group_label: "BLP"
   join: account {
     view_label: "Legacy License Mapping"
+
     relationship: many_to_one
     sql_on: ${hist_license_mapping.account_sfid} = ${account.sfid} ;;
     fields: [name, sfid]
+  }
+}
+
+explore: enterprise_license_fact {
+  extends: [_base_account_explore]
+  group_label: "BLP"
+  join: account {
+    sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
+  }
+}
+
+explore: trial_licenses {
+  label: "Trial Licenses"
+  sql_always_where: ${license_daily_details.is_trial} ;;
+  from: license_daily_details
+  view_label: "License Daily Details"
+  view_name: license_daily_details
+  extends: [license_daily_details]
+
+  join: lead {
+    view_label: "Associated Lead"
+    sql_on: lower(${license_daily_details.license_email}) = lower(${lead.email});;
+    relationship: many_to_many
+    fields: [email,sfid,lead.status,lead.status_order]
+  }
+
+  join: contact {
+    view_label: "Associated Contact"
+    sql_on: lower(${license_daily_details.license_email}) = lower(${contact.email});;
+    relationship: many_to_many
+    fields: [email,sfid]
+  }
+
+  join: owner {
+    view_label: "Associated Lead / Contact Owner"
+    from: user
+    relationship: many_to_one
+    sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
+    fields: [name]
   }
 }
