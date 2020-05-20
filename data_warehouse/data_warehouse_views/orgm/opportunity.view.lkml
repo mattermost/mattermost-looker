@@ -647,6 +647,13 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: territory_sales_segment {
+    type: string
+    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    group_label: "Territory"
+    label: "Territory Sales Segment"
+  }
+
   dimension: type {
     description: "Type of Opportunity. For example, New, Renewal, etc."
     label: "Oppt Type"
