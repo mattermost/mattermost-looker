@@ -7898,7 +7898,7 @@ view: server_daily_details_ext {
     group_label: "Server-Level User Events"
     label: "Avg. Posts Per User Per Day"
     type: average
-    sql: ${posts2}::float/nullif(${dau}::float,0) ;;
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
   }
 
@@ -7906,7 +7906,7 @@ view: server_daily_details_ext {
     group_label: "Server-Level User Events"
     label: "Median Posts Per User Per Day"
     type: median
-    sql: ${posts2}::float/nullif(${dau}::float,0) ;;
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
   }
 
