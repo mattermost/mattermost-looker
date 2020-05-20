@@ -115,7 +115,9 @@ view: _homepage {
                   <div>Sales</div>
                   <ul>
                     <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">Sales (WW)</a></li>
-                    <li><a href="https://mattermost.looker.com/dashboards/127" style="@{css_link_style}">Sales (Segment)</a></li>                  </ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/127" style="@{css_link_style}">Sales (Segment)</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/113" style="@{css_link_style}">Sales (Self Service)</a></li>
+                  </ul>
                 </li>
                 <li>
                   <div>Customer Success</div>
