@@ -1,5 +1,6 @@
 view: github_contributions {
-  sql_table_name: MATTERMOST.GITHUB_CONTRIBUTIONS ;;
+  sql_table_name: MATTERMOST.GITHUB_COMMUNITY_CONTRIBUTIONS ;;
+  label: "GitHub Community Contributions"
 
   dimension: author {
     type: string
