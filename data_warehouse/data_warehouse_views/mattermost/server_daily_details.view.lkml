@@ -270,7 +270,7 @@ view: server_daily_details {
     group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the most recent logging date (current date - 1 day)."
     type: yesno
-    sql: CASE WHEN ${TABLE}.in_security OR ${TABLE}.in_mm2_server AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN (${TABLE}.in_security OR ${TABLE}.in_mm2_server) AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: version {

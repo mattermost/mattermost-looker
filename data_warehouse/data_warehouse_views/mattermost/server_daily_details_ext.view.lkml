@@ -399,7 +399,7 @@ view: server_daily_details_ext {
     group_label: "  Telemetry Flags"
     description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
     type: yesno
-    sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN (${TABLE}.in_security OR ${TABLE}.in_mm2_server) AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
