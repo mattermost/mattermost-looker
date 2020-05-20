@@ -57,6 +57,10 @@ view: contact {
   dimension: email {
     sql: ${TABLE}.EMAIL ;;
     type: string
+    link: {
+      label: "Salesforce Lead"
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: is_deleted {
