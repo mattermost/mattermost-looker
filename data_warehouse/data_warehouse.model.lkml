@@ -640,6 +640,23 @@ explore: github_contributions {
   }
 }
 
+explore: github_all_contributions {
+  group_label: "Contributors & Employees"
+  label: "GitHub All Contributions"
+
+  join: github_all_contributors {
+    sql_on: ${github_all_contributions.author} = ${github_all_contributors.author} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: staff_github_usernames {
+    sql_on: ${github_all_contributions.author} = ${staff_github_usernames.username} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
