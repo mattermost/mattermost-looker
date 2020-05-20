@@ -640,6 +640,31 @@ explore: github_contributions {
   }
 }
 
+explore: github_all_contributions {
+  group_label: "Contributors & Employees"
+  label: "All Mattermost Org GitHub Contributions"
+  view_label: "All Mattermost Org GitHub Contributions"
+
+  join: github_all_contributors {
+    sql_on: ${github_all_contributions.author} = ${github_all_contributors.author} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: staff_github_usernames {
+    sql_on: ${github_all_contributions.author} = ${staff_github_usernames.username} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: github_repo_categorization {
+    view_label: "All Mattermost Org GitHub Contributions"
+    sql_on: ${github_repo_categorization.repo} = ${github_all_contributions.repo} ;;
+    relationship: many_to_one
+    fields: [category]
+  }
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
@@ -658,8 +683,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
-    fields: [server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
-      server_fact.last_telemetry_active_year, server_fact.last_telemetry_active_fiscal_quarter, server_fact.last_telemetry_active_fiscal_year,
+    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
+      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
   }
@@ -869,9 +894,10 @@ explore: server_daily_details_ext {
     view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
-      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.last_active_date,
-      server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.license_id]
+    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
+      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
+      server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
   }
 
   join: nps_server_daily_score {

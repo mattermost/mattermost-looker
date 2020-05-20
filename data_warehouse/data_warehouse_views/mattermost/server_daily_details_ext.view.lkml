@@ -276,6 +276,26 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: database_version {
+    label: " Database Version"
+    description: "The database version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
+    type: string
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+          NULL
+          ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') END;;
+    order_by_field: database_version_major_sort
+  }
+
+  dimension: database_version_major_sort {
+    label: "  Database Version Sort"
+    description: "The current database version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(${database_version}, '.', 1) ||
+          CASE WHEN split_part(${database_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${database_version}, '.', 2) || '0' END)::int ;;
+    hidden: yes
+  }
+
   dimension: gitlab_install {
     label: "  Gitlab Install"
     description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
@@ -379,12 +399,12 @@ view: server_daily_details_ext {
     group_label: "  Telemetry Flags"
     description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
     type: yesno
-    sql: CASE WHEN ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) AND NOT ${tracking_disabled} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN (${TABLE}.in_security OR ${TABLE}.in_mm2_server) AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
   dimension: events {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Total Events"
     description: "The total number of events by active users associated with the server on the given logging."
     type: number
@@ -393,7 +413,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts2 {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts"
     description: "The number of post events by active users associated with the server on the given logging."
     type: number
@@ -402,7 +422,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts_per_user_per_day {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts Per User"
     description: "The number of posts per active user for the server on the given logging."
     type: number
@@ -411,7 +431,7 @@ view: server_daily_details_ext {
   }
 
   dimension: posts_per_user_per_day_band {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts Per User Band"
     description: "The number of posts per active user for the server on the given logging."
     type: tier
@@ -421,7 +441,7 @@ view: server_daily_details_ext {
   }
 
   dimension: mau {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Monthly Active Users"
     description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
@@ -429,7 +449,7 @@ view: server_daily_details_ext {
   }
 
   dimension: dau {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Daily Active Users"
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
@@ -7895,15 +7915,23 @@ view: server_daily_details_ext {
   }
 
   measure: avg_posts_per_user_per_day {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Avg. Posts Per User Per Day"
-    type: number
-    sql: ${posts_sum2}::float/${dau_sum}::float ;;
+    type: average
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_posts_per_user_per_day {
+    group_label: "Server-Level User Events"
+    label: "Median Posts Per User Per Day"
+    type: median
+    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
   }
 
   measure: posts_sum2 {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts"
     description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
     type: sum
@@ -7912,7 +7940,7 @@ view: server_daily_details_ext {
   }
 
   measure: events_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Total Events"
     description: "The sum of all events performed by all active user across all servers within the given grouping."
     type: sum
@@ -7921,7 +7949,7 @@ view: server_daily_details_ext {
   }
 
   measure: dau_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "DAU (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
@@ -7930,7 +7958,7 @@ view: server_daily_details_ext {
   }
 
   measure: mau_sum {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "MAU (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
