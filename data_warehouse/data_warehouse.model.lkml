@@ -304,7 +304,7 @@ explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
   group_label: "Salesforce"
-  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt', 'CSM');;
 }
 
 explore: account_monthly_arr_deltas_by_type {
