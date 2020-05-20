@@ -216,7 +216,7 @@ view: server_daily_details {
     group_label: " Security User Counts"
     description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: number
-    sql: COALESCE(${server_daily_details_ext.active_users_daily},0) >= COALESCE(${TABLE}.active_user_count,0) THEN COALESCE(${server_daily_details_ext.active_users_daily},0) ELSE COALESCE(${TABLE}.active_user_count,0) END ;;
+    sql: CASE WHEN COALESCE(${server_daily_details_ext.active_users_daily},0) >= COALESCE(${TABLE}.active_user_count,0) THEN COALESCE(${server_daily_details_ext.active_users_daily},0) ELSE COALESCE(${TABLE}.active_user_count,0) END ;;
   }
 
   dimension: active_user_count_band {
