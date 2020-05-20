@@ -80,5 +80,6 @@ view: github_all_contributions {
     label: "# of Contributors"
     type: count_distinct
     sql: ${author} ;;
+    drill_fields: [author,repo,merged_date,pr_number]
   }
 }
