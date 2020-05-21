@@ -60,6 +60,7 @@ include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 #
@@ -1333,7 +1334,16 @@ explore: trial_licenses {
 
 explore: user_agent_registry {
   label: "User Agent Registry"
+  group_label: "Website"
 }
 explore: daily_website_traffic {
+  group_label: "Website"
   label: "Daily Website Traffic"
+
+  join: user_agent_registry {
+    view_label: "Daily Website Traffic"
+    relationship: many_to_one
+    sql_on: ${daily_website_traffic.context_useragent} = ${user_agent_registry.context_useragent} ;;
+    fields: [user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
+  }
 }
