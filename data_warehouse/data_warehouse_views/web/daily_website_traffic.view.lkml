@@ -7,343 +7,370 @@ view: daily_website_traffic {
 
   # DIMENSIONS
   dimension: anonymous_id {
-    description: "" 
+    description: "The unique identifier of the user visiting the mattermost web property."
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
+  dimension: web_property {
+    description: "The Mattermost Web Property visited i.e. WWW, Integrations, Customers, Support."
+    type: string
+    sql: CASE WHEN coalesce(split_part(regexp_substr(${context_page_url},
+                                          '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
+                            '//', 2), '') NOT IN ('mattermost.com', 'integrations.mattermost.com', 'support.mattermost.com','customers.mattermost.com')
+                            THEN 'Other'
+              ELSE split_part(regexp_substr(${context_page_url},
+                                          '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
+                            '//', 2) END ;;
+  }
+
   dimension: channel {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_app_build {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_build ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_app_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_app_namespace {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_namespace ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_app_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_ip {
-    description: "" 
+    description: "The IP Address of the user visiting the webpage."
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_locale {
-    description: "" 
+    description: "General location information about the user visiting the webpage (en-US, en-UK, de, etc)."
     type: string
-    sql: ${TABLE}.context_locale ;;
+    sql: CASE WHEN nullif(SPLIT_PART(${TABLE}.context_locale, '-', 2), '') IS NULL THEN UPPER(${TABLE}.context_locale)
+                ELSE UPPER(SPLIT_PART(${TABLE}.context_locale, '-', 2)) END
+          ;;
     hidden: no
   }
 
   dimension: context_os_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_os_name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_os_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_os_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_page_path {
-    description: "" 
+    label: "Page Path"
+    description: ""
     type: string
     sql: ${TABLE}.context_page_path ;;
     hidden: no
   }
 
   dimension: context_page_referrer {
-    description: "" 
+    label: "Page Referrer URL"
     type: string
     sql: ${TABLE}.context_page_referrer ;;
     hidden: no
   }
 
   dimension: context_page_search {
-    description: "" 
+    label: "Page Search"
+    description: "The UTM tracking parameter string in the url of the page URL visited."
     type: string
     sql: ${TABLE}.context_page_search ;;
     hidden: no
   }
 
   dimension: context_page_title {
-    description: "" 
+    label: "Page Title"
+    description: "The title of the webpage visited."
     type: string
     sql: ${TABLE}.context_page_title ;;
     hidden: no
   }
 
   dimension: context_page_url {
-    description: "" 
+    label: "Page URL"
+    description: "The URL of the webpage visited (less the UTM tracking parameters)."
     type: string
-    sql: ${TABLE}.context_page_url ;;
+    sql: CASE WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '?utm', 2),'') IS NULL THEN ${TABLE}.context_page_url
+          ELSE SPLIT_PART(${TABLE}.context_page_url, '?utm', 1)  END ;;
     hidden: no
   }
 
   dimension: context_screen_density {
-    description: "" 
+    description: "The Screen Density of the device used to visit the webpage."
     type: number
     sql: ${TABLE}.context_screen_density ;;
     hidden: no
   }
 
   dimension: context_traits_portal_customer_id {
-    description: "" 
+    description: "The Customer Web Portal Id of the user visting the webpage. This is populated when a user has logged into the web portal and been assigned a user id."
     type: string
     sql: ${TABLE}.context_traits_portal_customer_id ;;
     hidden: no
   }
 
   dimension: context_useragent {
-    description: "" 
+    description: "The user agent string providing the raw information about the os, browser, and device used to visit the webpage."
+    group_label: " User Agent Info."
     type: string
     sql: ${TABLE}.context_useragent ;;
     hidden: no
   }
 
   dimension: name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: objectobjectpath {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.objectobjectpath ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: objectobjectreferrer {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.objectobjectreferrer ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: objectobjectsearch {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.objectobjectsearch ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: objectobjecttitle {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.objectobjecttitle ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: objectobjecturl {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.objectobjecturl ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: path {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.path ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: referrer {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.referrer ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: search {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.search ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: title {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.title ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: url {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.url ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: utm_source {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Source"
+    description: "The Mattermost advertising source (google, bing, etc) that directed the user to the Mattermost webpage URL."
     type: string
-    sql: ${TABLE}.utm_source ;;
+    sql: NULLIF(INITCAP(lower(${TABLE}.utm_source)),'') ;;
     hidden: no
   }
 
   dimension: utm_medium {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Medium"
+    description: "The Mattermost advertising medium (cpc, display, etc.) that directed the user to the Mattermost webpage URL."
     type: string
-    sql: ${TABLE}.utm_medium ;;
+    sql: NULLIF(INITCAP(lower(${TABLE}.utm_medium)),'') ;;
     hidden: no
   }
 
   dimension: utm_campaign {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Campaign"
+    description: "The Mattermost advertising campaign name that directed the user to the Mattermost webpage URL."
     type: string
-    sql: ${TABLE}.utm_campaign ;;
+    sql: NULLIF(INITCAP(lower(${TABLE}.utm_campaign)),'') ;;
     hidden: no
   }
 
   dimension: utm_adgroup {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Adgroup"
+    description: "The Mattermost advertising adgroup that directed the user to the Mattermost webpage URL."
     type: string
-    sql: ${TABLE}.utm_adgroup ;;
+    sql: INITCAP(lower(${TABLE}.utm_adgroup)) ;;
     hidden: no
   }
 
   dimension: utm_content {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Content ID"
+    description: "The Mattermost advertising content id that directed the user to the webpage URL."
     type: string
-    sql: ${TABLE}.utm_content ;;
+    sql: NULLIF(INITCAP(lower(${TABLE}.utm_content)),'') ;;
     hidden: no
   }
 
   dimension: utm_term {
-    description: "" 
+    group_label: " Marketing UTM Info."
+    label: "UTM Term"
+    description: "The Mattermost advertising term that directed the user to the webpage URL."
     type: string
-    sql: ${TABLE}.utm_term ;;
+    sql: NULLIF(INITCAP(lower(CASE WHEN REGEXP_SUBSTR(${TABLE}.utm_term, '^[0-9]{1}(\-|\_)') IS NOT NULL THEN NULL
+                              ELSE ${TABLE}.utm_term END)),'') ;;
     hidden: no
   }
 
   dimension: gclid {
-    description: "" 
+    description: "The Gclid ID associated with the Mattermost advertising campaign that directed the user to the webpage URL"
     type: string
     sql: ${TABLE}.gclid ;;
     hidden: no
   }
 
   dimension: referrer_search_term {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.referrer_search_term ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: referrer_source {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.referrer_source ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: "" 
+    description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
-    description: "Count of rows/occurrences."
+    label: "Pageviews"
+    description: "The total # of Pageviews i.e. total number of times all users viewed the webpage."
     type: count
   }
 
   measure: anonymous_count {
-    label: " Anonymous Count"
+    label: "User Count"
     description: "The distinct count of Anonymouss per grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
   }
 
   measure: context_traits_portal_customer_count {
-    label: " Context_Traits_Portal_Customer Count"
+    label: "Portal Customer Count"
     description: "The distinct count of Context_Traits_Portal_Customers per grouping."
     type: count_distinct
     sql: ${context_traits_portal_customer_id} ;;
-  }
-
-  measure: user_count {
-    label: " User Count"
-    description: "The distinct count of Users per grouping."
-    type: count_distinct
-    sql: ${user_id} ;;
   }
 
 
