@@ -1330,3 +1330,10 @@ explore: trial_licenses {
     fields: [name]
   }
 }
+
+explore: user_agent_registry {
+  label: "User Agent Registry"
+}
+explore: daily_website_traffic {
+  label: "Daily Website Traffic"
+}
