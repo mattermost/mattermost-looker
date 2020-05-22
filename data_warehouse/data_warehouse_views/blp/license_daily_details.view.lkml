@@ -43,6 +43,19 @@ view: license_daily_details {
     hidden: no
   }
 
+  dimension: trial_deep_dive {
+    description: ""
+    label: "Trial License Overview"
+    type: string
+    sql: 'Trial License Overview';;
+    link: {
+      label: "Trial License Overview"
+      url: "https://mattermost.looker.com/dashboards/145?License%20ID={{ license_id._value }}"
+    }
+    hidden: yes
+  }
+
+
   dimension: server_count {
     label: " Server Count"
     description: "The number of unique servers associated with the license (null if no telemetry/server-license association)."
