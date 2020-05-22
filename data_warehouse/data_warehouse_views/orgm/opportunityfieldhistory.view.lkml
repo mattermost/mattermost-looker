@@ -103,19 +103,19 @@ view: opportunityfieldhistory {
     group_label: "System"
   }
 
-  dimension: new_value {
+  dimension: newvalue {
     type: string
     sql: ${TABLE}."NEWVALUE" ;;
   }
 
-  dimension: old_value {
+  dimension: oldvalue {
     type: string
     sql: ${TABLE}."OLDVALUE" ;;
   }
 
   dimension: new_fc_value {
     type: string
-    sql: CASE WHEN ${field} = 'ForecastCategoryName' THEN ${new_value} ELSE '' END;;
+    sql: CASE WHEN ${field} = 'ForecastCategoryName' THEN ${newvalue} ELSE '' END;;
     order_by_field: new_fc_sort
     label: "New FC"
     group_label: "Forecast Category"
@@ -124,11 +124,11 @@ view: opportunityfieldhistory {
   dimension: new_fc_sort {
     type: number
     sql: CASE
-          WHEN ${new_value} = 'Closed' THEN 1
-          WHEN ${new_value} = 'Commit' THEN 2
-          WHEN ${new_value} = 'Best Case' THEN 3
-          WHEN ${new_value} = 'Pipeline' THEN 4
-          WHEN ${new_value} = 'Omitted' THEN 5
+          WHEN ${newvalue} = 'Closed' THEN 1
+          WHEN ${newvalue} = 'Commit' THEN 2
+          WHEN ${newvalue} = 'Best Case' THEN 3
+          WHEN ${newvalue} = 'Pipeline' THEN 4
+          WHEN ${newvalue} = 'Omitted' THEN 5
         ELSE 6 END ;;
     label: "New FC Sort"
     hidden: yes
@@ -136,7 +136,7 @@ view: opportunityfieldhistory {
 
   dimension: old_fc_value {
     type: string
-    sql: CASE WHEN ${field} = 'ForecastCategoryName' THEN ${old_value} ELSE '' END;;
+    sql: CASE WHEN ${field} = 'ForecastCategoryName' THEN ${oldvalue} ELSE '' END;;
     order_by_field: old_fc_sort
     label: "Old FC"
     group_label: "Forecast Category"
@@ -145,11 +145,11 @@ view: opportunityfieldhistory {
   dimension: old_fc_sort {
     type: number
     sql: CASE
-          WHEN ${old_value} = 'Closed' THEN 1
-          WHEN ${old_value} = 'Commit' THEN 2
-          WHEN ${old_value} = 'Best Case' THEN 3
-          WHEN ${old_value} = 'Pipeline' THEN 4
-          WHEN ${old_value} = 'Omitted' THEN 5
+          WHEN ${oldvalue} = 'Closed' THEN 1
+          WHEN ${oldvalue} = 'Commit' THEN 2
+          WHEN ${oldvalue} = 'Best Case' THEN 3
+          WHEN ${oldvalue} = 'Pipeline' THEN 4
+          WHEN ${oldvalue} = 'Omitted' THEN 5
         ELSE 6 END ;;
     label: "Old FC Sort"
     hidden: yes
