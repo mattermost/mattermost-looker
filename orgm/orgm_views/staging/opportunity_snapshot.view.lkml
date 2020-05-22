@@ -53,11 +53,22 @@ view: opportunity_snapshot {
     label: "Oppt ID"
   }
 
-  dimension: snapshot_date {
-    type: string
+
+  dimension_group: snapshot {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
     sql: ${TABLE}."snapshot_date" ;;
-    label: "Snapshot Date"
   }
+
 
   dimension: stagename {
     type: string
