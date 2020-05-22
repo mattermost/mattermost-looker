@@ -38,11 +38,6 @@ view: account_renewal_rate_by_qtr {
     type: sum
     sql: ${TABLE}."AVAILABLE_RENEWALS" ;;
     drill_fields: [standard_drill_fields*]
-#     html: {% if value*100 < 70 %}
-#     <p style="color:red; ">{{ rendered_value }}</p>
-#     {% elsif value*100 >= 70 and value < 100  %}<p style="color:#FFBF00;">{{ rendered_value }}</p>
-#     {% else %}<p style="color:green;">{{ rendered_value }}</p>
-#     {% endif %} ;;
     value_format_name: usd_0
   }
 
@@ -50,7 +45,13 @@ view: account_renewal_rate_by_qtr {
     type: sum
     sql: ${TABLE}."GROSS_FORECASTED_RENEWAL_TOTAL_AMOUNT" + ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
     drill_fields: [standard_drill_fields*]
-#     html: @{cond_style_attain} ;;
+    value_format_name: usd_0
+  }
+
+  measure: gross_max_renewal_total_amount {
+    type: sum
+    sql: ${TABLE}."GROSS_OPEN_RENEWAL_TOTAL_AMOUNT" + ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
+    drill_fields: [standard_drill_fields*]
     value_format_name: usd_0
   }
 
@@ -58,15 +59,14 @@ view: account_renewal_rate_by_qtr {
     hidden: yes
     type: number
     sql: ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
+    drill_fields: [standard_drill_fields*]
     value_format_name: usd_0
   }
-
 
   measure: gross_renewal_amount {
     type: sum
     sql: ${TABLE}."GROSS_RENEWAL_AMOUNT" ;;
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
+    drill_fields: [standard_drill_fields*]
     value_format_name: usd_0
   }
 
@@ -75,16 +75,24 @@ view: account_renewal_rate_by_qtr {
     sql: ((${gross_forecasted_renewal_total_amount})/${available_renewals})*100 ;;
     value_format: "@{percent}"
    html: @{cond_style_attain} ;;
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
-    }
+    drill_fields: [standard_drill_fields*]
+  }
+
+  measure: gross_max_renewal_rate_by_qtr {
+    type: number
+    sql: ((${gross_max_renewal_total_amount})/${available_renewals})*100 ;;
+    value_format: "@{percent}"
+    html: @{cond_style_attain} ;;
+    drill_fields: [standard_drill_fields*]
+  }
 
   measure: renewal_rate_by_qtr {
     type: number
     sql: (${gross_renewal_amount}/${available_renewals})*100 ;;
     value_format: "@{percent}"
     html: @{cond_style_attain} ;;
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
-    }
+    drill_fields: [standard_drill_fields*]
+  }
 
   measure: count_accounts {
     type: count_distinct
@@ -93,7 +101,7 @@ view: account_renewal_rate_by_qtr {
       field: gross_renewal_amount_dim
       value: ">0"
     }
-    drill_fields: [standard_drill_fields*]#    html: @{cond_style_attain} ;;
-    }
+    drill_fields: [standard_drill_fields*]
+  }
 
 }

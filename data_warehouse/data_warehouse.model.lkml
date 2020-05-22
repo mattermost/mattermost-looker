@@ -60,6 +60,7 @@ include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 #
@@ -303,8 +304,8 @@ explore: account {
 explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
-  group_label: "Sales Force"
-  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt');;
+  group_label: "Salesforce"
+  sql_always_where: ${owner_type} IN ('Field Rep', 'Commercial Rep', 'Sales Mgt', 'CSM');;
 }
 
 explore: account_monthly_arr_deltas_by_type {
@@ -640,6 +641,31 @@ explore: github_contributions {
   }
 }
 
+explore: github_all_contributions {
+  group_label: "Contributors & Employees"
+  label: "All Mattermost Org GitHub Contributions"
+  view_label: "All Mattermost Org GitHub Contributions"
+
+  join: github_all_contributors {
+    sql_on: ${github_all_contributions.author} = ${github_all_contributors.author} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: staff_github_usernames {
+    sql_on: ${github_all_contributions.author} = ${staff_github_usernames.username} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: github_repo_categorization {
+    view_label: "All Mattermost Org GitHub Contributions"
+    sql_on: ${github_repo_categorization.repo} = ${github_all_contributions.repo} ;;
+    relationship: many_to_one
+    fields: [category]
+  }
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
@@ -658,8 +684,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
-    fields: [server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_telemetry_active_date, server_fact.last_telemetry_active_week, server_fact.last_telemetry_active_month,
-      server_fact.last_telemetry_active_year, server_fact.last_telemetry_active_fiscal_quarter, server_fact.last_telemetry_active_fiscal_year,
+    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
+      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
   }
@@ -869,9 +895,10 @@ explore: server_daily_details_ext {
     view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_month,
-      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.last_active_date,
-      server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.license_id]
+    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
+      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
+      server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year]
   }
 
   join: nps_server_daily_score {
@@ -1079,6 +1106,7 @@ explore: licenses {
   group_label: "BLP"
   hidden: yes
 }
+
 explore: license_daily_details {
   label: "License Daily Details"
   group_label: "BLP"
@@ -1255,10 +1283,69 @@ explore: version_release_dates {
 explore: hist_license_mapping {
   label: "Legacy License Mapping"
   view_label: "Legacy License Mapping"
+  group_label: "BLP"
   join: account {
     view_label: "Legacy License Mapping"
+
     relationship: many_to_one
     sql_on: ${hist_license_mapping.account_sfid} = ${account.sfid} ;;
     fields: [name, sfid]
+  }
+}
+
+explore: enterprise_license_fact {
+  extends: [_base_account_explore]
+  group_label: "BLP"
+  join: account {
+    sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
+  }
+}
+
+explore: trial_licenses {
+  label: "Trial Licenses"
+  sql_always_where: ${license_daily_details.is_trial} ;;
+  from: license_daily_details
+  view_label: "License Daily Details"
+  view_name: license_daily_details
+  extends: [license_daily_details]
+
+  join: lead {
+    view_label: "Associated Lead"
+    sql_on: lower(${license_daily_details.license_email}) = lower(${lead.email});;
+    relationship: many_to_many
+    fields: [email,sfid,lead.status,lead.status_order]
+  }
+
+  join: contact {
+    view_label: "Associated Contact"
+    sql_on: lower(${license_daily_details.license_email}) = lower(${contact.email});;
+    relationship: many_to_many
+    fields: [email,sfid]
+  }
+
+  join: owner {
+    view_label: "Associated Lead / Contact Owner"
+    from: user
+    relationship: many_to_one
+    sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
+    fields: [name]
+  }
+}
+
+explore: user_agent_registry {
+  label: "User Agent Registry"
+  group_label: "Website"
+  hidden: yes
+}
+
+explore: daily_website_traffic {
+  group_label: "Website"
+  label: "Daily Website Traffic"
+
+  join: user_agent_registry {
+    view_label: "Daily Website Traffic"
+    relationship: many_to_one
+    sql_on: ${daily_website_traffic.context_useragent} = ${user_agent_registry.context_useragent} ;;
+    fields: [user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
   }
 }
