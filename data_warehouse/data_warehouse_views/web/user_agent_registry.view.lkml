@@ -4,6 +4,11 @@ view: user_agent_registry {
   view_label: "User Agent Registry"
 
   # FILTERS
+  dimension: bot {
+    description: "Boolean indicating if the user agent is associated with a bot and/or spider."
+    type: yesno
+    sql: CASE WHEN CASE WHEN ${TABLE}.device_type IS NULL THEN 'Other' ELSE ${TABLE}.device_type END = 'Spider' THEN TRUE ELSE FALSE END ;;
+  }
 
   # DIMENSIONS
   dimension: context_useragent {
