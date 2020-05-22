@@ -276,16 +276,19 @@ view: opportunity {
     type: string
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecasting"
-    label: "Forecast Category Name"
+    label: "Forecast Category"
     order_by_field: forecastcategoryname_sort
   }
 
   dimension: forecastcategoryname_sort {
     type: number
-    sql: CASE WHEN ${forecastcategoryname} = 'Commit' THEN 1
-          WHEN ${forecastcategoryname} = 'Best Case' THEN 2
-          WHEN ${forecastcategoryname} = 'Pipeline' THEN 3
-          ELSE 4 END ;;
+    sql: CASE
+          WHEN ${forecastcategoryname} = 'Closed' THEN 1
+          WHEN ${forecastcategoryname} = 'Commit' THEN 2
+          WHEN ${forecastcategoryname} = 'Best Case' THEN 3
+          WHEN ${forecastcategoryname} = 'Pipeline' THEN 4
+          WHEN ${forecastcategoryname} = 'Omitted' THEN 5
+        ELSE 6 END ;;
     group_label: "Forecasting"
     label: "Forecast Category Name"
     hidden: yes
