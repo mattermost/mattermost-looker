@@ -524,11 +524,34 @@ view: opportunity {
   }
 
   dimension: original_opportunity_sfid {
-    # description: "TODO"
     sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
     type: string
     label: "Original Opportunity SFID"
     group_label: "Renewals"
+  }
+
+  measure: original_opportunity_amount {
+    sql: ${TABLE}.original_opportunity_amount__c ;;
+    type: sum
+    label: "Original Opportunity Amount"
+    group_label: "Original Opportunity"
+  }
+
+
+  dimension_group: original_opportunity_end {
+    convert_tz: no
+    description: "Date when the opportunity is expected to close."
+    sql: ${TABLE}.original_opportunity_end_date__c ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "Original Opportunity End"
   }
 
   dimension: ownerid {
@@ -663,6 +686,22 @@ view: opportunity {
     sql: ${TABLE}.type ;;
     type: string
   }
+
+#   dimension: won_reason {
+#     group_label: "Won Details"
+#     label: "Won Reason"
+# #     TO BE ADDED IN SFDC
+#     sql: ${TABLE}. ;;
+#     type: string
+#   }
+#
+#   dimension: won_reason_details {
+#     group_label: "Won Details"
+#     label: "Won Reason Details"
+#     #     TO BE ADDED IN SFDC
+#     sql: ${TABLE}. ;;
+#     type: string
+#   }
 
 
   #
