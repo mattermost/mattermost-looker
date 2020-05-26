@@ -41,6 +41,13 @@ view: nps_user_monthly_score {
     sql: CASE WHEN ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
   }
 
+  filter: trailing_3_months_nps {
+    label: "Trailing 3-Month NPS Score"
+    type: yesno
+    description: "Boolean indicating the score reflected on the given logging date only incorporates trailing 3 month NPS score submissions."
+    sql: CASE WHEN ${TABLE}.last_score_date >= ${TABLE}.date - INTERVAL '90 DAYS' THEN TRUE ELSE FALSE END ;;
+  }
+
   # DIMENSIONS
   dimension: server_id {
     description: "The server id associated with the user that submitted the NPS response."
@@ -256,7 +263,7 @@ view: nps_user_monthly_score {
     label: "Count Users"
     description: "The distinct count of Users that responded to an NPS survey in the record month."
     type: count_distinct
-    sql: case when ${month_date}::date =  date_trunc('day', ${last_score_date}::date) then ${user_id} else null end ;;
+    sql: case when DATE_TRUNC('DAY', ${month_date}::date) =  date_trunc('day', ${last_score_date}::date) then ${user_id} else null end ;;
     drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
   }
 
