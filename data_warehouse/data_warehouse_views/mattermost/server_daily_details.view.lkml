@@ -123,6 +123,13 @@ view: server_daily_details {
     sql: ${TABLE}.in_mm2_server ;;
   }
 
+  filter: active_users_alltime {
+    description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    label: ">= 1 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
   # Dimensions
   dimension: server_id {
     description: "The unique server ID for each telemetry-enabled active server."
