@@ -117,7 +117,7 @@ view: opportunitylineitem {
 
   dimension: is_coterm {
     hidden: yes
-    sql: ${is_prorated_expansion} = 'Co-Term Expansion';;
+    sql: ${is_prorated_expansion} = 'Co-Termed Expansion';;
     type: yesno
   }
 
@@ -811,7 +811,7 @@ view: opportunitylineitem {
   measure: total_leftover_expansion_amount_ng {
     group_label: "NextGen - Type Totals"
     label: "LOE - NextGen"
-    sql: ${TABLE}.coterm_expansion_amount__c;;
+    sql: ${TABLE}.leftover_expansion_amount__c;;
     type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ng]
