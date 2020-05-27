@@ -214,7 +214,7 @@ view: server_daily_details {
   dimension: active_user_count {
     label: "Active Users"
     group_label: " Security User Counts"
-    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    description: "The count of active users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: number
     sql: CASE WHEN COALESCE(${server_daily_details_ext.active_users_daily},0) >= COALESCE(${TABLE}.active_user_count,0) THEN COALESCE(${server_daily_details_ext.active_users_daily},0) ELSE COALESCE(${TABLE}.active_user_count,0) END ;;
   }
@@ -222,7 +222,7 @@ view: server_daily_details {
   dimension: active_user_count_band {
     label: "Active Users Band"
     group_label: " Security User Counts"
-    description: "The count of registered users that have visited the Mattermost site/application in the last 24 hours on the server."
+    description: "The count of active users that have visited the Mattermost site/application in the last 24 hours on the server."
     type: tier
     style: integer
     tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
@@ -443,19 +443,35 @@ view: server_daily_details {
   }
 
   dimension: days_since_first_telemetry_enabled {
-    label: "Days Since First Telemetry Enabled"
+    label: "Days First to Last Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
     sql: datediff(day, COALESCE(${server_fact.first_active_date},${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
-    label: "Days Since First Telemetry Band"
+    label: "Days First-to-Last Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
     tiers: [1,7,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
+  }
+
+  dimension: days_since_first_telemetry_to_now {
+    label: "Days Since First Telemetry Enabled"
+    description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and the current date - 1 day."
+    type: number
+    sql: datediff(day, COALESCE(${server_fact.first_active_date},${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date})::DATE, CURRENT_DATE - INTERVAL '1 DAY') ;;
+  }
+
+  dimension: days_since_first_telemetry_to_now_band {
+    label: "Days Since First Telemetry Band"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_since_first_telemetry_to_now} ;;
   }
 
   dimension_group: first_security_telemetry {
@@ -728,7 +744,15 @@ view: server_daily_details {
   measure: total_active_user_count {
     group_label: "User Counts"
     label: "Active Users"
-    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level. It is the active user count logged via diagnostics.go."
+    description: "Use this for summing active user counts across diemensions. This measure is used to calculate TEDAU (Telemetry-Enabled Daily Active Users) when aggregated at the daily level and filtered for servers in security telemetry. It is the active user count logged via security_update_check.go."
+    type: sum
+    sql: ${active_user_count} ;;
+  }
+
+  measure: max_active_user_count {
+    group_label: "User Counts"
+    label: "Max. Active Users"
+    description: "Use this to display the maximum active user counts across selected (grouped) diemensions."
     type: sum
     sql: ${active_user_count} ;;
   }
@@ -737,6 +761,14 @@ view: server_daily_details {
     group_label: "User Counts"
     label: "Registered Users"
     description: "Use this for summing user counts across dimensions."
+    type: sum
+    sql: ${user_count} ;;
+  }
+
+  measure: max_user_count {
+    group_label: "User Counts"
+    label: "Max. Registered Users"
+    description: "Use this to display the max registered user counts for all servers across the selected (grouping) dimensions."
     type: sum
     sql: ${user_count} ;;
   }
@@ -773,6 +805,14 @@ view: server_daily_details {
   measure: avg_posts_per_user_per_day {
     group_label: "Server Events"
     label: "Avg. Posts Per User"
+    type: average
+    sql: ${posts_per_user_per_day} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_posts_per_user_per_day {
+    group_label: "Server Events"
+    label: "Median Posts Per User"
     type: average
     sql: ${posts_per_user_per_day} ;;
     value_format_name: decimal_1
