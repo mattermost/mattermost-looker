@@ -28,6 +28,12 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+
+access_grant: admin_only {
+  user_attribute: field_visibility
+  allowed_values: [ "all" ]
+}
+
 #
 # Formats
 #
