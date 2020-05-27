@@ -19,7 +19,7 @@ view: opportunitylineitem {
 
   set: opportunitylineitem_drill {
     fields: [account.name,opportunity.name, account.csm_name, account.owner_name, opportunity.close_date,
-             opportunity.forecastcategoryname, opportunity.probability, opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
+      opportunity.forecastcategoryname, opportunity.probability, opportunityproduct.name,opportunity.license_start_date,opportunity.license_end_date]
   }
 
   set: opportunitylineitem_core {
@@ -323,7 +323,7 @@ view: opportunitylineitem {
 
 
   dimension: amount_manual_override {
-    group_label: "Self Service - Type Totals"
+    group_label: "NextGen - Type Totals"
     sql: ${TABLE}.amount_manual_override__c;;
     type: yesno
   }
@@ -704,7 +704,7 @@ view: opportunitylineitem {
   }
 
   measure: total_exp_only_amount {
-    required_access_grants: [admin_only]
+
     group_label: "Product Line Type Totals"
     label: "Expansion Only"
     description: "Total where Product Line Type = 'Expansion' (does include Co-Term or LOE) "
@@ -772,64 +772,58 @@ view: opportunitylineitem {
     }
   }
 
-  measure: total_new_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "New - SS"
+  measure: total_new_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "New - NextGen"
     sql: ${TABLE}.new_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_new_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_new_amount_ng]
   }
 
-  measure: total_renewal_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "Renewal - SS"
+  measure: total_renewal_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "Renewal - NextGen"
     sql: ${TABLE}.renewal_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_renewal_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_renewal_amount_ng]
   }
 
-  measure: total_expansion_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "Expansion - SS"
+  measure: total_expansion_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "Expansion - NextGen"
     sql: ${TABLE}.expansion_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_expansion_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_expansion_amount_ng]
   }
 
-  measure: total_coterm_expansion_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "Co-Term - SS"
+  measure: total_coterm_expansion_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "Co-Term - NextGen"
     sql: ${TABLE}.coterm_expansion_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ng]
   }
 
-  measure: total_leftover_expansion_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "LOE - SS"
+  measure: total_leftover_expansion_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "LOE - NextGen"
     sql: ${TABLE}.coterm_expansion_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ng]
   }
 
-  measure: total_multi_amount_ss {
-    required_access_grants: [admin_only]
-    group_label: "Self Service - Type Totals"
-    label: "Multi - SS"
+  measure: total_multi_amount_ng {
+    group_label: "NextGen - Type Totals"
+    label: "Multi - NextGen"
     sql: ${TABLE}.multi_amount__c;;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_multi_amount_ss]
+    drill_fields: [opportunitylineitem_drill*,total_multi_amount_ng]
   }
 
 }
