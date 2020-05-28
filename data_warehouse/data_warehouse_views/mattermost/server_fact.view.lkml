@@ -212,6 +212,102 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.first_trial_license_date ;;
   }
 
+  dimension_group: first_100reg_users {
+    label: "   First 100 Reg. Users"
+    description: "The date the server first reached 100 registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_100reg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_100reg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 100 Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_100reg_users_date}) ;;
+  }
+
+  dimension_group: first_500reg_users {
+    label: "   First 500 Reg. Users"
+    description: "The date the server first reached 500 registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_500reg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_500reg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 500 Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_500reg_users_date}) ;;
+  }
+
+  dimension_group: first_1kreg_users {
+    label: "  First 1k Reg. Users"
+    description: "The date the server first reached 1k registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_1kreg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_1kreg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 1k Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_1kreg_users_date}) ;;
+  }
+
+  dimension_group: first_2500reg_users {
+    label: "  First 2.5k Reg. Users"
+    description: "The date the server first reached 2.5k registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_2500reg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_2500kreg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 2.5k Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_2500reg_users_date}) ;;
+  }
+
+  dimension_group: first_5kreg_users {
+    label: " First 5k Reg. Users"
+    description: "The date the server first reached 5k registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_5kreg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_5kreg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 5k Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_5kreg_users_date}) ;;
+  }
+
+  dimension_group: first_10kreg_users {
+    label: " First 10k Reg. Users"
+    description: "The date the server first reached 10k registered users."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_10kreg_users_date ;;
+    hidden: yes
+  }
+
+  dimension: days_to_10kreg_users {
+    group_label: "Days to Reg. User Thresholds"
+    label: "Days to 10k Reg. Users"
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_date}, ${first_10kreg_users_date}) ;;
+  }
+
   dimension: dau {
     group_label: "Active User Dimensions"
     label: "   Total DAU"
