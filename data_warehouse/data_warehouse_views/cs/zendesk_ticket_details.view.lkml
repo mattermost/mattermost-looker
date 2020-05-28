@@ -115,7 +115,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Support Engineer Assigned"
     type: string
-    sql: ${TABLE}."ASSIGNEE_NAME" ;;
+    sql: COALESCE(${TABLE}."ASSIGNEE_NAME",'Unassigned') ;;
   }
 
   dimension_group: created {
@@ -277,7 +277,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Category"
     type: string
-    sql: coalesce(${sales_billing_support_category},${tech_support_category}) ;;
+    sql: coalesce(${sales_billing_support_category},${tech_support_category},'Unassigned') ;;
   }
 
   dimension: customer_type {
