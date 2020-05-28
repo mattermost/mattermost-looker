@@ -170,7 +170,7 @@ view: account {
   }
 
   dimension: company_type_major {
-    sql: case when ${TABLE}.company_type__c in ('Commercial','Academic','Non-Profit') then 'Commercial' else ${TABLE}.company_type__c end ;;
+    sql: case when ${TABLE}.company_type__c in ('Academic','Non-Profit') then 'Education/Non-Profit' else ${TABLE}.company_type__c end ;;
     type: string
   }
 

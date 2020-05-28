@@ -55,6 +55,37 @@ view: campaignmember {
     type: string
   }
 
+
+  dimension_group: contact_us_request {
+    type: time
+    label: "Contact Us Requested"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${campaignmember_ext.contact_us_request}::timestamp;;
+  }
+
+  dimension_group: trial_req {
+   type: time
+    label: "Trial Requested"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${campaignmember_ext.trial_request}::timestamp;;
+  }
+
   dimension_group: converted {
     sql: ${TABLE}.CONVERTED_DATE__C ;;
     timeframes: [
@@ -315,19 +346,19 @@ view: campaignmember {
     type: string
   }
 
-  dimension_group: trial_req {
-    sql: ${TABLE}.TRIAL_REQ_DATE__C ;;
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    type: time
-  }
+#  dimension_group: trial_req {
+#    sql: ${TABLE}.TRIAL_REQ_DATE__C ;;
+#    timeframes: [
+#      raw,
+#      time,
+#      date,
+#      week,
+#      month,
+#      quarter,
+#      year
+#    ]
+#    type: time
+#  }
 
   dimension: type {
     sql: ${TABLE}.TYPE ;;

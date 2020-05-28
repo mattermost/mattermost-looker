@@ -47,17 +47,28 @@ view: opportunity_snapshot {
     label: "Owner ID"
   }
 
-  dimension: sfid {
+  dimension: opportunityid {
     type: string
     sql: ${TABLE}."sfid" ;;
     label: "Oppt ID"
   }
 
-  dimension: snapshot_date {
-    type: string
+
+  dimension_group: snapshot {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
     sql: ${TABLE}."snapshot_date" ;;
-    label: "Snapshot Date"
   }
+
 
   dimension: stagename {
     type: string
@@ -82,20 +93,20 @@ view: opportunity_snapshot {
 # Measures
   measure: count {
     type: count
-    drill_fields: [sfid, name, stagename]
+    drill_fields: [opportunityid, name, stagename]
   }
 
   measure: total_arr {
     sql: ${arr__c} ;;
     type: sum
-    drill_fields: [sfid, name, stagename]
+    drill_fields: [opportunityid, name, stagename]
     label: "Total ARR"
     value_format_name: usd_0
   }
   measure: total_expected_revenue {
     sql: ${expectedrevenue} ;;
     type: sum
-    drill_fields: [sfid, name, stagename]
+    drill_fields: [opportunityid, name, stagename]
     label: "Total Wtd Amount"
     value_format_name: usd_0
   }
@@ -103,7 +114,7 @@ view: opportunity_snapshot {
   measure: total_amount {
     sql: ${amount} ;;
     type: sum
-    drill_fields: [sfid, name, stagename]
+    drill_fields: [opportunityid, name, stagename]
     label: "Total Amount"
     value_format_name: usd_0
   }

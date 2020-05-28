@@ -1,6 +1,6 @@
-view: github_contributions {
-  sql_table_name: MATTERMOST.GITHUB_COMMUNITY_CONTRIBUTIONS ;;
-  label: "GitHub Community Contributions"
+view: github_all_contributions {
+  sql_table_name: MATTERMOST.GITHUB_ALL_CONTRIBUTIONS ;;
+  label: "GitHub Contributions"
 
   dimension: author {
     type: string
@@ -16,21 +16,21 @@ view: github_contributions {
   }
 
   dimension: is_first_contribution {
-    sql: ${github_contributors.min_contribution_time} = ${TABLE}."MERGED_AT" ;;
+    sql: ${github_all_contributors.min_contribution_time} = ${TABLE}."MERGED_AT" ;;
     type: yesno
     label: "First Contribution?"
     description: "The first time someone contributed."
   }
 
   dimension: is_first_time_contributor {
-    sql: ${github_contributors.min_contribution_month} = ${merged_month} ;;
+    sql: ${github_all_contributors.min_contribution_month} = ${merged_month} ;;
     type: yesno
     label: "First Time Contributor?"
     description: "The first month someone contributes, they considered a First Time Contributor the whole month."
   }
 
   dimension: is_last_contribution {
-    sql: ${github_contributors.max_contribution_time} = ${TABLE}."MERGED_AT" ;;
+    sql: ${github_all_contributors.max_contribution_time} = ${TABLE}."MERGED_AT" ;;
     type: yesno
     label: "Last Contribution?"
     description: "The last time someone contributed."
@@ -80,5 +80,6 @@ view: github_contributions {
     label: "# of Contributors"
     type: count_distinct
     sql: ${author} ;;
+    drill_fields: [author,repo,merged_date,pr_number]
   }
 }

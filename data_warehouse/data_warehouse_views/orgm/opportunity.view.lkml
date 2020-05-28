@@ -276,20 +276,53 @@ view: opportunity {
     type: string
     sql: ${TABLE}.forecastcategoryname ;;
     group_label: "Forecasting"
-    label: "Forecast Category Name"
+    label: "Forecast Category"
     order_by_field: forecastcategoryname_sort
   }
 
   dimension: forecastcategoryname_sort {
     type: number
-    sql: CASE WHEN ${forecastcategoryname} = 'Commit' THEN 1
-          WHEN ${forecastcategoryname} = 'Best Case' THEN 2
-          WHEN ${forecastcategoryname} = 'Pipeline' THEN 3
-          ELSE 4 END ;;
+    sql: CASE
+          WHEN ${forecastcategoryname} = 'Closed' THEN 1
+          WHEN ${forecastcategoryname} = 'Commit' THEN 2
+          WHEN ${forecastcategoryname} = 'Best Case' THEN 3
+          WHEN ${forecastcategoryname} = 'Pipeline' THEN 4
+          WHEN ${forecastcategoryname} = 'Omitted' THEN 5
+        ELSE 6 END ;;
     group_label: "Forecasting"
-    label: "Forecast Category Name"
+    label: "Forecast Category Name Sort"
     hidden: yes
   }
+
+  dimension: forecastcategoryname_short {
+    type: string
+    sql: CASE
+    WHEN ${forecastcategoryname} = 'Closed' THEN 'WON'
+    WHEN ${forecastcategoryname} = 'Commit' THEN 'CO'
+    WHEN ${forecastcategoryname} = 'Best Case' THEN 'BC'
+    WHEN ${forecastcategoryname} = 'Pipeline' THEN 'PL'
+    WHEN ${forecastcategoryname} = 'Omitted' THEN 'OM'
+    ELSE 'XX' END ;;
+    group_label: "Forecasting"
+    label: "FC"
+    order_by_field: forecastcategoryname_short_sort
+  }
+
+  dimension: forecastcategoryname_short_sort {
+    type: number
+    sql: CASE
+          WHEN ${forecastcategoryname_short} = 'WON' THEN 1
+          WHEN ${forecastcategoryname_short} = 'CO' THEN 2
+          WHEN ${forecastcategoryname_short} = 'BC' THEN 3
+          WHEN ${forecastcategoryname_short} = 'PL' THEN 4
+          WHEN ${forecastcategoryname_short} = 'OM' THEN 5
+        ELSE 6 END ;;
+    group_label: "Forecasting"
+    label: "Forecast Category Short Sort"
+    hidden: yes
+  }
+
+
 
   # BP: use is_ for yes/no fields
   dimension: isclosed {
@@ -521,11 +554,34 @@ view: opportunity {
   }
 
   dimension: original_opportunity_sfid {
-    # description: "TODO"
     sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
     type: string
     label: "Original Opportunity SFID"
     group_label: "Renewals"
+  }
+
+  measure: original_opportunity_amount {
+    sql: ${TABLE}.original_opportunity_amount__c ;;
+    type: sum
+    label: "Original Opportunity Amount"
+    group_label: "Original Opportunity"
+  }
+
+
+  dimension_group: original_opportunity_end {
+    convert_tz: no
+    description: "Date when the opportunity is expected to close."
+    sql: ${TABLE}.original_opportunity_end_date__c ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "Original Opportunity End"
   }
 
   dimension: ownerid {
@@ -647,12 +703,35 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: territory_sales_segment {
+    type: string
+    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    group_label: "Territory"
+    label: "Territory Sales Segment"
+  }
+
   dimension: type {
     description: "Type of Opportunity. For example, New, Renewal, etc."
     label: "Oppt Type"
     sql: ${TABLE}.type ;;
     type: string
   }
+
+#   dimension: won_reason {
+#     group_label: "Won Details"
+#     label: "Won Reason"
+# #     TO BE ADDED IN SFDC
+#     sql: ${TABLE}. ;;
+#     type: string
+#   }
+#
+#   dimension: won_reason_details {
+#     group_label: "Won Details"
+#     label: "Won Reason Details"
+#     #     TO BE ADDED IN SFDC
+#     sql: ${TABLE}. ;;
+#     type: string
+#   }
 
 
   #

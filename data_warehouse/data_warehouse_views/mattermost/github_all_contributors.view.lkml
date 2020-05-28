@@ -1,6 +1,6 @@
-view: github_contributors {
-  sql_table_name: mattermost.github_community_contributors ;;
-  label: "GitHub Community Contributors"
+view: github_all_contributors {
+  sql_table_name: mattermost.github_all_contributors ;;
+  label: "GitHub Contributors"
 
   dimension: author {
     type: number
