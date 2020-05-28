@@ -133,6 +133,13 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  filter: active_users_alltime {
+    description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    label: ">= 1 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
   # DIMENSIONS
   dimension: server_id {
     label: " Server Id"
@@ -6401,11 +6408,11 @@ view: server_daily_details_ext {
   }
 
   measure: enable_nps_count {
-    label: "Servers w/ Plugin Enable Nps"
+    label: "Servers w/ NPS Enabled"
     description: "The count of servers with Plugin Enable Nps enabled."
     type: count_distinct
     group_label: " Server Counts"
-    sql: case when ${enable_nps} then ${server_id} else null end ;;
+    sql: case when ${enable_nps} and ${enable_nps_survey} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 

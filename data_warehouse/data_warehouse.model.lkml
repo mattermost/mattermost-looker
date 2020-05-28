@@ -367,11 +367,11 @@ explore: account_daily_arr_deltas {
     view_label: "Related Opportunities"
     sql_on: ${account.sfid} = ${opportunity.accountid} and ${opportunity.license_start_date}=${account_daily_arr_deltas.new_day_date} ;;
     relationship: one_to_many
-    fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid]
+    fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid,name]
   }
 
   join: opportunity_ext {
-    view_label: "Related Opportunity"
+    view_label: "Related Opportunities"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
   }
@@ -380,7 +380,7 @@ explore: account_daily_arr_deltas {
     view_label: "Related Opportunities"
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.start_date} = ${account_daily_arr_deltas.new_day_date};;
     relationship: one_to_many
-    fields: [total_bookings_open_curr_fy, total_bookings_curr_fy]
+    fields: [total_bookings_open_curr_fy,total_bookings_curr_fy,total_new_amount,total_ren_amount,total_exp_amount,opportunitylineitem.product_line_type,is_loe]
   }
 }
 
