@@ -764,6 +764,13 @@ explore: server_fact {
     relationship: one_to_one
     fields: [licenses_grouped.company, licenses_grouped.trial]
   }
+
+  join: excludable_servers {
+    view_label: "Server Fact"
+    sql_on: ${excludable_servers.server_id} = ${server_fact.server_id} ;;
+    relationship: one_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: dates {
