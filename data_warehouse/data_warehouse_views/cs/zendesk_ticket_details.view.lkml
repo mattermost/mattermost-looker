@@ -277,7 +277,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Category"
     type: string
-    sql: coalesce(${sales_billing_support_category},${tech_support_category}) ;;
+    sql: coalesce(${sales_billing_support_category},${tech_support_category},'Unassigned') ;;
   }
 
   dimension: customer_type {
