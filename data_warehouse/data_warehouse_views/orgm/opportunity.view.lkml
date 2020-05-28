@@ -311,11 +311,11 @@ view: opportunity {
   dimension: forecastcategoryname_short_sort {
     type: number
     sql: CASE
-          WHEN ${forecastcategoryname} = 'WON' THEN 1
-          WHEN ${forecastcategoryname} = 'CO' THEN 2
-          WHEN ${forecastcategoryname} = 'BC' THEN 3
-          WHEN ${forecastcategoryname} = 'PL' THEN 4
-          WHEN ${forecastcategoryname} = 'OM' THEN 5
+          WHEN ${forecastcategoryname_short} = 'WON' THEN 1
+          WHEN ${forecastcategoryname_short} = 'CO' THEN 2
+          WHEN ${forecastcategoryname_short} = 'BC' THEN 3
+          WHEN ${forecastcategoryname_short} = 'PL' THEN 4
+          WHEN ${forecastcategoryname_short} = 'OM' THEN 5
         ELSE 6 END ;;
     group_label: "Forecasting"
     label: "Forecast Category Short Sort"
