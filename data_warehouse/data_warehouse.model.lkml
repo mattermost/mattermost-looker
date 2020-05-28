@@ -301,6 +301,24 @@ explore: account {
   }
 }
 
+explore: opportunity_snapshot {
+  group_label: "Salesforce"
+
+  join: opportunity {
+    sql_on: ${opportunity_snapshot.opportunityid} = ${opportunity.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_owner {
+    from: user
+    sql_on: ${opportunity_snapshot.ownerid} = ${opportunity_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+    }
+}
+
+
 explore: user_sales_reps {
   from:  user
   label: "Sales Reps"
