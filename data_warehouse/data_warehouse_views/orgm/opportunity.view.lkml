@@ -290,9 +290,39 @@ view: opportunity {
           WHEN ${forecastcategoryname} = 'Omitted' THEN 5
         ELSE 6 END ;;
     group_label: "Forecasting"
-    label: "Forecast Category Name"
+    label: "Forecast Category Name Sort"
     hidden: yes
   }
+
+  dimension: forecastcategoryname_short {
+    type: string
+    sql: CASE
+    WHEN ${forecastcategoryname} = 'Closed' THEN 'WON'
+    WHEN ${forecastcategoryname} = 'Commit' THEN 'CO'
+    WHEN ${forecastcategoryname} = 'Best Case' THEN 'BC'
+    WHEN ${forecastcategoryname} = 'Pipeline' THEN 'PL'
+    WHEN ${forecastcategoryname} = 'Omitted' THEN 'OM'
+    ELSE 'XX' END ;;
+    group_label: "Forecasting"
+    label: "FC"
+    order_by_field: forecastcategoryname_short_sort
+  }
+
+  dimension: forecastcategoryname_short_sort {
+    type: number
+    sql: CASE
+          WHEN ${forecastcategoryname} = 'WON' THEN 1
+          WHEN ${forecastcategoryname} = 'CO' THEN 2
+          WHEN ${forecastcategoryname} = 'BC' THEN 3
+          WHEN ${forecastcategoryname} = 'PL' THEN 4
+          WHEN ${forecastcategoryname} = 'OM' THEN 5
+        ELSE 6 END ;;
+    group_label: "Forecasting"
+    label: "Forecast Category Short Sort"
+    hidden: yes
+  }
+
+
 
   # BP: use is_ for yes/no fields
   dimension: isclosed {

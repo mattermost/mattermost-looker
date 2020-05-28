@@ -6,7 +6,7 @@ view: opportunity {
   #
 
   set: opportunity_drill_fields {
-    fields: [close_date, status_wlo, stagename,
+    fields: [name, close_date, status_wlo, stagename,
       forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
   }
 

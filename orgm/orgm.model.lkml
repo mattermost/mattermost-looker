@@ -222,6 +222,16 @@ explore: opportunity {
 
 explore: opportunity_snapshot {
   group_label: "zHeroku Postgres OrgM"
+
+  join: opportunity {
+    sql_on: ${opportunity_snapshot.opportunityid}= ${opportunity.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} ;;
+    relationship: one_to_many
+  }
 }
 
 explore: profile {
