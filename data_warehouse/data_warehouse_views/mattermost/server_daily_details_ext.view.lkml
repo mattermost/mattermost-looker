@@ -6408,11 +6408,11 @@ view: server_daily_details_ext {
   }
 
   measure: enable_nps_count {
-    label: "Servers w/ Plugin Enable Nps"
+    label: "Servers w/ NPS Enabled"
     description: "The count of servers with Plugin Enable Nps enabled."
     type: count_distinct
     group_label: " Server Counts"
-    sql: case when ${enable_nps} then ${server_id} else null end ;;
+    sql: case when ${enable_nps} and ${enable_nps_survey} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
