@@ -55,6 +55,7 @@ view: nps_server_version_daily_score {
   }
 
   dimension: server_version {
+    group_label: " Server Versions"
     description: "The Mattermost server version associated with the user's server at the point in time that they submitted the NPS response."
     type: string
     sql: ${TABLE}.server_version ;;
@@ -71,6 +72,15 @@ view: nps_server_version_daily_score {
           CASE WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
             ELSE split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
     hidden: yes
+  }
+
+  dimension: server_version_major {
+    group_label: " Server Versions"
+    label: "  Server Version: Major"
+    description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
+    type: string
+    sql: split_part(${server_version}, '.', 1) || '.' || split_part(${server_version}, '.', 2)  ;;
+    order_by_field: server_version_major_sort
   }
 
   dimension: score {
