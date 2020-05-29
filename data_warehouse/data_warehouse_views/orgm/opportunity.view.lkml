@@ -1026,9 +1026,10 @@ view: opportunity {
     label: "New and Exp w/LOE Amount"
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.new_amount} + ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
-    type: number
+    type: sum
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
   measure: total_exp_count {
