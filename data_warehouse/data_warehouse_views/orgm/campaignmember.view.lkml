@@ -384,10 +384,9 @@ view: campaignmember {
       lastname,
       firstname,
       name,
-      lead.firstname,
       lead.id,
-      lead.lastname,
       lead.name,
+      lead.company,
       campaign.name,
       campaign.id
     ]
