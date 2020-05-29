@@ -183,6 +183,14 @@ explore: _base_opportunity_explore {
     fields: []
   }
 
+  join: opportunity_csa {
+    view_label: "Opportunity CSA"
+    from: user
+    sql_on: ${opportunity.csa_owner_id} = ${opportunity_csa.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
     relationship: one_to_many
@@ -245,6 +253,14 @@ explore: _base_opportunity_core_explore {
     view_label: "Opportunity CSM"
     from: user
     sql_on: ${opportunity.csm_owner_id} = ${opportunity_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity_csa {
+    view_label: "Opportunity CSA"
+    from: user
+    sql_on: ${opportunity.csa_owner_id} = ${opportunity_csa.sfid} ;;
     relationship: many_to_one
     fields: []
   }
