@@ -50,7 +50,13 @@ view: opportunitylineitem {
       total_quantity,
       total_price,
       total_bookings,
-      is_prorated_expansion
+      is_prorated_expansion,
+      new_amount,
+      renewal_amount,
+      expansion_amount,
+      coterm_expansion_amount,
+      leftover_expansion_amount,
+      multi_amount
     ]
   }
 
@@ -323,7 +329,7 @@ view: opportunitylineitem {
 
 
   dimension: amount_manual_override {
-    group_label: "NextGen - Type Totals"
+    group_label: "Product Line Type Totals"
     sql: ${TABLE}.amount_manual_override__c;;
     type: yesno
   }
@@ -639,42 +645,45 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_price,total_open_arr,total_arr,total_open_and_booked_arr]
   }
 
-  measure: total_new_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_new_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "New"
     description: "Total where Product Line Type = 'New' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_new_amount]
+    drill_fields: [opportunitylineitem_drill*,total_new_amount_old]
     filters: {
       field: product_line_type
       value: "New"
     }
   }
 
-  measure: total_ren_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_ren_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "Renewal"
     description: "Total where Product Line Type = 'Ren' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_ren_amount]
+    drill_fields: [opportunitylineitem_drill*,total_ren_amount_old]
     filters: {
       field: product_line_type
       value: "Ren"
     }
   }
 
-  measure: total_loe_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_loe_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "LOE"
     description: "Total where Product Line Type = 'Expansion' and Is Prorated Expansion = 'Leftover Expansion'"
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_loe_amount]
+    drill_fields: [opportunitylineitem_drill*,total_loe_amount_old]
     filters: {
       field: product_line_type
       value: "Expansion"
@@ -685,14 +694,15 @@ view: opportunitylineitem {
     }
   }
 
-  measure: total_coterm_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_coterm_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "Co-Term"
     description: "Total where Product Line Type = 'Expansion' and Is Prorated Expansion = 'Co-Term Expansion'"
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
+    drill_fields: [opportunitylineitem_drill*,total_coterm_amount_old]
     filters: {
       field: product_line_type
       value: "Expansion"
@@ -703,15 +713,15 @@ view: opportunitylineitem {
     }
   }
 
-  measure: total_exp_only_amount {
-
-    group_label: "Product Line Type Totals"
+  measure: total_exp_only_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "Expansion Only"
     description: "Total where Product Line Type = 'Expansion' (does include Co-Term or LOE) "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_exp_only_amount]
+    drill_fields: [opportunitylineitem_drill*,total_exp_only_amount_old]
     filters: {
       field: product_line_type
       value: "Expansion"
@@ -726,14 +736,15 @@ view: opportunitylineitem {
     }
   }
 
-  measure: total_exp_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_exp_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "Expansion"
     description: "Total where Product Line Type = 'Expansion' (includes Co-Term) "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_exp_amount]
+    drill_fields: [opportunitylineitem_drill*,total_exp_amount_old]
     filters: {
       field: product_line_type
       value: "Expansion"
@@ -744,86 +755,162 @@ view: opportunitylineitem {
     }
   }
 
-  measure: total_exp_with_loe_amount {
+  measure: total_exp_with_loe_amount_old {
+    hidden: yes
     label: "Expansion w/LOE"
-    group_label: "Product Line Type Totals"
+    group_label: "Product Line Type Totals (Dep)"
     description: "Total where Product Line Type = 'Expansion' (includes Co-Term & Leftover Expansion) "
     sql: ${opportunitylineitem.totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_exp_amount]
+    drill_fields: [opportunitylineitem_drill*,total_exp_amount_old]
     filters: {
       field: product_line_type
       value: "Expansion"
     }
   }
 
-  measure: total_multi_amount {
-    group_label: "Product Line Type Totals"
+  measure: total_multi_amount_old {
+    hidden: yes
+    group_label: "Product Line Type Totals (Dep)"
     label: "Multi"
     description: "Total where Product Line Type = 'Multi' "
     sql: ${totalprice};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_multi_amount]
+    drill_fields: [opportunitylineitem_drill*,total_multi_amount_old]
     filters: {
       field: product_line_type
       value: "Multi"
     }
   }
 
-  measure: total_new_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "New - NextGen"
+  dimension: new_amount {
+    hidden: yes
     sql: ${TABLE}.new_amount__c;;
-    type: sum
+    type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_new_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,new_amount]
   }
 
-  measure: total_renewal_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "Renewal - NextGen"
+  dimension: renewal_amount {
+    hidden: yes
     sql: ${TABLE}.renewal_amount__c;;
-    type: sum
+    type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_renewal_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,renewal_amount]
   }
 
-  measure: total_expansion_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "Expansion - NextGen"
+  dimension: expansion_amount {
+    hidden: yes
     sql: ${TABLE}.expansion_amount__c;;
-    type: sum
+    type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_expansion_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,expansion_amount]
   }
 
-  measure: total_coterm_expansion_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "Co-Term - NextGen"
+  dimension: expansion_w_coterm_amount {
+    hidden: yes
+    sql: ${expansion_amount} + ${coterm_expansion_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,expansion_w_coterm_amount]
+  }
+
+  dimension: coterm_expansion_amount {
+    hidden: yes
     sql: ${TABLE}.coterm_expansion_amount__c;;
-    type: sum
+    type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,coterm_expansion_amount]
   }
 
-  measure: total_leftover_expansion_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "LOE - NextGen"
+  dimension: leftover_expansion_amount {
+    hidden: yes
     sql: ${TABLE}.leftover_expansion_amount__c;;
-    type: sum
+    type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_coterm_expansion_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,leftover_expansion_amount]
   }
 
-  measure: total_multi_amount_ng {
-    group_label: "NextGen - Type Totals"
-    label: "Multi - NextGen"
+  dimension: multi_amount {
+    hidden: yes
     sql: ${TABLE}.multi_amount__c;;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,multi_amount]
+  }
+
+  measure: total_new_amount {
+    group_label: "Product Line Type Totals"
+    label: "New"
+    sql: ${new_amount};;
     type: sum
     value_format_name: mm_usd_short
-    drill_fields: [opportunitylineitem_drill*,total_multi_amount_ng]
+    drill_fields: [opportunitylineitem_drill*,total_new_amount]
+  }
+
+  measure: total_ren_amount {
+    group_label: "Product Line Type Totals"
+    label: "Renewal"
+    sql: ${renewal_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_ren_amount]
+  }
+
+  measure: total_exp_only_amount {
+    group_label: "Product Line Type Totals"
+    label: "Exp Only"
+    sql: ${expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_exp_only_amount]
+  }
+
+  measure: total_coterm_amount {
+    group_label: "Product Line Type Totals"
+    label: "Co-Term"
+    sql: ${coterm_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
+  }
+
+  measure: total_exp_amount {
+    group_label: "Product Line Type Totals"
+    label: "Exp w/ CoTerm"
+    sql: ${expansion_amount} + ${coterm_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_exp_amount]
+  }
+
+  measure: total_loe_amount {
+    group_label: "Product Line Type Totals"
+    label: "LOE"
+    sql: ${leftover_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_loe_amount]
+  }
+
+  measure: total_exp_with_loe_amount {
+    group_label: "Product Line Type Totals"
+    label: "Exp w/ CoTerm & LOE"
+    sql: ${expansion_amount} + ${coterm_expansion_amount} + ${leftover_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_exp_with_loe_amount]
+  }
+
+  measure: total_multi_amount {
+    group_label: "Product Line Type Totals"
+    label: "Multi"
+    sql: ${multi_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_multi_amount]
   }
 
 }
