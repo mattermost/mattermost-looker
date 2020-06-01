@@ -705,6 +705,14 @@ explore: github_all_contributions {
   }
 }
 
+explore: scrub_segment {
+  group_label: "Target vs Actual"
+}
+
+explore: scrub_ww {
+  group_label: "Target vs Actual"
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
