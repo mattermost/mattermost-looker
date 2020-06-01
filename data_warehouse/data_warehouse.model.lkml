@@ -637,6 +637,11 @@ explore: campaign {
     relationship: many_to_one
   }
 
+  join: contact {
+    sql_on: ${campaignmember.contactid}= ${contact.sfid} ;;
+    relationship: many_to_one
+  }
+
   join: owner {
     from:  user
     sql_on: ${lead.ownerid} = ${owner.sfid} ;;
