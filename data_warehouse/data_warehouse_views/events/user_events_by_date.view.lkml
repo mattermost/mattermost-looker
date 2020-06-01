@@ -154,6 +154,21 @@ view: user_events_by_date {
     hidden: no
   }
 
+  dimension: chronological_sequence {
+    description: "Integer value representing the chronological order this event was performed among all events performed during a users lifetime."
+    type: number
+    sql: ${TABLE}.chronological_sequence ;;
+    hidden: no
+  }
+
+  dimension: seconds_after_prev_event {
+    label: "Seconds Since Last Event"
+    description: "Integer value representing the number of seconds between the current event and the previously performed event."
+    type: number
+    sql: ${TABLE}.seconds_after_prev_event ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
@@ -179,14 +194,14 @@ view: user_events_by_date {
   }
 
   measure: user_count {
-    label: " User Count (DAU)"
+    label: " User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: mobile_dau {
-    label: " Mobile DAU"
+    label: " Mobile User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [mobile_events: ">0"]
@@ -194,7 +209,7 @@ view: user_events_by_date {
   }
 
   measure: webapp_dau {
-    label: " WebApp DAU"
+    label: " WebApp User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [web_app_events: ">0"]
@@ -202,7 +217,7 @@ view: user_events_by_date {
   }
 
   measure: desktop_dau {
-    label: " Desktop DAU"
+    label: " Desktop User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [desktop_events: ">0"]
