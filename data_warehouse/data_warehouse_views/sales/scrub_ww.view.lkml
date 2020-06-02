@@ -14,6 +14,10 @@ view: scrub_ww {
     label: "Actual"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "List all actuals"
+      url:"/looks/373?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}"
+    }
   }
 
   measure: nn_best_case_max {
@@ -103,6 +107,10 @@ view: scrub_ww {
     label:"Actual"
     group_label: "Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all actuals"
+      url:"/looks/374?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}"
+    }
   }
 
   measure: ren_available {
