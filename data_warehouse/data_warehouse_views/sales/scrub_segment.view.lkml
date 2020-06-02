@@ -165,14 +165,19 @@ view: scrub_segment {
     label:"Omitted"
     group_label: "Renewal"
     value_format_name: usd_0
+
     }
 
   measure: ren_omitted_orig_amount_max {
     type:sum
     sql: ${TABLE}."REN_OMITTED_ORIG_AMOUNT_MAX" ;;
-    label:"Orig Amt (Max)"
+    label:"Lost"
     group_label: "Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all lost"
+      url:"/looks/378?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
     }
 
   measure: ren_open_max {
