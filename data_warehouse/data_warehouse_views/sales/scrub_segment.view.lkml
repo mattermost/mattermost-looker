@@ -20,6 +20,10 @@ view: scrub_segment {
     label: "Actual"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "List all actuals"
+      url:"/looks/376?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
   }
 
   measure: nn_best_case_max {
@@ -109,6 +113,10 @@ view: scrub_segment {
     label:"Actual"
     group_label: "Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all actuals"
+      url:"/looks/375?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
     }
 
   measure: ren_available {
