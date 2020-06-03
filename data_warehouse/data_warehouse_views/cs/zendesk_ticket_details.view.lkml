@@ -23,9 +23,55 @@ view: zendesk_ticket_details {
   dimension: last_comment_at {
     description: "Date last comment was added on a ticket"
     group_label: "Last Comment"
-    label: "Last Comment Date"
+    group_item_label: "Date (All)"
+    label: "Last Comment Date (All)"
     type: date
     sql: ${TABLE}."LAST_COMMENT_AT";;
+  }
+
+  dimension: last_customer_comment_at {
+    description: "Date last comment was added by a customer on a ticket"
+    group_label: "Last Comment"
+    group_item_label: "Date (Customer)"
+    label: "Last Comment Date (Customer)"
+    type: date
+    sql: ${TABLE}.last_enduser_comment_at ;;
+  }
+
+  dimension: last_agent_or_admin_comment_at {
+    description: "Date last comment was added by an agent or admin on a ticket."
+    group_label: "Last Comment"
+    group_item_label: "Date (Agent)"
+    label: "Last Comment Date (Agent)"
+    type: date
+    sql: ${TABLE}.last_non_enduser_comment_at;;
+   }
+
+  dimension: days_since_last_agent_admin_comment {
+    description: "Number of days since last comment on a ticket from an agent or admin."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (Agent)"
+    label: "Days Since Last Comment (Agent)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_agent_or_admin_comment_at}::date END;;
+  }
+
+  dimension: days_since_last_customer_comment {
+    description: "Number of days since last comment on a ticket from a customer."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (Customer)"
+    label: "Days Since Last Comment (Customer)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_customer_comment_at}::date END;;
+  }
+
+  dimension: days_since_last_comment {
+    description: "Number of days since last comment on a ticket from anyone."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (All)"
+    label: "Days Since Last Comment (All)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
   }
 
   dimension: sales_support {
@@ -49,22 +95,15 @@ view: zendesk_ticket_details {
     sql: CASE WHEN ${sales_billing_support_category} IS NULL THEN 'Technical' WHEN ${sales_billing_support_category} IS NOT NULL THEN 'Sales & Billings Support' ELSE NULL END;;
   }
 
-  dimension: days_since_last_comment {
-    description: "Number of days since last comment on a ticket."
-    group_label: "Last Comment"
-    label: "Days Since Last Comment (Open Tickets)"
-    type: number
-    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
-  }
-
   dimension: days_since_last_comment_range {
     group_label: "Last Comment"
-    label: "Days since last comment range (Open Tickets)"
-    description: "Range of days since last comment on a ticket."
+    group_item_label: "Days Since Tier (Agent)"
+    label: "Days Since Last Comment Tier (Agent)"
+    description: "Range of days since last agent or admin comment on a ticket."
     type: tier
     style: integer
     tiers: [1, 4, 8, 14]
-    sql: ${days_since_last_comment} ;;
+    sql: ${days_since_last_agent_admin_comment};;
   }
 
   dimension: priority {
@@ -862,7 +901,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, ticket_form, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
