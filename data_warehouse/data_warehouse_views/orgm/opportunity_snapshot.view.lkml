@@ -1,6 +1,7 @@
 view: opportunity_snapshot {
   sql_table_name: "ORGM"."OPPORTUNITY_SNAPSHOT"
     ;;
+view_label: ""
 
   set: stand_drill_fields {
     fields: [name, stagename, forecastcategoryname, ownerid, ownername, close_date, total_amount, sales_segment, sales_segment_current]
@@ -98,8 +99,8 @@ view: opportunity_snapshot {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."CLOSEDATE" AS TIMESTAMP_NTZ) ;;
   }
@@ -113,7 +114,7 @@ view: opportunity_snapshot {
     type: string
     sql: ${TABLE}."FORECASTCATEGORYNAME" ;;
     order_by_field: forecastcategoryname_sort
-    label: "FC"
+    label: "Forecast Category"
   }
 
 dimension: forecastcategoryname_sort {
@@ -146,6 +147,10 @@ dimension: forecastcategoryname_sort {
   dimension: name {
     type: string
     sql: ${TABLE}."NAME" ;;
+    link: {
+      url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity"
+    }
   }
 
   dimension: ownerid {
@@ -174,12 +179,15 @@ dimension: forecastcategoryname_sort {
     type: time
     timeframes: [
       date,
+      day_of_week,
+      day_of_week_index,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."SNAPSHOT_DATE" AS TIMESTAMP_NTZ) ;;
+    group_label: "Snapshot"
   }
 
   dimension: stagename {
