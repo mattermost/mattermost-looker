@@ -772,11 +772,19 @@ view: zendesk_ticket_details {
     group_item_label: "# of L1 Tickets"
     description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
-    sql: CASE WHEN ${priority} = 'L1 (Urgent)' AND ${support_type_category} = 'Paid' THEN ${ticket_id} ELSE NULL END ;;
+    sql: ${ticket_id} ;;
     drill_fields: [core_drill_fields*]
     filters: {
       field: created_past_xweeks
       value: "yes"
+    }
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
+    filters: {
+      field: support_type_category
+      value: "Paid"
     }
   }
 
@@ -785,8 +793,12 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
-    sql: CASE WHEN ${priority} = 'L1 (Urgent)' THEN ${ticket_id} ELSE NULL END ;;
+    sql: ${ticket_id};;
     drill_fields: [core_drill_fields*]
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
   }
 
   measure: count_level_2 {
