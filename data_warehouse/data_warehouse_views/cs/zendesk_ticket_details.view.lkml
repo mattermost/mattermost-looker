@@ -28,6 +28,30 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."LAST_COMMENT_AT";;
   }
 
+  dimension: last_customer_comment_at {
+    description: "Date last comment was added by a customer on a ticket"
+    group_label: "Last Comment"
+    label: "Last Customer Comment"
+    type: date
+    sql: ${TABLE}.last_non_enduser_comment_at ;;
+  }
+
+  dimension: last_agent_or_admin_comment_at {
+    description: "Date last comment was added by an agent or admin on a ticket."
+    group_label: "Last Comment"
+    label: "Last Agent Comment"
+    type: date
+    sql: ${TABLE}.last_enduser_comment_at;;
+   }
+
+  dimension: days_since_last_agent_admin_comment {
+    description: "Number of days since last comment on a ticket from an agent or admin."
+    group_label: "Last Comment"
+    label: "Days Since Last Agent Comment"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date -${last_agent_or_admin_comment_at}::date END;;
+  }
+
   dimension: sales_support {
     label: "Sales & Billings Support"
     description: "Tickets assigned to Sales Support queue in Zendesk.  Tickets in this queue are bliing questions, pricing issues, licensing questions or general sales inquiry."
@@ -50,21 +74,21 @@ view: zendesk_ticket_details {
   }
 
   dimension: days_since_last_comment {
-    description: "Number of days since last comment on a ticket."
+    description: "Number of days since last comment on a ticket from an agent, customer or admin."
     group_label: "Last Comment"
     label: "Days Since Last Comment (Open Tickets)"
     type: number
-    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date -${last_comment_at}::date END;;
   }
 
   dimension: days_since_last_comment_range {
     group_label: "Last Comment"
-    label: "Days since last comment range (Open Tickets)"
-    description: "Range of days since last comment on a ticket."
+    label: "Days since last comment range"
+    description: "Range of days since last agent or admin comment on a ticket."
     type: tier
     style: integer
     tiers: [1, 4, 8, 14]
-    sql: ${days_since_last_comment} ;;
+    sql: ${days_since_last_agent_admin_comment};;
   }
 
   dimension: priority {
@@ -722,7 +746,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, ticket_form, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
