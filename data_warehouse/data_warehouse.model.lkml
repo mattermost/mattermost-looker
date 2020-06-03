@@ -843,7 +843,7 @@ explore: account_cs_extended  {
   }
 
   join: zendesk_ticket_details {
-    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted';;
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many
     fields: [-solved_at_on_date,-created_on_date,-count_tickets_solved_on_date,-count_tickets_created_date]
   }
@@ -865,7 +865,7 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets"
   group_label: "Customer Success"
-  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' AND coalesce(${organization_name},'') <> 'Mattermost';;
+  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' AND coalesce(${organization_name},'') <> 'Mattermost' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
   extends: [_base_account_core_explore]
 
   join: account {
