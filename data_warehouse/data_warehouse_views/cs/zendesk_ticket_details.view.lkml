@@ -116,7 +116,7 @@ view: zendesk_ticket_details {
     WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
     WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
     WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
-    ELSE 'Unkown' END;;
+    ELSE 'Unknown' END;;
   }
 
   dimension: subject {
@@ -204,7 +204,6 @@ view: zendesk_ticket_details {
     type: yesno
     sql: ${solved_at_date} = ${dates.date_date};;
   }
-
 
   dimension: tech_support_category {
     description: "Category options selected for technical support queue. Category examples are desktop, server, database, LDAP, Mobile"
@@ -400,6 +399,22 @@ view: zendesk_ticket_details {
     label: "Met First Response SLA?"
     type:  yesno
     sql: ${first_response_sla} > ${reply_time_in_minutes_cal} OR ${reply_time_in_minutes_cal} IS NULL;;
+  }
+
+  dimension: has_first_response_sla {
+    description: "License Type has a First Response SLA (Yes/No)"
+    group_label: "SLAs"
+    label: "Has First Response SLA?"
+    type:  yesno
+    sql: ${support_type} IN ('E20','Premium');;
+  }
+
+  dimension: has_followup_internal_sla {
+    description: "License Type has a Follow-up SLA (Yes/No)"
+    group_label: "SLAs"
+    label: "Has Follow-up SLA?"
+    type:  yesno
+    sql: ${support_type} IN ('E20','Premium');;
   }
 
   dimension: met_followup_internal_sla {
@@ -637,7 +652,7 @@ view: zendesk_ticket_details {
   measure: median_full_resolution_time_in_minutes_cal {
     # hidden: yes
     label: "Median Minutes to Resolution (Cal)"
-    group_label: "Minutes to Rsolution"
+    group_label: "Minutes to Resolution"
     group_item_label: "Median Calendar Minutes"
     type: median
     sql: ${full_resolution_time_in_minutes_bus} ;;
@@ -679,6 +694,20 @@ view: zendesk_ticket_details {
     }
   }
 
+  measure: count_tickets_solved_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Tickets Solved (Past 12w)"
+    group_item_label: "# of Tickets Solved"
+    description: "# of tickets solved in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id};;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+  }
+
   measure: count_tickets_created_date {
     label: "# of Tickets Created"
     description: "# of tickets created based on filter or dimension date range selected "
@@ -691,13 +720,124 @@ view: zendesk_ticket_details {
     }
   }
 
+  dimension: created_past_xweeks {
+    sql:  ${created_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
+          AND ${created_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: solved_at_past_xweeks {
+    sql: ${solved_at_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
+        AND ${solved_at_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+    type: yesno
+    hidden: yes
+  }
+
+
+  measure: count_tickets_created_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Tickets Created (Past 12w)"
+    group_item_label: "# of Tickets Created"
+    description: "# of tickets created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id};;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_not_met_first_response_sla_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of First Response SLA Not Met (Past 12w)"
+    group_item_label: "# of First Response SLA Not Met"
+    description: "# of tickets where first response sla is not met where ticket was created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: met_first_response_sla
+      value: "no"
+    }
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: has_first_response_sla
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_not_met_followup_internal_sla_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Follow-up SLA Not Met (Past 12w)"
+    group_item_label: "# of Follow-up SLA Not Met"
+    description: "# of tickets where follow-up sla is not met where ticket was created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: met_followup_internal_sla
+      value: "no"
+    }
+    filters: {
+      field: solved_at_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: has_followup_internal_sla
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_open {
+    label: "# of Tickets Open"
+    description: "# of tickets open"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: open
+      value: "yes"
+    }
+  }
+
+  measure: count_level_1_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of L1 Tickets (Past 12w)"
+    group_item_label: "# of L1 Tickets"
+    description: "# of E20 and premiere support tickets created as L1"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
+    filters: {
+      field: support_type_category
+      value: "Paid"
+    }
+  }
+
   measure: count_level_1 {
     label: "# of L1 Tickets"
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
-    sql: CASE WHEN ${priority} = 'L1 (Urgent)' THEN ${ticket_id} ELSE NULL END ;;
+    sql: ${ticket_id};;
     drill_fields: [core_drill_fields*]
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
   }
 
   measure: count_level_2 {

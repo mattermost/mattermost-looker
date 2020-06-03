@@ -843,7 +843,7 @@ explore: account_cs_extended  {
   }
 
   join: zendesk_ticket_details {
-    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted';;
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many
     fields: [-solved_at_on_date,-created_on_date,-count_tickets_solved_on_date,-count_tickets_created_date]
   }
@@ -865,7 +865,7 @@ explore: account_cs_extended  {
 explore: zendesk_ticket_details {
   label: "Zendesk Tickets"
   group_label: "Customer Success"
-  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' AND coalesce(${organization_name},'') <> 'Mattermost';;
+  sql_always_where: ${zendesk_ticket_details.status} <> 'deleted' AND coalesce(${organization_name},'') <> 'Mattermost' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
   extends: [_base_account_core_explore]
 
   join: account {
@@ -1064,7 +1064,9 @@ explore: events_registry {
   group_label: "Product"
   description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
 }
+
 explore: user_events_by_date {
+  extends: [_base_account_core_explore]
   label: " User Events By Date"
   group_label: "Product"
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
@@ -1084,6 +1086,10 @@ explore: user_events_by_date {
           AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
     relationship: one_to_one
     fields: []
+  }
+
+  join: account {
+    sql: ${licenses.account_sfid} = ${account.sfid} ;;
   }
 
   join: server_fact {
@@ -1108,7 +1114,9 @@ explore: user_events_by_date {
     fields: [events_registry.event_category]
   }
 }
+
 explore: user_events_by_date_agg {
+  extends: [_base_account_core_explore]
   label: "User Events By Date Agg"
   group_label: "Product"
   description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day for all dates >= the user's first event date (i.e. contains row for users on dates where user has not performed event to track disengagement)."
@@ -1128,6 +1136,10 @@ explore: user_events_by_date_agg {
           AND ${licenses.license_id} = ${server_daily_details.license_id} ;;
     relationship: one_to_one
     fields: []
+  }
+
+  join: account {
+    sql: ${licenses.account_sfid} = ${account.sfid} ;;
   }
 
   join: server_fact {
