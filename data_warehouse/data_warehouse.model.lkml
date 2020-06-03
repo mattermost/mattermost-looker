@@ -717,6 +717,8 @@ explore: scrub_segment {
 
 explore: scrub_ww {
   group_label: "Target vs Actual"
+  label: "Scrub WW"
+  view_label: "Scrub WW"
 }
 
 explore: server_daily_details {
