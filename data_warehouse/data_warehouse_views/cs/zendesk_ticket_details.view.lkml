@@ -23,6 +23,7 @@ view: zendesk_ticket_details {
   dimension: last_comment_at {
     description: "Date last comment was added on a ticket"
     group_label: "Last Comment"
+    group_item_label: "Date (All)"
     label: "Last Comment Date (All)"
     type: date
     sql: ${TABLE}."LAST_COMMENT_AT";;
@@ -31,6 +32,7 @@ view: zendesk_ticket_details {
   dimension: last_customer_comment_at {
     description: "Date last comment was added by a customer on a ticket"
     group_label: "Last Comment"
+    group_item_label: "Date (Customer)"
     label: "Last Comment Date (Customer)"
     type: date
     sql: ${TABLE}.last_enduser_comment_at ;;
@@ -39,6 +41,7 @@ view: zendesk_ticket_details {
   dimension: last_agent_or_admin_comment_at {
     description: "Date last comment was added by an agent or admin on a ticket."
     group_label: "Last Comment"
+    group_item_label: "Date (Agent)"
     label: "Last Comment Date (Agent)"
     type: date
     sql: ${TABLE}.last_non_enduser_comment_at;;
@@ -47,6 +50,7 @@ view: zendesk_ticket_details {
   dimension: days_since_last_agent_admin_comment {
     description: "Number of days since last comment on a ticket from an agent or admin."
     group_label: "Last Comment"
+    group_item_label: "Days Since (Agent)"
     label: "Days Since Last Comment (Agent)"
     type: number
     sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_agent_or_admin_comment_at}::date END;;
@@ -55,6 +59,7 @@ view: zendesk_ticket_details {
   dimension: days_since_last_customer_comment {
     description: "Number of days since last comment on a ticket from a customer."
     group_label: "Last Comment"
+    group_item_label: "Days Since (Customer)"
     label: "Days Since Last Comment (Customer)"
     type: number
     sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_customer_comment_at}::date END;;
@@ -63,6 +68,7 @@ view: zendesk_ticket_details {
   dimension: days_since_last_comment {
     description: "Number of days since last comment on a ticket from anyone."
     group_label: "Last Comment"
+    group_item_label: "Days Since (All)"
     label: "Days Since Last Comment (All)"
     type: number
     sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
@@ -91,6 +97,7 @@ view: zendesk_ticket_details {
 
   dimension: days_since_last_comment_range {
     group_label: "Last Comment"
+    group_item_label: "Days Since Tier (Agent)"
     label: "Days Since Last Comment Tier (Agent)"
     description: "Range of days since last agent or admin comment on a ticket."
     type: tier
