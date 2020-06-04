@@ -227,7 +227,7 @@ view: server_daily_details_ext {
     group_label: " Security User Counts"
     description: "The count of registered users that have logged in to the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: number
-    sql: ${TABLE}.active_user_count ;;
+    sql: CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${TABLE}.active_user_count,0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${TABLE}.active_user_count,0) END ;;
   }
 
   dimension: active_user_count_band {
@@ -245,7 +245,7 @@ view: server_daily_details_ext {
     group_label: " Security User Counts"
     description: "The count of all users registered/associated with the server (logged via security_update_check.go)."
     type: number
-    sql: ${TABLE}.user_count ;;
+    sql: coalesce(${registered_users}, ${TABLE}.user_count) ;;
   }
 
   dimension: user_count_band {
@@ -255,6 +255,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+
     sql: ${user_count} ;;
   }
 
@@ -626,8 +627,8 @@ view: server_daily_details_ext {
   dimension: registered_users {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
-    group_label: " Diagnostics User Counts"
-    sql: NULLIF(${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0),0) ;;
+    group_label: " Activity Diagnostics User Counts"
+    sql: NULLIF(COALESCE(${TABLE}.registered_users, 0) - COALESCE(${TABLE}.registered_deactivated_users, 0),0) ;;
     hidden: no
   }
 
@@ -635,7 +636,7 @@ view: server_daily_details_ext {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: tier
     style: integer
-    tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001] #[2, 5, 8, 11, 16, 20, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001, 5001, 10001]
+    tiers: [1, 6, 11, 26, 51, 101, 501, 1001, 2501, 5001, 10001]
     group_label: " Activity Diagnostics User Counts"
     sql: ${registered_users} ;;
     hidden: no
@@ -4707,6 +4708,16 @@ view: server_daily_details_ext {
     description: "The average Posts per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
+    sql: ${posts} ;;
+  }
+
+  measure: posts_median {
+    label: "Posts (Median)"
+    description: "The average Posts per grouping."
+    group_label: "Activity Diagnostics"
+    type: median
+    value_format_name: decimal_1
     sql: ${posts} ;;
   }
 
