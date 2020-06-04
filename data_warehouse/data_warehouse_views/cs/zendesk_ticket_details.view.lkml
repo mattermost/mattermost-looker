@@ -23,9 +23,55 @@ view: zendesk_ticket_details {
   dimension: last_comment_at {
     description: "Date last comment was added on a ticket"
     group_label: "Last Comment"
-    label: "Last Comment Date"
+    group_item_label: "Date (All)"
+    label: "Last Comment Date (All)"
     type: date
     sql: ${TABLE}."LAST_COMMENT_AT";;
+  }
+
+  dimension: last_customer_comment_at {
+    description: "Date last comment was added by a customer on a ticket"
+    group_label: "Last Comment"
+    group_item_label: "Date (Customer)"
+    label: "Last Comment Date (Customer)"
+    type: date
+    sql: ${TABLE}.last_enduser_comment_at ;;
+  }
+
+  dimension: last_agent_or_admin_comment_at {
+    description: "Date last comment was added by an agent or admin on a ticket."
+    group_label: "Last Comment"
+    group_item_label: "Date (Agent)"
+    label: "Last Comment Date (Agent)"
+    type: date
+    sql: ${TABLE}.last_non_enduser_comment_at;;
+   }
+
+  dimension: days_since_last_agent_admin_comment {
+    description: "Number of days since last comment on a ticket from an agent or admin."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (Agent)"
+    label: "Days Since Last Comment (Agent)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_agent_or_admin_comment_at}::date END;;
+  }
+
+  dimension: days_since_last_customer_comment {
+    description: "Number of days since last comment on a ticket from a customer."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (Customer)"
+    label: "Days Since Last Comment (Customer)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_customer_comment_at}::date END;;
+  }
+
+  dimension: days_since_last_comment {
+    description: "Number of days since last comment on a ticket from anyone."
+    group_label: "Last Comment"
+    group_item_label: "Days Since (All)"
+    label: "Days Since Last Comment (All)"
+    type: number
+    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
   }
 
   dimension: sales_support {
@@ -49,22 +95,15 @@ view: zendesk_ticket_details {
     sql: CASE WHEN ${sales_billing_support_category} IS NULL THEN 'Technical' WHEN ${sales_billing_support_category} IS NOT NULL THEN 'Sales & Billings Support' ELSE NULL END;;
   }
 
-  dimension: days_since_last_comment {
-    description: "Number of days since last comment on a ticket."
-    group_label: "Last Comment"
-    label: "Days Since Last Comment (Open Tickets)"
-    type: number
-    sql: CASE WHEN NOT ${open} THEN NULL ELSE current_date - ${last_comment_at}::date END;;
-  }
-
   dimension: days_since_last_comment_range {
     group_label: "Last Comment"
-    label: "Days since last comment range (Open Tickets)"
-    description: "Range of days since last comment on a ticket."
+    group_item_label: "Days Since Tier (Agent)"
+    label: "Days Since Last Comment Tier (Agent)"
+    description: "Range of days since last agent or admin comment on a ticket."
     type: tier
     style: integer
     tiers: [1, 4, 8, 14]
-    sql: ${days_since_last_comment} ;;
+    sql: ${days_since_last_agent_admin_comment};;
   }
 
   dimension: priority {
@@ -77,7 +116,7 @@ view: zendesk_ticket_details {
     WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
     WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
     WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
-    ELSE 'Unkown' END;;
+    ELSE 'Unknown' END;;
   }
 
   dimension: subject {
@@ -165,7 +204,6 @@ view: zendesk_ticket_details {
     type: yesno
     sql: ${solved_at_date} = ${dates.date_date};;
   }
-
 
   dimension: tech_support_category {
     description: "Category options selected for technical support queue. Category examples are desktop, server, database, LDAP, Mobile"
@@ -361,6 +399,22 @@ view: zendesk_ticket_details {
     label: "Met First Response SLA?"
     type:  yesno
     sql: ${first_response_sla} > ${reply_time_in_minutes_cal} OR ${reply_time_in_minutes_cal} IS NULL;;
+  }
+
+  dimension: has_first_response_sla {
+    description: "License Type has a First Response SLA (Yes/No)"
+    group_label: "SLAs"
+    label: "Has First Response SLA?"
+    type:  yesno
+    sql: ${support_type} IN ('E20','Premium');;
+  }
+
+  dimension: has_followup_internal_sla {
+    description: "License Type has a Follow-up SLA (Yes/No)"
+    group_label: "SLAs"
+    label: "Has Follow-up SLA?"
+    type:  yesno
+    sql: ${support_type} IN ('E20','Premium');;
   }
 
   dimension: met_followup_internal_sla {
@@ -598,7 +652,7 @@ view: zendesk_ticket_details {
   measure: median_full_resolution_time_in_minutes_cal {
     # hidden: yes
     label: "Median Minutes to Resolution (Cal)"
-    group_label: "Minutes to Rsolution"
+    group_label: "Minutes to Resolution"
     group_item_label: "Median Calendar Minutes"
     type: median
     sql: ${full_resolution_time_in_minutes_bus} ;;
@@ -640,6 +694,20 @@ view: zendesk_ticket_details {
     }
   }
 
+  measure: count_tickets_solved_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Tickets Solved (Past 12w)"
+    group_item_label: "# of Tickets Solved"
+    description: "# of tickets solved in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id};;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+  }
+
   measure: count_tickets_created_date {
     label: "# of Tickets Created"
     description: "# of tickets created based on filter or dimension date range selected "
@@ -652,13 +720,124 @@ view: zendesk_ticket_details {
     }
   }
 
+  dimension: created_past_xweeks {
+    sql:  ${created_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
+          AND ${created_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: solved_at_past_xweeks {
+    sql: ${solved_at_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
+        AND ${solved_at_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+    type: yesno
+    hidden: yes
+  }
+
+
+  measure: count_tickets_created_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Tickets Created (Past 12w)"
+    group_item_label: "# of Tickets Created"
+    description: "# of tickets created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id};;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_not_met_first_response_sla_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of First Response SLA Not Met (Past 12w)"
+    group_item_label: "# of First Response SLA Not Met"
+    description: "# of tickets where first response sla is not met where ticket was created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: met_first_response_sla
+      value: "no"
+    }
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: has_first_response_sla
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_not_met_followup_internal_sla_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of Follow-up SLA Not Met (Past 12w)"
+    group_item_label: "# of Follow-up SLA Not Met"
+    description: "# of tickets where follow-up sla is not met where ticket was created in past 12 weeks"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: met_followup_internal_sla
+      value: "no"
+    }
+    filters: {
+      field: solved_at_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: has_followup_internal_sla
+      value: "yes"
+    }
+  }
+
+  measure: count_tickets_open {
+    label: "# of Tickets Open"
+    description: "# of tickets open"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: open
+      value: "yes"
+    }
+  }
+
+  measure: count_level_1_past_xweeks {
+    group_label: "Previous 12 Weeks"
+    label: "# of L1 Tickets (Past 12w)"
+    group_item_label: "# of L1 Tickets"
+    description: "# of E20 and premiere support tickets created as L1"
+    type: count_distinct
+    sql: ${ticket_id} ;;
+    drill_fields: [core_drill_fields*]
+    filters: {
+      field: created_past_xweeks
+      value: "yes"
+    }
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
+    filters: {
+      field: support_type_category
+      value: "Paid"
+    }
+  }
+
   measure: count_level_1 {
     label: "# of L1 Tickets"
     group_label: "SLAs"
     description: "# of E20 and premiere support tickets created as L1"
     type: count_distinct
-    sql: CASE WHEN ${priority} = 'L1 (Urgent)' THEN ${ticket_id} ELSE NULL END ;;
+    sql: ${ticket_id};;
     drill_fields: [core_drill_fields*]
+    filters: {
+      field: priority
+      value: "L1 (Urgent)"
+    }
   }
 
   measure: count_level_2 {
@@ -722,7 +901,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, ticket_form, priority, days_since_last_comment, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 

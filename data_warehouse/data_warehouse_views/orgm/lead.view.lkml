@@ -353,7 +353,7 @@ view: lead {
 #  dimension_group: first_mel {
 #    group_label: "Lead Lifecycle: MEL"
 #    label: "MEL First"
-#    sql: coalesce(${TABLE}.FIRST_MEL_DATE__C,${lead_status_dates.first_mel_date}) ;;
+#    sql: ${TABLE}.FIRST_MEL_DATE__C ;;
 #    timeframes: [
 #      date,
 #      week,
@@ -367,7 +367,7 @@ view: lead {
 #  dimension_group: most_recent_mel {
 #    group_label: "Lead Lifecycle: MEL"
 #    label: "MEL Most Recent"
-#    sql: coalesce(${TABLE}.MOST_RECENT_MEL_DATE__C,${lead_status_dates.most_recent_mel_date}) ;;
+#    sql: ${TABLE}.MOST_RECENT_MEL_DATE__C ;;
 #    timeframes: [
 #      date,
 #      week,
@@ -388,7 +388,7 @@ view: lead {
   dimension_group: first_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "MQL First"
-    sql: coalesce(${TABLE}.FIRST_MQL_DATE__C,${lead_status_dates.first_mql_date}) ;;
+    sql: ${TABLE}.FIRST_MQL_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -402,7 +402,7 @@ view: lead {
   dimension_group: most_recent_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "MQL Most Recent"
-    sql: coalesce(${TABLE}.MOST_RECENT_MQL_DATE__C,${lead_status_dates.most_recent_mql_date}) ;;
+    sql: ${TABLE}.MOST_RECENT_MQL_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -423,7 +423,7 @@ view: lead {
   dimension_group: first_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "SCL First"
-    sql: coalesce(${TABLE}.FIRST_SCL_DATE__C,${lead_status_dates.first_scl_date}) ;;
+    sql: ${TABLE}.FIRST_SCL_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -437,7 +437,7 @@ view: lead {
   dimension_group: most_recent_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "SCL Most Recent"
-    sql: coalesce(${TABLE}.MOST_RECENT_SCL_DATE__C,${lead_status_dates.most_recent_scl_date}) ;;
+    sql:${TABLE}.MOST_RECENT_SCL_DATE__C;;
     timeframes: [
       date,
       week,
@@ -458,7 +458,7 @@ view: lead {
   dimension_group: first_qsc {
     group_label: "Lead Lifecycle: QSC"
     label: "QSC First"
-    sql: coalesce(${TABLE}.FIRST_QSC_DATE__C,${lead_status_dates.first_qsc_date}) ;;
+    sql: ${TABLE}.FIRST_QSC_DATE__C;;
     timeframes: [
       date,
       week,
@@ -481,7 +481,7 @@ view: lead {
   dimension_group: first_qso {
     group_label: "Lead Lifecycle: QSO"
     label: "QSO First"
-    sql: coalesce(${TABLE}.FIRST_QSO_DATE__C,${lead_status_dates.first_qso_date}) ;;
+    sql: ${TABLE}.FIRST_QSO_DATE__C;;
     timeframes: [
       date,
       week,
@@ -503,7 +503,7 @@ view: lead {
   dimension_group: first_junk {
     group_label: "Lead Lifecycle: Junk"
     label: "Junk"
-    sql: coalesce(${TABLE}.FIRST_NOT_A_LEAD_DATE__C,${lead_status_dates.first_not_a_lead_date}) ;;
+    sql: ${TABLE}.FIRST_NOT_A_LEAD_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -566,7 +566,7 @@ view: lead {
   dimension_group: first_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "Recycle First"
-    sql: coalesce(${TABLE}.FIRST_RECYCLE_DATE__C,${lead_status_dates.first_recycle_date}) ;;
+    sql: ${TABLE}.FIRST_RECYCLE_DATE__C;;
     timeframes: [
       date,
       week,
@@ -580,7 +580,7 @@ view: lead {
   dimension_group: most_recent_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "Recycle Most Recent"
-    sql: coalesce(${TABLE}.MOST_RECYCLE_QSO_DATE__C,${lead_status_dates.most_recent_qso_date}) ;;
+    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -613,7 +613,6 @@ view: lead {
     type: string
   }
 
-
   dimension: owner_name {
     sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
               WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
@@ -622,13 +621,24 @@ view: lead {
               ELSE 'Queue: Undefined'
               END ;;
     type: string
-    label: "Owner Name"
+    label: "Owner Name Current"
   }
 
   dimension: owner_segment {
     type: string
     label: "Lead Owner Segment"
     sql: ${owner.sales_segment} ;;
+  }
+
+  dimension: original_owner__c {
+    hidden: yes
+    sql: coalesce(${TABLE}.original_owner__c, ${ownerid});;
+  }
+
+  dimension: original_owner_name {
+    type: string
+    label: "Owner Name Original"
+    sql: ${original_owner.name} ;;
   }
 
 #  dimension: owner_name {
