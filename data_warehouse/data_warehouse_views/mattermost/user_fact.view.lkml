@@ -39,6 +39,110 @@ view: user_fact {
     hidden: no
   }
 
+  dimension: user_role {
+    description: "The role of the user (Admin vs. End User)."
+    type: string
+    sql: CASE WHEN ${TABLE}.user_role LIKE 'system_admin%' THEN 'Admin' ELSE 'End User' END ;;
+  }
+
+  dimension: first_event_name {
+    label: " 1st Event"
+    group_label: " First Event Details"
+    description: "The name of the 1st event performed by the user."
+    type: string
+    sql: ${TABLE}.first_event ;;
+    hidden: no
+  }
+
+  dimension: second_event_name {
+    label: " 2nd Event"
+    group_label: " First Event Details"
+    description: "The name of the 2nd event performed by the user."
+    type: string
+    sql: ${TABLE}.second_event ;;
+    hidden: no
+  }
+
+  dimension: third_event_name {
+    label: " 3rd Event"
+    group_label: " First Event Details"
+    description: "The name of the 3rd event performed by the user."
+    type: string
+    sql: ${TABLE}.third_event ;;
+    hidden: no
+  }
+
+  dimension: fourth_event_name {
+    label: " 4th Event"
+    group_label: " First Event Details"
+    description: "The name of the 4th event performed by the user."
+    type: string
+    sql: ${TABLE}.fourth_event ;;
+    hidden: no
+  }
+
+  dimension: fifth_event_name {
+    label: " 5th Event"
+    group_label: " First Event Details"
+    description: "The name of the 5th event performed by the user."
+    type: string
+    sql: ${TABLE}.fifth_event ;;
+    hidden: no
+  }
+
+  dimension: sixth_event_name {
+    label: " 6th Event"
+    group_label: " First Event Details"
+    description: "The name of the 6th event performed by the user."
+    type: string
+    sql: ${TABLE}.sixth_event ;;
+    hidden: no
+  }
+  dimension: seventh_event_name {
+    label: " 7th Event"
+    group_label: " First Event Details"
+    description: "The name of the 7th event performed by the user."
+    type: string
+    sql: ${TABLE}.seventh_event ;;
+    hidden: no
+  }
+
+  dimension: eighth_event_name {
+    label: " 8th Event"
+    group_label: " First Event Details"
+    description: "The name of the 8th event performed by the user."
+    type: string
+    sql: ${TABLE}.eighth_event ;;
+    hidden: no
+  }
+
+  dimension: ninth_event_name {
+    label: " 9th Event"
+    group_label: " First Event Details"
+    description: "The name of the 9th event performed by the user."
+    type: string
+    sql: ${TABLE}.ninth_event ;;
+    hidden: no
+  }
+
+  dimension: tenth_event_name {
+    label: "10th Event"
+    group_label: " First Event Details"
+    description: "The name of the 10th event performed by the user."
+    type: string
+    sql: ${TABLE}.tenth_event ;;
+    hidden: no
+  }
+
+  dimension: distinct_events_performed {
+    label: "Distinct Events Performed"
+    group_label: " First Event Details"
+    description: "The number of distinct events performed, up to 10 distinct event name, by the user"
+    type: number
+    sql: ${TABLE}.events_performed ;;
+    hidden: no
+  }
+
   dimension: days_first_to_last_active {
     description: "The number of days from a user's first active date to their last active date."
     type: number
@@ -665,6 +769,20 @@ view: user_fact {
     type: number
     value_format_name: decimal_2
     sql: (${days_active_sum}/nullif(${days_inactive_sum},0)) ;;
+  }
+
+  measure: avg_events_performed {
+    label: "Avg. Distinct Events Performed"
+    type: number
+    value_format_name: decimal_1
+    sql: avg(${distinct_events_performed}) ;;
+  }
+
+  measure: median_events_performed {
+    label: "Median Distinct Events Performed"
+    type: number
+    value_format_name: decimal_1
+    sql: median(${distinct_events_performed}) ;;
   }
 
 
