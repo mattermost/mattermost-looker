@@ -517,7 +517,25 @@ view: server_daily_details {
     label: "Days to Paid License"
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: number
-    sql: CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) END ;;
+    sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
+    CASE WHEN NOT ${licenses.trial} then datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${licenses.issued_date}) else null end
+    --END
+    ;;
+  }
+
+  measure: median_days_active_to_paid {
+    type: number
+    sql: median(${days_from_first_telemetry_to_paid_license}) ;;
+  }
+
+  measure: avg_days_active_to_paid {
+    type: number
+    sql: avg(CASE WHEN ${licenses.issued_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
+  }
+
+  measure: min_days_active_to_paid {
+    type: number
+    sql: min(${days_from_first_telemetry_to_paid_license}) ;;
   }
 
   dimension: days_trial_to_paid {
@@ -657,8 +675,8 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Converted to Paid < 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and converted to paid, licensed customers across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} < 7 then ${server_id} else null end;;
-    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version,  days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, first_security_telemetry_date, last_security_telemetry_date]
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} between 0 and 6 and ${active_user_count}>0 then ${server_id} else null end;;
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version,  days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: server_7days_converted_count {
@@ -666,8 +684,8 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Converted to Paid >= 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that converted to a paid SKU in >= 7 days since their first telemetry date across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 then ${server_id} else null end;;
-    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, first_security_telemetry_date, last_security_telemetry_date]
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 and ${active_user_count} >0 then ${server_id} else null end;;
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: server_7days_did_not_convert_count {
@@ -675,8 +693,8 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Not Converted to Paid"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that either: converted to a paid SKU in >= 7 days since their first telemetry date or did not converted to paid across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) then ${server_id} else null end;;
-    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, first_security_telemetry_date, last_security_telemetry_date]
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) and ${active_user_count}>0 then ${server_id} else null end;;
+    drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: server_1days_count {
