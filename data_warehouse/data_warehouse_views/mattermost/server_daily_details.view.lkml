@@ -518,19 +518,19 @@ view: server_daily_details {
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: number
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
-    CASE WHEN NOT ${licenses.trial} then datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${licenses.issued_date}) else null end
+    datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
     --END
     ;;
   }
 
   measure: median_days_active_to_paid {
     type: number
-    sql: median(${days_from_first_telemetry_to_paid_license}) ;;
+    sql: median(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: avg_days_active_to_paid {
     type: number
-    sql: avg(CASE WHEN ${licenses.issued_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
+    sql: avg(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: min_days_active_to_paid {
@@ -675,7 +675,7 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Converted to Paid < 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and converted to paid, licensed customers across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} between 0 and 6 and ${active_user_count}>0 then ${server_id} else null end;;
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} between 0 and 6 /*and ${active_user_count}>0*/ then ${server_id} else null end;;
     drill_fields: [server_id, account_sfid, account.name, server_fact.server_version,  days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
@@ -684,7 +684,7 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Converted to Paid >= 7 Days"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that converted to a paid SKU in >= 7 days since their first telemetry date across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7 and ${active_user_count} >0 then ${server_id} else null end;;
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND ${days_from_first_telemetry_to_paid_license} >= 7  /*and ${active_user_count}>0*/ then ${server_id} else null end;;
     drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
@@ -693,7 +693,7 @@ view: server_daily_details {
     label: "Servers >= 7 Days Old & Not Converted to Paid"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and that either: converted to a paid SKU in >= 7 days since their first telemetry date or did not converted to paid across dimensions."
     type: count_distinct
-    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL) and ${active_user_count}>0 then ${server_id} else null end;;
+    sql: CASE WHEN ${days_since_first_telemetry_enabled}  >= 7 AND (${days_from_first_telemetry_to_paid_license} IS NULL)  /*and ${active_user_count}>0*/ then ${server_id} else null end;;
     drill_fields: [server_id, account_sfid, account.name, server_fact.server_version, days_from_first_telemetry_to_paid_license, server_fact.first_paid_license_date, server_fact.first_active_date, server_fact.last_active_date]
   }
 
