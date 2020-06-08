@@ -58,7 +58,7 @@ view: _homepage {
               <li>
                 <div>Product</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/70" style="@{css_link_style}">NPS Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/163" style="@{css_link_style}">NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/76" style="@{css_link_style}">TEDAU Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/75" style="@{css_link_style}">TEDAS Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/83" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
@@ -136,7 +136,7 @@ view: _homepage {
                 <li>
                   <div>Product</div>
                   <ul>
-                    <li><a href="https://mattermost.looker.com/dashboards/41" style="@{css_link_style}">NPS (Net Promoter Score)</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/147" style="@{css_link_style}">NPS (Net Promoter Score)</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/29" style="@{css_link_style}">TEDAU Overview</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/28" style="@{css_link_style}">TEDAS Overview</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/68" style="@{css_link_style}">Server Download & Activation Funnel</a></li>
