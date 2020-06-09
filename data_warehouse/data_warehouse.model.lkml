@@ -67,6 +67,8 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 # Base Explores for Extensions
 #
 
+explore: tasks_filtered {}
+
 
 
 explore: _base_account_explore {
@@ -1129,6 +1131,13 @@ explore: user_events_by_date {
     relationship: many_to_one
     fields: [user_agent_registry.device_type, user_agent_registry.device_model, user_agent_registry.device_brand]
   }
+
+  join: excludable_servers {
+    view_label: "Server Details"
+    sql_on: ${user_events_by_date.server_id} =  ${excludable_servers.server_id};;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: user_events_by_date_agg {
@@ -1163,6 +1172,20 @@ explore: user_events_by_date_agg {
     sql_on: ${server_fact.server_id} = ${user_events_by_date_agg.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
+  }
+
+  join: excludable_servers {
+    view_label: "Server Details"
+    sql_on: ${user_events_by_date_agg.server_id} =  ${excludable_servers.server_id};;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: user_fact {
+    view_label: " User Events By Date"
+    sql_on: ${user_fact.user_id} = ${user_events_by_date_agg.user_id} ;;
+    relationship: many_to_one
+    fields: [user_fact.first_event_name, user_fact.second_event_name, user_fact.third_event_name, user_fact.fourth_event_name, user_fact.fifth_event_name, user_fact.sixth_event_name, user_fact.seventh_event_name, user_fact.eighth_event_name, user_fact.ninth_event_name, user_fact.tenth_event_name]
   }
 
   join: licenses_grouped {
