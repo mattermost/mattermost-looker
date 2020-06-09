@@ -48,6 +48,8 @@ view: opportunitylineitem {
       lost_arr,
       totalprice,
       total_quantity,
+      total_seat_quantity,
+      is_seat,
       total_price,
       total_bookings,
       is_prorated_expansion,
@@ -334,6 +336,12 @@ view: opportunitylineitem {
     type: yesno
   }
 
+  dimension: is_seat {
+    hidden: yes
+    sql: CASE WHEN ${product2.name} like '%E10%' OR ${product2.name} like '%E20%' OR ${product2.name} like '%E25%' THEN TRUE ELSE FALSE END;;
+    type: yesno
+  }
+
 
 
   #
@@ -351,6 +359,17 @@ view: opportunitylineitem {
     label: "Total Quantity"
     sql: ${quantity} ;;
     type: sum
+    drill_fields: [opportunitylineitem_drill*,total_quantity]
+  }
+
+  measure: total_seat_quantity {
+    label: "Total Seat Quantity"
+    sql: ${quantity} ;;
+    type: sum
+    filters: {
+      field: is_seat
+      value: "yes"
+    }
     drill_fields: [opportunitylineitem_drill*,total_quantity]
   }
 
