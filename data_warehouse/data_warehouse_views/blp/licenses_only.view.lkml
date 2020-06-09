@@ -208,6 +208,16 @@ view: licenses_only {
     hidden: no
   }
 
+  dimension: users_band {
+    label: "Licensed Users Band (Seats)"
+    description: "The number of user seats provisioned with the license."
+    type: tier
+    style: integer
+    tiers: [1, 11, 21, 31, 51, 101, 251, 501, 1001]
+    sql: ${users} ;;
+    hidden: no
+  }
+
   dimension: cluster {
     description: ""
     group_label: "Features"
@@ -476,9 +486,25 @@ view: licenses_only {
 
   measure: customer_count {
     label: " Customer Count"
-    description: "The distinct count of Customers per grouping."
+    description: "The distinct count of Customer ID's per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [server_drill*]
+  }
+
+  measure: company_count {
+    label: " Company Count"
+    description: "The distinct count of Customer ID's per grouping."
+    type: count_distinct
+    sql: trim(${company}) ;;
+    drill_fields: [server_drill*]
+  }
+
+  measure: account_count {
+    label: " Account Count"
+    description: "The distinct count of Customer ID's per grouping."
+    type: count_distinct
+    sql: trim(${account_sfid}) ;;
     drill_fields: [server_drill*]
   }
 
