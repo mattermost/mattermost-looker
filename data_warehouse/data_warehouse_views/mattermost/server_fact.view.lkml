@@ -124,7 +124,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "Account SFID"
     description: "The Salesforce Account ID of the Mattermost customer associated with the server (null if no Salesforce Account found)."
     type: string
-    sql: ${TABLE}.last_account_sfid ;;
+    sql: ${TABLE}.account_sfid ;;
   }
 
   dimension: license_id {

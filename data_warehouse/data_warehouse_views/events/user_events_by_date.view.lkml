@@ -20,6 +20,19 @@ view: user_events_by_date {
     hidden: no
   }
 
+  dimension: user_age_at_event {
+    type: number
+    value_format_name: decimal_0
+    sql: datediff(days,  ${user_fact.first_active_date}, ${TABLE}.min_timestamp) ;;
+  }
+
+  dimension: user_agent {
+    view_label: "User Agent Details"
+    description: "The User Agent string denoting the browser, os, and device of the user when performing the event."
+    type: string
+    sql: ${TABLE}.context_user_agent ;;
+  }
+
   dimension: event_client {
     description: "The Mattermost Application client that was used to perform the event (Desktop, Mobile, or Web App)."
     type: string
@@ -96,34 +109,39 @@ view: user_events_by_date {
   }
 
   dimension: browser {
+    view_label: "User Agent Details"
     description: "The browser used to perform the event (If from mobile event logging table brwoser = device + app i.e. iPhone App."
     type: string
-    sql: ${TABLE}.browser ;;
+    sql: COALESCE(${user_agent_registry.browser}, ${TABLE}.browser) ;;
     hidden: no
   }
 
   dimension: browser_version {
+    view_label: "User Agent Details"
     description: "The browser version used to perform the event."
     type: string
-    sql: ${TABLE}.browser_version ;;
+    sql:  COALESCE(${user_agent_registry.browser_version}, ${TABLE}.browser_version) ;;
     hidden: no
   }
 
   dimension: os {
+    view_label: "User Agent Details"
     description: "The operating system used to perform the event."
     type: string
-    sql: ${TABLE}.os ;;
+    sql: COALESCE(${user_agent_registry.operating_system}, ${TABLE}.os} ;;
     hidden: no
   }
 
   dimension: os_version {
+    view_label: "User Agent Details"
     description: "The operating system version used to perform the event."
     type: string
-    sql: ${TABLE}.os_version ;;
+    sql: COALESCE(${user_agent_registry.os_version}, ${TABLE}.os_version) ;;
     hidden: no
   }
 
   dimension: os_and_version {
+    view_label: "User Agent Details"
     label: "OS + OS Version"
     description: "The operating system and operating system version used to perform the event."
     type: string
@@ -139,6 +157,7 @@ view: user_events_by_date {
   }
 
   dimension: os_and_browser {
+    view_label: "User Agent Details"
     label: "OS + Browser"
     description: "The OS + Browser concatenated for visualization purposes."
     type: string
@@ -147,10 +166,26 @@ view: user_events_by_date {
   }
 
   dimension: os_browser_version {
+    view_label: "User Agent Details"
     label: "OS + Browser + Browser Version"
     description: "The OS + Browser + Version concatenated for visualization purposes."
     type: string
     sql: ${os} || ' ' || ${browser} || ' ' || ${browser_version} ;;
+    hidden: no
+  }
+
+  dimension: chronological_sequence {
+    description: "Integer value representing the chronological order this event was performed among all events performed during a users lifetime."
+    type: number
+    sql: ${TABLE}.chronological_sequence ;;
+    hidden: no
+  }
+
+  dimension: seconds_after_prev_event {
+    label: "Seconds Since Last Event"
+    description: "Integer value representing the number of seconds between the current event and the previously performed event."
+    type: number
+    sql: ${TABLE}.seconds_after_prev_event ;;
     hidden: no
   }
 
@@ -179,14 +214,14 @@ view: user_events_by_date {
   }
 
   measure: user_count {
-    label: " User Count (DAU)"
+    label: " User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: mobile_dau {
-    label: " Mobile DAU"
+    label: " Mobile User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [mobile_events: ">0"]
@@ -194,7 +229,7 @@ view: user_events_by_date {
   }
 
   measure: webapp_dau {
-    label: " WebApp DAU"
+    label: " WebApp User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [web_app_events: ">0"]
@@ -202,7 +237,7 @@ view: user_events_by_date {
   }
 
   measure: desktop_dau {
-    label: " Desktop DAU"
+    label: " Desktop User Count"
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     filters: [desktop_events: ">0"]
@@ -242,6 +277,25 @@ view: user_events_by_date {
     group_label: "Event Sums by Application Type"
     type: sum
     sql: ${mobile_events} ;;
+  }
+
+  measure: seconds_since_last_event_med {
+    label: "Median Seconds Since Last Event"
+    description: "The median 'seconds since last event' across the grouped dimensions."
+    group_label: "Seconds Since Last Event"
+    type: median
+    value_format_name: decimal_1
+
+    sql: ${seconds_after_prev_event} ;;
+  }
+
+  measure: seconds_since_last_event_avg {
+    label: "Avg. Seconds Since Last Event"
+    description: "The average 'seconds since last event' across the grouped dimensions."
+    group_label: "Seconds Since Last Event"
+    type: average
+    value_format_name: decimal_1
+    sql: ${seconds_after_prev_event} ;;
   }
 
 

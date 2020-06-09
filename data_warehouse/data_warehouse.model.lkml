@@ -717,6 +717,8 @@ explore: scrub_segment {
 
 explore: scrub_ww {
   group_label: "Target vs Actual"
+  label: "Scrub WW"
+  view_label: "Scrub WW"
 }
 
 explore: server_daily_details {
@@ -1113,6 +1115,20 @@ explore: user_events_by_date {
     relationship: many_to_one
     fields: [events_registry.event_category]
   }
+
+  join: user_fact {
+    view_label: " User Events By Date"
+    sql_on: ${user_fact.user_id} = ${user_events_by_date.user_id} ;;
+    relationship: many_to_one
+    fields: [user_fact.first_event_name, user_fact.second_event_name, user_fact.third_event_name, user_fact.fourth_event_name, user_fact.fifth_event_name, user_fact.sixth_event_name, user_fact.seventh_event_name, user_fact.eighth_event_name, user_fact.ninth_event_name, user_fact.tenth_event_name]
+  }
+
+  join: user_agent_registry {
+    view_label: "User Agent Details"
+    sql_on: ${user_agent_registry.context_useragent} = ${user_events_by_date.user_agent} ;;
+    relationship: many_to_one
+    fields: [user_agent_registry.device_type, user_agent_registry.device_model, user_agent_registry.device_brand]
+  }
 }
 
 explore: user_events_by_date_agg {
@@ -1212,6 +1228,13 @@ explore: user_fact {
     sql_on: ${user_fact.account_sfid} = ${account.sfid} ;;
     relationship: many_to_one
     fields: [account.account_core*]
+  }
+
+  join: server_fact {
+    view_label: "User Fact"
+    sql_on: ${user_fact.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.server_edition, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.server_version, server_fact.first_server_version_major]
   }
 }
 

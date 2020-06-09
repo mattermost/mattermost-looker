@@ -201,6 +201,13 @@ view: opportunity {
     label: "Same, Early or Later Renewal by Qtr"
   }
 
+  dimension: close_vs_renewal_mo {
+    type:  string
+    sql: CASE WHEN ${close_month} < ${license_start_month} THEN 'Early' WHEN ${close_month} = ${license_start_month} THEN 'Same' ELSE 'Late' END;;
+    group_label: "Close"
+    label: "Same, Early or Later Renewal by Month"
+  }
+
   dimension: close_current_mo {
     type:  yesno
     sql: date_trunc('month',${TABLE}.closedate)::date = date_trunc('month',current_date);;
