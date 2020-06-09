@@ -45,7 +45,7 @@ view: zendesk_ticket_details {
     label: "Last Comment Date (Agent)"
     type: date
     sql: ${TABLE}.last_non_enduser_comment_at;;
-   }
+  }
 
   dimension: days_since_last_agent_admin_comment {
     description: "Number of days since last comment on a ticket from an agent or admin."
@@ -78,7 +78,7 @@ view: zendesk_ticket_details {
     label: "Sales & Billings Support"
     description: "Tickets assigned to Sales Support queue in Zendesk.  Tickets in this queue are bliing questions, pricing issues, licensing questions or general sales inquiry."
     type: yesno
-   sql: ${sales_billing_support_category} IS NOT NULL;;
+    sql: ${sales_billing_support_category} IS NOT NULL;;
   }
 
   dimension: tech_support {
@@ -112,15 +112,15 @@ view: zendesk_ticket_details {
     label: "Priority"
     type: string
     sql: CASE
-    WHEN ${TABLE}."PRIORITY" = 'urgent' THEN 'L1 (Urgent)'
-    WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
-    WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
-    WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
-    ELSE 'Unknown' END;;
+          WHEN ${TABLE}."PRIORITY" = 'urgent' THEN 'L1 (Urgent)'
+          WHEN ${TABLE}."PRIORITY" = 'high' THEN 'L2 (High)'
+          WHEN ${TABLE}."PRIORITY" = 'normal' THEN 'L3 (Normal)'
+          WHEN ${TABLE}."PRIORITY" = 'low' THEN 'L4 (Low)'
+          ELSE 'Unknown' END;;
   }
 
   dimension: subject {
-   description: "Single line of text that provides a quick description of the issue.  More details of ticket in Description field."
+    description: "Single line of text that provides a quick description of the issue.  More details of ticket in Description field."
     group_label: "Ticket Details"
     label: "Subject"
     type: string
@@ -345,7 +345,7 @@ view: zendesk_ticket_details {
     label: "Free/Paid"
     type: string
     sql: CASE WHEN ${support_type} IN ('Premium','E20','E10') THEN 'Paid' ELSE 'Free' END
-          ;;
+      ;;
   }
 
   dimension: enterprise_edition_version {
@@ -370,7 +370,7 @@ view: zendesk_ticket_details {
             WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L1 (Urgent)' THEN 240
             WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L2 (High)' THEN 480
             WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L3 (Normal)' THEN 1440
-            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L4 (Low)' THEN 1440
+            WHEN ${enterprise_edition_version} = 'e20' AND NOT ${premium_support} AND ${priority} = 'L4 (Low)' THEN 2880
             WHEN ${enterprise_edition_version} = 'e10' THEN 1440
           ELSE NULL END;;
   }
@@ -398,7 +398,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Met First Response SLA?"
     type:  yesno
-    sql: ${first_response_sla} > ${reply_time_in_minutes_cal} OR ${reply_time_in_minutes_cal} IS NULL;;
+    sql: ${first_response_sla} > CASE WHEN ${priority} IN ('L1 (Urgent)','L2 (High)') THEN ${reply_time_in_minutes_cal} WHEN ${priority} IN ('L3 (Normal)','L4 (Low)') THEN ${reply_time_in_minutes_bus} ELSE NULL END;;
   }
 
   dimension: has_first_response_sla {
@@ -422,7 +422,7 @@ view: zendesk_ticket_details {
     group_label: "SLAs"
     label: "Followup Reply Time Internal SLA?"
     type:  yesno
-    sql: ${followup_internal_sla} > ${followup_internal} OR ${followup_internal} IS NULL;;
+    sql: ${followup_internal_sla} > CASE WHEN ${priority} IN ('L1 (Urgent)','L2 (High)') THEN ${followup_internal_cal} WHEN ${priority} IN ('L3 (Normal)','L4 (Low)') THEN ${followup_internal_bus} ELSE NULL END;;
   }
 
   dimension: pending_do_not_close {
@@ -498,7 +498,7 @@ view: zendesk_ticket_details {
     label: "Ticket Status"
     type: string
     sql: CASE WHEN ${pending_do_not_close} AND ${TABLE}."STATUS" not in ('solved','closed') THEN 'do not close' WHEN ${TABLE}."STATUS" = 'pending' THEN 'waiting on customer' ELSE ${TABLE}."STATUS" END
-    ;;
+      ;;
   }
 
   dimension: organization_name {
@@ -610,12 +610,20 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
 
-  dimension: followup_internal {
+  dimension: followup_internal_bus {
     group_label: "SLAs"
     label: "Followup time (business time minutes)"
     description: "Time a customer waited for follow up between first reply, while a ticket was open and being worked, and close time. Based on business time minutes."
     type: number
     sql: ${requester_wait_time_in_minutes_bus} - ${reply_time_in_minutes_bus} - ${on_hold_time_in_minutes_bus} ;;
+  }
+
+  dimension: followup_internal_cal {
+    group_label: "SLAs"
+    label: "Followup time (cal time minutes)"
+    description: "Time a customer waited for follow up between first reply, while a ticket was open and being worked, and close time. Based on business time minutes."
+    type: number
+    sql: ${requester_wait_time_in_minutes_cal} - ${reply_time_in_minutes_cal} - ${on_hold_time_in_minutes_cal} ;;
   }
 
   dimension: requester_wait_time_in_minutes_bus {
@@ -722,14 +730,14 @@ view: zendesk_ticket_details {
 
   dimension: created_past_xweeks {
     sql:  ${created_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
-          AND ${created_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+      AND ${created_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
     type: yesno
     hidden: yes
   }
 
   dimension: solved_at_past_xweeks {
     sql: ${solved_at_date} >= DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))
-        AND ${solved_at_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
+      AND ${solved_at_date} < DATEADD('day', 84, DATEADD('day', -77, TO_DATE(DATEADD('day', (0 - EXTRACT(DOW FROM CURRENT_DATE())::integer), CURRENT_DATE())))) ;;
     type: yesno
     hidden: yes
   }
@@ -902,7 +910,7 @@ view: zendesk_ticket_details {
 
   set: core_drill_fields {
     fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
-            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
+      first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal_bus, followup_internal_cal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
 }
