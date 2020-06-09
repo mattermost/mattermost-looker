@@ -47,7 +47,6 @@ view: opportunitylineitem {
       total_lost_arr,
       lost_arr,
       totalprice,
-      total_quantity,
       total_seat_quantity,
       is_seat,
       total_price,
@@ -355,13 +354,6 @@ view: opportunitylineitem {
     type: count_distinct
   }
 
-  measure: total_quantity {
-    label: "Total Quantity"
-    sql: ${quantity} ;;
-    type: sum
-    drill_fields: [opportunitylineitem_drill*,total_quantity]
-  }
-
   measure: total_seat_quantity {
     label: "Total Seat Quantity"
     sql: ${quantity} ;;
@@ -370,7 +362,7 @@ view: opportunitylineitem {
       field: is_seat
       value: "yes"
     }
-    drill_fields: [opportunitylineitem_drill*,total_quantity]
+    drill_fields: [opportunitylineitem_drill*,total_seat_quantity]
   }
 
   measure: total_price {
