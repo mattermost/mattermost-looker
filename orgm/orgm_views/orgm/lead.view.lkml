@@ -1,5 +1,5 @@
 view: lead {
-  sql_table_name: sandbox.LEAD ;;
+  sql_table_name: orgm.lead ;;
   drill_fields: [id]
 
   set: lead_drill_fields {
