@@ -67,7 +67,9 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 # Base Explores for Extensions
 #
 
-explore: tasks_filtered {}
+explore: tasks_filtered {
+  group_label: "Salesforce"
+}
 
 
 
@@ -1466,4 +1468,8 @@ explore: daily_website_traffic {
     sql_on: ${daily_website_traffic.context_useragent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
   }
+}
+
+explore: snowflake_data_checks {
+  group_label: "zBizOps"
 }
