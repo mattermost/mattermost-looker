@@ -382,7 +382,7 @@ explore: opportunitylineitem_data_check {
 
 explore: lead_data_check {
   persist_for: "0 seconds"
-  fields: [lead.sfid, lead.ownerid, lead.status, lead.email, lead.status, lead.status_order, lead.converted_time, lead.created_time, lead.systemmodstamp_time, lead.count,
+  fields: [lead.sfid, lead.ownerid, lead.status, lead.email, lead.status, lead.status_order, lead.converted_time, lead.created_time, lead.created_month, lead.systemmodstamp_time, lead.count,
           orgm_lead_data_check.sfid, orgm_lead_data_check.ownerid, orgm_lead_data_check.email, orgm_lead_data_check.status, orgm_lead_data_check.converted_time,
           orgm_lead_data_check.created_time, orgm_lead_data_check.systemmodstamp_time, orgm_lead_data_check.count,
           orgm_lead_data_check.processed_time, delete_history.name,delete_history.deleted_time]

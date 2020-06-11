@@ -2,6 +2,13 @@ view: server_fact {
 sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
+  dimension: active_users_alltime {
+    description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    label: ">= 1 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
   # Dimensions
   dimension: server_id {
     label: "  Server ID"
@@ -125,6 +132,44 @@ sql_table_name: mattermost.server_fact ;;
     description: "The Salesforce Account ID of the Mattermost customer associated with the server (null if no Salesforce Account found)."
     type: string
     sql: ${TABLE}.account_sfid ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+  }
+
+  dimension: account_name {
+    label: "Account Name"
+    description: "The Salesforce Account Name of the Mattermost customer associated with the server (null if no Salesforce Account found)."
+    type: string
+    sql: ${TABLE}.account_name ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+  }
+
+  dimension: company_name {
+    label: "Customer Name"
+    description: "The coalesce Mattermost Customer Name using the Salesforce Account Name, or if not available, the license company name, of the Mattermost customer associated with the server (null if no Salesforce Account found)."
+    type: string
+    sql: COALESCE(${TABLE}.account_name, ${TABLE}.company);;
+  }
+
+  dimension: active_paying_customer {
+    label: "Current Customer"
+    description: "Identifies whether the server is tied to a current customer based on the paid license expiration date."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.paid_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: active_trial {
+    label: "Active Trial"
+    description: "Identifies whether the server is tied to a currently active trial license based on the trial license expiration date."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.trial_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: license_id {
@@ -624,5 +669,10 @@ sql_table_name: mattermost.server_fact ;;
     description: "The average number of server version upgrades performed across all servers i.e. number of times servers have been upgraded to a later version per grouping."
     type: average
     sql: ${TABLE}.version_upgrade_count ;;
+  }
+
+  measure: customer_count {
+    type: number
+    sql: COUNT(DISTINCT CASE WHEN ${active_paying_customer} THEN ${company_name} ELSE NULL END) ;;
   }
 }

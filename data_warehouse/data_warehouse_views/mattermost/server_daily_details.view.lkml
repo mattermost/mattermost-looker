@@ -599,6 +599,14 @@ view: server_daily_details {
     sql: ${server_events_by_date.post_events} ;;
   }
 
+  dimension: posts2 {
+    label: "Posts (Activity)"
+    description: "The number of total posts up to the current logging date associated with the server (from activity diagnostics - diagnostics.go)"
+    type: number
+    value_format_name: decimal_0
+    sql: ${server_daily_details_ext.posts} ;;
+  }
+
   dimension: posts_per_user_per_day {
     group_label: "Server Events"
     label: "Posts Per User"
