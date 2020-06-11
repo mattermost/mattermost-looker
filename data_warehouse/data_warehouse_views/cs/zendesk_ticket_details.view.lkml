@@ -531,20 +531,6 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."SATISFACTION_RATING_SCORE" ;;
   }
 
-  dimension: satisfaction_rating_score_good {
-    group_label: "CSAT"
-    label: "Good CSAT Rating"
-    type: string
-    sql: CASE WHEN ${TABLE}."SATISFACTION_RATING_SCORE" = 'good' THEN 'good' END;;
-  }
-
-  dimension: satisfaction_rating_score_bad {
-    group_label: "CSAT"
-    label: "Bad CSAT Rating"
-    type: string
-    sql: CASE WHEN ${TABLE}."SATISFACTION_RATING_SCORE" = 'bad' THEN 'bad' END;;
-  }
-
   dimension: ticket_id {
     group_label: "Ticket Details"
     label: "Ticket ID"
