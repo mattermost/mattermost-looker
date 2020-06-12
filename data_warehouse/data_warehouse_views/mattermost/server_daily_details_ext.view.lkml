@@ -4568,6 +4568,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users} ;;
+    value_format_name: decimal_1
     hidden: yes
   }
 
@@ -4597,6 +4598,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${active_users_monthly}) ;;
+    value_format_name: decimal_1
   }
 
   measure: active_users_monthly_max {
@@ -4611,6 +4613,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: AVG(${active_users_monthly}) ;;
+    value_format_name: decimal_1
   }
 
   measure: bot_accounts_sum {
@@ -4625,6 +4628,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_accounts} ;;
+    value_format_name: decimal_1
   }
 
   measure: bot_posts_previous_day_sum {
@@ -4639,6 +4643,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_posts_previous_day} ;;
+    value_format_name: decimal_1
   }
 
   measure: direct_message_channels_sum {
@@ -4660,6 +4665,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${direct_message_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: incoming_webhooks_sum {
@@ -4674,6 +4680,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${incoming_webhooks} ;;
+    value_format_name: decimal_1
   }
 
   measure: outgoing_webhooks_sum {
@@ -4688,6 +4695,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${outgoing_webhooks} ;;
+    value_format_name: decimal_1
   }
 
   measure: posts_sum {
@@ -4733,6 +4741,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${posts_previous_day} ;;
+    value_format_name: decimal_1
   }
 
   measure: private_channels_sum {
@@ -4754,6 +4763,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: private_channels_deleted_sum {
@@ -4768,6 +4778,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels_deleted} ;;
+    value_format_name: decimal_1
   }
 
   measure: public_channels_sum {
@@ -4789,6 +4800,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${public_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: public_channels_deleted_sum {
