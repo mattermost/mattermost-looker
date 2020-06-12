@@ -4424,7 +4424,7 @@ view: server_daily_details_ext {
     label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${last_active_telemetry_date}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -4802,6 +4802,7 @@ view: server_daily_details_ext {
     description: "The average Public Channels Deleted per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${public_channels_deleted} ;;
   }
 
@@ -4809,6 +4810,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Deactivated Users per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_1
     sql: ${registered_deactivated_users} ;;
   }
 
@@ -4816,6 +4818,7 @@ view: server_daily_details_ext {
     description: "The average Registered Deactivated Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${registered_deactivated_users} ;;
   }
 
@@ -4823,6 +4826,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Inactive Users per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_1
     sql: ${registered_inactive_users} ;;
   }
 
@@ -4830,6 +4834,7 @@ view: server_daily_details_ext {
     description: "The average Registered Inactive Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${registered_inactive_users} ;;
   }
 
@@ -4837,6 +4842,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: SUM(${registered_users}) ;;
   }
 
@@ -4844,6 +4850,7 @@ view: server_daily_details_ext {
     description: "The max of Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: MAX(${registered_users}) ;;
   }
 
@@ -4851,6 +4858,7 @@ view: server_daily_details_ext {
     description: "The average Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_0
     sql: ${registered_users} ;;
   }
 
@@ -4858,6 +4866,7 @@ view: server_daily_details_ext {
     description: "The sum of Slash Commands per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_0
     sql: ${slash_commands} ;;
   }
 
@@ -4865,6 +4874,7 @@ view: server_daily_details_ext {
     description: "The average Slash Commands per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${slash_commands} ;;
   }
 
@@ -4872,6 +4882,7 @@ view: server_daily_details_ext {
     description: "The sum of Teams per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: SUM(${teams}) ;;
   }
 
@@ -4879,6 +4890,7 @@ view: server_daily_details_ext {
     description: "The average Teams per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${teams} ;;
   }
 
@@ -7926,15 +7938,23 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day2 {
     group_label: "Activity Diagnostics"
-    label: "Avg. Posts Per User Per Day"
+    label: "Avg. Posts Per Active User (Activity)"
     type: number
-    sql: ${posts_sum}::float/${active_users_daily_sum}::float ;;
+    sql: (${posts_previous_day_sum}::float/nullif(${active_users_daily_sum}::float,0)) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_posts_per_user_per_day2 {
+    group_label: "Activity Diagnostics"
+    label: "Median Posts Per Active User (Activity)"
+    type: number
+    sql: median(${posts_previous_day}::float/nullif(${active_users_daily}::float,0)) ;;
     value_format_name: decimal_1
   }
 
   measure: avg_posts_per_user_per_day {
     group_label: "Server-Level User Events"
-    label: "Avg. Posts Per User Per Day"
+    label: "Avg. Posts Per Active User (Events)"
     type: average
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
@@ -7942,7 +7962,7 @@ view: server_daily_details_ext {
 
   measure: median_posts_per_user_per_day {
     group_label: "Server-Level User Events"
-    label: "Median Posts Per User Per Day"
+    label: "Median Posts Per User (Events)"
     type: median
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
@@ -7971,7 +7991,7 @@ view: server_daily_details_ext {
     label: "DAU (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
-    sql: SUM(CASE WHEN ${dau} >= COALESCE(${active_users_daily},0) THEN ${dau} ELSE ${active_users_daily} END) ;;
+    sql: SUM(${dau}) ;;
     value_format_name: decimal_0
   }
 
