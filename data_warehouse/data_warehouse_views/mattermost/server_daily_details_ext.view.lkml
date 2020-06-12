@@ -4424,7 +4424,7 @@ view: server_daily_details_ext {
     label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${last_active_telemetry_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}::date) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -4572,6 +4572,15 @@ view: server_daily_details_ext {
     hidden: yes
   }
 
+  measure: active_users_median {
+    description: "The median Active Users per grouping."
+    group_label: "Activity Diagnostics"
+    type: median
+    sql: ${active_users} ;;
+    value_format_name: decimal_1
+    hidden: yes
+  }
+
   measure: active_users_daily_sum {
     description: "The sum of Active Users Daily per grouping."
     group_label: "Activity Diagnostics"
@@ -4591,6 +4600,15 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: avg(${active_users_daily}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: active_users_daily_median {
+    description: "The median Active Users Daily per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: median(${active_users_daily}) ;;
+    value_format_name: decimal_1
   }
 
   measure: active_users_monthly_sum {
@@ -7974,7 +7992,7 @@ view: server_daily_details_ext {
 
   measure: median_posts_per_user_per_day {
     group_label: "Server-Level User Events"
-    label: "Median Posts Per User (Events)"
+    label: "Median Posts Per Active User (Events)"
     type: median
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
