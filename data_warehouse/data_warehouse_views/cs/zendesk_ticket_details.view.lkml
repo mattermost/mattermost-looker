@@ -154,7 +154,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Support Engineer Assigned"
     type: string
-    sql: COALESCE(${TABLE}."ASSIGNEE_NAME",'Unassigned') ;;
+    sql: COALESCE(${TABLE}."ASSIGNEE_NAME",'Uncategorized') ;;
   }
 
   dimension_group: created {
@@ -315,7 +315,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Category"
     type: string
-    sql: coalesce(${sales_billing_support_category},${tech_support_category},'Unassigned') ;;
+    sql: coalesce(${sales_billing_support_category},${tech_support_category},'Uncategorized') ;;
   }
 
   dimension: customer_type {
@@ -867,6 +867,24 @@ view: zendesk_ticket_details {
     drill_fields: [core_drill_fields*]
   }
 
+  measure: number_of_good_csat_tickets {
+  label: "# of good CSAT tickets"
+  group_label: "CSAT"
+  description: "# of tickets that have a good CSAT response"
+  type: count_distinct
+  sql: CASE WHEN ${satisfaction_rating_score} = 'good' THEN ${ticket_id} END ;;
+  drill_fields: [core_drill_fields*]
+  }
+
+  measure: number_of_bad_csat_tickets {
+    label: "# of bad CSAT tickets"
+    group_label: "CSAT"
+    description: "# of tickets that have a bad CSAT response"
+    type: count_distinct
+    sql: CASE WHEN ${satisfaction_rating_score} = 'bad' THEN ${ticket_id} END ;;
+    drill_fields: [core_drill_fields*]
+  }
+
   measure: avg_calendar_days_open {
     # hidden: yes
     description: "Average # of calendar days tickets are open"
@@ -901,7 +919,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, assignee_name, status, support_type, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, ticket_id, assignee_name, status, support_type, satisfaction_rating_score, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
