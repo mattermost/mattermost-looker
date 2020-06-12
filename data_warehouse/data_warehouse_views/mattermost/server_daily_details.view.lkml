@@ -123,13 +123,6 @@ view: server_daily_details {
     sql: ${TABLE}.in_mm2_server ;;
   }
 
-  filter: active_users_alltime {
-    description: "The server has had >= 1 Active User during it's telemetry lifetime."
-    label: ">= 1 Active Users During Lifetime"
-    type: yesno
-    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
-  }
-
   # Dimensions
   dimension: server_id {
     description: "The unique server ID for each telemetry-enabled active server."
@@ -149,6 +142,13 @@ view: server_daily_details {
     description: "The hour in the day the server details were logged."
     type: number
     sql: ${TABLE}.hour ;;
+  }
+
+  dimension: active_users_alltime {
+    description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    label: ">= 1 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: in_security {
@@ -797,7 +797,7 @@ view: server_daily_details {
     group_label: "User Counts"
     label: "Max. Active Users"
     description: "Use this to display the maximum active user counts across selected (grouped) diemensions."
-    type: sum
+    type: max
     sql: ${active_user_count} ;;
   }
 
@@ -813,7 +813,7 @@ view: server_daily_details {
     group_label: "User Counts"
     label: "Max. Registered Users"
     description: "Use this to display the max registered user counts for all servers across the selected (grouping) dimensions."
-    type: sum
+    type: max
     sql: ${user_count} ;;
   }
 
