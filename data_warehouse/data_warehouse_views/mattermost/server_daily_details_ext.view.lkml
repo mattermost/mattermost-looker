@@ -8018,10 +8018,28 @@ view: server_daily_details_ext {
 
   measure: dau_sum {
     group_label: "Server-Level User Events"
-    label: "DAU (Sum)"
+    label: "Daily Active Users (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
     sql: SUM(${dau}) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: dau_avg {
+    group_label: "Server-Level User Events"
+    label: "Daily Active Users (Avg)"
+    description: "The average daily active users across all servers within the given grouping."
+    type: number
+    sql: avg(${dau}) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: dau_median {
+    group_label: "Server-Level User Events"
+    label: "Daily Active User (Median)"
+    description: "The median daily active users across all servers within the given grouping."
+    type: number
+    sql: median(${dau}) ;;
     value_format_name: decimal_0
   }
 
