@@ -10,6 +10,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: currently_sending_telmetry {
+    description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
     WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
