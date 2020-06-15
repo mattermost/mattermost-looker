@@ -353,6 +353,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: DATEDIFF(DAY, ${first_active_date}, ${first_10kreg_users_date}) ;;
   }
 
+  dimension_group: paid_license_expire {
+    label: "Paid License Expire"
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.paid_license_expire_date ;;
+  }
+
   dimension: dau {
     group_label: "Active User Dimensions"
     label: "   Total DAU"
