@@ -445,17 +445,17 @@ view: server_daily_details_ext {
     hidden: no
   }
 
-  dimension: currently_sending_telemetry{
-    label: "  Telemetry Currently Enabled"
-    group_label: "  Telemetry Flags"
-    description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
-    type: yesno
-    sql: CASE WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) >= 7 AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
-              WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) < 7 AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
-              WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE
-              ELSE FALSE END ;;
-    hidden: no
-  }
+#   dimension: currently_sending_telemetry{
+#     label: "  Telemetry Currently Enabled"
+#     group_label: "  Telemetry Flags"
+#     description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
+#     type: yesno
+#     sql: CASE WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) >= 7 AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
+#               WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) < 7 AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+#               WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+#               ELSE FALSE END ;;
+#     hidden: no
+#   }
 
   dimension: events {
     group_label: "Server-Level User Events"
