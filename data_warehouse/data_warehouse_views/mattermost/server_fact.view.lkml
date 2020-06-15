@@ -5,6 +5,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
+    group_label: " Activity Threshold Filters"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
   }
@@ -16,6 +17,54 @@ sql_table_name: mattermost.server_fact ;;
     WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
     WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
     ELSE FALSE END ;;
+  }
+
+  dimension: has_post_events {
+    label: ">= 1 Posts (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 posts created during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${post_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_signup_events {
+    label: ">= 1 Signup Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Signup Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${signup_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_signup_email_events {
+    label: ">= 1 Signup Email Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Signup Email Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${signup_email_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_admin_events {
+    label: ">= 1 Admin Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Admin Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_tutorial_events {
+    label: ">= 1 Tutorial Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Tutorial Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_invite_events {
+    label: ">= 1 Invite Member Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Invite Member Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
   }
 
   # Dimensions
