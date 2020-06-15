@@ -45,6 +45,7 @@ view: scrub_segment {
       form_param: {
         name: "new_value"
         label: "What would you like Net New Forecast updated to?"
+        default: "{{ value }}"
         type: string
         required: yes
       }
@@ -139,6 +140,7 @@ view: scrub_segment {
       form_param: {
         name: "new_value"
         label: "What would you like Net New Upside updated to?"
+        default: "{{ value }}"
         type: string
         required: yes
       }
@@ -206,6 +208,7 @@ view: scrub_segment {
       form_param: {
         name: "new_value"
         label: "What would you like Renewal Forecast updated to?"
+        default: "{{ value }}"
         type: string
         required: yes
       }
@@ -329,6 +332,7 @@ view: scrub_segment {
       form_param: {
         name: "new_value"
         label: "What would you like Renewal Upside updated to?"
+        default: "{{ value }}"
         type: string
         required: yes
       }
