@@ -8031,7 +8031,7 @@ view: server_daily_details_ext {
     description: "The average daily active users across all servers within the given grouping."
     type: number
     sql: avg(${dau}) ;;
-    value_format_name: decimal_0
+    value_format_name: decimal_1
   }
 
   measure: dau_median {
@@ -8040,7 +8040,7 @@ view: server_daily_details_ext {
     description: "The median daily active users across all servers within the given grouping."
     type: number
     sql: median(${dau}) ;;
-    value_format_name: decimal_0
+    value_format_name: decimal_1
   }
 
   measure: mau_sum {
