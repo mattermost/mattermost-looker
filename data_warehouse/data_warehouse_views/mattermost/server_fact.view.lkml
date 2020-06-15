@@ -234,6 +234,48 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.max_active_user_count;;
   }
 
+  dimension: signup_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of signup events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.signup_events_alltime;;
+  }
+
+  dimension: post_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of posts created by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.posts_events_alltime;;
+  }
+
+  dimension: invite_members_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of 'Invite Members' events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.invite_members_alltime;;
+  }
+
+  dimension: signup_email_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of signup email events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.signup_email_events_alltime;;
+  }
+
+  dimension: tutorial_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.tutorial_events_alltime;;
+  }
+
+  dimension: admin_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.admin_events_alltime;;
+  }
+
   dimension_group: last_active_user {
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
@@ -500,6 +542,55 @@ sql_table_name: mattermost.server_fact ;;
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [server_id, server_version, first_server_version, server_edition, first_server_edition, first_telemetry_active_date, first_mm2_telemetry_date, dau, mau, max_active_user_count, nps_users, nps_score_all]
+  }
+
+  measure: server_w_active_users {
+    label: " Servers w/ Active Users"
+    description: "The count of distinct servers w/ > 0 active user during the server's lifetime."
+    type: count_distinct
+    sql: CASE WHEN ${max_active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_post_events {
+    label: " Servers w/ Post Events"
+    description: "The count of distinct servers w/ > 0 Posts created during the server's lifetime."
+    type: count_distinct
+    sql: case when ${post_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_signup_events {
+    label: " Servers w/ Signup Events"
+    description: "The count of distinct servers w/ > 0 Signup Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${signup_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_signup_email_events {
+    label: " Servers w/ Signup Email Events"
+    description: "The count of distinct servers w/ > 0 Signup Email Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_tutorial_events {
+    label: " Servers w/ Tutorial Events"
+    description: "The count of distinct servers w/ > 0 Tutorial Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${tutorial_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_admin_events {
+    label: " Servers w/ Admin Events"
+    description: "The count of distinct servers w/ > 0 Admin Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${admin_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: servers_w_invite_member_events {
+    label: " Servers w/ Invite Member Events"
+    description: "The count of distinct servers w/ > 0 Invite Member Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${invite_members_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: nps_users_sum {
