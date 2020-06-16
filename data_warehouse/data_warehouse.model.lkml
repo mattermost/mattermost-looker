@@ -1475,3 +1475,16 @@ explore: daily_website_traffic {
 explore: snowflake_data_checks {
   group_label: "zBizOps"
 }
+
+explore: stripe_customers {
+  label: "Stripe Customers & Charges"
+  group_label: "Finance"
+  join: stripe_charges {
+    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: stripe_payouts {
+  group_label: "Finance"
+}
