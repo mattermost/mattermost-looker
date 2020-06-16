@@ -1476,12 +1476,13 @@ explore: snowflake_data_checks {
   group_label: "zBizOps"
 }
 
-explore: stripe_customers {
-  label: "Stripe Customers & Charges"
+explore: stripe_charges {
+  label: "Stripe Charges"
   group_label: "Finance"
-  join: stripe_charges {
+  join: stripe_customers {
     sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
-    relationship: one_to_many
+    relationship: many_to_one
+    fields: []
   }
 }
 

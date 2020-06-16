@@ -34,6 +34,11 @@ view: stripe_charges {
     hidden: yes
   }
 
+  dimension: customer_email {
+    type: string
+    sql: ${stripe_customers.email} ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -137,7 +142,6 @@ view: stripe_charges {
     type: count_distinct
     sql: ${id} ;;
     label: "# of Charges"
-    drill_fields: [id]
   }
 
   measure: total_amount {

@@ -4,6 +4,7 @@ view: stripe_payouts {
   drill_fields: [id]
 
   dimension: id {
+    label: "Payment ID"
     primary_key: yes
     type: string
     sql: ${TABLE}."ID" ;;
@@ -12,11 +13,13 @@ view: stripe_payouts {
   dimension: amount {
     type: number
     sql: ${TABLE}."AMOUNT" ;;
+    hidden: yes
   }
 
   dimension: amount_reversed {
     type: number
     sql: ${TABLE}."AMOUNT_REVERSED" ;;
+    hidden: yes
   }
 
   dimension_group: arrival {
@@ -29,11 +32,13 @@ view: stripe_payouts {
       fiscal_year
     ]
     sql: CAST(${TABLE}."ARRIVAL_DATE" AS TIMESTAMP_NTZ) ;;
+    hidden: yes
   }
 
   dimension: automatic {
     type: yesno
     sql: ${TABLE}."AUTOMATIC" ;;
+    hidden: yes
   }
 
   dimension: balance_transaction {
@@ -44,6 +49,7 @@ view: stripe_payouts {
   dimension: bank_account {
     type: string
     sql: ${TABLE}."BANK_ACCOUNT" ;;
+    hidden: yes
   }
 
   dimension_group: created {
@@ -56,14 +62,16 @@ view: stripe_payouts {
       fiscal_year
     ]
     sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
+    hidden: yes
   }
 
   dimension: currency {
     type: string
     sql: ${TABLE}."CURRENCY" ;;
+    hidden: yes
   }
 
-  dimension_group: date {
+  dimension_group: payout {
     type: time
     timeframes: [
       time,
@@ -78,6 +86,7 @@ view: stripe_payouts {
   dimension: description {
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
+    hidden: yes
   }
 
   dimension: destination {
@@ -88,11 +97,13 @@ view: stripe_payouts {
   dimension: livemode {
     type: yesno
     sql: ${TABLE}."LIVEMODE" ;;
+    hidden: yes
   }
 
   dimension: metadata {
     type: string
     sql: ${TABLE}."METADATA" ;;
+    hidden: yes
   }
 
   dimension: method {
@@ -130,10 +141,25 @@ view: stripe_payouts {
       fiscal_year
     ]
     sql: CAST(${TABLE}."UPDATED" AS TIMESTAMP_NTZ) ;;
+    hidden: yes
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id]
+  measure: count_payouts {
+    label: "# of Payouts"
+    type: count_distinct
+    sql: ${id} ;;
   }
+
+  measure: total_amount {
+    label: "Amount"
+    type: sum
+    sql: ${amount} ;;
+  }
+
+  measure: total_amount_reversed {
+    label: "Amount Reversed"
+    type: sum
+    sql: ${amount_reversed} ;;
+  }
+
 }

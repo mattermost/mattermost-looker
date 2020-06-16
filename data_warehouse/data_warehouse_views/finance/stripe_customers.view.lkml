@@ -83,8 +83,10 @@ view: stripe_customers {
     sql: CAST(${TABLE}."UPDATED" AS TIMESTAMP_NTZ) ;;
   }
 
-  measure: count {
-    type: count
+  measure: count_customers {
+    label: "# of Customers"
+    type: count_distinct
+    sql: ${id} ;;
     drill_fields: [id]
   }
 }
