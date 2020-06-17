@@ -14,7 +14,8 @@ sql_table_name: mattermost.server_fact ;;
     description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
-    WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+    WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
+    WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
     WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
     ELSE FALSE END ;;
   }
@@ -251,6 +252,36 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
+  }
+
+  dimension: first_to_last_active {
+    label: "Days First to Last Active"
+    description: "The number of days between a server's first active date and last active date i.e. the age of the server, in days, since first sending telemetry to last sending telemetry."
+    type: number
+    sql: datediff(days,${first_active_date}, ${last_active_date}) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_active {
+    description: "The number of days a server logged >= 1 event since it's first active date."
+    type: number
+    sql: ${TABLE}.days_active ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_inactive {
+    description: "The number of days a server logged 0 events since it's first active date."
+    type: number
+    sql: ${TABLE}.days_inactive ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_active_pct {
+    label: "Days Active (% Total)"
+    description: "The % of total days first to last active that a server logged >= 1 event."
+    type: number
+    value_format_name: percent_1
+    sql: ${days_active}/(COALESCE(${first_to_last_active},0)+1) ;;
   }
 
   dimension_group: first_telemetry_active {
@@ -620,7 +651,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " Servers w/ Signup Events"
     description: "The count of distinct servers w/ > 0 Signup Events during the server's lifetime."
     type: count_distinct
-    sql: case when ${signup_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    sql: case when ${signup_events_alltime} > 0 or ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: servers_w_signup_email_events {
@@ -649,6 +680,54 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of distinct servers w/ > 0 Invite Member Events during the server's lifetime."
     type: count_distinct
     sql: case when ${invite_members_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: median_days_first_to_last_active {
+    label: "Days First to Last Active (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${first_to_last_active}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_first_to_last_active {
+    label: "Days First to Last Active (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${first_to_last_active}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_active {
+    label: "Days Active (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${days_active}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_days_active {
+    label: "Days Active (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${days_active}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_active_pct {
+    label: "Days Active % (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${days_active_pct}) ;;
+    value_format_name: percent_1
+  }
+
+  measure: median_days_active_pct {
+    label: "Days Active % (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${days_active_pct}) ;;
+    value_format_name: percent_1
   }
 
   measure: nps_users_sum {
