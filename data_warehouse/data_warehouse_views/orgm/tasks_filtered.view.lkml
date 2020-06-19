@@ -66,21 +66,25 @@ view: tasks_filtered {
 
   dimension: sub_type {
     type: string
+    group_label: "Customer Feedback"
     sql: ${TABLE}.SUB_TYPE__C ;;
   }
 
   dimension: sub_type_customer_feedback {
     label: "Customer Feedback"
+    group_label: "Customer Feedback"
     type: yesno
     sql: ${sub_type} = 'Customer Feedback' ;;
   }
 
   dimension: customer_feedback_recording {
+    group_label: "Customer Feedback"
    type: yesno
     sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
 }
 
   dimension_group: activitydate {
+    label: "Due Date"
     type: time
     timeframes: [
       raw,
@@ -182,6 +186,7 @@ view: tasks_filtered {
   }
 
   dimension: ownerid {
+    label: "Assigned To"
     type: string
     sql: ${TABLE}."OWNERID" ;;
   }
