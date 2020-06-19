@@ -482,19 +482,6 @@ view: account {
     type: time
   }
 
-
-
-  dimension: logo_sales_logos_dropbox {
-    # description: "TODO"
-    sql: ${TABLE}.logo_sales_logos_dropbox__c ;;
-    type: string
-  }
-
-  dimension: logo_used_on_our_website {
-    sql: ${TABLE}.logo_used_on_our_website__c ;;
-    type: string
-  }
-
   dimension: masterrecordid {
     label: "Master Record ID"
     sql: ${TABLE}.masterrecordid ;;
