@@ -85,16 +85,13 @@ view: tasks_filtered {
 }
 
   dimension_group: activitydate {
-    label: "Due Date"
+    label: "Due"
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: ${TABLE}."ACTIVITYDATE" ;;
   }
@@ -217,6 +214,12 @@ view: tasks_filtered {
   dimension: subject {
     type: string
     sql: ${TABLE}."SUBJECT" ;;
+    link: {
+      label: "Salesforce Task"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension_group: systemmodstamp {
