@@ -63,7 +63,7 @@ view: scrub_segment {
       }
       param: {
         name: "other_params"
-        value: "segment:{{ sales_segment }},qtr:{{ scrub_qtr }}"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -158,7 +158,7 @@ view: scrub_segment {
       }
       param: {
         name: "other_params"
-        value: "segment:{{ sales_segment }},qtr:{{ scrub_qtr }}"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -226,7 +226,7 @@ view: scrub_segment {
       }
       param: {
         name: "other_params"
-        value: "segment:{{ sales_segment }},qtr:{{ scrub_qtr }}"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -346,7 +346,7 @@ view: scrub_segment {
       }
       param: {
         name: "other_params"
-        value: "segment:{{ sales_segment }},qtr:{{ scrub_qtr }}"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       param: {
         name: "table"
