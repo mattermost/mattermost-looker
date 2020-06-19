@@ -64,6 +64,22 @@ view: tasks_filtered {
     sql: ${TABLE}."ACCOUNTID" ;;
   }
 
+  dimension: sub_type {
+    type: string
+    sql: ${TABLE}.SUB_TYPE__C ;;
+  }
+
+  dimension: sub_type_customer_feedback {
+    label: "Customer Feedback"
+    type: yesno
+    sql: ${sub_type} = 'Customer Feedback' ;;
+  }
+
+  dimension: customer_feedback_recording {
+   type: yesno
+    sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
+}
+
   dimension_group: activitydate {
     type: time
     timeframes: [
