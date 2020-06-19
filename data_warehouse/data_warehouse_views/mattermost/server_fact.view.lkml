@@ -2,11 +2,74 @@ view: server_fact {
 sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
+  set: drill_set1 {
+    fields: [server_id, account_sfid, company_name, currently_sending_telemetry, first_active_date, last_active_date, license_id, paid_license_expire_date, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
+  }
+
   dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
+    group_label: " Activity Threshold Filters"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: currently_sending_telemetry {
+    description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
+    type: yesno
+    sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
+  WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
+   WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+   WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+    ELSE FALSE END ;;
+  }
+
+  dimension: has_post_events {
+    label: ">= 1 Posts (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 posts created during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${post_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_signup_events {
+    label: ">= 1 Signup Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Signup Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${signup_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_signup_email_events {
+    label: ">= 1 Signup Email Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Signup Email Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${signup_email_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_admin_events {
+    label: ">= 1 Admin Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Admin Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_tutorial_events {
+    label: ">= 1 Tutorial Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Tutorial Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
+  }
+
+  dimension: has_invite_events {
+    label: ">= 1 Invite Member Events (All Time)"
+    group_label: " Activity Threshold Filters"
+    description: "Server has had >= 1 Invite Member Events during its lifetime (user-based 'api_posts_create' event)."
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 ;;
   }
 
   # Dimensions
@@ -195,6 +258,36 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.last_active_date ;;
   }
 
+  dimension: first_to_last_active {
+    label: "Days First to Last Active"
+    description: "The number of days between a server's first active date and last active date i.e. the age of the server, in days, since first sending telemetry to last sending telemetry."
+    type: number
+    sql: datediff(days,${first_active_date}, ${last_active_date}) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_active {
+    description: "The number of days a server logged >= 1 event since it's first active date."
+    type: number
+    sql: ${TABLE}.days_active ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_inactive {
+    description: "The number of days a server logged 0 events since it's first active date."
+    type: number
+    sql: ${TABLE}.days_inactive ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_active_pct {
+    label: "Days Active (% Total)"
+    description: "The % of total days first to last active that a server logged >= 1 event."
+    type: number
+    value_format_name: percent_1
+    sql: ${days_active}/(COALESCE(${first_to_last_active},0)+1) ;;
+  }
+
   dimension_group: first_telemetry_active {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
@@ -232,6 +325,48 @@ sql_table_name: mattermost.server_fact ;;
     description: "The all-time maximum number of active users logged on the server."
     type: number
     sql: ${TABLE}.max_active_user_count;;
+  }
+
+  dimension: signup_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of signup events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.signup_events_alltime;;
+  }
+
+  dimension: post_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of posts created by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.posts_events_alltime;;
+  }
+
+  dimension: invite_members_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of 'Invite Members' events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.invite_members_alltime;;
+  }
+
+  dimension: signup_email_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of signup email events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.signup_email_events_alltime;;
+  }
+
+  dimension: tutorial_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.tutorial_events_alltime;;
+  }
+
+  dimension: admin_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.admin_events_alltime;;
   }
 
   dimension_group: last_active_user {
@@ -351,6 +486,13 @@ sql_table_name: mattermost.server_fact ;;
     label: "Days to 10k Reg. Users"
     type: number
     sql: DATEDIFF(DAY, ${first_active_date}, ${first_10kreg_users_date}) ;;
+  }
+
+  dimension_group: paid_license_expire {
+    label: "Paid License Expire"
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.paid_license_expire_date ;;
   }
 
   dimension: dau {
@@ -492,7 +634,117 @@ sql_table_name: mattermost.server_fact ;;
     description: "Use this for counting distinct Server ID's across many servers, days, or dates."
     type: count_distinct
     sql: ${server_id} ;;
-    drill_fields: [server_id, server_version, first_server_version, server_edition, first_server_edition, first_telemetry_active_date, first_mm2_telemetry_date, dau, mau, max_active_user_count, nps_users, nps_score_all]
+    drill_fields: [drill_set1*]
+  }
+
+  measure: server_w_active_users {
+    label: " Servers w/ Active Users"
+    description: "The count of distinct servers w/ > 0 active user during the server's lifetime."
+    type: count_distinct
+    sql: CASE WHEN ${max_active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_post_events {
+    label: " Servers w/ Post Events"
+    description: "The count of distinct servers w/ > 0 Posts created during the server's lifetime."
+    type: count_distinct
+    sql: case when ${post_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_signup_events {
+    label: " Servers w/ Signup Events"
+    description: "The count of distinct servers w/ > 0 Signup Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${signup_events_alltime} > 0 or ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_signup_email_events {
+    label: " Servers w/ Signup Email Events"
+    description: "The count of distinct servers w/ > 0 Signup Email Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_tutorial_events {
+    label: " Servers w/ Tutorial Events"
+    description: "The count of distinct servers w/ > 0 Tutorial Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${tutorial_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_admin_events {
+    label: " Servers w/ Admin Events"
+    description: "The count of distinct servers w/ > 0 Admin Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${admin_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_invite_member_events {
+    label: " Servers w/ Invite Member Events"
+    description: "The count of distinct servers w/ > 0 Invite Member Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${invite_members_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: median_days_first_to_last_active {
+    label: "Days First to Last Active (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${first_to_last_active}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_first_to_last_active {
+    label: "Days First to Last Active (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${first_to_last_active}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_active {
+    label: "Days Active (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${days_active}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: decimal_1
+  }
+
+  measure: median_days_active {
+    label: "Days Active (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${days_active}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: decimal_1
+  }
+
+  measure: avg_days_active_pct {
+    label: "Days Active % (Avg)"
+    group_label: "Days Active"
+    type: number
+    sql: avg(${days_active_pct}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: percent_1
+  }
+
+  measure: median_days_active_pct {
+    label: "Days Active % (Median)"
+    group_label: "Days Active"
+    type: number
+    sql: median(${days_active_pct}) ;;
+    drill_fields: [drill_set1*]
+    value_format_name: percent_1
   }
 
   measure: nps_users_sum {
@@ -501,6 +753,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The sum of Nps Users that have submitted NPS responses across all servers per grouping."
     type: sum
     value_format_name: decimal_0
+    drill_fields: [drill_set1*]
     sql: ${nps_users} ;;
   }
 
@@ -510,6 +763,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The sum of the count of all NPS Detractor responses across all servers per grouping."
     type: sum
     value_format_name: decimal_0
+    drill_fields: [drill_set1*]
     sql: ${detractors} ;;
     hidden: no
   }
@@ -521,6 +775,7 @@ sql_table_name: mattermost.server_fact ;;
     type: sum
     value_format_name: decimal_0
     sql: ${promoters} ;;
+    drill_fields: [drill_set1*]
     hidden: no
   }
 
@@ -531,6 +786,7 @@ sql_table_name: mattermost.server_fact ;;
     type: sum
     value_format_name: decimal_0
     sql: ${passives} ;;
+    drill_fields: [drill_set1*]
     hidden: no
   }
 
@@ -540,6 +796,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The aggregate NPS Score across all servers per grouping based on the NPS calculation: NPS Score = 100 * (% Promoters - % Detractors). "
     type: number
     sql: 100.0 * ((${promoters_sum}/nullif(${nps_users_sum},0))-(${detractors_sum}/nullif(${nps_users_sum},0))) ;;
+    drill_fields: [drill_set1*]
     value_format_name: decimal_1
   }
 
@@ -549,6 +806,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.dau_total;;
+    drill_fields: [drill_set1*]
   }
 
   measure: mobile_dau_sum {
@@ -557,6 +815,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current Mobile Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.mobile_dau;;
+    drill_fields: [drill_set1*]
   }
 
   measure: mau_sum {
@@ -565,6 +824,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.mau_total;;
+    drill_fields: [drill_set1*]
   }
 
   measure: first_time_mau_sum {
@@ -573,6 +833,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current First Time Monthly Active User count based on all users that performed events for the first time on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.first_time_mau;;
+    drill_fields: [drill_set1*]
   }
 
   measure: reengaged_mau_sum {
@@ -581,6 +842,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current Reengaged Monthly Active User count based on all users that performed an event for the first time in 30 days on the last complete day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.reengaged_mau;;
+    drill_fields: [drill_set1*]
   }
 
   measure: current_mau_sum {
@@ -589,6 +851,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current Monthly Active User count based on all users that performed an event in the last 30 days that do not fall into the first-time or reengaged MAU categories (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.current_mau;;
+    drill_fields: [drill_set1*]
   }
 
   measure: total_events_sum {
@@ -597,6 +860,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.total_events;;
+    drill_fields: [drill_set1*]
   }
 
   measure: web_app_events_sum {
@@ -605,6 +869,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of Web App client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.web_app_events;;
+    drill_fields: [drill_set1*]
   }
 
   measure: desktop_events_sum {
@@ -613,6 +878,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of Desktop client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.desktop_events;;
+    drill_fields: [drill_set1*]
   }
 
   measure: mobile_events_sum {
@@ -621,6 +887,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of Mobile client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.mobile_events;;
+    drill_fields: [drill_set1*]
   }
 
   measure: events_alltime_sum {
@@ -629,6 +896,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of events performed by all users associated with the server since the servers install date to the last current day (on the last date the server logged user-level events.)."
     type: sum
     sql: ${TABLE}.events_alltime;;
+    drill_fields: [drill_set1*]
   }
 
   measure: mobile_events_alltime_sum {

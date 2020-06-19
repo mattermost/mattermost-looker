@@ -3,6 +3,23 @@ view: server_daily_details_ext {
   sql_table_name: mattermost.server_daily_details_ext ;;
   view_label: " Server Daily Details Ext"
 
+  # Drill Field Sets
+  set: server_fact {
+    fields: [server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, company_name, paid_license_expire_date, max_active_user_count]
+  }
+
+  dimension: max_active_user_count {
+    type: number
+    sql: ${server_fact.max_active_user_count}  ;;
+    hidden: yes
+  }
+
+  dimension: paid_license_expire_date {
+    type: date
+    sql: ${server_fact.paid_license_expire_date}  ;;
+    hidden: yes
+  }
+
   # FILTERS
   filter: last_day_of_month {
     type: yesno
@@ -324,6 +341,32 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: account_name {
+    label: " Account Name"
+    description: "The Salesforce Account Name associated with the server."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${server_fact.account_name} ;;
+    hidden: no
+  }
+
+  dimension: company_name {
+    label: " Company Name"
+    description: "The License Company Name associated with the server."
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    type: string
+    sql: ${server_fact.company_name} ;;
+    hidden: no
+  }
+
   dimension: license_id1 {
     label: " License Id"
     description: "The Mattermost License ID associated with the server."
@@ -405,9 +448,12 @@ view: server_daily_details_ext {
   dimension: currently_sending_telemetry{
     label: "  Telemetry Currently Enabled"
     group_label: "  Telemetry Flags"
-    description: "Indicates the server sent telemetry data on the most recent logging date (via security_update_check.go or diagnostics.go)."
+    description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
-    sql: CASE WHEN (${TABLE}.in_security OR ${TABLE}.in_mm2_server) AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) >= 7 AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
+              WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) < 7 AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+              WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+              ELSE FALSE END ;;
     hidden: no
   }
 
@@ -4424,7 +4470,7 @@ view: server_daily_details_ext {
     label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}::date) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -4568,6 +4614,16 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${active_users} ;;
+    value_format_name: decimal_1
+    hidden: yes
+  }
+
+  measure: active_users_median {
+    description: "The median Active Users per grouping."
+    group_label: "Activity Diagnostics"
+    type: median
+    sql: ${active_users} ;;
+    value_format_name: decimal_1
     hidden: yes
   }
 
@@ -4590,6 +4646,15 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: avg(${active_users_daily}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: active_users_daily_median {
+    description: "The median Active Users Daily per grouping."
+    group_label: "Activity Diagnostics"
+    type: number
+    sql: median(${active_users_daily}) ;;
+    value_format_name: decimal_1
   }
 
   measure: active_users_monthly_sum {
@@ -4597,6 +4662,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${active_users_monthly}) ;;
+    value_format_name: decimal_1
   }
 
   measure: active_users_monthly_max {
@@ -4611,6 +4677,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: AVG(${active_users_monthly}) ;;
+    value_format_name: decimal_1
   }
 
   measure: bot_accounts_sum {
@@ -4625,6 +4692,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_accounts} ;;
+    value_format_name: decimal_1
   }
 
   measure: bot_posts_previous_day_sum {
@@ -4639,6 +4707,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${bot_posts_previous_day} ;;
+    value_format_name: decimal_1
   }
 
   measure: direct_message_channels_sum {
@@ -4660,6 +4729,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${direct_message_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: incoming_webhooks_sum {
@@ -4674,6 +4744,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${incoming_webhooks} ;;
+    value_format_name: decimal_1
   }
 
   measure: outgoing_webhooks_sum {
@@ -4688,6 +4759,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${outgoing_webhooks} ;;
+    value_format_name: decimal_1
   }
 
   measure: posts_sum {
@@ -4733,6 +4805,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${posts_previous_day} ;;
+    value_format_name: decimal_1
   }
 
   measure: private_channels_sum {
@@ -4754,6 +4827,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: private_channels_deleted_sum {
@@ -4768,6 +4842,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${private_channels_deleted} ;;
+    value_format_name: decimal_1
   }
 
   measure: public_channels_sum {
@@ -4789,6 +4864,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: average
     sql: ${public_channels} ;;
+    value_format_name: decimal_1
   }
 
   measure: public_channels_deleted_sum {
@@ -4802,6 +4878,7 @@ view: server_daily_details_ext {
     description: "The average Public Channels Deleted per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${public_channels_deleted} ;;
   }
 
@@ -4809,6 +4886,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Deactivated Users per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_1
     sql: ${registered_deactivated_users} ;;
   }
 
@@ -4816,6 +4894,7 @@ view: server_daily_details_ext {
     description: "The average Registered Deactivated Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${registered_deactivated_users} ;;
   }
 
@@ -4823,6 +4902,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Inactive Users per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_1
     sql: ${registered_inactive_users} ;;
   }
 
@@ -4830,6 +4910,7 @@ view: server_daily_details_ext {
     description: "The average Registered Inactive Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${registered_inactive_users} ;;
   }
 
@@ -4837,6 +4918,7 @@ view: server_daily_details_ext {
     description: "The sum of Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: SUM(${registered_users}) ;;
   }
 
@@ -4844,6 +4926,7 @@ view: server_daily_details_ext {
     description: "The max of Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: MAX(${registered_users}) ;;
   }
 
@@ -4851,6 +4934,7 @@ view: server_daily_details_ext {
     description: "The average Registered Users per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_0
     sql: ${registered_users} ;;
   }
 
@@ -4858,6 +4942,7 @@ view: server_daily_details_ext {
     description: "The sum of Slash Commands per grouping."
     group_label: "Activity Diagnostics"
     type: sum
+    value_format_name: decimal_0
     sql: ${slash_commands} ;;
   }
 
@@ -4865,6 +4950,7 @@ view: server_daily_details_ext {
     description: "The average Slash Commands per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${slash_commands} ;;
   }
 
@@ -4872,6 +4958,7 @@ view: server_daily_details_ext {
     description: "The sum of Teams per grouping."
     group_label: "Activity Diagnostics"
     type: number
+    value_format_name: decimal_0
     sql: SUM(${teams}) ;;
   }
 
@@ -4879,6 +4966,7 @@ view: server_daily_details_ext {
     description: "The average Teams per grouping."
     group_label: "Activity Diagnostics"
     type: average
+    value_format_name: decimal_1
     sql: ${teams} ;;
   }
 
@@ -7926,26 +8014,36 @@ view: server_daily_details_ext {
 
   measure: avg_posts_per_user_per_day2 {
     group_label: "Activity Diagnostics"
-    label: "Avg. Posts Per User Per Day"
+    label: "Avg. Posts Per Active User (Activity)"
     type: number
-    sql: ${posts_sum}::float/${active_users_daily_sum}::float ;;
+    sql: (${posts_previous_day_sum}::float/nullif(${active_users_daily_sum}::float,0)) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_posts_per_user_per_day2 {
+    group_label: "Activity Diagnostics"
+    label: "Median Posts Per Active User (Activity)"
+    type: number
+    sql: median(${posts_previous_day}::float/nullif(${active_users_daily}::float,0)) ;;
     value_format_name: decimal_1
   }
 
   measure: avg_posts_per_user_per_day {
     group_label: "Server-Level User Events"
-    label: "Avg. Posts Per User Per Day"
+    label: "Avg. Posts Per Active User (Events)"
     type: average
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
+    drill_fields: [server_fact*]
   }
 
   measure: median_posts_per_user_per_day {
     group_label: "Server-Level User Events"
-    label: "Median Posts Per User Per Day"
+    label: "Median Posts Per Active User (Events)"
     type: median
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
     value_format_name: decimal_1
+    drill_fields: [server_fact*]
   }
 
   measure: posts_sum2 {
@@ -7954,6 +8052,7 @@ view: server_daily_details_ext {
     description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
     type: sum
     sql: ${posts2} ;;
+    drill_fields: [server_fact*]
     value_format_name: decimal_0
   }
 
@@ -7963,16 +8062,36 @@ view: server_daily_details_ext {
     description: "The sum of all events performed by all active user across all servers within the given grouping."
     type: sum
     sql: ${events} ;;
+    drill_fields: [server_fact*]
     value_format_name: decimal_0
   }
 
   measure: dau_sum {
     group_label: "Server-Level User Events"
-    label: "DAU (Sum)"
+    label: "Daily Active Users (Sum)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
-    sql: SUM(CASE WHEN ${dau} >= COALESCE(${active_users_daily},0) THEN ${dau} ELSE ${active_users_daily} END) ;;
+    sql: SUM(${dau}) ;;
     value_format_name: decimal_0
+    drill_fields: []
+  }
+
+  measure: dau_avg {
+    group_label: "Server-Level User Events"
+    label: "Daily Active Users (Avg)"
+    description: "The average daily active users across all servers within the given grouping."
+    type: number
+    sql: avg(${dau}) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: dau_median {
+    group_label: "Server-Level User Events"
+    label: "Daily Active User (Median)"
+    description: "The median daily active users across all servers within the given grouping."
+    type: number
+    sql: median(${dau}) ;;
+    value_format_name: decimal_1
   }
 
   measure: mau_sum {

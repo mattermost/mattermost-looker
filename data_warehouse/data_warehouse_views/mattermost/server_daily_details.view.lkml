@@ -123,13 +123,6 @@ view: server_daily_details {
     sql: ${TABLE}.in_mm2_server ;;
   }
 
-  filter: active_users_alltime {
-    description: "The server has had >= 1 Active User during it's telemetry lifetime."
-    label: ">= 1 Active Users During Lifetime"
-    type: yesno
-    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
-  }
-
   # Dimensions
   dimension: server_id {
     description: "The unique server ID for each telemetry-enabled active server."
@@ -149,6 +142,13 @@ view: server_daily_details {
     description: "The hour in the day the server details were logged."
     type: number
     sql: ${TABLE}.hour ;;
+  }
+
+  dimension: active_users_alltime {
+    description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    label: ">= 1 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: in_security {
@@ -273,11 +273,15 @@ view: server_daily_details {
   }
 
   dimension: currently_sending_telemetry{
-    label: "   Currently Sending Telemetry"
+    label: "  Telemetry Currently Enabled"
     group_label: "  Telemetry Flags"
-    description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the most recent logging date (current date - 1 day)."
+    description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
-    sql: CASE WHEN (${TABLE}.in_security OR ${TABLE}.in_mm2_server) AND ${logging_date} = (SELECT MAX(date) FROM mattermost.server_daily_details) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) >= 7 AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
+              WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) < 7 AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+              WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+              ELSE FALSE END ;;
+    hidden: no
   }
 
   dimension: version {
@@ -797,7 +801,7 @@ view: server_daily_details {
     group_label: "User Counts"
     label: "Max. Active Users"
     description: "Use this to display the maximum active user counts across selected (grouped) diemensions."
-    type: sum
+    type: max
     sql: ${active_user_count} ;;
   }
 
@@ -813,7 +817,7 @@ view: server_daily_details {
     group_label: "User Counts"
     label: "Max. Registered Users"
     description: "Use this to display the max registered user counts for all servers across the selected (grouping) dimensions."
-    type: sum
+    type: max
     sql: ${user_count} ;;
   }
 
