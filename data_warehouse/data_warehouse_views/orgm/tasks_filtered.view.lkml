@@ -78,6 +78,7 @@ view: tasks_filtered {
   }
 
   dimension: customer_feedback_recording {
+    label: "Customer Recording"
     group_label: "Customer Feedback"
    type: yesno
     sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
@@ -186,9 +187,15 @@ view: tasks_filtered {
   }
 
   dimension: ownerid {
-    label: "Assigned To"
     type: string
     sql: ${TABLE}."OWNERID" ;;
+    hidden: yes
+  }
+
+  dimension: owner_name {
+    label: "Assigned To"
+    type: string
+    sql: ${task_owner.name} ;;
   }
 
   dimension: priority {
@@ -253,6 +260,28 @@ view: tasks_filtered {
   measure: count_of_tasks {
     type: count_distinct
     sql: ${sfid} ;;
+  }
+
+  measure: count_of_customer_feedback_calls {
+    group_label: "Customer Feedback"
+    label: "# of Customer Feedback Calls"
+    type: count_distinct
+    sql: ${sfid};;
+    filters: {
+      field: sub_type_customer_feedback
+      value: "yes"
+    }
+  }
+
+  measure: count_of_customer_recordings {
+    group_label: "Customer Feedback"
+    label: "# of Customer Recordings"
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: {
+      field: customer_feedback_recording
+      value: "yes"
+    }
   }
 
   measure: count_of_accounts_w_tasks {
