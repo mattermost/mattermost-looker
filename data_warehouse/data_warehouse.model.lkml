@@ -69,6 +69,12 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 
 explore: tasks_filtered {
   group_label: "Salesforce"
+  join: task_owner {
+    from: user
+    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 
@@ -864,7 +870,7 @@ explore: account_cs_extended  {
     from: user
     sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
     relationship: many_to_one
-    fields: [name]
+    fields: []
   }
 
 }
