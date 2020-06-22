@@ -75,6 +75,12 @@ explore: tasks_filtered {
     relationship: many_to_one
     fields: []
   }
+
+  join: account {
+    sql: ${account.sfid} = ${tasks_filtered.accountid};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 
