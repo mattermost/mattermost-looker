@@ -13,6 +13,13 @@ view: version_release_dates {
     hidden: no
   }
 
+  dimension: supported {
+    description: "Boolean indicating the server version is currently supported."
+    type: yesno
+    sql: ${TABLE}.supported ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: release {
