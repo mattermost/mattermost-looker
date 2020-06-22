@@ -7,6 +7,18 @@ view: tasks_filtered {
     sql: ${TABLE}."__SDC_PRIMARY_KEY" ;;
   }
 
+  dimension: name {
+    description: "Account Name pulled from Salesforce"
+    label: "Account Name"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{accountid}}"
+    }
+    sql: ${account.name} ;;
+    type: string
+  }
+
   dimension_group: _sdc_batched {
     type: time
     timeframes: [
@@ -85,16 +97,14 @@ view: tasks_filtered {
 }
 
   dimension_group: activitydate {
-    label: "Due Date"
+    label: "Due"
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: ${TABLE}."ACTIVITYDATE" ;;
   }
@@ -267,6 +277,7 @@ view: tasks_filtered {
     label: "# of Customer Feedback Calls"
     type: count_distinct
     sql: ${sfid};;
+    drill_fields: [core_drill_fields*, count_of_customer_feedback_calls]
     filters: {
       field: sub_type_customer_feedback
       value: "yes"
@@ -278,6 +289,7 @@ view: tasks_filtered {
     label: "# of Customer Recordings"
     type: count_distinct
     sql: ${sfid} ;;
+    drill_fields: [count_of_customer_recordings]
     filters: {
       field: customer_feedback_recording
       value: "yes"
@@ -287,5 +299,11 @@ view: tasks_filtered {
   measure: count_of_accounts_w_tasks {
     type: count_distinct
     sql: ${accountid} ;;
+    drill_fields: [core_drill_fields*, count_of_accounts_w_tasks]
   }
+
+  set: core_drill_fields {
+    fields: [customer_feedback_recording, owner_name, name]
+  }
+
 }
