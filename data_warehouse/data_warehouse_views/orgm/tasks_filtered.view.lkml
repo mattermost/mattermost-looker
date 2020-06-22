@@ -294,7 +294,7 @@ view: tasks_filtered {
     label: "# of Customer Recordings"
     type: count_distinct
     sql: ${sfid} ;;
-    drill_fields: [count_of_customer_recordings]
+    drill_fields: [core_drill_fields*, count_of_customer_recordings]
     filters: {
       field: customer_feedback_recording
       value: "yes"
@@ -308,7 +308,7 @@ view: tasks_filtered {
   }
 
   set: core_drill_fields {
-    fields: [customer_feedback_recording, owner_name, name]
+    fields: [name, owner_name, customer_feedback_recording]
   }
 
 }
