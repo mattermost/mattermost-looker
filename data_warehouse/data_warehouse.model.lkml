@@ -1261,7 +1261,15 @@ explore: user_fact {
     view_label: "User Fact"
     sql_on: ${user_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.server_edition, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.server_version, server_fact.first_server_version_major]
+    fields: [server_fact.server_edition, server_fact.server_version, server_fact.server_version_major]
+  }
+
+  join: server_fact2 {
+    from: server_fact
+    view_label: "User Fact"
+    sql_on: ${user_fact.first_server_id} = ${server_fact2.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact2.first_server_edition, server_fact2.first_server_version, server_fact2.first_server_version_major]
   }
 }
 
@@ -1275,6 +1283,13 @@ explore: user_daily_details {
     sql_on: ${user_daily_details.account_sfid} = ${account.sfid} ;;
     relationship: many_to_one
     fields: [account.account_core*]
+  }
+
+  join: user_fact {
+    view_label: "User Daily Details"
+    relationship: many_to_one
+    sql_on: ${user_daily_details.user_id} = ${user_fact.user_id} ;;
+    fields: []
   }
 }
 

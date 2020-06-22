@@ -4,6 +4,11 @@ view: user_daily_details {
   view_label: " User Daily Details"
 
   # FILTERS
+  filter: is_active {
+    description: "User performed >= 1 event on the given logging date"
+    type: yesno
+    sql: ${user_fact.last_active_date} >= ${logging_date} ;;
+  }
 
   # DIMENSIONS
   dimension: user_id {
@@ -49,7 +54,7 @@ view: user_daily_details {
   dimension: days_since_first_to_last_active_band {
     type: tier
     style: integer
-    tiers: [8, 31, 61, 91, 181, 366, 731]
+    tiers: [1, 8, 31, 61, 91, 181, 366, 731]
     sql: ${days_first_to_last_active} ;;
   }
 
@@ -63,7 +68,7 @@ view: user_daily_details {
   dimension: days_since_first_active_band {
     type: tier
     style: integer
-    tiers: [8, 31, 61, 91, 181, 366, 731]
+    tiers: [1, 8, 31, 61, 91, 181, 366, 731]
     sql: ${days_since_first_active} ;;
   }
 
