@@ -101,7 +101,6 @@ view: tasks_filtered {
     type: time
     timeframes: [
       date,
-      week,
       month,
       fiscal_quarter,
       fiscal_year
@@ -227,6 +226,12 @@ view: tasks_filtered {
   dimension: subject {
     type: string
     sql: ${TABLE}."SUBJECT" ;;
+    link: {
+      label: "Salesforce Task"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension_group: systemmodstamp {
