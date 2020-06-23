@@ -1557,3 +1557,91 @@ explore: stripe_charges_data_check {
 explore: stripe_payouts {
   group_label: "Finance"
 }
+
+
+explore: available_renewals_dynamic {
+  from: account
+  view_name: account
+  label: "Available Renewals Dynamic"
+  group_label: "Customer Success"
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+
+  join: parent_account_ext {
+    from: account_ext
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_industry_mapping {
+    sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    view_label: "Original Opportunity"
+    sql_on: ${account.sfid} = ${opportunity.accountid};;
+    relationship: one_to_many
+    fields: [sfid, name, total_amount, iswon, status_wlo]
+  }
+
+  join: opportunity_ext {
+    view_label: "Original Opportunity"
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: [license_max_end_date_date]
+  }
+
+  join: opportunitylineitem {
+    view_label: "Original Opportunity Line Items"
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [sfid, total_new_amount, total_ren_amount, total_exp_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+  }
+
+  join: renewal_opportunity {
+    from: opportunity
+    sql_on: ${opportunity.accountid} = ${renewal_opportunity.accountid}
+            and ${opportunity_ext.license_max_end_date_date}::date + interval '1 day' = ${renewal_opportunity.license_start_date};;
+    relationship: many_to_one
+    fields: [sfid, name, total_amount, iswon, status_wlo]
+  }
+
+  join: renewal_opportunity_ext {
+    from: opportunity_ext
+    view_label: "Renewal Opportunity"
+    sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: [license_min_start_date_date]
+  }
+
+  join: renewal_opportunitylineitem {
+    view_label: "Renewal Opportunity Line Items"
+    from: opportunitylineitem
+    sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [sfid, total_new_amount, total_ren_amount, total_exp_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+  }
+}
