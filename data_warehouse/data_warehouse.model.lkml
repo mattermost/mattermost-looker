@@ -1219,7 +1219,7 @@ explore: user_events_by_date_agg {
   }
 
   join: user_fact {
-    view_label: " User Events By Date"
+    view_label: "User Events By Date Agg"
     sql_on: ${user_fact.user_id} = ${user_events_by_date_agg.user_id} ;;
     relationship: many_to_one
     fields: [user_fact.first_event_name, user_fact.second_event_name, user_fact.third_event_name, user_fact.fourth_event_name, user_fact.fifth_event_name, user_fact.sixth_event_name, user_fact.seventh_event_name, user_fact.eighth_event_name, user_fact.ninth_event_name, user_fact.tenth_event_name]
