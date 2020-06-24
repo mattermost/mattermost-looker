@@ -1601,32 +1601,34 @@ explore: available_renewals_dynamic {
   }
 
   join: opportunity {
+    from: opportunity
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, total_amount, iswon, status_wlo]
+    fields: [sfid, name, total_amount, status_wlo, count]
   }
 
-  join: opportunity_ext {
+  join: original_opportunity_ext {
+    from: opportunity_ext
     view_label: "Original Opportunity"
-    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid};;
+    sql_on: ${opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
     relationship: one_to_one
-    fields: [license_max_end_date_date]
+    fields: [license_max_end_date_date, license_max_end_date_fiscal_quarter]
   }
 
-  join: opportunitylineitem {
+  join: original_opportunitylineitem {
+    from: opportunitylineitem
     view_label: "Original Opportunity Line Items"
-    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_new_amount, total_ren_amount, total_exp_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+    fields: [sfid, total_arr,  total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, end_date]
   }
 
   join: renewal_opportunity {
     from: opportunity
-    sql_on: ${opportunity.accountid} = ${renewal_opportunity.accountid}
-            and ${opportunity_ext.license_max_end_date_date}::date + interval '1 day' = ${renewal_opportunity.license_start_date};;
+    sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, total_amount, iswon, status_wlo]
+    fields: [sfid, name, total_amount, close_date, close_fiscal_year, status_wlo, count]
   }
 
   join: renewal_opportunity_ext {
@@ -1634,7 +1636,7 @@ explore: available_renewals_dynamic {
     view_label: "Renewal Opportunity"
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunity_ext.opportunityid};;
     relationship: one_to_one
-    fields: [license_min_start_date_date]
+    fields: [license_min_start_date_date, license_min_start_date_fiscal_quarter]
   }
 
   join: renewal_opportunitylineitem {
@@ -1642,6 +1644,6 @@ explore: available_renewals_dynamic {
     from: opportunitylineitem
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_new_amount, total_ren_amount, total_exp_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
   }
 }
