@@ -723,6 +723,14 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: stripe_id {
+    sql: ${TABLE}.stripe_id__c;;
+    label: "Stripe Charge ID"
+    description: "Stripe Charge ID"
+    type: string
+    group_label: "System"
+  }
+
   dimension: territory_sales_segment {
     type: string
     sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;

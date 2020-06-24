@@ -1534,6 +1534,26 @@ explore: stripe_charges {
   }
 }
 
+explore: stripe_charges_data_check {
+  extends: [_base_opportunity_core_explore]
+  from: stripe_charges
+  view_name: stripe_charges
+  label: "Stripe Charges to Opportunity"
+  group_label: "zBizOps"
+  join: stripe_customers {
+    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: (${opportunity.stripe_id} = ${stripe_charges.id} OR ${opportunity.stripe_id} = ${stripe_charges.payment_intent})
+            AND ${opportunity.iswon};;
+    relationship: one_to_one
+  }
+}
+
+
 explore: stripe_payouts {
   group_label: "Finance"
 }
