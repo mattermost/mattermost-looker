@@ -443,6 +443,22 @@ view: user_events_by_date_agg {
     sql: case when ${mau} and ${mau_segment} = 'Current MAU' then ${user_id} else null end ;;
   }
 
+  measure: newly_disengaged_mau {
+    label: "Newly Disengaged Users"
+    description: "The count of users that are newly disengaged from MAU (performed 0 events in the last 30 days but >= 1 event in the last 31 days)."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} and ${mau_segment} = 'Newly Disengaged' then ${user_id} else null end ;;
+  }
+
+  measure: disengaged_mau {
+    label: "Disengaged Users"
+    description: "The count of users that are disengaged from MAU (performed 0 events in the last 31 days but >= 1 event during a user's lifetime)."
+    group_label: " MAU"
+    type: count_distinct
+    sql: case when ${mau} and ${mau_segment} = 'Disengaged' then ${user_id} else null end ;;
+  }
+
   measure: max_events_max {
     description: "The max of Max Events per grouping."
     group_label: "Events (Max)"
