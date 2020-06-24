@@ -1560,6 +1560,7 @@ explore: stripe_payouts {
 
 
 explore: available_renewals_dynamic {
+  hidden: yes
   from: account
   view_name: account
   label: "Available Renewals Dynamic"
