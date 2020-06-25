@@ -856,7 +856,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "New"
     sql: ${new_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_new_amount]
   }
@@ -865,7 +866,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Renewal"
     sql: ${renewal_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_ren_amount]
   }
@@ -874,7 +876,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Exp Only"
     sql: ${expansion_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_exp_only_amount]
   }
@@ -883,7 +886,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Co-Term"
     sql: ${coterm_expansion_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
   }
@@ -892,7 +896,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Exp w/ CoTerm"
     sql: ${expansion_amount} + ${coterm_expansion_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_exp_amount]
   }
@@ -901,7 +906,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "LOE"
     sql: ${leftover_expansion_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_loe_amount]
   }
@@ -910,7 +916,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Exp w/ CoTerm & LOE"
     sql: ${expansion_amount} + ${coterm_expansion_amount} + ${leftover_expansion_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_exp_with_loe_amount]
   }
@@ -919,7 +926,8 @@ view: opportunitylineitem {
     group_label: "Product Line Type Totals"
     label: "Multi"
     sql: ${multi_amount};;
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_multi_amount]
   }

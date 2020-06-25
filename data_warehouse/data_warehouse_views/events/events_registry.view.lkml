@@ -7,37 +7,37 @@ view: events_registry {
 
   # DIMENSIONS
   dimension: event_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_id ;;
     hidden: no
   }
 
   dimension: event_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_name ;;
     hidden: no
   }
 
   dimension: event_category {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_category ;;
     hidden: no
   }
 
   dimension: description {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.description ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: date_added {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.date_added ;;
@@ -45,14 +45,14 @@ view: events_registry {
   }
 
   dimension_group: last_triggered {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.last_triggered ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -64,6 +64,7 @@ view: events_registry {
     description: "The distinct count of Events  per grouping."
     type: count_distinct
     sql: ${event_id} ;;
+    drill_fields: [event_id, event_category, event_name, date_added_date, last_triggered_date]
   }
 
 

@@ -137,8 +137,9 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Server Versions"
     label: "First Server Version: Major"
     description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
-    type: string
-    sql: split_part(${first_server_version}, '.', 1) || '.' || split_part(${first_server_version}, '.', 2)  ;;
+    type: number
+    value_format_name: decimal_2
+    sql: (split_part(${first_server_version}, '.', 1) || '.' || split_part(${first_server_version}, '.', 2))::FLOAT  ;;
     order_by_field: first_server_version_major_sort
   }
 

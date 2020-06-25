@@ -128,7 +128,7 @@ view: user_events_by_date {
     view_label: "User Agent Details"
     description: "The operating system used to perform the event."
     type: string
-    sql: COALESCE(${user_agent_registry.operating_system}, ${TABLE}.os} ;;
+    sql: COALESCE(${user_agent_registry.operating_system}, ${TABLE}.os) ;;
     hidden: no
   }
 
