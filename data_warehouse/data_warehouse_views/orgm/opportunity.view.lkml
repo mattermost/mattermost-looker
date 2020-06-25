@@ -737,6 +737,145 @@ view: opportunity {
     type: string
   }
 
+  dimension: use_case {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Use_Case__c ;;
+  }
+
+  dimension: compelling_event {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Compelling_Event__c ;;
+  }
+
+  dimension: decision_criteria_process {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Decision_Criteria_Process__c ;;
+  }
+
+  dimension: competitor {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Competitor__c ;;
+  }
+
+  dimension: paper_process {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Paper_trail_Process__c;;
+  }
+
+  dimension: risks {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Risks__c;;
+  }
+
+  dimension: open_source_user {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Open_Source_User__c;;
+  }
+
+  dimension: regulatory_requirements {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Regulatory_Requirements__c;;
+  }
+
+  dimension: target_go_live_date {
+    group_label: "Customer Journey (Technical)"
+    type: date
+    sql: ${TABLE}.Target_Go_Live_Date__c;;
+  }
+
+  dimension: target_integrations {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Target_Integrations__c;;
+  }
+
+  dimension: other_integrations {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Other_Integrations__c;;
+  }
+
+  dimension: existing_chat_solution {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Existing_Chat_Solution__c;;
+  }
+
+  dimension: existing_chat_solution_details {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Existing_Chat_Solution_Details__c;;
+  }
+
+  dimension: current_productivity_platform {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Current_Productivity_Platform__c;;
+  }
+
+  dimension: data_migration_required {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Data_Migration_Required__c;;
+  }
+
+  dimension: mobile_in_scope {
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.Mobile_in_Scope__c = 'Yes';;
+  }
+
+  dimension: emm_mdm{
+    label: "EMM/MDM"
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.EMM_MDM__c = 'Yes';;
+  }
+
+  dimension: current_identitiy_provider_sso{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Current_Identitiy_Provider_SSO__c;;
+  }
+
+  dimension: infosec_questionnaire_completed{
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.INFOSEC_Questionnaire_Completed__c = 'Yes';;
+  }
+
+  dimension: requirements{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Requirements__c;;
+  }
+
+  dimension: extended_support_release_customer{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Extended_Support_Release_Customer__c;;
+  }
+
+  dimension: additional_environment_details{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Additional_Environment_Details__c;;
+  }
+
+  dimension: enterprise_trial_completed{
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.Enterprise_Trial_Completed__c = 'Yes';;
+  }
+
 #   dimension: won_reason {
 #     group_label: "Won Details"
 #     label: "Won Reason"
