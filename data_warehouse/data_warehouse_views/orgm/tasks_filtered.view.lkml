@@ -275,6 +275,7 @@ view: tasks_filtered {
   measure: count_of_tasks {
     type: count_distinct
     sql: ${sfid} ;;
+    drill_fields: [subject, core_drill_fields*, sub_type_customer_feedback, customer_feedback_recording]
   }
 
   measure: count_of_customer_feedback_calls {
@@ -308,7 +309,7 @@ view: tasks_filtered {
   }
 
   set: core_drill_fields {
-    fields: [name, owner_name, customer_feedback_recording]
+    fields: [name, owner_name]
   }
 
 }
