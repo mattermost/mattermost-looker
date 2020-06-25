@@ -31,7 +31,7 @@ view: opportunity {
 
   set: opportunity_drill_fields {
     fields: [account.name, name, owner_name, csm_name, csa_name,close_date, status_wlo, stagename,
-      forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
+             forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
   }
 
   set: opportunity_core {
@@ -317,12 +317,12 @@ view: opportunity {
   dimension: forecastcategoryname_short {
     type: string
     sql: CASE
-          WHEN ${forecastcategoryname} = 'Closed' THEN 'WON'
-          WHEN ${forecastcategoryname} = 'Commit' THEN 'CO'
-          WHEN ${forecastcategoryname} = 'Best Case' THEN 'BC'
-          WHEN ${forecastcategoryname} = 'Pipeline' THEN 'PL'
-          WHEN ${forecastcategoryname} = 'Omitted' THEN 'OM'
-          ELSE 'XX' END ;;
+    WHEN ${forecastcategoryname} = 'Closed' THEN 'WON'
+    WHEN ${forecastcategoryname} = 'Commit' THEN 'CO'
+    WHEN ${forecastcategoryname} = 'Best Case' THEN 'BC'
+    WHEN ${forecastcategoryname} = 'Pipeline' THEN 'PL'
+    WHEN ${forecastcategoryname} = 'Omitted' THEN 'OM'
+    ELSE 'XX' END ;;
     group_label: "Forecasting"
     label: "FC"
     order_by_field: forecastcategoryname_short_sort
@@ -469,281 +469,281 @@ view: opportunity {
 
   dimension: license_end_yyyy_mm {
 #    description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."
-  sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
-  type: string
-  group_label: "License Dates (Deprecating)"
-  label: "License End YYYY-MM"
-}
-
-dimension: license_end_yyyy_qq {
-  type: string
-  sql: ${license_end_fiscal_year} || '-' || ${license_end_fiscal_quarter_of_year};;
-  label: "License End YYYY-QQ"
-  group_label: "License Dates (Deprecating)"
-}
-
-dimension_group: license_start {
-  convert_tz: no
-  description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
-  sql: ${TABLE}.license_start_date__c ;;
-  timeframes: [
-    date,
-    month,
-    fiscal_quarter,
-    fiscal_quarter_of_year,
-    year,
-    fiscal_year
-  ]
-  type: time
-  group_label: "License Dates (Deprecating)"
-}
-
-dimension: license_start_yyyy_qq {
-  type: string
-  sql: ${license_start_fiscal_year} || '-' || ${license_start_fiscal_quarter_of_year};;
-  label: "License Start YYYY-QQ"
-  group_label: "License Dates (Deprecating)"
-}
-
-
-dimension: license_start_yyyy_mm {
-  description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
-  sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
-  type: string
-  group_label: "License Dates (Deprecating)"
-  label: "License Start YYYY-MM"
-}
-
-dimension: lost_reason {
-  group_label: "Lost Details"
-  type: string
-  sql: ${TABLE}.lost_reason__c ;;
-}
-
-dimension: lost_to_competitor {
-  group_label: "Lost Details"
-  type: string
-  sql: ${TABLE}.lost_to_competitor__c ;;
-}
-
-dimension: lost_reason_details {
-  group_label: "Lost Details"
-  type: string
-  sql: ${TABLE}.closed_lost_other__c ;;
-}
-
-dimension_group: mql {
-  description: "Marketing Qualified Lead Date"
-  sql: ${TABLE}.mql_date__c ;;
-  type: time
-  timeframes: [
-    raw,
-    time,
-    date,
-    week,
-    month,
-    quarter,
-    year
-  ]
-  group_label: "Marketing"
-}
-
-dimension: name {
-  description: "Name of the Opportunity"
-  sql: ${TABLE}.name ;;
-  type: string
-  link: {
-    url: "@{salesforce_link}{{sfid}}"
-    label: "Salesforce Opportunity"
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License Dates (Deprecating)"
+    label: "License End YYYY-MM"
   }
-  label: "Oppt Name"
-}
 
-dimension: new_logo {
-  # description: "TODO"
-  sql: ${TABLE}.new_logo__c ;;
-  type: string
-  group_label: "Marketing"
-}
+  dimension: license_end_yyyy_qq {
+    type: string
+    sql: ${license_end_fiscal_year} || '-' || ${license_end_fiscal_quarter_of_year};;
+    label: "License End YYYY-QQ"
+    group_label: "License Dates (Deprecating)"
+    }
 
-dimension: order_type {
-  # description: "TODO"
-  sql: ${TABLE}.order_type__c ;;
-  type: string
-  label: "Order Type"
-}
+  dimension_group: license_start {
+    convert_tz: no
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: ${TABLE}.license_start_date__c ;;
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "License Dates (Deprecating)"
+    }
 
-dimension: original_opportunity_sfid {
-  sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
-  type: string
-  label: "Original Opportunity SFID"
-  group_label: "Renewals"
-}
-
-measure: original_opportunity_amount {
-  sql: ${TABLE}.original_opportunity_amount__c ;;
-  type: sum
-  label: "Original Opportunity Amount"
-  group_label: "Original Opportunity"
-}
+  dimension: license_start_yyyy_qq {
+    type: string
+    sql: ${license_start_fiscal_year} || '-' || ${license_start_fiscal_quarter_of_year};;
+    label: "License Start YYYY-QQ"
+    group_label: "License Dates (Deprecating)"
+    }
 
 
-dimension_group: original_opportunity_end {
-  convert_tz: no
-  description: "Date when the opportunity is expected to close."
-  sql: ${TABLE}.original_opportunity_end_date__c ;;
-  timeframes: [
-    date,
-    week,
-    month,
-    fiscal_quarter,
-    year,
-    fiscal_year
-  ]
-  type: time
-  group_label: "Original Opportunity End"
-}
+  dimension: license_start_yyyy_mm {
+    description: "Date when the license is starting. Min start date of all Product Line Items in Opportunity."
+    sql: to_char(${TABLE}.license_end_date__c,'YYYY-MM') ;;
+    type: string
+    group_label: "License Dates (Deprecating)"
+    label: "License Start YYYY-MM"
+  }
 
-dimension: ownerid {
-  label: "Owner ID"
-  sql: ${TABLE}.ownerid ;;
-  type: string
-  group_label: "System"
-}
+  dimension: lost_reason {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_reason__c ;;
+  }
 
-dimension: owner_name {
-  type: string
-  sql: ${opportunity_owner.name};;
-  label: "Owner Name"
-}
+  dimension: lost_to_competitor {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.lost_to_competitor__c ;;
+  }
 
-dimension: probability {
-  description: "Likelihood that opportunity will close, stated as a percentage."
-  sql: ${TABLE}.probability ;;
-  type: number
-  value_format_name: mm_integer_percent
-  group_label: "Forecasting"
-}
+  dimension: lost_reason_details {
+    group_label: "Lost Details"
+    type: string
+    sql: ${TABLE}.closed_lost_other__c ;;
+  }
 
-dimension: probability_color_tiers {
-  description: "Likelihood that opportunity will close, stated as a percentage."
-  sql: ${probability} ;;
-  html: @{colored_tiered_percent} ;;
-  type: number
+  dimension_group: mql {
+    description: "Marketing Qualified Lead Date"
+    sql: ${TABLE}.mql_date__c ;;
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    group_label: "Marketing"
+  }
+
+  dimension: name {
+    description: "Name of the Opportunity"
+    sql: ${TABLE}.name ;;
+    type: string
+    link: {
+      url: "@{salesforce_link}{{sfid}}"
+      label: "Salesforce Opportunity"
+    }
+    label: "Oppt Name"
+  }
+
+  dimension: new_logo {
+    # description: "TODO"
+    sql: ${TABLE}.new_logo__c ;;
+    type: string
+    group_label: "Marketing"
+  }
+
+  dimension: order_type {
+    # description: "TODO"
+    sql: ${TABLE}.order_type__c ;;
+    type: string
+    label: "Order Type"
+  }
+
+  dimension: original_opportunity_sfid {
+    sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
+    type: string
+    label: "Original Opportunity SFID"
+    group_label: "Renewals"
+  }
+
+  measure: original_opportunity_amount {
+    sql: ${TABLE}.original_opportunity_amount__c ;;
+    type: sum
+    label: "Original Opportunity Amount"
+    group_label: "Original Opportunity"
+  }
+
+
+  dimension_group: original_opportunity_end {
+    convert_tz: no
+    description: "Date when the opportunity is expected to close."
+    sql: ${TABLE}.original_opportunity_end_date__c ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    type: time
+    group_label: "Original Opportunity End"
+  }
+
+  dimension: ownerid {
+    label: "Owner ID"
+    sql: ${TABLE}.ownerid ;;
+    type: string
+    group_label: "System"
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: ${opportunity_owner.name};;
+    label: "Owner Name"
+  }
+
+  dimension: probability {
+    description: "Likelihood that opportunity will close, stated as a percentage."
+    sql: ${TABLE}.probability ;;
+    type: number
+    value_format_name: mm_integer_percent
+    group_label: "Forecasting"
+  }
+
+  dimension: probability_color_tiers {
+    description: "Likelihood that opportunity will close, stated as a percentage."
+    sql: ${probability} ;;
+    html: @{colored_tiered_percent} ;;
+    type: number
 #     value_format_name: mm_integer_percent
-  label: "Prob %"
-  group_label: "Forecasting"
-}
+    label: "Prob %"
+    group_label: "Forecasting"
+  }
 
-dimension_group: renewal_created {
-  type: time
-  # description: "TODO"
-  sql: ${TABLE}.renewal_created_date__c ;;
-  timeframes: [
-    date,
-    month,
-    quarter,
-    year
-  ]
-  group_label: "Renewals"
-}
+  dimension_group: renewal_created {
+    type: time
+    # description: "TODO"
+    sql: ${TABLE}.renewal_created_date__c ;;
+    timeframes: [
+      date,
+      month,
+      quarter,
+      year
+    ]
+    group_label: "Renewals"
+  }
 
-dimension: renewal_risk_amount {
-  # description: "TODO"
-  sql: ${TABLE}.renewal_risk_amount__c ;;
-  type: number
-  value_format_name: mm_usd_short
-  group_label: "Renewals"
-}
+  dimension: renewal_risk_amount {
+    # description: "TODO"
+    sql: ${TABLE}.renewal_risk_amount__c ;;
+    type: number
+    value_format_name: mm_usd_short
+    group_label: "Renewals"
+  }
 
-dimension: renewal_risk_competitor {
-  # description: "TODO"
-  sql: ${TABLE}.renewal_risk_competitor__c ;;
-  type: string
-  group_label: "Renewals"
-}
+  dimension: renewal_risk_competitor {
+    # description: "TODO"
+    sql: ${TABLE}.renewal_risk_competitor__c ;;
+    type: string
+    group_label: "Renewals"
+  }
 
-dimension: renewal_risk_reason_additional_details {
-  # description: "TODO"
-  sql: ${TABLE}.renewal_risk_reason_additional_details__c ;;
-  type: string
-  group_label: "Renewals"
-}
+  dimension: renewal_risk_reason_additional_details {
+    # description: "TODO"
+    sql: ${TABLE}.renewal_risk_reason_additional_details__c ;;
+    type: string
+    group_label: "Renewals"
+  }
 
-dimension: renewal_risk_reasons {
-  # description: "TODO"
-  sql: CASE WHEN ${TABLE}.renewal_risk_reasons__c = 'No relationship with Decision Maker' THEN 'No Tie to Decision Maker' ELSE ${TABLE}.renewal_risk_reasons__c END;;
-  type: string
-  group_label: "Renewals"
-}
+  dimension: renewal_risk_reasons {
+    # description: "TODO"
+    sql: CASE WHEN ${TABLE}.renewal_risk_reasons__c = 'No relationship with Decision Maker' THEN 'No Tie to Decision Maker' ELSE ${TABLE}.renewal_risk_reasons__c END;;
+    type: string
+    group_label: "Renewals"
+  }
 
-dimension: renewal_risk_status {
-  # description: "TODO"
-  sql: ${TABLE}.renewal_risk_status__c;;
-  type: string
-  group_label: "Renewals"
-}
+  dimension: renewal_risk_status {
+    # description: "TODO"
+    sql: ${TABLE}.renewal_risk_status__c;;
+    type: string
+    group_label: "Renewals"
+  }
 
-dimension: renewed_by_opportunity_id {
-  # description: "TODO"
-  sql: ${TABLE}.renewed_by_opportunity_id__c ;;
-  type: string
-  group_label: "Renewals"
-}
+  dimension: renewed_by_opportunity_id {
+    # description: "TODO"
+    sql: ${TABLE}.renewed_by_opportunity_id__c ;;
+    type: string
+    group_label: "Renewals"
+  }
 
-dimension: sales_channel {
-  type: string
-  sql: CASE WHEN ${e_purchase_date__c} IS NULL THEN 'Direct Sales' ELSE 'Self Service' END;;
-  label: "Sales Channel"
-  description: "Direct Sales or Self Service"
-}
+  dimension: sales_channel {
+    type: string
+    sql: CASE WHEN ${e_purchase_date__c} IS NULL THEN 'Direct Sales' ELSE 'Self Service' END;;
+    label: "Sales Channel"
+    description: "Direct Sales or Self Service"
+  }
 
 
-dimension: sfid {
-  label: "Oppt SFID"
-  primary_key: yes
-  # description: "TODO"
-  sql: ${TABLE}.sfid ;;
-  type: string
-}
+  dimension: sfid {
+    label: "Oppt SFID"
+    primary_key: yes
+    # description: "TODO"
+    sql: ${TABLE}.sfid ;;
+    type: string
+  }
 
-dimension: stagename {
-  description: "Oppt Stage"
-  label: "Stage"
-  sql: ${TABLE}.stagename ;;
-  type: string
-  group_label: "Forecasting"
-}
+  dimension: stagename {
+    description: "Oppt Stage"
+    label: "Stage"
+    sql: ${TABLE}.stagename ;;
+    type: string
+    group_label: "Forecasting"
+  }
 
-dimension: status_wlo {
-  sql: ${TABLE}.status_wlo__c;;
-  label: "Status WLO"
-  description: "Values are Won, Open or Lost"
-  type: string
-  group_label: "Forecasting"
-}
+  dimension: status_wlo {
+    sql: ${TABLE}.status_wlo__c;;
+    label: "Status WLO"
+    description: "Values are Won, Open or Lost"
+    type: string
+    group_label: "Forecasting"
+  }
 
-dimension: stripe_id {
-  sql: ${TABLE}.stripe_id__c;;
-  label: "Stripe Charge ID"
-  description: "Stripe Charge ID"
-  type: string
-  group_label: "System"
-}
+  dimension: stripe_id {
+    sql: ${TABLE}.stripe_id__c;;
+    label: "Stripe Charge ID"
+    description: "Stripe Charge ID"
+    type: string
+    group_label: "System"
+  }
 
-dimension: territory_sales_segment {
-  type: string
-  sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
-  group_label: "Territory"
-  label: "Territory Sales Segment"
-}
+  dimension: territory_sales_segment {
+    type: string
+    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    group_label: "Territory"
+    label: "Territory Sales Segment"
+  }
 
-dimension: type {
-  description: "Type of Opportunity. For example, New, Renewal, etc."
-  label: "Oppt Type"
-  sql: ${TABLE}.type ;;
-  type: string
-}
+  dimension: type {
+    description: "Type of Opportunity. For example, New, Renewal, etc."
+    label: "Oppt Type"
+    sql: ${TABLE}.type ;;
+    type: string
+  }
 
 #   dimension: won_reason {
 #     group_label: "Won Details"
@@ -762,463 +762,463 @@ dimension: type {
 #   }
 
 
-#
-# Measures
-#
+  #
+  # Measures
+  #
 
-# BP
-measure: avg_opportunity_probability {
-  # description: "TODO"
-  sql: ${probability};;
-  type: average
-  value_format_name: mm_integer_percent
-}
+  # BP
+  measure: avg_opportunity_probability {
+    # description: "TODO"
+    sql: ${probability};;
+    type: average
+    value_format_name: mm_integer_percent
+  }
 
 # Measure
 
-measure: arr {
-  description: "Annual Recurring Revenue"
-  group_label: "ARR"
-  label: "ARR"
-  sql: ${opportunitylineitem.arr} ;;
-  type: sum
-  value_format_name: mm_usd_short
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: count {
-  description: "The total number of opportunities"
-  sql: ${sfid} ;;
-  drill_fields: [opportunity_drill_fields*]
-  label: "# Oppts"
-  group_label: "Counts"
-  type: count_distinct
-}
-
-measure: count_lost_oppt {
-  description: "The total number of open opportunities"
-  sql: ${sfid} ;;
-  drill_fields: [opportunity_drill_fields*]
-  label: "# Oppts (Lost)"
-  group_label: "Counts"
-  type: count_distinct
-  filters: {
-    field: status_wlo
-    value: "Lost"
+  measure: arr {
+    description: "Annual Recurring Revenue"
+    group_label: "ARR"
+    label: "ARR"
+    sql: ${opportunitylineitem.arr} ;;
+    type: sum
+    value_format_name: mm_usd_short
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-}
 
-measure: count_open_oppt {
-  description: "The total number of open opportunities"
-  sql: ${sfid} ;;
-  drill_fields: [opportunity_drill_fields*]
-  label: "# Oppts (Open)"
-  group_label: "Counts"
-  type: count_distinct
-  filters: {
-    field: status_wlo
-    value: "Open"
+  measure: count {
+    description: "The total number of opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts"
+    group_label: "Counts"
+    type: count_distinct
   }
-}
 
-measure: count_won_oppt {
-  description: "The total number of open opportunities"
-  sql: ${sfid} ;;
-  drill_fields: [opportunity_drill_fields*]
-  label: "# Oppts (Won)"
-  group_label: "Counts"
-  type: count_distinct
-  filters: {
-    field: status_wlo
-    value: "Won"
+  measure: count_lost_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts (Lost)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: status_wlo
+      value: "Lost"
+    }
   }
-}
 
-measure: count_open_oppt_current_fy {
-  group_label: "Current FY Close"
-  group_item_label: "# Oppts (Open CFY)"
-  description: "The total number of open opportunities set to close this fiscal year"
-  sql: ${sfid} ;;
-  drill_fields: [opportunity_drill_fields*]
-  label: "# of Open Oppty (Curr FY Close)"
-  type: count_distinct
-  filters: {
-    field: isclosed
-    value: "no"
+  measure: count_open_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts (Open)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: status_wlo
+      value: "Open"
+    }
   }
-  filters: {
-    field: close_current_fy
-    value: "yes"
+
+  measure: count_won_oppt {
+    description: "The total number of open opportunities"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# Oppts (Won)"
+    group_label: "Counts"
+    type: count_distinct
+    filters: {
+      field: status_wlo
+      value: "Won"
+    }
   }
-}
 
-measure: risk_amount_current_fy {
-  group_label: "Current FY Close"
-  group_item_label: "Renewal At Risk & Early Warning Amount"
-  description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
-  sql: ${renewal_risk_amount} ;;
-  drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
-  label: "Risk Amount (Curr FY Close)"
-  value_format_name: mm_usd_short
-  type: sum
-  filters: {
-    field: isclosed
-    value: "no"
+  measure: count_open_oppt_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "# Oppts (Open CFY)"
+    description: "The total number of open opportunities set to close this fiscal year"
+    sql: ${sfid} ;;
+    drill_fields: [opportunity_drill_fields*]
+    label: "# of Open Oppty (Curr FY Close)"
+    type: count_distinct
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
   }
-  filters: {
-    field: close_current_fy
-    value: "yes"
+
+  measure: risk_amount_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "Renewal At Risk & Early Warning Amount"
+    description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
+    label: "Risk Amount (Curr FY Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
-  filters: {
-    field: known_attrition_curr_fy
-    value: "No"
+
+  measure: at_risk_amount_current_fy {
+    group_label: "Current FY Close"
+    group_item_label: "Renewal At Risk Amount"
+    description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
+    label: "Risk Amount (Curr FY Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_fy
+      value: "yes"
+    }
+    filters: {
+      field: renewal_risk_status
+      value: "At Risk"
+    }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
-}
 
-measure: at_risk_amount_current_fy {
-  group_label: "Current FY Close"
-  group_item_label: "Renewal At Risk Amount"
-  description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
-  sql: ${renewal_risk_amount} ;;
-  drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
-  label: "Risk Amount (Curr FY Close)"
-  value_format_name: mm_usd_short
-  type: sum
-  filters: {
-    field: isclosed
-    value: "no"
+  measure: risk_amount_current_qtr {
+    group_label: "Current Qtr Close"
+    group_item_label: "Renewal At Risk & Early Warning Amount"
+    description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
+    label: "At Risk & Early Warning Amount (Curr Qtr Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_qtr
+      value: "yes"
+    }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
-  filters: {
-    field: close_current_fy
-    value: "yes"
+
+  measure: at_risk_amount_current_qtr {
+    group_label: "Current Qtr Close"
+    group_item_label: "Renewal At Risk Amount"
+    description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
+    sql: ${renewal_risk_amount} ;;
+    drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
+    label: "At Risk Amount (Curr Qtr Close)"
+    value_format_name: mm_usd_short
+    type: sum
+    filters: {
+      field: isclosed
+      value: "no"
+    }
+    filters: {
+      field: close_current_qtr
+      value: "yes"
+    }
+    filters: {
+      field: renewal_risk_status
+      value: "At Risk"
+    }
+    filters: {
+      field: known_attrition_curr_fy
+      value: "No"
+    }
   }
-  filters: {
-    field: renewal_risk_status
-    value: "At Risk"
+
+  measure: total_amount {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${amount};;
+    type: sum
+    value_format_name: mm_usd_short
   }
-  filters: {
-    field: known_attrition_curr_fy
-    value: "No"
+
+  measure: total_amount_in_commit {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${amount_in_commit};;
+    type: sum
+    value_format_name: mm_usd_short
   }
-}
 
-measure: risk_amount_current_qtr {
-  group_label: "Current Qtr Close"
-  group_item_label: "Renewal At Risk & Early Warning Amount"
-  description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
-  sql: ${renewal_risk_amount} ;;
-  drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
-  label: "At Risk & Early Warning Amount (Curr Qtr Close)"
-  value_format_name: mm_usd_short
-  type: sum
-  filters: {
-    field: isclosed
-    value: "no"
+  measure: total_amount_in_pipeline {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${amount_in_pipeline};;
+    type: sum
+    value_format_name: mm_usd_short
   }
-  filters: {
-    field: close_current_qtr
-    value: "yes"
+
+  measure: total_renewal_risk_amount {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
-  filters: {
-    field: known_attrition_curr_fy
-    value: "No"
+
+  measure: total_renewal_at_risk_amount {
+    label: "At Risk Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "At Risk"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
-}
 
-measure: at_risk_amount_current_qtr {
-  group_label: "Current Qtr Close"
-  group_item_label: "Renewal At Risk Amount"
-  description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
-  sql: ${renewal_risk_amount} ;;
-  drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
-  label: "At Risk Amount (Curr Qtr Close)"
-  value_format_name: mm_usd_short
-  type: sum
-  filters: {
-    field: isclosed
-    value: "no"
+  measure: total_renewal_early_warning_amount {
+    label: "Early Warning Renewal Amount"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    filters: [renewal_risk_status: "Early Warning"]
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
-  filters: {
-    field: close_current_qtr
-    value: "yes"
+
+  measure: total_renewal_risk_amount_open {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${renewal_risk_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
-  filters: {
-    field: renewal_risk_status
-    value: "At Risk"
+
+  measure: total_loe_amount {
+    label: "LOE Amount"
+    group_label: "Product Line Type Totals"
+    description: "Leftover Expansion"
+    sql: ${opportunitylineitem.leftover_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  filters: {
-    field: known_attrition_curr_fy
-    value: "No"
+
+  measure: total_exp_with_loe_amount {
+    description: "Expansion (includes Co-Term and Leftover Expansion"
+    label: "Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-}
 
-measure: total_amount {
-  # description: "TODO"
-  group_label: "Total Amounts"
-  sql: ${amount};;
-  type: sum
-  value_format_name: mm_usd_short
-}
-
-measure: total_amount_in_commit {
-  # description: "TODO"
-  group_label: "Total Amounts"
-  sql: ${amount_in_commit};;
-  type: sum
-  value_format_name: mm_usd_short
-}
-
-measure: total_amount_in_pipeline {
-  # description: "TODO"
-  group_label: "Total Amounts"
-  sql: ${amount_in_pipeline};;
-  type: sum
-  value_format_name: mm_usd_short
-}
-
-measure: total_renewal_risk_amount {
-  # description: "TODO"
-  group_label: "Total Amounts"
-  sql: ${renewal_risk_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
-}
-
-measure: total_renewal_at_risk_amount {
-  label: "At Risk Renewal Amount"
-  group_label: "Total Amounts"
-  sql: ${renewal_risk_amount};;
-  filters: [renewal_risk_status: "At Risk"]
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
-}
-
-measure: total_renewal_early_warning_amount {
-  label: "Early Warning Renewal Amount"
-  group_label: "Total Amounts"
-  sql: ${renewal_risk_amount};;
-  filters: [renewal_risk_status: "Early Warning"]
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
-}
-
-measure: total_renewal_risk_amount_open {
-  # description: "TODO"
-  group_label: "Total Amounts"
-  sql: ${renewal_risk_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
-}
-
-measure: total_loe_amount {
-  label: "LOE Amount"
-  group_label: "Product Line Type Totals"
-  description: "Leftover Expansion"
-  sql: ${opportunitylineitem.leftover_expansion_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_exp_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_exp_with_loe_amount {
-  description: "Expansion (includes Co-Term and Leftover Expansion"
-  label: "Exp w/LOE Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_new_and_exp_with_loe_amount {
-  description: "New or Expansion (includes Co-Term and Leftover Expansion)"
-  label: "New and Exp w/LOE Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.new_amount} + ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_exp_count {
-  group_label: "Counts"
-  label: "# OLI (Exp)"
-  sql: ${opportunitylineitem.sfid};;
-  type: count_distinct
-  drill_fields: [opportunity_drill_fields*,total_new_amount]
-  filters: {
-    field: opportunitylineitem.expansion_w_coterm_amount
-    value: ">0"
+  measure: total_new_and_exp_with_loe_amount {
+    description: "New or Expansion (includes Co-Term and Leftover Expansion)"
+    label: "New and Exp w/LOE Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.new_amount} + ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: total_exp_amount {
-  description: "Expansion (includes Co-Term)"
-  label: "Exp Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_exp_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_exp_amount_self_serve {
-  description: "Expansion (includes Co-Term) and E Purchase Date is Filled In"
-  label: "Exp Amount (Self Serve)"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_exp_amount]
-  filters: {
-    field: opportunity.sales_channel
-    value: "Self Service"
+  measure: total_exp_count {
+    group_label: "Counts"
+    label: "# OLI (Exp)"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.expansion_w_coterm_amount
+      value: ">0"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: total_new_count {
-  group_label: "Counts"
-  label: "# OLI (New)"
-  sql: ${opportunitylineitem.sfid};;
-  type: count_distinct
-  drill_fields: [opportunity_drill_fields*,total_new_amount]
-  filters: {
-    field: opportunitylineitem.new_amount
-    value: ">0"
+  measure: total_exp_amount {
+    description: "Expansion (includes Co-Term)"
+    label: "Exp Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: total_new_amount {
-  label: "New Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.new_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_new_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_new_amount_self_serv {
-  description: "New and E Purchase Date is Filled In"
-  label: "New Amount (Self Serve)"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.new_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_new_amount]
-  filters: {
-    field: opportunity.sales_channel
-    value: "Self Service"
+  measure: total_exp_amount_self_serve {
+    description: "Expansion (includes Co-Term) and E Purchase Date is Filled In"
+    label: "Exp Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_exp_amount]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: total_new_exp_count {
-  group_label: "Counts"
-  label: "# OLI (New & Exp)"
-  sql: ${total_new_count}+${total_exp_count};;
-  type: number
-  drill_fields: [opportunity_drill_fields*,total_new_amount]
-}
-
-measure: total_new_and_exp_amount {
-  description: "New or Expansion (includes Co-Term and Leftover Expansion)"
-  label: "New and Exp Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${total_new_amount}+${total_exp_amount};;
-  type: number
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
-}
-
-measure: total_new_and_exp_amount_self_serve {
-  description: "New or Expansion (includes Co-Term and Leftover Expansion) and E Purchase Date is Filled In"
-  label: "New and Exp Amount (Self Serve)"
-  group_label: "Product Line Type Totals"
-  sql: ${total_new_amount_self_serv}+${total_exp_amount_self_serve};;
-  type: number
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
-}
-
-measure: total_ren_amount {
-  description: "Renewal"
-  label: "Ren Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.renewal_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_ren_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_ren_amount_self_serve {
-  description: "Renewal and E Purchase Date is Filled In"
-  label: "Ren Amount (Self Serve)"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.renewal_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_ren_amount]
-  filters: {
-    field: opportunity.sales_channel
-    value: "Self Service"
+  measure: total_new_count {
+    group_label: "Counts"
+    label: "# OLI (New)"
+    sql: ${opportunitylineitem.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunitylineitem.new_amount
+      value: ">0"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: total_multi_amount {
-  description: "Multi Year"
-  label: "Multi Amount"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.multi_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_multi_amount]
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
-
-measure: total_multi_amount_self_service {
-  description: "Multi Year and E Purchase Date is Filled In"
-  label: "Multi Amount (Self Serve)"
-  group_label: "Product Line Type Totals"
-  sql: ${opportunitylineitem.multi_amount};;
-  type: sum
-  value_format_name: mm_usd_short
-  drill_fields: [opportunity_drill_fields*,total_multi_amount]
-  filters: {
-    field: opportunity.sales_channel
-    value: "Self Service"
+  measure: total_new_amount {
+    label: "New Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.new_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-  sql_distinct_key: ${opportunitylineitem.sfid} ;;
-}
 
-measure: new_logo_count {
-  label: "# New Logo"
-  group_label: "Counts"
-  sql: ${opportunity.sfid};;
-  type: count_distinct
-  drill_fields: [opportunity_drill_fields*,new_logo]
-  filters: {
-    field: new_logo
-    value: "Yes"
+  measure: total_new_amount_self_serv {
+    description: "New and E Purchase Date is Filled In"
+    label: "New Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.new_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
-}
 
-#
-# Hidden Fields (Used for derived values or joins)
-#
+  measure: total_new_exp_count {
+    group_label: "Counts"
+    label: "# OLI (New & Exp)"
+    sql: ${total_new_count}+${total_exp_count};;
+    type: number
+    drill_fields: [opportunity_drill_fields*,total_new_amount]
+  }
+
+  measure: total_new_and_exp_amount {
+    description: "New or Expansion (includes Co-Term and Leftover Expansion)"
+    label: "New and Exp Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount}+${total_exp_amount};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+  }
+
+  measure: total_new_and_exp_amount_self_serve {
+    description: "New or Expansion (includes Co-Term and Leftover Expansion) and E Purchase Date is Filled In"
+    label: "New and Exp Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${total_new_amount_self_serv}+${total_exp_amount_self_serve};;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+  }
+
+  measure: total_ren_amount {
+    description: "Renewal"
+    label: "Ren Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.renewal_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_ren_amount_self_serve {
+    description: "Renewal and E Purchase Date is Filled In"
+    label: "Ren Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.renewal_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_amount]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_multi_amount {
+    description: "Multi Year"
+    label: "Multi Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.multi_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_multi_amount_self_service {
+    description: "Multi Year and E Purchase Date is Filled In"
+    label: "Multi Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.multi_amount};;
+    type: sum
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: new_logo_count {
+    label: "# New Logo"
+    group_label: "Counts"
+    sql: ${opportunity.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*,new_logo]
+    filters: {
+      field: new_logo
+      value: "Yes"
+    }
+  }
+
+  #
+  # Hidden Fields (Used for derived values or joins)
+  #
 
 
 }
