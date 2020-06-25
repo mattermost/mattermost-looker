@@ -935,9 +935,10 @@ explore: nps_user_monthly_score {
   }
 
   join: server_fact {
+    view_label: "NPS User Daily Score"
     sql_on: ${nps_user_monthly_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.first_server_version_major]
   }
 
   join: excludable_servers {
@@ -1413,9 +1414,10 @@ explore: nps_server_version_daily_score {
   }
 
   join: server_fact {
+    view_label: "NPS Server Version Daily Score"
     sql_on: ${nps_server_version_daily_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.first_server_version_major]
   }
 
   join: excludable_servers {
