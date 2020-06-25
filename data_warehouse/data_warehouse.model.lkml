@@ -1560,6 +1560,28 @@ explore: stripe_payouts {
   group_label: "Finance"
 }
 
+explore: customer_reference {
+  group_label: "Customer Success"
+  join: account {
+    sql_on: ${customer_reference.account} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: owner {
+    from: user
+    sql_on: ${customer_reference.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: creator {
+    from: user
+    sql_on: ${customer_reference.createdbyid} = ${creator.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
 
 explore: available_renewals_dynamic {
   hidden: yes
