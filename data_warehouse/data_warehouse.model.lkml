@@ -326,6 +326,30 @@ explore: account {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
   }
 
+  join: original_opportunity {
+    from: opportunity
+    view_label: "Original Opportunity"
+    sql_on: ${account.sfid} = ${opportunity.accountid};;
+    relationship: one_to_many
+    fields: [name, total_amount, status_wlo, license_end_fiscal_quarter]
+  }
+
+  join: original_opportunity_ext {
+    from: opportunity_ext
+    view_label: "Original Opportunity"
+    sql_on: ${opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: original_opportunitylineitem {
+    from: opportunitylineitem
+    view_label: "Original Opportunity"
+    sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+  }
+
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
     relationship: many_to_one

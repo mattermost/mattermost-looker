@@ -47,10 +47,12 @@ view: opportunity {
       license_start_date,
       license_start_month,
       license_start_fiscal_quarter_of_year,
+      license_start_fiscal_quarter,
       license_start_fiscal_year,
       license_end_date,
       license_end_month,
       license_end_fiscal_quarter_of_year,
+      license_end_fiscal_quarter,
       license_end_fiscal_year,
       iswon,
       isclosed,
@@ -576,32 +578,9 @@ view: opportunity {
   dimension: original_opportunity_sfid {
     sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
     type: string
+    hidden: yes
     label: "Original Opportunity SFID"
     group_label: "Renewals"
-  }
-
-  measure: original_opportunity_amount {
-    sql: ${TABLE}.original_opportunity_amount__c ;;
-    type: sum
-    label: "Original Opportunity Amount"
-    group_label: "Original Opportunity"
-  }
-
-
-  dimension_group: original_opportunity_end {
-    convert_tz: no
-    description: "Date when the opportunity is expected to close."
-    sql: ${TABLE}.original_opportunity_end_date__c ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    type: time
-    group_label: "Original Opportunity End"
   }
 
   dimension: ownerid {
