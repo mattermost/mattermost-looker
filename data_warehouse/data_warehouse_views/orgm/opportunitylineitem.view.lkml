@@ -892,6 +892,20 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
   }
 
+  measure: total_coterm_acv {
+    group_label: "Product Line Type Totals"
+    label: "Co-Term ACV"
+    sql: ${arr};;
+    filters: {
+      field: is_coterm
+      value: "yes"
+    }
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
+  }
+
   measure: total_exp_amount {
     group_label: "Product Line Type Totals"
     label: "Exp w/ CoTerm"
