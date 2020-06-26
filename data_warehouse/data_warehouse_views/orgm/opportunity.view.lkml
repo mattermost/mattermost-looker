@@ -1355,6 +1355,167 @@ view: opportunity {
     }
   }
 
+  measure: integration_jira_count {
+    label: "Jira Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jira%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_github_count {
+    label: "GitHub Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Github%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_big_blue_button_count {
+    label: "Big Blue Button Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Big Blue Button%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_bamboo_count {
+    label: "Bamboo Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Bamboo%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_bitbucket_count {
+    label: "Bitbucket Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Bitbucket%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_blue_jeans_count {
+    label: "BlueJeans Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Blue Jeans%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_circle_ci_count {
+    label: "CircleCI Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Circle CI%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_confluence_count {
+    label: "Confluence Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Confluence%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_gitlab_count {
+    label: "Gitlab Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Gitlab%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_internal_apps_count {
+    label: "Internal Apps Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Internal Apps%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_jenkins_count {
+    label: "Jenkins Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jenkins%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_jitsi_count {
+    label: "Jitsi Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jitsi%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_matterbridge_count {
+    label: "Matterbridge Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Matterbridge%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_o365_count {
+    label: "O365 Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%O365%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_pagerduty_count {
+    label: "PagerDuty Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%PagerDuty%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_salesforce_count {
+    label: "Salesforce Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Salesforce%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_servicenow_count {
+    label: "ServiceNow Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%ServiceNow%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_skype4business_count {
+    label: "Skype4Business Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Skype4Business%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_splunk_count {
+    label: "Splunk Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Splunk%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_team_city_count {
+    label: "Team City Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Team City%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_webex_count {
+    label: "Webex Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Webex%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_zendesk_count {
+    label: "ZenDesk Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%ZenDesk%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_zoom_count {
+    label: "Zoom Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Zoom%' THEN 1 ELSE 0 END;;
+  }
+
   #
   # Hidden Fields (Used for derived values or joins)
   #
