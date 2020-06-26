@@ -331,7 +331,7 @@ explore: account {
     view_label: "Original Opportunity"
     sql_on: ${opportunity.original_opportunity_sfid} = ${original_opportunity.sfid};;
     relationship: one_to_many
-    fields: [name, sfid, total_amount, status_wlo, license_end_fiscal_quarter]
+    fields: [name, sfid, total_amount, status_wlo]
   }
 
   join: original_opportunity_ext {
@@ -339,7 +339,7 @@ explore: account {
     view_label: "Original Opportunity"
     sql_on: ${original_opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
     relationship: one_to_one
-    fields: []
+    fields: [license_max_end_date_date,license_max_end_date_fiscal_quarter, license_max_end_date_fiscal_year]
   }
 
   join: original_opportunitylineitem {
