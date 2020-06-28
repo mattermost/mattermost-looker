@@ -17,6 +17,7 @@ view: customer_reference {
 
   dimension: account_name {
     label: "Account Name"
+    description: "Salesforce Account Name"
     type: string
     link: {
       label: "Salesforce Account"
@@ -28,12 +29,15 @@ view: customer_reference {
 
   dimension: approved_by_legal {
     label: "Approved by Customer Legal"
+    group_label: "Legal"
+    description: "Customer contact has approval from their legal team."
     type: string
     sql: ${TABLE}."APPROVED_BY_LEGAL__C" ;;
   }
 
   dimension: audience {
     label: "Audience"
+    description: "Who is this reference for? (e.g. DevOps, ChatOps, Everyone)."
     type: string
     sql: ${TABLE}."AUDIENCE__C" ;;
   }
@@ -47,11 +51,31 @@ view: customer_reference {
 
   dimension: creator {
     label: "Creator"
+    description: "Original creator of the customer reference."
     type: string
     sql: ${creator.name} ;;
   }
 
+  dimension: account_csm {
+    group_label: "Owners"
+    label: "Account CSM"
+    description: "Assigned CSM for the Account in Salesforce."
+    type: string
+    sql: ${account_csm.name} ;;
+  }
+
+  dimension: account_owner {
+    group_label: "Owners"
+    label: "Account Owner"
+    description: "Assigned Sales Rep for the Account in Salesforce."
+    type: string
+    sql: ${account_owner.name} ;;
+  }
+
   dimension_group: created {
+    label: "Created"
+    group_label: "Dates"
+    description: "Date, month, FQ or FY the customer reference was created."
     type: time
     timeframes: [
       date,
@@ -64,12 +88,15 @@ view: customer_reference {
 
   dimension: customer_reference_contact {
     label: "Customer Contact"
+    description: "Main contact for the reference."
     type: string
     sql: ${TABLE}."CUSTOMER_REFERENCE_CONTACT__C" ;;
   }
 
   dimension: internal_or_external {
     label: "Internal/External"
+    group_label: "Legal"
+    description: "Can this reference be discussed outside of the walls of Mattermost?"
     type: string
     sql: ${TABLE}."INTERNAL_OR_EXTERNAL__C" ;;
   }
@@ -100,12 +127,16 @@ view: customer_reference {
 
   dimension: mattermost_legal_sign_off {
     label: "Mattermost Legal Sign Off"
+    group_label: "Legal"
+    description: "Owner of the reference has reached out to Mattermost legal to ensure there are no clauses in the MSA that the
+    Mattermost cannot use their logo or publish case studies."
     type: string
     sql: ${TABLE}."MATTERMOST_LEGAL_SIGN_OFF__C" ;;
   }
 
   dimension: name {
     label: "Customer Reference Name"
+    description: "Name of the reference.  IE: Customer XZY Case Study."
     type: string
     link: {
       label: "Salesforce Customer Reference"
@@ -118,6 +149,7 @@ view: customer_reference {
 
   dimension: notes {
     label: "Notes"
+    description: "Additional reference details."
     type: string
     sql: ${TABLE}."NOTES__C" ;;
   }
@@ -129,25 +161,32 @@ view: customer_reference {
   }
 
   dimension: owner {
-    label: "Owner"
+    group_label: "Owners"
+    description: "Owner of the reference.  Could be different from original creator."
+    label: "Reference Owner"
     type: string
     sql: ${owner.name} ;;
   }
 
   dimension: published_reference_url {
     label: "Published Reference URL"
+    description: "Link for published case study, LinkedIn story, blog, etc."
     type: string
     sql: ${TABLE}."PUBLISHED_REFERENCE_URL__C" ;;
   }
 
   dimension: reference_category {
     label: "Reference Category"
+    description: "What is the theme for this reference? (e.g. DevOps, Integration, Just Chat, ChatOps)."
     type: string
     sql: ${TABLE}."REFERENCE_CATEGORY__C" ;;
   }
 
   dimension_group: reference_end {
     label: "Reference End"
+    group_label: "Dates"
+    description: "Populate if the customer will no longer allow us to use their case study, logo, LinkedIn post, etc.
+    Please add to the notes section on why the customer has an end date."
     type: time
     timeframes: [
       date,
@@ -160,12 +199,15 @@ view: customer_reference {
 
   dimension: reference_notes {
     label: "Cool Use Case"
+    description: "Brief description of how Mattermost impacted the customer."
     type: string
     sql: ${TABLE}."REFERENCE_NOTES__C" ;;
   }
 
   dimension_group: reference_start {
     label: "Reference Start"
+    group_label: "Dates"
+    description: "From what date is the reference usable."
     type: time
     timeframes: [
       date,
@@ -178,6 +220,7 @@ view: customer_reference {
 
   dimension: reference_type {
     label: "Reference Type"
+    description: "How will the reference be shared? (e.g. Case Study, LinkedIn post, Customer Logo)."
     type: string
     sql: ${TABLE}."REFERENCE_TYPE__C" ;;
   }
@@ -191,6 +234,7 @@ view: customer_reference {
 
   dimension: status {
     label: "Status"
+    description: "Is the reference in progress, identified, completed?"
     type: string
     sql: ${TABLE}."STATUS__C" ;;
   }
@@ -209,6 +253,8 @@ view: customer_reference {
 
   dimension_group: target_completion {
     label: "Target Completion"
+    group_label: "Dates"
+    description: "If the reference is not completed, what is the expected date of completion?"
     type: time
     timeframes: [
       date,
@@ -220,8 +266,8 @@ view: customer_reference {
   }
 
   measure: count {
-    label: "# of references"
+    label: "# of References"
     type: count
-    drill_fields: [name, account.name, owner, creator, reference_start_date, reference_category, reference_type]
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type]
   }
 }

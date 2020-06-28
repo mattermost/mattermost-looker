@@ -1575,6 +1575,20 @@ explore: customer_reference {
     fields: []
   }
 
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: creator {
     from: user
     sql_on: ${customer_reference.createdbyid} = ${creator.sfid} ;;
