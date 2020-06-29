@@ -48,6 +48,7 @@ view: opportunitylineitem {
       lost_arr,
       totalprice,
       total_seat_quantity,
+      total_quantity,
       is_seat,
       total_price,
       total_bookings,
@@ -363,6 +364,14 @@ view: opportunitylineitem {
       value: "yes"
     }
     drill_fields: [opportunitylineitem_drill*,total_seat_quantity]
+  }
+
+  measure: total_quantity {
+    label: "Total SKU Quantity"
+    description: ""
+    sql: ${quantity} ;;
+    type: sum
+    drill_fields: [opportunitylineitem_drill*,total_quantity]
   }
 
   measure: total_price {
