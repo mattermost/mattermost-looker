@@ -85,6 +85,7 @@ view: tasks_filtered {
   dimension: sub_type_customer_feedback {
     label: "Customer Feedback"
     group_label: "Customer Feedback"
+    description: "Sub-Type selected when logging a call in Salesforce."
     type: yesno
     sql: ${sub_type} = 'Customer Feedback' ;;
   }
@@ -92,12 +93,14 @@ view: tasks_filtered {
   dimension: customer_feedback_recording {
     label: "Customer Recording"
     group_label: "Customer Feedback"
+    description: "Logged customer calls that contain #customer-recording in the comments."
    type: yesno
     sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
 }
 
   dimension_group: activitydate {
     label: "Due"
+    description: "Date populated when call is logged."
     type: time
     timeframes: [
       date,
@@ -293,6 +296,7 @@ view: tasks_filtered {
   measure: count_of_customer_recordings {
     group_label: "Customer Feedback"
     label: "# of Customer Recordings"
+    description: "# of logged calls that have #customer-recording in the comments."
     type: count_distinct
     sql: ${sfid} ;;
     drill_fields: [core_drill_fields*, count_of_customer_recordings]
