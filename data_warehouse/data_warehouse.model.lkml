@@ -1177,7 +1177,7 @@ explore: user_events_by_date {
     view_label: " User Events By Date"
     sql_on: ${events_registry.event_name} = ${user_events_by_date.event_name} ;;
     relationship: many_to_one
-    fields: [events_registry.event_category]
+    fields: [events_registry.event_category, events_registry.date_added_date, events_registry.last_triggered_date]
   }
 
   join: user_fact {
@@ -1191,6 +1191,7 @@ explore: user_events_by_date {
     view_label: "User Agent Details"
     sql_on: ${user_agent_registry.context_useragent} = ${user_events_by_date.user_agent} ;;
     relationship: many_to_one
+    type: left_outer
     fields: [user_agent_registry.device_type, user_agent_registry.device_model, user_agent_registry.device_brand]
   }
 
