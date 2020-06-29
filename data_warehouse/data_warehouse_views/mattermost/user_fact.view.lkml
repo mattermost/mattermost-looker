@@ -3,6 +3,12 @@ view: user_fact {
   sql_table_name: mattermost.user_fact ;;
   view_label: "User Fact"
 
+  # DRILL SETS
+
+  set: user_drill1 {
+    fields: [server_id, first_server_id, user_id, first_active_date, last_active_date, days_first_to_last_active, days_active, server_fact2.first_server_version_major, server_fact.server_version, servers, events_alltime, avg_events_per_day]
+  }
+
   # FILTERS
 
   # DIMENSIONS
@@ -14,9 +20,23 @@ view: user_fact {
   }
 
   dimension: server_id {
-    description: "The server ID associated with a user."
+    description: "The current server ID associated with a user."
     type: string
     sql: ${TABLE}.server_id ;;
+    hidden: no
+  }
+
+  dimension: first_server_id {
+    description: "The first server ID associated with a user."
+    type: string
+    sql: ${TABLE}.first_server_id ;;
+    hidden: no
+  }
+
+  dimension: servers {
+    description: "The number of servers a user has been associated with during their active lifetime."
+    type: number
+    sql: ${TABLE}.server_count ;;
     hidden: no
   }
 
@@ -517,6 +537,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users per grouping."
     type: count_distinct
+    drill_fields: [user_drill1*]
     sql: ${user_id} ;;
   }
 
@@ -525,6 +546,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
     type: count_distinct
+    drill_fields: [user_drill1*]
     filters: [days_first_to_last_active: ">=7"]
     sql: ${user_id} ;;
   }
@@ -534,6 +556,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the platform for >= 28 days per grouping (Days between first and last active >= 28)."
     type: count_distinct
+    drill_fields: [user_drill1*]
     filters: [days_first_to_last_active: ">=28"]
     sql: ${user_id} ;;
   }
@@ -543,6 +566,7 @@ view: user_fact {
     group_label: " User Counts"
     description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 7 distinct days."
     type: count_distinct
+    drill_fields: [user_drill1*]
     filters: [days_first_to_last_active_desktop: ">=7"]
     sql: ${user_id} ;;
   }
@@ -553,6 +577,7 @@ view: user_fact {
     description: "The distinct count of Users that have been active on the Mattermost Desktop Client for >= 28 distinct days."
     type: count_distinct
     filters: [days_first_to_last_active_desktop: ">=28"]
+    drill_fields: [user_drill1*]
     sql: ${user_id} ;;
   }
 
@@ -562,6 +587,7 @@ view: user_fact {
     description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 7 distinct days."
     type: count_distinct
     filters: [days_first_to_last_active_webapp: ">=7"]
+    drill_fields: [user_drill1*]
     sql: ${user_id} ;;
   }
 
@@ -571,6 +597,7 @@ view: user_fact {
     description: "The distinct count of Users that have been active on the Mattermost WebApp Client for >= 28 distinct days."
     type: count_distinct
     filters: [days_first_to_last_active_webapp: ">=28"]
+    drill_fields: [user_drill1*]
     sql: ${user_id} ;;
   }
 
@@ -589,6 +616,7 @@ view: user_fact {
     description: "The distinct count of Users that have been active on the Mattermost Mobile Client for >= 28 distinct days."
     type: count_distinct
     filters: [days_first_to_last_active_mobile: ">=28"]
+    drill_fields: [user_drill1*]
     sql: ${user_id} ;;
   }
 
@@ -596,6 +624,7 @@ view: user_fact {
     label: " Server Count"
     description: "The distinct count of Servers per grouping."
     type: count_distinct
+    drill_fields: [user_drill1*]
     sql: ${server_id} ;;
   }
 
@@ -654,9 +683,21 @@ view: user_fact {
 
   measure: avg_events_per_day_avg {
     label: "Avg. Events per Day"
-    description: "The Avg Total Events Per Day per grouping."
+    group_label: "Events Per Day"
+    description: "The Avg Total Events Performed by Users Per Day Per Grouping."
     type: average
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
+    sql: ${avg_events_per_day} ;;
+  }
+
+  measure: avg_events_per_day_median {
+    label: "Median Events per Day"
+    group_label: "Events Per Day"
+    description: "The Median Total Events Performed by Users Per Day Per Grouping."
+    type: median
+    value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: ${avg_events_per_day} ;;
   }
 
@@ -669,9 +710,21 @@ view: user_fact {
 
   measure: avg_webapp_events_per_day_avg {
     label: "Avg. WebApp Events per Day"
-    description: "The Avg Webapp Events Per Day per grouping."
+    group_label: "WebApp Events Per Day"
+    description: "The Avg Webapp Events Performed by Users Per Day Per Grouping."
     type: average
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
+    sql: ${avg_webapp_events_per_day} ;;
+  }
+
+  measure: avg_webapp_events_per_day_median {
+    label: "Median WebApp Events per Day"
+    group_label: "WebApp Events Per Day"
+    description: "The Median Webapp Events Performed by Users Per Day Per Grouping."
+    type: median
+    value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: ${avg_webapp_events_per_day} ;;
   }
 
@@ -684,9 +737,21 @@ view: user_fact {
 
   measure: avg_desktop_events_per_day_avg {
     label: "Avg. Desktop Events per Day"
-    description: "The Avg Desktop Events Per Day per grouping."
+    group_label: "Desktop Events Per Day"
+    description: "The Avg Desktop Events Performed by Users Per Day Per Grouping."
     type: average
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
+    sql: ${avg_desktop_events_per_day} ;;
+  }
+
+  measure: avg_desktop_events_per_day_median {
+    label: "Median Desktop Events per Day"
+    group_label: "Desktop Events Per Day"
+    description: "The Median Desktop Events Performed by Users Per Day Per Grouping."
+    type: median
+    value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: ${avg_desktop_events_per_day} ;;
   }
 
@@ -699,9 +764,21 @@ view: user_fact {
 
   measure: avg_mobile_events_per_day_avg {
     label: "Avg. Mobile Events per Day"
+    group_label: "Mobile Events Per Day"
     description: "The Avg Mobile Events Per Day per grouping."
     type: average
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
+    sql: ${avg_mobile_events_per_day} ;;
+  }
+
+  measure: avg_mobile_events_per_day_median {
+    label: "Median Mobile Events per Day"
+    group_label: "Mobile Events Per Day"
+    description: "The Median Mobile Events Performed by Users Per Day Per Grouping."
+    type: median
+    value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: ${avg_mobile_events_per_day} ;;
   }
 
@@ -710,6 +787,7 @@ view: user_fact {
     description: "The average number of days between a user's first active date to their last active date."
     type: average
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: ${days_first_to_last_active} ;;
   }
 
@@ -752,6 +830,7 @@ view: user_fact {
     description: "The percent of total days (first active to now) that a user performed >= 1 event per grouping."
     type: number
     value_format: "0.0\%"
+    drill_fields: [user_drill1*]
     sql: (${days_active_sum}/nullif(${days_first_active_to_now_sum},0))*100.0 ;;
   }
 
@@ -760,6 +839,7 @@ view: user_fact {
     description: "The percent of total days (first active to now) that a user did not perform an event per grouping."
     type: number
     value_format: "0.0\%"
+    drill_fields: [user_drill1*]
     sql: (${days_inactive_sum}/nullif(${days_first_active_to_now_sum},0))*100.0 ;;
   }
 
@@ -768,6 +848,7 @@ view: user_fact {
     description: "The ratio of days a user is active to days a user is inactive."
     type: number
     value_format_name: decimal_2
+    drill_fields: [user_drill1*]
     sql: (${days_active_sum}/nullif(${days_inactive_sum},0)) ;;
   }
 
@@ -775,6 +856,7 @@ view: user_fact {
     label: "Avg. Distinct Events Performed"
     type: number
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: avg(${distinct_events_performed}) ;;
   }
 
@@ -782,6 +864,7 @@ view: user_fact {
     label: "Median Distinct Events Performed"
     type: number
     value_format_name: decimal_1
+    drill_fields: [user_drill1*]
     sql: median(${distinct_events_performed}) ;;
   }
 

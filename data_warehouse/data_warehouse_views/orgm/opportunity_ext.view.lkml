@@ -126,7 +126,7 @@ view: opportunity_ext {
     sql: ${TABLE}.MAX_START_DATE ;;
     label: "License Start Date (Max)"
     description: "Max end date for all line items in that opportunity. Populated hourly via DWH script. Not the fields on the opportunity."
-    }
+}
 
   dimension: multi_amount {
     group_label: "Line Item Totals"

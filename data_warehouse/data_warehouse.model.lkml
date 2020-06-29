@@ -75,6 +75,12 @@ explore: tasks_filtered {
     relationship: many_to_one
     fields: []
   }
+
+  join: account {
+    sql: ${account.sfid} = ${tasks_filtered.accountid};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 
@@ -318,6 +324,30 @@ explore: account {
 
   join: opportunity {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+  }
+
+  join: original_opportunity {
+    from: opportunity
+    view_label: "Original Opportunity"
+    sql_on: ${opportunity.original_opportunity_sfid} = ${original_opportunity.sfid};;
+    relationship: one_to_many
+    fields: [name, sfid, total_amount, status_wlo]
+  }
+
+  join: original_opportunity_ext {
+    from: opportunity_ext
+    view_label: "Original Opportunity"
+    sql_on: ${original_opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: [license_max_end_date_date,license_max_end_date_fiscal_quarter, license_max_end_date_fiscal_year]
+  }
+
+  join: original_opportunitylineitem {
+    from: opportunitylineitem
+    view_label: "Original Opportunity"
+    sql_on: ${original_opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
   }
 
   join: account_industry_mapping {
@@ -811,6 +841,13 @@ explore: server_daily_details {
     relationship: one_to_one
     fields: []
   }
+
+  join: version_release_dates {
+    view_label: " Server Daily Details"
+    sql_on: ${server_daily_details.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.supported]
+  }
 }
 
 explore: delete_history {
@@ -836,6 +873,13 @@ explore: server_fact {
     sql_on: ${excludable_servers.server_id} = ${server_fact.server_id} ;;
     relationship: one_to_one
     fields: [excludable_servers.reason]
+  }
+
+  join: version_release_dates {
+    view_label: "Server Fact"
+    sql_on: ${server_fact.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.supported]
   }
 }
 
@@ -915,9 +959,10 @@ explore: nps_user_monthly_score {
   }
 
   join: server_fact {
+    view_label: "NPS User Daily Score"
     sql_on: ${nps_user_monthly_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.first_server_version_major]
   }
 
   join: excludable_servers {
@@ -1005,6 +1050,13 @@ explore: server_daily_details_ext {
     sql_on: ${excludable_servers.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
+  }
+
+  join: version_release_dates {
+    view_label: " Server Daily Details Ext"
+    sql_on: ${server_daily_details_ext.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.supported]
   }
 }
 
@@ -1125,7 +1177,7 @@ explore: user_events_by_date {
     view_label: " User Events By Date"
     sql_on: ${events_registry.event_name} = ${user_events_by_date.event_name} ;;
     relationship: many_to_one
-    fields: [events_registry.event_category]
+    fields: [events_registry.event_category, events_registry.date_added_date, events_registry.last_triggered_date]
   }
 
   join: user_fact {
@@ -1139,6 +1191,7 @@ explore: user_events_by_date {
     view_label: "User Agent Details"
     sql_on: ${user_agent_registry.context_useragent} = ${user_events_by_date.user_agent} ;;
     relationship: many_to_one
+    type: left_outer
     fields: [user_agent_registry.device_type, user_agent_registry.device_model, user_agent_registry.device_brand]
   }
 
@@ -1192,7 +1245,7 @@ explore: user_events_by_date_agg {
   }
 
   join: user_fact {
-    view_label: " User Events By Date"
+    view_label: "User Events By Date Agg"
     sql_on: ${user_fact.user_id} = ${user_events_by_date_agg.user_id} ;;
     relationship: many_to_one
     fields: [user_fact.first_event_name, user_fact.second_event_name, user_fact.third_event_name, user_fact.fourth_event_name, user_fact.fifth_event_name, user_fact.sixth_event_name, user_fact.seventh_event_name, user_fact.eighth_event_name, user_fact.ninth_event_name, user_fact.tenth_event_name]
@@ -1267,7 +1320,15 @@ explore: user_fact {
     view_label: "User Fact"
     sql_on: ${user_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.server_edition, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.server_version, server_fact.first_server_version_major]
+    fields: [server_fact.server_edition, server_fact.server_version, server_fact.server_version_major]
+  }
+
+  join: server_fact2 {
+    from: server_fact
+    view_label: "User Fact"
+    sql_on: ${user_fact.first_server_id} = ${server_fact2.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact2.first_server_edition, server_fact2.first_server_version, server_fact2.first_server_version_major]
   }
 }
 
@@ -1281,6 +1342,13 @@ explore: user_daily_details {
     sql_on: ${user_daily_details.account_sfid} = ${account.sfid} ;;
     relationship: many_to_one
     fields: [account.account_core*]
+  }
+
+  join: user_fact {
+    view_label: "User Daily Details"
+    relationship: many_to_one
+    sql_on: ${user_daily_details.user_id} = ${user_fact.user_id} ;;
+    fields: []
   }
 }
 
@@ -1371,9 +1439,10 @@ explore: nps_server_version_daily_score {
   }
 
   join: server_fact {
+    view_label: "NPS Server Version Daily Score"
     sql_on: ${nps_server_version_daily_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.first_server_version_major]
   }
 
   join: excludable_servers {
@@ -1492,6 +1561,153 @@ explore: stripe_charges {
   }
 }
 
+explore: stripe_charges_data_check {
+  extends: [_base_opportunity_core_explore]
+  from: stripe_charges
+  view_name: stripe_charges
+  label: "Stripe Charges to Opportunity"
+  group_label: "zBizOps"
+  join: stripe_customers {
+    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: (${opportunity.stripe_id} = ${stripe_charges.id} OR ${opportunity.stripe_id} = ${stripe_charges.payment_intent})
+            AND ${opportunity.iswon};;
+    relationship: one_to_one
+  }
+}
+
+
 explore: stripe_payouts {
   group_label: "Finance"
+}
+
+explore: customer_reference {
+  group_label: "Customer Success"
+  join: account {
+    sql_on: ${customer_reference.account} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: owner {
+    from: user
+    sql_on: ${customer_reference.ownerid} = ${owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: creator {
+    from: user
+    sql_on: ${customer_reference.createdbyid} = ${creator.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: available_renewals_dynamic {
+  hidden: yes
+  from: account
+  view_name: account
+  label: "Available Renewals Dynamic"
+  group_label: "Customer Success"
+
+  join: account_csm {
+    from: user
+    sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: parent_account {
+    from: account
+    sql_on: ${account.parentid} = ${parent_account.sfid} ;;
+    relationship:one_to_one
+    fields: []
+  }
+
+  join: parent_account_ext {
+    from: account_ext
+    view_label: "Parent Account"
+    sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_industry_mapping {
+    sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    from: opportunity
+    view_label: "Original Opportunity"
+    sql_on: ${account.sfid} = ${opportunity.accountid};;
+    relationship: one_to_many
+    fields: [sfid, name, total_amount, status_wlo, count]
+  }
+
+  join: original_opportunity_ext {
+    from: opportunity_ext
+    view_label: "Original Opportunity"
+    sql_on: ${opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: [license_max_end_date_date, license_max_end_date_fiscal_quarter]
+  }
+
+  join: original_opportunitylineitem {
+    from: opportunitylineitem
+    view_label: "Original Opportunity Line Items"
+    sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [sfid, total_arr,  total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, end_date]
+  }
+
+  join: renewal_opportunity {
+    from: opportunity
+    sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
+    relationship: many_to_one
+    fields: [sfid, name, total_amount, close_date, close_fiscal_year, status_wlo, count]
+  }
+
+  join: renewal_opportunity_ext {
+    from: opportunity_ext
+    view_label: "Renewal Opportunity"
+    sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunity_ext.opportunityid};;
+    relationship: one_to_one
+    fields: [license_min_start_date_date, license_min_start_date_fiscal_quarter]
+  }
+
+  join: renewal_opportunitylineitem {
+    view_label: "Renewal Opportunity Line Items"
+    from: opportunitylineitem
+    sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+  }
 }

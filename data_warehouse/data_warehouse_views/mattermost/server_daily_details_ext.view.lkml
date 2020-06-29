@@ -244,7 +244,7 @@ view: server_daily_details_ext {
     group_label: " Security User Counts"
     description: "The count of registered users that have logged in to the Mattermost site/application in the last 24 hours on the server (logged via security_update_check.go)."
     type: number
-    sql: CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${TABLE}.active_user_count,0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${TABLE}.active_user_count,0) END ;;
+    sql: CASE WHEN ${active_users_daily} >= COALESCE(${TABLE}.active_user_count,0) THEN ${active_users_daily} ELSE ${TABLE}.active_user_count END ;;
   }
 
   dimension: active_user_count_band {
@@ -514,7 +514,7 @@ view: server_daily_details_ext {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: ${TABLE}.active_users ;;
+    sql: COALESCE(${TABLE}.active_users, 0) ;;
     hidden: yes
   }
 
@@ -523,7 +523,7 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: COALESCE(${TABLE}.active_users_daily, ${TABLE}.active_users)  ;;
+    sql: COALESCE(${TABLE}.active_users_daily, ${active_users}, 0)  ;;
     hidden: no
   }
 
@@ -8108,10 +8108,8 @@ view: server_daily_details_ext {
     label: "  Servers w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that have active users > 0 (from activity diagnostics telemetry) across dimensions."
     type: count_distinct
-    sql: CASE WHEN
-            CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${active_user_count},0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${active_user_count},0) END > 0
-          THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    sql: CASE WHEN  ${active_user_count} > 0 THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_7days_w_active_users_count {
@@ -8122,7 +8120,7 @@ view: server_daily_details_ext {
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 AND
             CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${active_user_count},0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${active_user_count},0) END > 0
           THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_1days_w_active_users_count {
@@ -8133,7 +8131,7 @@ view: server_daily_details_ext {
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 AND
             CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${active_user_count},0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${active_user_count},0) END > 0
           THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_30days_w_active_users_count {
@@ -8142,7 +8140,7 @@ view: server_daily_details_ext {
     description: "Use this for counting distinct Server ID's for servers that are >= 30 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 30 AND ${active_users_daily} > 0 THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_30days_count {
@@ -8151,7 +8149,7 @@ view: server_daily_details_ext {
     description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 30 THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_60days_w_active_users_count {
@@ -8162,7 +8160,7 @@ view: server_daily_details_ext {
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 60 AND
             CASE WHEN COALESCE(${active_users_daily},0) >= COALESCE(${active_user_count},0) THEN COALESCE(${active_users_daily},0) ELSE COALESCE(${active_user_count},0) END > 0
           THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: server_60days_count {
@@ -8171,7 +8169,7 @@ view: server_daily_details_ext {
     description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 60 THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_users_daily, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_telemetry_active_date, server_fact.last_telemetry_active_date]
   }
 
   measure: license_expire_date_max {

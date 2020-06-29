@@ -138,6 +138,11 @@ view: user {
     type: string
   }
 
+  dimension: user_status {
+    sql: ${TABLE}.USER_STATUS__C ;;
+    type: string
+  }
+
   dimension: validation_exempt {
     sql: ${TABLE}.VALIDATION_EXEMPT__C ;;
     type: yesno

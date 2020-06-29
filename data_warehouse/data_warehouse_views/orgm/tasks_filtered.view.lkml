@@ -7,6 +7,18 @@ view: tasks_filtered {
     sql: ${TABLE}."__SDC_PRIMARY_KEY" ;;
   }
 
+  dimension: name {
+    description: "Account Name pulled from Salesforce"
+    label: "Account Name"
+    link: {
+      label: "Salesforce Account"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{accountid}}"
+    }
+    sql: ${account.name} ;;
+    type: string
+  }
+
   dimension_group: _sdc_batched {
     type: time
     timeframes: [
@@ -73,6 +85,7 @@ view: tasks_filtered {
   dimension: sub_type_customer_feedback {
     label: "Customer Feedback"
     group_label: "Customer Feedback"
+    description: "Sub-Type selected when logging a call in Salesforce."
     type: yesno
     sql: ${sub_type} = 'Customer Feedback' ;;
   }
@@ -80,21 +93,20 @@ view: tasks_filtered {
   dimension: customer_feedback_recording {
     label: "Customer Recording"
     group_label: "Customer Feedback"
+    description: "Logged customer calls that contain #customer-recording in the comments."
    type: yesno
     sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
 }
 
   dimension_group: activitydate {
-    label: "Due Date"
+    label: "Due"
+    description: "Date populated when call is logged."
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: ${TABLE}."ACTIVITYDATE" ;;
   }
@@ -217,6 +229,12 @@ view: tasks_filtered {
   dimension: subject {
     type: string
     sql: ${TABLE}."SUBJECT" ;;
+    link: {
+      label: "Salesforce Task"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension_group: systemmodstamp {
@@ -260,6 +278,7 @@ view: tasks_filtered {
   measure: count_of_tasks {
     type: count_distinct
     sql: ${sfid} ;;
+    drill_fields: [subject, core_drill_fields*, sub_type_customer_feedback, customer_feedback_recording]
   }
 
   measure: count_of_customer_feedback_calls {
@@ -267,6 +286,7 @@ view: tasks_filtered {
     label: "# of Customer Feedback Calls"
     type: count_distinct
     sql: ${sfid};;
+    drill_fields: [core_drill_fields*, count_of_customer_feedback_calls]
     filters: {
       field: sub_type_customer_feedback
       value: "yes"
@@ -276,8 +296,10 @@ view: tasks_filtered {
   measure: count_of_customer_recordings {
     group_label: "Customer Feedback"
     label: "# of Customer Recordings"
+    description: "# of logged calls that have #customer-recording in the comments."
     type: count_distinct
     sql: ${sfid} ;;
+    drill_fields: [core_drill_fields*, count_of_customer_recordings]
     filters: {
       field: customer_feedback_recording
       value: "yes"
@@ -287,5 +309,11 @@ view: tasks_filtered {
   measure: count_of_accounts_w_tasks {
     type: count_distinct
     sql: ${accountid} ;;
+    drill_fields: [core_drill_fields*, count_of_accounts_w_tasks]
   }
+
+  set: core_drill_fields {
+    fields: [name, owner_name]
+  }
+
 }

@@ -47,10 +47,12 @@ view: opportunity {
       license_start_date,
       license_start_month,
       license_start_fiscal_quarter_of_year,
+      license_start_fiscal_quarter,
       license_start_fiscal_year,
       license_end_date,
       license_end_month,
       license_end_fiscal_quarter_of_year,
+      license_end_fiscal_quarter,
       license_end_fiscal_year,
       iswon,
       isclosed,
@@ -576,32 +578,9 @@ view: opportunity {
   dimension: original_opportunity_sfid {
     sql: coalesce(${TABLE}.original_opportunity__c, ${TABLE}.original_opportunity_id__c) ;;
     type: string
+    hidden: yes
     label: "Original Opportunity SFID"
     group_label: "Renewals"
-  }
-
-  measure: original_opportunity_amount {
-    sql: ${TABLE}.original_opportunity_amount__c ;;
-    type: sum
-    label: "Original Opportunity Amount"
-    group_label: "Original Opportunity"
-  }
-
-
-  dimension_group: original_opportunity_end {
-    convert_tz: no
-    description: "Date when the opportunity is expected to close."
-    sql: ${TABLE}.original_opportunity_end_date__c ;;
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      year,
-      fiscal_year
-    ]
-    type: time
-    group_label: "Original Opportunity End"
   }
 
   dimension: ownerid {
@@ -723,6 +702,14 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: stripe_id {
+    sql: ${TABLE}.stripe_id__c;;
+    label: "Stripe Charge ID"
+    description: "Stripe Charge ID"
+    type: string
+    group_label: "System"
+  }
+
   dimension: territory_sales_segment {
     type: string
     sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
@@ -735,6 +722,146 @@ view: opportunity {
     label: "Oppt Type"
     sql: ${TABLE}.type ;;
     type: string
+  }
+
+  dimension: use_case {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Use_Case__c ;;
+  }
+
+  dimension: compelling_event {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Compelling_Event__c ;;
+  }
+
+  dimension: decision_criteria_process {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Decision_Criteria_Process__c ;;
+  }
+
+  dimension: competitor {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Competitor__c ;;
+  }
+
+  dimension: paper_process {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Paper_trail_Process__c;;
+  }
+
+  dimension: risks {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Risks__c;;
+  }
+
+  dimension: open_source_user {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Open_Source_User__c;;
+  }
+
+  dimension: regulatory_requirements {
+    group_label: "Customer Journey (Business)"
+    type: string
+    sql: ${TABLE}.Regulatory_Requirements__c;;
+  }
+
+  dimension: target_go_live_date {
+    group_label: "Customer Journey (Technical)"
+    type: date
+    sql: ${TABLE}.Target_Go_Live_Date__c;;
+  }
+
+  dimension: target_integrations {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Target_Integrations__c;;
+  }
+
+  dimension: other_integrations {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Other_Integrations__c;;
+  }
+
+  dimension: existing_chat_solution {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Existing_Chat_Solution__c;;
+  }
+
+  dimension: existing_chat_solution_details {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Existing_Chat_Solution_Details__c;;
+  }
+
+  dimension: current_productivity_platform {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Current_Productivity_Platform__c;;
+  }
+
+  dimension: data_migration_required {
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Data_Migration_Required__c;;
+  }
+
+  dimension: mobile_in_scope {
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.Mobile_in_Scope__c = 'Yes';;
+  }
+
+  dimension: emm_mdm{
+    label: "EMM/MDM"
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.EMM_MDM__c;;
+  }
+
+  dimension: current_identitiy_provider_sso{
+    label: "Current Identity Provider & SSO"
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Current_Identitiy_Provider_SSO__c;;
+  }
+
+  dimension: infosec_questionnaire_completed{
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.INFOSEC_Questionnaire_Completed__c = 'Yes';;
+  }
+
+  dimension: requirements{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Requirements__c;;
+  }
+
+  dimension: extended_support_release_customer{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Extended_Support_Release_Customer__c;;
+  }
+
+  dimension: additional_environment_details{
+    group_label: "Customer Journey (Technical)"
+    type: string
+    sql: ${TABLE}.Additional_Environment_Details__c;;
+  }
+
+  dimension: enterprise_trial_completed{
+    group_label: "Customer Journey (Technical)"
+    type: yesno
+    sql: ${TABLE}.Enterprise_Trial_Completed__c = 'Yes';;
   }
 
 #   dimension: won_reason {
@@ -1206,6 +1333,167 @@ view: opportunity {
       field: new_logo
       value: "Yes"
     }
+  }
+
+  measure: integration_jira_count {
+    label: "Jira Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jira%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_github_count {
+    label: "GitHub Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Github%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_big_blue_button_count {
+    label: "Big Blue Button Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Big Blue Button%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_bamboo_count {
+    label: "Bamboo Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Bamboo%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_bitbucket_count {
+    label: "Bitbucket Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Bitbucket%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_blue_jeans_count {
+    label: "BlueJeans Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Blue Jeans%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_circle_ci_count {
+    label: "CircleCI Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Circle CI%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_confluence_count {
+    label: "Confluence Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Confluence%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_gitlab_count {
+    label: "Gitlab Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Gitlab%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_internal_apps_count {
+    label: "Internal Apps Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Internal Apps%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_jenkins_count {
+    label: "Jenkins Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jenkins%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_jitsi_count {
+    label: "Jitsi Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Jitsi%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_matterbridge_count {
+    label: "Matterbridge Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Matterbridge%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_o365_count {
+    label: "O365 Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%O365%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_pagerduty_count {
+    label: "PagerDuty Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%PagerDuty%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_salesforce_count {
+    label: "Salesforce Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Salesforce%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_servicenow_count {
+    label: "ServiceNow Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%ServiceNow%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_skype4business_count {
+    label: "Skype4Business Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Skype4Business%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_splunk_count {
+    label: "Splunk Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Splunk%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_team_city_count {
+    label: "Team City Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Team City%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_webex_count {
+    label: "Webex Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Webex%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_zendesk_count {
+    label: "ZenDesk Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%ZenDesk%' THEN 1 ELSE 0 END;;
+  }
+
+  measure: integration_zoom_count {
+    label: "Zoom Count"
+    group_label: "Customer Journey Integration Counts"
+    type: sum
+    sql: CASE WHEN ${target_integrations} like '%Zoom%' THEN 1 ELSE 0 END;;
   }
 
   #
