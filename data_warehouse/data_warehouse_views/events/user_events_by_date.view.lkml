@@ -3,6 +3,11 @@ view: user_events_by_date {
   sql_table_name: events.user_events_by_date ;;
   view_label: " User Events By Date"
 
+  # DRILL SETS
+  set: event_name_drill {
+    fields: [logging_date, event_name, os, server_count, user_count, total_events_sum]
+  }
+
   # FILTERS
 
   # DIMENSIONS
@@ -112,7 +117,7 @@ view: user_events_by_date {
     view_label: "User Agent Details"
     description: "The browser used to perform the event (If from mobile event logging table brwoser = device + app i.e. iPhone App."
     type: string
-    sql: COALESCE(${user_agent_registry.browser}, ${TABLE}.browser) ;;
+    sql: COALESCE(nullif(${user_agent_registry.browser}, 'Other'), ${TABLE}.browser) ;;
     hidden: no
   }
 
@@ -120,7 +125,7 @@ view: user_events_by_date {
     view_label: "User Agent Details"
     description: "The browser version used to perform the event."
     type: string
-    sql:  COALESCE(${user_agent_registry.browser_version}, ${TABLE}.browser_version) ;;
+    sql: COALESCE(nullif(${user_agent_registry.browser_version}, 'Other'), ${TABLE}.browser_version) ;;
     hidden: no
   }
 
@@ -128,7 +133,7 @@ view: user_events_by_date {
     view_label: "User Agent Details"
     description: "The operating system used to perform the event."
     type: string
-    sql: COALESCE(${user_agent_registry.operating_system}, ${TABLE}.os) ;;
+    sql: COALESCE(nullif(${user_agent_registry.operating_system}, 'Other'), CASE WHEN ${TABLE}.os = 'iPhone' THEN 'iOS' ELSE ${TABLE}.os END) ;;
     hidden: no
   }
 
@@ -136,7 +141,7 @@ view: user_events_by_date {
     view_label: "User Agent Details"
     description: "The operating system version used to perform the event."
     type: string
-    sql: COALESCE(${user_agent_registry.os_version}, ${TABLE}.os_version) ;;
+    sql: COALESCE(nullif(${user_agent_registry.os_version}, 'Other'), ${TABLE}.os_version) ;;
     hidden: no
   }
 
@@ -211,6 +216,7 @@ view: user_events_by_date {
     description: "The distinct count of Servers  per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: user_count {
@@ -218,6 +224,7 @@ view: user_events_by_date {
     description: "The distinct count of Users  per grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: mobile_dau {
@@ -226,6 +233,7 @@ view: user_events_by_date {
     type: count_distinct
     filters: [mobile_events: ">0"]
     sql: ${user_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: webapp_dau {
@@ -234,6 +242,7 @@ view: user_events_by_date {
     type: count_distinct
     filters: [web_app_events: ">0"]
     sql: ${user_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: desktop_dau {
@@ -242,6 +251,7 @@ view: user_events_by_date {
     type: count_distinct
     filters: [desktop_events: ">0"]
     sql: ${user_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: event_count {
@@ -249,6 +259,7 @@ view: user_events_by_date {
     description: "The distinct count of Events (Event Name) per grouping."
     type: count_distinct
     sql: ${event_id} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: total_events_sum {
@@ -256,6 +267,7 @@ view: user_events_by_date {
     label: " Total Events Sum"
     type: sum
     sql: ${total_events} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: desktop_events_sum {
@@ -263,6 +275,7 @@ view: user_events_by_date {
     group_label: "Event Sums by Application Type"
     type: sum
     sql: ${desktop_events} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: web_app_events_sum {
@@ -270,6 +283,7 @@ view: user_events_by_date {
     group_label: "Event Sums by Application Type"
     type: sum
     sql: ${web_app_events} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: mobile_events_sum {
@@ -277,6 +291,7 @@ view: user_events_by_date {
     group_label: "Event Sums by Application Type"
     type: sum
     sql: ${mobile_events} ;;
+    drill_fields: [event_name_drill*]
   }
 
   measure: seconds_since_last_event_med {
