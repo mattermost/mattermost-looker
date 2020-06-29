@@ -823,11 +823,12 @@ view: opportunity {
   dimension: emm_mdm{
     label: "EMM/MDM"
     group_label: "Customer Journey (Technical)"
-    type: yesno
-    sql: ${TABLE}.EMM_MDM__c = 'Yes';;
+    type: string
+    sql: ${TABLE}.EMM_MDM__c;;
   }
 
   dimension: current_identitiy_provider_sso{
+    label: "Current Identity Provider & SSO"
     group_label: "Customer Journey (Technical)"
     type: string
     sql: ${TABLE}.Current_Identitiy_Provider_SSO__c;;
