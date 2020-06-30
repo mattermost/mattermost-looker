@@ -541,6 +541,26 @@ view: user_fact {
     sql: ${user_id} ;;
   }
 
+  measure: user_1day_active_count {
+    label: " 1-Day Active User Count"
+    group_label: " User Counts"
+    description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
+    type: count_distinct
+    drill_fields: [user_drill1*]
+    filters: [days_first_to_last_active: ">=1"]
+    sql: ${user_id} ;;
+  }
+
+  measure: user_8week_active_count {
+    label: " 8-Week Active User Count"
+    group_label: " User Counts"
+    description: "The distinct count of Users that have been active on the platform for >= 7 days per grouping (Days between first and last active >= 7)."
+    type: count_distinct
+    drill_fields: [user_drill1*]
+    filters: [days_first_to_last_active: ">=56"]
+    sql: ${user_id} ;;
+  }
+
   measure: user_7day_active_count {
     label: " 7-Day Active User Count"
     group_label: " User Counts"
