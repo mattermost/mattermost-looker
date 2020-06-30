@@ -32,7 +32,7 @@ view: scrub_segment {
     label: "Best Case"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_forecast {
     type: sum
@@ -40,7 +40,46 @@ view: scrub_segment {
     label:"Forecast"
     group_label: "Net New"
     value_format_name: usd_0
+  }
+
+  measure: nn_forecast_update {
+    type: sum
+    sql: ${TABLE}."NN_FORECAST" ;;
+    label:"Net New Forecast Update"
+    group_label: "Updates"
+    action: {
+      label: "Update Net New Forecast"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "What would you like Net New Forecast updated to?"
+        default: "{{ value }}"
+        type: string
+        required: yes
+      }
+      param: {
+        name: "field_name"
+        value: "nn_forecast"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value }}"
+      }
+      param: {
+        name: "table"
+        value: "scrub_segment"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
     }
+    value_format_name: usd_0
+  }
 
   measure: nn_commit_max {
     type: sum
@@ -48,7 +87,7 @@ view: scrub_segment {
     label:"Commit"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_omitted_max {
     type:sum
@@ -56,7 +95,7 @@ view: scrub_segment {
     label:"Omitted"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_open_max {
     type:sum
@@ -64,7 +103,7 @@ view: scrub_segment {
     label: "Open (Max)"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_open_weighted {
     type:sum
@@ -72,7 +111,7 @@ view: scrub_segment {
     label: "Open (Wtd)"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_pipeline_max {
     type:sum
@@ -80,7 +119,7 @@ view: scrub_segment {
     label:"Pipeline"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_target {
     type:sum
@@ -88,7 +127,7 @@ view: scrub_segment {
     label:"Target"
     group_label: "Net New"
     value_format_name: usd_0
-    }
+  }
 
   measure: nn_tva {
     type:sum
@@ -96,7 +135,7 @@ view: scrub_segment {
     label:"TvA"
     group_label: "Net New"
     value_format_name: percent_1
-    }
+  }
 
   measure: nn_upside {
     type:sum
@@ -104,7 +143,46 @@ view: scrub_segment {
     group_label: "Net New"
     label:"Upside"
     value_format_name: usd_0
+  }
+
+  measure: nn_upside_update {
+    type:sum
+    sql: ${TABLE}."NN_UPSIDE" ;;
+    group_label: "Updates"
+    label:"Net New Upside Update"
+    action: {
+      label: "Update Net New Upside"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "What would you like Net New Upside updated to?"
+        default: "{{ value }}"
+        type: string
+        required: yes
+      }
+      param: {
+        name: "field_name"
+        value: "nn_upside"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value }}"
+      }
+      param: {
+        name: "table"
+        value: "scrub_segment"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
     }
+    value_format_name: usd_0
+  }
 
 
   measure: ren_actual {
@@ -117,7 +195,7 @@ view: scrub_segment {
       label: "List all actuals"
       url:"/looks/375?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
-    }
+  }
 
   measure: ren_available {
     type:sum
@@ -125,7 +203,7 @@ view: scrub_segment {
     label:"Available"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_best_case_max {
     type:sum
@@ -133,7 +211,7 @@ view: scrub_segment {
     label:"Best Case"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_forecast {
     type:sum
@@ -141,7 +219,47 @@ view: scrub_segment {
     label: "Forecast"
     group_label: "Renewal"
     value_format_name: usd_0
+  }
+
+
+  measure: ren_forecast_update {
+    type:sum
+    sql: ${TABLE}."REN_FORECAST" ;;
+    label: "Renewal Forecast Update"
+    group_label: "Updates"
+    action: {
+      label: "Update Renewal Forecast"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "What would you like Renewal Forecast updated to?"
+        default: "{{ value }}"
+        type: string
+        required: yes
+      }
+      param: {
+        name: "field_name"
+        value: "ren_forecast"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value }}"
+      }
+      param: {
+        name: "table"
+        value: "scrub_segment"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
     }
+    value_format_name: usd_0
+  }
 
   measure: ren_commit_max {
     type:sum
@@ -149,7 +267,7 @@ view: scrub_segment {
     label:"Commit"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_gross_amount {
     type:sum
@@ -157,7 +275,7 @@ view: scrub_segment {
     label: "Gross Amt"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_omitted_max {
     type:sum
@@ -166,7 +284,7 @@ view: scrub_segment {
     group_label: "Renewal"
     value_format_name: usd_0
 
-    }
+  }
 
   measure: ren_omitted_orig_amount_max {
     type:sum
@@ -178,7 +296,7 @@ view: scrub_segment {
       label: "List all lost"
       url:"/looks/378?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
-    }
+  }
 
   measure: ren_open_max {
     type:sum
@@ -186,7 +304,7 @@ view: scrub_segment {
     label:"Open (Max)"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_open_weighted {
     type:sum
@@ -194,7 +312,7 @@ view: scrub_segment {
     label:"Open (Wtd)"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_pipeline_max {
     type:sum
@@ -202,7 +320,7 @@ view: scrub_segment {
     label:"Pipeline"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_rate {
     type:sum
@@ -210,7 +328,7 @@ view: scrub_segment {
     label:"Ren Rate"
     group_label: "Renewal"
     value_format_name: percent_1
-    }
+  }
 
   measure: ren_target {
     type:sum
@@ -218,7 +336,7 @@ view: scrub_segment {
     label: "Target"
     group_label: "Renewal"
     value_format_name: usd_0
-    }
+  }
 
   measure: ren_tva {
     type:sum
@@ -226,7 +344,7 @@ view: scrub_segment {
     label: "TvA"
     group_label: "Renewal"
     value_format_name: percent_1
-    }
+  }
 
   measure: ren_upside {
     type:sum
@@ -234,6 +352,45 @@ view: scrub_segment {
     group_label: "Renewal"
     label: "Upside"
     value_format_name: usd_0
+  }
+
+  measure: ren_upside_update {
+    type:sum
+    sql: ${TABLE}."REN_UPSIDE" ;;
+    group_label: "Updates"
+    label: "Renewal Upside Update"
+    action: {
+      label: "Update Renewal Upside"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "What would you like Renewal Upside updated to?"
+        default: "{{ value }}"
+        type: string
+        required: yes
+      }
+      param: {
+        name: "field_name"
+        value: "ren_upside"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value }}"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"scrub_segment\": \"{{ sales_segment }}\", \"qtr\": \"{{ scrub_qtr }}\"}\""
+      }
+      param: {
+        name: "table"
+        value: "scrub_segment"
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
     }
+    value_format_name: usd_0
+  }
 
 }
