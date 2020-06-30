@@ -39,6 +39,14 @@ view: scrub_segment {
     sql: ${TABLE}."NN_FORECAST" ;;
     label:"Forecast"
     group_label: "Net New"
+    value_format_name: usd_0
+  }
+
+  measure: nn_forecast_update {
+    type: sum
+    sql: ${TABLE}."NN_FORECAST" ;;
+    label:"Net New Forecast Update"
+    group_label: "Updates"
     action: {
       label: "Update Net New Forecast"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
@@ -134,6 +142,14 @@ view: scrub_segment {
     sql: ${TABLE}."NN_UPSIDE" ;;
     group_label: "Net New"
     label:"Upside"
+    value_format_name: usd_0
+  }
+
+  measure: nn_upside_update {
+    type:sum
+    sql: ${TABLE}."NN_UPSIDE" ;;
+    group_label: "Updates"
+    label:"Net New Upside Update"
     action: {
       label: "Update Net New Upside"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
@@ -202,6 +218,15 @@ view: scrub_segment {
     sql: ${TABLE}."REN_FORECAST" ;;
     label: "Forecast"
     group_label: "Renewal"
+    value_format_name: usd_0
+  }
+
+
+  measure: ren_forecast_update {
+    type:sum
+    sql: ${TABLE}."REN_FORECAST" ;;
+    label: "Renewal Forecast Update"
+    group_label: "Updates"
     action: {
       label: "Update Renewal Forecast"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
@@ -326,6 +351,14 @@ view: scrub_segment {
     sql: ${TABLE}."REN_UPSIDE" ;;
     group_label: "Renewal"
     label: "Upside"
+    value_format_name: usd_0
+  }
+
+  measure: ren_upside_update {
+    type:sum
+    sql: ${TABLE}."REN_UPSIDE" ;;
+    group_label: "Updates"
+    label: "Renewal Upside Update"
     action: {
       label: "Update Renewal Upside"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
