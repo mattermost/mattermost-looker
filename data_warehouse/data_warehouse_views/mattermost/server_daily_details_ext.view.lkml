@@ -599,7 +599,7 @@ view: server_daily_details_ext {
     type: number
     group_label: "Activity Diagnostics"
     value_format_name: decimal_1
-    sql: ${posts}::float/NULLIF(${active_users_daily},0)::FLOAT ;;
+    sql: (/*${posts}::float-*/${posts_previous_day}::float)/NULLIF(${active_users_daily},0)::FLOAT ;;
     hidden: no
   }
 
