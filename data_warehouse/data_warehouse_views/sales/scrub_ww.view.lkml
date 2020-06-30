@@ -349,8 +349,8 @@ view: scrub_ww {
   measure: ren_upside_update {
     type:sum
     sql: ${TABLE}."REN_UPSIDE" ;;
-    group_label: "Renewal Upside Update"
-    label: "Updates"
+    group_label: "Updates"
+    label: "Renewal Upside Update"
     action: {
       label: "Update Renewal Upside"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
