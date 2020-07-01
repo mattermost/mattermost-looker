@@ -231,6 +231,12 @@ view: opportunity {
     group_label: "System"
   }
 
+  dimension: contractid {
+    hidden: yes
+    sql: ${TABLE}.contractid ;;
+    type: string
+  }
+
   dimension: createdbyid {
     description: "The ID of the user who created the opportunity"
     sql: ${TABLE}.createdbyid ;;
