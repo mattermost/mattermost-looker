@@ -404,6 +404,33 @@ explore: account_monthly_arr_deltas_by_type {
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: one_to_one
   }
+
+  join: opportunity_ext {
+    sql_on: ${account.sfid} = ${opportunity_ext.accountid};;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid}
+            and ${opportunitylineitem.start_date} <= ${account_monthly_arr_deltas_by_type.month_end_date}
+            and ${opportunitylineitem.end_date} >= ${account_monthly_arr_deltas_by_type.month_start_date};;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: product2 {
+    view_label: "Account Monthly ARR Changes"
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+    fields: [max_product_name]
+  }
 }
 
 explore: master_account_monthly_arr_deltas_by_type {

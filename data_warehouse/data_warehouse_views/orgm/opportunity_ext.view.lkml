@@ -7,6 +7,11 @@ view: opportunity_ext {
     sql: ${TABLE}."OPPORTUNITY_SFID" ;;
   }
 
+  dimension: accountid {
+    hidden: yes
+    type: string
+    sql: ${TABLE}."ACCOUNTID" ;;
+  }
 
   dimension: expansion_amount {
     group_label: "Line Item Totals"
