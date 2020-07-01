@@ -620,6 +620,17 @@ view: server_daily_details {
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
   }
 
+  dimension: posts_per_user_per_day_band {
+    group_label: "Server Events"
+    label: "Posts Per User Band"
+    description: "The number of posts per active user for the server on the given logging."
+    type: tier
+    style: integer
+    tiers: [1, 3, 6, 11, 16, 21, 31, 51, 76, 101]
+    value_format_name: decimal_1
+    sql: ${posts_per_user_per_day} ;;
+  }
+
 
   # Measures
   measure: server_count {
