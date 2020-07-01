@@ -126,7 +126,6 @@ explore: _base_account_explore {
     relationship: many_to_one
   }
 
-
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
     relationship: many_to_one
@@ -353,6 +352,19 @@ explore: account {
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
     relationship: many_to_one
+    fields: []
+  }
+
+  join: contract {
+    view_label: "Account Contracts"
+    sql_on: ${account.sfid} = ${contract.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: opportunity_contracts {
+    from: opportunity
+    sql_on: ${contract.contract_opportunity} = ${opportunity_contracts.sfid} ;;
+    relationship: one_to_one
     fields: []
   }
 }
