@@ -25,7 +25,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."ACCOUNTS_PAYABLE_ACCRUED_LIABILITIES_AND_OTHER_LIABILITIES" ;;
     group_label: "Operating Activities"
-    label: "Accounts Payable, Accrued Liabilities & Other Liabilities"
+    label: " -    Accounts Payable, Accrued Liabilities & Other Liabilities"
     group_item_label: " 8. Accounts Payable, Accrued Liabilities & Other Liabilities"
     value_format_name: usd_0
   }
@@ -43,7 +43,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."ACCOUNTS_RECEIVABLE_NET" ;;
     group_label: "Operating Activities"
-    label: "Accounts receivable, Net"
+    label: " -    Accounts receivable, Net"
     group_item_label: " 6. Accounts receivable, Net"
     value_format_name: usd_0
   }
@@ -63,15 +63,6 @@ view: financial_statements {
     group_label: "Assets"
     label: "Accum Depreciation"
     group_item_label: " 7. Accum Depreciation"
-    value_format_name: usd_0
-  }
-
-  measure: adjustment_reconcile_netloss_to_net_cash_provided_by_operating_activities {
-    type: sum
-    sql: ${TABLE}."ADJUSTMENT_RECONCILE_NETLOSS_TO_NET_CASH_PROVIDED_BY_OPERATING_ACTIVITIES" ;;
-    group_label: "Operating Activities"
-    label: "Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
-    group_item_label: " 2. Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
     value_format_name: usd_0
   }
 
@@ -144,7 +135,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."DEFERRED_REVENUE" ;;
     group_label: "Operating Activities"
-    label: "Deferred Revenue"
+    label: " -    Deferred Revenue"
     group_item_label: " 9. Deferred Revenue"
     value_format_name: usd_0
   }
@@ -162,7 +153,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."DEPRECIATION_AND_AMORTIZATION" ;;
     group_label: "Operating Activities"
-    label: "Depreciation & Amortization"
+    label: " -    Depreciation & Amortization"
     group_item_label: " 3. Depreciation & Amortization"
     value_format_name: usd_0
   }
@@ -215,7 +206,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."INTEREST_EXPENSE_ACCRUED_EXPENSES" ;;
     group_label: "Operating Activities"
-    label: "Interest Expense (Accrued Expenses)"
+    label: " -    Interest Expense (Accrued Expenses)"
     group_item_label: " 4. Interest Expense (Accrued Expenses)"
     value_format_name: usd_0
   }
@@ -354,6 +345,26 @@ view: financial_statements {
     value_format_name: usd_0
   }
 
+  measure: adjustment_to_reconcile_net_loss_to_net_cash_provided_by_used_in_operating_activities {
+    type: string
+    sql: '' ;;
+    description: "Adjustment to reconcile net loss to net cash provided by (used in) operating activities"
+    group_label: "Operating Activities"
+    label: "Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
+    hidden: no
+    value_format_name: usd_0
+  }
+
+  measure: changes_in_operating_assets_and_liabilities {
+    type: string
+    sql: '' ;;
+    description: "Changes in operating assets and liabilities"
+    group_label: "Operating Activities"
+    label: "Changes in Operating Assets and Liabilities"
+    hidden: no
+    value_format_name: usd_0
+  }
+
   measure: other_assets {
     type: sum
     sql: ${TABLE}."OTHER_ASSETS" ;;
@@ -404,7 +415,7 @@ view: financial_statements {
     sql: ${TABLE}."PREPAID_EXPENSES_AND_OTHER_ASSETS" ;;
     group_label: "Operating Activities"
     group_item_label: " 7. Prepaid Expenses & Other Assets"
-    label: "Prepaid Expenses & Other Assets"
+    label: " -    Prepaid Expenses & Other Assets"
     value_format_name: usd_0
   }
 
@@ -509,7 +520,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."WRITEOFFOF_FULLY_DEPRECIATED_ASSETS" ;;
     group_label: "Operating Activities"
-    label: "Write-off of Fully Depreciated Assets"
+    label: " -    Write-off of Fully Depreciated Assets"
     group_item_label: " 5. Write-off of Fully Depreciated Assets"
     value_format_name: usd_0
   }
