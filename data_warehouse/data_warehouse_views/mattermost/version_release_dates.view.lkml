@@ -13,6 +13,13 @@ view: version_release_dates {
     hidden: no
   }
 
+  dimension: release_number {
+    description: "The server version release number associated with server version."
+    type: number
+    sql: ${TABLE}.release_number ;;
+    hidden: no
+  }
+
   dimension: supported {
     description: "Boolean indicating the server version is currently supported."
     type: yesno
