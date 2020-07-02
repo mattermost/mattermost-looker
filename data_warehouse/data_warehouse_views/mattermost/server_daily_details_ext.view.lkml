@@ -150,11 +150,18 @@ view: server_daily_details_ext {
     hidden: no
   }
 
-  filter: active_users_alltime {
+  dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: active_users2_alltime {
+    description: "The server has had >= 2 Active User during it's telemetry lifetime."
+    label: ">= 2 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 1 THEN TRUE ELSE FALSE END ;;
   }
 
   # DIMENSIONS
