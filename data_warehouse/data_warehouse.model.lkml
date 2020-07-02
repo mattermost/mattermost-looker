@@ -883,7 +883,7 @@ explore: server_daily_details {
 
   join: version_release_dates {
     view_label: " Server Daily Details"
-    sql_on: ${server_daily_details.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_daily_details.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
@@ -916,7 +916,7 @@ explore: server_fact {
 
   join: version_release_dates {
     view_label: "Server Fact"
-    sql_on: ${server_fact.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_fact.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
@@ -1093,7 +1093,7 @@ explore: server_daily_details_ext {
 
   join: version_release_dates {
     view_label: " Server Daily Details Ext"
-    sql_on: ${server_daily_details_ext.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_daily_details_ext.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
