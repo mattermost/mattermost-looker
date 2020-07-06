@@ -68,7 +68,7 @@ view: server_daily_details_ext {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-    CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+    CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
     ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
     THEN TRUE ELSE FALSE END ;;
   }
@@ -150,11 +150,18 @@ view: server_daily_details_ext {
     hidden: no
   }
 
-  filter: active_users_alltime {
+  dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: active_users2_alltime {
+    description: "The server has had >= 2 Active User during it's telemetry lifetime."
+    label: ">= 2 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 1 THEN TRUE ELSE FALSE END ;;
   }
 
   # DIMENSIONS
@@ -200,6 +207,15 @@ view: server_daily_details_ext {
     description: "The version of the Mattermost server omitting the dot releases."
     type: string
     sql: split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2)  ;;
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major_int {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current - Integer)"
+    description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
+    type: number
+    sql: (split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2))::float  ;;
     order_by_field: server_version_major_sort
   }
 
@@ -508,6 +524,14 @@ view: server_daily_details_ext {
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.dau_total} ;;
+  }
+
+  dimension: mobile_dau {
+    group_label: "Server-Level User Events"
+    label: "Mobile DAU"
+    description: "The number of mobile daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.mobile_dau} ;;
   }
 
   dimension: active_users {
@@ -2586,6 +2610,15 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_confluence {
+    label: "Enable Confluence"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_confluence ;;
+    hidden: no
+  }
+
   dimension: enable_custom_user_attributes {
   label: "Enable Custom User Attributes"
     description: ""
@@ -2640,12 +2673,30 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_jitsi {
+    label: "Enable Jitsi"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_jitsi ;;
+    hidden: no
+  }
+
   dimension: enable_marketplace {
   label: "Enable Marketplace"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_marketplace ;;
+    hidden: no
+  }
+
+  dimension: enable_mscalendar {
+    label: "Enable MS Calendar"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_mscalendar ;;
     hidden: no
   }
 
@@ -2673,6 +2724,24 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_remote_marketplace ;;
+    hidden: no
+  }
+
+  dimension: enable_skype4business {
+    label: "Enable Skype4Business"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_skype4business ;;
+    hidden: no
+  }
+
+  dimension: enable_todo {
+    label: "Enable ToDo"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_todo ;;
     hidden: no
   }
 
@@ -6495,6 +6564,51 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_jira} then ${server_id} else null end ;;
+  }
+
+  measure: enable_jitsi_count {
+    label: "Servers w/ Plugin Enable Jitsi"
+    description: "The count of servers with Plugin Enable Jitsi enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_jitsi} then ${server_id} else null end ;;
+  }
+
+  measure: enable_confluence_count {
+    label: "Servers w/ Plugin Enable Confluence"
+    description: "The count of servers with Plugin Enable Confluence enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_confluence} then ${server_id} else null end ;;
+  }
+
+  measure: enable_todo_count {
+    label: "Servers w/ Plugin Enable ToDo"
+    description: "The count of servers with Plugin Enable ToDo enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_todo} then ${server_id} else null end ;;
+  }
+
+  measure: enable_mscalendar_count {
+    label: "Servers w/ Plugin Enable MS Calendar"
+    description: "The count of servers with Plugin Enable MS Calendar enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_mscalendar} then ${server_id} else null end ;;
+  }
+
+  measure: enable_skype4business_count {
+    label: "Servers w/ Plugin Enable Skype4Business"
+    description: "The count of servers with Plugin Enable Skype4Business enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_skype4business} then ${server_id} else null end ;;
   }
 
   measure: enable_marketplace_count {
