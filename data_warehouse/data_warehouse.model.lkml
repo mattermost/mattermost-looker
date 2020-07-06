@@ -431,6 +431,13 @@ explore: account_monthly_arr_deltas_by_type {
     relationship: many_to_one
     fields: [max_product_name]
   }
+
+  join: contract {
+    view_label: "Account Monthly ARR Changes"
+    sql_on: ${account.sfid} = ${contract.accountid} ;;
+    relationship: one_to_many
+    fields: [contract.agreement_status, contract.agreement_type]
+  }
 }
 
 explore: master_account_monthly_arr_deltas_by_type {
