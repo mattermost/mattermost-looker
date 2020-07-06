@@ -69,10 +69,38 @@ view: issues {
     hidden: no
   }
 
-  dimension: assignee_active {
+  dimension: assignee_accountid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:assignee:accountId::string ;;
+    hidden: no
+  }
+
+	  dimension: assignee_accounttype {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:assignee:accountType::string ;;
+    hidden: no
+  }
+
+	  dimension: assignee_active {
     description: "" 
     type: string
     sql: ${TABLE}.fields:assignee:active::string ;;
+    hidden: no
+  }
+
+	  dimension: assignee_avatarurls {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:assignee:avatarUrls::string ;;
+    hidden: no
+  }
+
+	  dimension: assignee_displayname {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:assignee:displayName::string ;;
     hidden: no
   }
 
@@ -80,6 +108,13 @@ view: issues {
     description: "" 
     type: string
     sql: ${TABLE}.fields:assignee:self::string ;;
+    hidden: no
+  }
+
+	  dimension: assignee_timezone {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:assignee:timeZone::string ;;
     hidden: no
   }
 
@@ -104,10 +139,38 @@ view: issues {
     hidden: no
   }
 
-  dimension: creator_active {
+  dimension: creator_accountid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:creator:accountId::string ;;
+    hidden: no
+  }
+
+	  dimension: creator_accounttype {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:creator:accountType::string ;;
+    hidden: no
+  }
+
+	  dimension: creator_active {
     description: "" 
     type: string
     sql: ${TABLE}.fields:creator:active::string ;;
+    hidden: no
+  }
+
+	  dimension: creator_avatarurls {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:creator:avatarUrls::string ;;
+    hidden: no
+  }
+
+	  dimension: creator_displayname {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:creator:displayName::string ;;
     hidden: no
   }
 
@@ -115,6 +178,13 @@ view: issues {
     description: "" 
     type: string
     sql: ${TABLE}.fields:creator:self::string ;;
+    hidden: no
+  }
+
+	  dimension: creator_timezone {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:creator:timeZone::string ;;
     hidden: no
   }
 
@@ -174,7 +244,28 @@ view: issues {
     hidden: no
   }
 
-  dimension: customfield_10700 {
+  dimension: customfield_10600_hasepiclinkfielddependency {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_10600:hasEpicLinkFieldDependency::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_10600_noneditablereason {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_10600:nonEditableReason::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_10600_showfield {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_10600:showField::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_10700 {
     description: "" 
     type: string
     sql: ${TABLE}.fields:customfield_10700::string ;;
@@ -195,10 +286,38 @@ view: issues {
     hidden: no
   }
 
-  dimension: customfield_11100_active {
+  dimension: customfield_11100_accountid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_11100:accountId::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_11100_accounttype {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_11100:accountType::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_11100_active {
     description: "" 
     type: string
     sql: ${TABLE}.fields:customfield_11100:active::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_11100_avatarurls {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_11100:avatarUrls::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_11100_displayname {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_11100:displayName::string ;;
     hidden: no
   }
 
@@ -206,6 +325,13 @@ view: issues {
     description: "" 
     type: string
     sql: ${TABLE}.fields:customfield_11100:self::string ;;
+    hidden: no
+  }
+
+	  dimension: customfield_11100_timezone {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:customfield_11100:timeZone::string ;;
     hidden: no
   }
 
@@ -412,10 +538,24 @@ view: issues {
     hidden: no
   }
 
-  dimension: issuetype_description {
+  dimension: issuetype_avatarid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:issuetype:avatarId::string ;;
+    hidden: no
+  }
+
+	  dimension: issuetype_description {
     description: "" 
     type: string
     sql: ${TABLE}.fields:issuetype:description::string ;;
+    hidden: no
+  }
+
+	  dimension: issuetype_iconurl {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:issuetype:iconUrl::string ;;
     hidden: no
   }
 
@@ -468,6 +608,13 @@ view: issues {
     hidden: no
   }
 
+	  dimension: project_avatarurls {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:project:avatarUrls::string ;;
+    hidden: no
+  }
+
 	  dimension: project_id {
     description: "" 
     type: string
@@ -489,6 +636,13 @@ view: issues {
     hidden: no
   }
 
+	  dimension: project_projecttypekey {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:project:projectTypeKey::string ;;
+    hidden: no
+  }
+
 	  dimension: project_self {
     description: "" 
     type: string
@@ -503,6 +657,20 @@ view: issues {
     hidden: no
   }
 
+	  dimension: reporter_accountid {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:reporter:accountId::string ;;
+    hidden: no
+  }
+
+	  dimension: reporter_accounttype {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:reporter:accountType::string ;;
+    hidden: no
+  }
+
 	  dimension: reporter_active {
     description: "" 
     type: string
@@ -510,10 +678,31 @@ view: issues {
     hidden: no
   }
 
+	  dimension: reporter_avatarurls {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:reporter:avatarUrls::string ;;
+    hidden: no
+  }
+
+	  dimension: reporter_displayname {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:reporter:displayName::string ;;
+    hidden: no
+  }
+
 	  dimension: reporter_self {
     description: "" 
     type: string
     sql: ${TABLE}.fields:reporter:self::string ;;
+    hidden: no
+  }
+
+	  dimension: reporter_timezone {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:reporter:timeZone::string ;;
     hidden: no
   }
 
@@ -566,6 +755,13 @@ view: issues {
     hidden: no
   }
 
+	  dimension: status_iconurl {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:status:iconUrl::string ;;
+    hidden: no
+  }
+
 	  dimension: status_id {
     description: "" 
     type: string
@@ -584,6 +780,13 @@ view: issues {
     description: "" 
     type: string
     sql: ${TABLE}.fields:status:self::string ;;
+    hidden: no
+  }
+
+	  dimension: status_statuscategory {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:status:statusCategory::string ;;
     hidden: no
   }
 
@@ -636,7 +839,14 @@ view: issues {
     hidden: no
   }
 
-  dimension: votes_self {
+  dimension: votes_hasvoted {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:votes:hasVoted::string ;;
+    hidden: no
+  }
+
+	  dimension: votes_self {
     description: "" 
     type: string
     sql: ${TABLE}.fields:votes:self::string ;;
@@ -650,10 +860,24 @@ view: issues {
     hidden: no
   }
 
+	  dimension: watches_iswatching {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:watches:isWatching::string ;;
+    hidden: no
+  }
+
 	  dimension: watches_self {
     description: "" 
     type: string
     sql: ${TABLE}.fields:watches:self::string ;;
+    hidden: no
+  }
+
+	  dimension: watches_watchcount {
+    description: "" 
+    type: string
+    sql: ${TABLE}.fields:watches:watchCount::string ;;
     hidden: no
   }
 
