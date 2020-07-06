@@ -68,7 +68,7 @@ view: server_daily_details_ext {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-    CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
+    CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
     ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
     THEN TRUE ELSE FALSE END ;;
   }
@@ -4580,6 +4580,24 @@ view: server_daily_details_ext {
     description: "The distinct count of Server s per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+  }
+
+  measure: server_count_ttr {
+    label: "   Server Count (Trailing 3 Releases)"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_version_major_int}::float >= (
+                                                    SELECT MIN((split_part(version, '.', 1) || '.' || split_part(version, '.', 2))::float)
+                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
+                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
+                                                    AND release_date < CURRENT_DATE
+                                                    )::float
+             AND SPLIT_PART(${server_version_major_int}, '.', 2)::float >= (SELECT MIN(split_part(version, '.', 2))
+                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
+                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
+                                                    AND release_date < CURRENT_DATE)::float THEN ${server_id} ELSE NULL END;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
