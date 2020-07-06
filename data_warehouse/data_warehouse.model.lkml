@@ -1750,3 +1750,7 @@ explore: available_renewals_dynamic {
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
   }
 }
+
+explore: issues_expanded {
+  label: "Issues Expanded"
+}
