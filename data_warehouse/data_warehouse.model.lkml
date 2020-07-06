@@ -62,6 +62,7 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
+include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -1758,6 +1759,6 @@ explore: available_renewals_dynamic {
   }
 }
 
-explore: issues_expanded {
-  label: "Issues Expanded"
+explore: issues {
+  label: "Issues"
 }
