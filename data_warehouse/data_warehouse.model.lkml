@@ -1757,3 +1757,15 @@ explore: available_renewals_dynamic {
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
   }
 }
+
+explore: netsuite_opportunity {
+  label: "Netsuite (Opportunity Level)"
+  extends: [account]
+  view_name: account
+  group_label: "Finance"
+
+  join: netsuite_financial {
+    sql_on: ${opportunity.sfid} = ${netsuite_financial.opportunityid} ;;
+    relationship: many_to_one
+  }
+}
