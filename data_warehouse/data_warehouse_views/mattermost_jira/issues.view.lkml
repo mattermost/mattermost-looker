@@ -26,6 +26,11 @@ view: issues {
       url: "/dashboards/173?Issue%20ID={{ id._value }}"
       icon_url: "https://mattermost.looker.com//images/favicon.ico"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/173"
+      icon_url: "https://mattermost.looker.com//images/favicon.ico"
+    }
     sql: ${TABLE}.key ;;
     hidden: no
   }
@@ -565,6 +570,29 @@ view: issues {
     hidden: no
   }
 
+  dimension: fix_version {
+    label: "Fix Version"
+    description: ""
+    type: string
+    sql: split_part(replace(split_part(replace(replace(${TABLE}.fields:fixVersions::string, '[',''), ']', ''), '"name":', 2), '"', ''), ',', 1) ;;
+    hidden: no
+    link: {
+      label: "Mattermost Handbook: Fix Versions"
+      url: "https://handbook.mattermost.com/operations/research-and-development/product/development-process/new-bug-tickets/jira-fix-versions"
+      icon_url: "https://gblobscdn.gitbook.com/orgs%2F-LorO8UtLPwxE06BcHq5%2Favatar.png?alt=media"
+    }
+    link: {
+      label: "Filter Dasbhoard On Fix Version"
+      url: "/dashboards/173?Fix%20Version={{ value }}"
+      icon_url: "https://mattermost.looker.com//images/favicon.ico"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/173"
+      icon_url: "https://mattermost.looker.com//images/favicon.ico"
+    }
+  }
+
   dimension: issuelinks {
     label: "Issue Links"
     description: ""
@@ -773,10 +801,20 @@ view: issues {
   }
 
     dimension: resolution_name {
-    label: "Resolution Name"
+    label: "Resolution Status"
     description: ""
     type: string
-    sql: ${TABLE}.fields:resolution:name::string ;;
+    sql: COALESCE(${TABLE}.fields:resolution:name::string, 'Open') ;;
+      link: {
+        label: "Filter Dasbhoard On Resolution Status"
+        url: "/dashboards/173?Resolution%20Status={{ value }}"
+        icon_url: "https://mattermost.looker.com//images/favicon.ico"
+      }
+      link: {
+        label: "Clear Dashboard Filters"
+        url: "/dashboards/173"
+        icon_url: "https://mattermost.looker.com//images/favicon.ico"
+      }
     hidden: no
   }
 
