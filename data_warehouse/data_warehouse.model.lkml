@@ -1760,5 +1760,6 @@ explore: available_renewals_dynamic {
 }
 
 explore: issues {
-  label: "Issues"
+  label: "Jira Tickets (Issues)"
+  group_label: "Products"
 }

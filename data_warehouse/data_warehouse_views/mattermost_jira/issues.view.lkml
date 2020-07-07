@@ -7,914 +7,981 @@ view: issues {
 
   # DIMENSIONS
   dimension: id {
-    description: "" 
+    description: "The Jira ticket ID."
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: key {
-    description: "" 
+    description: "The Jira Ticket Key (format AA-1234)."
     type: string
+    link: {
+      label: "Go to Jira Issue"
+      url: "https://mattermost.atlassian.net/browse/{{ value }}"
+      icon_url: "https://mattermost.atlassian.net/images/jira-safari-pintab-icon.svg"
+    }
     sql: ${TABLE}.key ;;
     hidden: no
   }
 
   dimension: self {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.self ;;
     hidden: no
   }
 
   dimension: _sdc_table_version {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}._sdc_table_version ;;
     hidden: no
   }
 
   dimension: aggregateprogress_progress {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:aggregateprogress:progress::string ;;
     hidden: no
   }
 
-	  dimension: aggregateprogress_total {
-    description: "" 
+    dimension: aggregateprogress_total {
+    description: ""
     type: string
     sql: ${TABLE}.fields:aggregateprogress:total::string ;;
     hidden: no
   }
 
-	  dimension: aggregatetimeestimate {
-    description: "" 
+    dimension: aggregatetimeestimate {
+    description: ""
     type: string
     sql: ${TABLE}.fields:aggregatetimeestimate::string ;;
     hidden: no
   }
 
   dimension: aggregatetimeoriginalestimate {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:aggregatetimeoriginalestimate::string ;;
     hidden: no
   }
 
   dimension: aggregatetimespent {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:aggregatetimespent::string ;;
     hidden: no
   }
 
   dimension: assignee_accountid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:accountId::string ;;
     hidden: no
   }
 
-	  dimension: assignee_accounttype {
-    description: "" 
+    dimension: assignee_accounttype {
+    label: "Assignee: Account Type"
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:accountType::string ;;
     hidden: no
   }
 
-	  dimension: assignee_active {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:assignee:active::string ;;
+    dimension: assignee_active {
+    label: "Assignee: Active"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.fields:assignee:active::boolean ;;
     hidden: no
   }
 
-	  dimension: assignee_avatarurls {
-    description: "" 
+    dimension: assignee_avatarurls {
+    label: "Assignee: Avatar URLs"
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:avatarUrls::string ;;
     hidden: no
   }
 
-	  dimension: assignee_displayname {
-    description: "" 
+    dimension: assignee_displayname {
+    label: "Assignee"
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:displayName::string ;;
     hidden: no
   }
 
-	  dimension: assignee_self {
-    description: "" 
+    dimension: assignee_self {
+    label: "Assignee: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:self::string ;;
     hidden: no
   }
 
-	  dimension: assignee_timezone {
-    description: "" 
+    dimension: assignee_timezone {
+    label: "Assignee: Timezone"
+    description: ""
     type: string
     sql: ${TABLE}.fields:assignee:timeZone::string ;;
     hidden: no
   }
 
-	  dimension: attachment {
-    description: "" 
+    dimension: attachment {
+    description: ""
     type: string
     sql: ${TABLE}.fields:attachment::string ;;
     hidden: no
   }
 
   dimension: components {
-    description: "" 
+    label: "Components"
+    description: ""
     type: string
     sql: ${TABLE}.fields:components::string ;;
     hidden: no
   }
 
-  dimension: created {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:created::string ;;
+  dimension_group: created {
+    description: ""
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: LEFT(${TABLE}.fields:created::string, 10)::DATE ;;
     hidden: no
   }
 
   dimension: creator_accountid {
-    description: "" 
+    label: "Creator: Account ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:accountId::string ;;
     hidden: no
   }
 
-	  dimension: creator_accounttype {
-    description: "" 
+    dimension: creator_accounttype {
+    label: "Creator: Account Type"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:accountType::string ;;
     hidden: no
   }
 
-	  dimension: creator_active {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:creator:active::string ;;
+    dimension: creator_active {
+    label: "Creator: Active"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.fields:creator:active::boolean ;;
     hidden: no
   }
 
-	  dimension: creator_avatarurls {
-    description: "" 
+    dimension: creator_avatarurls {
+    label: "Creator: Avatar URLs"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:avatarUrls::string ;;
     hidden: no
   }
 
-	  dimension: creator_displayname {
-    description: "" 
+    dimension: creator_displayname {
+    label: "Creator"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:displayName::string ;;
     hidden: no
   }
 
-	  dimension: creator_self {
-    description: "" 
+    dimension: creator_self {
+    label: "Creator: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:self::string ;;
     hidden: no
   }
 
-	  dimension: creator_timezone {
-    description: "" 
+    dimension: creator_timezone {
+    label: "Creator: Timezone"
+    description: ""
     type: string
     sql: ${TABLE}.fields:creator:timeZone::string ;;
     hidden: no
   }
 
-	  dimension: customfield_10000 {
-    description: "" 
+    dimension: customfield_10000 {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10000::string ;;
     hidden: no
   }
 
   dimension: customfield_10001 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10001::string ;;
     hidden: no
   }
 
   dimension: customfield_10003 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10003::string ;;
     hidden: no
   }
 
   dimension: customfield_10004 {
-    description: "" 
+    label: "Mana"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10004::string ;;
     hidden: no
   }
 
   dimension: customfield_10006 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10006::string ;;
     hidden: no
   }
 
   dimension: customfield_10007 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10007::string ;;
     hidden: no
   }
 
   dimension: customfield_10011 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10011::string ;;
     hidden: no
   }
 
   dimension: customfield_10500 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10500::string ;;
     hidden: no
   }
 
   dimension: customfield_10600_hasepiclinkfielddependency {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10600:hasEpicLinkFieldDependency::string ;;
     hidden: no
   }
 
-	  dimension: customfield_10600_noneditablereason {
-    description: "" 
+    dimension: customfield_10600_noneditablereason {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10600:nonEditableReason::string ;;
     hidden: no
   }
 
-	  dimension: customfield_10600_showfield {
-    description: "" 
+    dimension: customfield_10600_showfield {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10600:showField::string ;;
     hidden: no
   }
 
-	  dimension: customfield_10700 {
-    description: "" 
+    dimension: customfield_10700 {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10700::string ;;
     hidden: no
   }
 
   dimension: customfield_10800 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10800::string ;;
     hidden: no
   }
 
   dimension: customfield_10900 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_10900::string ;;
     hidden: no
   }
 
   dimension: customfield_11100_accountid {
-    description: "" 
+    label: "QA Assignee: Account ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11100:accountId::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_accounttype {
-    description: "" 
+    dimension: customfield_11100_accounttype {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11100:accountType::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_active {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:customfield_11100:active::string ;;
+    dimension: customfield_11100_active {
+    description: "QA Assignee: Active"
+    type: yesno
+    sql: ${TABLE}.fields:customfield_11100:active::boolean ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_avatarurls {
-    description: "" 
+    dimension: customfield_11100_avatarurls {
+    description: "QA Assignee: Avatar URLs"
     type: string
     sql: ${TABLE}.fields:customfield_11100:avatarUrls::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_displayname {
-    description: "" 
+    dimension: customfield_11100_displayname {
+    label: "QA Assignee"
+    description: "The name of the QA rep assigned to quality check the Jira Issue."
     type: string
     sql: ${TABLE}.fields:customfield_11100:displayName::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_self {
-    description: "" 
+    dimension: customfield_11100_self {
+    label: "QA Assignee: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11100:self::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11100_timezone {
-    description: "" 
+    dimension: customfield_11100_timezone {
+    label: "QA Assignee: Timezone"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11100:timeZone::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11101_id {
-    description: "" 
+    dimension: customfield_11101_id {
+    label: "QA Assignee: ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11101:id::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11101_self {
-    description: "" 
+    dimension: customfield_11101_self {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11101:self::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11101_value {
-    description: "" 
+    dimension: customfield_11101_value {
+    label: "Mattermost Team"
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11101:value::string ;;
     hidden: no
   }
 
-	  dimension: customfield_11103 {
-    description: "" 
+    dimension: customfield_11103 {
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11103::string ;;
     hidden: no
   }
 
   dimension: customfield_11104 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11104::string ;;
     hidden: no
   }
 
   dimension: customfield_11105 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11105::string ;;
     hidden: no
   }
 
   dimension: customfield_11106 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11106::string ;;
     hidden: no
   }
 
   dimension: customfield_11107 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11107::string ;;
     hidden: no
   }
 
   dimension: customfield_11108 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11108::string ;;
     hidden: no
   }
 
   dimension: customfield_11109 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11109::string ;;
     hidden: no
   }
 
   dimension: customfield_11110 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11110::string ;;
     hidden: no
   }
 
   dimension: customfield_11111 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11111::string ;;
     hidden: no
   }
 
   dimension: customfield_11112 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11112::string ;;
     hidden: no
   }
 
   dimension: customfield_11113 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11113::string ;;
     hidden: no
   }
 
   dimension: customfield_11114 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11114::string ;;
     hidden: no
   }
 
   dimension: customfield_11116 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11116::string ;;
     hidden: no
   }
 
   dimension: customfield_11117 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11117::string ;;
     hidden: no
   }
 
   dimension: customfield_11118 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11118::string ;;
     hidden: no
   }
 
   dimension: customfield_11119 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11119::string ;;
     hidden: no
   }
 
   dimension: customfield_11121 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11121::string ;;
     hidden: no
   }
 
   dimension: customfield_11122 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11122::string ;;
     hidden: no
   }
 
   dimension: customfield_11123 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11123::string ;;
     hidden: no
   }
 
   dimension: customfield_11124 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11124::string ;;
     hidden: no
   }
 
   dimension: customfield_11125 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11125::string ;;
     hidden: no
   }
 
   dimension: customfield_11126 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11126::string ;;
     hidden: no
   }
 
   dimension: customfield_11127 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11127::string ;;
     hidden: no
   }
 
   dimension: description {
-    description: "" 
+    label: "Description"
+    description: ""
     type: string
     sql: ${TABLE}.fields:description::string ;;
     hidden: no
   }
 
   dimension: duedate {
-    description: "" 
+    label: "Due Date"
+    description: ""
     type: string
     sql: ${TABLE}.fields:duedate::string ;;
     hidden: no
   }
 
   dimension: issuelinks {
-    description: "" 
+    label: "Issue Links"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuelinks::string ;;
     hidden: no
   }
 
   dimension: issuetype_avatarid {
-    description: "" 
+    label: "Issue Type: Avatar ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:avatarId::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_description {
-    description: "" 
+    dimension: issuetype_description {
+    label: "Issue Type: Description"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:description::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_iconurl {
-    description: "" 
+    dimension: issuetype_iconurl {
+    label: "Issue Type: Icon URL"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:iconUrl::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_id {
-    description: "" 
+    dimension: issuetype_id {
+    label: "Issue Type: ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:id::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_name {
-    description: "" 
+    dimension: issuetype_name {
+    label: "Issue Type"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:name::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_self {
-    description: "" 
+    dimension: issuetype_self {
+    label: "Issue Type: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:self::string ;;
     hidden: no
   }
 
-	  dimension: issuetype_subtask {
-    description: "" 
+    dimension: issuetype_subtask {
+    label: "Issue Type: Sub-Task"
+    description: ""
     type: string
     sql: ${TABLE}.fields:issuetype:subtask::string ;;
     hidden: no
   }
 
-	  dimension: labels {
-    description: "" 
+    dimension: labels {
+    label: "Labels"
+    description: "The Jira Ticket labels used to classify the ticket into one or multiple categories of ticket."
     type: string
     sql: ${TABLE}.fields:labels::string ;;
     hidden: no
   }
 
   dimension: progress_progress {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:progress:progress::string ;;
     hidden: no
   }
 
-	  dimension: progress_total {
-    description: "" 
+    dimension: progress_total {
+    description: ""
     type: string
     sql: ${TABLE}.fields:progress:total::string ;;
     hidden: no
   }
 
-	  dimension: project_avatarurls {
-    description: "" 
+    dimension: project_avatarurls {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:avatarUrls::string ;;
     hidden: no
   }
 
-	  dimension: project_id {
-    description: "" 
+    dimension: project_id {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:id::string ;;
     hidden: no
   }
 
-	  dimension: project_key {
-    description: "" 
+    dimension: project_key {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:key::string ;;
     hidden: no
   }
 
-	  dimension: project_name {
-    description: "" 
+    dimension: project_name {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:name::string ;;
     hidden: no
   }
 
-	  dimension: project_projecttypekey {
-    description: "" 
+    dimension: project_projecttypekey {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:projectTypeKey::string ;;
     hidden: no
   }
 
-	  dimension: project_self {
-    description: "" 
+    dimension: project_self {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:self::string ;;
     hidden: no
   }
 
-	  dimension: project_simplified {
-    description: "" 
+    dimension: project_simplified {
+    description: ""
     type: string
     sql: ${TABLE}.fields:project:simplified::string ;;
     hidden: no
   }
 
-	  dimension: reporter_accountid {
-    description: "" 
+    dimension: reporter_accountid {
+    label: "Reporter: Account ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:accountId::string ;;
     hidden: no
   }
 
-	  dimension: reporter_accounttype {
-    description: "" 
+    dimension: reporter_accounttype {
+    label: "Reporter: Account Type"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:accountType::string ;;
     hidden: no
   }
 
-	  dimension: reporter_active {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:reporter:active::string ;;
+    dimension: reporter_active {
+    label: "Reporter: Active"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.fields:reporter:active::boolean ;;
     hidden: no
   }
 
-	  dimension: reporter_avatarurls {
-    description: "" 
+    dimension: reporter_avatarurls {
+    label: "Reporter: Avatar URLs"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:avatarUrls::string ;;
     hidden: no
   }
 
-	  dimension: reporter_displayname {
-    description: "" 
+    dimension: reporter_displayname {
+    label: "Reporter"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:displayName::string ;;
     hidden: no
   }
 
-	  dimension: reporter_self {
-    description: "" 
+    dimension: reporter_self {
+    label: "Reporter: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:self::string ;;
     hidden: no
   }
 
-	  dimension: reporter_timezone {
-    description: "" 
+    dimension: reporter_timezone {
+    label: "Reporter: Timezone"
+    description: ""
     type: string
     sql: ${TABLE}.fields:reporter:timeZone::string ;;
     hidden: no
   }
 
-	  dimension: resolution_description {
-    description: "" 
+    dimension: resolution_description {
+    label: "Resolution: Description"
+    description: ""
     type: string
     sql: ${TABLE}.fields:resolution:description::string ;;
     hidden: no
   }
 
-	  dimension: resolution_id {
-    description: "" 
+    dimension: resolution_id {
+    label: "Resolution: ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:resolution:id::string ;;
     hidden: no
   }
 
-	  dimension: resolution_name {
-    description: "" 
+    dimension: resolution_name {
+    label: "Resolution Name"
+    description: ""
     type: string
     sql: ${TABLE}.fields:resolution:name::string ;;
     hidden: no
   }
 
-	  dimension: resolution_self {
-    description: "" 
+    dimension: resolution_self {
+    label: "Resolution: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:resolution:self::string ;;
     hidden: no
   }
 
-	  dimension: resolutiondate {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:resolutiondate::string ;;
+    dimension_group: resolutiondate {
+    label: "Resolution"
+    description: ""
+    type: time
+    timeframes: [date, month, week, year, fiscal_quarter, fiscal_year]
+    sql: LEFT(${TABLE}.fields:resolutiondate::string, 10)::DATE ;;
     hidden: no
   }
 
   dimension: security {
-    description: "" 
+    label: "Security"
+    description: ""
     type: string
     sql: ${TABLE}.fields:security::string ;;
     hidden: no
   }
 
   dimension: status_description {
-    description: "" 
+    label: "Status: Description"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:description::string ;;
     hidden: no
   }
 
-	  dimension: status_iconurl {
-    description: "" 
+    dimension: status_iconurl {
+    label: "Status: Icon URL"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:iconUrl::string ;;
     hidden: no
   }
 
-	  dimension: status_id {
-    description: "" 
+    dimension: status_id {
+    label: "Status: ID"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:id::string ;;
     hidden: no
   }
 
-	  dimension: status_name {
-    description: "" 
+    dimension: status_name {
+    label: "Status"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:name::string ;;
     hidden: no
   }
 
-	  dimension: status_self {
-    description: "" 
+    dimension: status_self {
+    label: "Status: Self"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:self::string ;;
     hidden: no
   }
 
-	  dimension: status_statuscategory {
-    description: "" 
+    dimension: status_statuscategory {
+    label: "Status Category"
+    description: ""
     type: string
     sql: ${TABLE}.fields:status:statusCategory::string ;;
     hidden: no
   }
 
-	  dimension: statuscategorychangedate {
-    description: "" 
-    type: string
-    sql: ${TABLE}.fields:statuscategorychangedate::string ;;
+    dimension_group: statuscategorychangedate {
+    label: "Status Category Change"
+    description: ""
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: LEFT(${TABLE}.fields:statuscategorychangedate::string, 10)::DATE ;;
     hidden: no
   }
 
   dimension: subtasks {
-    description: "" 
+    label: "Sub-Tasks"
+    description: ""
     type: string
     sql: ${TABLE}.fields:subtasks::string ;;
     hidden: no
   }
 
   dimension: summary {
-    description: "" 
+    label: "Issue Summary"
+    description: ""
     type: string
     sql: ${TABLE}.fields:summary::string ;;
     hidden: no
   }
 
   dimension: timeestimate {
-    description: "" 
+    label: "Time Estimate"
+    description: ""
     type: string
     sql: ${TABLE}.fields:timeestimate::string ;;
     hidden: no
   }
 
   dimension: timeoriginalestimate {
-    description: "" 
+    label: "Time Estimate (Original)"
+    description: ""
     type: string
     sql: ${TABLE}.fields:timeoriginalestimate::string ;;
     hidden: no
   }
 
   dimension: timespent {
-    description: "" 
+    label: "Time Spent"
+    description: ""
     type: string
     sql: ${TABLE}.fields:timespent::string ;;
     hidden: no
   }
 
-  dimension: updated {
-    description: "" 
-    type: string
+  dimension_group: updated {
+    description: ""
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.fields:updated::string ;;
     hidden: no
   }
 
   dimension: votes_hasvoted {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fields:votes:hasVoted::string ;;
     hidden: no
   }
 
-	  dimension: votes_self {
-    description: "" 
+    dimension: votes_self {
+    description: ""
     type: string
     sql: ${TABLE}.fields:votes:self::string ;;
     hidden: no
   }
 
-	  dimension: votes_votes {
-    description: "" 
+    dimension: votes_votes {
+    description: ""
     type: string
     sql: ${TABLE}.fields:votes:votes::string ;;
     hidden: no
   }
 
-	  dimension: watches_iswatching {
-    description: "" 
+    dimension: watches_iswatching {
+    description: ""
     type: string
     sql: ${TABLE}.fields:watches:isWatching::string ;;
     hidden: no
   }
 
-	  dimension: watches_self {
-    description: "" 
+    dimension: watches_self {
+    description: ""
     type: string
     sql: ${TABLE}.fields:watches:self::string ;;
     hidden: no
   }
 
-	  dimension: watches_watchcount {
-    description: "" 
+    dimension: watches_watchcount {
+    label: "Watch Count"
+    description: ""
     type: string
     sql: ${TABLE}.fields:watches:watchCount::string ;;
     hidden: no
   }
 
-	  dimension: workratio {
-    description: "" 
+    dimension: workratio {
+    description: ""
     type: string
     sql: ${TABLE}.fields:workratio::string ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}._sdc_batched_at ;;
     hidden: no
   }
 
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}._sdc_extracted_at ;;
     hidden: no
   }
 
   dimension_group: _sdc_received_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}._sdc_received_at ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
