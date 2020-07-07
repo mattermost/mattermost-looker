@@ -2,14 +2,32 @@ view: financial_statements {
   sql_table_name: "FINANCE"."FINANCIAL_STATEMENTS";;
 
 
-  dimension_group: financial {
-    type: time
-    timeframes: [
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    sql: ${TABLE}."MONTH"::date ;;
+  dimension: period {
+    type: string
+    sql: ${TABLE}."PERIOD" ;;
+  }
+
+  dimension: period_fiscal_year {
+    type: string
+    sql: CASE WHEN ${period_type} = 'Month' THEN util.fiscal_year((${period}||-01)::date)
+              WHEN ${period_type} = 'Fiscal Quarter' THEN util.fiscal_year(util.fiscal_quarter_start(${period}))
+              WHEN ${period_type} = 'Fiscal Quarter' THEN ${period}
+         ELSE 'Unknown' END;;
+  }
+
+  dimension: period_status {
+    label: "Period Completed?"
+    type: yesno
+    sql: ${TABLE}."PERIOD_STATUS" = 'completed';;
+  }
+
+  dimension: period_type {
+    description: "Month, Fiscal Quarter, or Fiscal Year"
+    type: string
+    sql: CASE WHEN ${TABLE}."PERIOD_TYPE" = 'month' THEN 'Month'
+              WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_quarter' THEN 'Fiscal Quarter'
+              WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_year' THEN 'Fiscal Year'
+         ELSE 'Unknown' END;;
   }
 
   measure: account_payable_and_accrued_expenses {
@@ -63,6 +81,15 @@ view: financial_statements {
     group_label: "Assets"
     label: "Accum Depreciation"
     group_item_label: " 7. Accum Depreciation"
+    value_format_name: usd_0
+  }
+
+  measure: bad_debt_expense {
+    type: sum
+    sql: ${TABLE}."BAD_DEBT_EXPENSE" ;;
+    group_label: "Operating Activities"
+    label: "Bad Debt Expense"
+    group_item_label: " 6. Bad Debt Expense"
     value_format_name: usd_0
   }
 
@@ -305,6 +332,15 @@ view: financial_statements {
     group_label: "Financing Activities"
     label: "Net Proceeds From Issuance of Common Stock"
     group_item_label: " 4. Net Proceeds From Issuance of Common Stock"
+    value_format_name: usd_0
+  }
+
+  measure: net_proceeds_from_issuance_of_convertible_preferred_stock {
+    type: sum
+    sql: ${TABLE}."NET_PROCEEDS_FROM_ISSUANCE_OF_CONVERTIBLE_PREFERRED_STOCK" ;;
+    group_label: "Financing Activities"
+    label: "Net Proceeds From Issuance of Convertible Preferred Stock"
+    group_item_label: " 1. Net Proceeds From Issuance of Convertible Preferred Stock"
     value_format_name: usd_0
   }
 
