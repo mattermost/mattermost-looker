@@ -1110,7 +1110,7 @@ explore: server_daily_details_ext {
 explore: financial_statements {
   sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
-  label: "Monthly Financial Statements"
+  label: "Financial Statements"
 }
 
 explore: target_fact {
