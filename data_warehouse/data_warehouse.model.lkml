@@ -62,6 +62,7 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
+include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -125,7 +126,6 @@ explore: _base_account_explore {
     sql_on: ${parent_account.sfid} = ${parent_account_ext.account_sfid};;
     relationship: many_to_one
   }
-
 
   join: account_industry_mapping {
     sql_on: ${account.industry} = ${account_industry_mapping.industry} ;;
@@ -355,6 +355,19 @@ explore: account {
     relationship: many_to_one
     fields: []
   }
+
+  join: contract {
+    view_label: "Account Contracts"
+    sql_on: ${account.sfid} = ${contract.accountid} ;;
+    relationship: one_to_many
+  }
+
+  join: opportunity_contracts {
+    from: opportunity
+    sql_on: ${contract.contract_opportunity} = ${opportunity_contracts.sfid} ;;
+    relationship: one_to_one
+    fields: []
+  }
 }
 
 explore: opportunity_snapshot {
@@ -391,6 +404,40 @@ explore: account_monthly_arr_deltas_by_type {
     view_label: "Account Monthly ARR Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_by_type.account_sfid} ;;
     relationship: one_to_one
+  }
+
+  join: opportunity_ext {
+    sql_on: ${account.sfid} = ${opportunity_ext.accountid};;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: opportunitylineitem {
+    sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid}
+            and ${opportunitylineitem.start_date} <= ${account_monthly_arr_deltas_by_type.month_end_date}
+            and ${opportunitylineitem.end_date} >= ${account_monthly_arr_deltas_by_type.month_start_date};;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: product2 {
+    view_label: "Account Monthly ARR Changes"
+    sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
+    relationship: many_to_one
+    fields: [max_product_name]
+  }
+
+  join: contract {
+    view_label: "Account Monthly ARR Changes"
+    sql_on: ${account.sfid} = ${contract.accountid} ;;
+    relationship: one_to_many
+    fields: [contract.agreement_status, contract.agreement_type]
   }
 }
 
@@ -844,7 +891,7 @@ explore: server_daily_details {
 
   join: version_release_dates {
     view_label: " Server Daily Details"
-    sql_on: ${server_daily_details.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_daily_details.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
@@ -877,7 +924,7 @@ explore: server_fact {
 
   join: version_release_dates {
     view_label: "Server Fact"
-    sql_on: ${server_fact.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_fact.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
@@ -1054,7 +1101,7 @@ explore: server_daily_details_ext {
 
   join: version_release_dates {
     view_label: " Server Daily Details Ext"
-    sql_on: ${server_daily_details_ext.server_version_major} = LEFT(${version_release_dates.version},4) ;;
+    sql_on: ${server_daily_details_ext.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
@@ -1709,5 +1756,42 @@ explore: available_renewals_dynamic {
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+  }
+}
+
+explore: issues {
+  label: "Jira Tickets (Issues)"
+  group_label: "Product"
+
+  join: issue_comments {
+    sql_on: ${issue_comments.issueid} = ${issues.id} ;;
+    type: left_outer
+    relationship: one_to_many
+    fields: [issue_comments.comment_count]
+  }
+  }
+
+explore: netsuite_opportunity {
+  label: "Netsuite (Opportunity Level)"
+  extends: [account]
+  view_name: account
+  group_label: "Finance"
+
+  join: netsuite_financial {
+    sql_on: ${opportunity.sfid} = ${netsuite_financial.opportunityid} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: issue_comments {
+  label: "Jira Comments (Issues)"
+  group_label: "Product"
+
+  join: issues {
+    view_label: "Jira Tickets (Issues)"
+    sql_on: ${issue_comments.issueid} = ${issues.id} ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: [issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }

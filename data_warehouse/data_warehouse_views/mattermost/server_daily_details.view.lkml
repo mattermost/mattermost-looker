@@ -49,7 +49,7 @@ view: server_daily_details {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
   }
@@ -149,6 +149,13 @@ view: server_daily_details {
     label: ">= 1 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: active_users2_alltime {
+    description: "The server has had >= 2 Active User during it's telemetry lifetime."
+    label: ">= 2 Active Users During Lifetime"
+    type: yesno
+    sql: CASE WHEN ${server_fact.max_active_user_count} > 1 THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: in_security {
@@ -321,6 +328,15 @@ view: server_daily_details {
     description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
     type: string
     sql: split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2)  ;;
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major_int {
+    group_label: " Server Versions"
+    label: "  Server Version: Major (Current - Integer)"
+    description: "The server version associated with the Mattermost server on the given logging date - omitting the trailing dot release."
+    type: number
+    sql: (split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2))::float  ;;
     order_by_field: server_version_major_sort
   }
 
@@ -604,20 +620,55 @@ view: server_daily_details {
   }
 
   dimension: posts2 {
-    label: "Posts (Activity)"
-    description: "The number of total posts up to the current logging date associated with the server (from activity diagnostics - diagnostics.go)"
+    group_label: "Server-Level User Events"
+    label: "Posts"
+    description: "The number of post events by active users associated with the server on the given logging."
     type: number
     value_format_name: decimal_0
-    sql: ${server_daily_details_ext.posts} ;;
+    sql: ${server_events_by_date.post_events} ;;
   }
 
   dimension: posts_per_user_per_day {
-    group_label: "Server Events"
+    group_label: "Server-Level User Events"
     label: "Posts Per User"
     description: "The number of posts per active user for the server on the given logging."
     type: number
     value_format_name: decimal_1
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
+  }
+
+  dimension: posts_per_user_per_day_band {
+    group_label: "Server-Level User Events"
+    label: "Posts Per User Band"
+    description: "The number of posts per active user for the server on the given logging."
+    type: tier
+    style: integer
+    tiers: [3, 6, 11, 16, 21, 31, 51, 101]
+    sql: ${posts_per_user_per_day} ;;
+  }
+
+  dimension: mau {
+    group_label: "Server-Level User Events"
+    label: "Monthly Active Users"
+    description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.mau_total} ;;
+  }
+
+  dimension: dau {
+    group_label: "Server-Level User Events"
+    label: "Daily Active Users"
+    description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.dau_total} ;;
+  }
+
+  dimension: mobile_dau {
+    group_label: "Server-Level User Events"
+    label: "Mobile DAU"
+    description: "The number of mobile daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
+    type: number
+    sql: ${server_events_by_date.mobile_dau} ;;
   }
 
 
@@ -628,6 +679,24 @@ view: server_daily_details {
     description: "Use this for counting all distinct Server ID's across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
+  }
+
+  measure: server_count_ttr {
+    label: "   Server Count (Trailing 3 Releases)"
+    group_label: " Server Counts"
+    description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
+    type: count_distinct
+    sql: CASE WHEN ${server_version_major_int}::float >= (
+                                                    SELECT MIN((split_part(version, '.', 1) || '.' || split_part(version, '.', 2))::float)
+                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
+                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
+                                                    AND release_date < CURRENT_DATE
+                                                    )::float
+             AND SPLIT_PART(${server_version_major_int}, '.', 2)::float >= (SELECT MIN(split_part(version, '.', 2))
+                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
+                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
+                                                    AND release_date < CURRENT_DATE)::float THEN ${server_id} ELSE NULL END;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 

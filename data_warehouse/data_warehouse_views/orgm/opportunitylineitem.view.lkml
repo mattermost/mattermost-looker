@@ -945,6 +945,16 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_exp_with_loe_amount]
   }
 
+  measure: total_new_and_exp_with_loe_amount {
+    group_label: "Product Line Type Totals"
+    label: "New & Exp w/ CoTerm & LOE"
+    sql: ${new_amount} + ${expansion_amount} + ${coterm_expansion_amount} + ${leftover_expansion_amount};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_new_and_exp_with_loe_amount]
+  }
+
   measure: total_multi_amount {
     group_label: "Product Line Type Totals"
     label: "Multi"

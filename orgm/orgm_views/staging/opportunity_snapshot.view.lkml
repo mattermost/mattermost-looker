@@ -13,13 +13,6 @@ view: opportunity_snapshot {
     hidden:  yes
   }
 
-  dimension: arr__c {
-    type: number
-    sql: ${TABLE}."arr__c" ;;
-    hidden:  yes
-  }
-
-
   dimension_group: closedate {
     type: time
     timeframes: [
@@ -96,13 +89,6 @@ view: opportunity_snapshot {
     drill_fields: [opportunityid, name, stagename]
   }
 
-  measure: total_arr {
-    sql: ${arr__c} ;;
-    type: sum
-    drill_fields: [opportunityid, name, stagename]
-    label: "Total ARR"
-    value_format_name: usd_0
-  }
   measure: total_expected_revenue {
     sql: ${expectedrevenue} ;;
     type: sum

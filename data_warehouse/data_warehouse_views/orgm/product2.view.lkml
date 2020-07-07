@@ -124,6 +124,11 @@ view: product2 {
     type: string
   }
 
+  measure: max_product_name {
+    type: string
+    sql: MAX(DISTINCT CASE WHEN ${general_product} != 'Unknown' THEN ${general_product} ELSE NULL END) ;;
+  }
+
   dimension: general_product {
     sql: CASE WHEN ${name} like '%E10%' THEN 'E10' WHEN ${name} like '%E20%' THEN 'E20' ELSE 'Unknown' END  ;;
     type: string
