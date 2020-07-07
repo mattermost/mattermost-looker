@@ -21,6 +21,11 @@ view: issues {
       url: "https://mattermost.atlassian.net/browse/{{ value }}"
       icon_url: "https://mattermost.atlassian.net/images/jira-safari-pintab-icon.svg"
     }
+    link: {
+      label: "Filter Dashboard On {{ value }}"
+      url: "/dashboards/173?Issue%20ID={{ id._value }}"
+      icon_url: "https://mattermost.looker.com//images/favicon.ico"
+    }
     sql: ${TABLE}.key ;;
     hidden: no
   }
