@@ -98,6 +98,7 @@ view: tasks_filtered {
     sql: ${sub_type_customer_feedback} and ${description} like '%#customer-recording%' ;;
 }
 
+
   dimension_group: activitydate {
     label: "Due"
     description: "Date populated when call is logged."
