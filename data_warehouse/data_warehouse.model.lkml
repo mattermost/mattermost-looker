@@ -1775,3 +1775,7 @@ explore: netsuite_opportunity {
     relationship: many_to_one
   }
 }
+
+explore: issue_comments {
+  label: "Issue Comments"
+}
