@@ -1762,4 +1762,16 @@ explore: available_renewals_dynamic {
 explore: issues {
   label: "Jira Tickets (Issues)"
   group_label: "Products"
+  }
+
+explore: netsuite_opportunity {
+  label: "Netsuite (Opportunity Level)"
+  extends: [account]
+  view_name: account
+  group_label: "Finance"
+
+  join: netsuite_financial {
+    sql_on: ${opportunity.sfid} = ${netsuite_financial.opportunityid} ;;
+    relationship: many_to_one
+  }
 }
