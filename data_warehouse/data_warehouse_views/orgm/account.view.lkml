@@ -76,6 +76,18 @@ view: account {
     type: yesno
   }
 
+  dimension: hold_public {
+    hidden: yes
+    label: "Hold Public?"
+    sql: ${name} = 'Hold Public' ;;
+    type: yesno
+  }
+
+  dimension: licensed_account_not_hold_public {
+    sql: ${licensed_account} AND NOT ${hold_public} ;;
+    type: yesno
+  }
+
   dimension: annual_revenue {
     sql: ${TABLE}.annualrevenue ;;
     type: number
