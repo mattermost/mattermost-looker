@@ -62,6 +62,7 @@ include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
+include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -1758,6 +1759,18 @@ explore: available_renewals_dynamic {
   }
 }
 
+explore: issues {
+  label: "Jira Tickets (Issues)"
+  group_label: "Product"
+
+  join: issue_comments {
+    sql_on: ${issue_comments.issueid} = ${issues.id} ;;
+    type: left_outer
+    relationship: one_to_many
+    fields: [issue_comments.comment_count]
+  }
+  }
+
 explore: netsuite_opportunity {
   label: "Netsuite (Opportunity Level)"
   extends: [account]
@@ -1767,5 +1780,18 @@ explore: netsuite_opportunity {
   join: netsuite_financial {
     sql_on: ${opportunity.sfid} = ${netsuite_financial.opportunityid} ;;
     relationship: many_to_one
+  }
+}
+
+explore: issue_comments {
+  label: "Jira Comments (Issues)"
+  group_label: "Product"
+
+  join: issues {
+    view_label: "Jira Tickets (Issues)"
+    sql_on: ${issue_comments.issueid} = ${issues.id} ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: [issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }
