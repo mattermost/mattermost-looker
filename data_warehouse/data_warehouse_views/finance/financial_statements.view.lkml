@@ -44,7 +44,7 @@ view: financial_statements {
     sql: ${TABLE}."ACCOUNTS_PAYABLE_ACCRUED_LIABILITIES_AND_OTHER_LIABILITIES" ;;
     group_label: "Operating Activities"
     label: " -    Accounts Payable, Accrued Liabilities & Other Liabilities"
-    group_item_label: " 8. Accounts Payable, Accrued Liabilities & Other Liabilities"
+    group_item_label: "10. Accounts Payable, Accrued Liabilities & Other Liabilities"
     value_format_name: usd_0
   }
 
@@ -62,7 +62,7 @@ view: financial_statements {
     sql: ${TABLE}."ACCOUNTS_RECEIVABLE_NET" ;;
     group_label: "Operating Activities"
     label: " -    Accounts receivable, Net"
-    group_item_label: " 6. Accounts receivable, Net"
+    group_item_label: " 8. Accounts receivable, Net"
     value_format_name: usd_0
   }
 
@@ -88,7 +88,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."BAD_DEBT_EXPENSE" ;;
     group_label: "Operating Activities"
-    label: "Bad Debt Expense"
+    label: " -    Bad Debt Expense"
     group_item_label: " 6. Bad Debt Expense"
     value_format_name: usd_0
   }
@@ -125,7 +125,7 @@ view: financial_statements {
     sql: ${TABLE}."CHANGE_IN_APIC_DUE_TO_RECLASS" ;;
     group_label: "Financing Activities"
     label: "Change in APIC Due to Reclass"
-    group_item_label: " 3. Change in APIC Due to Reclass"
+    group_item_label: " 4. Change in APIC Due to Reclass"
     value_format_name: usd_0
   }
 
@@ -163,7 +163,7 @@ view: financial_statements {
     sql: ${TABLE}."DEFERRED_REVENUE" ;;
     group_label: "Operating Activities"
     label: " -    Deferred Revenue"
-    group_item_label: " 9. Deferred Revenue"
+    group_item_label: "11. Deferred Revenue"
     value_format_name: usd_0
   }
 
@@ -331,7 +331,7 @@ view: financial_statements {
     sql: ${TABLE}."NET_PROCEEDS_FROM_ISSUANCE_OF_COMMON_STOCK" ;;
     group_label: "Financing Activities"
     label: "Net Proceeds From Issuance of Common Stock"
-    group_item_label: " 4. Net Proceeds From Issuance of Common Stock"
+    group_item_label: " 5. Net Proceeds From Issuance of Common Stock"
     value_format_name: usd_0
   }
 
@@ -350,7 +350,7 @@ view: financial_statements {
     value_format_name: usd_0
     group_label: "Financing Activities"
     label: "Net Proceeds From Series A Preferred Stock"
-    group_item_label: " 1. Net Proceeds From Series A Preferred Stock"
+    group_item_label: " 2. Net Proceeds From Series A Preferred Stock"
   }
 
   measure: net_proceeds_from_series_b_preferred_stock {
@@ -359,7 +359,7 @@ view: financial_statements {
     value_format_name: usd_0
     group_label: "Financing Activities"
     label: "Net Proceeds From Series B Preferred Stock"
-    group_item_label: " 2. Net Proceeds From Series B Preferred Stock"
+    group_item_label: " 3. Net Proceeds From Series B Preferred Stock"
   }
 
   measure: operating_income_losses {
@@ -387,6 +387,7 @@ view: financial_statements {
     description: "Adjustment to reconcile net loss to net cash provided by (used in) operating activities"
     group_label: "Operating Activities"
     label: "Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
+    group_item_label: " 2. Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
     hidden: no
     value_format_name: usd_0
   }
@@ -397,6 +398,7 @@ view: financial_statements {
     description: "Changes in operating assets and liabilities"
     group_label: "Operating Activities"
     label: "Changes in Operating Assets and Liabilities"
+    group_item_label: " 7. Changes in Operating Assets and Liabilities"
     hidden: no
     value_format_name: usd_0
   }
@@ -450,7 +452,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."PREPAID_EXPENSES_AND_OTHER_ASSETS" ;;
     group_label: "Operating Activities"
-    group_item_label: " 7. Prepaid Expenses & Other Assets"
+    group_item_label: " 9. Prepaid Expenses & Other Assets"
     label: " -    Prepaid Expenses & Other Assets"
     value_format_name: usd_0
   }
