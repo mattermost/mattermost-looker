@@ -619,6 +619,14 @@ view: account {
     type: number
   }
 
+  dimension: number_of_employees_tier {
+    label: "# of Employees Tier"
+    sql: ${number_of_employees} ;;
+    type: tier
+    tiers: [251,501,1001,5001]
+    style: integer
+  }
+
   dimension: offer {
     sql: ${TABLE}.offer__c ;;
     type: string
