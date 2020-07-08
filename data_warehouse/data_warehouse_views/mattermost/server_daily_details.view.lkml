@@ -687,13 +687,13 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
-    sql: CASE WHEN ${server_version_major_int}::float >= (
-                                                    SELECT MIN((split_part(version, '.', 1) || '.' || split_part(version, '.', 2))::float)
+    sql: CASE WHEN split_part(${server_version_major}::string, '.', 1)::float >= (
+                                                    SELECT MIN(split_part(version, '.', 1)::float)::float
                                                     FROM MATTERMOST.VERSION_RELEASE_DATES
                                                     WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
                                                     AND release_date < CURRENT_DATE
                                                     )::float
-             AND SPLIT_PART(${server_version_major_int}, '.', 2)::float >= (SELECT MIN(split_part(version, '.', 2))
+             AND SPLIT_PART(${server_version_major}, '.', 2)::float >= (SELECT MIN(split_part(version, '.', 2))::float
                                                     FROM MATTERMOST.VERSION_RELEASE_DATES
                                                     WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
                                                     AND release_date < CURRENT_DATE)::float THEN ${server_id} ELSE NULL END;;
