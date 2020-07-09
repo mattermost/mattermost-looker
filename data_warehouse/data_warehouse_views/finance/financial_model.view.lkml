@@ -1,5 +1,5 @@
-view: financial_statement_2 {
-  sql_table_name: "FINANCE"."FINANCIAL_STATEMENT_2";;
+view: financial_model {
+  sql_table_name: "FINANCE"."FINANCIAL_MODEL";;
 
   dimension: period {
     type: string
