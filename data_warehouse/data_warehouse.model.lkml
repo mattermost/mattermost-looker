@@ -1113,6 +1113,12 @@ explore: financial_statements {
   label: "Financial Statements"
 }
 
+explore: financial_model {
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
+  group_label: "Finance"
+  label: "Financial Model"
+}
+
 explore: target_fact {
   group_label: "Target vs Actual"
   label: "Target Definitions"
