@@ -8,8 +8,7 @@ view: financial_statement_2 {
 
   dimension: period_fiscal_year {
     type: string
-    sql: CASE WHEN ${period_type} = 'Month' THEN util.fiscal_year((${period}||-01)::date)
-              WHEN ${period_type} = 'Fiscal Quarter' THEN util.fiscal_year(util.fiscal_quarter_start(${period}))
+    sql: CASE WHEN ${period_type} = 'Fiscal Quarter' THEN util.fiscal_year(util.fiscal_quarter_start(${period}))
               WHEN ${period_type} = 'Fiscal Quarter' THEN ${period}
          ELSE 'Unknown' END;;
   }
@@ -23,8 +22,7 @@ view: financial_statement_2 {
   dimension: period_type {
     description: "Month, Fiscal Quarter, or Fiscal Year"
     type: string
-    sql: CASE WHEN ${TABLE}."PERIOD_TYPE" = 'month' THEN 'Month'
-              WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_quarter' THEN 'Fiscal Quarter'
+    sql: CASE WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_quarter' THEN 'Fiscal Quarter'
               WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_year' THEN 'Fiscal Year'
          ELSE 'Unknown' END;;
   }
