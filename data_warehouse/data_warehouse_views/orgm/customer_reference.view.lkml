@@ -268,6 +268,6 @@ view: customer_reference {
   measure: count {
     label: "# of References"
     type: count
-    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type]
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes]
   }
 }
