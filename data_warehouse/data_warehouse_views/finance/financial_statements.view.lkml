@@ -388,7 +388,7 @@ view: financial_statements {
     group_label: "Operating Activities"
     label: "Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
     group_item_label: " 2. Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
-    hidden: no
+    hidden: yes
     value_format_name: usd_0
   }
 
@@ -399,7 +399,7 @@ view: financial_statements {
     group_label: "Operating Activities"
     label: "Changes in Operating Assets and Liabilities"
     group_item_label: " 7. Changes in Operating Assets and Liabilities"
-    hidden: no
+    hidden: yes
     value_format_name: usd_0
   }
 
@@ -561,5 +561,82 @@ view: financial_statements {
     label: " -    Write-off of Fully Depreciated Assets"
     group_item_label: " 5. Write-off of Fully Depreciated Assets"
     value_format_name: usd_0
+  }
+
+  measure: blank_line_1 {
+    hidden: yes
+    label: " "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_2 {
+    hidden: yes
+    label: "  "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_3 {
+    hidden: yes
+    label: "   "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_4 {
+    hidden: yes
+    label: "    "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_5 {
+    hidden: yes
+    label: "     "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_6 {
+    hidden: yes
+    label: "      "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_7 {
+    hidden: yes
+    label: "       "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_8 {
+    hidden: yes
+    label: "        "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_9 {
+    hidden: yes
+    label: "          "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_10 {
+    hidden: yes
+    label: "           "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_11 {
+    hidden: yes
+    label: "            "
+    type: string
+    sql: '' ;;
   }
 }
