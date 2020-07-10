@@ -2,14 +2,32 @@ view: financial_statements {
   sql_table_name: "FINANCE"."FINANCIAL_STATEMENTS";;
 
 
-  dimension_group: financial {
-    type: time
-    timeframes: [
-      month,
-      fiscal_quarter,
-      fiscal_year
-    ]
-    sql: ${TABLE}."MONTH"::date ;;
+  dimension: period {
+    type: string
+    sql: ${TABLE}."PERIOD" ;;
+  }
+
+  dimension: period_fiscal_year {
+    type: string
+    sql: CASE WHEN ${period_type} = 'Month' THEN util.fiscal_year((${period}||-01)::date)
+              WHEN ${period_type} = 'Fiscal Quarter' THEN util.fiscal_year(util.fiscal_quarter_start(${period}))
+              WHEN ${period_type} = 'Fiscal Quarter' THEN ${period}
+         ELSE 'Unknown' END;;
+  }
+
+  dimension: period_status {
+    label: "Period Completed?"
+    type: yesno
+    sql: ${TABLE}."PERIOD_STATUS" = 'completed';;
+  }
+
+  dimension: period_type {
+    description: "Month, Fiscal Quarter, or Fiscal Year"
+    type: string
+    sql: CASE WHEN ${TABLE}."PERIOD_TYPE" = 'month' THEN 'Month'
+              WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_quarter' THEN 'Fiscal Quarter'
+              WHEN ${TABLE}."PERIOD_TYPE" = 'fiscal_year' THEN 'Fiscal Year'
+         ELSE 'Unknown' END;;
   }
 
   measure: account_payable_and_accrued_expenses {
@@ -26,7 +44,7 @@ view: financial_statements {
     sql: ${TABLE}."ACCOUNTS_PAYABLE_ACCRUED_LIABILITIES_AND_OTHER_LIABILITIES" ;;
     group_label: "Operating Activities"
     label: " -    Accounts Payable, Accrued Liabilities & Other Liabilities"
-    group_item_label: " 8. Accounts Payable, Accrued Liabilities & Other Liabilities"
+    group_item_label: "10. Accounts Payable, Accrued Liabilities & Other Liabilities"
     value_format_name: usd_0
   }
 
@@ -44,7 +62,7 @@ view: financial_statements {
     sql: ${TABLE}."ACCOUNTS_RECEIVABLE_NET" ;;
     group_label: "Operating Activities"
     label: " -    Accounts receivable, Net"
-    group_item_label: " 6. Accounts receivable, Net"
+    group_item_label: " 8. Accounts receivable, Net"
     value_format_name: usd_0
   }
 
@@ -63,6 +81,15 @@ view: financial_statements {
     group_label: "Assets"
     label: "Accum Depreciation"
     group_item_label: " 7. Accum Depreciation"
+    value_format_name: usd_0
+  }
+
+  measure: bad_debt_expense {
+    type: sum
+    sql: ${TABLE}."BAD_DEBT_EXPENSE" ;;
+    group_label: "Operating Activities"
+    label: " -    Bad Debt Expense"
+    group_item_label: " 6. Bad Debt Expense"
     value_format_name: usd_0
   }
 
@@ -98,7 +125,7 @@ view: financial_statements {
     sql: ${TABLE}."CHANGE_IN_APIC_DUE_TO_RECLASS" ;;
     group_label: "Financing Activities"
     label: "Change in APIC Due to Reclass"
-    group_item_label: " 3. Change in APIC Due to Reclass"
+    group_item_label: " 4. Change in APIC Due to Reclass"
     value_format_name: usd_0
   }
 
@@ -136,7 +163,7 @@ view: financial_statements {
     sql: ${TABLE}."DEFERRED_REVENUE" ;;
     group_label: "Operating Activities"
     label: " -    Deferred Revenue"
-    group_item_label: " 9. Deferred Revenue"
+    group_item_label: "11. Deferred Revenue"
     value_format_name: usd_0
   }
 
@@ -304,7 +331,16 @@ view: financial_statements {
     sql: ${TABLE}."NET_PROCEEDS_FROM_ISSUANCE_OF_COMMON_STOCK" ;;
     group_label: "Financing Activities"
     label: "Net Proceeds From Issuance of Common Stock"
-    group_item_label: " 4. Net Proceeds From Issuance of Common Stock"
+    group_item_label: " 5. Net Proceeds From Issuance of Common Stock"
+    value_format_name: usd_0
+  }
+
+  measure: net_proceeds_from_issuance_of_convertible_preferred_stock {
+    type: sum
+    sql: ${TABLE}."NET_PROCEEDS_FROM_ISSUANCE_OF_CONVERTIBLE_PREFERRED_STOCK" ;;
+    group_label: "Financing Activities"
+    label: "Net Proceeds From Issuance of Convertible Preferred Stock"
+    group_item_label: " 1. Net Proceeds From Issuance of Convertible Preferred Stock"
     value_format_name: usd_0
   }
 
@@ -314,7 +350,7 @@ view: financial_statements {
     value_format_name: usd_0
     group_label: "Financing Activities"
     label: "Net Proceeds From Series A Preferred Stock"
-    group_item_label: " 1. Net Proceeds From Series A Preferred Stock"
+    group_item_label: " 2. Net Proceeds From Series A Preferred Stock"
   }
 
   measure: net_proceeds_from_series_b_preferred_stock {
@@ -323,7 +359,7 @@ view: financial_statements {
     value_format_name: usd_0
     group_label: "Financing Activities"
     label: "Net Proceeds From Series B Preferred Stock"
-    group_item_label: " 2. Net Proceeds From Series B Preferred Stock"
+    group_item_label: " 3. Net Proceeds From Series B Preferred Stock"
   }
 
   measure: operating_income_losses {
@@ -351,7 +387,8 @@ view: financial_statements {
     description: "Adjustment to reconcile net loss to net cash provided by (used in) operating activities"
     group_label: "Operating Activities"
     label: "Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
-    hidden: no
+    group_item_label: " 2. Adjustment to Reconcile Net Loss to Net Cash Provided by (Used in) Operating Activities"
+    hidden: yes
     value_format_name: usd_0
   }
 
@@ -361,7 +398,8 @@ view: financial_statements {
     description: "Changes in operating assets and liabilities"
     group_label: "Operating Activities"
     label: "Changes in Operating Assets and Liabilities"
-    hidden: no
+    group_item_label: " 7. Changes in Operating Assets and Liabilities"
+    hidden: yes
     value_format_name: usd_0
   }
 
@@ -414,7 +452,7 @@ view: financial_statements {
     type: sum
     sql: ${TABLE}."PREPAID_EXPENSES_AND_OTHER_ASSETS" ;;
     group_label: "Operating Activities"
-    group_item_label: " 7. Prepaid Expenses & Other Assets"
+    group_item_label: " 9. Prepaid Expenses & Other Assets"
     label: " -    Prepaid Expenses & Other Assets"
     value_format_name: usd_0
   }
@@ -523,5 +561,82 @@ view: financial_statements {
     label: " -    Write-off of Fully Depreciated Assets"
     group_item_label: " 5. Write-off of Fully Depreciated Assets"
     value_format_name: usd_0
+  }
+
+  measure: blank_line_1 {
+    hidden: yes
+    label: " "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_2 {
+    hidden: yes
+    label: "  "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_3 {
+    hidden: yes
+    label: "   "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_4 {
+    hidden: yes
+    label: "    "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_5 {
+    hidden: yes
+    label: "     "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_6 {
+    hidden: yes
+    label: "      "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_7 {
+    hidden: yes
+    label: "       "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_8 {
+    hidden: yes
+    label: "        "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_9 {
+    hidden: yes
+    label: "          "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_10 {
+    hidden: yes
+    label: "           "
+    type: string
+    sql: '' ;;
+  }
+
+  measure: blank_line_11 {
+    hidden: yes
+    label: "            "
+    type: string
+    sql: '' ;;
   }
 }

@@ -4580,7 +4580,7 @@ view: server_daily_details_ext {
     description: "The distinct count of Server s per grouping."
     type: count_distinct
     sql: ${server_id} ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: server_count_ttr {
@@ -4598,7 +4598,7 @@ view: server_daily_details_ext {
                                                     FROM MATTERMOST.VERSION_RELEASE_DATES
                                                     WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
                                                     AND release_date < CURRENT_DATE)::float THEN ${server_id} ELSE NULL END;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: active_user_count_sum {
@@ -4649,7 +4649,7 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     type: count_distinct
     sql: case when ${in_security} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: in_mm2_server_count {
@@ -4658,7 +4658,7 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     type: count_distinct
     sql: case when ${in_mm2_server} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: tracking_disabled_count {
@@ -4667,7 +4667,7 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     type: count_distinct
     sql: case when ${tracking_disabled} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: has_dupes_count {
@@ -4676,7 +4676,7 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     type: count_distinct
     sql: case when ${has_dupes} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: has_multi_ips_count {
@@ -4685,7 +4685,7 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     type: count_distinct
     sql: case when ${has_multi_ips} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: active_users_sum {
@@ -5063,7 +5063,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${used_apiv3} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_max_users_for_statistics_count {
@@ -5072,7 +5072,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_max_users_for_statistics} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: allow_banner_dismissal_count {
@@ -5081,7 +5081,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${allow_banner_dismissal} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_banner_count {
@@ -5090,7 +5090,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_banner} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_banner_color_count {
@@ -5099,7 +5099,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_banner_color} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_banner_text_color_count {
@@ -5108,7 +5108,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_banner_text_color} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_apiv3_client_count {
@@ -5117,7 +5117,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_apiv3_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_channel_viewed_messages_client_count {
@@ -5126,7 +5126,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_channel_viewed_messages_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_commands_client_count {
@@ -5135,7 +5135,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_commands_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_custom_emoji_client_count {
@@ -5144,7 +5144,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_custom_emoji_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_developer_client_count {
@@ -5153,7 +5153,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_developer_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_emoji_picker_client_count {
@@ -5162,7 +5162,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_emoji_picker_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_incoming_webhooks_client_count {
@@ -5171,7 +5171,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_incoming_webhooks_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_insecure_outgoing_connections_client_count {
@@ -5180,7 +5180,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_insecure_outgoing_connections_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_multifactor_authentication_client_count {
@@ -5189,7 +5189,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_multifactor_authentication_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_oauth_service_provider_client_count {
@@ -5198,7 +5198,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_oauth_service_provider_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_only_admin_integrations_client_count {
@@ -5207,7 +5207,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_only_admin_integrations_client} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: advertise_address_count {
@@ -5216,7 +5216,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${advertise_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: bind_address_count {
@@ -5225,7 +5225,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${bind_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_cluster_count {
@@ -5234,7 +5234,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_cluster} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: network_interface_count {
@@ -5243,7 +5243,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${network_interface} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: read_only_config_count {
@@ -5252,7 +5252,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${read_only_config} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: use_experimental_gossip_count {
@@ -5261,7 +5261,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${use_experimental_gossip} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: use_ip_address_count {
@@ -5270,7 +5270,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${use_ip_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_compliance_count {
@@ -5279,7 +5279,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_compliance} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_compliance_daily_count {
@@ -5288,7 +5288,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_compliance_daily} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: message_retention_days_sum {
@@ -5325,7 +5325,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_message_deletion} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_file_deletion_count {
@@ -5334,7 +5334,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_file_deletion} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_timezone_count {
@@ -5343,7 +5343,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_timezone} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_custom_url_schemes_count {
@@ -5352,7 +5352,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_custom_url_schemes} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_autocomplete_count {
@@ -5361,7 +5361,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_autocomplete} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_indexing_count {
@@ -5370,7 +5370,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_indexing} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_searching_count {
@@ -5379,7 +5379,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_searching} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_connection_url_count {
@@ -5388,7 +5388,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_connection_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_index_prefix_count {
@@ -5397,7 +5397,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_index_prefix} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_password_count {
@@ -5406,7 +5406,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_password} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_username_count {
@@ -5415,7 +5415,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_username} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: live_indexing_batch_size_sum {
@@ -5438,7 +5438,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${skip_tls_verification} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: sniff_count {
@@ -5447,7 +5447,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${sniff} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_email_batching_count {
@@ -5456,7 +5456,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_email_batching} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_preview_mode_banner_count {
@@ -5465,7 +5465,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_preview_mode_banner} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_sign_in_with_email_count {
@@ -5474,7 +5474,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_sign_in_with_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_sign_in_with_username_count {
@@ -5483,7 +5483,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_sign_in_with_username} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_sign_up_with_email_count {
@@ -5492,7 +5492,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_sign_up_with_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_smtp_auth_count {
@@ -5501,7 +5501,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_smtp_auth} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_feedback_email_count {
@@ -5510,7 +5510,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_feedback_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_feedback_name_count {
@@ -5519,7 +5519,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_feedback_name} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_feedback_organization_count {
@@ -5528,7 +5528,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_feedback_organization} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_border_color_email_count {
@@ -5537,7 +5537,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_border_color_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_color_email_count {
@@ -5546,7 +5546,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_color_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_text_color_email_count {
@@ -5555,7 +5555,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_text_color_email} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_reply_to_address_count {
@@ -5564,7 +5564,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_reply_to_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: require_email_verification_count {
@@ -5573,7 +5573,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${require_email_verification} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: send_email_notifications_count {
@@ -5582,7 +5582,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${send_email_notifications} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: send_push_notifications_count {
@@ -5591,7 +5591,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${send_push_notifications} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: skip_server_certificate_verification_count {
@@ -5600,7 +5600,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${skip_server_certificate_verification} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: use_channel_in_email_notifications_count {
@@ -5609,7 +5609,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${use_channel_in_email_notifications} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: client_side_cert_enable_count {
@@ -5618,7 +5618,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${client_side_cert_enable} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_click_to_reply_count {
@@ -5627,7 +5627,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_click_to_reply} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_post_metadata_count {
@@ -5636,7 +5636,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_post_metadata} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_client_side_cert_check_count {
@@ -5645,7 +5645,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_client_side_cert_check} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: restrict_system_admin_count {
@@ -5654,7 +5654,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${restrict_system_admin} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: use_new_saml_library_count {
@@ -5663,7 +5663,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${use_new_saml_library} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_experimental_extensions_count {
@@ -5672,7 +5672,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_experimental_extensions} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: amazon_s3_signv2_count {
@@ -5681,7 +5681,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${amazon_s3_signv2} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: amazon_s3_sse_count {
@@ -5690,7 +5690,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${amazon_s3_sse} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: amazon_s3_ssl_count {
@@ -5699,7 +5699,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${amazon_s3_ssl} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: amazon_s3_trace_count {
@@ -5708,7 +5708,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${amazon_s3_trace} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_file_attachments_count {
@@ -5717,7 +5717,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_file_attachments} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_mobile_download_count {
@@ -5726,7 +5726,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_mobile_download} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_mobile_upload_count {
@@ -5735,7 +5735,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_mobile_upload} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_public_links_count {
@@ -5744,7 +5744,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_public_links} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isabsolute_directory_count {
@@ -5753,7 +5753,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isabsolute_directory} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_directory_count {
@@ -5762,7 +5762,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_directory} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: allow_email_accounts_count {
@@ -5771,7 +5771,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${allow_email_accounts} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_guest_accounts_count {
@@ -5780,7 +5780,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_guest_accounts} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enforce_multifactor_authentication_guest_count {
@@ -5789,7 +5789,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enforce_multifactor_authentication_guest} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_restrict_creation_to_domains_count {
@@ -5798,7 +5798,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_restrict_creation_to_domains} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_image_proxy_count {
@@ -5806,7 +5806,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Image Proxy Enable Image Proxy enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_image_proxy} then ${server_id} else null end ;;
   }
 
@@ -5815,7 +5815,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Image Proxy Isdefault Remote Image Proxy Options enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_remote_image_proxy_options} then ${server_id} else null end ;;
   }
 
@@ -5824,7 +5824,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Image Proxy Isdefault Remote Image Proxy Url enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_remote_image_proxy_url} then ${server_id} else null end ;;
   }
 
@@ -5833,7 +5833,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Enable Ldap enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_ldap} then ${server_id} else null end ;;
   }
 
@@ -5842,7 +5842,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Enable Admin Filter enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_admin_filter} then ${server_id} else null end ;;
   }
 
@@ -5851,7 +5851,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Enable Sync enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_sync} then ${server_id} else null end ;;
   }
 
@@ -5861,7 +5861,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_email_attribute_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_first_name_attribute_ldap_count {
@@ -5870,7 +5870,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_first_name_attribute_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_group_display_name_attribute_count {
@@ -5878,7 +5878,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Isdefault Group Display Name Attribute enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_group_display_name_attribute} then ${server_id} else null end ;;
   }
 
@@ -5888,7 +5888,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_group_id_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_id_attribute_ldap_count {
@@ -5896,7 +5896,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Isdefault Id Attribute Ldap enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_id_attribute_ldap} then ${server_id} else null end ;;
   }
 
@@ -5905,7 +5905,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Isdefault Last Name Attribute Ldap enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_last_name_attribute_ldap} then ${server_id} else null end ;;
   }
 
@@ -5915,7 +5915,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_border_color_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_color_ldap_count {
@@ -5924,7 +5924,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_color_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_text_color_ldap_count {
@@ -5933,7 +5933,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_text_color_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_field_name_count {
@@ -5942,7 +5942,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_field_name} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_id_attribute_count {
@@ -5951,7 +5951,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_id_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_nickname_attribute_ldap_count {
@@ -5960,7 +5960,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_nickname_attribute_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_position_attribute_ldap_count {
@@ -5969,7 +5969,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_position_attribute_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_username_attribute_ldap_count {
@@ -5977,7 +5977,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Isdefault Username Attribute Ldap enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_username_attribute_ldap} then ${server_id} else null end ;;
   }
 
@@ -5986,7 +5986,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Ldap Isempty Admin Filter enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isempty_admin_filter} then ${server_id} else null end ;;
   }
 
@@ -5996,7 +5996,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isempty_group_filter} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isempty_guest_filter_count {
@@ -6005,7 +6005,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isempty_guest_filter} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: skip_certificate_verification_count {
@@ -6014,7 +6014,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${skip_certificate_verification} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_cluster_count {
@@ -6023,7 +6023,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_cluster} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_compliance_count {
@@ -6032,7 +6032,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_compliance} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_custom_brand_count {
@@ -6041,7 +6041,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_custom_brand} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_custom_permissions_schemes_count {
@@ -6050,7 +6050,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_custom_permissions_schemes} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_data_retention_count {
@@ -6059,7 +6059,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_data_retention} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_elastic_search_count {
@@ -6067,7 +6067,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Elastic Search enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_elastic_search} then ${server_id} else null end ;;
   }
 
@@ -6076,7 +6076,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Email Notification Contents enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_email_notification_contents} then ${server_id} else null end ;;
   }
 
@@ -6086,7 +6086,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_future} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_google_count {
@@ -6095,7 +6095,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_google} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_guest_accounts_count {
@@ -6103,7 +6103,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Guest Accounts enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_guest_accounts} then ${server_id} else null end ;;
   }
 
@@ -6112,7 +6112,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Guest Accounts Permissions enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_guest_accounts_permissions} then ${server_id} else null end ;;
   }
 
@@ -6121,7 +6121,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Id Loaded enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_id_loaded} then ${server_id} else null end ;;
   }
 
@@ -6130,7 +6130,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Ldap enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_ldap} then ${server_id} else null end ;;
   }
 
@@ -6139,7 +6139,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Ldap Groups enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_ldap_groups} then ${server_id} else null end ;;
   }
 
@@ -6148,7 +6148,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Lock Teammate Name Display enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_lock_teammate_name_display} then ${server_id} else null end ;;
   }
 
@@ -6157,7 +6157,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Message Export enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_message_export} then ${server_id} else null end ;;
   }
 
@@ -6166,7 +6166,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Metrics enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_metrics} then ${server_id} else null end ;;
   }
 
@@ -6175,7 +6175,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Mfa enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_mfa} then ${server_id} else null end ;;
   }
 
@@ -6184,7 +6184,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Mhpns enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_mhpns} then ${server_id} else null end ;;
   }
 
@@ -6193,7 +6193,7 @@ view: server_daily_details_ext {
     description: "The count of servers with License Feature Office365 enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${feature_office365} then ${server_id} else null end ;;
   }
 
@@ -6203,7 +6203,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_password} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: feature_saml_count {
@@ -6212,7 +6212,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${feature_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: console_json_log_count {
@@ -6221,7 +6221,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${console_json_log} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_console_log_count {
@@ -6230,7 +6230,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_console_log} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_file_log_count {
@@ -6239,7 +6239,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_file_log} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_webhook_debugging_count {
@@ -6248,7 +6248,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_webhook_debugging} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: file_json_log_count {
@@ -6257,7 +6257,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${file_json_log} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_file_format_count {
@@ -6266,7 +6266,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_file_format} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_file_location_log_count {
@@ -6274,7 +6274,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Log Isdefault File Location Log enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_file_location_log} then ${server_id} else null end ;;
   }
 
@@ -6283,7 +6283,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Message Export Enable Message Export enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_message_export} then ${server_id} else null end ;;
   }
 
@@ -6292,7 +6292,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Message Export Is Default Global Relay Email Address enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${is_default_global_relay_email_address} then ${server_id} else null end ;;
   }
 
@@ -6301,7 +6301,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Message Export Is Default Global Relay Smtp Password enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${is_default_global_relay_smtp_password} then ${server_id} else null end ;;
   }
 
@@ -6310,7 +6310,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Message Export Is Default Global Relay Smtp Username enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${is_default_global_relay_smtp_username} then ${server_id} else null end ;;
   }
 
@@ -6319,7 +6319,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Metric Enable Metrics enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_metrics} then ${server_id} else null end ;;
   }
 
@@ -6328,7 +6328,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Nativeapp Isdefault Android App Download Link enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_android_app_download_link} then ${server_id} else null end ;;
   }
 
@@ -6337,7 +6337,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Nativeapp Isdefault App Download Link enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_app_download_link} then ${server_id} else null end ;;
   }
 
@@ -6346,7 +6346,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Nativeapp Isdefault Iosapp Download Link enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${isdefault_iosapp_download_link} then ${server_id} else null end ;;
   }
 
@@ -6355,7 +6355,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Notifications Log Console Json Notifications enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${console_json_notifications} then ${server_id} else null end ;;
   }
 
@@ -6364,7 +6364,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Notifications Log Enable Console Notifications enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_console_notifications} then ${server_id} else null end ;;
   }
 
@@ -6373,7 +6373,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Notifications Log Enable File Notifications enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_file_notifications} then ${server_id} else null end ;;
   }
 
@@ -6382,7 +6382,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Notifications Log File Json Notifications enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${file_json_notifications} then ${server_id} else null end ;;
   }
 
@@ -6392,7 +6392,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_file_location_notifications} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_office365_oauth_count {
@@ -6400,7 +6400,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Oauth Enable Office365 Oauth enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_office365_oauth} then ${server_id} else null end ;;
   }
 
@@ -6410,7 +6410,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_google_oauth} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_gitlab_oauth_count {
@@ -6419,7 +6419,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_gitlab_oauth} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_lowercase_count {
@@ -6428,7 +6428,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_lowercase} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_uppercase_count {
@@ -6437,7 +6437,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_uppercase} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_symbol_count {
@@ -6446,7 +6446,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_symbol} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_number_count {
@@ -6455,7 +6455,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_number} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: phase_1_migration_complete_count {
@@ -6464,7 +6464,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${phase_1_migration_complete} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: phase_2_migration_complete_count {
@@ -6473,7 +6473,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${phase_2_migration_complete} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: allow_insecure_download_url_count {
@@ -6482,7 +6482,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${allow_insecure_download_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: automatic_prepackaged_plugins_count {
@@ -6490,7 +6490,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Automatic Prepackaged Plugins enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${automatic_prepackaged_plugins} then ${server_id} else null end ;;
   }
 
@@ -6499,7 +6499,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Plugins enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_plugins} then ${server_id} else null end ;;
   }
 
@@ -6508,7 +6508,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Antivirus enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_antivirus} then ${server_id} else null end ;;
   }
 
@@ -6518,7 +6518,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_autolink} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_aws_sns_count {
@@ -6527,7 +6527,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_aws_sns} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_custom_user_attributes_count {
@@ -6535,7 +6535,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Custom User Attributes enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_custom_user_attributes} then ${server_id} else null end ;;
   }
 
@@ -6544,7 +6544,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Github enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_github} then ${server_id} else null end ;;
   }
 
@@ -6554,7 +6554,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_gitlab} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_health_check_count {
@@ -6563,13 +6563,13 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_health_check} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_jenkins_count {
     label: "Servers w/ Plugin Enable Jenkins"
     description: "The count of servers with Plugin Enable Jenkins enabled."
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_jenkins} then ${server_id} else null end ;;
@@ -6580,7 +6580,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Jira enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_jira} then ${server_id} else null end ;;
   }
 
@@ -6589,7 +6589,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Jitsi enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_jitsi} then ${server_id} else null end ;;
   }
 
@@ -6598,7 +6598,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Confluence enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_confluence} then ${server_id} else null end ;;
   }
 
@@ -6607,7 +6607,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable ToDo enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_todo} then ${server_id} else null end ;;
   }
 
@@ -6616,7 +6616,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable MS Calendar enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_mscalendar} then ${server_id} else null end ;;
   }
 
@@ -6625,7 +6625,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Plugin Enable Skype4Business enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_skype4business} then ${server_id} else null end ;;
   }
 
@@ -6635,7 +6635,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_marketplace} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_nps_count {
@@ -6644,7 +6644,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_nps} and ${enable_nps_survey} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_nps_survey_count {
@@ -6653,7 +6653,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_nps_survey} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_remote_marketplace_count {
@@ -6662,7 +6662,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_remote_marketplace} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_uploads_count {
@@ -6671,7 +6671,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_uploads} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_webex_count {
@@ -6680,7 +6680,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_webex} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_welcome_bot_count {
@@ -6689,7 +6689,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_welcome_bot} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_zoom_count {
@@ -6698,7 +6698,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_zoom} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: is_default_marketplace_url_count {
@@ -6707,7 +6707,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${is_default_marketplace_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: require_plugin_signature_count {
@@ -6716,7 +6716,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${require_plugin_signature} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: signature_public_key_files_sum {
@@ -6935,7 +6935,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${show_email_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: show_full_name_count {
@@ -6952,7 +6952,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_rate_limiter} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_vary_by_header_count {
@@ -6961,7 +6961,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_vary_by_header} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: max_burst_sum {
@@ -7012,7 +7012,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${vary_by_remote_address} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: vary_by_user_count {
@@ -7021,7 +7021,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${vary_by_user} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_saml_count {
@@ -7030,7 +7030,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_admin_attribute_count {
@@ -7039,7 +7039,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_admin_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_sync_with_ldap_count {
@@ -7048,7 +7048,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_sync_with_ldap} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_sync_with_ldap_include_auth_count {
@@ -7057,7 +7057,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_sync_with_ldap_include_auth} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: encrypt_saml_count {
@@ -7066,7 +7066,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${encrypt_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_admin_attribute_count {
@@ -7075,7 +7075,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_admin_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_canonical_algorithm_count {
@@ -7084,7 +7084,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_canonical_algorithm} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_email_attribute_saml_count {
@@ -7093,7 +7093,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_email_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_first_name_attribute_saml_count {
@@ -7102,7 +7102,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_first_name_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_guest_attribute_count {
@@ -7111,7 +7111,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_guest_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_id_attribute_saml_count {
@@ -7120,7 +7120,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_id_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_last_name_attribute_saml_count {
@@ -7129,7 +7129,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_last_name_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_locale_attribute_count {
@@ -7138,7 +7138,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_locale_attribute} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_border_color_saml_count {
@@ -7147,7 +7147,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_border_color_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_color_saml_count {
@@ -7156,7 +7156,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_color_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_text_count {
@@ -7165,7 +7165,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_text} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_login_button_text_color_saml_count {
@@ -7174,7 +7174,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_login_button_text_color_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_nickname_attribute_saml_count {
@@ -7183,7 +7183,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_nickname_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_position_attribute_saml_count {
@@ -7192,7 +7192,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_position_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_scoping_idp_name_count {
@@ -7201,7 +7201,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_scoping_idp_name} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_scoping_idp_provider_id_count {
@@ -7210,7 +7210,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_scoping_idp_provider_id} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_signature_algorithm_count {
@@ -7219,7 +7219,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_signature_algorithm} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_username_attribute_saml_count {
@@ -7228,7 +7228,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_username_attribute_saml} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: sign_request_count {
@@ -7237,7 +7237,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${sign_request} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: verify_saml_count {
@@ -7245,7 +7245,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Saml Verify Saml enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${verify_saml} then ${server_id} else null end ;;
   }
 
@@ -7254,7 +7254,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Service Allow Cookies For Subdomains enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${allow_cookies_for_subdomains} then ${server_id} else null end ;;
   }
 
@@ -7263,7 +7263,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Service Close Unused Direct Messages enabled."
     type: count_distinct
     group_label: " Server Counts"
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${close_unused_direct_messages} then ${server_id} else null end ;;
   }
 
@@ -7271,7 +7271,7 @@ view: server_daily_details_ext {
     label: "Servers w/ Service Cors Allow Credentials"
     description: "The count of servers with Service Cors Allow Credentials enabled."
     type: count_distinct
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     group_label: " Server Counts"
     sql: case when ${cors_allow_credentials} then ${server_id} else null end ;;
   }
@@ -7282,7 +7282,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${cors_debug} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: custom_service_terms_enabled_service_count {
@@ -7291,7 +7291,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${custom_service_terms_enabled_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: disable_bots_when_owner_is_deactivated_count {
@@ -7300,7 +7300,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${disable_bots_when_owner_is_deactivated} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: disable_legacy_mfa_count {
@@ -7309,7 +7309,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${disable_legacy_mfa} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_apiv3_service_count {
@@ -7318,7 +7318,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_apiv3_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_api_team_deletion_count {
@@ -7327,7 +7327,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_api_team_deletion} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_bot_account_creation_count {
@@ -7336,7 +7336,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_bot_account_creation} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_channel_viewed_messages_service_count {
@@ -7345,7 +7345,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_channel_viewed_messages_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_commands_service_count {
@@ -7354,7 +7354,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_commands_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_custom_emoji_service_count {
@@ -7363,7 +7363,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_custom_emoji_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_developer_service_count {
@@ -7372,7 +7372,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_developer_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_email_invitations_count {
@@ -7381,7 +7381,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_email_invitations} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_emoji_picker_service_count {
@@ -7390,7 +7390,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_emoji_picker_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_gif_picker_count {
@@ -7399,7 +7399,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_gif_picker} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_incoming_webhooks_service_count {
@@ -7408,7 +7408,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_incoming_webhooks_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_insecure_outgoing_connections_service_count {
@@ -7417,7 +7417,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_insecure_outgoing_connections_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_latex_count {
@@ -7426,7 +7426,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_latex} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_multifactor_authentication_service_count {
@@ -7435,7 +7435,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_multifactor_authentication_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_oauth_service_provider_service_count {
@@ -7444,7 +7444,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_oauth_service_provider_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_only_admin_integrations_service_count {
@@ -7453,7 +7453,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_only_admin_integrations_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_outgoing_webhooks_count {
@@ -7462,7 +7462,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_outgoing_webhooks} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_post_icon_override_count {
@@ -7471,7 +7471,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_post_icon_override} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_post_search_count {
@@ -7480,7 +7480,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_post_search} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_post_username_override_count {
@@ -7489,7 +7489,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_post_username_override} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_preview_features_count {
@@ -7498,7 +7498,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_preview_features} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_security_fix_alert_count {
@@ -7507,7 +7507,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_security_fix_alert} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_svgs_count {
@@ -7516,7 +7516,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_svgs} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_testing_count {
@@ -7525,7 +7525,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_testing} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_tutorial_count {
@@ -7534,7 +7534,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_tutorial} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_user_access_tokens_count {
@@ -7543,7 +7543,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_user_access_tokens} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_user_statuses_count {
@@ -7552,7 +7552,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_user_statuses} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_user_typing_messages_count {
@@ -7561,7 +7561,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_user_typing_messages} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enforce_multifactor_authentication_service_count {
@@ -7570,7 +7570,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enforce_multifactor_authentication_service} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_channel_organization_count {
@@ -7579,7 +7579,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_channel_organization} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_enable_authentication_transfer_count {
@@ -7588,7 +7588,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_enable_authentication_transfer} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_enable_default_channel_leave_join_messages_count {
@@ -7597,7 +7597,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_enable_default_channel_leave_join_messages} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_enable_hardened_mode_count {
@@ -7606,7 +7606,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_enable_hardened_mode} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_ldap_group_sync_count {
@@ -7615,7 +7615,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_ldap_group_sync} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_limit_client_config_count {
@@ -7624,7 +7624,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_limit_client_config} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: experimental_strict_csrf_enforcement_count {
@@ -7633,7 +7633,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${experimental_strict_csrf_enforcement} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: forward_80_to_443_count {
@@ -7642,7 +7642,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${forward_80_to_443} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: gfycat_api_key_count {
@@ -7651,7 +7651,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${gfycat_api_key} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: gfycat_api_secret_count {
@@ -7660,7 +7660,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${gfycat_api_secret} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_allowed_untrusted_internal_connections_count {
@@ -7669,7 +7669,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_allowed_untrusted_internal_connections} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_allowed_untrusted_inteznal_connections_count {
@@ -7678,7 +7678,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_allowed_untrusted_inteznal_connections} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_allow_cors_from_count {
@@ -7687,7 +7687,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_allow_cors_from} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_cors_exposed_headers_count {
@@ -7696,7 +7696,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_cors_exposed_headers} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_google_developer_key_count {
@@ -7705,7 +7705,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_google_developer_key} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_image_proxy_options_count {
@@ -7714,7 +7714,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_image_proxy_options} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_image_proxy_type_count {
@@ -7723,7 +7723,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_image_proxy_type} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_image_proxy_url_count {
@@ -7732,7 +7732,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_image_proxy_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_read_timeout_count {
@@ -7741,7 +7741,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_read_timeout} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_site_url_count {
@@ -7750,7 +7750,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_site_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_tls_cert_file_count {
@@ -7759,7 +7759,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_tls_cert_file} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_tls_key_file_count {
@@ -7768,7 +7768,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_tls_key_file} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: isdefault_write_timeout_count {
@@ -7777,7 +7777,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${isdefault_write_timeout} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: tls_strict_transport_count {
@@ -7786,7 +7786,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${tls_strict_transport} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: uses_letsencrypt_count {
@@ -7795,7 +7795,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${uses_letsencrypt} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: websocket_url_count {
@@ -7804,7 +7804,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${websocket_url} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: enable_public_channels_materialization_count {
@@ -7813,7 +7813,7 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_public_channels_materialization} then ${server_id} else null end ;;
-    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
   measure: max_idle_conns_sum {

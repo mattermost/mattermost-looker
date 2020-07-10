@@ -1110,7 +1110,13 @@ explore: server_daily_details_ext {
 explore: financial_statements {
   sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
-  label: "Monthly Financial Statements"
+  label: "Financial Statements"
+}
+
+explore: financial_model {
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
+  group_label: "Finance"
+  label: "Financial Model"
 }
 
 explore: target_fact {
@@ -1444,6 +1450,20 @@ explore: server_upgrades {
       AND ${server_fact.license_id} = ${licenses.license_id};;
     relationship: one_to_one
     fields: [licenses_grouped.company, licenses_grouped.trial]
+  }
+
+  join: excludable_servers {
+    view_label: "Server Upgrades"
+    sql_on: ${excludable_servers.server_id} = ${server_upgrades.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: version_release_dates {
+    view_label: " Server Daily Details"
+    sql_on: ${server_upgrades.current_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.supported, version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
   }
 }
 
@@ -1792,6 +1812,6 @@ explore: issue_comments {
     sql_on: ${issue_comments.issueid} = ${issues.id} ;;
     type: left_outer
     relationship: many_to_one
-    fields: [issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
+    fields: [issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }

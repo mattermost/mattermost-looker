@@ -47,6 +47,27 @@ view: server_upgrades {
     hidden: no
   }
 
+  dimension: prev_version_major {
+    label: "Previous Server Version (Major)"
+    group_label: " Server Versions"
+    description: "The previous days server version major (truncating dot release) for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
+    type: string
+    sql: regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}') ;;
+    hidden: no
+    order_by_field: prev_server_version_major_sort
+  }
+
+  dimension: prev_server_version_major_sort {
+    group_label: " Server Versions"
+    label: "Previous Server Version: Major (Sort)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(${prev_version}, '.', 1) ||
+          CASE WHEN split_part(${prev_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${prev_version}, '.', 2) || '0' END)::int ;;
+    hidden: yes
+  }
+
   dimension: current_version {
     label: "Current Server Version"
     group_label: " Server Versions"
@@ -54,6 +75,27 @@ view: server_upgrades {
     type: string
     sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
     hidden: no
+  }
+
+  dimension: current_version_major {
+    label: "Current Server Version (Major)"
+    group_label: " Server Versions"
+    description: "The current server version major (truncating dot release) of the server on the given logging date."
+    type: string
+    sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}') ;;
+    hidden: no
+    order_by_field: current_server_version_major_sort
+  }
+
+  dimension: current_server_version_major_sort {
+    group_label: " Server Versions"
+    label: "Current Server Version: Major (Sort)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(${current_version}, '.', 1) ||
+          CASE WHEN split_part(${current_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${current_version}, '.', 2) || '0' END)::int ;;
+    hidden: yes
   }
 
   dimension: prev_edition {
@@ -86,7 +128,7 @@ view: server_upgrades {
   dimension_group: logging {
     description: "The date each row of data was logged."
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
