@@ -265,6 +265,13 @@ view: customer_reference {
     sql: CAST(${TABLE}."TARGET_COMPLETION_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
 
+  measure: number_of_accounts {
+    label: "# of accounts"
+    type: count_distinct
+    sql: ${account_name} ;;
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes]
+  }
+
   measure: count {
     label: "# of References"
     type: count
