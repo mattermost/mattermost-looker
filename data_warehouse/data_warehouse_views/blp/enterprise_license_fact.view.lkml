@@ -68,6 +68,12 @@ view: enterprise_license_fact {
     sql: ${TABLE}."LAST_LICENSE_TELEMETRY_DATE" ;;
   }
 
+  dimension: last_license_telemetry_previous_7 {
+    label: "Telemetry in Prev. 7 Days"
+    sql: ${last_license_telemetry_date} >= current_date - interval '7 days' ;;
+    type: yesno
+  }
+
   dimension: licenseid {
     type: string
     sql: ${TABLE}."LICENSEID" ;;
@@ -124,5 +130,11 @@ view: enterprise_license_fact {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: max_telemetry_date {
+    label: "Last Telemetry Date"
+    type: date
+    sql: MAX(${last_license_telemetry_date}) ;;
   }
 }
