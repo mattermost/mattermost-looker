@@ -225,7 +225,6 @@ view: opportunity {
   }
 
   dimension: contactid {
-    # description: "TODO"
     sql: ${TABLE}.contactid ;;
     type: string
     group_label: "System"
@@ -239,17 +238,16 @@ view: opportunity {
   }
 
   dimension_group: created {
-    # description: "TODO"
     sql: ${TABLE}.createddate ;;
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
     ]
     group_label: "Created"
   }
@@ -395,13 +393,12 @@ view: opportunity {
     sql: ${TABLE}.lead_created_date__c ;;
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
     ]
     group_label: "Marketing"
   }
@@ -539,13 +536,12 @@ view: opportunity {
     sql: ${TABLE}.mql_date__c ;;
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
     ]
     group_label: "Marketing"
   }
