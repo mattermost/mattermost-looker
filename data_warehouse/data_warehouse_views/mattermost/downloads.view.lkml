@@ -1,6 +1,21 @@
 view: downloads {
   sql_table_name: MATTERMOST.DOWNLOADS ;;
 
+  filter: week_to_date {
+    description: "Boolean used to filter data to compare current week to previous week's week to date metrics."
+    type: yesno
+    sql: CASE WHEN ${log_week}::DATE <> date_trunc('week', CURRENT_DATE::DATE) AND DAYOFWEEK(${log_date}::DATE) <= DAYOFWEEK(CURRENT_DATE::DATE)
+      THEN TRUE ELSE FALSE END;;
+  }
+
+  filter: month_to_date {
+    description: "Boolean used to filter data to compare current month to previous month's month to date metrics."
+    type: yesno
+    sql: CASE WHEN (${log_month} || '-01')::DATE = date_trunc('month', CURRENT_DATE) THEN TRUE
+            WHEN (${log_month} || '-01')::DATE <> date_trunc('month', CURRENT_DATE::DATE) AND EXTRACT(DAY FROM ${log_date}::DATE)::int <= EXTRACT(DAY FROM CURRENT_DATE::DATE)
+            THEN TRUE ELSE FALSE END;;
+  }
+
   dimension: ip_address {
     description: "The IP address of the user performing the download."
     label: "Client IP Address"
