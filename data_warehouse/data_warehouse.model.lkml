@@ -1115,7 +1115,7 @@ explore: financial_statements {
 }
 
 explore: financial_model {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance_only');;
   group_label: "Finance"
   label: "Financial Model"
 }
