@@ -10,6 +10,7 @@ view: customer_reference {
   }
 
   dimension: account {
+    label: "Account SFID"
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
     hidden: yes
@@ -56,6 +57,13 @@ view: customer_reference {
     sql: ${creator.name} ;;
   }
 
+  dimension: current_arr {
+    type: number
+    sql: ${account.arr_current} ;;
+    label: "Current Account ARR"
+    value_format_name: usd_0
+  }
+
   dimension: account_csm {
     group_label: "Owners"
     label: "Account CSM"
@@ -91,6 +99,12 @@ view: customer_reference {
     description: "Main contact for the reference."
     type: string
     sql: ${TABLE}."CUSTOMER_REFERENCE_CONTACT__C" ;;
+  }
+
+  dimension: customer_segmentation_tier {
+    type: string
+    sql: ${account.customer_segmentation_tier} ;;
+    label: "Customer Segmentation Tier"
   }
 
   dimension: internal_or_external {
@@ -268,13 +282,22 @@ view: customer_reference {
   measure: number_of_accounts {
     label: "# of accounts"
     type: count_distinct
-    sql: ${account_name} ;;
-    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes]
+    sql: ${account} ;;
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
+  }
+
+  measure: total_current_arr {
+    type: sum_distinct
+    sql: ${current_arr} ;;
+    sql_distinct_key: ${account} ;;
+    label: "Current Account ARR"
+    value_format_name: usd_0
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
   }
 
   measure: count {
     label: "# of References"
     type: count
-    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes]
+    drill_fields: [name, account.name, account_csm, owner, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
   }
 }
