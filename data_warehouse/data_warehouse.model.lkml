@@ -1562,6 +1562,7 @@ explore: enterprise_license_fact {
   group_label: "BLP"
   join: account {
     sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
+    type: full_outer
   }
 }
 

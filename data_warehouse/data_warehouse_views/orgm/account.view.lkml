@@ -72,7 +72,7 @@ view: account {
 
   dimension: licensed_account {
     label: "Currently Licensed?"
-    sql: ${arr_current} > 1 ;;
+    sql: ${arr_current} > 0 ;;
     type: yesno
   }
 
