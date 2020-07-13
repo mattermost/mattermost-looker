@@ -242,6 +242,7 @@ view: opportunity {
     type: time
     timeframes: [
       date,
+      week,
       month,
       fiscal_quarter,
       fiscal_quarter_of_year,
