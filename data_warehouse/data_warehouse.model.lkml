@@ -1815,3 +1815,16 @@ explore: issue_comments {
     fields: [issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }
+
+explore: server_telemetry {
+  label: "Server Telemetry"
+}
+explore: events_web_desktop_telemetry {
+  label: "Events Web Desktop Telemetry"
+}
+explore: events_mobile_telemetry {
+  label: "Events Mobile Telemetry"
+}
+explore: plugins_telemetry {
+  label: "Plugins Telemetry"
+}
