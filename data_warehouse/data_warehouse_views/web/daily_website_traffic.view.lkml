@@ -333,6 +333,21 @@ view: daily_website_traffic {
     hidden: yes
   }
 
+  filter: week_to_date {
+    description: "Boolean used to filter data to compare current week to previous week's week to date metrics."
+    type: yesno
+    sql: CASE WHEN ${logging_week}::DATE <> date_trunc('week', CURRENT_DATE::DATE) AND DAYOFWEEK(${logging_date}::DATE) <= DAYOFWEEK(CURRENT_DATE::DATE)
+    THEN TRUE ELSE FALSE END;;
+  }
+
+  filter: month_to_date {
+    description: "Boolean used to filter data to compare current month to previous month's month to date metrics."
+    type: yesno
+    sql: CASE WHEN (${logging_month} || '-01')::DATE = date_trunc('month', CURRENT_DATE) THEN TRUE
+            WHEN (${logging_month} || '-01')::DATE <> date_trunc('month', CURRENT_DATE::DATE) AND EXTRACT(DAY FROM ${logging_date}::DATE)::int <= EXTRACT(DAY FROM CURRENT_DATE::DATE)
+            THEN TRUE ELSE FALSE END;;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
