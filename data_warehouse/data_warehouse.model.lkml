@@ -1451,6 +1451,20 @@ explore: server_upgrades {
     relationship: one_to_one
     fields: [licenses_grouped.company, licenses_grouped.trial]
   }
+
+  join: excludable_servers {
+    view_label: "Server Upgrades"
+    sql_on: ${excludable_servers.server_id} = ${server_upgrades.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: version_release_dates {
+    view_label: " Server Daily Details"
+    sql_on: ${server_upgrades.current_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.supported, version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
+  }
 }
 
 explore: nps_server_daily_score {

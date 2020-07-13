@@ -45,6 +45,12 @@ view: server_daily_details {
             THEN TRUE ELSE FALSE END ;;
   }
 
+  filter: mobile_client_usage {
+    description: "Boolean value indicating >= 1 user associated with the server performed an event using the mobile client."
+    type: yesno
+    sql: CASE WHEN ${mobile_dau} > 0 THEN true ELSE false END ;;
+  }
+
   filter: last_day_of_week {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
@@ -121,6 +127,13 @@ view: server_daily_details {
     label: "In Diagnostics Telemetry"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
+  }
+
+  filter: trailing_3_releases {
+    description: "Boolean indicating the server version is on the trailing 3 releases as it relates to the logging date."
+    type: yesno
+    sql: CASE WHEN ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '119 days'
+    AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE ELSE FALSE END ;;
   }
 
   # Dimensions
@@ -682,21 +695,20 @@ view: server_daily_details {
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 
+  measure: servers_w_mobile_usage {
+    label: "  Server Count (>= 1 Mobile User)"
+    type:  count_distinct
+    sql: case when ${mobile_dau} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
+  }
+
   measure: server_count_ttr {
     label: "   Server Count (Trailing 3 Releases)"
     group_label: " Server Counts"
     description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
-    sql: CASE WHEN split_part(${server_version_major}::string, '.', 1)::float >= (
-                                                    SELECT MIN(split_part(version, '.', 1)::float)::float
-                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
-                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
-                                                    AND release_date < CURRENT_DATE
-                                                    )::float
-             AND SPLIT_PART(${server_version_major}, '.', 2)::float >= (SELECT MIN(split_part(version, '.', 2))::float
-                                                    FROM MATTERMOST.VERSION_RELEASE_DATES
-                                                    WHERE release_number >= (SELECT MAX(release_number-3) FROM MATTERMOST.VERSION_RELEASE_DATES WHERE release_date < CURRENT_DATE)
-                                                    AND release_date < CURRENT_DATE)::float THEN ${server_id} ELSE NULL END;;
+    sql: CASE WHEN ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '119 days'
+    AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 

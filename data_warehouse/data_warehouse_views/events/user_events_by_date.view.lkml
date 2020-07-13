@@ -38,6 +38,13 @@ view: user_events_by_date {
     sql: ${TABLE}.context_user_agent ;;
   }
 
+  dimension: desktop_client_version{
+    view_label: "User Agent Details"
+    description: "The Mattermost Desktop Client Version used to perform the event."
+    type: string
+    sql: REGEXP_SUBSTR(SPLIT_PART(SPLIT_PART(${TABLE}.context_user_agent, 'Mattermost/', 2), ' ', 1), '^[0-9]{1,2}.[0-9]{1,2}') ;;
+  }
+
   dimension: event_client {
     description: "The Mattermost Application client that was used to perform the event (Desktop, Mobile, or Web App)."
     type: string

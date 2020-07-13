@@ -327,6 +327,20 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.max_active_user_count;;
   }
 
+  dimension: max_registered_users {
+    label: "Max. Registered Users"
+    description: "The all-time maximum number of registered users logged on the server."
+    type: number
+    sql: ${TABLE}.max_registered_users;;
+  }
+
+  dimension: max_registered_deactivated_users {
+    label: "Max. Deactivated Users"
+    description: "The running total (maximum) of deactivated users logged on the server."
+    type: number
+    sql: ${TABLE}.max_registered_deactivated_users;;
+  }
+
   dimension: signup_events_alltime {
     group_label: "Event Dimensions (All-Time)"
     description: "The all-time count of signup events performed by users on the server (from user event telemetry)."
@@ -339,6 +353,13 @@ sql_table_name: mattermost.server_fact ;;
     description: "The all-time count of posts created by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.posts_events_alltime;;
+  }
+
+  dimension: max_posts {
+    label: "Max. Posts"
+    description: "The running total (maximum) number of posts on the servers (logged via the server diagnostics.go code)."
+    type: number
+    sql: ${TABLE}.max_posts;;
   }
 
   dimension: invite_members_alltime {
