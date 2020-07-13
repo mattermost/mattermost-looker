@@ -328,6 +328,10 @@ view: events_web_desktop_telemetry {
     hidden: no
   }
 
+  dimension: properties {
+    sql: OBJECT_CONSTRUCT(*) ;;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: received_at {

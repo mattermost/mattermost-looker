@@ -7,167 +7,171 @@ view: plugins_telemetry {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: no
   }
 
   dimension: channel {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: value {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.value ;;
     hidden: no
   }
 
   dimension: pluginid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.pluginid ;;
     hidden: no
   }
 
   dimension: event_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_text ;;
     hidden: no
   }
 
   dimension: context_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: pluginversion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.pluginversion ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
     hidden: no
   }
 
   dimension: anonymous_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: event {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
   }
 
   dimension: userid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.userid ;;
     hidden: no
   }
 
   dimension: serverversion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.serverversion ;;
     hidden: no
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
     hidden: no
   }
 
   dimension: location {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.location ;;
     hidden: no
   }
 
   dimension: useractualid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.useractualid ;;
     hidden: no
   }
 
-  
+  dimension: properties {
+    sql: OBJECT_CONSTRUCT(*) ;;
+  }
+
+
   # DIMENSION GROUPS/DATES
   dimension_group: sent_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.sent_at ;;
     hidden: no
   }
 
   dimension_group: received_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.received_at ;;
     hidden: no
   }
 
   dimension_group: original_timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.original_timestamp ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
   dimension_group: uuid_ts {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.uuid_ts ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

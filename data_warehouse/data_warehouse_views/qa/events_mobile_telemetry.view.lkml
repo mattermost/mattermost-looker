@@ -7,384 +7,388 @@ view: events_mobile_telemetry {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: no
   }
 
   dimension: context_network_carrier {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_network_carrier ;;
     hidden: no
   }
 
   dimension: context_device_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_device_id ;;
     hidden: no
   }
 
   dimension: context_traits_device_dimensions_height {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_traits_device_dimensions_height ;;
     hidden: no
   }
 
   dimension: context_screen_height {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_screen_height ;;
     hidden: no
   }
 
   dimension: context_locale {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_locale ;;
     hidden: no
   }
 
   dimension: context_traits_device_dimensions_width {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_traits_device_dimensions_width ;;
     hidden: no
   }
 
   dimension: type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.type ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: context_device_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_device_type ;;
     hidden: no
   }
 
   dimension: context_app_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_name ;;
     hidden: no
   }
 
   dimension: context_device_model {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_device_model ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
     hidden: no
   }
 
   dimension: context_network_cellular {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.context_network_cellular ;;
     hidden: no
   }
 
   dimension: context_network_bluetooth {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.context_network_bluetooth ;;
     hidden: no
   }
 
   dimension: context_traits_app_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_app_version ;;
     hidden: no
   }
 
   dimension: context_app_build {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_build ;;
     hidden: no
   }
 
   dimension: context_network_wifi {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.context_network_wifi ;;
     hidden: no
   }
 
   dimension: channel_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel_id ;;
     hidden: no
   }
 
   dimension: context_screen_width {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_screen_width ;;
     hidden: no
   }
 
   dimension: category {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.category ;;
     hidden: no
   }
 
   dimension: anonymous_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
   dimension: context_traits_server {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_server ;;
     hidden: no
   }
 
   dimension: context_app_namespace {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_namespace ;;
     hidden: no
   }
 
   dimension: context_traits_userid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_userid ;;
     hidden: no
   }
 
   dimension: event {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: context_traits_app_build {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_traits_app_build ;;
     hidden: no
   }
 
   dimension: channel {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel ;;
     hidden: no
   }
 
   dimension: context_traits_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_id ;;
     hidden: no
   }
 
   dimension: context_os_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_os_version ;;
     hidden: no
   }
 
   dimension: context_app_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_app_version ;;
     hidden: no
   }
 
   dimension: context_traits_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_ip ;;
     hidden: no
   }
 
   dimension: event_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_text ;;
     hidden: no
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
     hidden: no
   }
 
   dimension: context_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: context_os_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_os_name ;;
     hidden: no
   }
 
   dimension: user_actual_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_actual_id ;;
     hidden: no
   }
 
   dimension: user_actual_role {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_actual_role ;;
     hidden: no
   }
 
   dimension: context_screen_density {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.context_screen_density ;;
     hidden: no
   }
 
   dimension: context_timezone {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_timezone ;;
     hidden: no
   }
 
   dimension: context_traits_anonymousid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_anonymousid ;;
     hidden: no
   }
 
   dimension: context_device_manufacturer {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_device_manufacturer ;;
     hidden: no
   }
 
   dimension: context_traits_device_istablet {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.context_traits_device_istablet ;;
     hidden: no
   }
 
   dimension: context_useragent {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_useragent ;;
     hidden: no
   }
 
   dimension: context_device_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_device_name ;;
     hidden: no
   }
 
   dimension: context_traits_device_os {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_device_os ;;
     hidden: no
   }
 
   dimension: from_background {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.from_background ;;
     hidden: no
   }
 
-  
+  dimension: properties {
+    sql: OBJECT_CONSTRUCT(*) ;;
+  }
+
+
   # DIMENSION GROUPS/DATES
   dimension_group: sent_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.sent_at ;;
     hidden: no
   }
 
   dimension_group: original_timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.original_timestamp ;;
     hidden: no
   }
 
   dimension_group: received_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.received_at ;;
     hidden: no
   }
 
   dimension_group: uuid_ts {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.uuid_ts ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

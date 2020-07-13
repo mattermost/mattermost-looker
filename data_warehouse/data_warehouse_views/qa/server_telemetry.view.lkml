@@ -7,3107 +7,3111 @@ view: server_telemetry {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: no
   }
 
   dimension: incoming_webhooks {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.incoming_webhooks ;;
     hidden: no
   }
 
   dimension: private_channels {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.private_channels ;;
     hidden: no
   }
 
   dimension: public_channels {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.public_channels ;;
     hidden: no
   }
 
   dimension: registered_users {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.registered_users ;;
     hidden: no
   }
 
   dimension: registered_deactivated_users {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
 
   dimension: active_users_daily {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.active_users_daily ;;
     hidden: no
   }
 
   dimension: public_channels_deleted {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.public_channels_deleted ;;
     hidden: no
   }
 
   dimension: posts {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.posts ;;
     hidden: no
   }
 
   dimension: posts_previous_day {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.posts_previous_day ;;
     hidden: no
   }
 
   dimension: event_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_text ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: bot_accounts {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.bot_accounts ;;
     hidden: no
   }
 
   dimension: outgoing_webhooks {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.outgoing_webhooks ;;
     hidden: no
   }
 
   dimension: teams {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.teams ;;
     hidden: no
   }
 
   dimension: context_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: anonymous_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
   dimension: slash_commands {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.slash_commands ;;
     hidden: no
   }
 
   dimension: event {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
   }
 
   dimension: private_channels_deleted {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.private_channels_deleted ;;
     hidden: no
   }
 
   dimension: active_users_monthly {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }
 
   dimension: bot_posts_previous_day {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.bot_posts_previous_day ;;
     hidden: no
   }
 
   dimension: direct_message_channels {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.direct_message_channels ;;
     hidden: no
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
     hidden: no
   }
 
   dimension: guest_accounts {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.guest_accounts ;;
     hidden: no
   }
 
   dimension: channel {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel ;;
     hidden: no
   }
 
   dimension: manage_members_user_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.manage_members_user_disabled_count ;;
     hidden: no
   }
 
   dimension: post_reactions_user_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.post_reactions_user_disabled_count ;;
     hidden: no
   }
 
   dimension: use_channel_mentions_guest_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.use_channel_mentions_guest_disabled_count ;;
     hidden: no
   }
 
   dimension: post_reactions_guest_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.post_reactions_guest_disabled_count ;;
     hidden: no
   }
 
   dimension: create_post_user_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.create_post_user_disabled_count ;;
     hidden: no
   }
 
   dimension: channel_scheme_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.channel_scheme_count ;;
     hidden: no
   }
 
   dimension: use_channel_mentions_user_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.use_channel_mentions_user_disabled_count ;;
     hidden: no
   }
 
   dimension: create_post_guest_disabled_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.create_post_guest_disabled_count ;;
     hidden: no
   }
 
   dimension: allow_banner_dismissal {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.allow_banner_dismissal ;;
     hidden: no
   }
 
   dimension: isdefault_banner_text_color {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_banner_text_color ;;
     hidden: no
   }
 
   dimension: enable_banner {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_banner ;;
     hidden: no
   }
 
   dimension: isdefault_banner_color {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_banner_color ;;
     hidden: no
   }
 
   dimension: file_compress {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.file_compress ;;
     hidden: no
   }
 
   dimension: file_max_queue_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.file_max_queue_size ;;
     hidden: no
   }
 
   dimension: syslog_max_queue_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.syslog_max_queue_size ;;
     hidden: no
   }
 
   dimension: file_enabled {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.file_enabled ;;
     hidden: no
   }
 
   dimension: file_max_age_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.file_max_age_days ;;
     hidden: no
   }
 
   dimension: syslog_enabled {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.syslog_enabled ;;
     hidden: no
   }
 
   dimension: file_max_backups {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.file_max_backups ;;
     hidden: no
   }
 
   dimension: file_max_size_mb {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.file_max_size_mb ;;
     hidden: no
   }
 
   dimension: syslog_insecure {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.syslog_insecure ;;
     hidden: no
   }
 
   dimension: enable_autocomplete {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_autocomplete ;;
     hidden: no
   }
 
   dimension: enable_indexing {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_indexing ;;
     hidden: no
   }
 
   dimension: enable_searching {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_searching ;;
     hidden: no
   }
 
   dimension: bulk_indexing_time_window_seconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.bulk_indexing_time_window_seconds ;;
     hidden: no
   }
 
   dimension: ios_min_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.ios_min_version ;;
     hidden: no
   }
 
   dimension: ios_latest_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.ios_latest_version ;;
     hidden: no
   }
 
   dimension: desktop_min_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.desktop_min_version ;;
     hidden: no
   }
 
   dimension: android_min_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.android_min_version ;;
     hidden: no
   }
 
   dimension: android_latest_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.android_latest_version ;;
     hidden: no
   }
 
   dimension: desktop_latest_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.desktop_latest_version ;;
     hidden: no
   }
 
   dimension: advertise_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.advertise_address ;;
     hidden: no
   }
 
   dimension: use_ip_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.use_ip_address ;;
     hidden: no
   }
 
   dimension: enable {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable ;;
     hidden: no
   }
 
   dimension: use_experimental_gossip {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.use_experimental_gossip ;;
     hidden: no
   }
 
   dimension: read_only_config {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.read_only_config ;;
     hidden: no
   }
 
   dimension: bind_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.bind_address ;;
     hidden: no
   }
 
   dimension: network_interface {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.network_interface ;;
     hidden: no
   }
 
   dimension: enable_daily {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_daily ;;
     hidden: no
   }
 
   dimension: message_retention_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.message_retention_days ;;
     hidden: no
   }
 
   dimension: file_retention_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.file_retention_days ;;
     hidden: no
   }
 
   dimension: deletion_job_start_time {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.deletion_job_start_time ;;
     hidden: no
   }
 
   dimension: enable_message_deletion {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_message_deletion ;;
     hidden: no
   }
 
   dimension: enable_file_deletion {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_file_deletion ;;
     hidden: no
   }
 
   dimension: isdefault_custom_url_schemes {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_custom_url_schemes ;;
     hidden: no
   }
 
   dimension: experimental_timezone {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_timezone ;;
     hidden: no
   }
 
   dimension: sniff {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.sniff ;;
     hidden: no
   }
 
   dimension: isdefault_connection_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_connection_url ;;
     hidden: no
   }
 
   dimension: trace {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.trace ;;
     hidden: no
   }
 
   dimension: user_index_shards {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.user_index_shards ;;
     hidden: no
   }
 
   dimension: channel_index_replicas {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.channel_index_replicas ;;
     hidden: no
   }
 
   dimension: isdefault_username {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_username ;;
     hidden: no
   }
 
   dimension: isdefault_password {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_password ;;
     hidden: no
   }
 
   dimension: user_index_replicas {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.user_index_replicas ;;
     hidden: no
   }
 
   dimension: isdefault_index_prefix {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_index_prefix ;;
     hidden: no
   }
 
   dimension: skip_tls_verification {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.skip_tls_verification ;;
     hidden: no
   }
 
   dimension: channel_index_shards {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.channel_index_shards ;;
     hidden: no
   }
 
   dimension: live_indexing_batch_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.live_indexing_batch_size ;;
     hidden: no
   }
 
   dimension: post_index_shards {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.post_index_shards ;;
     hidden: no
   }
 
   dimension: post_index_replicas {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.post_index_replicas ;;
     hidden: no
   }
 
   dimension: request_timeout_seconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.request_timeout_seconds ;;
     hidden: no
   }
 
   dimension: enable_mobile_download {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_mobile_download ;;
     hidden: no
   }
 
   dimension: amazon_s3_trace {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.amazon_s3_trace ;;
     hidden: no
   }
 
   dimension: driver_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.driver_name ;;
     hidden: no
   }
 
   dimension: amazon_s3_ssl {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.amazon_s3_ssl ;;
     hidden: no
   }
 
   dimension: amazon_s3_sse {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.amazon_s3_sse ;;
     hidden: no
   }
 
   dimension: enable_public_links {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_public_links ;;
     hidden: no
   }
 
   dimension: isdefault_directory {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_directory ;;
     hidden: no
   }
 
   dimension: enable_file_attachments {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_file_attachments ;;
     hidden: no
   }
 
   dimension: amazon_s3_signv2 {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.amazon_s3_signv2 ;;
     hidden: no
   }
 
   dimension: isabsolute_directory {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isabsolute_directory ;;
     hidden: no
   }
 
   dimension: max_file_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_file_size ;;
     hidden: no
   }
 
   dimension: enable_mobile_upload {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_mobile_upload ;;
     hidden: no
   }
 
   dimension: isempty_admin_filter {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isempty_admin_filter ;;
     hidden: no
   }
 
   dimension: isdefault_login_field_name {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_field_name ;;
     hidden: no
   }
 
   dimension: query_timeout {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.query_timeout ;;
     hidden: no
   }
 
   dimension: isempty_guest_filter {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isempty_guest_filter ;;
     hidden: no
   }
 
   dimension: isdefault_position_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_position_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_nickname_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_nickname_attribute ;;
     hidden: no
   }
 
   dimension: max_page_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_page_size ;;
     hidden: no
   }
 
   dimension: isdefault_username_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_username_attribute ;;
     hidden: no
   }
 
   dimension: enable_sync {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sync ;;
     hidden: no
   }
 
   dimension: isdefault_id_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_id_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_email_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_email_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_last_name_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_last_name_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_login_id_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_id_attribute ;;
     hidden: no
   }
 
   dimension: connection_security {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.connection_security ;;
     hidden: no
   }
 
   dimension: sync_interval_minutes {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.sync_interval_minutes ;;
     hidden: no
   }
 
   dimension: isempty_group_filter {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isempty_group_filter ;;
     hidden: no
   }
 
   dimension: isdefault_first_name_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_first_name_attribute ;;
     hidden: no
   }
 
   dimension: skip_certificate_verification {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.skip_certificate_verification ;;
     hidden: no
   }
 
   dimension: isdefault_login_button_color {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_button_color ;;
     hidden: no
   }
 
   dimension: isdefault_login_button_border_color {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_button_border_color ;;
     hidden: no
   }
 
   dimension: isdefault_login_button_text_color {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_button_text_color ;;
     hidden: no
   }
 
   dimension: isdefault_group_id_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_group_id_attribute ;;
     hidden: no
   }
 
   dimension: enable_admin_filter {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_admin_filter ;;
     hidden: no
   }
 
   dimension: isdefault_group_display_name_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_group_display_name_attribute ;;
     hidden: no
   }
 
   dimension: isnotempty_picture_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isnotempty_picture_attribute ;;
     hidden: no
   }
 
   dimension: file_json {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.file_json ;;
     hidden: no
   }
 
   dimension: file_level {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.file_level ;;
     hidden: no
   }
 
   dimension: enable_file {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_file ;;
     hidden: no
   }
 
   dimension: console_json {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.console_json ;;
     hidden: no
   }
 
   dimension: isdefault_file_location {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_file_location ;;
     hidden: no
   }
 
   dimension: console_level {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.console_level ;;
     hidden: no
   }
 
   dimension: enable_webhook_debugging {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_webhook_debugging ;;
     hidden: no
   }
 
   dimension: enable_console {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_console ;;
     hidden: no
   }
 
   dimension: export_format {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.export_format ;;
     hidden: no
   }
 
   dimension: enable_message_export {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_message_export ;;
     hidden: no
   }
 
   dimension: default_export_from_timestamp {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.default_export_from_timestamp ;;
     hidden: no
   }
 
   dimension: is_default_global_relay_smtp_username {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.is_default_global_relay_smtp_username ;;
     hidden: no
   }
 
   dimension: is_default_global_relay_email_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.is_default_global_relay_email_address ;;
     hidden: no
   }
 
   dimension: is_default_global_relay_smtp_password {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.is_default_global_relay_smtp_password ;;
     hidden: no
   }
 
   dimension: global_relay_customer_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.global_relay_customer_type ;;
     hidden: no
   }
 
   dimension: batch_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.batch_size ;;
     hidden: no
   }
 
   dimension: daily_run_time {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.daily_run_time ;;
     hidden: no
   }
 
   dimension: block_profile_rate {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.block_profile_rate ;;
     hidden: no
   }
 
   dimension: isdefault_app_download_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_app_download_link ;;
     hidden: no
   }
 
   dimension: isdefault_android_app_download_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_android_app_download_link ;;
     hidden: no
   }
 
   dimension: isdefault_iosapp_download_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_iosapp_download_link ;;
     hidden: no
   }
 
   dimension: number {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.number ;;
     hidden: no
   }
 
   dimension: minimum_length {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.minimum_length ;;
     hidden: no
   }
 
   dimension: lowercase {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.lowercase ;;
     hidden: no
   }
 
   dimension: symbol {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.symbol ;;
     hidden: no
   }
 
   dimension: uppercase {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.uppercase ;;
     hidden: no
   }
 
   dimension: show_email_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.show_email_address ;;
     hidden: no
   }
 
   dimension: show_full_name {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.show_full_name ;;
     hidden: no
   }
 
   dimension: vary_by_remote_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.vary_by_remote_address ;;
     hidden: no
   }
 
   dimension: max_burst {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_burst ;;
     hidden: no
   }
 
   dimension: memory_store_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.memory_store_size ;;
     hidden: no
   }
 
   dimension: isdefault_vary_by_header {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_vary_by_header ;;
     hidden: no
   }
 
   dimension: per_sec {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.per_sec ;;
     hidden: no
   }
 
   dimension: enable_rate_limiter {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_rate_limiter ;;
     hidden: no
   }
 
   dimension: vary_by_user {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.vary_by_user ;;
     hidden: no
   }
 
   dimension: data_source_replicas {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.data_source_replicas ;;
     hidden: no
   }
 
   dimension: conn_max_lifetime_milliseconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.conn_max_lifetime_milliseconds ;;
     hidden: no
   }
 
   dimension: data_source_search_replicas {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.data_source_search_replicas ;;
     hidden: no
   }
 
   dimension: max_idle_conns {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_idle_conns ;;
     hidden: no
   }
 
   dimension: max_open_conns {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_open_conns ;;
     hidden: no
   }
 
   dimension: disable_database_search {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.disable_database_search ;;
     hidden: no
   }
 
   dimension: restrict_public_channel_management {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_public_channel_management ;;
     hidden: no
   }
 
   dimension: isdefault_custom_brand_text {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_custom_brand_text ;;
     hidden: no
   }
 
   dimension: enable_user_creation {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_user_creation ;;
     hidden: no
   }
 
   dimension: restrict_public_channel_creation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_public_channel_creation ;;
     hidden: no
   }
 
   dimension: experimental_view_archived_channels {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_view_archived_channels ;;
     hidden: no
   }
 
   dimension: enable_open_server {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_open_server ;;
     hidden: no
   }
 
   dimension: isdefault_custom_description_text {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_custom_description_text ;;
     hidden: no
   }
 
   dimension: experimental_default_channels {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.experimental_default_channels ;;
     hidden: no
   }
 
   dimension: experimental_enable_automatic_replies {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_enable_automatic_replies ;;
     hidden: no
   }
 
   dimension: enable_custom_brand {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_custom_brand ;;
     hidden: no
   }
 
   dimension: restrict_private_channel_manage_members {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_private_channel_manage_members ;;
     hidden: no
   }
 
   dimension: enable_team_creation {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_team_creation ;;
     hidden: no
   }
 
   dimension: enable_x_to_leave_channels_from_lhs {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_x_to_leave_channels_from_lhs ;;
     hidden: no
   }
 
   dimension: enable_user_deactivation {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_user_deactivation ;;
     hidden: no
   }
 
   dimension: experimental_town_square_is_read_only {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_town_square_is_read_only ;;
     hidden: no
   }
 
   dimension: restrict_public_channel_deletion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_public_channel_deletion ;;
     hidden: no
   }
 
   dimension: restrict_private_channel_management {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_private_channel_management ;;
     hidden: no
   }
 
   dimension: restrict_direct_message {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_direct_message ;;
     hidden: no
   }
 
   dimension: restrict_private_channel_deletion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_private_channel_deletion ;;
     hidden: no
   }
 
   dimension: experimental_town_square_is_hidden_in_lhs {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_town_square_is_hidden_in_lhs ;;
     hidden: no
   }
 
   dimension: isdefault_user_status_away_timeout {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_user_status_away_timeout ;;
     hidden: no
   }
 
   dimension: max_channels_per_team {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_channels_per_team ;;
     hidden: no
   }
 
   dimension: enable_confirm_notifications_to_channel {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_confirm_notifications_to_channel ;;
     hidden: no
   }
 
   dimension: restrict_team_invite {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_team_invite ;;
     hidden: no
   }
 
   dimension: max_notifications_per_channel {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_notifications_per_channel ;;
     hidden: no
   }
 
   dimension: teammate_name_display {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.teammate_name_display ;;
     hidden: no
   }
 
   dimension: max_users_per_team {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_users_per_team ;;
     hidden: no
   }
 
   dimension: lock_teammate_name_display {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.lock_teammate_name_display ;;
     hidden: no
   }
 
   dimension: restrict_private_channel_creation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_private_channel_creation ;;
     hidden: no
   }
 
   dimension: experimental_primary_team {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_primary_team ;;
     hidden: no
   }
 
   dimension: isdefault_site_name {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_site_name ;;
     hidden: no
   }
 
   dimension: allow_custom_themes {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.allow_custom_themes ;;
     hidden: no
   }
 
   dimension: enable_theme_selection {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_theme_selection ;;
     hidden: no
   }
 
   dimension: isdefault_default_theme {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_default_theme ;;
     hidden: no
   }
 
   dimension: allowed_themes {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.allowed_themes ;;
     hidden: no
   }
 
   dimension: enabled_backend_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.enabled_backend_plugins ;;
     hidden: no
   }
 
   dimension: plugins_with_broken_manifests {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.plugins_with_broken_manifests ;;
     hidden: no
   }
 
   dimension: disabled_backend_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.disabled_backend_plugins ;;
     hidden: no
   }
 
   dimension: enabled_webapp_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.enabled_webapp_plugins ;;
     hidden: no
   }
 
   dimension: plugins_with_settings {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.plugins_with_settings ;;
     hidden: no
   }
 
   dimension: enabled_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.enabled_plugins ;;
     hidden: no
   }
 
   dimension: disabled_webapp_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.disabled_webapp_plugins ;;
     hidden: no
   }
 
   dimension: disabled_plugins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.disabled_plugins ;;
     hidden: no
   }
 
   dimension: version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version ;;
     hidden: no
   }
 
   dimension: database_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.database_version ;;
     hidden: no
   }
 
   dimension: operating_system {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.operating_system ;;
     hidden: no
   }
 
   dimension: database_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.database_type ;;
     hidden: no
   }
 
   dimension: edition {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.edition ;;
     hidden: no
   }
 
   dimension: system_admins {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.system_admins ;;
     hidden: no
   }
 
   dimension: distinct_group_member_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.distinct_group_member_count ;;
     hidden: no
   }
 
   dimension: group_team_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_team_count ;;
     hidden: no
   }
 
   dimension: group_member_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_member_count ;;
     hidden: no
   }
 
   dimension: group_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_count ;;
     hidden: no
   }
 
   dimension: group_synced_team_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_synced_team_count ;;
     hidden: no
   }
 
   dimension: group_channel_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_channel_count ;;
     hidden: no
   }
 
   dimension: group_synced_channel_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_synced_channel_count ;;
     hidden: no
   }
 
   dimension: group_count_with_allow_reference {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.group_count_with_allow_reference ;;
     hidden: no
   }
 
   dimension: send_email_notifications {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.send_email_notifications ;;
     hidden: no
   }
 
   dimension: require_email_verification {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.require_email_verification ;;
     hidden: no
   }
 
   dimension: isdefault_reply_to_address {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_reply_to_address ;;
     hidden: no
   }
 
   dimension: enable_email_batching {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_email_batching ;;
     hidden: no
   }
 
   dimension: enable_sign_in_with_username {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sign_in_with_username ;;
     hidden: no
   }
 
   dimension: isdefault_feedback_name {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_feedback_name ;;
     hidden: no
   }
 
   dimension: send_push_notifications {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.send_push_notifications ;;
     hidden: no
   }
 
   dimension: email_batching_interval {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.email_batching_interval ;;
     hidden: no
   }
 
   dimension: enable_sign_up_with_email {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sign_up_with_email ;;
     hidden: no
   }
 
   dimension: email_batching_buffer_size {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.email_batching_buffer_size ;;
     hidden: no
   }
 
   dimension: skip_server_certificate_verification {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.skip_server_certificate_verification ;;
     hidden: no
   }
 
   dimension: enable_smtp_auth {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_smtp_auth ;;
     hidden: no
   }
 
   dimension: use_channel_in_email_notifications {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.use_channel_in_email_notifications ;;
     hidden: no
   }
 
   dimension: isdefault_feedback_organization {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_feedback_organization ;;
     hidden: no
   }
 
   dimension: smtp_server_timeout {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.smtp_server_timeout ;;
     hidden: no
   }
 
   dimension: email_notification_contents_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.email_notification_contents_type ;;
     hidden: no
   }
 
   dimension: enable_sign_in_with_email {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sign_in_with_email ;;
     hidden: no
   }
 
   dimension: enable_preview_mode_banner {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_preview_mode_banner ;;
     hidden: no
   }
 
   dimension: push_notification_contents {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.push_notification_contents ;;
     hidden: no
   }
 
   dimension: isdefault_feedback_email {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_feedback_email ;;
     hidden: no
   }
 
   dimension: enforce_multifactor_authentication {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enforce_multifactor_authentication ;;
     hidden: no
   }
 
   dimension: allow_email_accounts {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.allow_email_accounts ;;
     hidden: no
   }
 
   dimension: isdefault_restrict_creation_to_domains {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_restrict_creation_to_domains ;;
     hidden: no
   }
 
   dimension: default_client_locale {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.default_client_locale ;;
     hidden: no
   }
 
   dimension: default_server_locale {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.default_server_locale ;;
     hidden: no
   }
 
   dimension: available_locales {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.available_locales ;;
     hidden: no
   }
 
   dimension: enable_uploads {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_uploads ;;
     hidden: no
   }
 
   dimension: enable_autolink {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_autolink ;;
     hidden: no
   }
 
   dimension: version_welcome_bot {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_welcome_bot ;;
     hidden: no
   }
 
   dimension: enable_aws_sns {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_aws_sns ;;
     hidden: no
   }
 
   dimension: enable_jenkins {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_jenkins ;;
     hidden: no
   }
 
   dimension: allow_insecure_download_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.allow_insecure_download_url ;;
     hidden: no
   }
 
   dimension: enable_nps_survey {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_nps_survey ;;
     hidden: no
   }
 
   dimension: enable_antivirus {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_antivirus ;;
     hidden: no
   }
 
   dimension: enable_zoom {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_zoom ;;
     hidden: no
   }
 
   dimension: enable_remote_marketplace {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_remote_marketplace ;;
     hidden: no
   }
 
   dimension: enable_webex {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_webex ;;
     hidden: no
   }
 
   dimension: enable_custom_user_attributes {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_custom_user_attributes ;;
     hidden: no
   }
 
   dimension: enable_nps {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_nps ;;
     hidden: no
   }
 
   dimension: enable_github {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_github ;;
     hidden: no
   }
 
   dimension: enable_health_check {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_health_check ;;
     hidden: no
   }
 
   dimension: version_aws_sns {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_aws_sns ;;
     hidden: no
   }
 
   dimension: enable_gitlab {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_gitlab ;;
     hidden: no
   }
 
   dimension: automatic_prepackaged_plugins {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.automatic_prepackaged_plugins ;;
     hidden: no
   }
 
   dimension: version_jenkins {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_jenkins ;;
     hidden: no
   }
 
   dimension: version_webex {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_webex ;;
     hidden: no
   }
 
   dimension: version_jira {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_jira ;;
     hidden: no
   }
 
   dimension: version_github {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_github ;;
     hidden: no
   }
 
   dimension: is_default_marketplace_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.is_default_marketplace_url ;;
     hidden: no
   }
 
   dimension: version_antivirus {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_antivirus ;;
     hidden: no
   }
 
   dimension: version_nps {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_nps ;;
     hidden: no
   }
 
   dimension: version_autolink {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_autolink ;;
     hidden: no
   }
 
   dimension: enable_welcome_bot {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_welcome_bot ;;
     hidden: no
   }
 
   dimension: require_pluginsignature {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.require_pluginsignature ;;
     hidden: no
   }
 
   dimension: version_zoom {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_zoom ;;
     hidden: no
   }
 
   dimension: signature_public_key_files {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.signature_public_key_files ;;
     hidden: no
   }
 
   dimension: enable_jira {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_jira ;;
     hidden: no
   }
 
   dimension: version_gitlab {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_gitlab ;;
     hidden: no
   }
 
   dimension: version_custom_user_attributes {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_custom_user_attributes ;;
     hidden: no
   }
 
   dimension: enable_marketplace {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_marketplace ;;
     hidden: no
   }
 
   dimension: enable_jitsi {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_jitsi ;;
     hidden: no
   }
 
   dimension: enable_todo {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_todo ;;
     hidden: no
   }
 
   dimension: enable_confluence {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_confluence ;;
     hidden: no
   }
 
   dimension: enable_skype4business {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_skype4business ;;
     hidden: no
   }
 
   dimension: enable_mscalendar {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_mscalendar ;;
     hidden: no
   }
 
   dimension: phase_1_migration_complete {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.phase_1_migration_complete ;;
     hidden: no
   }
 
   dimension: phase_2_migration_complete {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.phase_2_migration_complete ;;
     hidden: no
   }
 
   dimension: team_user_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.team_user_permissions ;;
     hidden: no
   }
 
   dimension: team_admin_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.team_admin_permissions ;;
     hidden: no
   }
 
   dimension: channel_guest_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel_guest_permissions ;;
     hidden: no
   }
 
   dimension: system_user_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.system_user_permissions ;;
     hidden: no
   }
 
   dimension: channel_user_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel_user_permissions ;;
     hidden: no
   }
 
   dimension: system_admin_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.system_admin_permissions ;;
     hidden: no
   }
 
   dimension: channel_admin_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channel_admin_permissions ;;
     hidden: no
   }
 
   dimension: team_guest_permissions {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.team_guest_permissions ;;
     hidden: no
   }
 
   dimension: scheme_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.scheme_id ;;
     hidden: no
   }
 
   dimension: team_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.team_count ;;
     hidden: no
   }
 
   dimension: isdefault_max_users_for_statistics {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_max_users_for_statistics ;;
     hidden: no
   }
 
   dimension: enable_google {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_google ;;
     hidden: no
   }
 
   dimension: enable_office365 {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_office365 ;;
     hidden: no
   }
 
   dimension: isdefault_scoping_idp_provider_id {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_scoping_idp_provider_id ;;
     hidden: no
   }
 
   dimension: verify {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.verify ;;
     hidden: no
   }
 
   dimension: enable_admin_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_admin_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_signature_algorithm {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_signature_algorithm ;;
     hidden: no
   }
 
   dimension: isdefault_locale_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_locale_attribute ;;
     hidden: no
   }
 
   dimension: enable_sync_with_ldap_include_auth {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sync_with_ldap_include_auth ;;
     hidden: no
   }
 
   dimension: encrypt {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.encrypt ;;
     hidden: no
   }
 
   dimension: enable_sync_with_ldap {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_sync_with_ldap ;;
     hidden: no
   }
 
   dimension: isdefault_guest_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_guest_attribute ;;
     hidden: no
   }
 
   dimension: isdefault_login_button_text {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_login_button_text ;;
     hidden: no
   }
 
   dimension: isdefault_canonical_algorithm {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_canonical_algorithm ;;
     hidden: no
   }
 
   dimension: isdefault_scoping_idp_name {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_scoping_idp_name ;;
     hidden: no
   }
 
   dimension: isdefault_admin_attribute {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_admin_attribute ;;
     hidden: no
   }
 
   dimension: sign_request {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.sign_request ;;
     hidden: no
   }
 
   dimension: isdefault_support_email {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_support_email ;;
     hidden: no
   }
 
   dimension: isdefault_privacy_policy_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_privacy_policy_link ;;
     hidden: no
   }
 
   dimension: isdefault_help_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_help_link ;;
     hidden: no
   }
 
   dimension: isdefault_about_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_about_link ;;
     hidden: no
   }
 
   dimension: isdefault_terms_of_service_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_terms_of_service_link ;;
     hidden: no
   }
 
   dimension: custom_terms_of_service_enabled {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.custom_terms_of_service_enabled ;;
     hidden: no
   }
 
   dimension: isdefault_report_a_problem_link {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_report_a_problem_link ;;
     hidden: no
   }
 
   dimension: custom_terms_of_service_re_acceptance_period {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.custom_terms_of_service_re_acceptance_period ;;
     hidden: no
   }
 
   dimension: elasticsearch_server_version {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.elasticsearch_server_version ;;
     hidden: no
   }
 
   dimension: feature_elastic_search {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_elastic_search ;;
     hidden: no
   }
 
   dimension: feature_mfa {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_mfa ;;
     hidden: no
   }
 
   dimension: feature_google {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_google ;;
     hidden: no
   }
 
   dimension: feature_guest_accounts_permissions {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_guest_accounts_permissions ;;
     hidden: no
   }
 
   dimension: feature_compliance {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_compliance ;;
     hidden: no
   }
 
   dimension: feature_saml {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_saml ;;
     hidden: no
   }
 
   dimension: customer_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.customer_id ;;
     hidden: no
   }
 
   dimension: feature_ldap_groups {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_ldap_groups ;;
     hidden: no
   }
 
   dimension: feature_guest_accounts {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_guest_accounts ;;
     hidden: no
   }
 
   dimension: users {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.users ;;
     hidden: no
   }
 
   dimension: feature_metrics {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_metrics ;;
     hidden: no
   }
 
   dimension: feature_future {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_future ;;
     hidden: no
   }
 
   dimension: feature_email_notification_contents {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_email_notification_contents ;;
     hidden: no
   }
 
   dimension: feature_lock_teammate_name_display {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_lock_teammate_name_display ;;
     hidden: no
   }
 
   dimension: expire {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.expire ;;
     hidden: no
   }
 
   dimension: feature_office365 {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_office365 ;;
     hidden: no
   }
 
   dimension: feature_ldap {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_ldap ;;
     hidden: no
   }
 
   dimension: feature_mhpns {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_mhpns ;;
     hidden: no
   }
 
   dimension: feature_custom_permissions_schemes {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_custom_permissions_schemes ;;
     hidden: no
   }
 
   dimension: feature_message_export {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_message_export ;;
     hidden: no
   }
 
   dimension: feature_id_loaded {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_id_loaded ;;
     hidden: no
   }
 
   dimension: license_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.license_id ;;
     hidden: no
   }
 
   dimension: feature_data_retention {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_data_retention ;;
     hidden: no
   }
 
   dimension: feature_cluster {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_cluster ;;
     hidden: no
   }
 
   dimension: issued {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.issued ;;
     hidden: no
   }
 
   dimension: _start {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}._start ;;
     hidden: no
   }
 
   dimension: feature_enterprise_plugins {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.feature_enterprise_plugins ;;
     hidden: no
   }
 
   dimension: image_proxy_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.image_proxy_type ;;
     hidden: no
   }
 
   dimension: isdefault_remote_image_proxy_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_remote_image_proxy_url ;;
     hidden: no
   }
 
   dimension: isdefault_remote_image_proxy_options {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_remote_image_proxy_options ;;
     hidden: no
   }
 
   dimension: allow_edit_post {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.allow_edit_post ;;
     hidden: no
   }
 
   dimension: gfycat_api_secret {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.gfycat_api_secret ;;
     hidden: no
   }
 
   dimension: web_server_mode {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.web_server_mode ;;
     hidden: no
   }
 
   dimension: enable_email_invitations {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_email_invitations ;;
     hidden: no
   }
 
   dimension: enable_insecure_outgoing_connections {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_insecure_outgoing_connections ;;
     hidden: no
   }
 
   dimension: enable_developer {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_developer ;;
     hidden: no
   }
 
   dimension: enable_emoji_picker {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_emoji_picker ;;
     hidden: no
   }
 
   dimension: cors_allow_credentials {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.cors_allow_credentials ;;
     hidden: no
   }
 
   dimension: isdefault_idle_timeout {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_idle_timeout ;;
     hidden: no
   }
 
   dimension: enable_post_icon_override {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_post_icon_override ;;
     hidden: no
   }
 
   dimension: enable_testing {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_testing ;;
     hidden: no
   }
 
   dimension: enable_bot_account_creation {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_bot_account_creation ;;
     hidden: no
   }
 
   dimension: experimental_group_unread_channels {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.experimental_group_unread_channels ;;
     hidden: no
   }
 
   dimension: post_edit_time_limit {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.post_edit_time_limit ;;
     hidden: no
   }
 
   dimension: isdefault_google_developer_key {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_google_developer_key ;;
     hidden: no
   }
 
   dimension: disable_legacy_mfa {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.disable_legacy_mfa ;;
     hidden: no
   }
 
   dimension: enable_multifactor_authentication {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_multifactor_authentication ;;
     hidden: no
   }
 
   dimension: experimental_strict_csrf_enforcement {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_strict_csrf_enforcement ;;
     hidden: no
   }
 
   dimension: isdefault_tls_cert_file {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_tls_cert_file ;;
     hidden: no
   }
 
   dimension: isdefault_allow_cors_from {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_allow_cors_from ;;
     hidden: no
   }
 
   dimension: gfycat_api_key {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.gfycat_api_key ;;
     hidden: no
   }
 
   dimension: allow_cookies_for_subdomains {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.allow_cookies_for_subdomains ;;
     hidden: no
   }
 
   dimension: enable_preview_features {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_preview_features ;;
     hidden: no
   }
 
   dimension: uses_letsencrypt {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.uses_letsencrypt ;;
     hidden: no
   }
 
   dimension: disable_bots_when_owner_is_deactivated {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.disable_bots_when_owner_is_deactivated ;;
     hidden: no
   }
 
   dimension: enable_custom_emoji {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_custom_emoji ;;
     hidden: no
   }
 
   dimension: session_length_web_in_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.session_length_web_in_days ;;
     hidden: no
   }
 
   dimension: experimental_enable_hardened_mode {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_enable_hardened_mode ;;
     hidden: no
   }
 
   dimension: minimum_hashtag_length {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.minimum_hashtag_length ;;
     hidden: no
   }
 
   dimension: enable_outgoing_webhooks {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_outgoing_webhooks ;;
     hidden: no
   }
 
   dimension: enable_commands {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_commands ;;
     hidden: no
   }
 
   dimension: enable_latex {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_latex ;;
     hidden: no
   }
 
   dimension: isdefault_read_timeout {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_read_timeout ;;
     hidden: no
   }
 
   dimension: maximum_login_attempts {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.maximum_login_attempts ;;
     hidden: no
   }
 
   dimension: enable_post_username_override {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_post_username_override ;;
     hidden: no
   }
 
   dimension: websocket_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.websocket_url ;;
     hidden: no
   }
 
   dimension: enable_user_typing_messages {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_user_typing_messages ;;
     hidden: no
   }
 
   dimension: enable_tutorial {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_tutorial ;;
     hidden: no
   }
 
   dimension: restrict_post_delete {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_post_delete ;;
     hidden: no
   }
 
   dimension: session_idle_timeout_in_minutes {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.session_idle_timeout_in_minutes ;;
     hidden: no
   }
 
   dimension: close_unused_direct_messages {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.close_unused_direct_messages ;;
     hidden: no
   }
 
   dimension: enable_user_access_tokens {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_user_access_tokens ;;
     hidden: no
   }
 
   dimension: time_between_user_typing_updates_milliseconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.time_between_user_typing_updates_milliseconds ;;
     hidden: no
   }
 
   dimension: enable_api_team_deletion {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_api_team_deletion ;;
     hidden: no
   }
 
   dimension: enable_opentracing {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_opentracing ;;
     hidden: no
   }
 
   dimension: enable_user_statuses {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_user_statuses ;;
     hidden: no
   }
 
   dimension: enable_post_search {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_post_search ;;
     hidden: no
   }
 
   dimension: isdefault_site_url {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_site_url ;;
     hidden: no
   }
 
   dimension: isdefault_tls_key_file {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_tls_key_file ;;
     hidden: no
   }
 
   dimension: experimental_channel_sidebar_organization {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.experimental_channel_sidebar_organization ;;
     hidden: no
   }
 
   dimension: cluster_log_timeout_milliseconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.cluster_log_timeout_milliseconds ;;
     hidden: no
   }
 
   dimension: experimental_enable_default_channel_leave_join_messages {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_enable_default_channel_leave_join_messages ;;
     hidden: no
   }
 
   dimension: enable_channel_viewed_messages {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_channel_viewed_messages ;;
     hidden: no
   }
 
   dimension: isdefault_write_timeout {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_write_timeout ;;
     hidden: no
   }
 
   dimension: enable_incoming_webhooks {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_incoming_webhooks ;;
     hidden: no
   }
 
   dimension: isdefault_allowed_untrusted_internal_connections {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_allowed_untrusted_internal_connections ;;
     hidden: no
   }
 
   dimension: session_cache_in_minutes {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.session_cache_in_minutes ;;
     hidden: no
   }
 
   dimension: experimental_channel_organization {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_channel_organization ;;
     hidden: no
   }
 
   dimension: enable_oauth_service_provider {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_oauth_service_provider ;;
     hidden: no
   }
 
   dimension: restrict_custom_emoji_creation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.restrict_custom_emoji_creation ;;
     hidden: no
   }
 
   dimension: enable_only_admin_integrations {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_only_admin_integrations ;;
     hidden: no
   }
 
   dimension: enable_gif_picker {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_gif_picker ;;
     hidden: no
   }
 
   dimension: enable_security_fix_alert {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_security_fix_alert ;;
     hidden: no
   }
 
   dimension: session_length_mobile_in_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.session_length_mobile_in_days ;;
     hidden: no
   }
 
   dimension: forward_80_to_443 {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.forward_80_to_443 ;;
     hidden: no
   }
 
   dimension: session_length_sso_in_days {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.session_length_sso_in_days ;;
     hidden: no
   }
 
   dimension: enable_svgs {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_svgs ;;
     hidden: no
   }
 
   dimension: tls_strict_transport {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.tls_strict_transport ;;
     hidden: no
   }
 
   dimension: experimental_enable_authentication_transfer {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_enable_authentication_transfer ;;
     hidden: no
   }
 
   dimension: isdefault_cors_exposed_headers {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_cors_exposed_headers ;;
     hidden: no
   }
 
   dimension: cors_debug {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.cors_debug ;;
     hidden: no
   }
 
   dimension: experimental_data_prefetch {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.experimental_data_prefetch ;;
     hidden: no
   }
 
   dimension: extend_session_length_with_activity {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.extend_session_length_with_activity ;;
     hidden: no
   }
 
   dimension: enable_local_mode {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_local_mode ;;
     hidden: no
   }
 
   dimension: enable_click_to_reply {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.enable_click_to_reply ;;
     hidden: no
   }
 
   dimension: client_side_cert_enable {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.client_side_cert_enable ;;
     hidden: no
   }
 
   dimension: link_metadata_timeout_milliseconds {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.link_metadata_timeout_milliseconds ;;
     hidden: no
   }
 
   dimension: use_new_saml_library {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.use_new_saml_library ;;
     hidden: no
   }
 
   dimension: restrict_system_admin {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.restrict_system_admin ;;
     hidden: no
   }
 
   dimension: isdefault_client_side_cert_check {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isdefault_client_side_cert_check ;;
     hidden: no
   }
 
-  
+  dimension: properties {
+    sql: OBJECT_CONSTRUCT(*) ;;
+  }
+
+
   # DIMENSION GROUPS/DATES
   dimension_group: received_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.received_at ;;
     hidden: no
   }
 
   dimension_group: uuid_ts {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.uuid_ts ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
   dimension_group: sent_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.sent_at ;;
     hidden: no
   }
 
   dimension_group: original_timestamp {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.original_timestamp ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
