@@ -1754,14 +1754,22 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity Line Items"
     sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr,  total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, end_date]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity]
+  }
+
+  join: original_product2 {
+    from: product2
+    view_label: "Original Opportunity Line Items"
+    sql_on: ${original_opportunitylineitem.product2id} = ${original_product2.sfid};;
+    relationship: many_to_one
+    fields: [name]
   }
 
   join: renewal_opportunity {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, total_amount, close_date, close_fiscal_year, status_wlo, count]
+    fields: [sfid, name, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
   }
 
   join: renewal_opportunity_ext {
@@ -1777,7 +1785,15 @@ explore: available_renewals_dynamic {
     from: opportunitylineitem
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity]
+  }
+
+  join: renewal_product2 {
+    from: product2
+    view_label: "Renewal Opportunity Line Items"
+    sql_on: ${renewal_opportunitylineitem.product2id} = ${renewal_product2.sfid};;
+    relationship: many_to_one
+    fields: [name]
   }
 }
 
