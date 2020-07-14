@@ -114,9 +114,6 @@ view: account {
     group_label: "Marketing"
   }
 
-
-
-
   dimension: company_type {
     type: string
     sql: ${TABLE}."company_type__c" ;;
@@ -185,7 +182,6 @@ view: account {
     sql: ${TABLE}."customer_segmentation_tier__c" ;;
     group_label: "CS"
   }
-
 
 
   dimension_group: demo_req_date {
