@@ -16,6 +16,19 @@ view: account_health_score {
     type: string
   }
 
+  dimension: customer_segmentation_tier {
+    type: string
+    sql: ${account.customer_segmentation_tier} ;;
+    label: "Customer Segmentation Tier"
+  }
+
+  dimension: current_arr {
+    type: number
+    sql: ${account.arr_current} ;;
+    label: "Current Account ARR"
+    value_format_name: usd_0
+  }
+
   dimension: risk_override_score {
     group_label: "CS Risk Assigned"
     label: "CS Risk Assigned"
@@ -34,16 +47,16 @@ view: account_health_score {
 
   dimension: days_since_last_task {
     group_label: "Tasks"
-    label: "Days Since Last Task"
+    label: "Days Since Last Activity"
     description: "Days since a call, email, or notes were added at the activity level in Salesforce on a cusotmer account"
     type: number
     sql: ${TABLE}."DAYS_SINCE_LAST_TASK" ;;
   }
 
   dimension: last_task_under_30 {
+    label: "Last Activity Under 30 Days"
     description: "Customer call, email, or notes were logged at the activity level in Salesforce in the last 30 days on a customer account"
     group_label: "Tasks"
-    label: "Last Task <= 30 Days Ago"
     type: yesno
     sql: ${days_since_last_task} <= 30;;
   }
@@ -51,7 +64,7 @@ view: account_health_score {
   dimension: last_task_between_30_to_90_days{
     group_label: "Tasks"
     description: "Customer activity has not been logged is between 30 and 90 days at the activity level in Salesforce on a customer account"
-    label: "Last Task > 30 AND <= 90 days"
+    label: "Last Activity > 30 AND <= 90 days"
     type: yesno
     sql: ${days_since_last_task} > 30 AND ${days_since_last_task} <= 90;;
   }
@@ -59,7 +72,7 @@ view: account_health_score {
   dimension: last_task_over_90 {
     description: "Customer activity has not been logged in over 90 days at the activity level in Salesforce on a customer account"
     group_label: "Tasks"
-    label: "Last Task > 90 Days Ago"
+    label: "Last Activity > 90 Days Ago"
     type: yesno
     sql: ${days_since_last_task} > 90;;
   }
@@ -163,6 +176,7 @@ dimension: reference_bonus_score {
   dimension: task_health_score {
     description: "Score based on customer activities logged in SFDC in 90 day period. Days Since Most Recent Task >= 90: 25%, Days Since Most Recent Task Between 60-90: 50%, Days Since Most Recent Task Between 30-60: 75%, Days Since Most Recent Task <= 30: 100% "
     group_label: "Tasks"
+    label: "Activity Health Score"
     type: number
     sql: ${TABLE}."TASK_HEALTH_SCORE" ;;
     value_format_name: decimal_0
@@ -197,47 +211,47 @@ dimension: reference_bonus_score {
     description: "Number of accounts tied to a dimension of filter selected"
     type: count_distinct
     sql: ${account_sfid} ;;
-    drill_fields: [account.name,csm_name,health_score, reference_bonus_score, tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
+    drill_fields: [account.name,csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
                    ticket_health_score,days_since_last_task,task_health_score]
   }
 
   measure: count_last_task_under_30 {
     description: "Customers with last activity in SFDC under 30 days"
     group_label: "Tasks"
-    label: "# Accounts w/ Last Task <= 30 days"
+    label: "# Accounts w/ Last Activity <= 30 days"
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: {
       field: last_task_under_30
       value: "yes"
     }
-    drill_fields: [account.name, csm_name,health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_between_30_to_90_days {
     description: "Customers with last activity in SFDC between 30 to 90 days"
     group_label: "Tasks"
-    label: "# Accounts w/ Last Task between 30 to 90 days"
+    label: "# Accounts w/ Last Activity between 30 to 90 days"
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: {
       field: last_task_between_30_to_90_days
       value: "yes"
     }
-    drill_fields: [account.name, csm_name,health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_over_90 {
     description: "Customers with last activity in SFDC over 90 days"
     group_label: "Tasks"
-    label: "# Accounts w/ Last Task > 90 days"
+    label: "# Accounts w/ Last Activity > 90 days"
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: {
       field: last_task_over_90
       value: "yes"
     }
-    drill_fields: [account.name, csm_name,health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
 measure: accounts_under_51_health_score {
@@ -247,7 +261,7 @@ measure: accounts_under_51_health_score {
   type: count_distinct
   sql: ${account_sfid} ;;
   filters: [health_score: "<= 50"]
-  drill_fields: [account.name, csm_name, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+  drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
 }
 
   measure: accounts_between_51_to_75_health_score {
@@ -257,7 +271,7 @@ measure: accounts_under_51_health_score {
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 50 AND <= 75"]
-    drill_fields: [account.name, csm_name, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
  }
 
   measure: accounts_over_75_health_score {
@@ -267,7 +281,7 @@ measure: accounts_under_51_health_score {
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 75"]
-    drill_fields: [account.name, csm_name,health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: avg_health_score {
@@ -276,6 +290,6 @@ measure: accounts_under_51_health_score {
     type: average_distinct
     value_format: "0"
     sql: ${health_score} ;;
-    drill_fields: [account.name, csm_name,health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 }
