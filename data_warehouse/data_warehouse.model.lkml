@@ -1754,7 +1754,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity Line Items"
     sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
   }
 
   join: original_product2 {
@@ -1785,7 +1785,7 @@ explore: available_renewals_dynamic {
     from: opportunitylineitem
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
   }
 
   join: renewal_product2 {
