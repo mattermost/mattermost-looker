@@ -33,6 +33,11 @@ access_grant: sales_mgmt_data_access {
   allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'", "'mlt,finance,sales_mgmt,all'", "'sales_mgmt'"]
 }
 
+access_grant: admin_access {
+  user_attribute: data_permissions
+  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'"]
+}
+
 #
 # Formats
 #
