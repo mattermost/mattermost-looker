@@ -28,6 +28,11 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: sales_mgmt_data_access {
+  user_attribute: data_permissions
+  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'", "'mlt,finance,sales_mgmt,all'", "'sales_mgmt'"]
+}
+
 #
 # Formats
 #
@@ -704,7 +709,8 @@ explore: current_potential_arr {
     opportunitylineitem.total_open_and_booked_arr,
     account.account_core*,
     account.arr_current,
-    opportunity.opportunity_core*
+    opportunity.opportunity_core*,
+    opportunity.renewed_by_opportunity_id
   ]
 }
 
