@@ -28,6 +28,11 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: sales_mgmt_data_access {
+  user_attribute: data_permissions
+  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'", "'mlt,finance,sales_mgmt,all'", "'sales_mgmt'"]
+}
+
 #
 # Formats
 #
@@ -704,7 +709,8 @@ explore: current_potential_arr {
     opportunitylineitem.total_open_and_booked_arr,
     account.account_core*,
     account.arr_current,
-    opportunity.opportunity_core*
+    opportunity.opportunity_core*,
+    opportunity.renewed_by_opportunity_id
   ]
 }
 
@@ -1115,7 +1121,7 @@ explore: financial_statements {
 }
 
 explore: financial_model {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
+  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance_only');;
   group_label: "Finance"
   label: "Financial Model"
 }
@@ -1754,14 +1760,22 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity Line Items"
     sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr,  total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, end_date]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
+  }
+
+  join: original_product2 {
+    from: product2
+    view_label: "Original Opportunity Line Items"
+    sql_on: ${original_opportunitylineitem.product2id} = ${original_product2.sfid};;
+    relationship: many_to_one
+    fields: [name]
   }
 
   join: renewal_opportunity {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, total_amount, close_date, close_fiscal_year, status_wlo, count]
+    fields: [sfid, name, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
   }
 
   join: renewal_opportunity_ext {
@@ -1777,7 +1791,15 @@ explore: available_renewals_dynamic {
     from: opportunitylineitem
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
+  }
+
+  join: renewal_product2 {
+    from: product2
+    view_label: "Renewal Opportunity Line Items"
+    sql_on: ${renewal_opportunitylineitem.product2id} = ${renewal_product2.sfid};;
+    relationship: many_to_one
+    fields: [name]
   }
 }
 

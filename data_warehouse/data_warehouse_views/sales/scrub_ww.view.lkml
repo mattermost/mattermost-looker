@@ -73,6 +73,7 @@ view: scrub_ww {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [sales_mgmt_data_access]
   }
 
   measure: nn_commit_max {
@@ -176,6 +177,7 @@ view: scrub_ww {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [sales_mgmt_data_access]
   }
 
 
@@ -252,6 +254,7 @@ view: scrub_ww {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [sales_mgmt_data_access]
   }
 
   measure: ren_commit_max {
@@ -383,6 +386,7 @@ view: scrub_ww {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [sales_mgmt_data_access]
   }
 
 }
