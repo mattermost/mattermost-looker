@@ -778,28 +778,9 @@ explore: github_contributions {
     relationship: many_to_one
     fields: []
   }
-}
-
-explore: github_all_contributions {
-  group_label: "Contributors & Employees"
-  label: "All Mattermost Org GitHub Contributions"
-  view_label: "All Mattermost Org GitHub Contributions"
-
-  join: github_all_contributors {
-    sql_on: ${github_all_contributions.author} = ${github_all_contributors.author} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: staff_github_usernames {
-    sql_on: ${github_all_contributions.author} = ${staff_github_usernames.username} ;;
-    relationship: many_to_one
-    fields: []
-  }
 
   join: github_repo_categorization {
-    view_label: "All Mattermost Org GitHub Contributions"
-    sql_on: ${github_repo_categorization.repo} = ${github_all_contributions.repo} ;;
+    sql_on: ${github_repo_categorization.repo} = ${github_contributions.repo} ;;
     relationship: many_to_one
     fields: [category]
   }
