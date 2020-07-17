@@ -1,5 +1,5 @@
 view: renewal_rate_by_renewal_opportunity {
-  sql_table_name: "CS"."renewal_rate_by_renewal_opportunity"
+  sql_table_name: "CS"."RENEWAL_RATE_BY_RENEWAL_OPPORTUNITY"
     ;;
 
   dimension: accountid {
