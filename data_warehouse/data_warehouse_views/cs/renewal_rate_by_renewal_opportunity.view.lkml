@@ -87,6 +87,16 @@ view: renewal_rate_by_renewal_opportunity {
     ]
   }
 
+  dimension: closed_qtr_category {
+    type: yesno
+    hidden: yes
+    sql: CASE WHEN ${opportunity.close_fiscal_quarter} = ${renewal_fiscal_quarter} THEN 'In Quarter'
+              WHEN ${opportunity.close_fiscal_quarter} < ${renewal_fiscal_quarter} THEN 'Early'
+              WHEN ${opportunity.close_fiscal_quarter} > ${renewal_fiscal_quarter} THEN 'Late'
+         ELSE 'Unknown' End
+        ;;
+  }
+
   dimension: past_renewal_date {
     type: yesno
     sql: ${renewal_date} < current_date ;;
@@ -153,7 +163,26 @@ view: renewal_rate_by_renewal_opportunity {
       value: "Open"
     }
     value_format_name: usd_0
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
+      available_renewal, open_renewal_gross_total]
+  }
+
+  measure: open_renewal_gross_total_in_qtr{
+    label: "Open in Qtr"
+    group_label: "Amounts"
+    type: sum_distinct
+    sql_distinct_key: opportunityid ;;
+    sql: ${open_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Open"
+    }
+    filters: {
+      field: closed_qtr_category
+      value: "In Quarter"
+    }
+    value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, open_renewal_gross_total]
   }
 
@@ -177,7 +206,64 @@ view: renewal_rate_by_renewal_opportunity {
       value: "Won"
     }
     value_format_name: usd_0
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
+      available_renewal, won_renewal_gross_total]
+  }
+
+  measure: won_renewal_gross_total_in_qtr {
+    label: "Won in Qtr"
+    group_label: "Amounts"
+    type: sum_distinct
+    sql_distinct_key: opportunityid ;;
+    sql: ${won_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Won"
+    }
+    filters: {
+      field: closed_qtr_category
+      value: "In Quarter"
+    }
+    value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
+      available_renewal, won_renewal_gross_total]
+  }
+
+  measure: won_renewal_gross_total_early {
+    label: "Won in Earlier Qtr"
+    group_label: "Amounts"
+    type: sum_distinct
+    sql_distinct_key: opportunityid ;;
+    sql: ${won_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Won"
+    }
+    filters: {
+      field: closed_qtr_category
+      value: "Early"
+    }
+    value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
+      available_renewal, won_renewal_gross_total]
+  }
+
+  measure: won_renewal_gross_total_late {
+    label: "Won in Later Qtr"
+    group_label: "Amounts"
+    type: sum_distinct
+    sql_distinct_key: opportunityid ;;
+    sql: ${won_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Won"
+    }
+    filters: {
+      field: closed_qtr_category
+      value: "Late"
+    }
+    value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total]
   }
 
@@ -199,7 +285,7 @@ view: renewal_rate_by_renewal_opportunity {
       field: past_renewal_date
       value: "yes"
     }
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, available_renewal_qtd]
   }
 
@@ -212,7 +298,7 @@ view: renewal_rate_by_renewal_opportunity {
         field: past_renewal_date
         value: "yes"
     }
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate]
   }
 
@@ -223,7 +309,7 @@ view: renewal_rate_by_renewal_opportunity {
     type: number
     sql: ${won_renewal_gross_qtd} / nullif(${available_renewal_qtd},0) ;;
     value_format_name: percent_1
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate_qtd]
   }
 
@@ -233,7 +319,7 @@ view: renewal_rate_by_renewal_opportunity {
     type: number
     sql: ${won_renewal_gross_total} / ${available_renewal_total} ;;
     value_format_name: percent_1
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate]
   }
 
@@ -243,7 +329,7 @@ view: renewal_rate_by_renewal_opportunity {
     type: number
     sql: (${won_renewal_gross_total}+${open_renewal_gross_total}) / ${available_renewal_total} ;;
     value_format_name: percent_1
-    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate, max_renewal_rate]
   }
 }
