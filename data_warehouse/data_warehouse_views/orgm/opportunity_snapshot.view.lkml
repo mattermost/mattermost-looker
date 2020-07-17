@@ -100,9 +100,17 @@ view_label: ""
       week,
       month,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       fiscal_year
     ]
     sql: CAST(${TABLE}."CLOSEDATE" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension: close_yyyy_qq {
+    type: string
+    sql: ${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
+    label: "Close YYYY-QQ"
+    group_label: "Close"
   }
 
   dimension: expectedrevenue {
