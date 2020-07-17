@@ -114,6 +114,8 @@ view: renewal_rate_by_renewal_opportunity {
     sql_distinct_key: opportunityid ;;
     sql: ${available_renewal} ;;
     value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+      available_renewal]
   }
 
   measure: lost_renewal_gross_total {
@@ -122,7 +124,13 @@ view: renewal_rate_by_renewal_opportunity {
     type: sum_distinct
     sql_distinct_key: opportunityid ;;
     sql: ${lost_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Lost"
+    }
     value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+      available_renewal, lost_renewal_gross_total]
   }
 
   measure: lost_renewal_net_total {
@@ -140,7 +148,13 @@ view: renewal_rate_by_renewal_opportunity {
     type: sum_distinct
     sql_distinct_key: opportunityid ;;
     sql: ${open_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Open"
+    }
     value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+      available_renewal, open_renewal_gross_total]
   }
 
   measure: open_renewal_net_total {
@@ -158,7 +172,13 @@ view: renewal_rate_by_renewal_opportunity {
     type: sum_distinct
     sql_distinct_key: opportunityid ;;
     sql: ${won_renewal_gross} ;;
+    filters: {
+      field: opportunity.status_wlo
+      value: "Won"
+    }
     value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
+      available_renewal, won_renewal_gross_total]
   }
 
   measure: won_renewal_net_total {
