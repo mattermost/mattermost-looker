@@ -255,6 +255,7 @@ explore: _base_opportunity_core_explore {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
+    fields: []
   }
 
   join: opportunitylineitem {
@@ -1405,6 +1406,23 @@ explore: account_renewal_rate_by_qtr {
 
   join: account {
     sql_on: ${account.sfid} = ${account_renewal_rate_by_qtr.account_sfid} ;;
+  }
+}
+
+explore: renewal_rate_by_renewal_opportunity {
+  view_label: "Opportunity Renewal Rates"
+  group_label: "Customer Success"
+  extends: [_base_opportunity_core_explore, _base_account_core_explore]
+
+  join: account {
+    sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
+    relationship: one_to_one
+    fields: [opportunity.opportunity_core*, opportunity.status_wlo]
   }
 }
 

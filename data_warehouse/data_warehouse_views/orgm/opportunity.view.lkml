@@ -41,6 +41,7 @@ view: opportunity {
       close_date,
       close_month,
       close_fiscal_quarter_of_year,
+      close_fiscal_quarter,
       close_quarter,
       close_fiscal_year,
       forecastcategoryname,
