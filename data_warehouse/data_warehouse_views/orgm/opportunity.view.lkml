@@ -660,6 +660,17 @@ view: opportunity {
     group_label: "Renewals"
   }
 
+  dimension: renewal_risk_status_short {
+    # description: "TODO"
+    sql: CASE
+           WHEN ${renewal_risk_status} = 'At Risk' THEN 'AR'
+           WHEN ${renewal_risk_status} = 'Early Warning' THEN 'EW'
+           ELSE '' END;;
+    type: string
+    label: "Renewal Risk Status (Short)"
+    group_label: "Renewals"
+  }
+
   dimension: renewed_by_opportunity_id {
     # description: "TODO"
     sql: ${TABLE}.renewed_by_opportunity_id__c ;;
