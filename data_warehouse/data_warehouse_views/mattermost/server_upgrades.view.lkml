@@ -1,7 +1,7 @@
 # This is the view file for the analytics.mattermost.server_upgrades table.
 view: server_upgrades {
   sql_table_name: mattermost.server_upgrades ;;
-  view_label: "Server Upgrades"
+  view_label: " Server Upgrades"
 
   # FILTERS
   filter: is_version_upgrade_date {
