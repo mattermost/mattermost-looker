@@ -3,6 +3,10 @@ view: server_upgrades {
   sql_table_name: mattermost.server_upgrades ;;
   view_label: " Server Upgrades"
 
+  # SETS
+  set: drill_set1 {
+    fields: [logging_date, server_id, prev_version, current_version, prev_edition, current_edition]
+  }
   # FILTERS
   filter: is_version_upgrade_date {
     description: "Boolean indicating a version upgrade took place on the given logging date."
@@ -145,6 +149,7 @@ view: server_upgrades {
     description: "The distinct count of Servers per grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [drill_set1*]
   }
 
   measure: server_version_upgrades {
@@ -153,6 +158,7 @@ view: server_upgrades {
     description: "The distinct count of server version upgrades i.e. a server upgrades from an older Mattermost Server Version to a newer Mattermost Server Version."
     type: count_distinct
     sql: CASE WHEN ${current_version} > COALESCE(${prev_version}, ${current_version}) THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
   }
 
   measure: server_edition_upgrades {
@@ -161,6 +167,7 @@ view: server_upgrades {
     description: "The distinct count of server edition upgrades i.e. a server upgrades from team edition to enterprise edition."
     type: count_distinct
     sql: CASE WHEN ${current_edition} = 'E0' AND ${prev_edition} = 'TE' THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
   }
 
   measure: license_count {
@@ -168,6 +175,7 @@ view: server_upgrades {
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [drill_set1*]
   }
 
 
