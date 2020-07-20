@@ -1870,3 +1870,7 @@ explore: events_mobile_telemetry {
 explore: plugins_telemetry {
   label: "Plugins Telemetry"
 }
+
+explore: twitter {
+  label: "Twitter"
+}
