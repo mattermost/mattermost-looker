@@ -1005,7 +1005,7 @@ view: account {
   #
 
   measure: count {
-    drill_fields: [sfid, name]
+    drill_fields: [sfid, name, owner_name, csm_name]
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct

@@ -30,8 +30,8 @@ view: opportunity {
   #
 
   set: opportunity_drill_fields {
-    fields: [account.name, name, owner_name, csm_name, csa_name,close_date, status_wlo, stagename,
-             forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount]
+    fields: [account.name, name, owner_name, csm_name, close_date, created_date, status_wlo, stagename,
+             forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount, type]
   }
 
   set: opportunity_core {
@@ -60,7 +60,7 @@ view: opportunity {
       probability,
       owner_name,
       csm_name,
-      csa_name,
+     csa_name,
       type
     ]
   }
@@ -252,17 +252,17 @@ view: opportunity {
     group_label: "Created"
   }
 
-  dimension: csa_owner_id {
+   dimension: csa_owner_id {
     type: string
     sql: ${TABLE}.csa_owner__c ;;
     group_label: "System"
-  }
+   }
 
   dimension: csa_name {
     type: string
     sql: ${opportunity_csa.name} ;;
     label: "CSA Owner Name"
-  }
+   }
 
   dimension: csm_owner_id {
     type: string
