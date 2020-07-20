@@ -28,6 +28,16 @@ access_grant: debugging_fields {
   allowed_values: [ "all", "developer", "admin" ]
 }
 
+access_grant: sales_mgmt_data_access {
+  user_attribute: data_permissions
+  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'", "'mlt,finance,sales_mgmt,all'", "'sales_mgmt'"]
+}
+
+access_grant: admin_access {
+  user_attribute: data_permissions
+  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'"]
+}
+
 #
 # Formats
 #
@@ -245,6 +255,7 @@ explore: _base_opportunity_core_explore {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
+    fields: []
   }
 
   join: opportunitylineitem {
@@ -704,7 +715,8 @@ explore: current_potential_arr {
     opportunitylineitem.total_open_and_booked_arr,
     account.account_core*,
     account.arr_current,
-    opportunity.opportunity_core*
+    opportunity.opportunity_core*,
+    opportunity.renewed_by_opportunity_id
   ]
 }
 
@@ -772,28 +784,9 @@ explore: github_contributions {
     relationship: many_to_one
     fields: []
   }
-}
-
-explore: github_all_contributions {
-  group_label: "Contributors & Employees"
-  label: "All Mattermost Org GitHub Contributions"
-  view_label: "All Mattermost Org GitHub Contributions"
-
-  join: github_all_contributors {
-    sql_on: ${github_all_contributions.author} = ${github_all_contributors.author} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: staff_github_usernames {
-    sql_on: ${github_all_contributions.author} = ${staff_github_usernames.username} ;;
-    relationship: many_to_one
-    fields: []
-  }
 
   join: github_repo_categorization {
-    view_label: "All Mattermost Org GitHub Contributions"
-    sql_on: ${github_repo_categorization.repo} = ${github_all_contributions.repo} ;;
+    sql_on: ${github_repo_categorization.repo} = ${github_contributions.repo} ;;
     relationship: many_to_one
     fields: [category]
   }
@@ -1416,9 +1409,26 @@ explore: account_renewal_rate_by_qtr {
   }
 }
 
+explore: renewal_rate_by_renewal_opportunity {
+  view_label: "Opportunity Renewal Rates"
+  group_label: "Customer Success"
+  extends: [_base_opportunity_core_explore, _base_account_core_explore]
+
+  join: account {
+    sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
+    relationship: one_to_one
+    fields: [opportunity.opportunity_core*, opportunity.status_wlo]
+  }
+}
+
 
 explore: server_upgrades {
-  label: "Server Upgrades"
+  label: " Server Upgrades"
   description: "Use this to trend the number of server upgrades by version or edition over time."
   group_label: "Product"
   extends: [_base_account_core_explore]
@@ -1454,17 +1464,31 @@ explore: server_upgrades {
   }
 
   join: excludable_servers {
-    view_label: "Server Upgrades"
+    view_label: " Server Upgrades"
     sql_on: ${excludable_servers.server_id} = ${server_upgrades.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: version_release_dates {
-    view_label: " Server Daily Details"
+    view_label: "Server Daily Details"
     sql_on: ${server_upgrades.current_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported, version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
+  }
+
+  join: server_daily_details {
+    view_label: "Server Daily Details"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id} and ${server_upgrades.logging_date} = ${server_daily_details.logging_date} ;;
+    fields: [server_daily_details.active_user_count]
+    relationship: many_to_one
+  }
+
+  join: server_daily_details_ext {
+    view_label: "Server Daily Details"
+    sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id} and ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date} ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 

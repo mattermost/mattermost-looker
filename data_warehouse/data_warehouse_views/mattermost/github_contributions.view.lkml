@@ -1,6 +1,6 @@
 view: github_contributions {
-  sql_table_name: MATTERMOST.GITHUB_COMMUNITY_CONTRIBUTIONS ;;
-  label: "GitHub Community Contributions"
+  sql_table_name: MATTERMOST.GITHUB_CONTRIBUTIONS ;;
+  label: "GitHub Contributions"
 
   dimension: author {
     type: string
@@ -80,5 +80,6 @@ view: github_contributions {
     label: "# of Contributors"
     type: count_distinct
     sql: ${author} ;;
+    drill_fields: [author,repo,merged_date,pr_number]
   }
 }

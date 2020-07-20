@@ -41,6 +41,7 @@ view: opportunity {
       close_date,
       close_month,
       close_fiscal_quarter_of_year,
+      close_fiscal_quarter,
       close_quarter,
       close_fiscal_year,
       forecastcategoryname,
@@ -656,6 +657,17 @@ view: opportunity {
     # description: "TODO"
     sql: ${TABLE}.renewal_risk_status__c;;
     type: string
+    group_label: "Renewals"
+  }
+
+  dimension: renewal_risk_status_short {
+    # description: "TODO"
+    sql: CASE
+           WHEN ${renewal_risk_status} = 'At Risk' THEN 'AR'
+           WHEN ${renewal_risk_status} = 'Early Warning' THEN 'EW'
+           ELSE '' END;;
+    type: string
+    label: "Renewal Risk Status (Short)"
     group_label: "Renewals"
   }
 

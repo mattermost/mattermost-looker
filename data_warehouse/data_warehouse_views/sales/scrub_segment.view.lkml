@@ -79,6 +79,7 @@ view: scrub_segment {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [admin_access]
   }
 
   measure: nn_commit_max {
@@ -182,6 +183,7 @@ view: scrub_segment {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [admin_access]
   }
 
 
@@ -259,6 +261,7 @@ view: scrub_segment {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [admin_access]
   }
 
   measure: ren_commit_max {
@@ -391,6 +394,7 @@ view: scrub_segment {
       }
     }
     value_format_name: usd_0
+    required_access_grants: [admin_access]
   }
 
 }
