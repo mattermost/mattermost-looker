@@ -255,6 +255,12 @@ view: campaign {
     type: string
   }
 
+  dimension: parent_name {
+    label: "Parent Name"
+    sql: ${parent_campaign.name} ;;
+    type: string
+  }
+
   dimension: sfid {
     label: "Campaign ID"
     primary_key: yes
