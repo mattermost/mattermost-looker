@@ -154,14 +154,21 @@ view: opportunity_ext {
     type: number
     sql: ${TABLE}.NUM_DIFF_END_DATES ;;
     description: "# of unique end dates in Oppt Line Items. Populated hourly via DWH script."
-    }
+  }
 
   dimension: num_diff_license_start_dates {
     group_label: "License Dates (Start)"
     type: number
     sql: ${TABLE}.NUM_DIFF_START_DATES ;;
     description: "# of unique end dates in Oppt Line Items. Populated hourly via DWH script."
-    }
+  }
+
+  dimension: paid {
+    label: "Is Paid?"
+    description: "Netsuite has marked the opportunity as paid"
+    sql: ${TABLE}.paid ;;
+    type: yesno
+  }
 
   dimension: renewal_amount {
     group_label: "Line Item Totals"
