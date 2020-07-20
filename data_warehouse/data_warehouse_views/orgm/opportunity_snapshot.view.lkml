@@ -75,22 +75,27 @@ view_label: ""
   dimension: amount {
     type: number
     sql: ${TABLE}."AMOUNT" ;;
+    group_label: "Amounts"
   }
 
   dimension: amount_net_new {
     type: number
     sql: ${TABLE}."NET_NEW_AMOUNT" ;;
+    group_label: "Amounts"
   }
 
   dimension: amount_renewal {
     type: number
     sql: ${TABLE}."RENEWAL_AMOUNT" ;;
+    group_label: "Amounts"
   }
 
 
   dimension: arr_contributed {
     type: number
     sql: ${TABLE}."ARR_CONTRIBUTED__C" ;;
+    label: "ARR"
+    group_label: "Amounts"
   }
 
   dimension_group: close {
@@ -109,13 +114,14 @@ view_label: ""
   dimension: close_yyyy_qq {
     type: string
     sql: ${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
-    label: "Close YYYY-QQ"
-    group_label: "Close"
+    label: "Fiscal YYYY-QQ"
+    group_label: "Close Date"
   }
 
   dimension: expectedrevenue {
     type: number
     sql: ${TABLE}."EXPECTEDREVENUE" ;;
+    group_label: "Amounts"
   }
 
   dimension: forecastcategoryname {
@@ -164,6 +170,7 @@ dimension: forecastcategoryname_sort {
   dimension: ownerid {
     type: string
     sql: ${TABLE}."OWNERID" ;;
+    hidden: yes
   }
 
   dimension: ownername {
@@ -181,6 +188,7 @@ dimension: forecastcategoryname_sort {
   dimension: opportunityid {
     type: string
     sql: ${TABLE}."SFID" ;;
+    label: "SFDC ID"
   }
 
   dimension_group: snapshot {
@@ -192,33 +200,45 @@ dimension: forecastcategoryname_sort {
       week,
       month,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       fiscal_year
     ]
     sql: CAST(${TABLE}."SNAPSHOT_DATE" AS TIMESTAMP_NTZ) ;;
     group_label: "Snapshot"
   }
 
+  dimension: snapshot_yyyy_qq {
+    type: string
+    sql: ${snapshot_fiscal_year} || '-' || ${snapshot_fiscal_quarter_of_year};;
+    label: "Snapshot YYYY-QQ"
+    group_label: "Snapshot"
+  }
+
   dimension: stagename {
     type: string
     sql: ${TABLE}."STAGENAME" ;;
+    label: "Stage"
   }
 
   dimension: status_wlo {
     type: string
     sql: ${TABLE}."STATUS_WLO__C" ;;
-
+    label: "Status"
+    description: "(W)on, (O)pen, (L)ost"
   }
 
   dimension: sales_segment {
     type: string
     sql: ${TABLE}."TERRITORY_SEGMENT__C" ;;
     label: "Sales Segment"
+    description: "Sales Segment at snapshot"
   }
 
   dimension: sales_segment_current {
     type: string
     sql: ${opportunity.territory_sales_segment} ;;
     label: "Sales Segment (Current)"
+    description: "Sales Segment of current opportunity"
     }
 
   dimension: type {
