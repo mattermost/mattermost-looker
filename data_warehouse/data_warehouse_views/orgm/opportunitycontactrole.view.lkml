@@ -166,7 +166,12 @@ view: opportunitycontactrole {
   }
 
   measure: count {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${sfid} ;;
+  }
+
+  measure: is_role {
+    type: yesno
+    sql: ${count} >=1 ;;
   }
 }
