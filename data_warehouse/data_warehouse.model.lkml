@@ -74,6 +74,7 @@ include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -1876,4 +1877,8 @@ explore: events_mobile_telemetry {
 }
 explore: plugins_telemetry {
   label: "Plugins Telemetry"
+}
+
+explore: twitter {
+  label: "Twitter"
 }

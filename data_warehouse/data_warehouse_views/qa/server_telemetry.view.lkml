@@ -9,7 +9,8 @@ view: server_telemetry {
   dimension: _dbt_source_relation {
     description: ""
     type: string
-    sql: ${TABLE}._dbt_source_relation ;;
+    sql: CASE WHEN regexp_substr(${TABLE}._dbt_source_relation, '_(RC|QA)') = '_RC' THEN 'Release Candidate'
+    ELSE 'Quality Assurance (QA)' END ;;
     hidden: no
   }
 
@@ -3067,6 +3068,12 @@ view: server_telemetry {
 
   dimension: properties {
     sql: OBJECT_CONSTRUCT(*) ;;
+    html:
+    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    <ul>
+    {% for word in words %}
+    <li>{{ word }}</li>
+    {% endfor %} ;;
   }
 
 
