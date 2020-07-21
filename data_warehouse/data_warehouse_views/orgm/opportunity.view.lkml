@@ -61,7 +61,7 @@ view: opportunity {
       probability,
       owner_name,
       csm_name,
-     csa_name,
+     ce_name,
       type
     ]
   }
@@ -253,29 +253,32 @@ view: opportunity {
     group_label: "Created"
   }
 
-   dimension: csa_owner_id {
-    type: string
-    sql: ${TABLE}.csa_owner__c ;;
-    group_label: "System"
-   }
 
-  dimension: csa_name {
+  dimension: ce_name {
     type: string
-    sql: ${opportunity_csa.name} ;;
-    label: "CSA Owner Name"
-   }
+    sql: ${opportunity_ce.name} ;;
+    label: "Customer Engineer Name"
+  }
 
   dimension: csm_owner_id {
-    type: string
-    sql: ${TABLE}.csm_owner__c ;;
-    group_label: "System"
+     type: string
+     sql: ${TABLE}.csm_owner__c ;;
+     group_label: "System"
   }
 
   dimension: csm_name {
     type: string
     sql: ${opportunity_csm.name};;
-    label: "CSM Owner Name"
+    label: "CSM Name"
   }
+
+  dimension: ce_owner__c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.ce_owner__c;;
+    label: "Customer Engineer ID"
+  }
+
 
   dimension: e_purchase_date__c {
     type: date
