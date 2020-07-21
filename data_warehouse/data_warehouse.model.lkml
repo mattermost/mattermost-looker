@@ -1590,7 +1590,7 @@ explore: hist_license_mapping {
 }
 
 explore: enterprise_license_fact {
-  extends: [_base_account_explore]
+  extends: [_base_account_core_explore]
   group_label: "BLP"
   join: account {
     sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
