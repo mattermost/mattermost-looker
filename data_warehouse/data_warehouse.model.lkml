@@ -729,6 +729,13 @@ explore: campaign {
     relationship: one_to_many
   }
 
+  join: parent_campaign {
+    from: campaign
+    sql_on: ${parent_campaign.sfid} = ${campaign.parentid} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
   join: campaignmember_ext {
     sql_on: ${campaignmember.sfid} = ${campaignmember_ext.cm_sfid} ;;
     relationship: one_to_one
@@ -1583,7 +1590,7 @@ explore: hist_license_mapping {
 }
 
 explore: enterprise_license_fact {
-  extends: [_base_account_explore]
+  extends: [_base_account_core_explore]
   group_label: "BLP"
   join: account {
     sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;

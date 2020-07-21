@@ -84,11 +84,6 @@ view: netsuite_financial {
     sql: ${TABLE}."NETSUITE_CONN__OPPORTUNITY__C" ;;
   }
 
-  measure: paid {
-    type: yesno
-    sql: COALESCE(MAX((${type} = 'Cash Sale' AND ${status} = 'Deposited') OR (${type} = 'Invoice' AND ${status} = 'Paid In Full')),FALSE);;
-  }
-
   dimension: pdf_file {
     type: string
     sql: ${TABLE}."NETSUITE_CONN__PDF_FILE__C" ;;

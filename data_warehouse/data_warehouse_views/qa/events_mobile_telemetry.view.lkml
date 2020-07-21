@@ -9,7 +9,8 @@ view: events_mobile_telemetry {
   dimension: _dbt_source_relation {
     description: ""
     type: string
-    sql: ${TABLE}._dbt_source_relation ;;
+    sql: CASE WHEN regexp_substr(${TABLE}._dbt_source_relation, '_(BETA|TEST)') = '_BETA' THEN 'Release Candidate'
+      ELSE 'Quality Assurance (QA)' END ;;
     hidden: no
   }
 
@@ -396,6 +397,20 @@ view: events_mobile_telemetry {
 
 
   # MEASURES
+  measure: first_triggered {
+    label: "First Triggered"
+    description: "The date & time the event was first triggered."
+    type: date_time
+    sql: MIN(${TABLE}.timestamp) ;;
+  }
+
+  measure: last_triggered {
+    label: "Last Triggered"
+    description: "The date & time the event was last triggered."
+    type: date_time
+    sql: MAX(${TABLE}.timestamp) ;;
+  }
+
   measure: count {
     label: " Count"
     description: "Count of rows/occurrences."

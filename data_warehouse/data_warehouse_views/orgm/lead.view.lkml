@@ -685,13 +685,27 @@ view: lead {
     sql: ${TABLE}.QUALITY__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension: quality_star_rating {
     sql: ${TABLE}.QUALITY_STAR_RATING__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
+
+  dimension_group: trial_request {
+    label: "Trial Request"
+    sql: ${TABLE}.REQUEST_A_TRIAL_DATE__C ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
 
   dimension: sfid {
     label: "Lead ID"
