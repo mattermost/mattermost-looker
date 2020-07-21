@@ -16,19 +16,6 @@ view: account_health_score {
     type: string
   }
 
-  dimension: customer_segmentation_tier {
-    type: string
-    sql: ${account.customer_segmentation_tier} ;;
-    label: "Customer Segmentation Tier"
-  }
-
-  dimension: current_arr {
-    type: number
-    sql: ${account.arr_current} ;;
-    label: "Current Account ARR"
-    value_format_name: usd_0
-  }
-
   dimension: risk_override_score {
     group_label: "CS Risk Assigned"
     label: "CS Risk Assigned"
@@ -211,7 +198,7 @@ dimension: reference_bonus_score {
     description: "Number of accounts tied to a dimension of filter selected"
     type: count_distinct
     sql: ${account_sfid} ;;
-    drill_fields: [account.name,csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
+    drill_fields: [account.name,csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, tenure_in_yrs,tenure_health_score,license_end_date,license_end_date_health_score,
                    ticket_health_score,days_since_last_task,task_health_score]
   }
 
@@ -225,7 +212,7 @@ dimension: reference_bonus_score {
       field: last_task_under_30
       value: "yes"
     }
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_between_30_to_90_days {
@@ -238,7 +225,7 @@ dimension: reference_bonus_score {
       field: last_task_between_30_to_90_days
       value: "yes"
     }
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: count_last_task_over_90 {
@@ -251,7 +238,7 @@ dimension: reference_bonus_score {
       field: last_task_over_90
       value: "yes"
     }
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
 measure: accounts_under_51_health_score {
@@ -261,7 +248,7 @@ measure: accounts_under_51_health_score {
   type: count_distinct
   sql: ${account_sfid} ;;
   filters: [health_score: "<= 50"]
-  drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+  drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
 }
 
   measure: accounts_between_51_to_75_health_score {
@@ -271,7 +258,7 @@ measure: accounts_under_51_health_score {
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 50 AND <= 75"]
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
  }
 
   measure: accounts_over_75_health_score {
@@ -281,7 +268,7 @@ measure: accounts_under_51_health_score {
     type: count_distinct
     sql: ${account_sfid} ;;
     filters: [health_score: "> 75"]
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 
   measure: avg_health_score {
@@ -290,6 +277,6 @@ measure: accounts_under_51_health_score {
     type: average_distinct
     value_format: "0"
     sql: ${health_score} ;;
-    drill_fields: [account.name, csm_name, customer_segmentation_tier, current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
+    drill_fields: [account.name, csm_name, account.customer_segmentation_tier, account.current_arr, health_score, reference_bonus_score, days_since_last_task, tenure_health_score, ticket_health_score, license_end_date_health_score]
   }
 }
