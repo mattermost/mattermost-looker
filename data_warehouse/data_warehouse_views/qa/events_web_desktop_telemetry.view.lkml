@@ -331,6 +331,12 @@ view: events_web_desktop_telemetry {
 
   dimension: properties {
     sql: OBJECT_CONSTRUCT(*) ;;
+    html:
+    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    <ul>
+    {% for word in words %}
+    <li>{{ word }}</li>
+    {% endfor %} ;;
   }
 
 
