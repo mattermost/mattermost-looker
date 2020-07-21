@@ -211,10 +211,10 @@ explore: _base_opportunity_explore {
     fields: []
   }
 
-  join: opportunity_csa {
-    view_label: "Opportunity CSA"
-    from: user
-    sql_on: ${opportunity.csa_owner_id} = ${opportunity_csa.sfid} ;;
+  join: opportunity_ce {
+  view_label: "Opportunity Customer Engineer"
+  from: user
+    sql_on: ${opportunity.ce_owner__c} = ${opportunity_ce.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -286,13 +286,13 @@ explore: _base_opportunity_core_explore {
     fields: []
   }
 
-  join: opportunity_csa {
-    view_label: "Opportunity CSA"
+  join: opportunity_ce {
+     view_label: "Opportunity Customer Engineer"
     from: user
-    sql_on: ${opportunity.csa_owner_id} = ${opportunity_csa.sfid} ;;
+    sql_on: ${opportunity.ce_owner__c} = ${opportunity_ce.sfid} ;;
     relationship: many_to_one
     fields: []
-  }
+ }
 }
 
 
