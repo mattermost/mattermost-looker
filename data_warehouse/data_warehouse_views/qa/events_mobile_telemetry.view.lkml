@@ -59,7 +59,7 @@ view: events_mobile_telemetry {
   dimension: type {
     description: ""
     type: string
-    sql: ${TABLE}.type ;;
+    sql: CASE WHEN ${TABLE}.type is null then ${event} else ${TABLE}.type end ;;
     hidden: no
   }
 

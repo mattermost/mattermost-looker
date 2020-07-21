@@ -7,147 +7,158 @@ view: twitter {
 
   # DIMENSIONS
   dimension: username {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.username ;;
     hidden: no
   }
 
   dimension: text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.text ;;
     hidden: no
   }
 
   dimension: full_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.full_name ;;
     hidden: no
   }
 
   dimension: user_url {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_url ;;
     hidden: no
   }
 
   dimension: url {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.url ;;
     hidden: no
   }
 
+  dimension: id {
+    type: string
+    sql: split_part(${url}, '/status/', 2) ;;
+  }
+
   dimension: retweet_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.retweet_text ;;
     hidden: no
   }
 
   dimension: retweeted_status {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.retweeted_status ;;
     hidden: no
   }
 
   dimension: retweet_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.retweet_count ;;
     hidden: no
   }
 
   dimension: location {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.location ;;
     hidden: no
   }
 
   dimension: followers {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.followers ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: favorite_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.favorite_count ;;
     hidden: no
   }
 
   dimension: lang {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.lang ;;
     hidden: no
   }
 
   dimension: verified {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.verified ;;
     hidden: no
   }
 
   dimension: hashtags {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.hashtags ;;
     hidden: no
   }
 
   dimension: following_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.following_count ;;
     hidden: no
   }
 
   dimension: is_tweet_reply {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.is_tweet_reply ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: original_tweet_date {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.original_tweet_date ;;
     hidden: no
   }
 
   dimension_group: created_at {
-	description: "" 
-	type: time
-	timeframes: [date, month, year]
+  description: ""
+  type: time
+  timeframes: [date, month, year]
     sql: ${TABLE}.created_at ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+  }
+
+  measure: tweet_count {
+    description: "The count of distinct tweets containing Mattermost keyword."
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: retweet_count_sum {
