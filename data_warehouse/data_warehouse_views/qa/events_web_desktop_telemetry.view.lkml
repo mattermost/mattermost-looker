@@ -233,6 +233,13 @@ view: events_web_desktop_telemetry {
     hidden: no
   }
 
+  dimension: client_version {
+    description: ""
+    type: string
+    sql: split_part(split_part(${context_useragent}, 'Mattermost/', 2), ' ', 1);;
+    hidden: no
+  }
+
   dimension: context_library_version {
     description: ""
     type: string
