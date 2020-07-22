@@ -1438,7 +1438,8 @@ explore: renewal_rate_by_renewal_opportunity {
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
-    fields: [opportunity.opportunity_core*, opportunity.status_wlo]
+    fields: [opportunity.opportunity_core*, opportunity.status_wlo,
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor]
   }
 }
 
