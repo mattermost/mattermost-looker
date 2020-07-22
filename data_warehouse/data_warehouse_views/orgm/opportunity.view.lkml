@@ -61,7 +61,7 @@ view: opportunity {
       probability,
       owner_name,
       csm_name,
-     ce_name,
+      ce_name,
       type
     ]
   }
