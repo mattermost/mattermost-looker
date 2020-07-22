@@ -1875,6 +1875,15 @@ explore: issue_comments {
 
 explore: server_telemetry {
   label: "Server Telemetry"
+
+  join: server_version {
+    view_label: "Server Version"
+    from: server_telemetry
+    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} AND ${server_version.telemetry_relation} = 'SERVER' ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: [server_version.version]
+  }
 }
 explore: events_web_desktop_telemetry {
   label: "Events Web Desktop Telemetry"
