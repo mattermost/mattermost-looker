@@ -6,6 +6,16 @@ sql_table_name: mattermost.server_fact ;;
     fields: [server_id, account_sfid, company_name, currently_sending_telemetry, first_active_date, last_active_date, license_id, paid_license_expire_date, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
   }
 
+  filter: license_all {
+    type: string
+  }
+
+  dimension: license_id_filter {
+    description: "The license ID1 & ID2 or condition filter for dashboard usage."
+    sql: {% condition license_all %} ${license_id} {% endcondition %} OR  {% condition license_all %} ${license_id2} {% endcondition %};;
+    type: yesno
+  }
+
   dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
@@ -239,7 +249,15 @@ sql_table_name: mattermost.server_fact ;;
     label: "License ID (Current)"
     description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
     type: string
-    sql: ${TABLE}.last_license_id1 ;;
+    sql: COALESCE(${TABLE}.last_license_id1, ${license_id2}) ;;
+  }
+
+  dimension: license_id2 {
+    label: "License ID2 (Current)"
+    description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
+    type: string
+    hidden: yes
+    sql: ${TABLE}.last_license_id2 ;;
   }
 
   dimension_group: first_active {

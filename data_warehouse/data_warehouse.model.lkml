@@ -1066,7 +1066,7 @@ explore: server_daily_details_ext {
       server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
-      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events]
+      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.license_all, server_fact.license_id_filter]
   }
 
   join: nps_server_daily_score {
@@ -1217,7 +1217,7 @@ explore: user_events_by_date {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
+    fields: [server_fact.license_all, server_fact.license_id_filter, server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: licenses_grouped {
@@ -1289,7 +1289,7 @@ explore: user_events_by_date_agg {
     view_label: "Server Details"
     sql_on: ${server_fact.server_id} = ${user_events_by_date_agg.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
+    fields: [server_fact.license_all, server_fact.license_id_filter, server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: excludable_servers {
