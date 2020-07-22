@@ -594,8 +594,9 @@ explore: lead {
   }
 
   join: opportunitycontactrole {
-    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid};;
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid} ;;
     relationship: one_to_many
+    fields: []
   }
 
   join: opportunity {
