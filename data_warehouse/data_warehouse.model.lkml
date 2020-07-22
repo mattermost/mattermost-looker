@@ -1701,6 +1701,7 @@ explore: customer_reference {
     fields: []
   }
 
+
   join: account_owner {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
