@@ -12,6 +12,10 @@ view: events_mobile_telemetry {
     sql: CASE WHEN regexp_substr(${TABLE}._dbt_source_relation, '_(BETA|TEST)') = '_BETA' THEN 'Release Candidate'
       ELSE 'Quality Assurance (QA)' END ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ value }})"
+      url: "/dashboards/185?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
+    }
   }
 
   dimension: context_network_carrier {
@@ -61,6 +65,10 @@ view: events_mobile_telemetry {
     type: string
     sql: CASE WHEN ${TABLE}.type is null then ${event} else ${TABLE}.type end ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Type = {{ value }})"
+      url: "/dashboards/185?Type%20(Event%20Name)={{ value }}"
+    }
   }
 
   dimension: user_id {
@@ -68,6 +76,10 @@ view: events_mobile_telemetry {
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (User ID = {{ value }})"
+      url: "/dashboards/185?Server%20ID%20(User%20ID)={{ value }}"
+    }
   }
 
   dimension: context_device_type {
@@ -270,7 +282,10 @@ view: events_mobile_telemetry {
     description: ""
     type: string
     sql: ${TABLE}.user_actual_id ;;
-    hidden: no
+    hidden: no    link: {
+      label: "Filter Dashboard (User Actual ID = {{ value }})"
+      url: "/dashboards/185?User%20ID%20(User%20Actual%20ID)={{ value }}"
+    }
   }
 
   dimension: user_actual_role {

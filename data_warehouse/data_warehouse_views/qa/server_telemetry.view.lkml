@@ -7,11 +7,28 @@ view: server_telemetry {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
+    label: "Source Relation"
     description: ""
     type: string
     sql: CASE WHEN regexp_substr(${TABLE}._dbt_source_relation, '_(RC|QA)') = '_RC' THEN 'Release Candidate'
     ELSE 'Quality Assurance (QA)' END ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ value }})"
+      url: "/dashboards/187?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
+    }
+  }
+
+  dimension: telemetry_relation {
+    label: " Telemetry Source"
+    description: "The database table (relation) capturing specific server telemetry data i.e. Config_Analytics, Config_Plugins, Plugins, etc."
+    sql: split_part(${TABLE}._dbt_source_relation, '.', 3) ;;
+    hidden: no
+    type: string
+    link: {
+      label: "Filter Dashboard (Telemetry Source = {{ value }})"
+      url: "/dashboards/187?Server%20Telemetry%20Table={{ value }}"
+    }
   }
 
   dimension: incoming_webhooks {
@@ -89,6 +106,10 @@ view: server_telemetry {
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (User ID = {{ value}})"
+      url: "/dashboards/187?Server%20ID%20(User%20ID)={{ value }}"
+    }
   }
 
   dimension: bot_accounts {
