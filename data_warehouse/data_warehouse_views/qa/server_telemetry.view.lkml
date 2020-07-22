@@ -19,6 +19,13 @@ view: server_telemetry {
     }
   }
 
+  dimension: key {
+    primary_key: yes
+    type: string
+    sql: ${_dbt_source_relation} || ${user_id} || ${timestamp_second} || ${anonymous_id} ;;
+    hidden: yes
+  }
+
   dimension: telemetry_relation {
     label: " Telemetry Source"
     description: "The database table (relation) capturing specific server telemetry data i.e. Config_Analytics, Config_Plugins, Plugins, etc."
@@ -3088,7 +3095,7 @@ view: server_telemetry {
   }
 
   dimension: properties {
-    sql: OBJECT_CONSTRUCT(*) ;;
+    sql: OBJECT_CONSTRUCT(server_telemetry.*) ;;
     html:
     {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>

@@ -1876,26 +1876,42 @@ explore: issue_comments {
 
 explore: server_telemetry {
   label: "Server Telemetry"
+  group_label: "Quality Assurance"
 
   join: server_version {
-    view_label: "Server Version"
+    view_label: "Server Details"
     from: server_telemetry
-    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} AND ${server_version.telemetry_relation} = 'SERVER' ;;
-    type: left_outer
+    sql_where: ${server_version.telemetry_relation} = 'SERVER' ;;
+    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} ;;
+    type: inner
     relationship: many_to_one
     fields: [server_version.version]
+  }
+
+  join: server_license {
+    view_label: "Server Details"
+    sql_where: ${server_license.telemetry_relation} = 'LICENSE' ;;
+    from: server_telemetry
+    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_second} = ${server_license.timestamp_second};;
+    type: inner
+    relationship: many_to_one
+    fields: [server_license.license_id]
   }
 }
 explore: events_web_desktop_telemetry {
   label: "Events Web Desktop Telemetry"
+  group_label: "Quality Assurance"
 }
 explore: events_mobile_telemetry {
   label: "Events Mobile Telemetry"
+  group_label: "Quality Assurance"
 }
 explore: plugins_telemetry {
   label: "Plugins Telemetry"
+  group_label: "Quality Assurance"
 }
 
 explore: twitter {
   label: "Twitter"
+  group_label: "Social Mentions"
 }
