@@ -50,7 +50,7 @@ view: license_daily_details {
     sql: 'Trial License Overview';;
     link: {
       label: "Trial License Overview"
-      url: "https://mattermost.looker.com/dashboards/145?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/145?License%20ID%20Filter={{ license_id._value }}"
     }
     hidden: yes
   }

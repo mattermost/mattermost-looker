@@ -387,7 +387,7 @@ view: server_daily_details_ext {
     label: " License Id"
     description: "The Mattermost License ID associated with the server."
     type: string
-    sql: ${TABLE}.license_id1 ;;
+    sql: COALESCE(${TABLE}.license_id1, ${license_id2}, ${license_id3}, ${license_id}) ;;
     hidden: no
   }
 
