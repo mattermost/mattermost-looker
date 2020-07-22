@@ -585,6 +585,7 @@ explore: lead {
   join: contact {
     sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
     relationship: one_to_one
+    fields: [email,sfid]
   }
 
   join: account {
@@ -592,8 +593,15 @@ explore: lead {
     relationship: many_to_one
   }
 
+  join: opportunitycontactrole {
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid};;
+    relationship: one_to_many
+    fields: []
+  }
+
   join: opportunity {
     sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+            # OR (${opportunitycontactrole.opportunityid} = ${opportunity.sfid} AND ${contact.first_mql_date} < ${opportunity.created_date});;
     relationship: one_to_one
   }
 
@@ -1430,7 +1438,8 @@ explore: renewal_rate_by_renewal_opportunity {
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
-    fields: [opportunity.opportunity_core*, opportunity.status_wlo]
+    fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor]
   }
 }
 
