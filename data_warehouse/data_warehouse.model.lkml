@@ -585,6 +585,7 @@ explore: lead {
   join: contact {
     sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
     relationship: one_to_one
+    fields: [email,sfid]
   }
 
   join: account {
@@ -592,8 +593,15 @@ explore: lead {
     relationship: many_to_one
   }
 
+  join: opportunitycontactrole {
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid};;
+    relationship: one_to_many
+    fields: []
+  }
+
   join: opportunity {
     sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+            # OR (${opportunitycontactrole.opportunityid} = ${opportunity.sfid} AND ${contact.first_mql_date} < ${opportunity.created_date});;
     relationship: one_to_one
   }
 
