@@ -480,6 +480,12 @@ view: account {
     type: time
   }
 
+  dimension: latest_telemetry_date {
+    sql: ${TABLE}.latest_telemetry_date__c ;;
+    type: date
+    group_label: "Licensed vs. Usage"
+  }
+
   dimension_group: lead_created {
     sql: ${TABLE}.lead_created_date__c ;;
     timeframes: [
@@ -776,6 +782,47 @@ view: account {
       year
     ]
     type: time
+  }
+
+  dimension: seats_licensed {
+    sql: ${TABLE}.seats_licensed__c ;;
+    type: number
+    value_format_name: decimal_0
+    group_label: "Licensed vs. Usage"
+  }
+
+  dimension: seats_active_latest {
+    sql: ${TABLE}.seats_active_latest__c ;;
+    type: number
+    value_format_name: decimal_0
+    group_label: "Licensed vs. Usage"
+  }
+
+  dimension: seats_active_mau {
+    sql: ${TABLE}.seats_active_mau__c ;;
+    type: number
+    value_format_name: decimal_0
+    group_label: "Licensed vs. Usage"
+  }
+
+  dimension: seats_active_max {
+    sql: ${TABLE}.seats_active_max__c ;;
+    type: number
+    value_format_name: decimal_0
+    group_label: "Licensed vs. Usage"
+  }
+
+  dimension: seats_active_override {
+    sql: ${TABLE}.seats_active_override__c ;;
+    type: yesno
+    group_label: "Licensed vs. Usage"
+  }
+
+  dimension: seats_active_wau {
+    sql: ${TABLE}.seats_active_wau__c ;;
+    type: number
+    value_format_name: decimal_0
+    group_label: "Licensed vs. Usage"
   }
 
   dimension: sector {
