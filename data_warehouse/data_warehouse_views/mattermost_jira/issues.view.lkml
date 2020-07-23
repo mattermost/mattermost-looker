@@ -4,6 +4,19 @@ view: issues {
   view_label: "Issues"
 
   # FILTERS
+  parameter: label {
+    type: unquoted
+  }
+
+  parameter: description_filter {
+    type: unquoted
+  }
+
+  dimension: telemetry_ticket {
+    description: "Boolean indicating the ticket contains a 'telemetry' tag or contains 'telemetry' in the description field."
+    sql: (lower(${labels}) ilike '%{% parameter label%}%') OR (lower(${description}) ilike '%{% parameter description_filter %}%');;
+    type: yesno
+  }
 
   # DIMENSIONS
   dimension: id {
