@@ -70,6 +70,7 @@ include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/blapi/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
@@ -1635,6 +1636,38 @@ explore: trial_licenses {
     relationship: many_to_one
     sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
     fields: [name]
+  }
+}
+
+explore: in_product_trial_requests {
+  label: "In Product Trial Requests"
+  from: trial_requests
+
+  join: lead {
+    view_label: "Associated Lead"
+    sql_on: ${in_product_trial_requests.is_lead} AND ${in_product_trial_requests.sfid} = ${lead.sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: contact {
+    view_label: "Associated Contact"
+    sql_on: ${in_product_trial_requests.is_contact} AND ${in_product_trial_requests.sfid} = ${contact.sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: owner {
+    view_label: "Associated Lead / Contact Owner"
+    from: user
+    relationship: many_to_one
+    sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
+    fields: []
+  }
+
+  join: server_fact {
+    relationship: many_to_one
+    sql_on: ${in_product_trial_requests.server_id} = ${server_fact.server_id} ;;
   }
 }
 
