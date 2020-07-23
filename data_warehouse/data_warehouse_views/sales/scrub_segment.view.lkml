@@ -315,6 +315,11 @@ view: scrub_segment {
     group_item_label:"Won"
     group_label: "Available Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all Won"
+      url:"/looks/512?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
+
   }
 
   measure: ren_available_renewals_open {
@@ -335,7 +340,7 @@ view: scrub_segment {
     value_format_name: usd_0
     link: {
       label: "List all lost"
-      url:"/looks/378?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"/looks/505?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
   }
 
