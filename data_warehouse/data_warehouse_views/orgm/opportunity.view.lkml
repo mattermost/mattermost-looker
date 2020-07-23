@@ -346,7 +346,11 @@ view: opportunity {
     hidden: yes
   }
 
-
+  dimension: gtm_save_motions {
+    type: string
+    sql: ${TABLE}.gtm_save_motions__c ;;
+    group_label: "Renewals"
+  }
 
   # BP: use is_ for yes/no fields
   dimension: isclosed {
@@ -653,6 +657,20 @@ view: opportunity {
     # description: "TODO"
     sql: CASE WHEN ${TABLE}.renewal_risk_reasons__c = 'No relationship with Decision Maker' THEN 'No Tie to Decision Maker' ELSE ${TABLE}.renewal_risk_reasons__c END;;
     type: string
+    group_label: "Renewals"
+  }
+
+  dimension: at_risk_date {
+    # description: "TODO"
+    sql: ${TABLE}.at_risk_date__c;;
+    type: date
+    group_label: "Renewals"
+  }
+
+  dimension: early_warning_date {
+    # description: "TODO"
+    sql: ${TABLE}.early_warning_date__c;;
+    type: date
     group_label: "Renewals"
   }
 
