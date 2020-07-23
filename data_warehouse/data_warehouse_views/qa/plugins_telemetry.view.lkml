@@ -17,6 +17,10 @@ view: plugins_telemetry {
       label: "Filter Dashboard (Source Relation = {{ value }})"
       url: "/dashboards/189?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: channel {
@@ -35,6 +39,10 @@ view: plugins_telemetry {
       label: "Filter Dashboard (User ID = {{ value }})"
       url: "/dashboards/189?Server%20ID%20(User%20ID)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: value {
@@ -52,6 +60,9 @@ view: plugins_telemetry {
     link: {
       label: "Filter Dashboard (Plugin ID = {{ value }})"
       url: "/dashboards/189?Plugin%20ID={{ value }}"
+    }    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
     }
   }
 
@@ -77,6 +88,10 @@ view: plugins_telemetry {
     link: {
       label: "Filter Dashboard (Plugin Version = {{ value }})"
       url: "/dashboards/189?Plugin%20Version={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
     }
   }
 
@@ -110,6 +125,10 @@ view: plugins_telemetry {
       label: "Filter Dashboard (Event = {{ value }})"
       url: "/dashboards/189?Plugin%20Event%20Name%20(Event)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: userid {
@@ -127,6 +146,10 @@ view: plugins_telemetry {
     link: {
       label: "Filter Dashboard (Server Version = {{ value }})"
       url: "/dashboards/189?Server%20Version={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
     }
   }
 
@@ -148,9 +171,14 @@ view: plugins_telemetry {
     description: ""
     type: string
     sql: ${TABLE}.useractualid ;;
-    hidden: no    link: {
+    hidden: no
+    link: {
       label: "Filter Dashboard (User Actual ID = {{ value }})"
       url: "/dashboards/189?User%20ID%20(User%20Actual%20ID)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
     }
   }
 
@@ -162,6 +190,34 @@ view: plugins_telemetry {
     {% for word in words %}
     <li>{{ word }}</li>
     {% endfor %} ;;
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ _dbt_source_relation._value }})"
+      url: "/dashboards/189?Data%20Source%20(RC%20vs.%20QA)={{ _dbt_source_relation._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (User ID = {{ user_id._value }})"
+      url: "/dashboards/189?Server%20ID%20(User%20ID)={{ user_id._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (User Actual ID = {{ user_actual_id._value }})"
+      url: "/dashboards/189?User%20ID%20(User%20Actual%20ID)={{ user_actual_id._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Server Version = {{ serverversion._value }})"
+      url: "/dashboards/189?Server%20Version={{ serverversion._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Event = {{ event._value }})"
+      url: "/dashboards/189?Plugin%20Event%20Name%20(Event)={{ event._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Plugin Version = {{ pluginversion._value }})"
+      url: "/dashboards/189?Plugin%20Version={{ pluginversion._value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
 

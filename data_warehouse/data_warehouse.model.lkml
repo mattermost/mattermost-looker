@@ -1870,7 +1870,7 @@ explore: issue_comments {
     sql_on: ${issue_comments.issueid} = ${issues.id} ;;
     type: left_outer
     relationship: many_to_one
-    fields: [issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
+    fields: [issues.label, issues.description_filter, issues.telemetry_ticket, issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }
 
