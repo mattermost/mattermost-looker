@@ -412,7 +412,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.last_active_user_date ;;
+    sql: ${TABLE}.last_event_active_user_date ;;
   }
 
   dimension_group: first_paid_license {
