@@ -1433,13 +1433,15 @@ explore: renewal_rate_by_renewal_opportunity {
   join: account {
     sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
     relationship: many_to_one
+    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
   }
 
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
     fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
-             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor]
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
+             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case]
   }
 }
 
