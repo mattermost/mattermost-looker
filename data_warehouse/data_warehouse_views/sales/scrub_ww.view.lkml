@@ -37,6 +37,7 @@ view: scrub_ww {
   }
 
   measure: nn_forecast_update {
+    hidden: yes
     type: sum
     sql: ${TABLE}."NN_FORECAST" ;;
     label:"Net New Forecast Update"
@@ -141,6 +142,7 @@ view: scrub_ww {
   }
 
   measure: nn_upside_update {
+    hidden: yes
     type:sum
     sql: ${TABLE}."NN_UPSIDE" ;;
     group_label: "Updates"
@@ -197,7 +199,7 @@ view: scrub_ww {
     type:sum
     sql: ${TABLE}."REN_AVAILABLE" ;;
     label:"Available"
-    group_label: "Renewal"
+    group_label: "Available Renewal"
     value_format_name: usd_0
   }
 
@@ -219,6 +221,7 @@ view: scrub_ww {
 
   measure: ren_forecast_update {
     type:sum
+    hidden: yes
     sql: ${TABLE}."REN_FORECAST" ;;
     label: "Renewal Forecast Update"
     group_label: "Updates"
@@ -281,18 +284,6 @@ view: scrub_ww {
     value_format_name: usd_0
   }
 
-  measure: ren_omitted_orig_amount_max {
-    type:sum
-    sql: ${TABLE}."REN_OMITTED_ORIG_AMOUNT_MAX" ;;
-    label:"Lost"
-    group_label: "Renewal"
-    value_format_name: usd_0
-    link: {
-      label: "List all lost"
-      url:"/looks/379?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}"
-    }
-  }
-
   measure: ren_open_max {
     type:sum
     sql: ${TABLE}."REN_OPEN_MAX" ;;
@@ -317,11 +308,112 @@ view: scrub_ww {
     value_format_name: usd_0
   }
 
+  measure: ren_available_renewals_won {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won ;;
+    label:"Available Renewals Won"
+    group_item_label:"Won"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+  }
+
+  measure: ren_available_renewals_open {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_open ;;
+    label:"Available Renewals Open"
+    group_item_label:"Open"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+  }
+
+  measure: ren_available_renewals_lost {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_lost ;;
+    label:"Available Renewals Lost"
+    group_item_label:"Lost"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+    link: {
+      label: "List all lost"
+      url:"/looks/378?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
+  }
+
   measure: ren_rate {
     type:sum
-    sql: ${TABLE}."REN_RATE" ;;
+    sql: ${TABLE}.ren_available_renewals_won_perc ;;
     label:"Ren Rate"
-    group_label: "Renewal"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_open_perc {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_open_perc ;;
+    label:"Available Renewals Open %"
+    group_item_label:"Open %"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_lost_perc {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_lost_perc ;;
+    label:"Available Renewals Lost %"
+    group_item_label:"Lost %"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_won_qtd_perc {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_qtd_perc ;;
+    label:"Ren Rate QTD"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_rate_max {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_max_perc ;;
+    label:"Ren Rate Max"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_won_in_qtr {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_in_qtr ;;
+    label:"Available Renewals Won in Qtr"
+    group_item_label:"Won in Qtr"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_won_early {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_early ;;
+    label:"Available Renewals Won Early"
+    group_item_label:"Won Early"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_won_late {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_late ;;
+    label:"Available Renewals Won Late"
+    group_item_label:"Won Late"
+    group_label: "Available Renewal"
+    value_format_name: percent_1
+  }
+
+  measure: ren_available_renewals_open_in_qtr {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_open_in_qtr ;;
+    label:"Available Renewals Open in Qtr"
+    group_item_label:"Open in Qtr"
+    group_label: "Available Renewal"
     value_format_name: percent_1
   }
 
@@ -350,6 +442,7 @@ view: scrub_ww {
   }
 
   measure: ren_upside_update {
+    hidden: yes
     type:sum
     sql: ${TABLE}."REN_UPSIDE" ;;
     group_label: "Updates"
