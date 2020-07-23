@@ -6,10 +6,18 @@ view: issues {
   # FILTERS
   parameter: label {
     type: unquoted
+    allowed_value: {
+      label: "Telemetry"
+      value: "telemetry"
+    }
   }
 
   parameter: description_filter {
     type: unquoted
+    allowed_value: {
+      label: "Telemetry"
+      value: "telemetry"
+    }
   }
 
   dimension: telemetry_ticket {
