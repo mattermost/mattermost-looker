@@ -22,7 +22,7 @@ view: scrub_segment {
     value_format_name: usd_0
     link: {
       label: "List all actuals"
-      url:"/looks/376?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/376?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
   }
 
@@ -197,7 +197,7 @@ view: scrub_segment {
     value_format_name: usd_0
     link: {
       label: "List all actuals"
-      url:"/looks/375?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/375?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
   }
 
@@ -317,7 +317,7 @@ view: scrub_segment {
     value_format_name: usd_0
     link: {
       label: "List all Won"
-      url:"/looks/512?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/512?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
 
   }
@@ -329,6 +329,10 @@ view: scrub_segment {
     group_item_label:"Open"
     group_label: "Available Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all Open"
+      url:"https://mattermost.looker.com/looks/515?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
   }
 
   measure: ren_available_renewals_lost {
@@ -339,8 +343,8 @@ view: scrub_segment {
     group_label: "Available Renewal"
     value_format_name: usd_0
     link: {
-      label: "List all lost"
-      url:"/looks/505?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      label: "List all Lost"
+      url:"https://mattermost.looker.com/looks/505?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
     }
   }
 
