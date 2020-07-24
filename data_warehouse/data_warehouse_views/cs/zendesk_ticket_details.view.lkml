@@ -154,7 +154,7 @@ view: zendesk_ticket_details {
     group_label: "Ticket Details"
     label: "Support Engineer Assigned"
     type: string
-    sql: COALESCE(${TABLE}."ASSIGNEE_NAME",'Uncategorized') ;;
+    sql: COALESCE(${TABLE}."ASSIGNEE_NAME",'Support Team') ;;
   }
 
   dimension_group: created {
