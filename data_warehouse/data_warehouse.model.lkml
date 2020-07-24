@@ -1431,7 +1431,8 @@ explore: renewal_rate_by_renewal_opportunity {
     relationship: one_to_one
     fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
              opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
-             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment]
+             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
+            opportunity.total_amount]
   }
 }
 
