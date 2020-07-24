@@ -7,10 +7,20 @@ view: plugins_telemetry {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
+    label: "Source Relation"
     description: ""
     type: string
-    sql: ${TABLE}._dbt_source_relation ;;
+    sql: CASE WHEN regexp_substr(${TABLE}._dbt_source_relation, '_(DEV|BETA)') = '_BETA' THEN 'Release Candidate'
+      ELSE 'Quality Assurance (QA)' END ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ value }})"
+      url: "/dashboards/189?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: channel {
@@ -25,6 +35,14 @@ view: plugins_telemetry {
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (User ID = {{ value }})"
+      url: "/dashboards/189?Server%20ID%20(User%20ID)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: value {
@@ -39,6 +57,13 @@ view: plugins_telemetry {
     type: string
     sql: ${TABLE}.pluginid ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Plugin ID = {{ value }})"
+      url: "/dashboards/189?Plugin%20ID={{ value }}"
+    }    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: event_text {
@@ -60,6 +85,14 @@ view: plugins_telemetry {
     type: string
     sql: ${TABLE}.pluginversion ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Plugin Version = {{ value }})"
+      url: "/dashboards/189?Plugin%20Version={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: context_library_name {
@@ -88,6 +121,14 @@ view: plugins_telemetry {
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Event = {{ value }})"
+      url: "/dashboards/189?Plugin%20Event%20Name%20(Event)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: userid {
@@ -102,6 +143,14 @@ view: plugins_telemetry {
     type: string
     sql: ${TABLE}.serverversion ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Server Version = {{ value }})"
+      url: "/dashboards/189?Server%20Version={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: context_library_version {
@@ -118,11 +167,19 @@ view: plugins_telemetry {
     hidden: no
   }
 
-  dimension: useractualid {
+  dimension: user_actual_id {
     description: ""
     type: string
     sql: ${TABLE}.useractualid ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (User Actual ID = {{ value }})"
+      url: "/dashboards/189?User%20ID%20(User%20Actual%20ID)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
   dimension: properties {
@@ -133,6 +190,34 @@ view: plugins_telemetry {
     {% for word in words %}
     <li>{{ word }}</li>
     {% endfor %} ;;
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ _dbt_source_relation._value }})"
+      url: "/dashboards/189?Data%20Source%20(RC%20vs.%20QA)={{ _dbt_source_relation._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (User ID = {{ user_id._value }})"
+      url: "/dashboards/189?Server%20ID%20(User%20ID)={{ user_id._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (User Actual ID = {{ user_actual_id._value }})"
+      url: "/dashboards/189?User%20ID%20(User%20Actual%20ID)={{ user_actual_id._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Server Version = {{ serverversion._value }})"
+      url: "/dashboards/189?Server%20Version={{ serverversion._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Event = {{ event._value }})"
+      url: "/dashboards/189?Plugin%20Event%20Name%20(Event)={{ event._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Plugin Version = {{ pluginversion._value }})"
+      url: "/dashboards/189?Plugin%20Version={{ pluginversion._value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/189"
+    }
   }
 
 
@@ -184,6 +269,20 @@ view: plugins_telemetry {
 
 
   # MEASURES
+  measure: first_triggered {
+    label: "First Triggered"
+    description: "The date & time the event was first triggered."
+    type: date_time
+    sql: MIN(${TABLE}.timestamp) ;;
+  }
+
+  measure: last_triggered {
+    label: "Last Triggered"
+    description: "The date & time the event was last triggered."
+    type: date_time
+    sql: MAX(${TABLE}.timestamp) ;;
+  }
+
   measure: count {
     label: " Count"
     description: "Count of rows/occurrences."
@@ -485,17 +584,17 @@ view: plugins_telemetry {
   }
 
   measure: useractualid_count {
-    label: "Useractualid Count (Distinct)"
+    label: "User Actual Id Count (Distinct)"
     description: "The distinct count of useractualid's per grouping."
     type: count_distinct
-    sql: ${useractualid} ;;
+    sql: ${user_actual_id} ;;
   }
 
   measure: useractualid_count_all {
-    label: "Useractualid Count"
+    label: "User Actual Id Count"
     description: "The count of all non-null useractualid occurrences per grouping."
     type: number
-    sql: COUNT(case when ${useractualid} IS NOT NULL then ${useractualid} else null end) ;;
+    sql: COUNT(case when ${user_actual_id} IS NOT NULL then ${user_actual_id} else null end) ;;
   }
 
 

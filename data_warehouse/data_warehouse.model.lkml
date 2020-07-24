@@ -70,6 +70,7 @@ include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/blapi/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
 include: "/data_warehouse/data_warehouse_tests/*.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
@@ -585,6 +586,7 @@ explore: lead {
   join: contact {
     sql_on: ${lead.convertedcontactid} = ${contact.sfid} ;;
     relationship: one_to_one
+    fields: [email,sfid]
   }
 
   join: account {
@@ -592,8 +594,14 @@ explore: lead {
     relationship: many_to_one
   }
 
+  join: opportunitycontactrole {
+    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
   join: opportunity {
-    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid} ;;
+    sql_on: ${lead.convertedopportunityid} = ${opportunity.sfid};;
     relationship: one_to_one
   }
 
@@ -1425,12 +1433,16 @@ explore: renewal_rate_by_renewal_opportunity {
   join: account {
     sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
     relationship: many_to_one
+    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
   }
 
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
-    fields: [opportunity.opportunity_core*, opportunity.status_wlo]
+    fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
+             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
+            opportunity.total_amount]
   }
 }
 
@@ -1627,6 +1639,38 @@ explore: trial_licenses {
     relationship: many_to_one
     sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
     fields: [name]
+  }
+}
+
+explore: in_product_trial_requests {
+  label: "In Product Trial Requests"
+  from: trial_requests
+
+  join: lead {
+    view_label: "Associated Lead"
+    sql_on: ${in_product_trial_requests.is_lead} AND ${in_product_trial_requests.sfid} = ${lead.sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: contact {
+    view_label: "Associated Contact"
+    sql_on: ${in_product_trial_requests.is_contact} AND ${in_product_trial_requests.sfid} = ${contact.sfid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: owner {
+    view_label: "Associated Lead / Contact Owner"
+    from: user
+    relationship: many_to_one
+    sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
+    fields: []
+  }
+
+  join: server_fact {
+    relationship: many_to_one
+    sql_on: ${in_product_trial_requests.server_id} = ${server_fact.server_id} ;;
   }
 }
 
@@ -1863,23 +1907,48 @@ explore: issue_comments {
     sql_on: ${issue_comments.issueid} = ${issues.id} ;;
     type: left_outer
     relationship: many_to_one
-    fields: [issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
+    fields: [issues.label, issues.description_filter, issues.telemetry_ticket, issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }
 
 explore: server_telemetry {
   label: "Server Telemetry"
+  group_label: "Quality Assurance"
+
+  join: server_version {
+    view_label: "Server Details"
+    from: server_telemetry
+    sql_where: ${server_version.telemetry_relation} = 'SERVER' ;;
+    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} ;;
+    type: inner
+    relationship: many_to_one
+    fields: [server_version.version]
+  }
+
+  join: server_license {
+    view_label: "Server Details"
+    sql_where: ${server_license.telemetry_relation} = 'LICENSE' ;;
+    from: server_telemetry
+    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_second} = ${server_license.timestamp_second};;
+    type: inner
+    relationship: many_to_one
+    fields: [server_license.license_id]
+  }
 }
 explore: events_web_desktop_telemetry {
   label: "Events Web Desktop Telemetry"
+  group_label: "Quality Assurance"
 }
 explore: events_mobile_telemetry {
   label: "Events Mobile Telemetry"
+  group_label: "Quality Assurance"
 }
 explore: plugins_telemetry {
   label: "Plugins Telemetry"
+  group_label: "Quality Assurance"
 }
 
 explore: twitter {
   label: "Twitter"
+  group_label: "Social Mentions"
 }

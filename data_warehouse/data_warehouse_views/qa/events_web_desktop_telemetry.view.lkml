@@ -5,6 +5,15 @@ view: events_web_desktop_telemetry {
 
   # FILTERS
 
+  # SETS
+  set: drill_fields1 {
+    fields: [user_id, user_actual_id, user_actual_role, type, count, first_triggered, last_triggered]
+  }
+
+  set: drill_fields2 {
+    fields: [timestamp_second, user_id, user_actual_id, user_actual_role, context_ip, properties]
+  }
+
   # DIMENSIONS
   dimension: _dbt_source_relation {
     description: ""
@@ -15,6 +24,10 @@ view: events_web_desktop_telemetry {
     link: {
       label: "Filter Dashboard (Source Relation = {{ value }})"
       url: "/dashboards/181?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
     }
   }
 
@@ -33,6 +46,10 @@ view: events_web_desktop_telemetry {
     link: {
       label: "Filter Dashboard (User Actual ID = {{ value }})"
       url: "/dashboards/181?User%20ID%20(User%20Actual%20ID)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
     }
   }
 
@@ -115,6 +132,10 @@ view: events_web_desktop_telemetry {
       label: "Filter Dashboard (User ID = {{ value }})"
       url: "/dashboards/181?Server%20ID%20(User%20ID)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
+    }
   }
 
   dimension: context_page_search {
@@ -147,6 +168,10 @@ view: events_web_desktop_telemetry {
       label: "Filter Dashboard (Type = {{ value }})"
       url: "/dashboards/181?Type%20(Event%20Name)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
+    }
   }
 
   dimension: user_actual_role {
@@ -154,6 +179,14 @@ view: events_web_desktop_telemetry {
     type: string
     sql: ${TABLE}.user_actual_role ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (User Actual Role = {{ value }})"
+      url: "/dashboards/181?User%20Actual%20Role={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
+    }
   }
 
   dimension: context_os_version {
@@ -230,6 +263,13 @@ view: events_web_desktop_telemetry {
     description: ""
     type: string
     sql: ${TABLE}.context_useragent ;;
+    hidden: no
+  }
+
+  dimension: client_version {
+    description: ""
+    type: string
+    sql: split_part(split_part(${context_useragent}, 'Mattermost/', 2), ' ', 1);;
     hidden: no
   }
 
@@ -329,6 +369,14 @@ view: events_web_desktop_telemetry {
     type: string
     sql: ${TABLE}.plugin_id ;;
     hidden: no
+    link: {
+      label: "Filter Dashboard (Plugin Id = {{plugin_id._value}})"
+      url: "/dashboards/181?Plugin%20Id={{plugin_id._value}}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
+    }
   }
 
   dimension: version {
@@ -346,13 +394,89 @@ view: events_web_desktop_telemetry {
   }
 
   dimension: properties {
-    sql: OBJECT_CONSTRUCT(*) ;;
+    sql: OBJECT_CONSTRUCT(events_web_desktop_telemetry.*) ;;
     html:
     {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>
     {% for word in words %}
     <li>{{ word }}</li>
     {% endfor %} ;;
+ link: {
+  label: "Filter Dashboard ( Data Source = {{_dbt_source_relation._value}})"
+  url: "/dashboards/181?Data%20Source%20(RC%20vs.%20QA)={{_dbt_source_relation._value}}"
+}
+link: {
+  label: "Filter Dashboard (Category = {{category._value}})"
+  url: "/dashboards/181?Category={{category._value}}"
+}
+link: {
+  label: "Filter Dashboard (User Actual Id = {{user_actual_id._value}})"
+  url: "/dashboards/181?User%20ID%20(User%20Actual%20Id)={{user_actual_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Context Ip = {{context_ip._value}})"
+  url: "/dashboards/181?Context%20IP={{context_ip._value}}"
+}
+link: {
+  label: "Filter Dashboard (Team Id = {{team_id._value}})"
+  url: "/dashboards/181?Team%20Id={{team_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (User Id = {{user_id._value}})"
+  url: "/dashboards/181?Server%20ID%20(User%20Id)={{user_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Channel Id = {{channel_id._value}})"
+  url: "/dashboards/181?Channel%20Id={{channel_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Type = {{type._value}})"
+  url: "/dashboards/181?Type%20(Event%20Name)={{type._value}}"
+}
+link: {
+  label: "Filter Dashboard (User Actual Role = {{user_actual_role._value}})"
+  url: "/dashboards/181?User%20Actual%20Role={{user_actual_role._value}}"
+}
+link: {
+  label: "Filter Dashboard (Context Useragent = {{context_useragent._value}})"
+  url: "/dashboards/181?Context%20Useragent={{context_useragent._value}}"
+}
+link: {
+  label: "Filter Dashboard (Channel = {{channel._value}})"
+  url: "/dashboards/181?Channel={{channel._value}}"
+}
+link: {
+  label: "Filter Dashboard (Post Id = {{post_id._value}})"
+  url: "/dashboards/181?Post%20Id={{post_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Root Id = {{root_id._value}})"
+  url: "/dashboards/181?Root%20Id={{root_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Channelsids = {{channelsids._value}})"
+  url: "/dashboards/181?Channelsids={{channelsids._value}}"
+}
+link: {
+  label: "Filter Dashboard (Scheme Id = {{scheme_id._value}})"
+  url: "/dashboards/181?Scheme%20Id={{scheme_id._value}}"
+}
+link: {
+  label: "Filter Dashboard (Channelsids 0 = {{channelsids_0._value}})"
+  url: "/dashboards/181?Channelsids%200={{channelsids_0._value}}"
+}
+link: {
+  label: "Filter Dashboard (Channel Ids 0 = {{channel_ids_0._value}})"
+  url: "/dashboards/181?Channel%20Ids%200={{channel_ids_0._value}}"
+}
+link: {
+  label: "Filter Dashboard (Plugin Id = {{plugin_id._value}})"
+  url: "/dashboards/181?Plugin%20Id={{plugin_id._value}}"
+}
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/181"
+    }
   }
 
 
@@ -409,6 +533,7 @@ view: events_web_desktop_telemetry {
     description: "The date & time the event was first triggered."
     type: date_time
     sql: MIN(${TABLE}.timestamp) ;;
+    drill_fields: [drill_fields1*]
   }
 
   measure: last_triggered {
@@ -416,12 +541,14 @@ view: events_web_desktop_telemetry {
     description: "The date & time the event was last triggered."
     type: date_time
     sql: MAX(${TABLE}.timestamp) ;;
+    drill_fields: [drill_fields1*]
   }
 
   measure: count_measure {
     label: " Count"
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [drill_fields2*]
   }
 
   measure: _dbt_source_relation_count {
@@ -429,6 +556,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of  dbt source relation's per grouping."
     type: count_distinct
     sql: ${_dbt_source_relation} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: _dbt_source_relation_count_all {
@@ -436,6 +564,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null  dbt source relation occurrences per grouping."
     type: number
     sql: COUNT(case when ${_dbt_source_relation} IS NOT NULL then ${_dbt_source_relation} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: category_count {
@@ -443,6 +572,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of category's per grouping."
     type: count_distinct
     sql: ${category} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: category_count_all {
@@ -450,6 +580,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null category occurrences per grouping."
     type: number
     sql: COUNT(case when ${category} IS NOT NULL then ${category} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_actual_id_count {
@@ -457,6 +588,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of user actual id's per grouping."
     type: count_distinct
     sql: ${user_actual_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_actual_id_count_all {
@@ -464,6 +596,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null user actual id occurrences per grouping."
     type: number
     sql: COUNT(case when ${user_actual_id} IS NOT NULL then ${user_actual_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: received_at_count {
@@ -471,6 +604,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of received at's per grouping."
     type: count_distinct
     sql: ${received_at_date} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: received_at_count_all {
@@ -478,6 +612,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null received at occurrences per grouping."
     type: number
     sql: COUNT(case when ${received_at_date} IS NOT NULL then ${received_at_date} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_referrer_count {
@@ -485,6 +620,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context page referrer's per grouping."
     type: count_distinct
     sql: ${context_page_referrer} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_referrer_count_all {
@@ -492,6 +628,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context page referrer occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_page_referrer} IS NOT NULL then ${context_page_referrer} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_ip_count {
@@ -499,6 +636,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context ip's per grouping."
     type: count_distinct
     sql: ${context_ip} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_ip_count_all {
@@ -506,6 +644,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context ip occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_ip} IS NOT NULL then ${context_ip} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: event_count {
@@ -513,6 +652,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of event's per grouping."
     type: count_distinct
     sql: ${event} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: event_count_all {
@@ -520,6 +660,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null event occurrences per grouping."
     type: number
     sql: COUNT(case when ${event} IS NOT NULL then ${event} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_library_name_count {
@@ -527,6 +668,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context library name's per grouping."
     type: count_distinct
     sql: ${context_library_name} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_library_name_count_all {
@@ -534,6 +676,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context library name occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_library_name} IS NOT NULL then ${context_library_name} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: id_count {
@@ -541,6 +684,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of id's per grouping."
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: id_count_all {
@@ -548,6 +692,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null id occurrences per grouping."
     type: number
     sql: COUNT(case when ${id} IS NOT NULL then ${id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_path_count {
@@ -555,6 +700,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context page path's per grouping."
     type: count_distinct
     sql: ${context_page_path} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_path_count_all {
@@ -562,6 +708,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context page path occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_page_path} IS NOT NULL then ${context_page_path} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: team_id_count {
@@ -569,6 +716,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of team id's per grouping."
     type: count_distinct
     sql: ${team_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: team_id_count_all {
@@ -576,6 +724,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null team id occurrences per grouping."
     type: number
     sql: COUNT(case when ${team_id} IS NOT NULL then ${team_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_version_count {
@@ -583,6 +732,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context app version's per grouping."
     type: count_distinct
     sql: ${context_app_version} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_version_count_all {
@@ -590,6 +740,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context app version occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_app_version} IS NOT NULL then ${context_app_version} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_name_count {
@@ -597,6 +748,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context app name's per grouping."
     type: count_distinct
     sql: ${context_app_name} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_name_count_all {
@@ -604,6 +756,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context app name occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_app_name} IS NOT NULL then ${context_app_name} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_url_count {
@@ -611,6 +764,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context page url's per grouping."
     type: count_distinct
     sql: ${context_page_url} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_url_count_all {
@@ -618,6 +772,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context page url occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_page_url} IS NOT NULL then ${context_page_url} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_id_count {
@@ -625,6 +780,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of user id's per grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_id_count_all {
@@ -632,6 +788,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null user id occurrences per grouping."
     type: number
     sql: COUNT(case when ${user_id} IS NOT NULL then ${user_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_search_count {
@@ -639,6 +796,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context page search's per grouping."
     type: count_distinct
     sql: ${context_page_search} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_search_count_all {
@@ -646,6 +804,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context page search occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_page_search} IS NOT NULL then ${context_page_search} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: uuid_ts_count {
@@ -653,6 +812,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of uuid ts's per grouping."
     type: count_distinct
     sql: ${uuid_ts_date} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: uuid_ts_count_all {
@@ -660,6 +820,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null uuid ts occurrences per grouping."
     type: number
     sql: COUNT(case when ${uuid_ts_date} IS NOT NULL then ${uuid_ts_date} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: original_timestamp_count {
@@ -667,6 +828,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of original timestamp's per grouping."
     type: count_distinct
     sql: ${original_timestamp_date} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: original_timestamp_count_all {
@@ -674,6 +836,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null original timestamp occurrences per grouping."
     type: number
     sql: COUNT(case when ${original_timestamp_date} IS NOT NULL then ${original_timestamp_date} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: event_text_count {
@@ -681,6 +844,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of event text's per grouping."
     type: count_distinct
     sql: ${event_text} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: event_text_count_all {
@@ -688,6 +852,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null event text occurrences per grouping."
     type: number
     sql: COUNT(case when ${event_text} IS NOT NULL then ${event_text} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_id_count {
@@ -695,6 +860,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of channel id's per grouping."
     type: count_distinct
     sql: ${channel_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_id_count_all {
@@ -702,6 +868,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null channel id occurrences per grouping."
     type: number
     sql: COUNT(case when ${channel_id} IS NOT NULL then ${channel_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: timestamp_count {
@@ -709,6 +876,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of timestamp's per grouping."
     type: count_distinct
     sql: ${timestamp_date} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: timestamp_count_all {
@@ -716,6 +884,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null timestamp occurrences per grouping."
     type: number
     sql: COUNT(case when ${timestamp_date} IS NOT NULL then ${timestamp_date} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: type_count {
@@ -723,6 +892,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of type's per grouping."
     type: count_distinct
     sql: ${type} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: type_count_all {
@@ -730,6 +900,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null type occurrences per grouping."
     type: number
     sql: COUNT(case when ${type} IS NOT NULL then ${type} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_actual_role_count {
@@ -737,6 +908,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of user actual role's per grouping."
     type: count_distinct
     sql: ${user_actual_role} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: user_actual_role_count_all {
@@ -744,6 +916,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null user actual role occurrences per grouping."
     type: number
     sql: COUNT(case when ${user_actual_role} IS NOT NULL then ${user_actual_role} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_os_version_count {
@@ -751,6 +924,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context os version's per grouping."
     type: count_distinct
     sql: ${context_os_version} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_os_version_count_all {
@@ -758,6 +932,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context os version occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_os_version} IS NOT NULL then ${context_os_version} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_title_count {
@@ -765,6 +940,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context page title's per grouping."
     type: count_distinct
     sql: ${context_page_title} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_page_title_count_all {
@@ -772,6 +948,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context page title occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_page_title} IS NOT NULL then ${context_page_title} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_build_count {
@@ -779,6 +956,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context app build's per grouping."
     type: count_distinct
     sql: ${context_app_build} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_build_count_all {
@@ -786,6 +964,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context app build occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_app_build} IS NOT NULL then ${context_app_build} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_screen_density_count {
@@ -793,6 +972,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context screen density's per grouping."
     type: count_distinct
     sql: ${context_screen_density} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_screen_density_count_all {
@@ -800,6 +980,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context screen density occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_screen_density} IS NOT NULL then ${context_screen_density} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: group_constrained_count {
@@ -807,6 +988,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of group constrained's per grouping."
     type: count_distinct
     sql: ${group_constrained} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: group_constrained_count_all {
@@ -814,6 +996,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null group constrained occurrences per grouping."
     type: number
     sql: COUNT(case when ${group_constrained} IS NOT NULL then ${group_constrained} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_os_name_count {
@@ -821,6 +1004,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context os name's per grouping."
     type: count_distinct
     sql: ${context_os_name} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_os_name_count_all {
@@ -828,6 +1012,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context os name occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_os_name} IS NOT NULL then ${context_os_name} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: anonymous_id_count {
@@ -835,6 +1020,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of anonymous id's per grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: anonymous_id_count_all {
@@ -842,6 +1028,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null anonymous id occurrences per grouping."
     type: number
     sql: COUNT(case when ${anonymous_id} IS NOT NULL then ${anonymous_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_namespace_count {
@@ -849,6 +1036,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context app namespace's per grouping."
     type: count_distinct
     sql: ${context_app_namespace} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_app_namespace_count_all {
@@ -856,6 +1044,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context app namespace occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_app_namespace} IS NOT NULL then ${context_app_namespace} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: duration_count {
@@ -863,6 +1052,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of duration's per grouping."
     type: count_distinct
     sql: ${duration} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: duration_count_all {
@@ -870,6 +1060,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null duration occurrences per grouping."
     type: number
     sql: COUNT(case when ${duration} IS NOT NULL then ${duration} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_locale_count {
@@ -877,6 +1068,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context locale's per grouping."
     type: count_distinct
     sql: ${context_locale} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_locale_count_all {
@@ -884,6 +1076,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context locale occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_locale} IS NOT NULL then ${context_locale} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_useragent_count {
@@ -891,6 +1084,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context useragent's per grouping."
     type: count_distinct
     sql: ${context_useragent} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_useragent_count_all {
@@ -898,6 +1092,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context useragent occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_useragent} IS NOT NULL then ${context_useragent} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_library_version_count {
@@ -905,6 +1100,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of context library version's per grouping."
     type: count_distinct
     sql: ${context_library_version} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: context_library_version_count_all {
@@ -912,6 +1108,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null context library version occurrences per grouping."
     type: number
     sql: COUNT(case when ${context_library_version} IS NOT NULL then ${context_library_version} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: sent_at_count {
@@ -919,6 +1116,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of sent at's per grouping."
     type: count_distinct
     sql: ${sent_at_date} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: sent_at_count_all {
@@ -926,6 +1124,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null sent at occurrences per grouping."
     type: number
     sql: COUNT(case when ${sent_at_date} IS NOT NULL then ${sent_at_date} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_count {
@@ -933,6 +1132,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of channel's per grouping."
     type: count_distinct
     sql: ${channel} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_count_all {
@@ -940,6 +1140,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null channel occurrences per grouping."
     type: number
     sql: COUNT(case when ${channel} IS NOT NULL then ${channel} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: post_id_count {
@@ -947,6 +1148,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of post id's per grouping."
     type: count_distinct
     sql: ${post_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: post_id_count_all {
@@ -954,6 +1156,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null post id occurrences per grouping."
     type: number
     sql: COUNT(case when ${post_id} IS NOT NULL then ${post_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: root_id_count {
@@ -961,6 +1164,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of root id's per grouping."
     type: count_distinct
     sql: ${root_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: root_id_count_all {
@@ -968,6 +1172,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null root id occurrences per grouping."
     type: number
     sql: COUNT(case when ${root_id} IS NOT NULL then ${root_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: userid_count {
@@ -975,6 +1180,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of userid's per grouping."
     type: count_distinct
     sql: ${userid} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: userid_count_all {
@@ -982,6 +1188,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null userid occurrences per grouping."
     type: number
     sql: COUNT(case when ${userid} IS NOT NULL then ${userid} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: field_count {
@@ -989,6 +1196,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of field's per grouping."
     type: count_distinct
     sql: ${field} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: field_count_all {
@@ -996,6 +1204,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null field occurrences per grouping."
     type: number
     sql: COUNT(case when ${field} IS NOT NULL then ${field} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: scheme_id_count {
@@ -1003,6 +1212,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of scheme id's per grouping."
     type: count_distinct
     sql: ${scheme_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: scheme_id_count_all {
@@ -1010,6 +1220,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null scheme id occurrences per grouping."
     type: number
     sql: COUNT(case when ${scheme_id} IS NOT NULL then ${scheme_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channelsids_0_count {
@@ -1017,6 +1228,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of channelsids 0's per grouping."
     type: count_distinct
     sql: ${channelsids_0} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channelsids_0_count_all {
@@ -1024,6 +1236,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null channelsids 0 occurrences per grouping."
     type: number
     sql: COUNT(case when ${channelsids_0} IS NOT NULL then ${channelsids_0} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: sort_count {
@@ -1031,6 +1244,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of sort's per grouping."
     type: count_distinct
     sql: ${sort} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: sort_count_all {
@@ -1045,6 +1259,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of count's per grouping."
     type: count_distinct
     sql: ${count} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: count_count_all {
@@ -1052,6 +1267,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null count occurrences per grouping."
     type: number
     sql: COUNT(case when ${count} IS NOT NULL then ${count} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: include_deleted_count {
@@ -1059,6 +1275,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of include deleted's per grouping."
     type: count_distinct
     sql: ${include_deleted} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: include_deleted_count_all {
@@ -1066,6 +1283,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null include deleted occurrences per grouping."
     type: number
     sql: COUNT(case when ${include_deleted} IS NOT NULL then ${include_deleted} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: value_count {
@@ -1073,6 +1291,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of value's per grouping."
     type: count_distinct
     sql: ${value} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: value_count_all {
@@ -1080,6 +1299,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null value occurrences per grouping."
     type: number
     sql: COUNT(case when ${value} IS NOT NULL then ${value} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_ids_0_count {
@@ -1087,6 +1307,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of channel ids 0's per grouping."
     type: count_distinct
     sql: ${channel_ids_0} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: channel_ids_0_count_all {
@@ -1094,6 +1315,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null channel ids 0 occurrences per grouping."
     type: number
     sql: COUNT(case when ${channel_ids_0} IS NOT NULL then ${channel_ids_0} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: plugin_id_count {
@@ -1101,6 +1323,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of plugin id's per grouping."
     type: count_distinct
     sql: ${plugin_id} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: plugin_id_count_all {
@@ -1108,6 +1331,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null plugin id occurrences per grouping."
     type: number
     sql: COUNT(case when ${plugin_id} IS NOT NULL then ${plugin_id} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: version_count {
@@ -1115,6 +1339,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of version's per grouping."
     type: count_distinct
     sql: ${version} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: version_count_all {
@@ -1122,6 +1347,7 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null version occurrences per grouping."
     type: number
     sql: COUNT(case when ${version} IS NOT NULL then ${version} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: installed_version_count {
@@ -1129,6 +1355,7 @@ view: events_web_desktop_telemetry {
     description: "The distinct count of installed version's per grouping."
     type: count_distinct
     sql: ${installed_version} ;;
+    drill_fields: [drill_fields2*]
   }
 
   measure: installed_version_count_all {
@@ -1136,5 +1363,6 @@ view: events_web_desktop_telemetry {
     description: "The count of all non-null installed version occurrences per grouping."
     type: number
     sql: COUNT(case when ${installed_version} IS NOT NULL then ${installed_version} else null end) ;;
+    drill_fields: [drill_fields2*]
   }
   }

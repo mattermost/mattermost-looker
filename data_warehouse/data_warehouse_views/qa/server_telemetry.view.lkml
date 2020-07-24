@@ -17,6 +17,17 @@ view: server_telemetry {
       label: "Filter Dashboard (Source Relation = {{ value }})"
       url: "/dashboards/187?Data%20Source%20(RC%20vs.%20QA)={{ value }}"
     }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/187"
+    }
+  }
+
+  dimension: key {
+    primary_key: yes
+    type: string
+    sql: ${_dbt_source_relation} || ${user_id} || ${timestamp_second} || ${anonymous_id} ;;
+    hidden: yes
   }
 
   dimension: telemetry_relation {
@@ -28,6 +39,10 @@ view: server_telemetry {
     link: {
       label: "Filter Dashboard (Telemetry Source = {{ value }})"
       url: "/dashboards/187?Server%20Telemetry%20Table={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/187"
     }
   }
 
@@ -109,6 +124,10 @@ view: server_telemetry {
     link: {
       label: "Filter Dashboard (User ID = {{ value}})"
       url: "/dashboards/187?Server%20ID%20(User%20ID)={{ value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/187"
     }
   }
 
@@ -3088,13 +3107,37 @@ view: server_telemetry {
   }
 
   dimension: properties {
-    sql: OBJECT_CONSTRUCT(*) ;;
+    sql: OBJECT_CONSTRUCT(server_telemetry.*) ;;
     html:
     {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>
     {% for word in words %}
     <li>{{ word }}</li>
     {% endfor %} ;;
+    link: {
+      label: "Filter Dashboard (Source Relation = {{ _dbt_source_relation._value }})"
+      url: "/dashboards/187?Data%20Source%20(RC%20vs.%20QA)={{ _dbt_source_relation._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Telemetry Source = {{ telemetry_relation._value }})"
+      url: "/dashboards/187?Server%20Telemetry%20Table={{ telemetry_relation._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (User ID = {{ user_id._value}})"
+      url: "/dashboards/187?Server%20ID%20(User%20ID)={{ user_id._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (Server Version = {{ server_version.version._value}})"
+      url: "/dashboards/187?Server%20Version={{ server_version.version._value }}"
+    }
+    link: {
+      label: "Filter Dashboard (License ID = {{ server_license.license_id._value}})"
+      url: "/dashboards/187?License%20ID={{ server_license.license_id._value }}"
+    }
+    link: {
+      label: "Clear Dashboard Filters"
+      url: "/dashboards/187"
+    }
   }
 
 
