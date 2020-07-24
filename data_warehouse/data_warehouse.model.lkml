@@ -982,7 +982,13 @@ explore: account_cs_extended  {
   join: customer_reference {
     sql_on: ${customer_reference.account} = ${account.sfid} ;;
     relationship: one_to_many
-    fields: [-customer_reference.account_owner]
+  }
+
+  join: owner {
+    from: user
+    sql_on: ${owner.sfid}  = ${customer_reference.ownerid};;
+    relationship: many_to_one
+    fields: []
   }
 
   join: creator {
