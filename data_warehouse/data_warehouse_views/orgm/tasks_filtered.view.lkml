@@ -287,7 +287,7 @@ view: tasks_filtered {
     label: "# of Customer Feedback Calls"
     type: count_distinct
     sql: ${sfid};;
-    drill_fields: [core_drill_fields*, count_of_customer_feedback_calls]
+    drill_fields: [core_drill_fields*, count_of_customer_feedback_calls, account.customer_segmentation_tier ]
     filters: {
       field: sub_type_customer_feedback
       value: "yes"
@@ -314,7 +314,7 @@ view: tasks_filtered {
   }
 
   set: core_drill_fields {
-    fields: [name, owner_name]
+    fields: [name, owner_name, opportunity.ce_owner, customer_feedback_recording, account.customer_segmentation_tier, account.arr_current]
   }
 
 }
