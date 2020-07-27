@@ -193,7 +193,7 @@ view: customer_reference {
     label: "Reference Category"
     description: "What is the theme for this reference? (e.g. DevOps, Integration, Just Chat, ChatOps)."
     type: string
-    sql: ${TABLE}."REFERENCE_CATEGORY__C" ;;
+    sql: CASE WHEN ${TABLE}."REFERENCE_CATEGORY__C" = 'Centralized Collaboration' THEN 'Central Collab' ELSE ${TABLE}."REFERENCE_CATEGORY__C" END;;
   }
 
   dimension_group: reference_end {
