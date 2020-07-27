@@ -610,6 +610,13 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
 
+  dimension: reqester_name {
+    label: "Contact Name"
+    description: "Name of person requesting ticket"
+    type: string
+    sql: ${TABLE}."REQUESTER_NAME" ;;
+  }
+
   dimension: followup_internal {
     group_label: "SLAs"
     label: "Followup time (business time minutes)"
