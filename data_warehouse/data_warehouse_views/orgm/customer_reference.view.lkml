@@ -193,7 +193,7 @@ view: customer_reference {
     label: "Reference Category"
     description: "What is the theme for this reference? (e.g. DevOps, Integration, Just Chat, ChatOps)."
     type: string
-    sql: ${TABLE}."REFERENCE_CATEGORY__C" ;;
+    sql: CASE WHEN ${TABLE}."REFERENCE_CATEGORY__C" = 'Centralized Collaboration' THEN 'Central Collab' ELSE ${TABLE}."REFERENCE_CATEGORY__C" END;;
   }
 
   dimension_group: reference_end {
@@ -251,6 +251,22 @@ view: customer_reference {
     description: "Is the reference in progress, identified, completed?"
     type: string
     sql: ${TABLE}."STATUS__C" ;;
+    order_by_field: status_order
+  }
+
+  dimension: status_order {
+    type: number
+    sql:  CASE WHEN ${status} = 'Identified' THEN 1
+               WHEN ${status} = 'Initiating' THEN 2
+               WHEN ${status} = 'Marketing Engaged' THEN 3
+               WHEN ${status} = 'In Progress' THEN 4
+               WHEN ${status} = 'Final Review' THEN 5
+               WHEN ${status} = 'Completed' THEN 6
+               WHEN ${status} = 'Declined' THEN 7
+               WHEN ${status} = 'Expired' THEN 8
+               WHEN ${status} = 'Do Not Use' THEN 9
+          ELSE 10 END;;
+    hidden: yes
   }
 
   dimension_group: systemmodstamp {

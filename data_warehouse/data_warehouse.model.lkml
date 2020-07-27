@@ -959,7 +959,12 @@ explore: account_cs_extended  {
   join: zendesk_ticket_details {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many
-    fields: [-solved_at_on_date,-created_on_date,-count_tickets_solved_on_date,-count_tickets_created_date]
+  }
+
+  join: dates {
+    sql_on: ${dates.date_date} >= ${zendesk_ticket_details.created_date} and ${dates.date_date} <= coalesce(${zendesk_ticket_details.solved_at_date},current_date);;
+    relationship: many_to_many
+    fields: []
   }
 
   join: tasks_filtered {
@@ -970,6 +975,25 @@ explore: account_cs_extended  {
   join: task_owner {
     from: user
     sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_reference {
+    sql_on: ${customer_reference.account} = ${account.sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: owner {
+    from: user
+    sql_on: ${owner.sfid}  = ${customer_reference.ownerid};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: creator {
+    from: user
+    sql_on: ${creator.sfid}  = ${customer_reference.createdbyid};;
     relationship: many_to_one
     fields: []
   }
@@ -1412,16 +1436,6 @@ explore: user_daily_details {
     relationship: many_to_one
     sql_on: ${user_daily_details.user_id} = ${user_fact.user_id} ;;
     fields: []
-  }
-}
-
-explore: account_renewal_rate_by_qtr {
-#   hidden: yes
-  group_label: "Customer Success"
-  extends: [_base_account_core_explore]
-
-  join: account {
-    sql_on: ${account.sfid} = ${account_renewal_rate_by_qtr.account_sfid} ;;
   }
 }
 
