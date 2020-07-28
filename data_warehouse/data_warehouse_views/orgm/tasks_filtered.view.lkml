@@ -160,6 +160,14 @@ view: tasks_filtered {
     sql: ${TABLE}."CREATEDDATE" ;;
   }
 
+  dimension: task_age {
+    group_label: "Tasks"
+    label: "Task Age (Days)"
+    description: "Days since a call, email, or notes were added at the activity level in Salesforce on a cusotmer account"
+    type: number
+    sql: current_date::date - ${created_date}::date;;
+  }
+
   dimension: description {
     type: string
     sql: ${TABLE}."DESCRIPTION" ;;
@@ -277,8 +285,20 @@ view: tasks_filtered {
   }
 
   measure: count_of_tasks {
+    label: "# of activities"
     type: count_distinct
     sql: ${sfid} ;;
+    drill_fields: [subject, core_drill_fields*, sub_type_customer_feedback, customer_feedback_recording]
+  }
+
+  measure: count_of_tasks_last_90_days {
+    label: "# of activities in last 90 days"
+    type: count_distinct
+    sql: ${sfid};;
+    filters: {
+      field: task_age
+      value: "<= 90"
+    }
     drill_fields: [subject, core_drill_fields*, sub_type_customer_feedback, customer_feedback_recording]
   }
 

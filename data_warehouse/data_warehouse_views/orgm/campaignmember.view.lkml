@@ -373,6 +373,7 @@ view: campaignmember {
   measure: count {
     drill_fields: [detail*]
     label: "# of Campaign Members"
+    description: "# of trial requests, downloads, webinars, contact us, etc."
     type: count_distinct
     sql: ${sfid} ;;
   }
