@@ -153,7 +153,7 @@ view: server_daily_details_ext {
   dimension: currently_licensed {
     group_label: " Status & Activity Filters"
     type: yesno
-    description: "Indicates the server is currently associated with a paid license."
+    description: "Indicates the server is currently associated with a paid license that is not expired."
     sql: CASE WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
   }
 
