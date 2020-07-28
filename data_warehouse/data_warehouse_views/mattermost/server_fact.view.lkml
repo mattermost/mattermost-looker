@@ -19,12 +19,13 @@ sql_table_name: mattermost.server_fact ;;
   dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
     label: ">= 1 Active Users During Lifetime"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: currently_sending_telemetry {
+    group_label: " Status & Activity Filters"
     description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
@@ -36,7 +37,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_post_events {
     label: ">= 1 Posts (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 posts created during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${post_events_alltime} >= 1 ;;
@@ -44,7 +45,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_signup_events {
     label: ">= 1 Signup Events (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Signup Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${signup_events_alltime} >= 1 ;;
@@ -52,7 +53,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_signup_email_events {
     label: ">= 1 Signup Email Events (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Signup Email Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${signup_email_events_alltime} >= 1 ;;
@@ -60,7 +61,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_admin_events {
     label: ">= 1 Admin Events (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Admin Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${admin_events_alltime} >= 1 ;;
@@ -68,7 +69,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_tutorial_events {
     label: ">= 1 Tutorial Events (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Tutorial Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${admin_events_alltime} >= 1 ;;
@@ -76,7 +77,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: has_invite_events {
     label: ">= 1 Invite Member Events (All Time)"
-    group_label: " Activity Threshold Filters"
+    group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Invite Member Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
     sql: ${admin_events_alltime} >= 1 ;;
