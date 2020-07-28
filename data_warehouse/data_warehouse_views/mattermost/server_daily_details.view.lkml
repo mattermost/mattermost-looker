@@ -157,8 +157,16 @@ view: server_daily_details {
     sql: ${TABLE}.hour ;;
   }
 
+  dimension: currently_licensed {
+    group_label: " Status & Activity Filters"
+    type: yesno
+    description: "Indicates the server is currently associated with a paid license."
+    sql: CASE WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: active_users_alltime {
     description: "The server has had >= 1 Active User during it's telemetry lifetime."
+    group_label: " Status & Activity Filters"
     label: ">= 1 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
@@ -166,6 +174,7 @@ view: server_daily_details {
 
   dimension: active_users2_alltime {
     description: "The server has had >= 2 Active User during it's telemetry lifetime."
+    group_label: " Status & Activity Filters"
     label: ">= 2 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 1 THEN TRUE ELSE FALSE END ;;
