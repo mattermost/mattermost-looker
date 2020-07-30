@@ -203,6 +203,10 @@ view: scrub_segment {
     label:"Available"
     group_label: "Available Renewal"
     value_format_name: usd_0
+    link: {
+      label: "List all Available"
+      url:"https://mattermost.looker.com/looks/532?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+    }
   }
 
   measure: ren_best_case_max {
