@@ -136,6 +136,19 @@ view: user_events_by_date {
     hidden: no
   }
 
+  dimension: app_version {
+    label: "Mobile App Version"
+    description: "The mobile app version of the app used to perform the mobile event."
+    type: string
+    sql: CASE WHEN ${mobile_events} > 0 THEN
+    CASE WHEN regexp_substr(${TABLE}.browser_version, '^[0-9]{1,2}.[0-9]{1,3}.[0-9]{1,3}') IS NOT NULL THEN regexp_substr(${TABLE}.browser_version, '^[0-9]{1,2}.[0-9]{1,3}.[0-9]{1,3}')
+    ELSE --regexp_substr(
+    ${TABLE}.browser_version
+    --, '^[0-9]{1,10}')
+    END
+    ELSE  NULL END ;;
+  }
+
   dimension: os {
     view_label: "User Agent Details"
     description: "The operating system used to perform the event."

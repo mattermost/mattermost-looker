@@ -411,6 +411,11 @@ view: issues {
     description: ""
     type: string
     sql: ${TABLE}.fields:customfield_11101:value::string ;;
+    link: {
+      label: "Filter Dashboard (Mattermost Team = {{value}}"
+      url: "/dashboards/173?Mattermost%20Team={{ value }}"
+      icon_url: "https://mattermost.looker.com//images/favicon.ico"
+    }
     hidden: no
   }
 
