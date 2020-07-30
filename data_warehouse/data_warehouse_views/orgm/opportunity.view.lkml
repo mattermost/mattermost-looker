@@ -1298,7 +1298,11 @@ view: opportunity {
     sql: ${total_new_amount}+${total_exp_amount};;
     type: number
     value_format_name: mm_usd_short
-    drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
+    link: {
+      label: "List Pipeline"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ close_quarter }}&f[opportunity.forecastcategoryname]={{ forecastcategoryname }}"
+    }
+    #drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
 
   measure: total_new_and_exp_amount_self_serve {
