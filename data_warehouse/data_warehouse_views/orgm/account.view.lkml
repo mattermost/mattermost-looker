@@ -211,6 +211,13 @@ view: account {
     type: string
   }
 
+  dimension: customer_engineer {
+    group_label: "Owners"
+    label: "Customer Engineer"
+    sql: ${TABLE}.customer_engineer__c ;;
+    type: string
+  }
+
   dimension: customer_segmentation_tier {
     group_label: "CS"
     sql: ${TABLE}.customer_segmentation_tier__c ;;

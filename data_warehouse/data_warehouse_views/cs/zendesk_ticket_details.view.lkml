@@ -610,7 +610,7 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."REPLY_TIME_IN_MINUTES_CAL" ;;
   }
 
-  dimension: reqester_name {
+  dimension: requester_name {
     label: "Contact Name"
     description: "Name of person requesting ticket"
     type: string
@@ -926,7 +926,7 @@ view: zendesk_ticket_details {
   }
 
   set: core_drill_fields {
-    fields: [account.name, ticket_id, subject, assignee_name, status, support_type, satisfaction_rating_score, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
+    fields: [account.name, requester_name, ticket_id, subject, assignee_name, status, support_type, satisfaction_rating_score, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
             first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
   }
 
