@@ -213,7 +213,7 @@ view: account {
 
   dimension: customer_engineer {
     group_label: "Owners"
-    label: "Account Level Customer Engineerr"
+    label: "Customer Engineer"
     sql: ${TABLE}.customer_engineer__c ;;
     type: string
   }
