@@ -310,23 +310,29 @@ view: lead {
     type: string
   }
 
+  dimension: most_recent_action {
+    sql: ${TABLE}.MOST_RECENT_ACTION__C ;;
+    type: string
+    group_label: "Marketing"
+  }
+
   dimension: most_recent_action_detail {
     sql: ${TABLE}.MOST_RECENT_ACTION_DETAIL__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension: most_recent_lead_source {
     sql: ${TABLE}.MOST_RECENT_LEAD_SOURCE__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension: most_recent_lead_source_detail {
     sql: ${TABLE}.MOST_RECENT_LEAD_SOURCE_DETAIL__C ;;
     type: string
     group_label: "Marketing"
-    }
+  }
 
   dimension_group: first_mcl {
     group_label: "Lead Lifecycle: MCL"
