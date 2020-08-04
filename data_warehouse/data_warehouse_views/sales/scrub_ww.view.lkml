@@ -62,7 +62,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -167,7 +167,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -241,7 +241,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -473,7 +473,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
