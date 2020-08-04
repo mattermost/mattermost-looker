@@ -1038,6 +1038,29 @@ explore: zendesk_ticket_details {
   }
 }
 
+explore: zendesk_lead_creation {
+  hidden: yes
+  from: zendesk_ticket_details
+  view_name: zendesk_ticket_details
+
+  join: account {
+    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: lead {
+    sql_on: ${zendesk_ticket_details.submitter_email} = ${lead.email} ;;
+    relationship: many_to_one
+    fields: [email,sfid,most_recent_action, most_recent_action_detail, most_recent_lead_source, most_recent_lead_source_detail]
+  }
+
+  join: dates {
+    sql_on: ${dates.date_date} >= ${zendesk_ticket_details.created_date} and ${dates.date_date} <= coalesce(${zendesk_ticket_details.solved_at_date},current_date);;
+    relationship: many_to_many
+  }
+}
+
 explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Daily Score"

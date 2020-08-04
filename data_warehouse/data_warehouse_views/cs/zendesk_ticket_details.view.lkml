@@ -617,6 +617,20 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."REQUESTER_NAME" ;;
   }
 
+  dimension: submitter_name {
+    label: "Submitter Name"
+    description: "Name of person submitting ticket"
+    type: string
+    sql: ${TABLE}."SUBMITTER_NAME" ;;
+  }
+
+  dimension: submitter_email {
+    label: "Submitter Email"
+    description: "Email of person submitting ticket"
+    type: string
+    sql: ${TABLE}."SUBMITTER_EMAIL" ;;
+  }
+
   dimension: followup_internal {
     group_label: "SLAs"
     label: "Followup time (business time minutes)"
@@ -635,6 +649,43 @@ view: zendesk_ticket_details {
     hidden: yes
     type: number
     sql: ${TABLE}."REQUESTER_WAIT_TIME_IN_MINUTES_CAL" ;;
+  }
+
+  dimension: create_lead {
+    hidden: yes
+    sql: 'Create/Update Lead' ;;
+    action: {
+      label: "Create/Update Lead"
+      url: "https://hooks.zapier.com/hooks/catch/586877/ok0wnn5/"
+      param: {
+        name: "submitter_email"
+        value: "{{ submitter_email }}"
+      }
+      param: {
+        name: "most_recent_action__c"
+        value: "Contact Request"
+      }
+      param: {
+        name: "most_recent_action_detail__c"
+        value: "Admin Advisory"
+      }
+      param: {
+        name: "most_recent_lead_source__c"
+        value: "Referral"
+      }
+      param: {
+        name: "most_recent_lead_source_detail__c"
+        value: "MM Product"
+      }
+      param: {
+        name: "description"
+        value: "{{ description }}"
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
+    }
   }
 
   measure: count_tickets {
