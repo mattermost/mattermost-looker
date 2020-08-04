@@ -611,7 +611,7 @@ view: zendesk_ticket_details {
   }
 
   dimension: requester_name {
-    label: "Contact Name"
+    label: "Requester Name"
     description: "Name of person requesting ticket"
     type: string
     sql: ${TABLE}."REQUESTER_NAME" ;;

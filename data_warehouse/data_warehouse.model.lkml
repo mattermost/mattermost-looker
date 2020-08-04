@@ -120,6 +120,13 @@ explore: _base_account_explore {
     view_label: "Account CSM"
   }
 
+  join: account_ce {
+    from: user
+    sql_on: ${account.ce_lookup} = ${account_ce.sfid} ;;
+    relationship: many_to_one
+    view_label: "Account CE"
+  }
+
   join: account_owner {
     from: user
     sql_on: ${account.ownerid} = ${account_owner.sfid} ;;
@@ -159,6 +166,13 @@ explore: _base_account_core_explore {
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_ce {
+    from: user
+    sql_on: ${account.ce_lookup} = ${account_ce.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -319,6 +333,13 @@ explore: account {
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
     relationship: many_to_one
     view_label: "Account CSM"
+    fields: []
+  }
+
+  join: account_ce {
+    from: user
+    sql_on: ${account.ce_lookup} = ${account_ce.sfid} ;;
+    relationship: many_to_one
     fields: []
   }
 
@@ -1774,6 +1795,13 @@ explore: customer_reference {
     fields: []
   }
 
+  join: account_ce {
+    from: user
+    sql_on: ${account.ce_lookup} = ${account_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: creator {
     from: user
     sql_on: ${customer_reference.createdbyid} = ${creator.sfid} ;;
@@ -1792,6 +1820,13 @@ explore: available_renewals_dynamic {
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_ce {
+    from: user
+    sql_on: ${account.ce_lookup} = ${account_ce.sfid} ;;
     relationship: many_to_one
     fields: []
   }
