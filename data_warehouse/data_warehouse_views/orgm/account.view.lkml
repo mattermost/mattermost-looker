@@ -678,6 +678,13 @@ view: account {
     type: string
   }
 
+  dimension: ce_name {
+    group_label: "Owners"
+    label: "CE Name"
+    sql: ${account_ce.name};;
+    type: string
+  }
+
   dimension: ownership {
     group_label: "Owners"
     sql: ${TABLE}.ownership ;;
