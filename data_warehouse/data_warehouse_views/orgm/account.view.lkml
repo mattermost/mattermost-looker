@@ -211,9 +211,10 @@ view: account {
     type: string
   }
 
-  dimension: customer_engineer {
+  dimension: ce_lookup {
+    hidden: yes
     group_label: "Owners"
-    label: "Customer Engineer"
+    label: "Customer Engineer ID"
     sql: ${TABLE}.customer_engineer__c ;;
     type: string
   }
@@ -674,6 +675,13 @@ view: account {
     group_label: "Owners"
     label: "CSM Name"
     sql: ${account_csm.name};;
+    type: string
+  }
+
+  dimension: ce_name {
+    group_label: "Owners"
+    label: "CE Name"
+    sql: ${account_ce.name};;
     type: string
   }
 
