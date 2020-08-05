@@ -188,7 +188,7 @@ view: nps_user_monthly_score {
       }
       param: {
         name: "other_params"
-        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"date\": \"{{ month_date }}\", \"id\": \"{{ id }}\"}\""
+        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"last_feedback_date\": \"{{ last_feedback_date }}\", \"feedback\": \"{{ feedback }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -278,7 +278,7 @@ view: nps_user_monthly_score {
       }
       param: {
         name: "other_params"
-        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"date\": \"{{ month_date }}\", \"id\": \"{{ id }}\"}\""
+        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"last_feedback_date\": \"{{ last_feedback_date }}\", \"feedback\": \"{{ feedback }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email

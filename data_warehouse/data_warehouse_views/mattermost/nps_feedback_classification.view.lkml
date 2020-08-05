@@ -20,10 +20,10 @@ view: nps_feedback_classification {
     hidden: no
   }
 
-  dimension: id {
+  dimension: feedback {
     description: ""
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.feedback ;;
     hidden: no
   }
 
@@ -45,11 +45,11 @@ view: nps_feedback_classification {
 
 
   # DIMENSION GROUPS/DATES
-  dimension_group: logging {
+  dimension_group: last_feedback {
     description: ""
     type: time
     timeframes: [date, month, year]
-    sql: ${TABLE}.date ;;
+    sql: ${TABLE}.last_feedback_date ;;
     hidden: no
   }
 
