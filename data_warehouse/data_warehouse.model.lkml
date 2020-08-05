@@ -2024,3 +2024,7 @@ explore: twitter {
   label: "Twitter"
   group_label: "Social Mentions"
 }
+
+explore: nps_feedback_classification {
+  label: "Nps Feedback Classification"
+}
