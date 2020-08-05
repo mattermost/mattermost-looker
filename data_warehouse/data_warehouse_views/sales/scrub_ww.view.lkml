@@ -14,6 +14,10 @@ view: scrub_ww {
     label: "Actual"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "See Details"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.status_wlo]=Won"
+    }
   }
 
   measure: nn_best_case_max {
@@ -22,6 +26,10 @@ view: scrub_ww {
     label: "Best Case"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "See Details"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.forecastcategoryname]=Best Case"
+    }
   }
 
   measure: nn_forecast {
@@ -62,7 +70,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -79,6 +87,10 @@ view: scrub_ww {
     label:"Commit"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "See Details"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.forecastcategoryname]=Commit"
+    }
   }
 
   measure: nn_omitted_max {
@@ -95,6 +107,10 @@ view: scrub_ww {
     label: "Open (Max)"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "See Details"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.status_wlo]=Open"
+    }
   }
 
   measure: nn_open_weighted {
@@ -111,6 +127,10 @@ view: scrub_ww {
     label:"Pipeline"
     group_label: "Net New"
     value_format_name: usd_0
+    link: {
+      label: "See Details"
+      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.forecastcategoryname]=Pipeline"
+    }
   }
 
   measure: nn_target {
@@ -167,7 +187,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -241,7 +261,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
@@ -473,7 +493,7 @@ view: scrub_ww {
       }
       param: {
         name: "other_params"
-        value: "qtr:{{ scrub_qtr }}"
+        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
       }
       user_attribute_param: {
         user_attribute: email
