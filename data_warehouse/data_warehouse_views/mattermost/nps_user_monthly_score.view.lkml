@@ -140,8 +140,9 @@ view: nps_user_monthly_score {
     sql: COALESCE(${nps_feedback_classification.category}, 'Uncategorized') ;;
     hidden: no
     action: {
-      label: "Update Feedback Category"
+      label: "Update Category"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      icon_url: "https://1amiydhcmj36tz3733v94f15-wpengine.netdna-ssl.com/wp-content/themes/snowflake/img/favicons/favicon-32x32.png"
       form_param: {
         name: "new_value"
         label: "Select The Feedback Category From The Dropdown:"
@@ -203,8 +204,9 @@ view: nps_user_monthly_score {
     sql: COALESCE(${nps_feedback_classification.subcategory}, 'Uncategorized') ;;
     hidden: no
     action: {
-      label: "Update Feedback Subcategory"
+      label: "Update Subcategory"
       url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      icon_url: "https://1amiydhcmj36tz3733v94f15-wpengine.netdna-ssl.com/wp-content/themes/snowflake/img/favicons/favicon-32x32.png"
       form_param: {
         name: "new_value"
         label: "Select The Feedback Subcategory From The Dropdown:"
