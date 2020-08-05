@@ -286,6 +286,12 @@ view: lead {
     type: string
   }
 
+  dimension: most_recent_action {
+    sql: ${TABLE}.MOST_RECENT_ACTION__C ;;
+    type: string
+    group_label: "Marketing"
+  }
+
   dimension: most_recent_action_detail {
     sql: ${TABLE}.MOST_RECENT_ACTION_DETAIL__C ;;
     type: string
