@@ -225,6 +225,10 @@ view: account {
     type: string
   }
 
+ dimension: customer_finance_status  {
+   type: string
+  sql: ${TABLE}.customer_finance_status__c ;;
+ }
 
   dimension_group: demo_req {
     sql: ${TABLE}.demo_req_date__c ;;
