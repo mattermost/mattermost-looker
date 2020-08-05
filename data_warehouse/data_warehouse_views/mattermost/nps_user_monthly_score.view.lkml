@@ -120,7 +120,7 @@ view: nps_user_monthly_score {
   dimension: feedback {
     description: "Qualitative, raw feedback submitted by the user about ways to improve the product."
     type: string
-    sql: ${TABLE}.feedback ;;
+    sql: NULLIF(${TABLE}.feedback, '') ;;
     hidden: no
   }
 
@@ -130,6 +130,159 @@ view: nps_user_monthly_score {
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+  }
+
+  # DATA ACTIONS
+  dimension: category {
+    label: "Feedback Category"
+    description: ""
+    type: string
+    sql: COALESCE(${nps_feedback_classification.category}, 'Uncategorized') ;;
+    hidden: no
+    action: {
+      label: "Update Feedback Category"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "Select The Feedback Category From The Dropdown:"
+        default: "{{ value }}"
+        type: select
+        required: yes
+        option: {
+          name: "Feature Request"
+          label: "Feature Request"
+        }
+        option: {
+          name: "Invalid"
+          label: "Invalid"
+        }
+        option: {
+          name: "Miscellaneous"
+          label: "Miscellaneous"
+        }
+        option: {
+          name: "Praise"
+          label: "Praise"
+        }
+        option: {
+          name: "Reliability"
+          label: "Reliability"
+        }
+        option: {
+          name: "UX Feedback"
+          label: "UX Feedback"
+        }
+      }
+      param: {
+        name: "field_name"
+        value: "category"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value}}"
+      }
+      param: {
+        name: "table"
+        value: "nps_feedback_classification"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"date\": \"{{ month_date }}\", \"id\": \"{{ id }}\"}\""
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
+    }
+  }
+
+  dimension: subcategory {
+    label: "Feedback Subcategory"
+    description: ""
+    type: string
+    sql: COALESCE(${nps_feedback_classification.subcategory}, 'Uncategorized') ;;
+    hidden: no
+    action: {
+      label: "Update Feedback Subcategory"
+      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      form_param: {
+        name: "new_value"
+        label: "Select The Feedback Subcategory From The Dropdown:"
+        default: "{{ value }}"
+        type: select
+        required: yes
+        option: { name: "Account Authorization" label: "Account Authorization" }
+        option: { name: "Audio/Video Calling" label: "Audio/Video Calling" }
+        option: { name: "Away Status" label: "Away Status" }
+        option: { name: "Be Slack" label: "Be Slack" }
+        option: { name: "Block User" label: "Block User" }
+        option: { name: "Bugs" label: "Bugs" }
+        option: { name: "Channel Sidebar" label: "Channel Sidebar" }
+        option: { name: "Corporate Slack Import" label: "Corporate Slack Import" }
+        option: { name: "Custom Statuses" label: "Custom Statuses" }
+        option: { name: "Desktop Stability" label: "Desktop Stability" }
+        option: { name: "Desktop UX" label: "Desktop UX" }
+        option: { name: "Disliked Survey" label: "Disliked Survey" }
+        option: { name: "Documentation" label: "Documentation" }
+        option: { name: "Emoji/GIF Options" label: "Emoji/GIF Options" }
+        option: { name: "File Search" label: "File Search" }
+        option: { name: "Files/Attachments" label: "Files/Attachments" }
+        option: { name: "Group Mentions" label: "Group Mentions" }
+        option: { name: "Group Message UX" label: "Group Message UX" }
+        option: { name: "Integrations" label: "Integrations" }
+        option: { name: "Logout Issues" label: "Logout Issues" }
+        option: { name: "Mark as Unread" label: "Mark as Unread" }
+        option: { name: "Message and Network Reliability" label: "Message and Network Reliability" }
+        option: { name: "Message Tagging" label: "Message Tagging" }
+        option: { name: "Messaging UX" label: "Messaging UX" }
+        option: { name: "Miscellaneous Features" label: "Miscellaneous Features" }
+        option: { name: "Miscellaneous UX" label: "Miscellaneous UX" }
+        option: { name: "Mobile Stability" label: "Mobile Stability" }
+        option: { name: "Mobile UX" label: "Mobile UX" }
+        option: { name: "Notifications Reliability" label: "Notifications Reliability" }
+        option: { name: "Notifications UX" label: "Notifications UX" }
+        option: { name: "Onboarding" label: "Onboarding" }
+        option: { name: "Performance" label: "Performance" }
+        option: { name: "Read Receipts" label: "Read Receipts" }
+        option: { name: "Reminderbot" label: "Reminderbot" }
+        option: { name: "RN Multi-server" label: "RN Multi-server" }
+        option: { name: "Search UX" label: "Search UX" }
+        option: { name: "Share Message" label: "Share Message" }
+        option: { name: "Snippets" label: "Snippets" }
+        option: { name: "Spam" label: "Spam" }
+        option: { name: "System Administration" label: "System Administration" }
+        option: { name: "Team Management" label: "Team Management" }
+        option: { name: "Text Editor" label: "Text Editor" }
+        option: { name: "Themes" label: "Themes" }
+        option: { name: "Threading" label: "Threading" }
+        option: { name: "Translations" label: "Translations" }
+        option: { name: "UI/UX Polish" label: "UI/UX Polish" }
+        option: { name: "Unhelpful" label: "Unhelpful" }
+        option: { name: "Update UX" label: "Update UX" }
+        option: { name: "User Survey Error" label: "User Survey Error" }
+        option: { name: "Voice Messages" label: "Voice Messages" }
+      }
+      param: {
+        name: "field_name"
+        value: "subcategory"
+      }
+      param: {
+        name: "old_value"
+        value: "{{ value }}"
+      }
+      param: {
+        name: "table"
+        value: "nps_feedback_classification"
+      }
+      param: {
+        name: "other_params"
+        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"date\": \"{{ month_date }}\", \"id\": \"{{ id }}\"}\""
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "action_performed_by"
+      }
+    }
   }
 
 

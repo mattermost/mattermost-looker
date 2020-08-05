@@ -1070,6 +1070,13 @@ explore: nps_user_monthly_score {
     filters: [21days_since_release: "yes"]
   }
 
+  join: nps_feedback_classification {
+    view_label: "NPS User Daily Score"
+    sql_on: ${nps_feedback_classification.id} = ${nps_user_monthly_score.id} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
   join: licenses_grouped {
     sql_on: ${nps_user_monthly_score.license_id}  = ${licenses_grouped.license_id}
       AND ${nps_user_monthly_score.server_id} = ${licenses_grouped.server_id};;
@@ -2027,4 +2034,5 @@ explore: twitter {
 
 explore: nps_feedback_classification {
   label: "Nps Feedback Classification"
+  hidden: yes
 }

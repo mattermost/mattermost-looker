@@ -7,51 +7,53 @@ view: nps_feedback_classification {
 
   # DIMENSIONS
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: category {
-    description: "" 
+    label: "Feedback Category"
+    description: ""
     type: string
     sql: ${TABLE}.category ;;
     hidden: no
   }
 
   dimension: subcategory {
-    description: "" 
+    label: "Feedback Subcategory"
+    description: ""
     type: string
     sql: ${TABLE}.subcategory ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: "" 
+    description: ""
     type: time
     timeframes: [date, month, year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
