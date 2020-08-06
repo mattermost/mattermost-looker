@@ -2039,3 +2039,10 @@ explore: nps_feedback_classification {
   label: "Nps Feedback Classification"
   hidden: yes
 }
+
+explore: p2p_forum_activity {
+  label: "P2P Forum Activity"
+}
+explore: community_program_members {
+  label: "Community Program Members"
+}
