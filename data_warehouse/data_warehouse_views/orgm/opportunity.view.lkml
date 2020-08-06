@@ -123,17 +123,22 @@ view: opportunity {
 
 
   dimension: amount_in_commit {
-    # description: "TODO"
     group_label: "Amounts"
-    sql: ${TABLE}.amount_in_commit__c ;;
+    sql: ${opportunity_ext.amount_in_commit} ;;
     type: number
     value_format_name: mm_usd_short
   }
 
   dimension: amount_in_pipeline {
-    # description: "TODO"
     group_label: "Amounts"
-    sql: ${TABLE}.amount_in_pipeline__c ;;
+    sql: ${opportunity_ext.amount_in_pipeline} ;;
+    type: number
+    value_format_name: mm_usd_short
+  }
+
+  dimension: amount_in_best_case {
+    group_label: "Amounts"
+    sql: ${opportunity_ext.amount_in_best_case} ;;
     type: number
     value_format_name: mm_usd_short
   }
@@ -1135,6 +1140,15 @@ view: opportunity {
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
   }
+
+  measure: total_amount_in_best_case {
+    group_label: "Total Amounts"
+    sql: ${amount_in_best_case};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+  }
+
 
   measure: total_renewal_risk_amount {
     # description: "TODO"
