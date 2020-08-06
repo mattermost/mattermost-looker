@@ -2042,7 +2042,7 @@ explore: nps_feedback_classification {
 }
 
 explore: p2p_forum_activity {
-  label: "P2P Forum Activity"
+  label: "Peer-to-Peer Forum Activity"
   description: "Contains a dailys snapshot of the aggregate counts of registrations and posts to Mattermost Peer-to-Peer Forums."
   group_label: "Mattermost Community"
 }
