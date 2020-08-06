@@ -2031,8 +2031,9 @@ explore: plugins_telemetry {
 }
 
 explore: twitter {
-  label: "Twitter"
-  group_label: "Social Mentions"
+  label: "Twitter Mentions"
+  description: "Contains all tweets, replies, and retweets for and to tweets containing the keyword 'Mattermost'."
+  group_label: "Mattermost Community"
 }
 
 explore: nps_feedback_classification {
@@ -2042,7 +2043,11 @@ explore: nps_feedback_classification {
 
 explore: p2p_forum_activity {
   label: "P2P Forum Activity"
+  description: "Contains a dailys snapshot of the aggregate counts of registrations and posts to Mattermost Peer-to-Peer Forums."
+  group_label: "Mattermost Community"
 }
 explore: community_program_members {
   label: "Community Program Members"
+  description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
+  group_label: "Mattermost Community"
 }
