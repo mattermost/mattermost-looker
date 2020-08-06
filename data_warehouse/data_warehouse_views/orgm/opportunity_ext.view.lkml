@@ -140,6 +140,30 @@ view: opportunity_ext {
     description: "A Contact on the Opportunity triggered a MQL prior to Opportunity creation"
   }
 
+  dimension: amount_in_commit {
+    group_label: "Forecast Category Totals"
+    description: "Total where Forecast Category = 'Commit' "
+    value_format_name: usd_0
+    type: number
+    sql: ${TABLE}."AMOUNT_IN_COMMIT" ;;
+  }
+
+  dimension: amount_in_best_case {
+    group_label: "Forecast Category Totals"
+    description: "Total where Forecast Category = 'Best Case' "
+    value_format_name: usd_0
+    type: number
+    sql: ${TABLE}."AMOUNT_IN_BEST_CASE" ;;
+  }
+
+  dimension: amount_in_pipeline {
+    group_label: "Forecast Category Totals"
+    description: "Total where Forecast Category = 'Pipeline' "
+    value_format_name: usd_0
+    type: number
+    sql: ${TABLE}."AMOUNT_IN_PIPELINE" ;;
+  }
+
   dimension: multi_amount {
     group_label: "Line Item Totals"
     description: "Total where Product Line Type = 'Multi' "
