@@ -36,6 +36,25 @@ view: downloads {
     sql: ${TABLE}."LOGDATE" ;;
   }
 
+  dimension_group: first_install {
+    type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.first_install_datetime ;;
+  }
+
+  dimension: first_install_flag {
+    description: "Boolean indicating the record is the first install associated with the IP address (yes) or isn't (no)."
+    type: yesno
+    sql: (${TABLE}."LOGDATE"::date || ' ' || ${TABLE}.logtime)::timestamp = ${TABLE}.first_install_datetime::timestamp ;;
+  }
+
   dimension: logtime {
     label: "Logging Timestamp"
     description: "A timestamp of the time of day the download was performed (string)."
