@@ -342,6 +342,16 @@ view: opportunitylineitem {
     type: yesno
   }
 
+  dimension: subscription_id {
+    sql: ${TABLE}.subs_id__c;;
+    type: string
+  }
+
+  dimension: portal_purchased {
+    label: "Portal Purchased?"
+    sql: ${subscription_id} IS NOT NULL;;
+    type: yesno
+  }
 
 
   #
