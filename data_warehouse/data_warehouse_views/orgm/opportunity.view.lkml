@@ -751,6 +751,11 @@ view: opportunity {
     label: "Territory Sales Segment"
   }
 
+  dimension: time_in_stage {
+    type: number
+    sql: ${TABLE}.Time_in_Stage__c ;;
+  }
+
   dimension: type {
     description: "Type of Opportunity. For example, New, Renewal, etc."
     label: "Oppt Type"

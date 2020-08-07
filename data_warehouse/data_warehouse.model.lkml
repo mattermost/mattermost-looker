@@ -1074,7 +1074,6 @@ explore: nps_user_monthly_score {
     view_label: "NPS User Daily Score"
     sql_on: ${nps_feedback_classification.user_id} = ${nps_user_monthly_score.user_id}
       AND ${nps_feedback_classification.server_id} = ${nps_user_monthly_score.server_id}
-      AND COALESCE(${nps_feedback_classification.feedback}, '') = COALESCE(${nps_user_monthly_score.feedback}, '')
       AND ${nps_feedback_classification.last_feedback_date} = ${nps_user_monthly_score.last_feedback_date} ;;
     relationship: many_to_one
     fields: []
@@ -2031,11 +2030,23 @@ explore: plugins_telemetry {
 }
 
 explore: twitter {
-  label: "Twitter"
-  group_label: "Social Mentions"
+  label: "Twitter Mentions"
+  description: "Contains all tweets, replies, and retweets for and to tweets containing the keyword 'Mattermost'."
+  group_label: "Mattermost Community"
 }
 
 explore: nps_feedback_classification {
   label: "Nps Feedback Classification"
   hidden: yes
+}
+
+explore: p2p_forum_activity {
+  label: "Peer-to-Peer Forum Activity"
+  description: "Contains a dailys snapshot of the aggregate counts of registrations and posts to Mattermost Peer-to-Peer Forums."
+  group_label: "Mattermost Community"
+}
+explore: community_program_members {
+  label: "Community Program Members"
+  description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
+  group_label: "Mattermost Community"
 }
