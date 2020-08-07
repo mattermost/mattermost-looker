@@ -20,13 +20,6 @@ view: nps_feedback_classification {
     hidden: no
   }
 
-  dimension: feedback {
-    description: ""
-    type: string
-    sql: ${TABLE}.feedback ;;
-    hidden: no
-  }
-
   dimension: category {
     label: "Feedback Category"
     description: ""

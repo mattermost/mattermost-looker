@@ -1074,7 +1074,6 @@ explore: nps_user_monthly_score {
     view_label: "NPS User Daily Score"
     sql_on: ${nps_feedback_classification.user_id} = ${nps_user_monthly_score.user_id}
       AND ${nps_feedback_classification.server_id} = ${nps_user_monthly_score.server_id}
-      AND COALESCE(${nps_feedback_classification.feedback}, '') = COALESCE(${nps_user_monthly_score.feedback}, '')
       AND ${nps_feedback_classification.last_feedback_date} = ${nps_user_monthly_score.last_feedback_date} ;;
     relationship: many_to_one
     fields: []
