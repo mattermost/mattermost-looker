@@ -584,12 +584,6 @@ view: lead {
     group_label: "Partner"
   }
 
-  dimension: persona {
-    sql: ${TABLE}.PERSONA__C ;;
-    type: string
-    group_label: "Marketing"
-  }
-
 
   dimension: phone {
     sql: ${TABLE}.PHONE ;;
