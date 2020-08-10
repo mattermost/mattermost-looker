@@ -183,6 +183,7 @@ view: opportunity {
     label: "Forecast Category Name"
   }
 
+
   dimension: id {
     type: number
     sql: ${TABLE}."id" ;;

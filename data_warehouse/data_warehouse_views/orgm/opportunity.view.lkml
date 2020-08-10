@@ -357,6 +357,12 @@ view: opportunity {
     group_label: "Renewals"
   }
 
+  dimension: how_did_you_hear_about_mattermost {
+    type: string
+    group_label: "Customer Journey (Business)"
+    sql: ${TABLE}."HOW_DID_YOU_HEAR_ABOUT_MATTERMOST__C";;
+  }
+
   # BP: use is_ for yes/no fields
   dimension: isclosed {
     # description: "TODO"
