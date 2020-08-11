@@ -712,7 +712,14 @@ explore: arr {
     product2.general_product,
     product2.list_of_general_products,
     opportunity.billing_country,
-    opportunity.shipping_country
+    opportunity.shipping_country,
+    opportunity_ext.paid,
+    opportunity_ext.paid_category,
+    opportunity_ext.paid_date,opportunity_ext.paid_month,opportunity_ext.paid_fiscal_quarter,opportunity_ext.paid_fiscal_year,
+    opportunity_ext.deposited,
+    opportunity_ext.deposited_category,
+    opportunity_ext.deposited_date,opportunity_ext.deposited_month,opportunity_ext.deposited_fiscal_quarter,opportunity_ext.deposited_fiscal_year,
+
   ]
 }
 

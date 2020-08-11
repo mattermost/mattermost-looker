@@ -201,6 +201,54 @@ view: opportunity_ext {
     type: yesno
   }
 
+  dimension: paid_category {
+    label: "Paid Category"
+    description: "Netsuite Paid Category"
+    sql: ${TABLE}.paid_category ;;
+    type: string
+  }
+
+  dimension_group: paid {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.paid_date ;;
+  }
+
+  dimension: deposited {
+    label: "Is Deposited?"
+    description: "Netsuite has marked the opportunity as deposited"
+    sql: ${TABLE}.deposited ;;
+    type: yesno
+  }
+
+  dimension: deposited_category {
+    label: "Deposit Category"
+    description: "Netsuite Deposit Category"
+    sql: ${TABLE}.deposited_category ;;
+    type: string
+  }
+
+  dimension_group: deposited {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.deposited_date ;;
+  }
+
+
   dimension: renewal_amount {
     group_label: "Line Item Totals"
     description: "Total where Product Line Type = 'Ren' "
