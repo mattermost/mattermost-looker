@@ -714,7 +714,7 @@ explore: arr {
     opportunity.billing_country,
     opportunity.shipping_country,
     opportunity_ext.paid,
-    opportunity_ext.paid_category,
+    opportunity_ext.paid_type,
     opportunity_ext.paid_date,opportunity_ext.paid_month,opportunity_ext.paid_fiscal_quarter,opportunity_ext.paid_fiscal_year
   ]
 }
