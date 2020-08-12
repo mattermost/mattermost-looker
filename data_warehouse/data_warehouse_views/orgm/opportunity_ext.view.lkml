@@ -201,7 +201,7 @@ view: opportunity_ext {
     type: yesno
   }
 
-  dimension: paid_category {
+  dimension: paid_type {
     label: "Paid Category"
     description: "Netsuite Paid Category"
     sql: ${TABLE}.paid_category ;;
