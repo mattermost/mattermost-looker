@@ -202,9 +202,9 @@ view: opportunity_ext {
   }
 
   dimension: paid_type {
-    label: "Paid Category"
-    description: "Netsuite Paid Category"
-    sql: ${TABLE}.paid_category ;;
+    label: "Paid Type"
+    description: "Netsuite Paid Type"
+    sql: ${TABLE}.paid_type ;;
     type: string
   }
 
