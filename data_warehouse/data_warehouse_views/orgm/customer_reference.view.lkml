@@ -13,7 +13,6 @@ view: customer_reference {
     label: "Account SFID"
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
-    hidden: yes
   }
 
   dimension: account_name {
