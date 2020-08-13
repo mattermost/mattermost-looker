@@ -4564,7 +4564,36 @@ view: server_daily_details_ext {
     label: "Days to Paid License"
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) ;;
+    sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
+          datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
+          --END
+          ;;
+  }
+
+  measure: median_days_active_to_paid {
+    type: number
+    sql: median(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
+  }
+
+  measure: avg_days_active_to_paid {
+    type: number
+    sql: avg(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
+  }
+
+  measure: min_days_active_to_paid {
+    type: number
+    sql: min(${days_from_first_telemetry_to_paid_license}) ;;
+  }
+
+  dimension: days_trial_to_paid {
+    label: "Days From Trial to Paid License"
+    type: number
+    sql: CASE WHEN DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) END ;;
+  }
+
+  measure: median_days_trial_to_paid {
+    type: number
+    sql: median(${days_trial_to_paid}) ;;
   }
 
   dimension: days_from_first_telemetry_to_paid_license_band {
