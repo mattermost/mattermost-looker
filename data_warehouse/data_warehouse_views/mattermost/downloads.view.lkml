@@ -134,6 +134,12 @@ view: downloads {
     sql: ${TABLE}."VERSION" ;;
   }
 
+  dimension: version_major {
+    description: "Removes the dot release from the version of the downloaded resource."
+    type: string
+    sql: split_part(${version},'.', 1) || '.' || split_part(${version}, '.', 2) ;;
+  }
+
   measure: unique_download_count {
     label: "Unique Downloads"
     description: "The count of unique IP's that have performed downloads."
