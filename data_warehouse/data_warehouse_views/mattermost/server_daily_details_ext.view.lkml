@@ -2780,13 +2780,44 @@ view: server_daily_details_ext {
     sql: ${TABLE}.enable_welcome_bot ;;
     hidden: no
   }
-
   dimension: enable_zoom {
-  label: "Enable Zoom"
+    label: "Enable Zoom"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_zoom ;;
+    hidden: no
+  }
+  dimension: enable_giphy {
+    label: "Enable Giphy"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_giphy ;;
+    hidden: no
+  }
+  dimension: enable_digital_ocean {
+    label: "Enable Digital Ocean"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_digital_ocean ;;
+    hidden: no
+  }
+  dimension: enable_incident_response {
+    label: "Enable Incident Response"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_incident_response ;;
+    hidden: no
+  }
+  dimension: enable_memes {
+    label: "Enable Memes"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_memes ;;
     hidden: no
   }
 
@@ -2909,6 +2940,62 @@ view: server_daily_details_ext {
     type: string
     group_label: "Plugin Configuration"
     sql: ${TABLE}.version_zoom ;;
+    hidden: no
+  }
+
+  dimension: version_giphy {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_giphy ;;
+    hidden: no
+  }
+
+  dimension: version_digital_ocean {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_digital_ocean ;;
+    hidden: no
+  }
+
+  dimension: version_confluence {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_confluence ;;
+    hidden: no
+  }
+
+  dimension: version_mscalendar {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_mscalendar ;;
+    hidden: no
+  }
+
+  dimension: version_incident_response {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_incident_response ;;
+    hidden: no
+  }
+
+  dimension: version_todo {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_todo ;;
+    hidden: no
+  }
+
+  dimension: version_memes {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_memes ;;
     hidden: no
   }
 
@@ -6665,6 +6752,42 @@ view: server_daily_details_ext {
     group_label: " Server Counts"
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
     sql: case when ${enable_skype4business} then ${server_id} else null end ;;
+  }
+
+  measure: enable_giphy_count {
+    label: "Servers w/ Plugin Enable Giphy"
+    description: "The count of servers with Plugin Enable Giphy enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_giphy} then ${server_id} else null end ;;
+  }
+
+  measure: enable_digital_ocean_count {
+    label: "Servers w/ Plugin Enable Digital Ocean"
+    description: "The count of servers with Plugin Enable Digital Ocean enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_digital_ocean} then ${server_id} else null end ;;
+  }
+
+  measure: enable_incident_response_count {
+    label: "Servers w/ Plugin Enable Incident Response"
+    description: "The count of servers with Plugin Enable Incident Response enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_incident_response} then ${server_id} else null end ;;
+  }
+
+  measure: enable_memes_count {
+    label: "Servers w/ Plugin Enable Memes"
+    description: "The count of servers with Plugin Enable Memes enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+    sql: case when ${enable_memes} then ${server_id} else null end ;;
   }
 
   measure: enable_marketplace_count {
