@@ -201,6 +201,26 @@ view: opportunity_ext {
     type: yesno
   }
 
+  dimension: paid_type {
+    label: "Paid Type"
+    description: "Netsuite Paid Type"
+    sql: ${TABLE}.paid_type ;;
+    type: string
+  }
+
+  dimension_group: paid {
+    type: time
+    timeframes: [
+      date,
+      month,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      year,
+      fiscal_year
+    ]
+    sql: ${TABLE}.paid_date ;;
+  }
+
   dimension: renewal_amount {
     group_label: "Line Item Totals"
     description: "Total where Product Line Type = 'Ren' "

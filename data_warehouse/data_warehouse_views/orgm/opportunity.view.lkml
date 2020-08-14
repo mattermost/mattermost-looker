@@ -150,6 +150,18 @@ view: opportunity {
     group_label: "Marketing"
   }
 
+  dimension: billing_country {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.BILLING_COUNTRY__C ;;
+  }
+
+  dimension: shipping_country {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.SHIPPING_COUNTRY__C ;;
+  }
+
   dimension_group: close {
     convert_tz: no
     description: "Date when the opportunity is expected to close."

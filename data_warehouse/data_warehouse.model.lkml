@@ -708,7 +708,14 @@ explore: arr {
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
     account.account_core*,
-    opportunity.opportunity_core*
+    opportunity.opportunity_core*,
+    product2.general_product,
+    product2.list_of_general_products,
+    opportunity.billing_country,
+    opportunity.shipping_country,
+    opportunity_ext.paid,
+    opportunity_ext.paid_type,
+    opportunity_ext.paid_date,opportunity_ext.paid_month,opportunity_ext.paid_fiscal_quarter,opportunity_ext.paid_fiscal_year
   ]
 }
 
