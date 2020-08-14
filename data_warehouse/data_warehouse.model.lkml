@@ -707,6 +707,8 @@ explore: arr {
     dates.first_day_of_fiscal_quarter,
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
+    opportunity_ext.license_min_start_date_date,opportunity_ext.license_min_start_date_month, opportunity_ext.license_min_start_date_fiscal_quarter, opportunity_ext.license_min_start_date_fiscal_year,
+    opportunity_ext.license_max_end_date_date,opportunity_ext.license_max_end_date_month, opportunity_ext.license_max_end_date_fiscal_quarter, opportunity_ext.license_max_end_date_fiscal_year,
     account.account_core*,
     opportunity.opportunity_core*,
     product2.general_product,
