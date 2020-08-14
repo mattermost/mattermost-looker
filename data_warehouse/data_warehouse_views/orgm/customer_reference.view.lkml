@@ -64,6 +64,12 @@ view: customer_reference {
     value_format_name: usd_0
   }
 
+  dimension: is_pending {
+    description: "Customer references not in a completed, declined, or expired status"
+    type: yesno
+    sql: ${status} NOT IN ('Declined','Expired','Do Not Use','Completed');;
+  }
+
   dimension: account_csm {
     group_label: "Owners"
     label: "Account CSM"
@@ -302,6 +308,17 @@ view: customer_reference {
     drill_fields: [name, account.name, account_csm, owner, opportunity.ce_name, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
   }
 
+  measure: count_pending_references {
+    label: "# of pending references"
+    type: count_distinct
+    sql: ${sfid} ;;
+    filters: {
+      field: is_pending
+      value: "yes"
+    }
+    drill_fields: [name, account.name, account_csm, owner, opportunity.ce_name, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
+  }
+
   measure: total_current_arr {
     type: sum_distinct
     sql: ${current_arr} ;;
@@ -310,6 +327,7 @@ view: customer_reference {
     value_format_name: usd_0
     drill_fields: [name, account.name, account_csm, owner,opportunity.ce_name, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
   }
+
 
   measure: count {
     label: "# of References"
