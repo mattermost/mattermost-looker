@@ -302,14 +302,14 @@ view: customer_reference {
   }
 
   measure: number_of_accounts {
-    label: "# of accounts"
+    label: "# of Accounts"
     type: count_distinct
     sql: ${account} ;;
     drill_fields: [name, account.name, account_csm, owner, opportunity.ce_name, creator, reference_start_date, reference_category, reference_type, notes, current_arr, customer_segmentation_tier]
   }
 
   measure: count_pending_references {
-    label: "# of pending references"
+    label: "# of Pending References"
     type: count_distinct
     sql: ${sfid} ;;
     filters: {
