@@ -162,7 +162,6 @@ view: nps_user_monthly_score {
         option: { name: "Away Status" label: "Away Status" }
         option: { name: "Be Slack" label: "Be Slack" }
         option: { name: "Block User" label: "Block User" }
-        option: { name: "Bugs" label: "Bugs" }
         option: { name: "Channel Sidebar" label: "Channel Sidebar" }
         option: { name: "Corporate Slack Import" label: "Corporate Slack Import" }
         option: { name: "Custom Statuses" label: "Custom Statuses" }
