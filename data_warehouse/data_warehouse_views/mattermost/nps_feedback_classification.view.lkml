@@ -36,15 +36,34 @@ view: nps_feedback_classification {
     hidden: no
   }
 
+  dimension: categorized_by {
+    label: "Categorized By"
+    description: "The email or name of person or automation responsible for categorizing the NPS feedback."
+    type: string
+    sql: ${TABLE}.categorized_by ;;
+  }
+
+  dimension: category_rank {
+    description: "Ranking of Category by priority. Rank = 1 when it's the latest categorization for the feedback."
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: last_feedback {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week]
     sql: ${TABLE}.last_feedback_date ;;
     hidden: no
   }
+
+  dimension_group: categorized_at {
+  description: ""
+  type: time
+  timeframes: [date, month, year, week, time]
+  sql: ${TABLE}.last_feedback_date ;;
+  hidden: no
+}
 
 
   # MEASURES
