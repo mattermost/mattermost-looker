@@ -89,6 +89,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The unique server ID for each server."
     type: string
     sql: ${TABLE}.server_id ;;
+    primary_key: yes
   }
 
   dimension: server_version {

@@ -4,7 +4,7 @@ view: nps_user_monthly_score {
   view_label: "NPS User Daily Score"
 
   # FILTERS
-  filter: last_day_of_month {
+  dimension: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last day of the month. Useful when grouping by month to report on NPS at the end of each given month."
     sql: CASE WHEN ${month_date} =
@@ -13,7 +13,7 @@ view: nps_user_monthly_score {
           THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: last_day_of_week {
+  dimension: last_day_of_week {
     type: yesno
     description: "Filters so the logging date is equal to the last day of the week. Useful when grouping by week to report on NPS at the end of each given week."
     sql: CASE WHEN ${month_date} =
@@ -22,26 +22,26 @@ view: nps_user_monthly_score {
           THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: score_submission_date {
+  dimension: score_submission_date {
     type: yesno
     description: "Filters so the only rows that appear are days where a new NPS submission was received. Useful when displaying raw data to prevent fanning out by logging date."
     sql: CASE WHEN ${month_date}::date = ${last_score_date}::date THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: feeedback_submission_date {
+  dimension: feeedback_submission_date {
     type: yesno
     description: "Filters so the only rows that appear are days where a new NPS Feedback submission was received. Useful when displaying raw data to prevent fanning out by logging date."
     sql: CASE WHEN ${month_date}::date = ${last_feedback_date}::date THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: 21days_since_release {
+  dimension: 21days_since_release {
     label: "Response >= 21 Days Since Release"
     type: yesno
     description: "Boolean indicating the response for the server version associated with the NPS submissions was >= 21 since the release date."
     sql: CASE WHEN ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
   }
 
-  filter: trailing_3_months_nps {
+  dimension: trailing_3_months_nps {
     label: "Trailing 3-Month NPS Score"
     type: yesno
     description: "Boolean indicating the score reflected on the given logging date only incorporates trailing 3 month NPS score submissions."
@@ -132,18 +132,29 @@ view: nps_user_monthly_score {
     primary_key: yes
   }
 
-  # DATA ACTIONS
+  # FEEDBACK CATEGORY/DATA ACTIONS
   dimension: category {
     label: "Feedback Category"
-    description: ""
+    group_label: "Feedback Categorization"
+    description: "The Category of the feedback provided by the NPS user."
     type: string
-    sql: COALESCE(${nps_feedback_classification.category}, 'Uncategorized') ;;
+    sql: ${nps_feedback_classification.category} ;;
     hidden: no
   }
 
-  dimension: subcategory {
+  dimension: subcategory2 {
     label: "Feedback Subcategory"
-    description: ""
+    group_label: "Feedback Categorization"
+    description: "The Subcategory of the feedback provided by the NPS user."
+    type: string
+    sql: ${nps_feedback_classification.subcategory} ;;
+
+  }
+
+  dimension: subcategory {
+    label: "Feedback Subcategory (Data Action)"
+    group_label: "Feedback Categorization"
+    description: "A duplicate of the Feedback Subcategory used to perform data actions on the Subcategory to update or insert a new Subcategory."
     type: string
     sql: COALESCE(${nps_feedback_classification.subcategory}, 'Uncategorized') ;;
     hidden: no

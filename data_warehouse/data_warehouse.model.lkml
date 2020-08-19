@@ -1085,6 +1085,7 @@ explore: nps_user_monthly_score {
       AND ${nps_feedback_classification.server_id} = ${nps_user_monthly_score.server_id}
       AND ${nps_feedback_classification.last_feedback_date} = ${nps_user_monthly_score.last_feedback_date} ;;
     relationship: many_to_one
+    type: left_outer
     fields: [nps_feedback_classification.categorized_at_date, nps_feedback_classification.categorized_at_month, nps_feedback_classification.categorized_at_week, nps_feedback_classification.categorized_at_year, nps_feedback_classification.categorized_at_time, nps_feedback_classification.categorized_by, nps_feedback_classification.category_rank]
   }
 
