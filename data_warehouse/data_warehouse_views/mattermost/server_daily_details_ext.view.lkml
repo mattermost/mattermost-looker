@@ -323,6 +323,7 @@ view: server_daily_details_ext {
 
   dimension: database_type {
     label: " Database Type"
+    group_label: " Database Info."
     description: "The database type the server is currently hosted on (MySQL or Postgres)."
     type: string
     sql: ${TABLE}.database_type ;;
@@ -331,22 +332,43 @@ view: server_daily_details_ext {
 
   dimension: database_version {
     label: " Database Version"
+    group_label: " Database Info."
     description: "The database version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-          NULL
-          ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') END;;
+    sql: regexp_replace(${TABLE}.database_version, '[a-zA-Z\+\:\~\'\\s\)\(\"\-]', '') ;;
     order_by_field: database_version_major_sort
   }
 
   dimension: database_version_major_sort {
     label: "  Database Version Sort"
+    group_label: " Database Info."
     description: "The current database version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
     sql: (split_part(${database_version}, '.', 1) ||
-          CASE WHEN split_part(${database_version}, '.', 2) = '10' THEN '99'
-            ELSE split_part(${database_version}, '.', 2) || '0' END)::int ;;
+          CASE WHEN length(split_part(${database_version}, '.', 2)) > 1 THEN
+            CASE WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 10 AND left(split_part(${database_version}, '.', 2), 2)::int < 20 THEN '99'
+                WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 20 THEN left(split_part(${database_version}, '.', 2), 1) || '1'
+                WHEN left(split_part(${database_version}, '.', 2), 1)::int = 0 THEN left(split_part(${database_version}, '.', 2), 1) || '0'
+                ELSE NULL END
+              WHEN length(split_part(${database_version}, '.', 2))::int = 1 THEN trim(left(split_part(${database_version}, '.', 2), 2)) || '0' END)::int ;;
     hidden: yes
+  }
+
+  dimension: database_version_major {
+    label: " Database Version (Major)"
+    group_label: " Database Info."
+    description: "The database version the server uses to host Mattermost w/ the dot release removed."
+    type: string
+    sql: split_part(${database_version}, '.', 1) || '.' || left(split_part(${database_version}, '.', 2), 2) ;;
+    order_by_field: database_version_major_sort
+  }
+
+  dimension: database_version_major_release {
+    label: " Database Version (Major Release)"
+    group_label: " Database Info."
+    description: "The core database version the server uses to host Mattermost w/out any trailing releases."
+    type: number
+    sql: split_part(${database_version}, '.', 1)::int ;;
   }
 
   dimension: gitlab_install {
