@@ -2064,3 +2064,7 @@ explore: community_program_members {
   description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
   group_label: "Mattermost Community"
 }
+
+explore: license_server_fact {
+  label: "License Server Fact"
+}
