@@ -951,12 +951,10 @@ explore: server_fact {
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
   hidden: no
 
-  join: licenses_grouped {
-    view_label: "Server Fact"
-    sql_on: ${licenses_grouped.license_id} = ${server_fact.license_id}
-    AND ${licenses_grouped.server_id} = ${server_fact.server_id};;
+  join: license_server_fact {
+    view_label: "License Fact"
+    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id};;
     relationship: one_to_one
-    fields: [licenses_grouped.company, licenses_grouped.trial]
   }
 
   join: excludable_servers {
@@ -1078,7 +1076,7 @@ explore: nps_user_monthly_score {
   group_label: "Product"
   label: "NPS User Daily Score"
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
-  extends: [_base_account_core_explore]
+  extends: [_base_account_core_explore, server_fact]
   always_filter: {
     filters: [21days_since_release: "yes"]
   }
@@ -1093,15 +1091,8 @@ explore: nps_user_monthly_score {
     fields: [nps_feedback_classification.categorized_at_date, nps_feedback_classification.categorized_at_month, nps_feedback_classification.categorized_at_week, nps_feedback_classification.categorized_at_year, nps_feedback_classification.categorized_at_time, nps_feedback_classification.categorized_by, nps_feedback_classification.category_rank]
   }
 
-  join: licenses_grouped {
-    sql_on: ${nps_user_monthly_score.license_id}  = ${licenses_grouped.license_id}
-      AND ${nps_user_monthly_score.server_id} = ${licenses_grouped.server_id};;
-    relationship: many_to_one
-    fields: []
-  }
-
   join: account {
-    sql_on: ${licenses_grouped.account_sfid} = ${account.sfid} ;;
+    sql_on: ${server_fact.account_sfid} = ${account.sfid} ;;
     fields: [account.account_core*]
     relationship: many_to_one
   }
@@ -1131,35 +1122,19 @@ explore: server_daily_details_ext {
   group_label: "Product"
   label: " Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
-  extends: [_base_account_core_explore]
+  extends: [_base_account_core_explore, server_fact]
 
 
   join: account {
     sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
+    type: left_outer
     fields: [account.account_core*]
-  }
-
-  join: licenses {
-    view_label: "License Details (Hist)"
-    sql_on: ${licenses.server_id} = ${server_daily_details_ext.server_id}
-          AND ${licenses.logging_date} = ${server_daily_details_ext.logging_date}
-          AND ${licenses.license_id} = ${server_daily_details_ext.license_id} ;;
-    relationship: one_to_one
-#     fields: [licenses.company, licenses.trial, licenses.expire_date, licenses.expire_month, licenses.expire_week, licenses.expire_year,licenses.issued_date, licenses.issued_week,
-#       licenses.issued_month, licenses.issued_year, licenses.start_date, licenses.start_month, licenses.start_week, licenses.start_year, licenses.edition, licenses.timestamp_date]
-  }
-
-  join: licenses_grouped {
-    view_label: "License Details (Current)"
-    sql_on: ${licenses_grouped.license_id} = ${server_daily_details_ext.license_id3} and ${licenses_grouped.server_id} = ${server_daily_details_ext.server_id} ;;
-    relationship: one_to_one
-#     fields: [licenses_grouped.license_id, licenses_grouped.company, licenses_grouped.trial, licenses_grouped.expire_date, licenses_grouped.expire_month, licenses_grouped.expire_week, licenses_grouped.expire_year,licenses_grouped.issued_date, licenses_grouped.issued_week,
-#       licenses_grouped.issued_month, licenses_grouped.issued_year, licenses_grouped.start_date, licenses_grouped.start_month, licenses_grouped.start_week, licenses_grouped.start_year, licenses_grouped.edition, licenses_grouped.timestamp_date]
   }
 
   join: server_fact {
     view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
+    type: left_outer
     relationship: many_to_one
     fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
       server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
@@ -2067,4 +2042,5 @@ explore: community_program_members {
 
 explore: license_server_fact {
   label: "License Server Fact"
+  hidden: yes
 }
