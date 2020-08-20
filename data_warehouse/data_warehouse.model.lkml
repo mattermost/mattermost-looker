@@ -871,7 +871,11 @@ explore: server_daily_details {
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
       server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events]
-  }
+#       , server_fact.customer_first_active_date,
+#       server_fact.customer_first_active_week, server_fact.customer_first_active_month, server_fact.customer_first_active_year, server_fact.customer_first_active_fiscal_year, server_fact.customer_first_active_fiscal_quarter,
+#       server_fact.customer_first_paid_license_date, server_fact.customer_first_paid_license_week, server_fact.customer_first_paid_license_month, server_fact.customer_first_paid_license_year, server_fact.customer_first_paid_license_fiscal_quarter, server_fact.customer_first_paid_license_fiscal_year
+#
+}
 
   join: nps_server_daily_score {
     view_label: "Server NPS"

@@ -594,12 +594,30 @@ view: server_daily_details {
 
   dimension: days_from_first_telemetry_to_paid_license {
     label: "Days to Paid License"
-    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    description: "The number of days between the servers first telemetry date and it's first paid license issue date."
     type: number
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
     datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
     --END
     ;;
+  }
+
+  dimension: customer_days_to_paid_license {
+    label: "Days to Paid License (Customer)"
+    description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
+    type: number
+    sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
+          datediff(day, COALESCE(${server_fact.customer_first_active_date}::date, ${nps_server_daily_score.server_install_date}::date), ${server_fact.customer_first_paid_license_date}::date)
+          --END
+          ;;
+  }
+
+  dimension_group: customer_first_paid_license_issued {
+    label: "Customer First Paid License Issued"
+    description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${server_fact.customer_first_paid_license_date}::date ;;
   }
 
   measure: median_days_active_to_paid {
@@ -633,8 +651,17 @@ view: server_daily_details {
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [0,7,31,61,91,181,366,731]
     sql: ${days_from_first_telemetry_to_paid_license} ;;
+  }
+
+  dimension: customer_days_from_first_telemetry_to_paid_license_band {
+    label: "Days to Paid License Band (Customer)"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: tier
+    style: integer
+    tiers: [0,7,31,61,91,181,366,731]
+    sql: ${customer_days_to_paid_license} ;;
   }
 
   dimension: server_age {
@@ -739,6 +766,13 @@ view: server_daily_details {
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
+  }
+
+  measure: customer_count {
+    label: "Customer Count"
+    type: count_distinct
+    sql: coalesce(${account_sfid}, lower(${server_fact.company_name})) ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, server_fact.first_paid_license_date, customer_first_paid_license_issued_date, server_fact.first_active_date, server_fact.customer_first_active_date, server_fact.paid_license_expire_date]
   }
 
   measure: servers_w_mobile_usage {

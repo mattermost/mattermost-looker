@@ -21,7 +21,7 @@ view: server_daily_details_ext {
   }
 
   # FILTERS
-  dimension: last_day_of_month {
+dimension: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
@@ -75,14 +75,16 @@ view: server_daily_details_ext {
 
   dimension: latest_telemetry_record {
     label: "  Latest Security Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Indicates whether the record captures the last (most recent) date that Security (security_update_check.go) diagnostics telemetry was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: latest_telemetry_record_2 {
     label: "  Latest Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
@@ -91,22 +93,25 @@ view: server_daily_details_ext {
 
   dimension: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: before_last_segment_telemetry_date {
     label: "  <= Last Activity Date"
+    group_label: "  Telemetry Flags"
     description: "Indicates whether the record's logging date is before the server's last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: is_telemetry_enabled {
     label: "In Security Diagnostics"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
@@ -115,6 +120,7 @@ view: server_daily_details_ext {
 
   dimension: is_tracking_enabled {
     label: "In Security or Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
     type: yesno
     sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
@@ -124,6 +130,7 @@ view: server_daily_details_ext {
   dimension: in_mattermost2_server {
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
     hidden: yes
@@ -131,26 +138,29 @@ view: server_daily_details_ext {
 
   dimension: first_telemetry_record {
     label: "  First Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: first_security_telemetry_record {
     label: "  First Security Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: first_diagnostics_telemetry_record {
     label: "  First Diagnostics Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_mm2_telemetry_date}::date THEN TRUE ELSE FALSE END ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: currently_licensed {
@@ -8052,20 +8062,12 @@ view: server_daily_details_ext {
     sql: case when ${trace_sql} then ${server_id} else null end ;;
   }
 
-  measure: custom_service_terms_enabled_support_count {
-    label: "Servers w/ Support Custom Service Terms Enabled Support"
-    description: "The count of servers with Support Custom Service Terms Enabled Support enabled."
-    type: count_distinct
-    group_label: " Server Counts"
-    sql: case when ${custom_service_terms_enabled_support} then ${server_id} else null end ;;
-  }
-
   measure: custom_terms_of_service_enabled_count {
     label: "Servers w/ Support Custom Terms Of Service Enabled"
     description: "The count of servers with Support Custom Terms Of Service Enabled enabled."
     type: count_distinct
     group_label: " Server Counts"
-    sql: case when ${custom_terms_of_service_enabled} then ${server_id} else null end ;;
+    sql: case when ${custom_terms_of_service_enabled} or ${custom_service_terms_enabled_support} then ${server_id} else null end ;;
   }
 
   measure: isdefault_about_link_count {
