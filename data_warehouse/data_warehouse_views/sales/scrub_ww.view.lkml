@@ -409,7 +409,7 @@ view: scrub_ww {
     label:"Available Renewals Won in Qtr"
     group_item_label:"Won in Qtr"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_won_early {
@@ -418,7 +418,7 @@ view: scrub_ww {
     label:"Available Renewals Won Early"
     group_item_label:"Won Early"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_won_late {
@@ -427,7 +427,7 @@ view: scrub_ww {
     label:"Available Renewals Won Late"
     group_item_label:"Won Late"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_open_in_qtr {
@@ -436,7 +436,7 @@ view: scrub_ww {
     label:"Available Renewals Open in Qtr"
     group_item_label:"Open in Qtr"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_target {
