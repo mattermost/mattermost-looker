@@ -4169,21 +4169,30 @@ dimension: last_day_of_month {
     hidden: no
   }
 
-  dimension: custom_service_terms_enabled_support {
-  label: "Custom Service Terms Enabled Support"
+#   dimension: custom_service_terms_enabled_support {
+#   label: "Custom Service Terms Enabled Support"
+#     description: ""
+#     type: yesno
+#     group_label: "Support Configuration"
+#     sql: ${TABLE}.custom_service_terms_enabled_support ;;
+#     hidden: no
+#   }
+
+  dimension: custom_terms_of_service_enabled {
+  label: "Custom Terms of Service Enabled"
     description: ""
     type: yesno
     group_label: "Support Configuration"
-    sql: ${TABLE}.custom_service_terms_enabled_support ;;
+    sql: COALESCE(${TABLE}.custom_terms_of_service_enabled, ${TABLE}.custom_service_terms_enabled_support) ;;
     hidden: no
   }
 
-  dimension: custom_terms_of_service_enabled {
-  label: "Custom Terms Of Service Enabled"
+  dimension: ask_community_link_enabled {
+    label: "Ask Community Link Enabled"
     description: ""
     type: yesno
     group_label: "Support Configuration"
-    sql: ${TABLE}.custom_terms_of_service_enabled ;;
+    sql: ${TABLE}.enable_ask_community_link ;;
     hidden: no
   }
 
@@ -8067,7 +8076,15 @@ dimension: last_day_of_month {
     description: "The count of servers with Support Custom Terms Of Service Enabled enabled."
     type: count_distinct
     group_label: " Server Counts"
-    sql: case when ${custom_terms_of_service_enabled} or ${custom_service_terms_enabled_support} then ${server_id} else null end ;;
+    sql: case when ${custom_terms_of_service_enabled} then ${server_id} else null end ;;
+  }
+
+  measure: ask_community_link_enabled_count {
+    label: "Servers w/ Support Ask Community Link Enabled"
+    description: "The count of servers with Ask Community Link enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    sql: case when ${ask_community_link_enabled} then ${server_id} else null end ;;
   }
 
   measure: isdefault_about_link_count {
