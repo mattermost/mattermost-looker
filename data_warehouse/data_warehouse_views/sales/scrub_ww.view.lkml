@@ -342,7 +342,7 @@ view: scrub_ww {
     value_format_name: usd_0
     link: {
       label: "List all Won"
-      url:"https://mattermost.looker.com/looks/512?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/512?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
   }
 
@@ -368,7 +368,7 @@ view: scrub_ww {
     value_format_name: usd_0
     link: {
       label: "List all Open"
-      url:"https://mattermost.looker.com/looks/515?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/515?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
   }
 
@@ -394,7 +394,7 @@ view: scrub_ww {
     value_format_name: usd_0
     link: {
       label: "List all Lost"
-      url:"https://mattermost.looker.com/looks/505?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}&f[opportunity.territory_sales_segment]={{ sales_segment }}"
+      url:"https://mattermost.looker.com/looks/505?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
   }
 
