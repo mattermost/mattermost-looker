@@ -6,6 +6,13 @@ view: version_release_dates {
   # FILTERS
 
   # DIMENSIONS
+  dimension: id {
+    description: "Unique ID for each record contained in data."
+    type: string
+    sql: md5(${version}::varchar, ${release_number}::varchar, ${release_date}::varchar) ;;
+    primary_key: yes
+  }
+
   dimension: version {
     description: "The server version associated with the release date."
     type: string

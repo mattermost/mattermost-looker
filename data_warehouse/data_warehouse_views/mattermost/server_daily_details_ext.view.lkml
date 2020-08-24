@@ -21,7 +21,7 @@ view: server_daily_details_ext {
   }
 
   # FILTERS
-  filter: last_day_of_month {
+dimension: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
@@ -64,86 +64,99 @@ view: server_daily_details_ext {
             THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: last_day_of_week {
+  dimension: last_day_of_week {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-    CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
+    CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
     ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
     THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: latest_telemetry_record {
+  dimension: latest_telemetry_record {
     label: "  Latest Security Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Indicates whether the record captures the last (most recent) date that Security (security_update_check.go) diagnostics telemetry was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
-  filter: latest_telemetry_record_2 {
+  dimension: latest_telemetry_record_2 {
     label: "  Latest Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
-    hidden: no
+    hidden: yes
   }
 
-  filter: latest_segment_telemetry_record {
+  dimension: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
-  filter: before_last_segment_telemetry_date {
+  dimension: before_last_segment_telemetry_date {
     label: "  <= Last Activity Date"
+    group_label: "  Telemetry Flags"
     description: "Indicates whether the record's logging date is before the server's last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
-  filter: is_telemetry_enabled {
+  dimension: is_telemetry_enabled {
     label: "In Security Diagnostics"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
+    hidden: yes
   }
 
-  filter: is_tracking_enabled {
+  dimension: is_tracking_enabled {
     label: "In Security or Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
     type: yesno
     sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
-  filter: in_mattermost2_server {
+  dimension: in_mattermost2_server {
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
+    hidden: yes
   }
 
-  filter: first_telemetry_record {
+  dimension: first_telemetry_record {
     label: "  First Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
-  filter: first_security_telemetry_record {
+  dimension: first_security_telemetry_record {
     label: "  First Security Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 
-  filter: first_diagnostics_telemetry_record {
+  dimension: first_diagnostics_telemetry_record {
     label: "  First Diagnostics Telemetry Record"
+    group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_mm2_telemetry_date}::date THEN TRUE ELSE FALSE END ;;
@@ -320,6 +333,7 @@ view: server_daily_details_ext {
 
   dimension: database_type {
     label: " Database Type"
+    group_label: " Database Info."
     description: "The database type the server is currently hosted on (MySQL or Postgres)."
     type: string
     sql: ${TABLE}.database_type ;;
@@ -328,22 +342,43 @@ view: server_daily_details_ext {
 
   dimension: database_version {
     label: " Database Version"
+    group_label: " Database Info."
     description: "The database version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-          NULL
-          ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') END;;
+    sql: regexp_replace(${TABLE}.database_version, '[a-zA-Z\+\:\~\'\\s\)\(\"\-]', '') ;;
     order_by_field: database_version_major_sort
   }
 
   dimension: database_version_major_sort {
     label: "  Database Version Sort"
+    group_label: " Database Info."
     description: "The current database version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
     sql: (split_part(${database_version}, '.', 1) ||
-          CASE WHEN split_part(${database_version}, '.', 2) = '10' THEN '99'
-            ELSE split_part(${database_version}, '.', 2) || '0' END)::int ;;
+          CASE WHEN length(split_part(${database_version}, '.', 2)) > 1 THEN
+            CASE WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 10 AND left(split_part(${database_version}, '.', 2), 2)::int < 20 THEN '99'
+                WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 20 THEN left(split_part(${database_version}, '.', 2), 1) || '1'
+                WHEN left(split_part(${database_version}, '.', 2), 1)::int = 0 THEN left(split_part(${database_version}, '.', 2), 1) || '0'
+                ELSE NULL END
+              WHEN length(split_part(${database_version}, '.', 2))::int = 1 THEN trim(left(split_part(${database_version}, '.', 2), 2)) || '0' END)::int ;;
     hidden: yes
+  }
+
+  dimension: database_version_major {
+    label: " Database Version (Major)"
+    group_label: " Database Info."
+    description: "The database version the server uses to host Mattermost w/ the dot release removed."
+    type: string
+    sql: split_part(${database_version}, '.', 1) || '.' || left(split_part(${database_version}, '.', 2), 2) ;;
+    order_by_field: database_version_major_sort
+  }
+
+  dimension: database_version_major_release {
+    label: " Database Version (Major Release)"
+    group_label: " Database Info."
+    description: "The core database version the server uses to host Mattermost w/out any trailing releases."
+    type: number
+    sql: split_part(${database_version}, '.', 1)::int ;;
   }
 
   dimension: gitlab_install {
@@ -8027,20 +8062,12 @@ view: server_daily_details_ext {
     sql: case when ${trace_sql} then ${server_id} else null end ;;
   }
 
-  measure: custom_service_terms_enabled_support_count {
-    label: "Servers w/ Support Custom Service Terms Enabled Support"
-    description: "The count of servers with Support Custom Service Terms Enabled Support enabled."
-    type: count_distinct
-    group_label: " Server Counts"
-    sql: case when ${custom_service_terms_enabled_support} then ${server_id} else null end ;;
-  }
-
   measure: custom_terms_of_service_enabled_count {
     label: "Servers w/ Support Custom Terms Of Service Enabled"
     description: "The count of servers with Support Custom Terms Of Service Enabled enabled."
     type: count_distinct
     group_label: " Server Counts"
-    sql: case when ${custom_terms_of_service_enabled} then ${server_id} else null end ;;
+    sql: case when ${custom_terms_of_service_enabled} or ${custom_service_terms_enabled_support} then ${server_id} else null end ;;
   }
 
   measure: isdefault_about_link_count {

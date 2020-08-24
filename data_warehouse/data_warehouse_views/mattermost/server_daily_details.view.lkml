@@ -2,11 +2,21 @@ view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
   view_label: " Server Daily Details"
   # Filters
-  filter: last_day_of_month {
+  dimension: latest_telemetry_record_2 {
+    label: "  Latest Telemetry Record"
+    description: "Indicates whether the record captures the last (most recent) date that Security (security_update_check.go) or diagnostics (diagnostics.go) telemetry was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
+    group_label: "  Telemetry Flags"
+    hidden: no
+
+  }
+
+  dimension: last_day_of_month {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN
+                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date + interval '1 day') = DATE_TRUNC('month', CURRENT_DATE) THEN
                                         CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
                                             THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
                                           WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
@@ -45,95 +55,100 @@ view: server_daily_details {
             THEN TRUE ELSE FALSE END ;;
   }
 
-  filter: mobile_client_usage {
+  dimension: mobile_client_usage {
     description: "Boolean value indicating >= 1 user associated with the server performed an event using the mobile client."
     type: yesno
     sql: CASE WHEN ${mobile_dau} > 0 THEN true ELSE false END ;;
+    group_label: "Server Events"
   }
 
-  filter: last_day_of_week {
+  dimension: last_day_of_week {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - interval '1 day') FROM mattermost.server_daily_details)
+                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
                                         ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
+   group_label: "Last Day of Filters"
   }
 
-  filter: latest_telemetry_record {
+  dimension: latest_telemetry_record {
     label: "  Latest Security Telemetry Record"
     description: "Boolean indicating the record captures the last (most recent) date that Security (security_update_check.go) telemetry was logged for the server."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+    group_label: "  Telemetry Flags"
   }
 
-  filter: latest_telemetry_record_2 {
-    label: "  Latest Telemetry Record"
-    description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
-    type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_active_date} THEN TRUE ELSE FALSE END ;;
-    hidden: no
-  }
-
-  filter: first_telemetry_record {
+  dimension: first_telemetry_record {
     label: "  First Telemetry Record"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+    group_label: "  Telemetry Flags"
   }
 
-  filter: first_security_telemetry_record {
+  dimension: first_security_telemetry_record {
     label: "  First Security Telemetry Record"
     description: "Boolean indicating the record is the first date that the server sent Security (security_update_chech.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.first_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+    group_label: "  Telemetry Flags"
   }
 
-  filter: latest_segment_telemetry_record {
+  dimension: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
     description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+    group_label: "  Telemetry Flags"
   }
 
-  filter: before_last_segment_telemetry_date {
+  dimension: before_last_segment_telemetry_date {
     label: "  <= Last Diagnostics Telemetry Date"
     description: "Boleane indicating the record's logging date is on or before the last - most recent - date that the server sent Diagnostics (diagnostics.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
+    group_label: "  Telemetry Flags"
   }
 
-  filter: is_telemetry_enabled {
-    label: "In Security Telemetry"
-    description: "Boolean indicating the server sent appears in the events.security table data (security_update_check.go) on the given date."
-    type: yesno
-    sql: ${TABLE}.in_security ;;
-  }
-
-  filter: is_tracking_enabled {
-    label: "In Security or Diagnostics Telemetry"
-    description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
-    type: yesno
-    sql: CASE WHEN ${TABLE}.in_security OR ${TABLE}.in_mattermost2_server THEN TRUE ELSE FALSE END ;;
-  }
-
-  filter: in_mattermost2_server {
+  dimension: in_mattermost2_server {
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Diagnostics Telemetry"
+    group_label: "  Telemetry Flags"
     type: yesno
     sql: ${TABLE}.in_mm2_server ;;
   }
 
-  filter: trailing_3_releases {
+  dimension: is_telemetry_enabled {
+    description: ""
+    label: "In Security Telemetry"
+    group_label: "  Telemetry Flags"
+    hidden: yes
+    sql: ${TABLE}.in_security ;;
+    type: yesno
+  }
+
+  dimension: is_tracking_enabled {
+    description: ""
+    label: "Tracking Enabled"
+    group_label: "  Telemetry Flags"
+    hidden: yes
+    sql: ${TABLE}.in_security OR ${TABLE}.in_mm2_server ;;
+    type: yesno
+  }
+
+  dimension: trailing_3_releases {
     description: "Boolean indicating the server version is on the trailing 3 releases as it relates to the logging date."
     type: yesno
     sql: CASE WHEN ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '119 days'
     AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE ELSE FALSE END ;;
+    group_label: " Server Versions"
   }
 
   # Dimensions
@@ -284,7 +299,7 @@ view: server_daily_details {
   }
 
   dimension: latest_record {
-    label: "  Latest Telemetry Record"
+    label: "  Latest Security Telemetry Record"
     group_label: "  Telemetry Flags"
     description: "Indicates whether the record captures the last (most recent) date that telemetry was logged for the server."
     type: yesno
@@ -326,22 +341,43 @@ view: server_daily_details {
 
   dimension: database_version {
     label: " Database Version"
+    group_label: " Database Info."
     description: "The database version of Mattermost the server was using on the given logging date (example: 5.9.0.5.9.8)"
     type: string
-    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-          NULL
-          ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') END;;
+    sql: regexp_replace(${TABLE}.database_version, '[a-zA-Z\+\:\~\'\\s\)\(\"\-]', '') ;;
     order_by_field: database_version_major_sort
   }
 
   dimension: database_version_major_sort {
     label: "  Database Version Sort"
+    group_label: " Database Info."
     description: "The current database version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
     sql: (split_part(${database_version}, '.', 1) ||
-          CASE WHEN split_part(${database_version}, '.', 2) = '10' THEN '99'
-            ELSE split_part(${database_version}, '.', 2) || '0' END)::int ;;
+          CASE WHEN length(split_part(${database_version}, '.', 2)) > 1 THEN
+            CASE WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 10 AND left(split_part(${database_version}, '.', 2), 2)::int < 20 THEN '99'
+                WHEN left(split_part(${database_version}, '.', 2), 2)::int >= 20 THEN left(split_part(${database_version}, '.', 2), 1) || '1'
+                WHEN left(split_part(${database_version}, '.', 2), 1)::int = 0 THEN left(split_part(${database_version}, '.', 2), 1) || '0'
+                ELSE NULL END
+              WHEN length(split_part(${database_version}, '.', 2))::int = 1 THEN trim(left(split_part(${database_version}, '.', 2), 2)) || '0' END)::int ;;
     hidden: yes
+  }
+
+  dimension: database_version_major {
+    label: " Database Version (Major)"
+    group_label: " Database Info."
+    description: "The database version the server uses to host Mattermost w/ the dot release removed."
+    type: string
+    sql: split_part(${database_version}, '.', 1) || '.' || left(split_part(${database_version}, '.', 2), 2) ;;
+    order_by_field: database_version_major_sort
+  }
+
+  dimension: database_version_major_release {
+    label: " Database Version (Major Release)"
+    group_label: " Database Info."
+    description: "The core database version the server uses to host Mattermost w/out any trailing releases."
+    type: number
+    sql: split_part(${database_version}, '.', 1)::int ;;
   }
 
   dimension: server_version_major {
@@ -375,6 +411,7 @@ view: server_daily_details {
 
   dimension: db_type {
     label: "Database Type"
+    group_label: " Database Info."
     description: "The type of database the server is currently using (postgres vs. mysql)"
     type: string
     sql: ${TABLE}.database_type ;;
@@ -557,12 +594,30 @@ view: server_daily_details {
 
   dimension: days_from_first_telemetry_to_paid_license {
     label: "Days to Paid License"
-    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    description: "The number of days between the servers first telemetry date and it's first paid license issue date."
     type: number
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
     datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
     --END
     ;;
+  }
+
+  dimension: customer_days_to_paid_license {
+    label: "Days to Paid License (Customer)"
+    description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
+    type: number
+    sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
+          datediff(day, COALESCE(${server_fact.customer_first_active_date}::date, ${nps_server_daily_score.server_install_date}::date), ${server_fact.customer_first_paid_license_date}::date)
+          --END
+          ;;
+  }
+
+  dimension_group: customer_first_paid_license_issued {
+    label: "Customer First Paid License Issued"
+    description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${server_fact.customer_first_paid_license_date}::date ;;
   }
 
   measure: median_days_active_to_paid {
@@ -596,8 +651,17 @@ view: server_daily_details {
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [0,7,31,61,91,181,366,731]
     sql: ${days_from_first_telemetry_to_paid_license} ;;
+  }
+
+  dimension: customer_days_from_first_telemetry_to_paid_license_band {
+    label: "Days to Paid License Band (Customer)"
+    description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
+    type: tier
+    style: integer
+    tiers: [0,7,31,61,91,181,366,731]
+    sql: ${customer_days_to_paid_license} ;;
   }
 
   dimension: server_age {
@@ -702,6 +766,13 @@ view: server_daily_details {
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
+  }
+
+  measure: customer_count {
+    label: "Customer Count"
+    type: count_distinct
+    sql: coalesce(${account_sfid}, lower(${server_fact.company_name})) ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, server_fact.first_paid_license_date, customer_first_paid_license_issued_date, server_fact.first_active_date, server_fact.customer_first_active_date, server_fact.paid_license_expire_date]
   }
 
   measure: servers_w_mobile_usage {

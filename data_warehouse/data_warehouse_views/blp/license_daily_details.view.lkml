@@ -257,6 +257,12 @@ view: license_daily_details {
     hidden: no
   }
 
+  dimension: license_guest_accounts {
+    label: "Guest Accounts"
+    type: number
+    sql: ${TABLE}.license_guest_accounts ;;
+  }
+
   dimension: customer_registered_users {
     label: " Customer Registered Users"
     description: "The number of registered users recorded by all servers associated with the customer_id and its respective licenses."
@@ -316,6 +322,13 @@ view: license_daily_details {
     group_label: "Customer Dimensions"
     type: string
     sql: ${TABLE}.customer_server_version ;;
+  }
+
+  dimension: customer_guest_accounts {
+    label: "Guest Accounts"
+    group_label: "Customer Dimensions"
+    type: number
+    sql: ${TABLE}.customer_guest_accounts ;;
   }
 
   dimension: cluster {
@@ -391,6 +404,7 @@ view: license_daily_details {
   }
 
   dimension: guest_accounts {
+    label: "Guest Accounts Enabled"
     description: ""
     group_label: "Features"
     type: yesno
