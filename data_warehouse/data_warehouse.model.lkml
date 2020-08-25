@@ -848,6 +848,22 @@ explore: scrub_ww {
   view_label: "Scrub WW"
 }
 
+explore: historical_rep_attainment {
+  extends: [_base_opportunity_explore]
+  join: user {
+    sql_on: ${user.employeenumber} = ${historical_rep_attainment.employee_num} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.close_quarter} = ${historical_rep_attainment.fiscal_quarter}
+            AND ${opportunity.ownerid} = ${user.sfid}
+            AND ${opportunity.close_date} >= util.fiscal_quarter_start(util.get_sys_var('curr_qtr'));;
+    relationship: one_to_many
+  }
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
