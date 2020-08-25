@@ -849,6 +849,7 @@ explore: scrub_ww {
 }
 
 explore: historical_rep_attainment {
+  group_label: "Target vs Actual"
   extends: [_base_opportunity_explore]
   join: user {
     sql_on: ${user.employeenumber} = ${historical_rep_attainment.employee_num} ;;
@@ -1740,6 +1741,7 @@ explore: trial_licenses {
 }
 
 explore: in_product_trial_requests {
+  group_label: "Product"
   label: "In Product Trial Requests"
   from: trial_requests
 
