@@ -2,9 +2,10 @@ view: historical_rep_attainment {
   sql_table_name: "SALES"."HISTORICAL_REP_ATTAINMENT"
     ;;
 
-  dimension: attainment {
+  dimension: bookings {
+    description: "New + Expansion + Co-Term + LOE"
     type: number
-    sql: ${TABLE}."ATTAINMENT" ;;
+    sql: ${TABLE}."BOOKINGS" ;;
     value_format_name: usd_0
   }
 
@@ -47,7 +48,7 @@ view: historical_rep_attainment {
   measure: attainment_perc {
     label: "Attainment Percent"
     type: sum
-    sql: ${attainment}/${quota};;
+    sql: ${bookings}/${quota};;
     value_format_name: percent_1
   }
 }
