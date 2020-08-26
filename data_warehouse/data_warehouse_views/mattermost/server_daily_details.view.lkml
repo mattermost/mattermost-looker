@@ -448,7 +448,8 @@ view: server_daily_details {
     description: "The Mattermost Customer License ID associated with the server (null if no license found)."
     group_label: "License Info."
     type: string
-    sql: ${TABLE}.license_id1 ;;
+    sql: ${license_server_fact.license_id} ;;
+    hidden: no
   }
 
   dimension: license_id2 {
@@ -465,7 +466,8 @@ view: server_daily_details {
     description: "The email associated with the license provisioned to the Mattermost server."
     group_label: "License Info."
     type: string
-    sql: ${TABLE}.license_email ;;
+    sql: ${license_server_fact.license_email} ;;
+    hidden: yes
   }
 
   dimension: license_contact_sfid {
@@ -478,7 +480,8 @@ view: server_daily_details {
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     type: string
-    sql: ${TABLE}.license_contact_sfid ;;
+    sql: ${license_server_fact.contact_sfid} ;;
+    hidden: yes
   }
 
   dimension: license_status {
@@ -486,7 +489,7 @@ view: server_daily_details {
     description: "Indicates whether the server is registered/paired with a licensed customer (If yes then licensed, else unlicensed)."
     group_label: "License Info."
     type: yesno
-    sql: case when ${license_id} is not null then true else false end ;;
+    sql: case when ${license_id} is not null and ${license_at_logging} then true else false end ;;
   }
 
   dimension: edition2 {
@@ -494,7 +497,15 @@ view: server_daily_details {
     description: "Indicates whether the server is registered/paired with a licensed customer (If yes then licensed, else unlicensed)."
     group_label: "License Info."
     type: string
-    sql: COALESCE(${licenses.edition}, ${edition}) ;;
+    sql: COALESCE(${license_current.edition}, ${edition}) ;;
+  }
+
+  dimension: license_at_logging {
+    label: "License At Logging"
+    description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
+    view_label: "License Fact"
+    type: yesno
+    sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
   }
 
   dimension: server_status {
@@ -684,7 +695,7 @@ view: server_daily_details {
     group_label: "License Info."
     description: "The company derived from the license associated with the server."
     type: string
-    sql: ${licenses.company} ;;
+    sql: ${server_fact.company_name} ;;
   }
 
   dimension: events {
@@ -803,7 +814,7 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Trial Server ID's across dimensions. This provides a count of all currently trial licensed servers on the given logging date."
     type: count_distinct
-    sql: CASE WHEN ${licenses.trial} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${license_current.trial} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
   }
 
@@ -812,7 +823,7 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Server ID's that converted from a trial license to a paid license across dimensions. This provides a count of all trial licensed servers on the given logging date that have since converted to paid licensed servers."
     type: count_distinct
-    sql: CASE WHEN ${licenses.trial} and ${server_fact.first_trial_license_date} <= ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${license_current.trial} and ${server_fact.first_trial_license_date} <= ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
   }
 

@@ -31,9 +31,9 @@ view: license_server_fact {
   }
 
   dimension: company {
-    description: ""
+    description: "The coalesced Salesforce Account Name or, if unavailabe/does not exist, license company name provided during license purchasing and/or trial request process."
     type: string
-    sql: ${TABLE}.company ;;
+    sql: COALESCE(${account_name}, ${server_fact.company_name}, ${TABLE}.company) ;;
     hidden: no
   }
 
@@ -71,6 +71,32 @@ view: license_server_fact {
     description: ""
     type: string
     sql: ${TABLE}.contact_sfid ;;
+    hidden: no
+  }
+
+  dimension: account_sfid {
+    type: string
+    sql: COALESCE(${server_fact.account_sfid}, ${TABLE}.account_sfid) ;;
+    hidden: yes
+  }
+
+  dimension: account_name {
+    type: string
+    sql: COALESCE(${server_fact.account_name}, ${TABLE}.account_name) ;;
+    hidden: yes
+  }
+
+  dimension: stripeid {
+    description: "The stripeid associated with the licensed customer."
+    type: string
+    sql: ${TABLE}.stripeid ;;
+    hidden: no
+  }
+
+  dimension: customer_id {
+    description: "The customer id associated with the licensed customer."
+    type: string
+    sql: ${TABLE}.customer_id ;;
     hidden: no
   }
 
@@ -126,6 +152,14 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension_group: license_retired {
+    description: "Value is retrieved via a windowing function that identifies the start date of the next license associated with the server, so there is no overlapping of license keys on Server logging dates."
+    type: time
+    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    sql: ${TABLE}.license_retired_date ;;
+    hidden: no
+  }
+
 
   # MEASURES
   measure: count {
@@ -153,6 +187,13 @@ view: license_server_fact {
   measure: users_sum {
     description: "The sum of Users per grouping."
     type: sum
+    sql: ${users} ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: customer_count {
+    description: "The count of distinct customers per grouping."
+    type: count_distinct
     sql: ${users} ;;
     drill_fields: [licensed_server_drill*]
   }
