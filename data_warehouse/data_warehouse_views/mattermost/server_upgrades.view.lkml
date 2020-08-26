@@ -47,7 +47,9 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The previous days server version for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
     type: string
-    sql: regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.prev_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+            regexp_substr(regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+            ELSE regexp_substr(regexp_substr(${TABLE}.prev_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     hidden: no
   }
 
@@ -56,7 +58,7 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The previous days server version major (truncating dot release) for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
     type: string
-    sql: regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}') ;;
+    sql: split_part(${prev_version}, '.', 1) || '.' || split_part(${prev_version}, '.', 2)  ;;
     hidden: no
     order_by_field: prev_server_version_major_sort
   }
@@ -77,7 +79,9 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The current server version of the server on the given logging date."
     type: string
-    sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}') ;;
+    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.current_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
+    regexp_substr(regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+    ELSE regexp_substr(regexp_substr(${TABLE}.current_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     hidden: no
   }
 
@@ -86,7 +90,7 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The current server version major (truncating dot release) of the server on the given logging date."
     type: string
-    sql: regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}') ;;
+    sql: split_part(${current_version}, '.', 1) || '.' || split_part(${current_version}, '.', 2)  ;;
     hidden: no
     order_by_field: current_server_version_major_sort
   }
