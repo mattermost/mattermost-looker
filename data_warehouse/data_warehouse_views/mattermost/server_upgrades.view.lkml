@@ -47,10 +47,9 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The previous days server version for the server on the given logging date. Useful for tracking origin of server upgrades (i.e. Server upgraded from this version to their current version)."
     type: string
-    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.prev_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-              regexp_substr(${TABLE}.prev_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
-            ELSE regexp_substr(regexp_substr(${TABLE}.prev_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
+    sql: ${TABLE}.prev_version ;;
     hidden: no
+    order_by_field: prev_server_version_major_sort
   }
 
   dimension: prev_version_major {
@@ -79,10 +78,9 @@ view: server_upgrades {
     group_label: " Server Versions"
     description: "The current server version of the server on the given logging date."
     type: string
-    sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.current_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-     regexp_substr(${TABLE}.current_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
-    ELSE regexp_substr(regexp_substr(${TABLE}.current_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
+    sql: ${TABLE}.current_version ;;
     hidden: no
+    order_by_field: current_server_version_major_sort
   }
 
   dimension: current_version_major {
@@ -128,7 +126,7 @@ view: server_upgrades {
     label: "  Gitlab Install"
     description: "Boolean indicating the server's OAuth enable gitlab flag = True on the date of server activation (first logged diagnostics activity date)."
     type: yesno
-    sql: ${server_fact.gitlab_install} ;;
+    sql: COALESCE(${server_fact.gitlab_install}, FALSE) ;;
   }
 
 
@@ -161,7 +159,13 @@ view: server_upgrades {
     label: "Server Version Upgrades"
     description: "The distinct count of server version upgrades i.e. a server upgrades from an older Mattermost Server Version to a newer Mattermost Server Version."
     type: count_distinct
-    sql: CASE WHEN ${current_version} > COALESCE(${prev_version}, ${current_version}) THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float THEN ${server_id}
+            WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float
+              AND SPLIT_PART(${current_version}, '.', 2)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::float THEN ${server_id}
+            WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float
+              AND SPLIT_PART(${current_version}, '.', 2)::FLOAT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::float
+              AND SPLIT_PART(${current_version}, '.', 3)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 3)::float THEN ${server_id}
+            ELSE NULL END ;;
     drill_fields: [drill_set1*]
   }
 
