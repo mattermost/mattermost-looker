@@ -2084,5 +2084,24 @@ explore: community_program_members {
 }
 
 explore: incident_response_events {
-  label: "Incident Response Events"
+  description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
+  view_label: "Incident Response"
+  label: "Incident Response"
+  group_label: "Integrations"
+  extends: [server_fact]
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
 }

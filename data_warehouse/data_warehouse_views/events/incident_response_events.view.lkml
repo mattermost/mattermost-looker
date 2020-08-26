@@ -3,7 +3,10 @@ view: incident_response_events {
   sql_table_name: events.incident_response_events ;;
   view_label: "Incident Response Events"
 
-  # FILTERS
+  # DRILL SETS
+  set: incidents_drill {
+    fields: [timestamp_date, id, user_id, userid, server_fact.company_name, event, pluginversion, serverversion, incidentid, playbookid, teamid, channelids, checklists_sum, totalchecklistitems_sum, nummember_sum, numslashcommands_sum]
+  }
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
@@ -83,14 +86,37 @@ view: incident_response_events {
 
   dimension: serverversion {
     label: "Server Version"
+    group_label: "Server Versions"
     description: "The version of the server performing the incident response event."
     type: string
     sql: ${TABLE}.serverversion ;;
     hidden: no
+    order_by_field: current_server_version_major_sort
+  }
+
+  dimension: serverversion_major {
+    label: "Server Version (Major)"
+    group_label: "Server Versions"
+    description: "The version of the server performing the incident response event."
+    type: string
+    sql: SPLIT_PART(${serverversion}, '.', 1) || '.' || SPLIT_PART(${serverversion}, '.', 2) ;;
+    hidden: no
+    order_by_field: current_server_version_major_sort
+  }
+
+  dimension: current_server_version_major_sort {
+    group_label: "Server Versions"
+    label: "Current Server Version: Major (Sort)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: number
+    sql: (split_part(${serverversion}, '.', 1) ||
+          CASE WHEN split_part(${serverversion}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${serverversion}, '.', 2) || '0' END)::int ;;
+    hidden: yes
   }
 
   dimension: id {
-    description: ""
+    description: "The unique ID of the event performed by the user (primary key)."
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
@@ -338,6 +364,7 @@ view: incident_response_events {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [incidents_drill*]
   }
 
   measure: anonymous_count {
@@ -345,14 +372,41 @@ view: incident_response_events {
     description: "The distinct count of Anonymouss per grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    drill_fields: [incidents_drill*]
     hidden: yes
   }
 
   measure: playbook_count {
-    label: " Playbook ID Count"
+    label: " Playbook Count"
     description: "The distinct count of Playbooks per grouping."
     type: count_distinct
     sql: ${playbookid} ;;
+    drill_fields: [incidents_drill*]
+    hidden: no
+  }
+
+  measure: nummember_sum {
+    label: "Members Sum"
+    description: "The sum of members per grouping."
+    type: sum
+    sql: ${nummembers} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: incidentid_count {
+    label: "Incident Count"
+    description: "The count of distinct incidents per grouping."
+    type: count_distinct
+    sql: ${incidentid} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: numslashcommands_sum {
+    label: "Slash Commands Sum"
+    description: "The number of slash commands per grouping."
+    type: sum
+    sql: COALESCE(${TABLE}.numslashcommands, ${playbook_numslashcommands});;
+    drill_fields: [incidents_drill*]
     hidden: no
   }
 
@@ -361,6 +415,7 @@ view: incident_response_events {
     description: "The distinct count of Teams per grouping."
     type: count_distinct
     sql: ${teamid} ;;
+    drill_fields: [incidents_drill*]
     hidden: no
   }
 
@@ -369,6 +424,7 @@ view: incident_response_events {
     description: "The distinct count of Users per grouping."
     type: count_distinct
     sql: ${userid} ;;
+    drill_fields: [incidents_drill*]
   }
 
   measure: totalchecklistitems_sum {
@@ -376,12 +432,15 @@ view: incident_response_events {
     description: "The sum of Totalchecklistitems per grouping."
     type: sum
     sql: ${totalchecklistitems} ;;
+    drill_fields: [incidents_drill*]
   }
 
   measure: checklists_sum {
+    label: "Checklists Sum"
     description: "The sum of Playbook Totalchecklistitems per grouping."
     type: sum
     sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
   }
 
 
