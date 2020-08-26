@@ -331,7 +331,19 @@ view: scrub_ww {
       label: "List all Won"
       url:"https://mattermost.looker.com/looks/518?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
+  }
 
+  measure: ren_available_renewals_won_qtd {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_won_qtd ;;
+    label:"Available Renewals Won QTD"
+    group_item_label:"Won QTD"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+    link: {
+      label: "List all Won"
+      url:"https://mattermost.looker.com/looks/512?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
+    }
   }
 
   measure: ren_available_renewals_open {
@@ -345,7 +357,19 @@ view: scrub_ww {
       label: "List all Open"
       url:"https://mattermost.looker.com//looks/517?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
+  }
 
+  measure: ren_available_renewals_open_past_due_qtd {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_open_past_due_qtd ;;
+    label:"Available Renewals Open Past Due QTD"
+    group_item_label:"Open Past Due QTD"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+    link: {
+      label: "List all Open"
+      url:"https://mattermost.looker.com/looks/515?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
+    }
   }
 
   measure: ren_available_renewals_lost {
@@ -358,6 +382,19 @@ view: scrub_ww {
     link: {
       label: "List all Lost"
       url:"https://mattermost.looker.com//looks/516?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
+    }
+  }
+
+  measure: ren_available_renewals_lost_qtd {
+    type:sum
+    sql: ${TABLE}.ren_available_renewals_lost_qtd ;;
+    label:"Available Renewals Lost QTD"
+    group_item_label:"Lost QTD"
+    group_label: "Available Renewal"
+    value_format_name: usd_0
+    link: {
+      label: "List all Lost"
+      url:"https://mattermost.looker.com/looks/505?toggle&toggle=det,pik&f[renewal_rate_by_renewal_opportunity.renewal_qtr]={{ scrub_qtr }}"
     }
   }
 
@@ -409,7 +446,7 @@ view: scrub_ww {
     label:"Available Renewals Won in Qtr"
     group_item_label:"Won in Qtr"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_won_early {
@@ -418,7 +455,7 @@ view: scrub_ww {
     label:"Available Renewals Won Early"
     group_item_label:"Won Early"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_won_late {
@@ -427,7 +464,7 @@ view: scrub_ww {
     label:"Available Renewals Won Late"
     group_item_label:"Won Late"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_available_renewals_open_in_qtr {
@@ -436,7 +473,7 @@ view: scrub_ww {
     label:"Available Renewals Open in Qtr"
     group_item_label:"Open in Qtr"
     group_label: "Available Renewal"
-    value_format_name: percent_1
+    value_format_name: usd_0
   }
 
   measure: ren_target {

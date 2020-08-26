@@ -9,7 +9,8 @@ view: community_program_members {
   dimension: id {
     description: "The unique ID of the Mattermost Community Program Member."
     type: string
-    sql: ${TABLE}.id ;;
+    sql: MD5(${TABLE}.id::VARCHAR, ${TABLE}.full_name::varchar, ${TABLE}.start_date::varchar, ${TABLE}.end_date::varchar) ;;
+    primary_key: yes
     hidden: no
   }
 
