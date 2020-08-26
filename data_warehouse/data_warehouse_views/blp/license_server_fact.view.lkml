@@ -107,6 +107,11 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension: is_activated {
+    type: yesno
+    sql: CASE WHEN ${license_activation_date} is not null THEN TRUE ELSE FALSE END ;;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: issued {
