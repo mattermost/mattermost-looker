@@ -58,7 +58,8 @@ view: opportunitylineitem {
       expansion_amount,
       coterm_expansion_amount,
       leftover_expansion_amount,
-      multi_amount
+      multi_amount,
+      ren_multi_amount
     ]
   }
 
@@ -871,6 +872,14 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,multi_amount]
   }
 
+  dimension: ren_multi_amount {
+    hidden: yes
+    sql: ${TABLE}.ren_multi_amount__c;;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,ren_multi_amount]
+  }
+
   measure: total_new_amount {
     group_label: "Product Line Type Totals"
     label: "New"
@@ -973,6 +982,16 @@ view: opportunitylineitem {
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_multi_amount]
+  }
+
+  measure: total_ren_multi_amount {
+    group_label: "Product Line Type Totals"
+    label: "Ren-Multi"
+    sql: ${ren_multi_amount};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_ren_multi_amount]
   }
 
 }
