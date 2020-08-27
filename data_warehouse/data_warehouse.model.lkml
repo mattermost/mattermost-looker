@@ -953,7 +953,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
     AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
-    fields: []
+    fields: [server_daily_details_ext.active_users_daily, server_daily_details_ext.active_users_daily_band, server_daily_details_ext.active_users_monthly, server_daily_details_ext.registered_deactivated_users, server_daily_details_ext.registered_users,
+      server_daily_details_ext.registered_users_band]
   }
 
   join: version_release_dates {
@@ -2087,4 +2088,27 @@ explore: community_program_members {
   label: "Community Program Members"
   description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
   group_label: "Mattermost Community"
+}
+
+explore: incident_response_events {
+  description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
+  view_label: "Incident Response"
+  label: "Incident Response"
+  group_label: "Integrations"
+  extends: [server_fact]
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
 }

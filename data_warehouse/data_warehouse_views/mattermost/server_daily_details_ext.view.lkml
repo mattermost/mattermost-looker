@@ -167,7 +167,7 @@ dimension: last_day_of_month {
     group_label: " Status & Activity Filters"
     type: yesno
     description: "Indicates the server is currently associated with a paid license that is not expired."
-    sql: CASE WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN COALESCE(${server_fact.paid_license_expire_date},CURRENT_DATE - INTERVAL '1 DAY') >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: active_users_alltime {
