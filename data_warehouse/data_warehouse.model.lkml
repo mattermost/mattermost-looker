@@ -791,6 +791,12 @@ explore: campaign {
     relationship: many_to_one
   }
 
+  join: account_domain_mapping {
+    sql_on: lower(split_part(coalesce(${lead.email},${contact.name}),'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: [account_domain_mapping.domain,account_domain_mapping.public]
+  }
+
   join: owner {
     view_label: "Lead Owner Current"
     from:  user

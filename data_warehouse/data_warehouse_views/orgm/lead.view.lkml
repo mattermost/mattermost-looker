@@ -334,6 +334,32 @@ view: lead {
     group_label: "Marketing"
   }
 
+  dimension: number_of_employees {
+    sql: ${TABLE}.NUMBEROFEMPLOYEES ;;
+    type: number
+  }
+
+  dimension: unknown_number_of_employees {
+    sql: ${number_of_employees} IS NULL;;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: unknown_country {
+    sql: ${country} IS NULL OR ${country} = '';;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: lead_routing_catgeory {
+    sql: CASE WHEN ${unknown_country} AND ${unknown_number_of_employees} THEN 'Both Unknown'
+              WHEN NOT ${unknown_country} AND NOT ${unknown_number_of_employees} THEN 'Both Known'
+              WHEN NOT ${unknown_country} AND ${unknown_number_of_employees} THEN '# Employees Unknown'
+              WHEN ${unknown_country} AND NOT ${unknown_number_of_employees} THEN 'Country Unknown'
+              ELSE 'Unknown' END;;
+    type: string
+  }
+
   dimension_group: first_mcl {
     group_label: "Lead Lifecycle: MCL"
     label: "MCL First"
