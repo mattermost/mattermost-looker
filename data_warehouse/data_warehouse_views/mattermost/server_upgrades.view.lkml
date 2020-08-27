@@ -8,13 +8,19 @@ view: server_upgrades {
     fields: [logging_date, server_id, prev_version, current_version, prev_edition, current_edition]
   }
   # FILTERS
-  filter: is_version_upgrade_date {
+  dimension: is_version_upgrade_date {
     description: "Boolean indicating a version upgrade took place on the given logging date."
     type: yesno
-    sql: CASE WHEN ${current_version} > COALESCE(${prev_version}, ${current_version}) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN SPLIT_PART(${current_version}, '.', 1)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT THEN TRUE
+            WHEN SPLIT_PART(${current_version}, '.', 1)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT
+              AND SPLIT_PART(${current_version}, '.', 2)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::INT THEN TRUE
+            WHEN SPLIT_PART(${current_version}, '.', 1)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT
+              AND SPLIT_PART(${current_version}, '.', 2)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::INT
+              AND SPLIT_PART(${current_version}, '.', 3)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 3)::INT THEN TRUE
+            ELSE FALSE END ;;
   }
 
-    filter: is_edition_upgrade_date {
+    dimension: is_edition_upgrade_date {
     description: "Boolean indicating a version upgrade took place on the given logging date."
     type: yesno
     sql: CASE WHEN ${current_edition} = 'E0' AND ${prev_edition} = 'TE' THEN TRUE ELSE FALSE END ;;
@@ -159,12 +165,12 @@ view: server_upgrades {
     label: "Server Version Upgrades"
     description: "The distinct count of server version upgrades i.e. a server upgrades from an older Mattermost Server Version to a newer Mattermost Server Version."
     type: count_distinct
-    sql: CASE WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float THEN ${server_id}
-            WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float
-              AND SPLIT_PART(${current_version}, '.', 2)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::float THEN ${server_id}
-            WHEN SPLIT_PART(${current_version}, '.', 1)::FLOAT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::float
-              AND SPLIT_PART(${current_version}, '.', 2)::FLOAT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::float
-              AND SPLIT_PART(${current_version}, '.', 3)::FLOAT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 3)::float THEN ${server_id}
+    sql: CASE WHEN SPLIT_PART(${current_version}, '.', 1)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT THEN ${server_id}
+            WHEN SPLIT_PART(${current_version}, '.', 1)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT
+              AND SPLIT_PART(${current_version}, '.', 2)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::INT THEN ${server_id}
+            WHEN SPLIT_PART(${current_version}, '.', 1)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 1)::INT
+              AND SPLIT_PART(${current_version}, '.', 2)::INT = SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 2)::INT
+              AND SPLIT_PART(${current_version}, '.', 3)::INT > SPLIT_PART(COALESCE(${prev_version}, ${current_version}), '.', 3)::INT THEN ${server_id}
             ELSE NULL END ;;
     drill_fields: [drill_set1*]
   }
