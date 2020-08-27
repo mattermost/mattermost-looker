@@ -947,7 +947,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
     AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
-    fields: []
+    fields: [server_daily_details_ext.active_users_daily, server_daily_details_ext.active_users_daily_band, server_daily_details_ext.active_users_monthly, server_daily_details_ext.registered_deactivated_users, server_daily_details_ext.registered_users,
+      server_daily_details_ext.registered_users_band]
   }
 
   join: version_release_dates {
