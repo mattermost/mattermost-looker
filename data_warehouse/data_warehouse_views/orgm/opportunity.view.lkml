@@ -1331,7 +1331,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_amount {
-    description: "New or Expansion (includes Co-Term and Leftover Expansion)"
+    description: "New or Expansion (includes Co-Term)"
     label: "New and Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
