@@ -339,6 +339,16 @@ view: lead {
     type: number
   }
 
+  dimension: number_of_end_users {
+    sql: ${TABLE}.Number_of_End_Users__c ;;
+    type: number
+  }
+
+
+  dimension: company_type {
+    sql: case when ${number_of_employees} >= 5000 then 'Enterprise' when ${number_of_employees} > 500 then 'Midmarket' when ${number_of_employees} is not null and ${number_of_employees} !=0 then 'SMB' else 'Unknown Employee Count' end;;
+  }
+
   dimension: unknown_number_of_employees {
     sql: ${number_of_employees} IS NULL;;
     type: yesno
@@ -659,7 +669,13 @@ view: lead {
   dimension: owner_segment {
     type: string
     label: "Lead Owner Segment"
-    sql: ${owner.sales_segment} ;;
+    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${junk_yn} then 'Junk' else 'Recycled' end ;;
+  }
+
+  dimension: lead_segment {
+    type: string
+    label: "Lead Segment"
+    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' else ${geo} end ;;
   }
 
   dimension: original_owner__c {
