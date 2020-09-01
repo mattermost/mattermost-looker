@@ -874,7 +874,7 @@ view: opportunitylineitem {
 
   dimension: ren_multi_amount {
     hidden: yes
-    sql: ${TABLE}.ren_multi_amount__c;;
+    sql: ${TABLE}.renewal_multi_amount__c;;
     type: number
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,ren_multi_amount]
