@@ -64,6 +64,12 @@ view: p2p_forum_activity {
     sql: ${posts} ;;
   }
 
+  measure: registrations_sum {
+    description: "The sum of posts per grouping."
+    type: sum
+    sql: ${registrations} ;;
+  }
+
   measure: users_sum {
     description: "The sum of users participating in forum activity per grouping (not distinct - only represents distinct when grouped at the daily level)."
     type: sum
