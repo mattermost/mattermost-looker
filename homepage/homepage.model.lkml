@@ -53,6 +53,7 @@ view: _homepage {
                 <div>Finance</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/73" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Overview Dashboard</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/208" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Financial Statements</a></li>
                 </ul>
               </li>
               <li>
