@@ -138,6 +138,11 @@ view: contact {
     type: time
   }
 
+  dimension: how_did_you_hear_about_mattermost {
+    sql: ${TABLE}.HOW_DID_YOU_HEAR_ABOUT_MATTERMOST__C ;;
+    type: string
+  }
+
   dimension_group: most_recent_mql {
     group_label: "Lead Lifecycle: MQL"
     label: "MQL Most Recent"
