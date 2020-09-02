@@ -195,6 +195,11 @@ view: lead {
     group_label: "Marketing"
     }
 
+  dimension: how_did_you_hear_about_mattermost {
+    sql: ${TABLE}.how_did_you_hear_about_mattermost__c;;
+    type: string
+  }
+
   dimension: inbound_outbound {
     sql: ${TABLE}.INBOUND_OUTBOUND__C ;;
     type: string
