@@ -239,6 +239,7 @@ dimension: last_day_of_month {
     type: number
     sql: (split_part(${version}, '.', 1) || '.' || split_part(${version}, '.', 2))::float  ;;
     order_by_field: server_version_major_sort
+    hidden: no
   }
 
   dimension: server_version_major_sort {
