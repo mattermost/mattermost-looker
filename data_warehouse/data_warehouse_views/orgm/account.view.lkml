@@ -175,7 +175,6 @@ view: account {
     type: string
   }
 
-
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
     type: string
@@ -184,6 +183,28 @@ view: account {
   dimension: company_type_major {
     sql: case when ${TABLE}.company_type__c in ('Academic','Non-Profit') then 'Education/Non-Profit' else ${TABLE}.company_type__c end ;;
     type: string
+  }
+
+  dimension: employee_count_company_type {
+    sql: case
+          when ${number_of_employees} >= 5000 then 'Enterprise'
+          when ${number_of_employees} > 500 then 'Midmarket'
+          when ${number_of_employees} is not null and ${number_of_employees} !=0 then 'SMB'
+          when ${company_type} = 'Commercial' then 'Midmarket/SMB (Emp # Missing)'
+          when ${company_type} IN  ('Enterprise','Federal') then 'Enterprise (Emp # Missing)'
+          else 'Unknown' end;;
+          order_by_field: employee_count_company_type_order
+  }
+
+  dimension: employee_count_company_type_order {
+  sql: case when ${employee_count_company_type} =  'Unknown' then 1
+            when ${employee_count_company_type} = 'SMB' then 2
+            when ${employee_count_company_type} = 'Midmarket/SMB (Emp # Missing)' then 3
+            when ${employee_count_company_type} = 'Midmarket' then 4
+            when ${employee_count_company_type} = 'Enterprise (Emp # Missing)' then 5
+            when ${employee_count_company_type} = 'Enterprise' then 6
+            else 7 end;;
+            hidden: yes
   }
 
   dimension: cosize {

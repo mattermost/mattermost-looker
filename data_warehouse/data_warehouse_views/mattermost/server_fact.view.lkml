@@ -89,6 +89,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The unique server ID for each server."
     type: string
     sql: ${TABLE}.server_id ;;
+    primary_key: yes
   }
 
   dimension: server_version {
@@ -261,8 +262,16 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.last_license_id2 ;;
   }
 
+  dimension_group: customer_first_active {
+    label: "Customer First Active Telemetry"
+    description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.customer_first_active_date ;;
+  }
+
   dimension_group: first_active {
-    label: " First Active Telemetry"
+    label: " Server First Active Telemetry"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
@@ -270,7 +279,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_active {
-    label: " Last Active Telemetry"
+    label: " Server Last Active Telemetry"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
@@ -417,16 +426,24 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_paid_license {
-    label: " First Paid License"
-    description: "The date the server first sent telemetry data that associated it with a paid license."
+    label: " Server First Paid License"
+    description: "The date the server's first assocated paid license was issued."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_paid_license_date ;;
   }
 
+  dimension_group: customer_first_paid_license {
+    label: " Customer First Paid License"
+    description: "The date the customer associated with a server was first issued a paid license."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.customer_first_paid_license_date ;;
+  }
+
   dimension_group: first_trial_license {
-    label: " First Trial License"
-    description: "The date the server first sent telemetry data that associated it with a trial license."
+    label: " Server First Trial License"
+    description: "The date the server's first associated trial license was issued."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_trial_license_date ;;

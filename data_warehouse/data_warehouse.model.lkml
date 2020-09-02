@@ -707,6 +707,8 @@ explore: arr {
     dates.first_day_of_fiscal_quarter,
     dates.last_day_of_fiscal_quarter,
     opportunitylineitem.opportunitylineitem_core*,
+    opportunity_ext.license_min_start_date_date,opportunity_ext.license_min_start_date_month, opportunity_ext.license_min_start_date_fiscal_quarter, opportunity_ext.license_min_start_date_fiscal_year,
+    opportunity_ext.license_max_end_date_date,opportunity_ext.license_max_end_date_month, opportunity_ext.license_max_end_date_fiscal_quarter, opportunity_ext.license_max_end_date_fiscal_year,
     account.account_core*,
     opportunity.opportunity_core*,
     product2.general_product,
@@ -789,6 +791,12 @@ explore: campaign {
     relationship: many_to_one
   }
 
+  join: account_domain_mapping {
+    sql_on: lower(split_part(coalesce(${lead.email},${contact.name}),'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: [account_domain_mapping.domain,account_domain_mapping.public]
+  }
+
   join: owner {
     view_label: "Lead Owner Current"
     from:  user
@@ -846,6 +854,23 @@ explore: scrub_ww {
   view_label: "Scrub WW"
 }
 
+explore: historical_rep_attainment {
+  group_label: "Target vs Actual"
+  extends: [_base_opportunity_explore]
+  join: user {
+    sql_on: ${user.employeenumber} = ${historical_rep_attainment.employee_num} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.close_quarter} = ${historical_rep_attainment.fiscal_quarter}
+            AND ${opportunity.ownerid} = ${user.sfid}
+            AND ${opportunity.close_date} >= util.fiscal_quarter_start(util.get_sys_var('curr_qtr'));;
+    relationship: one_to_many
+  }
+}
+
 explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
@@ -869,7 +894,11 @@ explore: server_daily_details {
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
       server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events]
-  }
+#       , server_fact.customer_first_active_date,
+#       server_fact.customer_first_active_week, server_fact.customer_first_active_month, server_fact.customer_first_active_year, server_fact.customer_first_active_fiscal_year, server_fact.customer_first_active_fiscal_quarter,
+#       server_fact.customer_first_paid_license_date, server_fact.customer_first_paid_license_week, server_fact.customer_first_paid_license_month, server_fact.customer_first_paid_license_year, server_fact.customer_first_paid_license_fiscal_quarter, server_fact.customer_first_paid_license_fiscal_year
+#
+}
 
   join: nps_server_daily_score {
     view_label: "Server NPS"
@@ -924,7 +953,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
     AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
-    fields: []
+    fields: [server_daily_details_ext.active_users_daily, server_daily_details_ext.active_users_daily_band, server_daily_details_ext.active_users_monthly, server_daily_details_ext.registered_deactivated_users, server_daily_details_ext.registered_users,
+      server_daily_details_ext.registered_users_band]
   }
 
   join: version_release_dates {
@@ -1083,7 +1113,8 @@ explore: nps_user_monthly_score {
       AND ${nps_feedback_classification.server_id} = ${nps_user_monthly_score.server_id}
       AND ${nps_feedback_classification.last_feedback_date} = ${nps_user_monthly_score.last_feedback_date} ;;
     relationship: many_to_one
-    fields: []
+    type: left_outer
+    fields: [nps_feedback_classification.categorized_at_date, nps_feedback_classification.categorized_at_month, nps_feedback_classification.categorized_at_week, nps_feedback_classification.categorized_at_year, nps_feedback_classification.categorized_at_time, nps_feedback_classification.categorized_by, nps_feedback_classification.category_rank]
   }
 
   join: licenses_grouped {
@@ -1717,6 +1748,7 @@ explore: trial_licenses {
 }
 
 explore: in_product_trial_requests {
+  group_label: "Product"
   label: "In Product Trial Requests"
   from: trial_requests
 
@@ -2056,4 +2088,27 @@ explore: community_program_members {
   label: "Community Program Members"
   description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
   group_label: "Mattermost Community"
+}
+
+explore: incident_response_events {
+  description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
+  view_label: "Incident Response"
+  label: "Incident Response"
+  group_label: "Integrations"
+  extends: [server_fact]
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
 }
