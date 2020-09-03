@@ -195,6 +195,11 @@ view: lead {
     group_label: "Marketing"
     }
 
+  dimension: how_did_you_hear_about_mattermost {
+    sql: ${TABLE}.how_did_you_hear_about_mattermost__c;;
+    type: string
+  }
+
   dimension: inbound_outbound {
     sql: ${TABLE}.INBOUND_OUTBOUND__C ;;
     type: string
@@ -332,6 +337,42 @@ view: lead {
     sql: ${TABLE}.MOST_RECENT_LEAD_SOURCE_DETAIL__C ;;
     type: string
     group_label: "Marketing"
+  }
+
+  dimension: number_of_employees {
+    sql: ${TABLE}.NUMBEROFEMPLOYEES ;;
+    type: number
+  }
+
+  dimension: number_of_end_users {
+    sql: ${TABLE}.Number_of_End_Users__c ;;
+    type: number
+  }
+
+
+  dimension: company_type {
+    sql: case when ${number_of_employees} >= 5000 then 'Enterprise' when ${number_of_employees} > 500 then 'Midmarket' when ${number_of_employees} is not null and ${number_of_employees} !=0 then 'SMB' else 'Unknown Employee Count' end;;
+  }
+
+  dimension: unknown_number_of_employees {
+    sql: ${number_of_employees} IS NULL;;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: unknown_country {
+    sql: ${country} IS NULL OR ${country} = '';;
+    type: yesno
+    hidden: yes
+  }
+
+  dimension: lead_routing_catgeory {
+    sql: CASE WHEN ${unknown_country} AND ${unknown_number_of_employees} THEN 'Both Unknown'
+              WHEN NOT ${unknown_country} AND NOT ${unknown_number_of_employees} THEN 'Both Known'
+              WHEN NOT ${unknown_country} AND ${unknown_number_of_employees} THEN '# Employees Unknown'
+              WHEN ${unknown_country} AND NOT ${unknown_number_of_employees} THEN 'Country Unknown'
+              ELSE 'Unknown' END;;
+    type: string
   }
 
   dimension_group: first_mcl {
@@ -633,7 +674,13 @@ view: lead {
   dimension: owner_segment {
     type: string
     label: "Lead Owner Segment"
-    sql: ${owner.sales_segment} ;;
+    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${junk_yn} then 'Junk' else 'Recycled' end ;;
+  }
+
+  dimension: lead_segment {
+    type: string
+    label: "Lead Segment"
+    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' else ${geo} end ;;
   }
 
   dimension: original_owner__c {

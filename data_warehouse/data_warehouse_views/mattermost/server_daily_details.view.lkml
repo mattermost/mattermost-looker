@@ -285,7 +285,7 @@ view: server_daily_details {
     group_label: " Security User Counts"
     description: "The count of all users registered/associated with the server."
     type: number
-    sql: ${TABLE}.user_count ;;
+    sql: COALESCE(${TABLE}.user_count, ${server_daily_details_ext.registered_users}) ;;
   }
 
   dimension: user_count_band {

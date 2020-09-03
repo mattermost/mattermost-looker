@@ -272,6 +272,7 @@ view: contact {
     type: string
   }
 
+
   dimension_group: most_recent_pql {
     group_label: "Lead Lifecycle: PQL"
     label: "Most Recent"

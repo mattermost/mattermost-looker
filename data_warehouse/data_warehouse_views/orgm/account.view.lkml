@@ -175,6 +175,12 @@ view: account {
     type: string
   }
 
+  dimension: company_licensed_percent {
+    group_label: "Telemetry"
+    sql: ${TABLE}.company_licensed_percent__c / 100 ;;
+    type: number
+    value_format_name: percent_0
+  }
 
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
@@ -184,6 +190,28 @@ view: account {
   dimension: company_type_major {
     sql: case when ${TABLE}.company_type__c in ('Academic','Non-Profit') then 'Education/Non-Profit' else ${TABLE}.company_type__c end ;;
     type: string
+  }
+
+  dimension: employee_count_company_type {
+    sql: case
+          when ${number_of_employees} >= 5000 then 'Enterprise'
+          when ${number_of_employees} > 500 then 'Midmarket'
+          when ${number_of_employees} is not null and ${number_of_employees} !=0 then 'SMB'
+          when ${company_type} = 'Commercial' then 'Midmarket/SMB (Emp # Missing)'
+          when ${company_type} IN  ('Enterprise','Federal') then 'Enterprise (Emp # Missing)'
+          else 'Unknown' end;;
+          order_by_field: employee_count_company_type_order
+  }
+
+  dimension: employee_count_company_type_order {
+  sql: case when ${employee_count_company_type} =  'Unknown' then 1
+            when ${employee_count_company_type} = 'SMB' then 2
+            when ${employee_count_company_type} = 'Midmarket/SMB (Emp # Missing)' then 3
+            when ${employee_count_company_type} = 'Midmarket' then 4
+            when ${employee_count_company_type} = 'Enterprise (Emp # Missing)' then 5
+            when ${employee_count_company_type} = 'Enterprise' then 6
+            else 7 end;;
+            hidden: yes
   }
 
   dimension: cosize {
@@ -495,7 +523,7 @@ view: account {
   dimension: latest_telemetry_date {
     sql: ${TABLE}.latest_telemetry_date__c ;;
     type: date
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension_group: lead_created {
@@ -807,46 +835,59 @@ view: account {
     sql: ${TABLE}.seats_licensed__c ;;
     type: number
     value_format_name: decimal_0
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension: seats_active_latest {
     sql: ${TABLE}.seats_active_latest__c ;;
     type: number
     value_format_name: decimal_0
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension: seats_active_mau {
     sql: ${TABLE}.seats_active_mau__c ;;
     type: number
     value_format_name: decimal_0
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension: seats_active_max {
     sql: ${TABLE}.seats_active_max__c ;;
     type: number
     value_format_name: decimal_0
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension: seats_active_override {
     sql: ${TABLE}.seats_active_override__c ;;
     type: yesno
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
   }
 
   dimension: seats_active_wau {
     sql: ${TABLE}.seats_active_wau__c ;;
     type: number
     value_format_name: decimal_0
-    group_label: "Licensed vs. Usage"
+    group_label: "Telemetry"
+  }
+
+  dimension: seat_utilization {
+    group_label: "Telemetry"
+    type: number
+    sql: ${TABLE}.seat_utilization__c / 100 ;;
+    value_format_name: percent_0
   }
 
   dimension: sector {
     sql: ${TABLE}.sector__c ;;
     type: string
+  }
+
+  dimension: server_version {
+    group_label: "Telemetry"
+    type: string
+    sql: ${TABLE}.server_version__c ;;
   }
 
   dimension: sfid {
@@ -946,6 +987,11 @@ view: account {
     type: string
   }
 
+  dimension: telemetry_accuracy {
+    group_label: "Telemetry"
+    type: string
+    sql: ${TABLE}.telemetry_accuracy__c ;;
+  }
 
   dimension: territory_geo {
     type: string

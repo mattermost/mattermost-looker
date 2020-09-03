@@ -1331,7 +1331,7 @@ view: opportunity {
   }
 
   measure: total_new_and_exp_amount {
-    description: "New or Expansion (includes Co-Term and Leftover Expansion)"
+    description: "New or Expansion (includes Co-Term)"
     label: "New and Exp Amount"
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
@@ -1409,6 +1409,32 @@ view: opportunity {
     type: sum_distinct
     value_format_name: mm_usd_short
     drill_fields: [opportunity_drill_fields*,total_multi_amount]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_ren_multi_amount {
+    description: "Multi Year"
+    label: "Ren-Multi Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.ren_multi_amount};;
+    type: sum_distinct
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_multi_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
+  measure: total_ren_multi_amount_self_service {
+    description: "Multi Year and E Purchase Date is Filled In"
+    label: "Ren-Multi Amount (Self Serve)"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.ren_multi_amount};;
+    type: sum_distinct
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_ren_multi_amount]
     filters: {
       field: opportunity.sales_channel
       value: "Self Service"

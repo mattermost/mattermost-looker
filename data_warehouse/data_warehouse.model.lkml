@@ -752,6 +752,12 @@ explore: current_potential_arr {
     opportunitylineitem.opportunitylineitem_core*,
     opportunitylineitem.total_potential_arr,
     opportunitylineitem.total_open_and_booked_arr,
+    opportunitylineitem.total_potential_new_arr,
+    opportunitylineitem.total_potential_expansion_arr,
+    opportunitylineitem.total_potential_renewal_arr,
+    opportunitylineitem.potential_new_arr,
+    opportunitylineitem.potential_expansion_arr,
+    opportunitylineitem.potential_renewal_arr,
     account.account_core*,
     account.arr_current,
     opportunity.opportunity_core*,
@@ -789,6 +795,12 @@ explore: campaign {
   join: contact {
     sql_on: ${campaignmember.contactid}= ${contact.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: account_domain_mapping {
+    sql_on: lower(split_part(coalesce(${lead.email},${contact.name}),'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: [account_domain_mapping.domain,account_domain_mapping.public]
   }
 
   join: owner {
@@ -930,7 +942,8 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
     AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
-    fields: []
+    fields: [server_daily_details_ext.active_users_daily, server_daily_details_ext.active_users_daily_band, server_daily_details_ext.active_users_monthly, server_daily_details_ext.registered_deactivated_users, server_daily_details_ext.registered_users,
+      server_daily_details_ext.registered_users_band]
   }
 
   join: version_release_dates {
@@ -2028,5 +2041,28 @@ explore: license_server_fact {
     relationship: many_to_one
     type: left_outer
     fields: []
+    }
+  }
+
+explore: incident_response_events {
+  description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
+  view_label: "Incident Response"
+  label: "Incident Response"
+  group_label: "Integrations"
+  extends: [server_fact]
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    relationship: many_to_one
+    type: left_outer
   }
 }
