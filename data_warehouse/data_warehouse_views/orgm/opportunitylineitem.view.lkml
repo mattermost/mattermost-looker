@@ -287,7 +287,28 @@ view: opportunitylineitem {
 
   dimension: potential_arr {
     label: "Potential Renewal & Expansion ARR"
-    sql: case when not ${opportunity.isclosed} AND ${opportunity.type} != 'New Subscription' AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    sql: case when not ${opportunity.isclosed} AND NOT (${opportunity.type} = 'New Subscription' OR (${opportunity.type} = 'Contract Expansion' AND ${product_line_type} = 'New')) AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  dimension: potential_new_arr {
+    label: "Potential New ARR"
+    sql: case when not ${opportunity.isclosed} AND (${opportunity.type} = 'New Subscription' OR (${opportunity.type} = 'Contract Expansion' AND ${product_line_type} = 'New')) AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  dimension: potential_expansion_arr {
+    label: "Potential Expansion ARR"
+    sql: case when not ${opportunity.isclosed} AND ((${product_line_type} = 'Expansion' AND NOT COALESCE(${is_loe},FALSE)) OR ${opportunity.type} = 'Account Expansion') AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
+    type: number
+    value_format_name: "usd_0"
+  }
+
+  dimension: potential_renewal_arr {
+    label: "Potential Renewal ARR"
+    sql: case when not ${opportunity.isclosed} AND (${product_line_type} IN ('Ren','Multi','Ren-Multi') OR ${is_loe}) AND ${length_days} <> 0 AND ${product_type} = 'Recurring' then 365*${totalprice}/${length_days} else 0 end ;;
     type: number
     value_format_name: "usd_0"
   }
@@ -659,6 +680,31 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
     drill_fields: [opportunitylineitem_drill*,total_price,total_potential_arr]
   }
+
+  measure: total_potential_new_arr {
+    label: "Total Potential New ARR"
+    sql: ${potential_new_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_new_arr]
+  }
+
+  measure: total_potential_expansion_arr {
+    label: "Total Potential Expansion ARR"
+    sql: ${potential_expansion_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_expansion_arr]
+  }
+
+  measure: total_potential_renewal_arr {
+    label: "Total Potential Renewal ARR"
+    sql: ${potential_renewal_arr} ;;
+    type: sum
+    value_format_name: "usd_0"
+    drill_fields: [opportunitylineitem_drill*,total_price,total_potential_renewal_arr]
+  }
+
 
   measure: total_lost_arr {
     label: "Total Lost ARR"
