@@ -175,6 +175,13 @@ view: account {
     type: string
   }
 
+  dimension: company_licensed_percent {
+    group_label: "Licensed vs. Usage"
+    sql: ${TABLE}.company_licensed_percent__c / 100 ;;
+    type: number
+    value_format_name: percent_0
+  }
+
   dimension: company_type {
     sql: ${TABLE}.company_type__c ;;
     type: string
@@ -865,9 +872,22 @@ view: account {
     group_label: "Licensed vs. Usage"
   }
 
+  dimension: seat_utilization {
+    group_label: "Licensed vs. Usage"
+    type: number
+    sql: ${TABLE}.seat_utilization__c / 100 ;;
+    value_format_name: percent_0
+  }
+
   dimension: sector {
     sql: ${TABLE}.sector__c ;;
     type: string
+  }
+
+  dimension: server_version {
+    group_label: "Licensed vs. Usage"
+    type: string
+    sql: ${TABLE}.server_version__c ;;
   }
 
   dimension: sfid {
@@ -967,6 +987,11 @@ view: account {
     type: string
   }
 
+  dimension: telemetry_accuracy {
+    group_label: "Licensed vs. Usage"
+    type: string
+    sql: ${TABLE}.telemetry_accuracy__c ;;
+  }
 
   dimension: territory_geo {
     type: string
