@@ -322,6 +322,12 @@ explore: account {
   description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
 
+  join: contact {
+    view_label: "Account Contacts"
+    sql_on: ${account.sfid} = ${contact.accountid};;
+    relationship: one_to_many
+  }
+
   join: account_ext {
     view_label: "Account"
     sql_on: ${account.sfid} = ${account_ext.account_sfid};;
