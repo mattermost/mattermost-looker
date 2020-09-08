@@ -67,8 +67,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."AT_RISK_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
@@ -82,8 +82,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."CHURNED_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
@@ -106,8 +106,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."CREATEDDATE" AS TIMESTAMP_NTZ) ;;
   }
@@ -126,8 +126,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."EARLY_WARNING_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
@@ -158,8 +158,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."LASTMODIFIEDDATE" AS TIMESTAMP_NTZ) ;;
   }
@@ -198,8 +198,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."RENEWED_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
@@ -234,8 +234,8 @@ view: customer_risk {
       date,
       week,
       month,
-      quarter,
-      year
+      fiscal_quarter,
+      fiscal_year
     ]
     sql: CAST(${TABLE}."SYSTEMMODSTAMP" AS TIMESTAMP_NTZ) ;;
   }
