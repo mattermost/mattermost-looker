@@ -1026,6 +1026,32 @@ explore: account_cs_extended  {
     relationship: one_to_one
   }
 
+  join: customer_risk {
+    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+    relationship: one_to_many
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: zendesk_ticket_details {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many
