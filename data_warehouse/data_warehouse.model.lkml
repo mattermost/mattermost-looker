@@ -1053,7 +1053,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_risk_contact {
-    from: user
+    from: contact
     sql_on: ${customer_risk_contact.name} = ${customer_risk_contact.sfid} ;;
     relationship: many_to_one
     fields: []
