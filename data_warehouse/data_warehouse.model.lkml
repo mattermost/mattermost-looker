@@ -322,6 +322,12 @@ explore: account {
   description: "Contains Salesforce Account line item mapping."
   extends: [_base_opportunity_explore]
 
+  join: contact {
+    view_label: "Account Contacts"
+    sql_on: ${account.sfid} = ${contact.accountid};;
+    relationship: one_to_many
+  }
+
   join: account_ext {
     view_label: "Account"
     sql_on: ${account.sfid} = ${account_ext.account_sfid};;
@@ -999,6 +1005,39 @@ explore: account_cs_extended  {
   join: account_health_score {
     sql_on: ${account.sfid} = ${account_health_score.account_sfid} ;;
     relationship: one_to_one
+  }
+
+  join: customer_risk {
+    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+    relationship: one_to_many
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk_contact.name} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
   }
 
   join: zendesk_ticket_details {

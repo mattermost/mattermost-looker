@@ -8,6 +8,24 @@ view: account_ext {
     hidden: yes
   }
 
+  dimension: additional_environment_details {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."ADDITIONAL_ENVIRONMENT_DETAILS";;
+  }
+
+  dimension: compelling_event {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."COMPELLING_EVENT";;
+  }
+
+  dimension: competitor {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."COMPETITOR" ;;
+  }
+
   dimension: count_lost_oppt {
     group_label: "Opportunities"
     group_item_label: "Count Lost"
@@ -30,6 +48,49 @@ view: account_ext {
     label: "Count Won Oppt"
     type: number
     sql: ${TABLE}."COUNT_WON_OPPT" ;;
+  }
+
+  dimension: current_identity_provider_sso {
+    group_label: "Customer Journey"
+    label: "Current Identity Provider (SSO)"
+    type: string
+    sql: ${TABLE}."CURRENT_IDENTITIY_PROVIDER_SSO" ;;
+  }
+
+  dimension: current_productivity_platform {
+     group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."CURRENT_PRODUCTIVITY_PLATFORM" ;;
+  }
+
+  dimension: emm_mdm {
+    group_label: "Customer Journey"
+    label: "EMM/MDM"
+    type: string
+    sql: ${TABLE}."EMM_MDM" ;;
+  }
+  dimension: extended_support_release_customer {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."EXTENDED_SUPPORT_RELEASE_CUSTOMER" ;;
+  }
+
+  dimension: how_did_you_hear_about_mattermost {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."HOW_DID_YOU_HEAR_ABOUT_MATTERMOST" ;;
+  }
+
+  dimension: other_integrations {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."OTHER_INTEGRATIONS" ;;
+  }
+
+  dimension: regulatory_requirements {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."REGULATORY_REQUIREMENTS" ;;
   }
 
   dimension: sum_expansion_amount_won {
@@ -115,4 +176,16 @@ view: account_ext {
     type: number
     sql: ${TABLE}."SUM_RENEWAL_AMOUNT" ;;
   }
+
+ dimension: target_integrations {
+   group_label: "Customer Journey"
+  type: string
+  sql: ${TABLE}."TARGET_INTEGRATIONS" ;;
+ }
+
+ dimension: use_case {
+   group_label: "Customer Journey"
+  type: string
+  sql: ${TABLE}."USE_CASE";;
+ }
 }
