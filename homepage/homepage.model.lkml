@@ -124,6 +124,7 @@ view: _homepage {
                 <li>
                   <div>Customer Success</div>
                   <ul>
+                    <li><a href="https://mattermost.looker.com/dashboards/175" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer 360</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/49" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer Success Overview</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer Success Account Health Score</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/59" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Support Overview</a></li>
@@ -204,6 +205,9 @@ view: _homepage {
               <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/50" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Available Renewals</a></li>
               </ul>
+               <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/175" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer 360</a></li>
+              </ul>
               <br>
               <div style="font-size: 20px;" >Looker Quick Links</div>
               <div>
@@ -268,6 +272,7 @@ view: _homepage {
               <li>
                 <div>Customer Success</div>
                 <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/175" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer 360</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/49" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer Success Overview</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/36" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer Success Account Health Score</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/59" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Support Overview</a></li>
