@@ -173,6 +173,7 @@ view: lead {
     }
 
   dimension: firstname {
+    label: "First Name"
     sql: ${TABLE}.FIRSTNAME ;;
     type: string
   }
@@ -258,6 +259,7 @@ view: lead {
   }
 
   dimension: lastname {
+    label: "Last Name"
     sql: ${TABLE}.LASTNAME ;;
     type: string
   }
