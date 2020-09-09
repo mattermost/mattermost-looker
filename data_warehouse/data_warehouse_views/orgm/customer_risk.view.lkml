@@ -63,7 +63,6 @@ view: customer_risk {
 
   dimension: contact_name {
     label: "Key Contact"
-    group_label: "Owners"
     type: string
     sql: ${customer_risk_contact.name} ;;
   }
@@ -108,6 +107,7 @@ view: customer_risk {
   }
 
   dimension: createdbyid {
+    hidden: yes
     type: string
     sql: ${TABLE}."CREATEDBYID" ;;
   }
@@ -225,6 +225,7 @@ view: customer_risk {
 
   dimension: sfid {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}."SFID" ;;
   }
@@ -255,7 +256,8 @@ view: customer_risk {
   }
 
   measure: count {
+    label: "# of Customer Risks"
     type: count
-    drill_fields: [id, name]
+    drill_fields: [id, name, current_arr, status, seats_at_risk, seats_at_risk]
   }
 }
