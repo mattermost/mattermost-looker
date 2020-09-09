@@ -4623,9 +4623,9 @@ dimension: last_day_of_month {
   dimension: id {
     description: ""
     type: string
-    group_label: "Webrtc Configuration"
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: license_users {

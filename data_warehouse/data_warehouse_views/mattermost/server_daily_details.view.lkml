@@ -1,6 +1,7 @@
 view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
   view_label: " Server Daily Details"
+
   # Filters
   dimension: latest_telemetry_record_2 {
     label: "  Latest Telemetry Record"
@@ -10,6 +11,14 @@ view: server_daily_details {
     group_label: "  Telemetry Flags"
     hidden: no
 
+  }
+
+  dimension: id {
+    description: ""
+    type: string
+    sql: ${TABLE}.id ;;
+    hidden: no
+    primary_key: yes
   }
 
   dimension: last_day_of_month {
