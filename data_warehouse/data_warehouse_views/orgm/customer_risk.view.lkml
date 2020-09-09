@@ -11,6 +11,7 @@ view: customer_risk {
 
 
   dimension: account {
+    hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
   }
@@ -52,6 +53,19 @@ view: customer_risk {
     group_label: "Owners"
     type: string
     sql:${customer_risk_csm.name}  ;;
+  }
+
+  dimension: key_contact {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.key_contact__c ;;
+  }
+
+  dimension: contact_name {
+    label: "Key Contact"
+    group_label: "Owners"
+    type: string
+    sql: ${customer_risk_contact.name} ;;
   }
 
   dimension: additional_details {
@@ -136,11 +150,6 @@ view: customer_risk {
     hidden: yes
     type: yesno
     sql: ${TABLE}."ISDELETED" ;;
-  }
-
-  dimension: key_contact {
-    type: string
-    sql: ${TABLE}.key_contact__c ;;
   }
 
   dimension: lastmodifiedbyid {
