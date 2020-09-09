@@ -1052,6 +1052,13 @@ explore: account_cs_extended  {
     fields: []
   }
 
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk_contact.name} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: zendesk_ticket_details {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many

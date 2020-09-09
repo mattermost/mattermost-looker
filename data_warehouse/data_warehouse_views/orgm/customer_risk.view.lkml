@@ -11,6 +11,7 @@ view: customer_risk {
 
 
   dimension: account {
+    hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
   }
@@ -54,6 +55,18 @@ view: customer_risk {
     sql:${customer_risk_csm.name}  ;;
   }
 
+  dimension: key_contact {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.key_contact__c ;;
+  }
+
+  dimension: contact_name {
+    label: "Key Contact"
+    type: string
+    sql: ${customer_risk_contact.name} ;;
+  }
+
   dimension: additional_details {
     type: string
     sql: ${TABLE}."ADDITIONAL_DETAILS__C" ;;
@@ -94,6 +107,7 @@ view: customer_risk {
   }
 
   dimension: createdbyid {
+    hidden: yes
     type: string
     sql: ${TABLE}."CREATEDBYID" ;;
   }
@@ -136,11 +150,6 @@ view: customer_risk {
     hidden: yes
     type: yesno
     sql: ${TABLE}."ISDELETED" ;;
-  }
-
-  dimension: key_contact {
-    type: string
-    sql: ${TABLE}.key_contact__c ;;
   }
 
   dimension: lastmodifiedbyid {
@@ -216,6 +225,7 @@ view: customer_risk {
 
   dimension: sfid {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}."SFID" ;;
   }
@@ -246,7 +256,8 @@ view: customer_risk {
   }
 
   measure: count {
+    label: "# of Customer Risks"
     type: count
-    drill_fields: [id, name]
+    drill_fields: [id, name, current_arr, status, seats_at_risk, seats_at_risk]
   }
 }
