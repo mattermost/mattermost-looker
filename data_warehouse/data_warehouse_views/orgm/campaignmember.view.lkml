@@ -71,6 +71,11 @@ view: campaignmember {
     sql: ${campaignmember_ext.contact_us_request}::timestamp;;
   }
 
+  dimension: contact_us_notes {
+    type: string
+    sql: ${TABLE}.contact_us_notes__c ;;
+  }
+
   dimension_group: trial_req {
    type: time
     label: "Trial Requested"
@@ -319,6 +324,11 @@ view: campaignmember {
     primary_key: yes
     sql: ${TABLE}.SFID ;;
     type: string
+    link: {
+      label: "Salesforce Campaign Member"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+    }
   }
 
   dimension: state {
