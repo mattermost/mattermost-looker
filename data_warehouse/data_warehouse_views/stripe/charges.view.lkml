@@ -58,6 +58,11 @@ view: charges {
     type: string
     sql: ${TABLE}."CUSTOMER" ;;
   }
+  
+  dimension: customer_email {
+    type: string
+    sql: ${customers.email} ;;
+  }
 
   dimension: description {
     type: string
