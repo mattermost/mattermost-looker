@@ -30,6 +30,12 @@ view: charges {
     type: yesno
     sql: ${TABLE}."CAPTURED" ;;
   }
+  
+  dimension: is_fraud {
+    type: yesno
+    sql: ${fraud_details}!='{}';;
+    label: "Fraud"
+  }
 
   dimension_group: created {
     type: time
