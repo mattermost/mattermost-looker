@@ -76,6 +76,7 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -1851,8 +1852,10 @@ explore: snowflake_data_checks {
 explore: stripe_charges {
   label: "Stripe Charges"
   group_label: "Finance"
-  join: stripe_customers {
-    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+  from: charges
+  view_name: charges
+  join: customers {
+    sql_on: ${customers.id} = ${charges.customer} ;;
     relationship: many_to_one
     fields: []
   }
@@ -1860,26 +1863,21 @@ explore: stripe_charges {
 
 explore: stripe_charges_data_check {
   extends: [_base_opportunity_core_explore]
-  from: stripe_charges
-  view_name: stripe_charges
+  from: charges
+  view_name: charges
   label: "Stripe Charges to Opportunity"
   group_label: "zBizOps"
-  join: stripe_customers {
-    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+  join: customers {
+    sql_on: ${customers.id} = ${charges.customer} ;;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunity {
-    sql_on: (${opportunity.stripe_id} = ${stripe_charges.id} OR ${opportunity.stripe_id} = ${stripe_charges.payment_intent})
+    sql_on: (${opportunity.stripe_id} = ${charges.id} OR ${opportunity.stripe_id} = ${charges.payment_intent})
             AND ${opportunity.iswon};;
     relationship: one_to_one
   }
-}
-
-
-explore: stripe_payouts {
-  group_label: "Finance"
 }
 
 explore: customer_reference {
