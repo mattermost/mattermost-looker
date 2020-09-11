@@ -43,6 +43,14 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${post_events_alltime} >= 1 ;;
   }
 
+  dimension: has_request_trial_events {
+    label: ">= 1 Request Trial Event (All Time)"
+    group_label: " Status & Activity Filters"
+    description: "Server has had >= 1 'API Request Trial Event' triggered during its lifetime i.e. a system admin has requested to trial Mattermost via the in-app request trial button."
+    type: yesno
+    sql: ${post_events_alltime} >= 1 ;;
+  }
+
   dimension: has_signup_events {
     label: ">= 1 Signup Events (All Time)"
     group_label: " Status & Activity Filters"
@@ -90,6 +98,20 @@ sql_table_name: mattermost.server_fact ;;
     type: string
     sql: ${TABLE}.server_id ;;
     primary_key: yes
+  }
+
+  dimension: installation_id {
+    label: "Installation ID"
+    description: "The unique ID provided to cloud servers."
+    type: string
+    sql: ${TABLE}.installation_id ;;
+  }
+
+  dimension: cloud_server {
+    label: "   Cloud Server"
+    description: "Indicates whether the server is using Mattermost's cloud product."
+    type: yesno
+    sql: CASE WHEN ${TABLE}.installation_id IS NOT NULL THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: server_version {
@@ -381,6 +403,13 @@ sql_table_name: mattermost.server_fact ;;
     description: "The all-time count of posts created by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.posts_events_alltime;;
+  }
+
+  dimension: api_request_trial_events_alltime {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The all-time count of request trial events (in-app request trial button clicks) triggered by users on the server (from user event telemetry)."
+    type: number
+    sql: ${TABLE}.api_request_trial_events_alltime;;
   }
 
   dimension: max_posts {
