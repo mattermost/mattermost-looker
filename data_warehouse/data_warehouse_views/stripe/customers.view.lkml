@@ -1,4 +1,4 @@
-view: stripe_customers {
+view: customers {
   sql_table_name: "STRIPE"."CUSTOMERS"
     ;;
   drill_fields: [id]
@@ -19,6 +19,16 @@ view: stripe_customers {
     sql: ${TABLE}."CARDS" ;;
   }
 
+  dimension: contactfirstname {
+    type: string
+    sql: ${TABLE}."CONTACTFIRSTNAME" ;;
+  }
+
+  dimension: contactlastname {
+    type: string
+    sql: ${TABLE}."CONTACTLASTNAME" ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -29,6 +39,21 @@ view: stripe_customers {
       fiscal_year
     ]
     sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension: currency {
+    type: string
+    sql: ${TABLE}."CURRENCY" ;;
+  }
+
+  dimension: cws_blapi_customer {
+    type: string
+    sql: ${TABLE}."CWS_BLAPI_CUSTOMER" ;;
+  }
+
+  dimension: cws_customer {
+    type: string
+    sql: ${TABLE}."CWS_CUSTOMER" ;;
   }
 
   dimension: default_source {
@@ -54,16 +79,6 @@ view: stripe_customers {
   dimension: livemode {
     type: yesno
     sql: ${TABLE}."LIVEMODE" ;;
-  }
-
-  dimension: metadata {
-    type: string
-    sql: ${TABLE}."METADATA" ;;
-  }
-
-  dimension: object {
-    type: string
-    sql: ${TABLE}."OBJECT" ;;
   }
 
   dimension: sources {
