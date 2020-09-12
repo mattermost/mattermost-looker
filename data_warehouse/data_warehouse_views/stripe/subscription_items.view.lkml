@@ -22,6 +22,8 @@ view: subscription_items {
       date,
       week,
       month,
+      fiscal_quarter,
+      fiscal_year,
       quarter,
       year
     ]
@@ -51,6 +53,8 @@ view: subscription_items {
       date,
       week,
       month,
+      fiscal_quarter,
+      fiscal_year,
       quarter,
       year
     ]
