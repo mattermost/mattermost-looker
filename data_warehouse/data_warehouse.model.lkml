@@ -1861,6 +1861,41 @@ explore: stripe_charges {
   }
 }
 
+explore: customers {
+  view_label: "Stripe Customers"
+  group_label: "Finance"
+
+  join: subscriptions {
+    sql_on: ${customers.id} = ${subscriptions.customer} ;;
+    relationship: one_to_many
+  }
+
+  join: subscription_items {
+    sql_on: ${subscriptions.id} = ${subscription_items.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoices {
+    sql_on: ${subscriptions.id} = ${invoices.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoice_line_items {
+    sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
+    relationship: one_to_many
+  }
+
+  join: charges {
+    sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
+    relationship: one_to_many
+  }
+
+  join: products {
+    sql_on: ${products.id} = ${subscription_items.plan_product} OR ${products.id} = ${invoice_line_items.plan_product};;
+    relationship: many_to_one
+  }
+}
+
 explore: stripe_charges_data_check {
   extends: [_base_opportunity_core_explore]
   from: charges
