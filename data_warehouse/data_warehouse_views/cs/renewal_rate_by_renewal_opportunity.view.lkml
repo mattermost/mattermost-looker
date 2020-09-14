@@ -317,7 +317,7 @@ view: renewal_rate_by_renewal_opportunity {
     group_label: "Renewal Rates"
     description: "Won / Available"
     type: number
-    sql: ${won_renewal_gross_total} / ${available_renewal_total} ;;
+    sql: ${won_renewal_gross_total} / nullif(${available_renewal_total},0) ;;
     value_format_name: percent_1
     drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate]
@@ -327,7 +327,7 @@ view: renewal_rate_by_renewal_opportunity {
     group_label: "Renewal Rates"
     description: "Won & Open Gross Amount/Available Renewal"
     type: number
-    sql: (${won_renewal_gross_total}+${open_renewal_gross_total}) / ${available_renewal_total} ;;
+    sql: (${won_renewal_gross_total}+${open_renewal_gross_total}) / nullif(${available_renewal_total},0) ;;
     value_format_name: percent_1
     drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
       available_renewal, won_renewal_gross_total, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate, max_renewal_rate]
