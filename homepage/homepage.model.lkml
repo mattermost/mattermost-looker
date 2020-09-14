@@ -106,7 +106,7 @@ view: _homepage {
                 </ul>
               <div style="font-size: 15px">Content in Looker</div>
               <ul>
-                <li><b><a href="https://mattermost.looker.com/dashboards/110" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Weekly Business Review Dashboard</a></b></li>
+                <li><a href="https://mattermost.looker.com/dashboards/110" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Weekly Business Review Dashboard</a></li>
                 <li>
                   Community
                   <ul>
