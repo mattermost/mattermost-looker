@@ -646,6 +646,14 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: guest_accounts {
+    description: "The number of guest accounts logged by the Server's activity diagnostics telemetry data on the given logging date."
+    type: number
+    group_label: "Activity Diagnostics"
+    sql: ${TABLE}.guest_accounts ;;
+    hidden: no
+  }
+
   dimension: outgoing_webhooks {
     description: "The number of outgoing webhooks logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
@@ -824,6 +832,70 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Annoucement Configuration"
     sql: ${TABLE}.isdefault_banner_text_color ;;
+    hidden: no
+  }
+
+  dimension: channel_scheme_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.channel_scheme_count ;;
+    hidden: no
+  }
+
+  dimension: create_post_guest_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.create_post_guest_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: create_post_user_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.create_post_user_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: manage_members_user_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.manage_members_user_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: post_reactions_guest_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.post_reactions_guest_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: post_reactions_user_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.post_reactions_user_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: use_channel_mentions_guest_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.use_channel_mentions_guest_disabled_count ;;
+    hidden: no
+  }
+
+  dimension: use_channel_mentions_user_disabled_count {
+    description: ""
+    type: number
+    group_label: "Channel Moderation"
+    sql: ${TABLE}.use_channel_mentions_user_disabled_count ;;
     hidden: no
   }
 
@@ -1421,6 +1493,15 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Experimental Configuration"
     sql: ${TABLE}.enable_click_to_reply ;;
+    hidden: no
+  }
+
+  dimension: enable_experimental_gossip_encryption {
+    label: "Enable Gossip Encryption"
+    description: ""
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.enable_experimental_gossip_encryption ;;
     hidden: no
   }
 
@@ -2152,6 +2233,24 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "License Configuration"
     sql: ${TABLE}.feature_saml ;;
+    hidden: no
+  }
+
+  dimension: feature_advanced_logging {
+    label: "Feature Advanced Logging"
+    description: "Indicates whether the Advanced Logging feature is enabled on the provisioned license."
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_advanced_logging ;;
+    hidden: no
+  }
+
+  dimension: feature_cloud {
+    label: "Feature Cloud"
+    description: "Indicates whether the Cloud feature is enabled on the provisioned license."
+    type: yesno
+    group_label: "License Configuration"
+    sql: ${TABLE}.feature_cloud ;;
     hidden: no
   }
 
@@ -3035,6 +3134,22 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: version_jitsi {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_jitsi ;;
+    hidden: no
+  }
+
+  dimension: version_skype4business {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_skype4business ;;
+    hidden: no
+  }
+
   dimension: active_backend_plugins {
     description: ""
     type: number
@@ -3144,6 +3259,132 @@ view: server_daily_details_ext {
     type: number
     group_label: "Plugin Configuration"
     sql: ${TABLE}.plugins_with_settings ;;
+    hidden: no
+  }
+
+  dimension: file_compress_audit {
+    description: ""
+    label: "File Compress"
+    type: yesno
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_compress_audit ;;
+    hidden: no
+  }
+
+  dimension: advanced_logging_config {
+    description: ""
+    label: "Enable Advanced Logging Config"
+    type: yesno
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.advanced_logging_config ;;
+    hidden: no
+  }
+
+  dimension: file_enabled_audit {
+    description: ""
+    label: "File Enabled"
+    type: yesno
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_enabled_audit ;;
+    hidden: no
+  }
+
+  dimension: syslog_enabled_audit {
+    description: ""
+    label: "Syslog Enabled"
+    type: yesno
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.syslog_enabled_audit ;;
+    hidden: no
+  }
+
+  dimension: syslog_insecure_audit {
+    description: ""
+    label: "Syslog Insecure"
+    type: yesno
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.syslog_insecure_audit ;;
+    hidden: no
+  }
+
+  dimension: syslog_max_queue_size_audit {
+    description: ""
+    label: "Max. Queue Size"
+    type: number
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.syslog_max_queue_size_audit ;;
+    hidden: no
+  }
+
+  dimension: file_max_age_days_audit {
+    description: ""
+    label: "Max. File Age (Days)"
+    type: number
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_max_age_days_audit ;;
+    hidden: no
+  }
+
+  dimension: file_max_backups_audit {
+    description: ""
+    label: "Max. File Backups"
+    type: number
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_max_backups_audit ;;
+    hidden: no
+  }
+
+  dimension: file_max_queue_size_audit {
+    description: ""
+    label: "Max. Queue Size"
+    type: number
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_max_queue_size_audit ;;
+    hidden: no
+  }
+
+  dimension: file_max_size_mb_audit {
+    description: ""
+    label: "Max. File Size (MB)"
+    type: number
+    group_label: "Audit Configuration"
+    sql: ${TABLE}.file_max_size_mb_audit ;;
+    hidden: no
+  }
+
+  dimension: bulk_indexing_time_window_bleve {
+    description: ""
+    label: "Bulk Indexing Time Window"
+    type: number
+    group_label: "Bleve Configuration"
+    sql: ${TABLE}.bulk_indexing_time_window_bleve ;;
+    hidden: no
+  }
+
+  dimension: enable_autocomplete_bleve {
+    description: ""
+    label: "Enable Autocomplete"
+    type: yesno
+    group_label: "Bleve Configuration"
+    sql: ${TABLE}.enable_autocomplete_bleve ;;
+    hidden: no
+  }
+
+  dimension: enable_indexing_bleve {
+    description: ""
+    label: "Enable Indexing"
+    type: yesno
+    group_label: "Bleve Configuration"
+    sql: ${TABLE}.enable_indexing_bleve ;;
+    hidden: no
+  }
+
+  dimension: enable_searching_bleve {
+    description: ""
+    label: "Enable Searching"
+    type: yesno
+    group_label: "Bleve Configuration"
+    sql: ${TABLE}.enable_searching_bleve ;;
     hidden: no
   }
 
@@ -4167,6 +4408,33 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Sql Configuration"
     sql: ${TABLE}.trace_sql ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_active_users_200 {
+    label: "Warn Metric: >200 Active Users"
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_active_users_200 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_active_users_400 {
+    label: "Warn Metric: >400 Active Users"
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_active_users_400 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_active_users_500 {
+    label: "Warn Metric: >500 Active Users"
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_active_users_500 ;;
     hidden: no
   }
 

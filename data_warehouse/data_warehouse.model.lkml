@@ -906,7 +906,7 @@ explore: server_daily_details {
       server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
-      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events]
+      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.cloud_server, server_fact.installation_id]
 #       , server_fact.customer_first_active_date,
 #       server_fact.customer_first_active_week, server_fact.customer_first_active_month, server_fact.customer_first_active_year, server_fact.customer_first_active_fiscal_year, server_fact.customer_first_active_fiscal_quarter,
 #       server_fact.customer_first_paid_license_date, server_fact.customer_first_paid_license_week, server_fact.customer_first_paid_license_month, server_fact.customer_first_paid_license_year, server_fact.customer_first_paid_license_fiscal_quarter, server_fact.customer_first_paid_license_fiscal_year
@@ -1235,7 +1235,8 @@ explore: server_daily_details_ext {
       server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
       server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
       server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
-      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.license_all, server_fact.license_id_filter]
+      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.license_all, server_fact.license_id_filter,
+      server_fact.cloud_server, server_fact.installation_id]
   }
 
   join: nps_server_daily_score {
