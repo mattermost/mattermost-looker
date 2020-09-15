@@ -39,12 +39,12 @@ view: issues {
     type: string
     link: {
       label: "Go to Jira Issue"
-      url: "https://mattermost.atlassian.net/browse/{{ value }}"
+      url: "https://mattermost.atlassian.net/browse/{{ issues.key._value }}"
       icon_url: "https://mattermost.atlassian.net/images/jira-safari-pintab-icon.svg"
     }
     link: {
-      label: "Filter Dashboard On {{ value }}"
-      url: "/dashboards/173?Issue%20ID={{ id._value }}"
+      label: "Filter Dashboard On {{ issues.key._value }}"
+      url: "/dashboards/173?Issue%20ID={{ issues.id._value }}"
       icon_url: "https://mattermost.looker.com//images/favicon.ico"
     }
     link: {

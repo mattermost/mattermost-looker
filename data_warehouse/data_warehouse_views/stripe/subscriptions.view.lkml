@@ -88,6 +88,12 @@ view: subscriptions {
     sql: ${TABLE}."CWS_DNS" ;;
   }
 
+  dimension: cws_installation {
+    description: "The installation ID associated with the stripe subscription. Comparable to a license ID. Only populated for Cloud customers."
+    type: string
+    sql: ${TABLE}."CWS_INSTALLATION" ;;
+  }
+
   dimension: cws_prev_payment {
     type: string
     sql: ${TABLE}."CWS_PREV_PAYMENT" ;;
