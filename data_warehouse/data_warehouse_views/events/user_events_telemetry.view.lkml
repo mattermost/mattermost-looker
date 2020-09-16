@@ -1591,154 +1591,189 @@ view: user_events_telemetry {
 
   measure: anonymous_count {
     label: " Anonymous Count"
-    description: "The distinct count of Anonymouss per grouping."
+    description: "The distinct count of Anonymouss within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
   }
 
   measure: context_device_count {
-    label: " Context_Device Count"
-    description: "The distinct count of Context_Devices per grouping."
+    label: " Context Device Count"
+    description: "The distinct count of Context Devices within each grouping."
     type: count_distinct
     sql: ${context_device_id} ;;
   }
 
   measure: user_actual_count {
-    label: " User_Actual Count"
-    description: "The distinct count of User_Actuals per grouping."
+    label: " User Actual Count"
+    description: "The distinct count of User Actuals within each grouping."
     type: count_distinct
     sql: ${user_actual_id} ;;
   }
 
   measure: user_count {
     label: " User Count"
-    description: "The distinct count of Users per grouping."
+    description: "The distinct count of Users within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: context_traits_count {
-    label: " Context_Traits Count"
-    description: "The distinct count of Context_Traitss per grouping."
+    label: " Context Traits Count"
+    description: "The distinct count of Context Traitss within each grouping."
     type: count_distinct
     sql: ${context_traits_id} ;;
   }
 
   measure: channel_count {
     label: " Channel Count"
-    description: "The distinct count of Channels per grouping."
+    description: "The distinct count of Channels within each grouping."
     type: count_distinct
     sql: ${channel_id} ;;
   }
 
   measure: subscription_count {
     label: " Subscription Count"
-    description: "The distinct count of Subscriptions per grouping."
+    description: "The distinct count of Subscriptions within each grouping."
     type: count_distinct
     sql: ${subscription_id} ;;
   }
 
   measure: context_traits_portal_customer_count {
-    label: " Context_Traits_Portal_Customer Count"
-    description: "The distinct count of Context_Traits_Portal_Customers per grouping."
+    label: " Context Traits Portal Customer Count"
+    description: "The distinct count of Context Traits Portal Customers within each grouping."
     type: count_distinct
     sql: ${context_traits_portal_customer_id} ;;
   }
 
   measure: root_count {
     label: " Root Count"
-    description: "The distinct count of Roots per grouping."
+    description: "The distinct count of Roots within each grouping."
     type: count_distinct
     sql: ${root_id} ;;
   }
 
   measure: post_count {
     label: " Post Count"
-    description: "The distinct count of Posts per grouping."
+    description: "The distinct count of Posts within each grouping."
     type: count_distinct
     sql: ${post_id} ;;
   }
 
   measure: team_count {
     label: " Team Count"
-    description: "The distinct count of Teams per grouping."
+    description: "The distinct count of Teams within each grouping."
     type: count_distinct
     sql: ${team_id} ;;
   }
 
+  measure: count_sum {
+    description: "The sum of Count within each grouping."
+    type: sum
+    group_label: "Count Measures"
+    sql: ${count} ;;
+  }
+
+  measure: count_max {
+    description: "The max of Count within each grouping."
+    type: max
+    group_label: "Count Measures"
+    sql: ${count} ;;
+  }
+
+  measure: count_min {
+    description: "The min of Count within each grouping."
+    type: min
+    group_label: "Count Measures"
+    sql: ${count} ;;
+  }
+
+  measure: count_avg {
+    description: "The average of Count within each grouping."
+    type: average
+    group_label: "Count Measures"
+    sql: ${count} ;;
+  }
+
+  measure: count_median {
+    description: "The median of Count within each grouping."
+    type: median
+    group_label: "Count Measures"
+    sql: ${count} ;;
+  }
+
   measure: plugin_count {
     label: " Plugin Count"
-    description: "The distinct count of Plugins per grouping."
+    description: "The distinct count of Plugins within each grouping."
     type: count_distinct
     sql: ${plugin_id} ;;
   }
 
   measure: channels_0_count {
-    label: " Channels_0 Count"
-    description: "The distinct count of Channelss_0 per grouping."
+    label: " Channels 0 Count"
+    description: "The distinct count of Channelss 0 within each grouping."
     type: count_distinct
     sql: ${channel_ids_0} ;;
   }
 
   measure: channels_1_count {
-    label: " Channels_1 Count"
-    description: "The distinct count of Channelss_1 per grouping."
+    label: " Channels 1 Count"
+    description: "The distinct count of Channelss 1 within each grouping."
     type: count_distinct
     sql: ${channel_ids_1} ;;
   }
 
   measure: scheme_count {
     label: " Scheme Count"
-    description: "The distinct count of Schemes per grouping."
+    description: "The distinct count of Schemes within each grouping."
     type: count_distinct
     sql: ${scheme_id} ;;
   }
 
   measure: channels_2_count {
-    label: " Channels_2 Count"
-    description: "The distinct count of Channelss_2 per grouping."
+    label: " Channels 2 Count"
+    description: "The distinct count of Channelss 2 within each grouping."
     type: count_distinct
     sql: ${channel_ids_2} ;;
   }
 
   measure: channels_count {
     label: " Channels Count"
-    description: "The distinct count of Channelss per grouping."
+    description: "The distinct count of Channelss within each grouping."
     type: count_distinct
     sql: ${channel_ids} ;;
   }
 
   measure: context_traits_cross_domain_count {
-    label: " Context_Traits_Cross_Domain Count"
-    description: "The distinct count of Context_Traits_Cross_Domains per grouping."
+    label: " Context Traits Cross Domain Count"
+    description: "The distinct count of Context Traits Cross Domains within each grouping."
     type: count_distinct
     sql: ${context_traits_cross_domain_id} ;;
   }
 
   measure: context_amp_count {
-    label: " Context_Amp Count"
-    description: "The distinct count of Context_Amps per grouping."
+    label: " Context Amp Count"
+    description: "The distinct count of Context Amps within each grouping."
     type: count_distinct
     sql: ${context_amp_id} ;;
   }
 
   measure: channel_tid_count {
-    label: " Channel_Tid Count"
-    description: "The distinct count of Channels_Tid per grouping."
+    label: " Channel Tid Count"
+    description: "The distinct count of Channels Tid within each grouping."
     type: count_distinct
     sql: ${channel_id_tid} ;;
   }
 
   measure: channel_value_count {
-    label: " Channel_Value Count"
-    description: "The distinct count of Channels_Value per grouping."
+    label: " Channel Value Count"
+    description: "The distinct count of Channels Value within each grouping."
     type: count_distinct
     sql: ${channel_id_value} ;;
   }
 
   measure: segment_dedupe_count {
-    label: " Segment_Dedupe Count"
-    description: "The distinct count of Segment_Dedupes per grouping."
+    label: " Segment Dedupe Count"
+    description: "The distinct count of Segment Dedupes within each grouping."
     type: count_distinct
     sql: ${segment_dedupe_id} ;;
   }
