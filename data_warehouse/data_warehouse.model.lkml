@@ -2191,3 +2191,7 @@ explore: incident_response_events {
     type: left_outer
   }
 }
+
+explore: user_events_telemetry {
+  label: "User Events Telemetry"
+}
