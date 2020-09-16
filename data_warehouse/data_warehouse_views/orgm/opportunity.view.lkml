@@ -597,6 +597,11 @@ view: opportunity {
     group_label: "Marketing"
   }
 
+  dimension: next_step {
+    type: string
+    sql: ${TABLE}.nextstep ;;
+  }
+
   dimension: order_type {
     # description: "TODO"
     sql: ${TABLE}.order_type__c ;;
