@@ -987,6 +987,12 @@ view: account {
     type: string
   }
 
+  dimension: sponsor {
+    label: "Executive Sponsor"
+    type: string
+    sql: ${TABLE}.sponsor__c ;;
+  }
+
   dimension: telemetry_accuracy {
     group_label: "Telemetry"
     type: string
