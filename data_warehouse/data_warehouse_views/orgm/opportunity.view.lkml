@@ -314,6 +314,13 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: expansion_type {
+    sql: ${TABLE}.expansion_type__c ;;
+    type: string
+    label: "Expansion Type (WIP)"
+    description: "True-up, Seat Exp, Upgrade, Seat Exp & Upgrade"
+  }
+
 
   dimension: forecastcategoryname {
     type: string
