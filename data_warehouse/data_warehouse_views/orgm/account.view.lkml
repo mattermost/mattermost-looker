@@ -100,7 +100,12 @@ view: account {
     type: number
   }
 
-
+  dimension: arr_account_size {
+    label: "Current ARR Size"
+    sql: CASE WHEN ${arr_current} >= 100000 THEN 'Big' WHEN ${arr_current} >= 5000 THEN 'Mid' WHEN ${arr_current} > 0 THEN 'Small' ELSE 'No ARR' END;;
+    value_format_name: "usd_0"
+    type: string
+  }
 
   dimension: billing_city {
     group_label: "Billing Info"
