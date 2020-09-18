@@ -776,6 +776,7 @@ explore: current_potential_arr {
 explore: campaign {
   group_label: "Salesforce"
   extends: [_base_account_explore]
+  fields: [ALL_FIELDS*, -account.territory_sales_segment_complex, -account.territory_sales_region, -parent_account.territory_sales_segment_complex, -parent_account.territory_sales_region]
 
   join: campaignmember {
     sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
