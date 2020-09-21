@@ -2215,5 +2215,6 @@ explore: user_events_telemetry {
 }
 
 explore: plugin_events {
-  label: "Plugin Events"
+  label: "Plugin Telemetry"
+  group_label: "Product"
 }
