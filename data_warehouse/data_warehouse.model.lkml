@@ -722,6 +722,7 @@ explore: arr {
     product2.list_of_general_products,
     opportunity.billing_country,
     opportunity.shipping_country,
+    opportunity.expansion_type,
     opportunity_ext.paid,
     opportunity_ext.paid_type,
     opportunity_ext.paid_date,opportunity_ext.paid_month,opportunity_ext.paid_fiscal_quarter,opportunity_ext.paid_fiscal_year
@@ -775,6 +776,7 @@ explore: current_potential_arr {
 explore: campaign {
   group_label: "Salesforce"
   extends: [_base_account_explore]
+  fields: [ALL_FIELDS*, -account.territory_sales_segment_complex, -account.territory_sales_region, -parent_account.territory_sales_segment_complex, -parent_account.territory_sales_region]
 
   join: campaignmember {
     sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;

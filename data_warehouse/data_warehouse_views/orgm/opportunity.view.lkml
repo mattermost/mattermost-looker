@@ -314,6 +314,13 @@ view: opportunity {
     group_label: "Forecasting"
   }
 
+  dimension: expansion_type {
+    sql: ${TABLE}.expansion_type__c ;;
+    type: string
+    label: "Expansion Type (WIP)"
+    description: "True-up, Seat Exp, Upgrade, Seat Exp & Upgrade"
+  }
+
 
   dimension: forecastcategoryname {
     type: string
@@ -597,6 +604,11 @@ view: opportunity {
     group_label: "Marketing"
   }
 
+  dimension: next_step {
+    type: string
+    sql: ${TABLE}.nextstep ;;
+  }
+
   dimension: order_type {
     # description: "TODO"
     sql: ${TABLE}.order_type__c ;;
@@ -766,7 +778,7 @@ view: opportunity {
 
   dimension: territory_sales_segment {
     type: string
-    sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    sql: CASE WHEN ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
     group_label: "Territory"
     label: "Territory Sales Segment"
   }
