@@ -571,6 +571,11 @@ view: account {
       url: "@{salesforce_link}{{sfid}}"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    link: {
+      label: "Customer 360 Dashboard"
+      # BP: Leverage constants to enable more reused
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{sfid}}"
+    }
     sql: ${TABLE}.name ;;
     type: string
   }

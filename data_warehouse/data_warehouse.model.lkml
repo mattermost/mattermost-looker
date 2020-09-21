@@ -2194,4 +2194,20 @@ explore: incident_response_events {
 
 explore: user_events_telemetry {
   label: "User Events Telemetry"
+  group_label: "Product"
+
+  join: server_daily_details {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} AND ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_fact {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+  }
 }
