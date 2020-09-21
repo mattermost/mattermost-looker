@@ -2197,6 +2197,7 @@ explore: incident_response_events {
 explore: user_events_telemetry {
   label: "User Events Telemetry"
   group_label: "Product"
+  description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
 
   join: server_daily_details {
     view_label: "User Events Telemetry"
@@ -2212,4 +2213,10 @@ explore: user_events_telemetry {
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
   }
+}
+
+explore: plugin_events {
+  label: "Plugin Telemetry"
+  group_label: "Product"
+  description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
 }
