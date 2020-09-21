@@ -2213,3 +2213,7 @@ explore: user_events_telemetry {
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
   }
 }
+
+explore: plugin_events {
+  label: "Plugin Events"
+}
