@@ -2178,19 +2178,26 @@ explore: incident_response_events {
   group_label: "Integrations"
   extends: [server_fact]
 
-  join: excludable_servers {
+  join: server_daily_details {
     view_label: "Incident Response"
-    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [excludable_servers.reason]
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
   }
 
   join: server_fact {
-    view_label: "Server Fact"
-    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    view_label: "Incident Response"
+    sql_on: ${incident_response_events.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    type: left_outer
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+  }
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${incident_response_events.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
   }
 }
 
@@ -2213,10 +2220,39 @@ explore: user_events_telemetry {
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
   }
+
+  join: excludable_servers {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: plugin_events {
   label: "Plugin Telemetry"
   group_label: "Product"
   description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
+
+  join: server_daily_details {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${server_daily_details.server_id} AND ${plugin_events.timestamp_date}_date} = ${server_daily_details.logging_date} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_fact {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+  }
+
+  join: excludable_servers {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }

@@ -20,6 +20,12 @@ view: plugin_events {
     hidden: no
   }
 
+  dimension: plugin_name {
+    description: "The name of the plugin (parsed from the event name)."
+    type: string
+    sql: INITCAP(split_part(${event}, '_', 1)) ;;
+  }
+
   dimension: pluginversion {
     label: "Plugin Version"
     description: ""
