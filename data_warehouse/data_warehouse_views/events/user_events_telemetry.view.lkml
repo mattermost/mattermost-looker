@@ -1276,14 +1276,14 @@ view: user_events_telemetry {
     label: " Plugin Downloads"
     description: "The distinct count of Plugin download events performed within each grouping."
     type: count_distinct
-    sql: CASE WHEN ${type} = 'ui_marketplace_download' ${id} ELSE NULL END ;;
+    sql: CASE WHEN ${type} = 'ui_marketplace_download' then ${id} ELSE NULL END ;;
   }
 
   measure: plugin_updates_count {
     label: " Plugin Updates"
     description: "The distinct count of Plugin update events performed within each grouping."
     type: count_distinct
-    sql: CASE WHEN ${type} = 'ui_marketplace_download_update' ${id} ELSE NULL END ;;
+    sql: CASE WHEN ${type} = 'ui_marketplace_download_update' then ${id} ELSE NULL END ;;
   }
 
   measure: scheme_count {
