@@ -52,11 +52,12 @@ view: user_events_telemetry {
     label: " Event Source"
     description: "The source of the event triggered by the user: WebApp, Desktop, Mobile, and/or Customer Portal"
     type: string
-    sql: CASE WHEN ${_dbt_source_relation2} LIKE '%WEBAPP%' AND lower(COALESCE(${context_user_agent}, ${context_useragent})) LIKE '%electron%' THEN 'Desktop'
-              WHEN ${_dbt_source_relation2} LIKE '%WEBAPP%' AND lower(COALESCE(${context_user_agent}, ${context_useragent})) NOT LIKE '%electron%' THEN 'WebApp'
-              WHEN ${_dbt_source_relation2} LIKE '%MOBILE%' THEN 'Mobile'
-              WHEN ${_dbt_source_relation2} LIKE '%PORTAL%' THEN 'Customer Portal'
+    sql: CASE WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_WEBAPP_EVENTS','RUDDER_WEBAPP_EVENTS') AND lower(COALESCE(${TABLE}.context_user_agent, ${TABLE}.context_useragent)) LIKE '%electron%' THEN 'Desktop'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_WEBAPP_EVENTS','RUDDER_WEBAPP_EVENTS') AND lower(COALESCE(${TABLE}.context_user_agent, ${TABLE}.context_useragent)) NOT LIKE '%electron%' THEN 'WebApp'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_MOBILE_EVENTS','MOBILE_EVENTS') THEN 'Mobile'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('PORTAL_EVENTS') THEN 'Customer Portal'
               ELSE 'WebApp' END;;
+    suggestions: ["Desktop", "Mobile", "Portal", "WebApp"]
   }
 
   dimension: _dbt_source_relation {
@@ -999,14 +1000,14 @@ view: user_events_telemetry {
 
   measure: user_actual_count {
     label: "  User Count"
-    description: "The distinct count of User Actuals within each grouping."
+    description: "The distinct count of Users within each grouping."
     type: count_distinct
     sql: COALESCE(${user_actual_id}, ${anonymous_id}) ;;
   }
 
   measure: user_count {
     label: "  Server Count"
-    description: "The distinct count of Users within each grouping."
+    description: "The distinct count of Servers within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
@@ -1043,7 +1044,7 @@ view: user_events_telemetry {
     label: "  Reply Count"
     description: "The distinct count of Replies to a thread within each grouping."
     type: count_distinct
-    sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${post_id} ELSE NULL END;;
+    sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${id} ELSE NULL END;;
   }
 
   measure: thread_count {
@@ -1064,7 +1065,7 @@ view: user_events_telemetry {
     label: "  Post Count (No Replies)"
     description: "The distinct count of Posts, including replies to threads, within each grouping."
     type: count_distinct
-    sql: CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${post_id} ELSE NULL END;;
+    sql: CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${id} ELSE NULL END;;
   }
 
   measure: post_edits_count {
@@ -1349,6 +1350,20 @@ view: user_events_telemetry {
     type: median
     sql: ${duration} ;;
     hidden: no
+  }
+
+  measure: first_triggered {
+    label: "First Triggered"
+    description: "The date & time the event was first triggered."
+    type: date_time
+    sql: MIN(${TABLE}.timestamp) ;;
+  }
+
+  measure: last_triggered {
+    label: "Last Triggered"
+    description: "The date & time the event was last triggered."
+    type: date_time
+    sql: MAX(${TABLE}.timestamp) ;;
   }
 
 
