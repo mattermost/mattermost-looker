@@ -570,6 +570,13 @@ view: lead {
     sql: ${first_junk_date} IS NOT NULL ;;
   }
 
+  dimension: junk_reason {
+    group_label: "Lead Lifecycle: Junk"
+    label: "Junk Reason"
+    type: string
+    sql: ${TABLE}.JUNK_REASON__C ;;
+  }
+
 #  dimension_group: first_pql {
 #    group_label: "Lead Lifecycle: PQL"
 #    label: "PQL First"
@@ -613,9 +620,11 @@ view: lead {
 #  }
 
   dimension: actively_being_sequenced {
-    label: "Actively Being Sequenced?"
+    group_item_label: "Actively Sequenced?"
     type: yesno
     sql: ${TABLE}.ACTIVELY_BEING_SEQUENCED__C;;
+    group_label: "Outreach"
+    label: "Outreach Actively Sequenced?"
   }
 
   dimension_group: outreach {
@@ -987,6 +996,70 @@ view: lead {
   dimension: where_are_you_with_mattermost {
     sql: ${TABLE}.WHERE_ARE_YOU_WITH_MATTERMOST__C ;;
     type: string
+  }
+
+  dimension: outreach_cadence_add {
+    sql: ${TABLE}.OUTREACH_CADENCE_ADD__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Cadence Add"
+    group_item_label: "Cadence Add"
+  }
+
+  dimension: outreach_manual_create {
+    sql: ${TABLE}.OUTREACH_MANUAL_CREATE__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Manual Create"
+    group_item_label: "Manual Create"
+  }
+
+  dimension: name_of_active_sequence {
+    sql: ${TABLE}.NAME_OF_CURRENTLY_ACTIVE_SEQUENCE__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Sequence Name"
+    group_item_label: "Sequence Name"
+  }
+
+  dimension: current_sequence_task_due_date {
+    sql: ${TABLE}.CURRENT_SEQUENCE_TASK_DUE_DATE__C ;;
+    type: date
+    group_label: "Outreach"
+    label: "Outreach Task Due Date"
+    group_item_label: "Task Due Date"
+  }
+
+  dimension: current_sequence_step_type {
+    sql: ${TABLE}.CURRENT_SEQUENCE_STEP_TYPE__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Step Type"
+    group_item_label: "Step Type"
+  }
+
+  dimension: current_sequence_status {
+    sql: ${TABLE}.CURRENT_SEQUENCE_STATUS__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Status"
+    group_item_label: "Status"
+  }
+
+  dimension: current_sequence_step_number {
+    sql: ${TABLE}.CURRENT_SEQUENCE_STEP_NUMBER__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach Step Number"
+    group_item_label: "Step Number"
+  }
+
+  dimension: current_sequence_user_name {
+    sql: ${TABLE}.CURRENT_SEQUENCE_USER_NAME__C ;;
+    type: string
+    group_label: "Outreach"
+    label: "Outreach User Name"
+    group_item_label: "User Name"
   }
 
 
