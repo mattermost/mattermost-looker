@@ -1,0 +1,1370 @@
+# This is the view file for the analytics.events.user_events_telemetry table.
+view: user_events_telemetry {
+  sql_table_name: events.user_events_telemetry ;;
+  view_label: "User Events Telemetry"
+
+  # FILTERS
+  dimension: reaction_event {
+    group_label: "Event Type Filter"
+    description: "Boolean indicating the event performed was a reaction i.e. emoji response to a post or upload."
+    type: yesno
+    sql: CASE WHEN ${type} = 'api_reaction_save' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: lhs_event {
+    label: "LHS Direct Message Event"
+    group_label: "Event Type Filter"
+    description: "Boolean indicating the event triggered was lefthand sidebar DM Count event."
+    type: yesno
+    sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: admin_team_configuration_event {
+    group_label: "Event Type Filter"
+    description: "Boolean indicating the event performed was an 'admin_team_config_page' event."
+    type: yesno
+    sql: CASE WHEN ${category} = 'admin_team_config_page' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: admin_channel_configuration_event {
+    group_label: "Event Type Filter"
+    description: "Boolean indicating the event performed was an 'admin_channel_config_page' event."
+    type: yesno
+    sql: CASE WHEN ${category} = 'admin_channel_config_page' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: cloud_event {
+    group_label: "Event Type Filter"
+    description: "Boolean indicating the event performed was an 'admin_channel_config_page' event."
+    type: yesno
+    sql: CASE WHEN split_part(${category}, '_', 1) = 'cloud'  THEN TRUE ELSE FALSE END ;;
+  }
+
+  # DIMENSIONS
+  dimension: _dbt_source_relation2 {
+    description: ""
+    type: string
+    sql: ${TABLE}._dbt_source_relation2 ;;
+    hidden: yes
+  }
+
+  dimension: event_source {
+    label: " Event Source"
+    description: "The source of the event triggered by the user: WebApp, Desktop, Mobile, and/or Customer Portal"
+    type: string
+    sql: CASE WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_WEBAPP_EVENTS','RUDDER_WEBAPP_EVENTS') AND lower(COALESCE(${TABLE}.context_user_agent, ${TABLE}.context_useragent)) LIKE '%electron%' THEN 'Desktop'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_WEBAPP_EVENTS','RUDDER_WEBAPP_EVENTS') AND lower(COALESCE(${TABLE}.context_user_agent, ${TABLE}.context_useragent)) NOT LIKE '%electron%' THEN 'WebApp'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('SEGMENT_MOBILE_EVENTS','MOBILE_EVENTS') THEN 'Mobile'
+              WHEN SPLIT_PART(${TABLE}._dbt_source_relation2, '.', 3) IN ('PORTAL_EVENTS') THEN 'Customer Portal'
+              ELSE 'WebApp' END;;
+    suggestions: ["Desktop", "Mobile", "Portal", "WebApp"]
+  }
+
+  dimension: _dbt_source_relation {
+    description: ""
+    type: string
+    sql: ${TABLE}._dbt_source_relation ;;
+    hidden: yes
+  }
+
+  dimension: context_library_version {
+    group_label: "User Agent Attributes"
+    label: "Library Version"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_library_version ;;
+    hidden: no
+  }
+
+  dimension: context_device_model {
+    group_label: "User Agent Attributes"
+    description: ""
+    label: "Device Model"
+    type: string
+    sql: ${TABLE}.context_device_model ;;
+    hidden: no
+  }
+
+  dimension: context_network_cellular {
+    group_label: "User Agent Attributes"
+    description: "Boolean indicating the user performed the event using a cellular network rather than a wifi or wired connection."
+    label: "Used Cellular Network"
+    type: yesno
+    sql: COALESCE(${TABLE}.context_network_cellular, FALSE) ;;
+    hidden: no
+  }
+
+  dimension: context_traits_device_dimensions_width {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_traits_device_dimensions_width ;;
+    hidden: yes
+  }
+
+  dimension: context_os_name {
+    group_label: "User Agent Attributes"
+    label: "Operating System"
+    description: "The operating system of the user performing the event."
+    type: string
+    sql: COALESCE(${TABLE}.context_os_name, ${context_device_os}, ${context_traits_device_os}) ;;
+    hidden: no
+  }
+
+  dimension: context_device_type {
+    group_label: "User Agent Attributes"
+    label: "Device Type"
+    description: "The device type of the user performing the event."
+    type: string
+    sql: ${TABLE}.context_device_type ;;
+    hidden: no
+  }
+
+  dimension: context_traits_anonymousid {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_anonymousid ;;
+    hidden: yes
+  }
+
+  dimension: category {
+    label: " Event Category"
+    description: "The event category of the event that was triggered i.e. api, ui, cloud_account_creation, settings, etc."
+    type: string
+    sql: ${TABLE}.category ;;
+    hidden: no
+  }
+
+  dimension: context_screen_density {
+    group_label: "User Agent Attributes"
+    label: "Screen Density"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_screen_density ;;
+    hidden: no
+  }
+
+  dimension: context_traits_ip {
+    group_label: "User Agent Attributes"
+    label: "IP Address"
+    description: "The IP Address of the user performing the event."
+    type: string
+    sql: COALESCE(${TABLE}.context_traits_ip, ${context_ip}) ;;
+    hidden: no
+  }
+
+  dimension: context_app_name {
+    label: "App Name"
+    description: "The Mattermost App Name. Typically App Name = 'Mattermost' - though a few anomalies of custom names provided."
+    type: string
+    sql: COALESCE(${TABLE}.context_app_name, ${context_app_namespace}) ;;
+    hidden: no
+  }
+
+  dimension: context_useragent {
+    label: "User Agent"
+    description: "The User Agent of the user performing the event."
+    type: string
+    sql: ${TABLE}.context_useragent ;;
+    hidden: yes
+  }
+
+  dimension: context_screen_height {
+    group_label: "User Agent Attributes"
+    label: "Screen Height"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_screen_height ;;
+    hidden: no
+  }
+
+  dimension: event {
+    description: ""
+    type: string
+    sql: ${TABLE}.event ;;
+    hidden: yes
+  }
+
+  dimension: user_actual_role {
+    description: "The role of the user performing the event (i.e. system admin, user, etc.)"
+    type: string
+    sql: ${TABLE}.user_actual_role ;;
+    hidden: no
+  }
+
+  dimension: anonymous_id {
+    description: ""
+    type: string
+    sql: COALESCE(${TABLE}.anonymous_id, ${context_traits_anonymousid}) ;;
+    hidden: no
+  }
+
+  dimension: context_timezone {
+    label: "Timezone"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_timezone ;;
+    hidden: no
+  }
+
+  dimension: context_device_id {
+    group_label: "User Agent Attributes"
+    description: ""
+    label: "Device ID"
+    type: string
+    sql: ${TABLE}.context_device_id ;;
+    hidden: no
+  }
+
+  dimension: context_library_name {
+    group_label: "User Agent Attributes"
+    description: "Library Name"
+    type: string
+    sql: ${TABLE}.context_library_name ;;
+    hidden: no
+  }
+
+  dimension: context_screen_width {
+    group_label: "User Agent Attributes"
+    description: ""
+    label: "Screen Width"
+    type: number
+    sql: ${TABLE}.context_screen_width ;;
+    hidden: no
+  }
+
+  dimension: context_network_wifi {
+    group_label: "User Agent Attributes"
+    label: "Used Wifi Network"
+    description: "Boolean indicating the user performed the event on a wifi network rather than a cellular network or wired connection."
+    type: yesno
+    sql: ${TABLE}.context_network_wifi ;;
+    hidden: no
+  }
+
+  dimension: user_actual_id {
+    label: " User ID"
+    description: "The unique user id of the user performing the event."
+    type: string
+    sql: ${TABLE}.user_actual_id ;;
+    hidden: no
+  }
+
+  dimension: context_device_name {
+    group_label: "User Agent Attributes"
+    description: "The name of the device the user performing the event is using."
+    label: "Device Name"
+    type: string
+    sql: ${TABLE}.context_device_name ;;
+    hidden: no
+  }
+
+  dimension: user_id {
+    label: " Server ID"
+    description: "The server id of the user performing the event"
+    type: string
+    sql: COALESCE(${TABLE}.user_id, ${context_server}, ${context_traits_server}) ;;
+    hidden: no
+  }
+
+  dimension: context_os_version {
+    group_label: "User Agent Attributes"
+    label: "OS Version"
+    description: "The OS version of the operating system of the user performing the event."
+    type: string
+    sql: ${TABLE}.context_os_version ;;
+    hidden: no
+  }
+
+  dimension: context_app_build {
+    group_label: "User Agent Attributes"
+    description: "The app build version of the user performing the event."
+    label: "App Build"
+    type: string
+    sql: coalesce(${TABLE}.context_app_build, ${context_traits_app_build}) ;;
+    hidden: no
+  }
+
+  dimension: type {
+    label: " Event Name"
+    description: "The name of the event that was performed."
+    type: string
+    sql: COALESCE(${TABLE}.type, ${event}) ;;
+    hidden: no
+  }
+
+  dimension: context_traits_server {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_server ;;
+    hidden: yes
+  }
+
+  dimension: context_traits_device_istablet {
+    group_label: "User Agent Attributes"
+    label: "Used Tablet"
+    description: "Boolean indicating the event was performed via tablet device."
+    type: yesno
+    sql: COALESCE(${TABLE}.context_traits_device_istablet, ${context_device_is_tablet}, false) ;;
+    hidden: no
+  }
+
+  dimension: context_traits_app_build {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_app_build ;;
+    hidden: yes
+  }
+
+  dimension: context_traits_device_os {
+    group_label: "User Agent Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_device_os ;;
+    hidden: yes
+  }
+
+  dimension: context_app_namespace {
+    label: "App Namespace"
+    description: "The app namespace of the service collecting the Mattermost application data. Typically defaults to 'com.rudderlabs.javascript'."
+    type: string
+    sql: ${TABLE}.context_app_namespace ;;
+    hidden: no
+  }
+
+  dimension: context_device_manufacturer {
+    group_label: "User Agent Attributes"
+    description: ""
+    label: "Device Manufacturer"
+    type: string
+    sql: ${TABLE}.context_device_manufacturer ;;
+    hidden: no
+  }
+
+  dimension: context_network_bluetooth {
+    group_label: "User Agent Attributes"
+    label: "Used Bluetooth"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.context_network_bluetooth ;;
+    hidden: no
+  }
+
+  dimension: context_locale {
+    group_label: "User Agent Attributes"
+    label: "Locale"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_locale ;;
+    hidden: no
+  }
+
+  dimension: context_traits_id {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_id ;;
+    hidden: yes
+  }
+
+  dimension: context_traits_userid {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_userid ;;
+    hidden: yes
+  }
+
+  dimension: context_network_carrier {
+    group_label: "User Agent Attributes"
+    description: ""
+    label: "Network Carrier"
+    type: string
+    sql: ${TABLE}.context_network_carrier ;;
+    hidden: no
+  }
+
+  dimension: id {
+    description: "The unique id of the event performed."
+    type: string
+    sql: ${TABLE}.id ;;
+    hidden: no
+  }
+
+  dimension: event_text {
+    description: ""
+    type: string
+    sql: ${TABLE}.event_text ;;
+    hidden: yes
+  }
+
+  dimension: context_app_version {
+    label: "App Version"
+    description: ""
+    type: string
+    sql: COALESCE(${TABLE}.context_app_version, ${context_traits_app_version}) ;;
+    hidden: no
+  }
+
+  dimension: context_ip {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_ip ;;
+    hidden: yes
+  }
+
+  dimension: channel {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channel ;;
+    hidden: no
+  }
+
+  dimension: context_traits_app_version {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_app_version ;;
+    hidden: yes
+  }
+
+  dimension: context_traits_device_dimensions_height {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_traits_device_dimensions_height ;;
+    hidden: yes
+  }
+
+  dimension: from_background {
+    description: ""
+    type: yesno
+    sql: ${TABLE}.from_background ;;
+    hidden: no
+  }
+
+  dimension: channel_id {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channel_id ;;
+    hidden: no
+  }
+
+  dimension: context_page_url {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_page_url ;;
+    hidden: no
+  }
+
+  dimension: context_page_referrer {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_page_referrer ;;
+    hidden: no
+  }
+
+  dimension: page {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.page ;;
+    hidden: no
+  }
+
+  dimension: context_page_title {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_page_title ;;
+    hidden: no
+  }
+
+  dimension: context_page_search {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_page_search ;;
+    hidden: no
+  }
+
+  dimension: context_page_path {
+    group_label: "Webpage Attributes (Portal Events)"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_page_path ;;
+    hidden: no
+  }
+
+  dimension: subscription_id {
+    description: "The unique subscription id associated with the user performing the subscription_purchased and stripe_confirm_card_error Customer Portal Events."
+    type: string
+    sql: ${TABLE}.subscription_id ;;
+    hidden: no
+  }
+
+  dimension: context_traits_portal_customer_id {
+    label: " Customer Portal ID"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_traits_portal_customer_id ;;
+    hidden: no
+  }
+
+  dimension: stripe_error {
+    description: "The error message provided to the user when they trigger the stripe_confirm_card_error Customer Portal event."
+    type: string
+    sql: ${TABLE}.stripe_error ;;
+    hidden: no
+  }
+
+  dimension: workspace_name {
+    description: "The workspace name provided during the account creation process (only provided for certain events in the portal cloud account creation workflow).."
+    type: string
+    sql: ${TABLE}.workspace_name ;;
+    hidden: no
+  }
+
+  dimension: suggestion {
+    description: "The suggested name provided to a user when they trigger the workspace_name_taken event."
+    type: string
+    sql: ${TABLE}.suggestion ;;
+    hidden: no
+  }
+
+  dimension: duration {
+    description: "The time, in milliseconds, for the event to complete (only for page_load, channel_switch, and team_switch events)."
+    type: number
+    sql: ${TABLE}.duration ;;
+    hidden: no
+  }
+
+  dimension: root_id {
+    description: "The root id used to track the origin of a post reply (for api_posts_replied events). Root ID = The Post ID of the original post responsible for the thread."
+    type: string
+    sql: ${TABLE}.root_id ;;
+    hidden: no
+  }
+
+  dimension: post_id {
+    description: "The unique id generated during a post or reply event."
+    type: string
+    sql: ${TABLE}.post_id ;;
+    hidden: no
+  }
+
+  dimension: sort {
+    description: "Indicates the sort preference selected by a user when triggering the api_profiles_get_in_team event. This event is triggered when a user launches the modal to search users w/in a team."
+    type: string
+    sql: ${TABLE}.sort ;;
+    hidden: no
+  }
+
+  dimension: team_id {
+    description: "The unique team id where the event was performed by the user."
+    type: string
+    sql: ${TABLE}.team_id ;;
+    hidden: no
+  }
+
+  dimension: userid {
+    description: ""
+    type: string
+    sql: ${TABLE}.userid ;;
+    hidden: yes
+  }
+
+  dimension: version {
+    description: ""
+    type: string
+    sql: ${TABLE}.version ;;
+    hidden: no
+  }
+
+  dimension: keyword {
+    label: "Emoji/Gif Keyword"
+    description: "The keyword of the emoji and or gif being shared/viewd via the 'shares' and/or 'views' events."
+    type: string
+    sql: ${TABLE}.keyword ;;
+    hidden: no
+  }
+
+  dimension: count {
+    label: "LHS: Direct Message Count"
+    description: "The count  of direct message channels  appearing in  the users lefthand sidebar."
+    type: number
+    sql: ${TABLE}.count ;;
+    hidden: no
+  }
+
+  dimension: gfyid {
+    description: "A string of unique keywords used to identify a gif being shared by the 'shares' event."
+    label: "Gfy ID"
+    type: string
+    sql: ${TABLE}.gfyid ;;
+    hidden: no
+  }
+
+  dimension: context {
+    description: ""
+    type: string
+    sql: ${TABLE}.context ;;
+    hidden: yes
+  }
+
+  dimension: field {
+    group_label: "User Update Settings Attributes"
+    label: "Field Updated"
+    description: "The field updated by the user when performing the user_settings_update event (i.e. picture, name, position, email, and sidebar setting options)."
+    type: string
+    sql: ${TABLE}.field ;;
+    hidden: no
+  }
+
+  dimension: plugin_id {
+    description: "The unique string identifier of the plugin downloaded and/or updated by the user triggering a ui_marketplace_download/update event."
+    type: string
+    sql: ${TABLE}.plugin_id ;;
+    hidden: no
+  }
+
+  dimension: installed_version {
+    description: ""
+    type: string
+    sql: ${TABLE}.installed_version ;;
+    hidden: no
+  }
+
+  dimension: group_constrained {
+    description: "Boolean indicating the search for profile not in team/channel was or was not group constained."
+    type: yesno
+    sql: ${TABLE}.group_constrained ;;
+    hidden: no
+  }
+
+  dimension: value {
+    group_label: "User Update Settings Attributes"
+    label: "Value Updated To"
+    description: "The value updated to by the user when performing the user_settings_update event (i.e. true, false, recent, never, none, by_type, alpha, or after_seven_days)."
+    type: string
+    sql: ${TABLE}.value ;;
+    hidden: no
+  }
+
+  dimension: include_deleted {
+    group_label: "Get Channel Event Attributes"
+    description: "Boolean indicating whether the user elected to include deleted channels when performing the api_channel_get_by_name_and_teamName event."
+    type: yesno
+    sql: ${TABLE}.include_deleted ;;
+    hidden: no
+  }
+
+  dimension: role {
+    group_label: "Add/Remove Role Event Attributes"
+    description: "The role that was added and/or removed via the add_roles and remove_roles event performed by the user/system admin."
+    type: string
+    sql: ${TABLE}.role ;;
+    hidden: yes
+  }
+
+  dimension: privacy {
+    group_label: "Update Channel Privacy Event Attributes"
+    label: "Privacy Settings"
+    description: "The privacy setting selected by the user performing the api_channels_update_privacy event."
+    type: string
+    sql: CASE WHEN ${TABLE}.privacy = 'O' THEN 'Open'
+              WHEN ${TABLE}.privacy = 'P' THEN 'Private'
+              ELSE ${TABLE}.privacy END ;;
+    hidden: no
+  }
+
+  dimension: scheme_id {
+    description: "The unique scheme id associated with the scheme being patched or updated by the api_schemes_patch and api_teams_update_scheme events."
+    type: string
+    sql: ${TABLE}.scheme_id ;;
+    hidden: no
+  }
+
+  dimension: channelsids {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channelsids ;;
+    hidden: no
+  }
+
+  dimension: channel_ids {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channel_ids ;;
+    hidden: no
+  }
+
+  dimension: from_page {
+    description: "The source of the in-product api_request_trial_license event performed by the user (i.e. license, ldap, or saml page)."
+    type: string
+    sql: ${TABLE}.from_page ;;
+    hidden: no
+  }
+
+  dimension: context_compiled {
+    group_label: "Context Attributes"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.context_compiled ;;
+    hidden: yes
+  }
+
+  dimension: context_terminators_lastindex {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_terminators_lastindex ;;
+    hidden: yes
+  }
+
+  dimension: context_contains {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_contains ;;
+    hidden: yes
+  }
+
+  dimension: context_relevance {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_relevance ;;
+    hidden: yes
+  }
+
+  dimension: warnmetricid {
+    group_label: "Warn Metric: Active User Attributes"
+    label: "Warn Metric ID"
+    description: "A string identifying the warn metric that appeared to the user before performing the api_request_send_metric_ack event acknowledging they've seen the warning notifying them of their active user overage."
+    type: string
+    sql: ${TABLE}.warnmetricid ;;
+    hidden: no
+  }
+
+  dimension: metric {
+    group_label: "Warn Metric: Active User Attributes"
+    description: "The active user warn metric that appeared to the user before they performed the click_warn_metric_bot_id or click_warn_metric_contact_us event (i.e. > 200, > 400, or > 500 active users)."
+    type: string
+    sql: ${TABLE}.metric ;;
+    hidden: no
+  }
+
+  dimension: context_traits_cross_domain_id {
+    group_label: "Context Attributes"
+    description: "?"
+    label: "Cross Domain ID"
+    type: string
+    sql: ${TABLE}.context_traits_cross_domain_id ;;
+    hidden: no
+  }
+
+  dimension: context_amp_id {
+    group_label: "Context Attributes"
+    description: "?"
+    label: "Amp ID"
+    type: string
+    sql: ${TABLE}.context_amp_id ;;
+    hidden: no
+  }
+
+  dimension: channel_name {
+    group_label: "Get Channel Event Attributes"
+    description: "The name of the channel selected by the user when performing the api_channel_get_by_name_and_teamName event."
+    type: string
+    sql: ${TABLE}.channel_name ;;
+    hidden: no
+  }
+
+  dimension: context_campaign_medium {
+    group_label: "Marketing Campaign Attributes"
+    label: "Campaign Medium"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_campaign_medium ;;
+    hidden: no
+  }
+
+  dimension: context_campaign_source {
+    group_label: "Marketing Campaign Attributes"
+    label: "Campaign Source"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_campaign_source ;;
+    hidden: no
+  }
+
+  dimension: team_name {
+    group_label: "Get Channel Event Attributes"
+    description: "The team name of the channel selected by the user performing the api_channel_get_by_name_and_teamName event."
+    type: string
+    sql: ${TABLE}.team_name ;;
+    hidden: no
+  }
+
+  dimension: channel_id_tid {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channel_id_tid ;;
+    hidden: no
+  }
+
+  dimension: context_campaign_name {
+    group_label: "Marketing Campaign Attributes"
+    label: "Campaign Name"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_campaign_name ;;
+    hidden: no
+  }
+
+  dimension: channel_id_value {
+    group_label: "Channel Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.channel_id_value ;;
+    hidden: no
+  }
+
+  dimension: context_campaign_content {
+    group_label: "Marketing Campaign Attributes"
+    label: "Campaign Content"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_campaign_content ;;
+    hidden: no
+  }
+
+  dimension: context_campaign_term {
+    group_label: "Marketing Campaign Attributes"
+    description: ""
+    label: "Campaign Term"
+    type: string
+    sql: ${TABLE}.context_campaign_term ;;
+    hidden: no
+  }
+
+  dimension: segment_dedupe_id {
+    description: ""
+    type: string
+    sql: ${TABLE}.segment_dedupe_id ;;
+    hidden: yes
+  }
+
+  dimension: context_user_agent {
+    label: "User Agent"
+    description: "The User Agent of the user performing the event."
+    type: string
+    sql: COALESCE(${TABLE}.context_user_agent, ${context_useragent}) ;;
+    hidden: no
+  }
+
+  dimension: context_server {
+    group_label: "Context Attributes"
+    description: ""
+    type: string
+    sql: ${TABLE}.context_server ;;
+    hidden: yes
+  }
+
+  dimension: context_device_os {
+    group_label: "User Agent Attributes"
+    description: "The operating system of the user performing the event."
+    label: "Operating System"
+    type: string
+    sql: ${TABLE}.context_device_os ;;
+    hidden: yes
+  }
+
+  dimension: context_device_is_tablet {
+    group_label: "Context Attributes"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.context_device_is_tablet ;;
+    hidden: yes
+  }
+
+  dimension: context_device_dimensions_height {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_device_dimensions_height ;;
+    hidden: yes
+  }
+
+  dimension: context_device_dimensions_width {
+    group_label: "Context Attributes"
+    description: ""
+    type: number
+    sql: ${TABLE}.context_device_dimensions_width ;;
+    hidden: yes
+  }
+
+
+  # DIMENSION GROUPS/DATES
+  dimension_group: original_timestamp {
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.original_timestamp ;;
+    hidden: yes
+  }
+
+  dimension_group: sent_at {
+  description: ""
+  type: time
+    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.sent_at ;;
+    hidden: yes
+  }
+
+  dimension_group: event {
+    label: " Event"
+  description: "The date and/or time groupings available to group the timestamps of the events performed by users."
+  type: time
+    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.timestamp ;;
+    hidden: no
+  }
+
+  dimension_group: uuid_ts {
+  description: ""
+  type: time
+  timeframes: [date, month, year]
+    sql: ${TABLE}.uuid_ts ;;
+    hidden: yes
+  }
+
+  dimension_group: received_at {
+  description: ""
+  type: time
+  timeframes: [date, month, year]
+    sql: ${TABLE}.received_at ;;
+    hidden: yes
+  }
+
+  dimension_group: channel_id_timestamp {
+  description: ""
+  type: time
+    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.channel_id_timestamp ;;
+    hidden: no
+  }
+
+
+  # MEASURES
+  measure: count1 {
+    label: "Count"
+    description: "Count of rows/occurrences."
+    type: count
+  }
+
+  measure: event_count {
+    label: "  Event Count"
+    description: "The distinct count of events within each grouping."
+    type: count_distinct
+    sql: ${id} ;;
+  }
+
+  measure: anonymous_count {
+    label: " Anonymous Count"
+    description: "The distinct count of Anonymouss within each grouping."
+    type: count_distinct
+    sql: ${anonymous_id} ;;
+    hidden: yes
+  }
+
+  measure: context_device_count {
+    label: " Context Device Count"
+    description: "The distinct count of Context Devices within each grouping."
+    type: count_distinct
+    sql: ${context_device_id} ;;
+    hidden: yes
+  }
+
+  measure: user_actual_count {
+    label: "  User Count"
+    description: "The distinct count of Users within each grouping."
+    type: count_distinct
+    sql: COALESCE(${user_actual_id}, ${anonymous_id}) ;;
+  }
+
+  measure: user_count {
+    label: "  Server Count"
+    description: "The distinct count of Servers within each grouping."
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: context_traits_count {
+    label: " Context Traits Count"
+    description: "The distinct count of Context Traitss within each grouping."
+    type: count_distinct
+    sql: ${context_traits_id} ;;
+  }
+
+  measure: channel_count {
+    label: " Channel Count"
+    description: "The distinct count of Channels within each grouping."
+    type: count_distinct
+    sql: ${channel_id} ;;
+  }
+
+  measure: subscription_count {
+    label: " Subscription Count"
+    description: "The distinct count of Subscriptions within each grouping."
+    type: count_distinct
+    sql: ${subscription_id} ;;
+  }
+
+  measure: context_traits_portal_customer_count {
+    label: " Context Traits Portal Customer Count"
+    description: "The distinct count of Context Traits Portal Customers within each grouping."
+    type: count_distinct
+    sql: ${context_traits_portal_customer_id} ;;
+  }
+
+  measure: root_count {
+    label: "  Reply Count"
+    description: "The distinct count of Replies to a thread within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${id} ELSE NULL END;;
+  }
+
+  measure: thread_count {
+    label: "  Thread Count"
+    description: "The distinct count of threads created within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${root_id} ELSE NULL END;;
+  }
+
+  measure: post_count {
+    label: "  Post Count"
+    description: "The distinct count of Posts, including replies to threads, within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_posts_create' THEN ${post_id} ELSE NULL END ;;
+  }
+
+  measure: post_no_reply_count {
+    label: "  Post Count (No Replies)"
+    description: "The distinct count of Posts, including replies to threads, within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${id} ELSE NULL END;;
+  }
+
+  measure: post_edits_count {
+    label: "  Edit Post Count"
+    description: "The distinct count of Posts, including replies to threads, within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_posts_patch' THEN ${id} ELSE NULL END;;
+  }
+
+  measure: post_reaction_count {
+    label: "  Reaction Count"
+    description: "The distinct count of Posts, including replies to threads, within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'api_reactions_save' THEN ${id} ELSE NULL END;;
+  }
+
+  measure: team_count {
+    label: "  Team Count"
+    description: "The distinct count of Teams within each grouping."
+    type: count_distinct
+    sql: ${team_id} ;;
+  }
+
+  measure: views {
+    label: "Gif Views"
+    description: "The sum of gif views by users w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'views' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: batch_add_members_sum {
+    group_label: "Batch Add Members Measures"
+    label: "Batch Add Members (Sum)"
+    description: "The sum of new members batch added to (group or team?) by users w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: batch_add_members_avg {
+    group_label: "Batch Add Members Measures"
+    label: "Batch Add Members (Avg)"
+    description: "The average of new members batch added to (group or team?) per api_teams_batch_add_members event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: batch_add_members_median {
+    group_label: "Batch Add Members Measures"
+    label: "Batch Add Members (Median)"
+    description: "The median of new members batch added to (group or team?) per api_teams_batch_add_members event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_removed_from_team_sum {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Removed From Team (Sum)"
+    description: "The sum of members removed from a team w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_removed_from_team_avg {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Removed From Team (Avg)"
+    description: "The average # of members removed from teams per members_removed_from_team event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_removed_from_team_median {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Removed From Team (Median)"
+    description: "The median # of members removed from teams per members_removed_from_team event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_added_to_team_sum {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Added To Team (Sum)"
+    description: "The sum of groups added to teams w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_added_to_team_avg {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Added To Team (Avg)"
+    description: "The average # of groups added to teams per groups_added_to_team event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_added_to_team_median {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Added To Team (Median)"
+    description: "The median # of groups added to teams per groups_added_to_team event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_removed_from_team_sum {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Removed From Team (Sum)"
+    description: "The sum of groups removed from teams w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_removed_from_team_avg {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Removed From Team (Avg)"
+    description: "The average # of groups removed from teams per groups_removed_from_team event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: groups_removed_from_team_median {
+    group_label: "Admin Team Configuration Measures"
+    label: "Groups Removed From Team (Median)"
+    description: "The median # of groups removed from teams per groups_added_to_team event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_added_to_team_sum {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Added To Team (Sum)"
+    description: "The sum of members added to teams w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_added_to_team_avg {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Added To Team (Avg)"
+    description: "The average # of members added to teams per members_added_to_team event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_added_to_team_median {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Added To Team (Median)"
+    description: "The median # of members added to teams per members_added_to_team event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_elevated_to_team_admin_sum {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Elevated To Team Admin (Sum)"
+    description: "The sum of members elevated to team admin w/in each grouping."
+    type: sum
+    sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_elevated_to_team_admin_avg {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Elevated To Team Admin (Avg)"
+    description: "The average # of members elevated to team admin per members_elevated_to_team_admin event by users w/in each grouping."
+    type: average
+    sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: members_elevated_to_team_admin_median {
+    group_label: "Admin Team Configuration Measures"
+    label: "Members Elevated To Team Admin (Median)"
+    description: "The median # of members elevated to team admin per members_elevated_to_team_admin event by users w/in each grouping."
+    type: median
+    sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
+  }
+
+
+  measure: count_max {
+    description: "The max. count of direct messages appearing in a user lefthand sidebar within each grouping."
+    type: max
+    group_label: "  LHS DM Count Measures"
+    label: "LHS DM Count (Max)"
+    sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: count_min {
+    description: "The min. count of direct messages appearing in a user lefthand sidebar within each grouping."
+    type: min
+    group_label: "  LHS DM Count Measures"
+    label: "LHS DM Count (Min)"
+    sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: count_avg {
+    description: "The average count of direct messages appearing in a user lefthand sidebar within each grouping."
+    type: average
+    group_label: "  LHS DM Count Measures"
+    label: "LHS DM Count (Avg)"
+    sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: count_median {
+    description: "The median count of direct messages appearing in a user lefthand sidebar within each grouping."
+    type: median
+    group_label: "  LHS DM Count Measures"
+    label: "LHS DM Count (Median)"
+    sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN ${count} ELSE NULL END ;;
+  }
+
+  measure: plugin_added_count {
+    label: " Plugin Downloads"
+    description: "The distinct count of Plugin download events performed within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'ui_marketplace_download' then ${id} ELSE NULL END ;;
+  }
+
+  measure: plugin_updates_count {
+    label: " Plugin Updates"
+    description: "The distinct count of Plugin update events performed within each grouping."
+    type: count_distinct
+    sql: CASE WHEN ${type} = 'ui_marketplace_download_update' then ${id} ELSE NULL END ;;
+  }
+
+  measure: scheme_count {
+    label: " Scheme Count"
+    description: "The distinct count of Schemes within each grouping."
+    type: count_distinct
+    sql: ${scheme_id} ;;
+  }
+
+  measure: channels_count {
+    label: " Channels Count"
+    description: "The distinct count of Channelss within each grouping."
+    type: count_distinct
+    sql: ${channel_ids} ;;
+  }
+
+  measure: context_traits_cross_domain_count {
+    label: " Context Traits Cross Domain Count"
+    description: "The distinct count of Context Traits Cross Domains within each grouping."
+    type: count_distinct
+    sql: ${context_traits_cross_domain_id} ;;
+  }
+
+  measure: context_amp_count {
+    label: " Context Amp Count"
+    description: "The distinct count of Context Amps within each grouping."
+    type: count_distinct
+    sql: ${context_amp_id} ;;
+  }
+
+  measure: channel_tid_count {
+    label: " Channel Tid Count"
+    description: "The distinct count of Channels Tid within each grouping."
+    type: count_distinct
+    sql: ${channel_id_tid} ;;
+  }
+
+  measure: channel_value_count {
+    label: " Channel Value Count"
+    description: "The distinct count of Channels Value within each grouping."
+    type: count_distinct
+    sql: ${channel_id_value} ;;
+  }
+
+  measure: segment_dedupe_count {
+    label: " Segment Dedupe Count"
+    description: "The distinct count of Segment Dedupes within each grouping."
+    type: count_distinct
+    sql: ${segment_dedupe_id} ;;
+  }
+
+  measure: duration_avg {
+    group_label: "  Duration Measures"
+    description: "The average time, in milliseconds, for the event to complete (only for page_load, channel_switch, and team_switch events)."
+    type: average
+    sql: ${duration} ;;
+    hidden: no
+  }
+
+  measure: duration_median {
+    group_label: "  Duration Measures"
+    description: "The median time, in milliseconds, for the event to complete (only for page_load, channel_switch, and team_switch events)."
+    type: median
+    sql: ${duration} ;;
+    hidden: no
+  }
+
+  measure: first_triggered {
+    label: "First Triggered"
+    description: "The date & time the event was first triggered."
+    type: date_time
+    sql: MIN(${TABLE}.timestamp) ;;
+  }
+
+  measure: last_triggered {
+    label: "Last Triggered"
+    description: "The date & time the event was last triggered."
+    type: date_time
+    sql: MAX(${TABLE}.timestamp) ;;
+  }
+
+
+}
