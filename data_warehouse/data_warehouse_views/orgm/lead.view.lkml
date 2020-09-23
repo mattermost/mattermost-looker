@@ -612,6 +612,82 @@ view: lead {
 #    type: string
 #  }
 
+  dimension: actively_being_sequenced {
+    label: "Actively Being Sequenced?"
+    type: yesno
+    sql: ${TABLE}.ACTIVELY_BEING_SEQUENCED__C;;
+  }
+
+  dimension_group: outreach {
+    group_label: "SCL Minor: Outreach"
+    label: "Outreach"
+    sql: ${TABLE}.OUTREACH__C;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: connected {
+    group_label: "SCL Minor: Connected"
+    label: "Connected"
+    sql: ${TABLE}.CONNECTED__C;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: never_connected {
+    group_label: "SCL Minor: Never Connected"
+    label: "Never Connected"
+    sql: ${TABLE}.NEVER_CONNECTED__C;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: discovery_call_booked {
+    group_label: "SCL Minor: Discovery Call Booked"
+    label: "Discovery Call Booked"
+    sql: ${TABLE}.DISCOVERY_CALL_BOOKED__C;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
+  dimension_group: discovery_call_completed {
+    group_label: "SCL Minor: Discovery Call Completed"
+    label: "Discovery Call Completed"
+    sql: ${TABLE}.DISCOVERY_CALL_COMPLETED__C;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
+
   dimension_group: first_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "Recycle First"
@@ -646,6 +722,8 @@ view: lead {
     type: yesno
     sql: ${first_recycle_date} IS NOT NULL ;;
   }
+
+
 
   dimension: name {
     sql: ${TABLE}.NAME ;;
@@ -804,11 +882,11 @@ view: lead {
         label: "0"
       }
       when: {
-        sql: ${status} = 'MCL';;
+        sql: ${status} = 'Recycle';;
         label: "1"
       }
       when: {
-        sql: ${status} = 'Recycle';;
+        sql: ${status} = 'MCL';;
         label: "2"
       }
       when: {
@@ -833,6 +911,54 @@ view: lead {
       }
       else: "null"
     }
+    type: string
+  }
+
+  dimension: lead_status_minor {
+    label: "Status Minor"
+    sql: CASE WHEN ${status} = 'SCL' THEN ${TABLE}.LEAD_STATUS_MINOR__C ELSE NULL END;;
+    type: string
+    order_by_field: status_minor_order
+  }
+
+  dimension: status_minor_order {
+    hidden: yes
+    case: {
+      when: {
+        sql: ${status} = 'Outreach';;
+        label: "0"
+      }
+      when: {
+        sql: ${status} = 'Connected';;
+        label: "1"
+      }
+      when: {
+        sql: ${status} = 'Discovery Call Booked';;
+        label: "2"
+      }
+      when: {
+        sql: ${status} = 'Discovery Call Completed';;
+        label: "3"
+      }
+      when: {
+        sql: ${status} = 'Never Connected';;
+        label: "4"
+      }
+      else: "null"
+    }
+    type: string
+  }
+
+  dimension: lead_status_combined {
+    label: "Status & Status Minor"
+    sql: ${status} || coalesce(' - ' || ${lead_status_minor}, '');;
+    type: string
+    order_by_field: lead_status_combined_order
+  }
+
+  dimension: lead_status_combined_order {
+    hidden: yes
+    sql: ${status_order}||${status_minor_order};;
     type: string
   }
 
