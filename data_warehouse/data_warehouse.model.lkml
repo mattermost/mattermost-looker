@@ -1029,6 +1029,39 @@ explore: account_cs_extended  {
     relationship: one_to_one
   }
 
+  join: customer_onboarding {
+    sql_on:${account.sfid} = ${customer_onboarding.accountid};;
+    relationship: one_to_many
+  }
+
+  join: customer_onboarding_owner {
+    from: user
+    sql_on: ${customer_onboarding.owner} = ${customer_onboarding_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_onboarding_csm {
+    from: user
+    sql_on: ${customer_onboarding.csm_owner} = ${customer_onboarding_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_onboarding_primary_contact {
+    from: contact
+    sql_on: ${customer_onboarding.primary_contact} = ${customer_onboarding_primary_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_onboarding_executive_sponsor {
+    from: contact
+    sql_on: ${customer_onboarding.executive_sponsor} = ${customer_onboarding_executive_sponsor.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: customer_risk {
     sql_on: ${account.sfid} = ${customer_risk.account} ;;
     relationship: one_to_many
@@ -1057,7 +1090,7 @@ explore: account_cs_extended  {
 
   join: customer_risk_contact {
     from: contact
-    sql_on: ${customer_risk_contact.name} = ${customer_risk_contact.sfid} ;;
+    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
     relationship: many_to_one
     fields: []
   }
