@@ -273,9 +273,91 @@ view: customer_risk {
     sql: ${TABLE}."TYPE__C" ;;
   }
 
+  measure: total_renewal_at_risk_amount {
+    label: "Total At Risk Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "At Risk"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_early_warning_amount {
+    label: "Total Early Warning Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "Early Warning"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_delayed_amount {
+    label: "Total Delayed Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "Delayed"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_risk_amount {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${risk_amount};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_at_risk_seat_risk {
+    label: "Total At Risk Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "At Risk"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_early_warning_seat_risk {
+    label: "Total Early Warning Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "Early Warning"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_delayed_seat_risk {
+    label: "Total Delayed Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "Delayed"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_seat_risk {
+    # description: "TODO"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+  }
+
   measure: count {
     label: "# of Customer Risks"
     type: count
-    drill_fields: [id, name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
   }
 }
