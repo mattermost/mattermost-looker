@@ -9,12 +9,24 @@ view: customer_risk {
     sql: ${TABLE}."ID" ;;
   }
 
-
   dimension: account {
     hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
   }
+
+  dimension: account_name {
+    hidden: yes
+    label: "Account Name"
+    description: "Salesforce Account Name"
+    type: string
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{account}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    sql: ${account.name} ;;
+    }
 
   dimension: owner {
     hidden: yes
@@ -174,8 +186,14 @@ view: customer_risk {
   }
 
   dimension: name {
-    label: "Risk Name"
+    label: "Customer Risk Name"
     type: string
+    link: {
+      label: "Salesforce Customer Risk"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     sql: ${TABLE}."NAME" ;;
   }
 
