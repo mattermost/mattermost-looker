@@ -732,7 +732,12 @@ view: lead {
     sql: ${first_recycle_date} IS NOT NULL ;;
   }
 
-
+  dimension: recycle_reason {
+    group_label: "Lead Lifecycle: Recycle"
+    label: "Recycle Reason"
+    type: string
+    sql: ${TABLE}.Recycle_Reason__c ;;
+  }
 
   dimension: name {
     sql: ${TABLE}.NAME ;;
@@ -925,7 +930,7 @@ view: lead {
 
   dimension: lead_status_minor {
     label: "Status Minor"
-    sql: CASE WHEN ${status} = 'SCL' THEN ${TABLE}.LEAD_STATUS_MINOR__C ELSE NULL END;;
+    sql: CASE WHEN ${status} = 'SCL' THEN coalesce(${TABLE}.LEAD_STATUS_MINOR__C,'') WHEN ${status} = 'Recycle' THEN ${recycle_reason} WHEN ${status} = 'Junk' THEN ${junk_reason} ELSE '' END;;
     type: string
     order_by_field: status_minor_order
   }
@@ -953,14 +958,14 @@ view: lead {
         sql: ${status} = 'Never Connected';;
         label: "4"
       }
-      else: "null"
+      else: "5"
     }
     type: string
   }
 
   dimension: lead_status_combined {
     label: "Status & Status Minor"
-    sql: ${status} || coalesce(' - ' || ${lead_status_minor}, '');;
+    sql: ${status} || case when ${lead_status_minor} != '' THEN (' - ' || ${lead_status_minor}) ELSE '' END ;;
     type: string
     order_by_field: lead_status_combined_order
   }
