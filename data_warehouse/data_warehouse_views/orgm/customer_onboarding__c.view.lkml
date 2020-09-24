@@ -266,12 +266,6 @@ view: customer_onboarding {
     sql: CAST(${TABLE}."RENEWAL_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
 
-  dimension: seats_active_dau {
-    label: "Seats Active (DAU)"
-    group_label: "Adoption"
-    type: number
-    sql: ${TABLE}."SEATS_ACTIVE_DAU__C" ;;
-  }
 
   dimension: seat_utilization {
     group_label: "Adoption"
@@ -280,6 +274,7 @@ view: customer_onboarding {
   }
 
   dimension: seats_active_latest {
+    description: "Daily Seats Active"
     group_label: "Adoption"
     type: number
     sql: ${TABLE}."SEATS_ACTIVE_LATEST__C" ;;
