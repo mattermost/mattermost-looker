@@ -274,7 +274,7 @@ view: customer_onboarding {
   }
 
   dimension: seats_active_latest {
-    description: "Daily Seats Active"
+    description: "Daily Active Users"
     group_label: "Adoption"
     type: number
     sql: ${TABLE}."SEATS_ACTIVE_LATEST__C" ;;
