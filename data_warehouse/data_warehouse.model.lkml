@@ -1063,7 +1063,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_risk {
-    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
     relationship: one_to_many
   }
 
@@ -1091,13 +1091,6 @@ explore: account_cs_extended  {
   join: customer_risk_contact {
     from: contact
     sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_opportunity {
-    from: opportunity
-    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid};;
     relationship: many_to_one
     fields: []
   }

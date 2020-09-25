@@ -216,7 +216,7 @@ view: customer_risk {
 
   dimension: opportunity_name {
     type: string
-    sql: ${customer_risk_opportunity.name} ;;
+    sql: ${opportunity.name} ;;
   }
 
   dimension: reason {
