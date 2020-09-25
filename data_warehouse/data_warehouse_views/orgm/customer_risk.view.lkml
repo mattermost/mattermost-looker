@@ -276,6 +276,7 @@ view: customer_risk {
   }
 
   dimension: type {
+    label: "Engagement"
     type: string
     sql: ${TABLE}."TYPE__C" ;;
   }
