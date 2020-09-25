@@ -1929,6 +1929,13 @@ explore: customers {
     sql_on: ${products.id} = ${subscription_items.plan_product} OR ${products.id} = ${invoice_line_items.plan_product};;
     relationship: many_to_one
   }
+
+  join: server_fact {
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    relationship: one_to_one
+    view_label: "Stripe Customer Server Details"
+    fields: [server_fact.active_users, server_fact.monthly_active_users, server_fact.direct_message_channels, server_fact.public_channels, server_fact.private_channels, server_fact.slash_commands, server_fact.teams, server_fact.bot_posts_previous_day, server_fact.posts_previous_day, server_fact.bot_accounts, server_fact.guest_accounts, server_fact.incoming_webhooks, server_fact.outgoing_webhooks, server_fact.first_active_date, server_fact.first_active_month, server_fact.first_active_week, server_fact.first_active_year, server_fact.last_active_date, server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.max_registered_users, server_fact.max_registered_deactivated_users, server_fact.max_posts]
+  }
 }
 
 explore: stripe_charges_data_check {
@@ -2251,7 +2258,7 @@ explore: user_events_telemetry {
     view_label: "User Events Telemetry"
     sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: excludable_servers {
@@ -2266,6 +2273,20 @@ explore: user_events_telemetry {
     relationship: many_to_one
     sql_on: ${user_events_telemetry.context_user_agent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
+  }
+
+  join: subscriptions {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    fields: []
+  }
+
+  join: customers {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.customer} = ${customers.id} ;;
+    fields: []
   }
 }
 
