@@ -203,13 +203,20 @@ view: customer_risk {
   }
 
   dimension: of_seats_licensed {
+    label: "# of Seats Licensed"
     type: number
     sql: ${TABLE}."OF_SEATS_LICENSED__C" ;;
   }
 
   dimension: opportunity {
+    hidden: yes
     type: string
     sql: ${TABLE}."OPPORTUNITY__C" ;;
+  }
+
+  dimension: opportunity_name {
+    type: string
+    sql: ${customer_risk_opportunity.name} ;;
   }
 
   dimension: reason {
