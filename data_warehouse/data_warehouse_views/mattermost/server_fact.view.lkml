@@ -378,17 +378,17 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_registered_users {
-    label: "Max. Registered Users"
+    label: "Registered Users"
     description: "The all-time maximum number of registered users logged on the server."
     type: number
-    sql: ${TABLE}.max_registered_users;;
+    sql: ${TABLE}.registered_users;;
   }
 
   dimension: max_registered_deactivated_users {
-    label: "Max. Deactivated Users"
+    label: "Deactivated Users"
     description: "The running total (maximum) of deactivated users logged on the server."
     type: number
-    sql: ${TABLE}.max_registered_deactivated_users;;
+    sql: ${TABLE}.registered_deactivated_users;;
   }
 
   dimension: signup_events_alltime {
@@ -413,10 +413,91 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_posts {
-    label: "Max. Posts"
-    description: "The running total (maximum) number of posts on the servers (logged via the server diagnostics.go code)."
+    label: "Posts"
+    description: "The running total number of posts created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.max_posts;;
+    sql: ${TABLE}.posts;;
+  }
+
+  dimension: direct_message_channels {
+    label: "Direct Message Channels"
+    description: "The running total number of direct messages created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.direct_message_channels;;
+  }
+
+  dimension: public_channels {
+    description: "The running total number of public channels created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.public_channels;;
+  }
+
+  dimension: private_channels {
+    description: "The running total number of private channels created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.private_channels;;
+  }
+
+  dimension: slash_commands {
+    description: "The running total number of slash_commands created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.slash_commands;;
+  }
+
+  dimension: teams {
+    description: "The total number of teams associated with the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.teams;;
+  }
+
+  dimension: posts_previous_day {
+    label: "Posts (Previous Day)"
+    description: "The total number of posts created on the server (logged via the server diagnostics.go code) the previous day before the last active date (yesterday for servers currently sending telemetry)."
+    type: number
+    sql: ${TABLE}.posts_previous_day;;
+  }
+
+  dimension: bot_posts_previous_day {
+    label: "Bot Posts"
+    description: "The total number of bot posts created on the server (logged via the server diagnostics.go code) the previous day before the last active date (yesterday for servers currently sending telemetry)."
+    type: number
+    sql: ${TABLE}.bot_posts_previous_day;;
+  }
+
+  dimension: active_users {
+    description: "The number of active users on the server (logged via the server diagnostics.go code) on the most recent telemetry date."
+    type: number
+    sql: ${TABLE}.active_users;;
+  }
+
+  dimension: monthly_active_users {
+    description: "The total number of monthly active users on the servers (logged via the server diagnostics.go code) within the last 30 days of the server's most recent telemetry date.."
+    type: number
+    sql: ${TABLE}.monthly_active_users;;
+  }
+
+  dimension: bot_accounts {
+    description: "The total number of bot_accounts created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.bot_accounts;;
+  }
+
+  dimension: guest_accounts {
+    description: "The total number of guest_accounts created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.guest_accounts;;
+  }
+
+  dimension: incoming_webhooks {
+    description: "The total number of incoming_webhooks created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.incoming_webhooks;;
+  }
+
+  dimension: outgoing_webhooks {
+    description: "The total number of guest_accounts created on the server (logged via the server diagnostics.go code) to date."
+    type: number
+    sql: ${TABLE}.outgoing_webhooks;;
   }
 
   dimension: invite_members_alltime {
