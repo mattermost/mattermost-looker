@@ -3,6 +3,10 @@ view: user_events_telemetry {
   sql_table_name: events.user_events_telemetry ;;
   view_label: "User Events Telemetry"
 
+  set: server_drill {
+    fields: [event_date, user_id, stripe_customer_dns, category, type, user_actual_count, event_count]
+  }
+
   # FILTERS
   dimension: reaction_event {
     group_label: "Event Type Filter"
@@ -35,9 +39,42 @@ view: user_events_telemetry {
 
   dimension: cloud_event {
     group_label: "Event Type Filter"
-    description: "Boolean indicating the event performed was an 'admin_channel_config_page' event."
+    description: "Boolean indicating the event performed was Cloud Category event."
     type: yesno
-    sql: CASE WHEN split_part(${category}, '_', 1) = 'cloud'  THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN split_part(${category}, '_', 1) THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: cloud_server {
+    description: "Boolean indicating the event was performed by a cloud user (during workspace creation) or cloud server (post workspace creation).."
+    type: yesno
+    sql: CASE WHEN (split_part(${category}, '_', 1) = 'cloud') or (${server_fact.cloud_server} = TRUE) THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: stripe_customer_email {
+    group_label: "Stripe Customer Details"
+    description: "The email provided when purchasing an online subscription or creating a cloud workspace."
+    type: string
+    sql: ${customers.email} ;;
+  }
+
+  dimension: stripe_customer_dns {
+    group_label: "Stripe Customer Details"
+    label: "Stripe Customer DNS"
+    description: "The workspace domain name of the stripe customers Mattermost workspace."
+    type: string
+    sql: ${subscriptions.cws_dns} ;;
+  }
+
+  dimension: properties {
+    description: "The raw data from each single event record logged in the table, consolidated into a single json/variant column."
+    type: string
+    sql: object_construct(*) ;;
+    html:
+    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    <ul>
+    {% for word in words %}
+    <li>{{ word }}</li>
+    {% endfor %} ;;
   }
 
   # DIMENSIONS
@@ -973,12 +1010,14 @@ view: user_events_telemetry {
     label: "Count"
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [server_drill*]
   }
 
   measure: event_count {
     label: "  Event Count"
     description: "The distinct count of events within each grouping."
     type: count_distinct
+    drill_fields: [server_drill*]
     sql: ${id} ;;
   }
 
@@ -987,6 +1026,7 @@ view: user_events_telemetry {
     description: "The distinct count of Anonymouss within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    drill_fields: [server_drill*]
     hidden: yes
   }
 
@@ -1003,6 +1043,7 @@ view: user_events_telemetry {
     description: "The distinct count of Users within each grouping."
     type: count_distinct
     sql: COALESCE(${user_actual_id}, ${anonymous_id}) ;;
+    drill_fields: [server_drill*]
   }
 
   measure: user_count {
@@ -1010,6 +1051,7 @@ view: user_events_telemetry {
     description: "The distinct count of Servers within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: context_traits_count {
@@ -1024,6 +1066,7 @@ view: user_events_telemetry {
     description: "The distinct count of Channels within each grouping."
     type: count_distinct
     sql: ${channel_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: subscription_count {
@@ -1031,6 +1074,7 @@ view: user_events_telemetry {
     description: "The distinct count of Subscriptions within each grouping."
     type: count_distinct
     sql: ${subscription_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: context_traits_portal_customer_count {
@@ -1038,6 +1082,7 @@ view: user_events_telemetry {
     description: "The distinct count of Context Traits Portal Customers within each grouping."
     type: count_distinct
     sql: ${context_traits_portal_customer_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: root_count {
@@ -1045,6 +1090,7 @@ view: user_events_telemetry {
     description: "The distinct count of Replies to a thread within each grouping."
     type: count_distinct
     sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${id} ELSE NULL END;;
+    drill_fields: [server_drill*]
   }
 
   measure: thread_count {
@@ -1052,6 +1098,7 @@ view: user_events_telemetry {
     description: "The distinct count of threads created within each grouping."
     type: count_distinct
     sql: CASE WHEN ${type} = 'api_posts_replied' THEN ${root_id} ELSE NULL END;;
+    drill_fields: [server_drill*]
   }
 
   measure: post_count {
@@ -1059,6 +1106,7 @@ view: user_events_telemetry {
     description: "The distinct count of Posts, including replies to threads, within each grouping."
     type: count_distinct
     sql: CASE WHEN ${type} = 'api_posts_create' THEN ${post_id} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: post_no_reply_count {
@@ -1066,6 +1114,7 @@ view: user_events_telemetry {
     description: "The distinct count of Posts, including replies to threads, within each grouping."
     type: count_distinct
     sql: CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${id} ELSE NULL END;;
+    drill_fields: [server_drill*]
   }
 
   measure: post_edits_count {
@@ -1073,6 +1122,7 @@ view: user_events_telemetry {
     description: "The distinct count of Posts, including replies to threads, within each grouping."
     type: count_distinct
     sql: CASE WHEN ${type} = 'api_posts_patch' THEN ${id} ELSE NULL END;;
+    drill_fields: [server_drill*]
   }
 
   measure: post_reaction_count {
@@ -1087,6 +1137,7 @@ view: user_events_telemetry {
     description: "The distinct count of Teams within each grouping."
     type: count_distinct
     sql: ${team_id} ;;
+    drill_fields: [server_drill*]
   }
 
   measure: views {
@@ -1094,6 +1145,7 @@ view: user_events_telemetry {
     description: "The sum of gif views by users w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'views' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: batch_add_members_sum {
@@ -1102,6 +1154,7 @@ view: user_events_telemetry {
     description: "The sum of new members batch added to (group or team?) by users w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: batch_add_members_avg {
@@ -1110,6 +1163,7 @@ view: user_events_telemetry {
     description: "The average of new members batch added to (group or team?) per api_teams_batch_add_members event by users w/in each grouping."
     type: average
     sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: batch_add_members_median {
@@ -1118,6 +1172,7 @@ view: user_events_telemetry {
     description: "The median of new members batch added to (group or team?) per api_teams_batch_add_members event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_removed_from_team_sum {
@@ -1126,6 +1181,7 @@ view: user_events_telemetry {
     description: "The sum of members removed from a team w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_removed_from_team_avg {
@@ -1134,6 +1190,7 @@ view: user_events_telemetry {
     description: "The average # of members removed from teams per members_removed_from_team event by users w/in each grouping."
     type: average
     sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_removed_from_team_median {
@@ -1142,6 +1199,7 @@ view: user_events_telemetry {
     description: "The median # of members removed from teams per members_removed_from_team event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_added_to_team_sum {
@@ -1150,6 +1208,7 @@ view: user_events_telemetry {
     description: "The sum of groups added to teams w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_added_to_team_avg {
@@ -1158,6 +1217,7 @@ view: user_events_telemetry {
     description: "The average # of groups added to teams per groups_added_to_team event by users w/in each grouping."
     type: average
     sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_added_to_team_median {
@@ -1166,6 +1226,7 @@ view: user_events_telemetry {
     description: "The median # of groups added to teams per groups_added_to_team event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'groups_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_removed_from_team_sum {
@@ -1174,6 +1235,7 @@ view: user_events_telemetry {
     description: "The sum of groups removed from teams w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_removed_from_team_avg {
@@ -1182,6 +1244,7 @@ view: user_events_telemetry {
     description: "The average # of groups removed from teams per groups_removed_from_team event by users w/in each grouping."
     type: average
     sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: groups_removed_from_team_median {
@@ -1190,6 +1253,7 @@ view: user_events_telemetry {
     description: "The median # of groups removed from teams per groups_added_to_team event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'groups_removed_from_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_added_to_team_sum {
@@ -1198,6 +1262,7 @@ view: user_events_telemetry {
     description: "The sum of members added to teams w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_added_to_team_avg {
@@ -1206,6 +1271,7 @@ view: user_events_telemetry {
     description: "The average # of members added to teams per members_added_to_team event by users w/in each grouping."
     type: average
     sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_added_to_team_median {
@@ -1214,6 +1280,7 @@ view: user_events_telemetry {
     description: "The median # of members added to teams per members_added_to_team event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_elevated_to_team_admin_sum {
@@ -1222,6 +1289,7 @@ view: user_events_telemetry {
     description: "The sum of members elevated to team admin w/in each grouping."
     type: sum
     sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
   measure: members_elevated_to_team_admin_avg {
@@ -1229,6 +1297,7 @@ view: user_events_telemetry {
     label: "Members Elevated To Team Admin (Avg)"
     description: "The average # of members elevated to team admin per members_elevated_to_team_admin event by users w/in each grouping."
     type: average
+    drill_fields: [server_drill*]
     sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
   }
 
@@ -1238,6 +1307,7 @@ view: user_events_telemetry {
     description: "The median # of members elevated to team admin per members_elevated_to_team_admin event by users w/in each grouping."
     type: median
     sql: CASE WHEN ${type} = 'members_elevated_to_team_admin' THEN ${count} ELSE NULL END ;;
+    drill_fields: [server_drill*]
   }
 
 
