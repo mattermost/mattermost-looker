@@ -1929,6 +1929,13 @@ explore: customers {
     sql_on: ${products.id} = ${subscription_items.plan_product} OR ${products.id} = ${invoice_line_items.plan_product};;
     relationship: many_to_one
   }
+
+  join: server_fact {
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    relationship: one_to_one
+    view_label: "Stripe Customer Server Details"
+    fields: [server_fact.first_active_date, server_fact.first_active_month, server_fact.first_active_week, server_fact.customer_first_active_year, server_fact.last_active_date, server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.max_registered_users, server_fact.max_registered_deactivated_users, server_fact.max_posts]
+  }
 }
 
 explore: stripe_charges_data_check {
