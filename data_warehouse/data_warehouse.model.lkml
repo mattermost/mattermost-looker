@@ -2258,7 +2258,7 @@ explore: user_events_telemetry {
     view_label: "User Events Telemetry"
     sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: excludable_servers {
@@ -2273,6 +2273,20 @@ explore: user_events_telemetry {
     relationship: many_to_one
     sql_on: ${user_events_telemetry.context_user_agent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
+  }
+
+  join: subscriptions {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    fields: []
+  }
+
+  join: customers {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.customer} = ${customers.id} ;;
+    fields: []
   }
 }
 
