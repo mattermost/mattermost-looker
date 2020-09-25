@@ -68,7 +68,7 @@ view: user_events_telemetry {
   dimension: properties {
     description: "The raw data from each single event record logged in the table, consolidated into a single json/variant column."
     type: string
-    sql: object_construct(*) ;;
+    sql: object_construct(user_events_telemetry.*) ;;
     html:
     {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>
