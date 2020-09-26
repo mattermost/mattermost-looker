@@ -544,6 +544,49 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: account_cohorts_arr {
+  label: "Account Cohorts - ARR"
+  group_label: "Finance"
+  from: account_monthly_arr_deltas
+  view_name: account_monthly_arr_deltas_first_month
+  view_label: "Account ARR Monthly Changes"
+  sql_always_where: ${account_monthly_arr_deltas_first_month.account_new_arr} ;;
+  fields: [ALL_FIELDS*,
+            -account_monthly_arr_deltas.ending_arr_starting_arr_ratio,
+            -account_monthly_arr_deltas.cohort_start_date,
+            -account_monthly_arr_deltas.cohort_start_month,
+            -account_monthly_arr_deltas.cohort_start_fiscal_quarter,
+            -account_monthly_arr_deltas.cohort_start_fiscal_year,
+            -account_monthly_arr_deltas.account_name,
+            -account_monthly_arr_deltas.age_of_account,
+            -account_monthly_arr_deltas.age_of_account,
+            -account_monthly_arr_deltas.total_first_month_ending_arr,
+            -account_monthly_arr_deltas_first_month.month_end_date,
+            -account_monthly_arr_deltas_first_month.month_end_month,
+            -account_monthly_arr_deltas_first_month.month_end_fiscal_quarter,
+            -account_monthly_arr_deltas_first_month.month_end_fiscal_year,
+            -account_monthly_arr_deltas_first_month.total_ending_arr,
+            -account_monthly_arr_deltas_first_month.count_accounts
+            ]
+
+  join: dates {
+    view_label: "Account ARR Monthly Changes"
+    sql_on: ${dates.date_date} >= ${account_monthly_arr_deltas_first_month.month_end_date} and ${dates.last_day_of_month};;
+    relationship: many_to_many
+    fields: [dates.last_day_of_fiscal_quarter, dates.last_day_of_fiscal_year]
+  }
+  join: account_monthly_arr_deltas {
+    view_label: "Account ARR Monthly Changes"
+    sql_on: ${account_monthly_arr_deltas.account_sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} and ${dates.date_date} = ${account_monthly_arr_deltas.month_end_date};;
+    relationship: many_to_many
+  }
+  join: account {
+    sql_on: ${account.sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 explore: commit_ww {
   label: "Commits (WW)"
   group_label: "Target vs Actual"
