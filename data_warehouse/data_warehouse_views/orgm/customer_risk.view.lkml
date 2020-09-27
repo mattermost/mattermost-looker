@@ -289,7 +289,7 @@ view: customer_risk {
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_renewal_early_warning_amount {
@@ -300,7 +300,7 @@ view: customer_risk {
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_delayed_amount {
@@ -311,7 +311,7 @@ view: customer_risk {
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_risk_amount {
@@ -321,7 +321,7 @@ view: customer_risk {
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_renewal_at_risk_seat_risk {
@@ -331,7 +331,7 @@ view: customer_risk {
     filters: [status: "At Risk"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_renewal_early_warning_seat_risk {
@@ -341,7 +341,7 @@ view: customer_risk {
     filters: [status: "Early Warning"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_delayed_seat_risk {
@@ -351,7 +351,7 @@ view: customer_risk {
     filters: [status: "Delayed"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: total_seat_risk {
@@ -360,12 +360,12 @@ view: customer_risk {
     sql: ${seats_at_risk};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: count {
     label: "# of Customer Risks"
     type: count
-    drill_fields: [name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 }
