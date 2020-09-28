@@ -653,6 +653,13 @@ explore: opportunityfieldhistory {
     relationship: many_to_one
   }
 
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
+  }
+
   join: account {
     sql_on: ${opportunity.accountid} = ${account.sfid} ;;
     relationship: many_to_one
@@ -714,6 +721,13 @@ explore: lead {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 }
 
@@ -960,6 +974,13 @@ explore: historical_rep_attainment {
             AND ${opportunity.ownerid} = ${user.sfid}
             AND ${opportunity.close_date} >= util.fiscal_quarter_start(util.get_sys_var('curr_qtr'));;
     relationship: one_to_many
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 }
 
@@ -1718,9 +1739,9 @@ explore: renewal_rate_by_renewal_opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
     fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
-             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
-             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
-            opportunity.total_amount]
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor,
+             opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
+             opportunity.total_amount]
   }
 
   join: customer_risk {
