@@ -668,67 +668,6 @@ view: opportunity {
     group_label: "Renewals"
   }
 
-  dimension: renewal_risk_amount {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_risk_amount__c ;;
-    type: number
-    value_format_name: mm_usd_short
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_risk_competitor {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_risk_competitor__c ;;
-    type: string
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_risk_reason_additional_details {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_risk_reason_additional_details__c ;;
-    type: string
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_risk_reasons {
-    # description: "TODO"
-    sql: CASE WHEN ${TABLE}.renewal_risk_reasons__c = 'No relationship with Decision Maker' THEN 'No Tie to Decision Maker' ELSE ${TABLE}.renewal_risk_reasons__c END;;
-    type: string
-    group_label: "Renewals"
-  }
-
-  dimension: at_risk_date {
-    # description: "TODO"
-    sql: ${TABLE}.at_risk_date__c;;
-    type: date
-    group_label: "Renewals"
-  }
-
-  dimension: early_warning_date {
-    # description: "TODO"
-    sql: ${TABLE}.early_warning_date__c;;
-    type: date
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_risk_status {
-    # description: "TODO"
-    sql: ${TABLE}.renewal_risk_status__c;;
-    type: string
-    group_label: "Renewals"
-  }
-
-  dimension: renewal_risk_status_short {
-    # description: "TODO"
-    sql: CASE
-           WHEN ${renewal_risk_status} = 'At Risk' THEN 'AR'
-           WHEN ${renewal_risk_status} = 'Early Warning' THEN 'EW'
-           ELSE '' END;;
-    type: string
-    label: "Renewal Risk Status (Short)"
-    group_label: "Renewals"
-  }
-
   dimension: renewed_by_opportunity_id {
     # description: "TODO"
     sql: ${TABLE}.renewed_by_opportunity_id__c ;;
@@ -1046,7 +985,7 @@ view: opportunity {
     group_label: "Current FY Close"
     group_item_label: "Renewal At Risk & Early Warning Amount"
     description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
-    sql: ${renewal_risk_amount} ;;
+    sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
     value_format_name: mm_usd_short
@@ -1070,7 +1009,7 @@ view: opportunity {
     group_label: "Current FY Close"
     group_item_label: "Renewal At Risk Amount"
     description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
-    sql: ${renewal_risk_amount} ;;
+    sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
     value_format_name: mm_usd_short
@@ -1085,7 +1024,7 @@ view: opportunity {
       value: "yes"
     }
     filters: {
-      field: renewal_risk_status
+      field: customer_risk.status
       value: "At Risk"
     }
     filters: {
@@ -1098,7 +1037,7 @@ view: opportunity {
     group_label: "Current Qtr Close"
     group_item_label: "Renewal At Risk & Early Warning Amount"
     description: "At Risk & Early Warning amount with known attrition removed (FY21 JPMC & Uber Removed)"
-    sql: ${renewal_risk_amount} ;;
+    sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
     label: "At Risk & Early Warning Amount (Curr Qtr Close)"
     value_format_name: mm_usd_short
@@ -1122,7 +1061,7 @@ view: opportunity {
     group_label: "Current Qtr Close"
     group_item_label: "Renewal At Risk Amount"
     description: "At Risk amount with known attrition removed (FY21 JPMC & Uber Removed)"
-    sql: ${renewal_risk_amount} ;;
+    sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
     label: "At Risk Amount (Curr Qtr Close)"
     value_format_name: mm_usd_short
@@ -1137,7 +1076,7 @@ view: opportunity {
       value: "yes"
     }
     filters: {
-      field: renewal_risk_status
+      field: customer_risk.status
       value: "At Risk"
     }
     filters: {
@@ -1183,9 +1122,9 @@ view: opportunity {
 
 
   measure: total_renewal_risk_amount {
-    # description: "TODO"
+    label: "Total Risk Amount"
     group_label: "Total Amounts"
-    sql: ${renewal_risk_amount};;
+    sql: ${customer_risk.risk_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
@@ -1195,8 +1134,8 @@ view: opportunity {
   measure: total_renewal_at_risk_amount {
     label: "At Risk Renewal Amount"
     group_label: "Total Amounts"
-    sql: ${renewal_risk_amount};;
-    filters: [renewal_risk_status: "At Risk"]
+    sql: ${customer_risk.risk_amount};;
+    filters: [customer_risk.status: "At Risk"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
@@ -1206,8 +1145,8 @@ view: opportunity {
   measure: total_renewal_early_warning_amount {
     label: "Early Warning Renewal Amount"
     group_label: "Total Amounts"
-    sql: ${renewal_risk_amount};;
-    filters: [renewal_risk_status: "Early Warning"]
+    sql: ${customer_risk.risk_amount};;
+    filters: [customer_risk.status: "Early Warning"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
@@ -1215,9 +1154,10 @@ view: opportunity {
   }
 
   measure: total_renewal_risk_amount_open {
-    # description: "TODO"
+    label: "Total Open Risk Amount"
     group_label: "Total Amounts"
-    sql: ${renewal_risk_amount};;
+    sql: ${customer_risk.risk_amount};;
+    filters: [customer_risk.risk_assigned: "yes", isclosed: "no"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
