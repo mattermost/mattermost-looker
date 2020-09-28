@@ -243,6 +243,12 @@ view: customer_risk {
     sql: ${TABLE}."RISK_AMOUNT__C" ;;
   }
 
+  dimension: risk_assigned {
+    label: "Risk Assigned?"
+    sql: ${status} NOT IN ('Renewed', 'Churned', 'Risk Resolved');;
+    type: yesno
+  }
+
   dimension: seats_at_risk {
     type: number
     sql: ${TABLE}."SEATS_AT_RISK__C" ;;
