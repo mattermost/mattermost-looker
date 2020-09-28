@@ -411,6 +411,39 @@ explore: account {
     relationship: one_to_one
     fields: []
   }
+
+  join: customer_risk {
+    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: opportunity_snapshot {
@@ -620,6 +653,13 @@ explore: opportunityfieldhistory {
     relationship: many_to_one
   }
 
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
+  }
+
   join: account {
     sql_on: ${opportunity.accountid} = ${account.sfid} ;;
     relationship: many_to_one
@@ -681,6 +721,13 @@ explore: lead {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 }
 
@@ -928,6 +975,13 @@ explore: historical_rep_attainment {
             AND ${opportunity.close_date} >= util.fiscal_quarter_start(util.get_sys_var('curr_qtr'));;
     relationship: one_to_many
   }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
+  }
 }
 
 explore: server_daily_details {
@@ -1102,39 +1156,6 @@ explore: account_cs_extended  {
   join: customer_onboarding_executive_sponsor {
     from: contact
     sql_on: ${customer_onboarding.executive_sponsor} = ${customer_onboarding_executive_sponsor.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk {
-    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
-    relationship: one_to_many
-  }
-
-  join: customer_risk_owner {
-    from: user
-    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_ce {
-    from: user
-    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_csm {
-    from: user
-    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_contact {
-    from: contact
-    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -1718,15 +1739,15 @@ explore: renewal_rate_by_renewal_opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
     fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
-             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
-             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
-            opportunity.total_amount]
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor,
+             opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
+             opportunity.total_amount]
   }
 
   join: customer_risk {
     sql_on: ${opportunity.sfid} = ${customer_risk.opportunity};;
     relationship: one_to_one
-    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount]
+    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount, customer_risk.at_risk_date, customer_risk.early_warning_date]
   }
 }
 

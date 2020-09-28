@@ -266,6 +266,17 @@ view: customer_risk {
     sql: ${TABLE}."STATUS__C" ;;
   }
 
+  dimension: status_short {
+    sql: CASE
+         WHEN ${status} = 'At Risk' THEN 'AR'
+         WHEN ${status} = 'Early Warning' THEN 'EW'
+         WHEN ${status} = 'Delayed' THEN 'D'
+         ELSE '' END;;
+    type: string
+    label: "Renewal Risk Status (Short)"
+    group_label: "Renewals"
+  }
+
   dimension_group: systemmodstamp {
     hidden: yes
     type: time
