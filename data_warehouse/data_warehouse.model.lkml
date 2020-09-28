@@ -1106,7 +1106,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_risk {
-    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
     relationship: one_to_many
   }
 
