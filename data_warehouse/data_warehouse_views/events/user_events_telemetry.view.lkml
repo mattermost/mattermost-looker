@@ -953,6 +953,12 @@ view: user_events_telemetry {
     hidden: yes
   }
 
+  dimension: timestamp {
+    type: date_time
+    sql: ${TABLE}.timestamp ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: original_timestamp {
@@ -975,8 +981,8 @@ view: user_events_telemetry {
     label: " Event"
   description: "The date and/or time groupings available to group the timestamps of the events performed by users."
   type: time
-    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.timestamp ;;
+    timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.timestamp::date ;;
     hidden: no
   }
 
@@ -1104,32 +1110,32 @@ view: user_events_telemetry {
   measure: post_count {
     label: "  Post Count"
     description: "The distinct count of Posts, including replies to threads, within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'api_posts_create' THEN ${post_id} ELSE NULL END ;;
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'api_posts_create' THEN ${id} ELSE NULL END) ;;
     drill_fields: [server_drill*]
   }
 
   measure: post_no_reply_count {
     label: "  Post Count (No Replies)"
     description: "The distinct count of Posts, including replies to threads, within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${id} ELSE NULL END;;
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'api_posts_create' AND (nullif(${root_id}, '') IS NULL or ${root_id} = ${post_id}) THEN ${id} ELSE NULL END) ;;
     drill_fields: [server_drill*]
   }
 
   measure: post_edits_count {
     label: "  Edit Post Count"
     description: "The distinct count of Posts, including replies to threads, within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'api_posts_patch' THEN ${id} ELSE NULL END;;
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'api_posts_patch' THEN ${id} ELSE NULL END) ;;
     drill_fields: [server_drill*]
   }
 
   measure: post_reaction_count {
     label: "  Reaction Count"
     description: "The distinct count of Posts, including replies to threads, within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'api_reactions_save' THEN ${id} ELSE NULL END;;
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'api_reactions_save' THEN ${id} ELSE NULL END);;
   }
 
   measure: team_count {
