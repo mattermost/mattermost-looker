@@ -34,6 +34,14 @@ view: user_agent_registry {
     hidden: no
   }
 
+  dimension: browser_version_major {
+    description: "The browser version used to access & browse the mattermost web property."
+    group_label: " User Agent Info."
+    type: number
+    sql: SPLIT_PART(${TABLE}.browser_version, '.', 1) ;;
+    hidden: no
+  }
+
   dimension: browser_w_version {
     label: "Browser + Version"
     description: "The browser & browser version used to access & browse the mattermost web property."
