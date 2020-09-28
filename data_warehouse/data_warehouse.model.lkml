@@ -411,6 +411,39 @@ explore: account {
     relationship: one_to_one
     fields: []
   }
+
+  join: customer_risk {
+    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: opportunity_snapshot {
@@ -1106,39 +1139,6 @@ explore: account_cs_extended  {
     fields: []
   }
 
-  join: customer_risk {
-    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
-    relationship: one_to_many
-  }
-
-  join: customer_risk_owner {
-    from: user
-    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_ce {
-    from: user
-    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_csm {
-    from: user
-    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_contact {
-    from: contact
-    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
   join: zendesk_ticket_details {
     sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} AND ${zendesk_ticket_details.status} <> 'deleted' AND ${zendesk_ticket_details.tags} NOT LIKE '%closed_by_merge%';;
     relationship: one_to_many
@@ -1726,7 +1726,7 @@ explore: renewal_rate_by_renewal_opportunity {
   join: customer_risk {
     sql_on: ${opportunity.sfid} = ${customer_risk.opportunity};;
     relationship: one_to_one
-    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount]
+    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount, customer_risk.at_risk_date, customer_risk.early_warning_date]
   }
 }
 
