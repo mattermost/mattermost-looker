@@ -100,7 +100,12 @@ view: account {
     type: number
   }
 
-
+  dimension: arr_account_size {
+    label: "Current ARR Size"
+    sql: CASE WHEN ${arr_current} >= 100000 THEN 'Big' WHEN ${arr_current} >= 5000 THEN 'Mid' WHEN ${arr_current} > 0 THEN 'Small' ELSE 'No ARR' END;;
+    value_format_name: "usd_0"
+    type: string
+  }
 
   dimension: billing_city {
     group_label: "Billing Info"
@@ -197,7 +202,8 @@ view: account {
           when ${number_of_employees} >= 5000 then 'Enterprise'
           when ${number_of_employees} > 500 then 'Midmarket'
           when ${number_of_employees} is not null and ${number_of_employees} !=0 then 'SMB'
-          when ${company_type} = 'Commercial' then 'Midmarket/SMB (Emp # Missing)'
+          when ${company_type} = 'Midmarket' then 'Midmarket (Emp # Missing)'
+          when ${company_type} = 'SMB' then 'SMB (Emp # Missing)'
           when ${company_type} IN  ('Enterprise','Federal') then 'Enterprise (Emp # Missing)'
           else 'Unknown' end;;
           order_by_field: employee_count_company_type_order
@@ -205,12 +211,13 @@ view: account {
 
   dimension: employee_count_company_type_order {
   sql: case when ${employee_count_company_type} =  'Unknown' then 1
-            when ${employee_count_company_type} = 'SMB' then 2
-            when ${employee_count_company_type} = 'Midmarket/SMB (Emp # Missing)' then 3
-            when ${employee_count_company_type} = 'Midmarket' then 4
-            when ${employee_count_company_type} = 'Enterprise (Emp # Missing)' then 5
-            when ${employee_count_company_type} = 'Enterprise' then 6
-            else 7 end;;
+            when ${employee_count_company_type} = 'SMB (Emp # Missing)' then 2
+            when ${employee_count_company_type} = 'SMB' then 3
+            when ${employee_count_company_type} = 'Midmarket (Emp # Missing)' then 4
+            when ${employee_count_company_type} = 'Midmarket' then 5
+            when ${employee_count_company_type} = 'Enterprise (Emp # Missing)' then 6
+            when ${employee_count_company_type} = 'Enterprise' then 7
+            else 8 end;;
             hidden: yes
   }
 
@@ -570,6 +577,11 @@ view: account {
       # BP: Leverage constants to enable more reused
       url: "@{salesforce_link}{{sfid}}"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Customer 360 Dashboard"
+      # BP: Leverage constants to enable more reused
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{sfid}}"
     }
     sql: ${TABLE}.name ;;
     type: string
@@ -987,6 +999,12 @@ view: account {
     type: string
   }
 
+  dimension: sponsor {
+    label: "Executive Sponsor"
+    type: string
+    sql: ${TABLE}.sponsor__c ;;
+  }
+
   dimension: telemetry_accuracy {
     group_label: "Telemetry"
     type: string
@@ -1019,6 +1037,29 @@ view: account {
     sql: CASE WHEN  ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
     group_label: "Territory"
     label: "Territory Sales Segment"
+  }
+
+  dimension: territory_sales_segment_complex {
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC'
+          WHEN ${TABLE}.territory_segment__c = 'WW' THEN ${opportunity.territory_sales_segment}
+          WHEN ${account.owner_name} = 'Jeff Johnson' THEN 'SMB'
+          ELSE ${TABLE}.territory_segment__c END;;
+    group_label: "Territory"
+    hidden: yes
+    label: "Territory Sales Segment (Complex)"
+  }
+
+  dimension: territory_sales_region {
+    type: string
+    sql: CASE
+          WHEN ${territory_sales_segment_complex} = 'SMB' AND ${territory_geo} IN ('AMER','APAC','ROW') THEN 'AMER/APAC'
+          WHEN ${territory_sales_segment_complex} = 'SMB' THEN ${territory_geo}
+          ELSE ${territory_sales_segment_complex} END;;
+    group_label: "Territory"
+    label: "Territory Sales Region (Complex)"
+    hidden: yes
   }
 
   dimension: territory_ent_rep {
@@ -1117,7 +1158,7 @@ view: account {
   #
 
   measure: count {
-    drill_fields: [sfid, name, owner_name, csm_name]
+    drill_fields: [sfid, name, type, owner_name, csm_name, arr_current, customer_segmentation_tier, number_of_employees, seats_active_latest, seats_licensed, latest_telemetry_date, telemetry_accuracy]
     label: "# of Accounts"
     sql: ${sfid} ;;
     type: count_distinct

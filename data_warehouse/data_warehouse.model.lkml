@@ -76,6 +76,7 @@ include: "/data_warehouse/data_warehouse_tests/*.lkml"
 include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -281,9 +282,10 @@ explore: _base_opportunity_core_explore {
   }
 
   join: product2 {
+    view_label: "Opportunity Line Item"
     sql_on: ${opportunitylineitem.product2id} = ${product2.sfid} ;;
     relationship: many_to_one
-    fields: []
+    fields: [list_of_general_products]
   }
 
   join: opportunity_owner {
@@ -407,6 +409,39 @@ explore: account {
     from: opportunity
     sql_on: ${contract.contract_opportunity} = ${opportunity_contracts.sfid} ;;
     relationship: one_to_one
+    fields: []
+  }
+
+  join: customer_risk {
+    sql_on: ${customer_risk.account} = ${account.sfid} and ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_many
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
     fields: []
   }
 }
@@ -543,6 +578,50 @@ explore: master_account_daily_arr_deltas {
   }
 }
 
+explore: account_cohorts_arr {
+  label: "Account Cohorts - ARR"
+  group_label: "Finance"
+  from: account_monthly_arr_deltas
+  view_name: account_monthly_arr_deltas_first_month
+  view_label: "Account ARR Monthly Changes"
+  sql_always_where: ${account_monthly_arr_deltas_first_month.account_new_arr} ;;
+  fields: [ALL_FIELDS*,
+            -account_monthly_arr_deltas.ending_arr_starting_arr_ratio,
+            -account_monthly_arr_deltas.cohort_start_date,
+            -account_monthly_arr_deltas.cohort_start_month,
+            -account_monthly_arr_deltas.cohort_start_fiscal_quarter,
+            -account_monthly_arr_deltas.cohort_start_fiscal_year,
+            -account_monthly_arr_deltas.account_name,
+            -account_monthly_arr_deltas.age_of_account,
+            -account_monthly_arr_deltas.age_of_account,
+            -account_monthly_arr_deltas.total_first_month_ending_arr,
+            -account_monthly_arr_deltas_first_month.month_end_date,
+            -account_monthly_arr_deltas_first_month.month_end_month,
+            -account_monthly_arr_deltas_first_month.month_end_fiscal_quarter,
+            -account_monthly_arr_deltas_first_month.month_end_fiscal_year,
+            -account_monthly_arr_deltas_first_month.total_ending_arr,
+            -account_monthly_arr_deltas_first_month.count_accounts
+            ]
+
+  join: dates {
+    view_label: "Account ARR Monthly Changes"
+    sql_on: ${dates.date_date} >= ${account_monthly_arr_deltas_first_month.month_end_date} and ${dates.last_day_of_month};;
+    relationship: many_to_many
+    fields: [dates.last_day_of_fiscal_quarter, dates.last_day_of_fiscal_year]
+  }
+  join: account_monthly_arr_deltas {
+    view_label: "Account ARR Monthly Changes"
+    sql_on: ${account_monthly_arr_deltas.account_sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} and ${dates.date_date} = ${account_monthly_arr_deltas.month_end_date};;
+    relationship: many_to_many
+  }
+  join: account {
+    view_label: "Account ARR Monthly Changes"
+    sql_on: ${account.sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} ;;
+    relationship: many_to_one
+    fields: [account.arr_current, account.total_current_arr]
+  }
+}
+
 explore: commit_ww {
   label: "Commits (WW)"
   group_label: "Target vs Actual"
@@ -573,6 +652,13 @@ explore: opportunityfieldhistory {
   join: opportunity {
     sql_on: ${opportunityfieldhistory.opportunityid} = ${opportunity.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 
   join: account {
@@ -636,6 +722,13 @@ explore: lead {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
     relationship: one_to_one
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 }
 
@@ -721,6 +814,7 @@ explore: arr {
     product2.list_of_general_products,
     opportunity.billing_country,
     opportunity.shipping_country,
+    opportunity.expansion_type,
     opportunity_ext.paid,
     opportunity_ext.paid_type,
     opportunity_ext.paid_date,opportunity_ext.paid_month,opportunity_ext.paid_fiscal_quarter,opportunity_ext.paid_fiscal_year
@@ -774,6 +868,7 @@ explore: current_potential_arr {
 explore: campaign {
   group_label: "Salesforce"
   extends: [_base_account_explore]
+  fields: [ALL_FIELDS*, -account.territory_sales_segment_complex, -account.territory_sales_region, -parent_account.territory_sales_segment_complex, -parent_account.territory_sales_region]
 
   join: campaignmember {
     sql_on: ${campaign.sfid} = ${campaignmember.campaignid} ;;
@@ -880,6 +975,13 @@ explore: historical_rep_attainment {
             AND ${opportunity.ownerid} = ${user.sfid}
             AND ${opportunity.close_date} >= util.fiscal_quarter_start(util.get_sys_var('curr_qtr'));;
     relationship: one_to_many
+  }
+
+  join: customer_risk {
+    view_label: "Opportunity"
+    sql_on: ${customer_risk.opportunity} = ${opportunity.sfid} ;;
+    relationship: one_to_one
+    fields: [customer_risk.status,customer_risk.risk_assigned]
   }
 }
 
@@ -1007,35 +1109,35 @@ explore: account_cs_extended  {
     relationship: one_to_one
   }
 
-  join: customer_risk {
-    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+  join: customer_onboarding {
+    sql_on:${account.sfid} = ${customer_onboarding.accountid};;
     relationship: one_to_many
   }
 
-  join: customer_risk_owner {
+  join: customer_onboarding_owner {
     from: user
-    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    sql_on: ${customer_onboarding.owner} = ${customer_onboarding_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }
 
-  join: customer_risk_ce {
+  join: customer_onboarding_csm {
     from: user
-    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    sql_on: ${customer_onboarding.csm_owner} = ${customer_onboarding_csm.sfid} ;;
     relationship: many_to_one
     fields: []
   }
 
-  join: customer_risk_csm {
-    from: user
-    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: customer_risk_contact {
+  join: customer_onboarding_primary_contact {
     from: contact
-    sql_on: ${customer_risk_contact.name} = ${customer_risk_contact.sfid} ;;
+    sql_on: ${customer_onboarding.primary_contact} = ${customer_onboarding_primary_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_onboarding_executive_sponsor {
+    from: contact
+    sql_on: ${customer_onboarding.executive_sponsor} = ${customer_onboarding_executive_sponsor.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -1082,6 +1184,53 @@ explore: account_cs_extended  {
     fields: []
   }
 
+}
+
+explore: customer_risk_history {
+  extends: [_base_account_core_explore, _base_opportunity_core_explore]
+
+  join: customer_risk {
+    sql_on: ${customer_risk_history.customer_risk_id} = ${customer_risk.sfid} ;;
+    relationship: many_to_one
+  }
+
+  join: opportunity {
+    sql_on: ${opportunity.sfid} = ${customer_risk.opportunity} ;;
+    relationship: one_to_one
+  }
+
+  join: account {
+    sql_on: ${account.sfid} = ${customer_risk.account} ;;
+    relationship: many_to_one
+  }
+
+  join: customer_risk_owner {
+    from: user
+    sql_on: ${customer_risk.owner} = ${customer_risk_owner.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_ce {
+    from: user
+    sql_on: ${customer_risk.ce_owner} = ${customer_risk_ce.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_csm {
+    from: user
+    sql_on: ${customer_risk.csm_owner} = ${customer_risk_csm.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_risk_contact {
+    from: contact
+    sql_on: ${customer_risk.key_contact} = ${customer_risk_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: zendesk_ticket_details {
@@ -1188,14 +1337,12 @@ explore: server_daily_details_ext {
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     type: left_outer
     relationship: many_to_one
- }
-
-  join: license_current {
-    from: license_server_fact
-    type: left_outer
-    relationship: many_to_one
-    sql_on: (${license_current.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_current.start_date} AND ${license_current.license_retired_date});;
-    fields: []
+    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
+      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
+      server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
+      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
+      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.license_all, server_fact.license_id_filter,
+      server_fact.cloud_server, server_fact.installation_id]
   }
 
   join: nps_server_daily_score {
@@ -1536,9 +1683,15 @@ explore: renewal_rate_by_renewal_opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
     fields: [opportunity.opportunity_core*, opportunity.status_wlo, opportunity.count, opportunity.count_won_oppt,
-             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor, opportunity.at_risk_date,
-             opportunity.early_warning_date, opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
-            opportunity.total_amount]
+             opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor,
+             opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
+             opportunity.total_amount]
+  }
+
+  join: customer_risk {
+    sql_on: ${opportunity.sfid} = ${customer_risk.opportunity};;
+    relationship: one_to_one
+    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount, customer_risk.at_risk_date, customer_risk.early_warning_date]
   }
 }
 
@@ -1786,35 +1939,74 @@ explore: snowflake_data_checks {
 explore: stripe_charges {
   label: "Stripe Charges"
   group_label: "Finance"
-  join: stripe_customers {
-    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+  from: charges
+  view_name: charges
+  join: customers {
+    sql_on: ${customers.id} = ${charges.customer} ;;
     relationship: many_to_one
     fields: []
+  }
+}
+
+explore: customers {
+  view_label: "Stripe Customers"
+  group_label: "Finance"
+
+  join: subscriptions {
+    sql_on: ${customers.id} = ${subscriptions.customer} ;;
+    relationship: one_to_many
+  }
+
+  join: subscription_items {
+    sql_on: ${subscriptions.id} = ${subscription_items.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoices {
+    sql_on: ${subscriptions.id} = ${invoices.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoice_line_items {
+    sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
+    relationship: one_to_many
+  }
+
+  join: charges {
+    sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
+    relationship: one_to_many
+  }
+
+  join: products {
+    sql_on: ${products.id} = ${subscription_items.plan_product} OR ${products.id} = ${invoice_line_items.plan_product};;
+    relationship: many_to_one
+  }
+
+  join: server_fact {
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    relationship: one_to_one
+    view_label: "Stripe Customer Server Details"
+    fields: [server_fact.active_users, server_fact.monthly_active_users, server_fact.direct_message_channels, server_fact.public_channels, server_fact.private_channels, server_fact.slash_commands, server_fact.teams, server_fact.bot_posts_previous_day, server_fact.posts_previous_day, server_fact.bot_accounts, server_fact.guest_accounts, server_fact.incoming_webhooks, server_fact.outgoing_webhooks, server_fact.first_active_date, server_fact.first_active_month, server_fact.first_active_week, server_fact.first_active_year, server_fact.last_active_date, server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.max_registered_users, server_fact.max_registered_deactivated_users, server_fact.max_posts]
   }
 }
 
 explore: stripe_charges_data_check {
   extends: [_base_opportunity_core_explore]
-  from: stripe_charges
-  view_name: stripe_charges
+  from: charges
+  view_name: charges
   label: "Stripe Charges to Opportunity"
   group_label: "zBizOps"
-  join: stripe_customers {
-    sql_on: ${stripe_customers.id} = ${stripe_charges.customer} ;;
+  join: customers {
+    sql_on: ${customers.id} = ${charges.customer} ;;
     relationship: many_to_one
     fields: []
   }
 
   join: opportunity {
-    sql_on: (${opportunity.stripe_id} = ${stripe_charges.id} OR ${opportunity.stripe_id} = ${stripe_charges.payment_intent})
+    sql_on: (${opportunity.stripe_id} = ${charges.id} OR ${opportunity.stripe_id} = ${charges.payment_intent})
             AND ${opportunity.iswon};;
     relationship: one_to_one
   }
-}
-
-
-explore: stripe_payouts {
-  group_label: "Finance"
 }
 
 explore: customer_reference {
@@ -2008,7 +2200,7 @@ explore: issue_comments {
     sql_on: ${issue_comments.issueid} = ${issues.id} ;;
     type: left_outer
     relationship: many_to_one
-    fields: [issues.customfield_11101_value, issues.label, issues.description_filter, issues.telemetry_ticket, issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
+    fields: [issues.id, issues.key, issues.customfield_11101_value, issues.label, issues.description_filter, issues.telemetry_ticket, issues.fix_version, issues.resolution_name, issues.status_name, issues.created_date, issues.created_month, issues.created_year, issues.created_week, issues.labels, issues.description, issues.summary, issues.creator_displayname, issues.reporter_displayname, issues.customfield_11100_displayname]
   }
 }
 
@@ -2090,18 +2282,102 @@ explore: incident_response_events {
   group_label: "Integrations"
   extends: [server_fact]
 
-  join: excludable_servers {
+  join: server_daily_details {
     view_label: "Incident Response"
-    sql_on: ${excludable_servers.server_id} = ${incident_response_events.user_id} ;;
+    sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [excludable_servers.reason]
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
   }
 
   join: server_fact {
-    view_label: "Server Fact"
-    sql_on: ${server_fact.server_id} = ${incident_response_events.user_id} ;;
+    view_label: "Incident Response"
+    sql_on: ${incident_response_events.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+  }
+
+  join: excludable_servers {
+    view_label: "Incident Response"
+    sql_on: ${incident_response_events.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+}
+
+explore: user_events_telemetry {
+  label: "User Events Telemetry"
+  group_label: "Product"
+  description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
+
+  join: server_daily_details {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} AND ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_fact {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
+  }
+
+  join: excludable_servers {
+    view_label: "User Events Telemetry"
+    sql_on: ${user_events_telemetry.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: user_agent_registry {
+    view_label: "User Agent Details"
+    relationship: many_to_one
+    sql_on: ${user_events_telemetry.context_user_agent} = ${user_agent_registry.context_useragent} ;;
+    fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
+  }
+
+  join: subscriptions {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    fields: []
+  }
+
+  join: customers {
+    view_label: "User Events Telemetry"
+    relationship: one_to_one
+    sql_on: ${subscriptions.customer} = ${customers.id} ;;
+    fields: []
+  }
+}
+
+explore: plugin_events {
+  label: "Plugin Telemetry"
+  group_label: "Product"
+  description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
+
+  join: server_daily_details {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${server_daily_details.server_id} AND ${plugin_events.timestamp_date}_date} = ${server_daily_details.logging_date} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_fact {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+  }
+
+  join: excludable_servers {
+    view_label: "Plugin Telemetry"
+    sql_on: ${plugin_events.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
   }
 }

@@ -127,20 +127,6 @@ view: zendesk_ticket_details {
     sql: ${TABLE}."RAW_SUBJECT" ;;
   }
 
-  dimension: account_at_risk {
-    description: "Account is flagged At Risk in SFDC and pulled into ZenDesk organization table."
-    label: "Customer At Risk?"
-    type: yesno
-    sql: ${TABLE}."ACCOUNT_OPPT_AT_RISK" > 0;;
-  }
-
-  dimension: account_early_warning {
-    description: "Account is flagged Early Warning in SFDC and pulled into ZenDesk organization table."
-    label: "Customer Early Warning?"
-    type: yesno
-    sql: ${TABLE}."ACCOUNT_OPPT_EARLY_WARNING" > 0;;
-  }
-
   dimension: description {
     description: "Description of a ticket,- usually a customer question, issue or feedback. The description is the first comment in the ticket."
     group_label: "Ticket Details"
@@ -978,7 +964,7 @@ view: zendesk_ticket_details {
 
   set: core_drill_fields {
     fields: [account.name, requester_name, ticket_id, subject, assignee_name, status, support_type, satisfaction_rating_score, category, ticket_support_type, days_since_last_agent_admin_comment, priority, created_date, solved_at_time, calendar_days_open,
-            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla, account_at_risk, account_early_warning]
+            first_response_sla, reply_time_in_minutes_bus, met_first_response_sla, followup_internal_sla, followup_internal, met_followup_internal_sla]
   }
 
 }

@@ -26,11 +26,11 @@ view: server_daily_details {
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
                                       CASE WHEN DATE_TRUNC('month', ${logging_date}::date + interval '1 day') = DATE_TRUNC('month', CURRENT_DATE) THEN
-                                        CASE WHEN DAYOFMONTH((SELECT MAX(date) FROM mattermost.server_daily_details)) = 1
-                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-                                          WHEN DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) < 6
-                                            AND DAYOFWEEK((SELECT MAX(date) FROM mattermost.server_daily_details)) > 0
-                                            THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
+                                        CASE WHEN DAYOFMONTH((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = 1
+                                            THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+                                          WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
+                                            AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
+                                            THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
                                           WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
                                             AND DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) > 0
                                             AND  DATE_TRUNC('MONTH',(SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = DATE_TRUNC('MONTH', CURRENT_DATE)
@@ -75,8 +75,8 @@ view: server_daily_details {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date) FROM mattermost.server_daily_details)
-                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
+          CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+          ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
    group_label: "Last Day of Filters"
   }
@@ -823,7 +823,7 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Trial Server ID's across dimensions. This provides a count of all currently trial licensed servers on the given logging date."
     type: count_distinct
-    sql: CASE WHEN ${license_current.trial} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${license_server_fact.trial} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
   }
 

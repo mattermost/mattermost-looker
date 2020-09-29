@@ -9,12 +9,24 @@ view: customer_risk {
     sql: ${TABLE}."ID" ;;
   }
 
-
   dimension: account {
     hidden: yes
     type: string
     sql: ${TABLE}."ACCOUNT__C" ;;
   }
+
+  dimension: account_name {
+    hidden: yes
+    label: "Account Name"
+    description: "Salesforce Account Name"
+    type: string
+    link: {
+      label: "Salesforce Account"
+      url: "@{salesforce_link}{{account}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    sql: ${account.name} ;;
+    }
 
   dimension: owner {
     hidden: yes
@@ -174,8 +186,14 @@ view: customer_risk {
   }
 
   dimension: name {
-    label: "Risk Name"
+    label: "Customer Risk Name"
     type: string
+    link: {
+      label: "Salesforce Customer Risk"
+      # BP: Leverage constants to enable more reused
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
     sql: ${TABLE}."NAME" ;;
   }
 
@@ -185,13 +203,20 @@ view: customer_risk {
   }
 
   dimension: of_seats_licensed {
+    label: "# of Seats Licensed"
     type: number
     sql: ${TABLE}."OF_SEATS_LICENSED__C" ;;
   }
 
   dimension: opportunity {
+    hidden: yes
     type: string
     sql: ${TABLE}."OPPORTUNITY__C" ;;
+  }
+
+  dimension: opportunity_name {
+    type: string
+    sql: ${opportunity.name} ;;
   }
 
   dimension: reason {
@@ -218,6 +243,12 @@ view: customer_risk {
     sql: ${TABLE}."RISK_AMOUNT__C" ;;
   }
 
+  dimension: risk_assigned {
+    label: "Risk Assigned?"
+    sql: ${status} NOT IN ('Renewed', 'Churned', 'Risk Resolved');;
+    type: yesno
+  }
+
   dimension: seats_at_risk {
     type: number
     sql: ${TABLE}."SEATS_AT_RISK__C" ;;
@@ -233,6 +264,17 @@ view: customer_risk {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS__C" ;;
+  }
+
+  dimension: status_short {
+    sql: CASE
+         WHEN ${status} = 'At Risk' THEN 'AR'
+         WHEN ${status} = 'Early Warning' THEN 'EW'
+         WHEN ${status} = 'Delayed' THEN 'D'
+         ELSE '' END;;
+    type: string
+    label: "Renewal Risk Status (Short)"
+    group_label: "Renewals"
   }
 
   dimension_group: systemmodstamp {
@@ -251,13 +293,96 @@ view: customer_risk {
   }
 
   dimension: type {
+    label: "Engagement"
     type: string
     sql: ${TABLE}."TYPE__C" ;;
+  }
+
+  measure: total_renewal_at_risk_amount {
+    label: "Total At Risk Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "At Risk"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_early_warning_amount {
+    label: "Total Early Warning Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "Early Warning"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_delayed_amount {
+    label: "Total Delayed Amount"
+    group_label: "Total Amounts"
+    sql: ${risk_amount} ;;
+    filters: [status: "Delayed"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_risk_amount {
+    # description: "TODO"
+    group_label: "Total Amounts"
+    sql: ${risk_amount};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_at_risk_seat_risk {
+    label: "Total At Risk Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "At Risk"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_renewal_early_warning_seat_risk {
+    label: "Total Early Warning Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "Early Warning"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_delayed_seat_risk {
+    label: "Total Delayed Seat Risk"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk} ;;
+    filters: [status: "Delayed"]
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: total_seat_risk {
+    # description: "TODO"
+    group_label: "Total Seat Risk"
+    sql: ${seats_at_risk};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
   measure: count {
     label: "# of Customer Risks"
     type: count
-    drill_fields: [id, name, current_arr, status, seats_at_risk, seats_at_risk]
+    drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 }
