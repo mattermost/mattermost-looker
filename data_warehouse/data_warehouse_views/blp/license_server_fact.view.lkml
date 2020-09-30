@@ -151,6 +151,16 @@ view: license_server_fact {
     sql: CASE WHEN ${license_activation_date} is not null THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: first_paid_license {
+    type: yesno
+    sql: ${server_fact.first_paid_license_date} = ${issued_date} ;;
+  }
+
+  dimension: first_trial_license {
+    type: yesno
+    sql: ${server_fact.first_trial_license_date} = ${issued_date} and not ${trial};;
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: issued {
