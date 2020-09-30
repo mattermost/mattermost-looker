@@ -99,15 +99,23 @@ view: nps_user_monthly_score {
   dimension: license_id {
     description: "The Mattermost enterprise license id associated with the user's server that submitted the NPS response."
     type: string
-    sql: ${TABLE}.license_id ;;
+    sql: COALESCE(${server_fact.license_id}, ${TABLE}.license_id) ;;
     hidden: no
   }
 
   dimension: license_sku {
     description: "The Mattermost License SKU associated with the user's mattermost license coalesced with the edition associated with server if unlicensed (E10 E20)."
     type: string
-    sql: COALESCE(${TABLE}.license_sku, ${licenses_grouped.edition}, ${server_fact.server_edition}) ;;
+    sql: COALESCE(${TABLE}.license_sku, ${license_server_fact.edition}, ${server_fact.server_edition}) ;;
     hidden: no
+  }
+
+  dimension: license_at_logging {
+    label: "License At Logging"
+    description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
+    view_label: "License Fact"
+    type: yesno
+    sql: case when ${month_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
   }
 
   dimension: promoter_type {

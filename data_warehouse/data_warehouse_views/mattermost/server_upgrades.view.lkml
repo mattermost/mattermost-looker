@@ -37,15 +37,23 @@ view: server_upgrades {
   dimension: account_sfid {
     description: "The Salesforce Account ID associated with the server on the given logging date."
     type: string
-    sql: ${TABLE}.account_sfid ;;
+    sql: COALESCE(${server_fact.account_sfid}, ${TABLE}.account_sfid) ;;
     hidden: no
   }
 
   dimension: license_id {
     description: "The license id associated with the server on the given logging date."
     type: string
-    sql: ${TABLE}.license_id ;;
+    sql: COALESCE(${license_current.license_id}, ${TABLE}.license_id) ;;
     hidden: no
+  }
+
+  dimension: license_at_logging {
+    label: "License At Logging"
+    description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
+    view_label: "License Fact"
+    type: yesno
+    sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
   }
 
   dimension: prev_version {

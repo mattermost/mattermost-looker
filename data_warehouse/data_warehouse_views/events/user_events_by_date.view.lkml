@@ -177,8 +177,16 @@ view: user_events_by_date {
   dimension: licensed_server {
     description: "Indicates whether the server associated with the user performing the event has been provisioned a license."
     type: yesno
-    sql: CASE WHEN ${server_daily_details.license_id} IS NOT NULL THEN true ELSE false end  ;;
+    sql: CASE WHEN ${license_server_fact.license_id} IS NOT NULL and ${license_at_logging} THEN true ELSE false end  ;;
     hidden: no
+  }
+
+  dimension: license_at_logging {
+    label: "License At Logging"
+    description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
+    view_label: "License Fact"
+    type: yesno
+    sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
   }
 
   dimension: os_and_browser {

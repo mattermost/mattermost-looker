@@ -100,7 +100,7 @@ view: nps_server_version_daily_score {
   dimension: license_sku {
     description: "The Mattermost License SKU associated with the user's mattermost license coalesced with the edition associated with server if unlicensed (E10 E20)."
     type: string
-    sql: COALESCE(${TABLE}.license_sku, ${licenses_grouped.edition}, ${server_fact.server_edition}) ;;
+    sql: COALESCE(${TABLE}.license_sku, ${license_current.edition}, ${server_fact.server_edition}) ;;
     hidden: no
   }
 
@@ -217,7 +217,7 @@ view: nps_server_version_daily_score {
     label: "Licensed Server"
     description: "Boolean indicating the server associated with the User NPS Response Submission was licensed at the time the response was recorded."
     type: yesno
-    sql: CASE WHEN ${license_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN COALESCE(${license_current.license_id}, ${license_id}) IS NOT NULL THEN TRUE ELSE FALSE END ;;
     hidden: no
   }
 

@@ -432,8 +432,16 @@ view: server_daily_details_ext {
     label: " License Id"
     description: "The Mattermost License ID associated with the server."
     type: string
-    sql: COALESCE(${TABLE}.license_id1, ${license_id2}, ${license_id3}, ${license_id}) ;;
+    sql: ${license_server_fact.license_id} ;;
     hidden: no
+  }
+
+  dimension: license_at_logging {
+    label: "License At Logging"
+    description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
+    view_label: "License Fact"
+    type: yesno
+    sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
   }
 
   dimension: license_id2 {
@@ -2008,7 +2016,7 @@ view: server_daily_details_ext {
     description: ""
     type: string
     group_label: "License Configuration"
-    sql: ${TABLE}.license_id ;;
+    sql: ${license_server_fact.license_id} ;;
     hidden: no
   }
 
@@ -2025,7 +2033,7 @@ view: server_daily_details_ext {
     description: "The Mattermost edition currently associated with the Mattermost server."
     type: string
     group_label: "License Configuration"
-    sql: ${TABLE}.license_edition ;;
+    sql: COALESCE(${license_server_fact.edition}, ${TABLE}.license_edition) ;;
     hidden: no
   }
 
@@ -4883,15 +4891,15 @@ view: server_daily_details_ext {
   dimension: id {
     description: ""
     type: string
-    group_label: "Webrtc Configuration"
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: license_users {
     description: "The number of seats (users) provisioned to the license associated with the server (if a license is provisioned and active on the given logging date)."
     type: number
-    sql: ${licenses.users} ;;
+    sql: ${license_server_fact.users} ;;
   }
 
   # DIMENSION GROUPS/DATES
