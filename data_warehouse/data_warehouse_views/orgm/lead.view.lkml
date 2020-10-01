@@ -483,6 +483,13 @@ view: lead {
     type: time
   }
 
+  dimension: scl_since_most_recent_mql {
+    sql: ${most_recent_scl_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "SCL Since Most Recent MQL?"
+    group_label: "Lead Lifecycle: SCL"
+  }
+
   dimension_group: most_recent_scl {
     group_label: "Lead Lifecycle: SCL"
     label: "SCL Most Recent"
@@ -518,7 +525,12 @@ view: lead {
     type: time
   }
 
-
+  dimension: qsc_since_most_recent_mql {
+    sql: ${first_qsc_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "QSC Since Most Recent MQL?"
+    group_label: "Lead Lifecycle: QSC"
+  }
 
   dimension: qsc_yn {
     group_label: "Lead Lifecycle: QSC"
@@ -541,6 +553,12 @@ view: lead {
     type: time
   }
 
+  dimension: qso_since_most_recent_mql {
+    sql: ${first_qso_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "QSO Since Most Recent MQL?"
+    group_label: "Lead Lifecycle: QSO"
+  }
 
   dimension: qso_yn {
     group_label: "Lead Lifecycle: QSO"
@@ -627,6 +645,13 @@ view: lead {
     label: "Outreach Actively Sequenced?"
   }
 
+  dimension: outreach_since_most_recent_mql {
+    sql: ${outreach_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Outreach Since Most Recent MQL?"
+    group_label: "SCL Minor: Outreach"
+  }
+
   dimension_group: outreach {
     group_label: "SCL Minor: Outreach"
     label: "Outreach"
@@ -639,6 +664,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: connected_since_most_recent_mql {
+    sql: ${connected_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Connected Since Most Recent MQL?"
+    group_label: "SCL Minor: Connected"
   }
 
   dimension_group: connected {
@@ -655,6 +687,15 @@ view: lead {
     type: time
   }
 
+
+  dimension: never_connected_since_most_recent_mql {
+    sql: ${never_connected_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Never Connected Since Most Recent MQL?"
+    group_label: "SCL Minor: Never Connected"
+  }
+
+
   dimension_group: never_connected {
     group_label: "SCL Minor: Never Connected"
     label: "Never Connected"
@@ -669,6 +710,13 @@ view: lead {
     type: time
   }
 
+  dimension: discovery_call_booked_since_most_recent_mql {
+    sql: ${discovery_call_booked_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Discovery Call Booked Since Most Recent MQL?"
+    group_label: "SCL Minor: Discovery Call Booked"
+  }
+
   dimension_group: discovery_call_booked {
     group_label: "SCL Minor: Discovery Call Booked"
     label: "Discovery Call Booked"
@@ -681,6 +729,13 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: discovery_call_completed_since_most_recent_mql {
+    sql: ${discovery_call_completed_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Discovery Call Completed Since Most Recent MQL?"
+    group_label: "SCL Minor: Discovery Call Completed"
   }
 
   dimension_group: discovery_call_completed {
@@ -711,10 +766,17 @@ view: lead {
     type: time
   }
 
+  dimension:recycle_since_most_recent_mql {
+    sql: ${most_recent_recycle_date} >= ${most_recent_mql_date} ;;
+    type: yesno
+    label: "Recycled Since Most Recent MQL?"
+    group_label: "Lead Lifecycle: Recycle"
+  }
+
   dimension_group: most_recent_recycle {
     group_label: "Lead Lifecycle: Recycle"
     label: "Recycle Most Recent"
-    sql: ${TABLE}.MOST_RECYCLE_QSO_DATE__C ;;
+    sql: ${TABLE}.MOST_RECENT_RECYCLE_DATE__C ;;
     timeframes: [
       date,
       week,
@@ -1076,6 +1138,96 @@ view: lead {
     sql: ${sfid} ;;
     drill_fields: [lead_drill_fields*]
     label: "# Leads"
+    type: count_distinct
+  }
+
+  measure: count_scl_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# SCL Since Most Recent MQL"
+    group_item_label: "# SCL"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [scl_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_outreach_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Outreach Since Most Recent MQL"
+    group_item_label: "# Outreach"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [outreach_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_connected_call_booked_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Connected Since Most Recent MQL"
+    group_item_label: "# Connected"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [connected_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_never_connected_call_booked_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Never Connected Since Most Recent MQL"
+    group_item_label: "# Never Connected"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [never_connected_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_discovery_call_booked_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Discovery Call Booked Since Most Recent MQL"
+    group_item_label: "# Discovery Call Booked"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [discovery_call_booked_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_discovery_call_completed_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Discovery Call Completed Since Most Recent MQL"
+    group_item_label: "# Discovery Call Completed"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [discovery_call_completed_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_qsc_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# QSC Since Most Recent MQL"
+    group_item_label: "# QSC"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [qsc_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_qso_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# QSO Since Most Recent MQL"
+    group_item_label: "# QSO"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [qso_since_most_recent_mql: "yes"]
+    type: count_distinct
+  }
+
+  measure: count_recycle_since_most_recent_mql {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Recycle Since Most Recent MQL"
+    group_item_label: "# Recycled"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [recycle_since_most_recent_mql: "yes"]
     type: count_distinct
   }
 
