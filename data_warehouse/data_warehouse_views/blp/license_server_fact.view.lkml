@@ -84,10 +84,6 @@ view: license_server_fact {
       url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
-    link: {
-      label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
-    }
   }
 
   dimension: account_name {
@@ -121,10 +117,6 @@ view: license_server_fact {
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
-    link: {
-      label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
-    }
     hidden: no
   }
 
@@ -149,10 +141,6 @@ view: license_server_fact {
       label: "Salesforce Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
-    }
-    link: {
-      label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
     }
     hidden: no
   }
