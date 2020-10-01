@@ -68,10 +68,10 @@ view: license_daily_details {
     label: " Customer ID"
     description: "The unique customer id associated with the license."
     type: string
-    sql: ${TABLE}.customer_id ;;
+    sql: COALESCE(${TABLE}.account_sfid, ${TABLE}.customer_id) ;;
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_id._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ value }}"
     }
     hidden: no
   }
@@ -80,10 +80,10 @@ view: license_daily_details {
     label: " Company"
     description: "The company name provided at time of license provisioning."
     type: string
-    sql: ${TABLE}.company ;;
+    sql: COALESCE(${TABLE}.account_name, ${TABLE}.company) ;;
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20(SFDC)%2FCompany%20Name={{ value }}"
     }
     hidden: no
   }
@@ -114,7 +114,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?License%20ID={{ license_daily_details.license_id.value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.master_account_sfid ;;
@@ -131,7 +131,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.master_account_name ;;
@@ -148,7 +148,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     type: string
     sql: ${TABLE}.account_sfid ;;
@@ -165,10 +165,10 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20(SFDC)%2FCompany%20Name={{ value }}"
     }
     type: string
-    sql: ${TABLE}.account_name ;;
+    sql: COALESCE(${TABLE}.account_name, ${TABLE}.company) ;;
     hidden: no
   }
 

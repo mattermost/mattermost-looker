@@ -2273,13 +2273,13 @@ explore: community_program_members {
 
 explore: license_server_fact {
   label: "License Server Fact"
-  hidden: yes
+  hidden: no
+  required_access_grants: [admin_access]
 
   join: server_fact {
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
     }
   }
 
