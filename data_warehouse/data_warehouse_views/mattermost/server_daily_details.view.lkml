@@ -506,7 +506,7 @@ view: server_daily_details {
     description: "Indicates whether the server is registered/paired with a licensed customer (If yes then licensed, else unlicensed)."
     group_label: "License Info."
     type: string
-    sql: COALESCE(${license_current.edition}, ${edition}) ;;
+    sql: COALESCE(${license_server_fact.edition}, ${edition}) ;;
   }
 
   dimension: license_at_logging {
@@ -832,7 +832,7 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Server ID's that converted from a trial license to a paid license across dimensions. This provides a count of all trial licensed servers on the given logging date that have since converted to paid licensed servers."
     type: count_distinct
-    sql: CASE WHEN ${license_current.trial} and ${server_fact.first_trial_license_date} <= ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${license_server_fact.trial} and ${server_fact.first_trial_license_date} <= ${server_fact.first_paid_license_date} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [server_id, account_sfid, account.name, account.arr_current, server_fact.first_active_telemetry_date, server_fact.first_trial_license_date, server_fact.first_paid_license_date]
   }
 

@@ -989,7 +989,7 @@ explore: server_daily_details {
   group_label: "Product"
   label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
-  extends: [_base_account_core_explore, server_fact]
+  extends: [_base_account_core_explore]
 
   join: account {
     sql_on: ${server_daily_details.account_sfid} = ${account.sfid} ;;
@@ -1022,12 +1022,10 @@ explore: server_daily_details {
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades, server_upgrades.is_version_upgrade_date, server_upgrades.is_edition_upgrade_date]
   }
 
-  join: license_current {
-    from: license_server_fact
+  join: license_server_fact {
     type: left_outer
     relationship: many_to_one
-    sql_on: (${license_current.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_current.start_date} AND ${license_current.license_retired_date});;
-    fields: []
+    sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
   join: server_events_by_date {
@@ -1323,7 +1321,7 @@ explore: server_daily_details_ext {
   group_label: "Product"
   label: " Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
-  extends: [_base_account_core_explore, server_fact]
+  extends: [_base_account_core_explore]
 
 
   join: account {
@@ -1384,12 +1382,10 @@ explore: server_daily_details_ext {
     fields: [version_release_dates.supported]
   }
 
-  join: license_current {
-    from: license_server_fact
+  join: license_server_fact {
     type: left_outer
     relationship: many_to_one
-    sql_on: (${license_current.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_current.start_date} AND ${license_current.license_retired_date});;
-    fields: []
+    sql_on: (${license_server_fact.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 }
 
