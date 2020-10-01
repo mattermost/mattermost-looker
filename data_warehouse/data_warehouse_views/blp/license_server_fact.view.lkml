@@ -116,7 +116,22 @@ view: license_server_fact {
     description: "The customer id associated with the licensed customer. Coalesced license id and OrgM account sfid."
     type: string
     sql: ${TABLE}.customer_id ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+    }
     hidden: no
+  }
+
+  dimension: in_salesforce {
+    description: "Boolean indicating the company/customer has an account record created in Salesforce"
+    type: yesno
+    sql: CASE WHEN ${account_sfid} is null then false else true end ;;
   }
 
   dimension: license_customer_id {
@@ -130,6 +145,15 @@ view: license_server_fact {
     description: "The customer name associated with the licensed customer. Coalesced license company and OrgM account name."
     type: string
     sql: ${TABLE}.customer_name ;;
+    link: {
+      label: "Salesforce Account Record"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+    }
     hidden: no
   }
 
