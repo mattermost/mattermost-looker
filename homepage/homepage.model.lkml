@@ -134,6 +134,8 @@ view: _homepage {
                   <div>Finance</div>
                   <ul>
                     <li><a href="https://mattermost.looker.com/dashboards/14" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Overview</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/30" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Historical Finance View</a></li>
+                    <li><a href="https://mattermost.looker.com/looks/629?toggle=det" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Cohort Growth %</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/179" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Financial Statements</a></li>
                   </ul>
                 </li>
