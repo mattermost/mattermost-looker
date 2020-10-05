@@ -79,6 +79,7 @@ include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
 
 explore: user_events_telemetry {
   label: "User Events Telemetry"
+  sql_always_where: ${user_events_telemetry.type} NOT IN ('api_profiles_get_by_ids', 'api_profiles_get_by_usernames');;
   group_label: "Product"
   description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
 
@@ -112,16 +113,22 @@ explore: user_events_telemetry {
   }
 
   join: subscriptions {
-    view_label: "User Events Telemetry"
+    view_label: "Stripe"
     relationship: one_to_one
     sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
     fields: []
   }
 
   join: customers {
-    view_label: "User Events Telemetry"
+    view_label: "Stripe"
     relationship: one_to_one
     sql_on: ${subscriptions.customer} = ${customers.id} ;;
     fields: []
+  }
+
+  join: license_server_fact {
+    relationship: many_to_one
+    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
+    and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
 }
