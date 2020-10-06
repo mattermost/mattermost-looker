@@ -127,6 +127,18 @@ view: customer_onboarding {
     sql: ${TABLE}."DATA_MIGRATION_REQUIRED__C"  ;;
   }
 
+  dimension: database_type {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."DATABASE_TYPE__C" ;;
+  }
+
+  dimension: deployment_model {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."DEPLOYMENT_MODEL__C" ;;
+  }
+
   dimension: emm_mdm {
     group_label: "Customer Journey"
     label: "EMM?MDM"
@@ -192,6 +204,12 @@ view: customer_onboarding {
     sql: CAST(${TABLE}."LASTMODIFIEDDATE" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: load_balancer {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."LOAD_BALANCER__C" ;;
+  }
+
   dimension: mobile_in_scope {
     group_label: "Customer Journey"
     type: string
@@ -233,6 +251,12 @@ view: customer_onboarding {
     hidden: yes
     type: string
     sql: ${TABLE}."OPPORTUNITY_NAME__C" ;;
+  }
+
+  dimension: other_integrations {
+    group_label: "Adoption"
+    type: string
+    sql: ${TABLE}."OTHER_INTEGRATIONS__C" ;;
   }
 
   dimension: primary_objective {
