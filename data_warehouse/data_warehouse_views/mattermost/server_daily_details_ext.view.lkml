@@ -4040,6 +4040,33 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: experimental_channel_sidebar_organization {
+    label: "Experimental Channel Sidebar Organization"
+    description: ""
+    type: string
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_channel_sidebar_organization ;;
+    hidden: no
+  }
+
+  dimension: experimental_data_prefetch {
+    label: "Experimental Data Prefetch"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.experimental_data_prefetch ;;
+    hidden: no
+  }
+
+  dimension: extend_session_length_with_activity {
+    label: "Extend Session Length w/ Activity"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.extend_session_length_with_activity ;;
+    hidden: no
+  }
+
   dimension: experimental_enable_authentication_transfer {
   label: "Experimental Enable Authentication Transfer"
     description: ""
@@ -7765,6 +7792,24 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${custom_service_terms_enabled_service} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+  }
+
+  measure: experimental_data_prefetch_count {
+    label: "Servers w/ Service Data Prefetch"
+    description: "The count of servers with Data Prefetch enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    sql: case when ${experimental_data_prefetch} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
+  }
+
+  measure: extend_session_length_with_activity_count {
+    label: "Servers w/ Service Extend Session Length w/ Activity"
+    description: "The count of servers with Extend Session Length w/ Activity enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    sql: case when ${extend_session_length_with_activity} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, account_sfid, account.name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, first_active_telemetry_date, last_active_telemetry_date]
   }
 
