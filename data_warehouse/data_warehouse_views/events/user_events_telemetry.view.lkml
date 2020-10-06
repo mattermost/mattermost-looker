@@ -1138,6 +1138,13 @@ view: user_events_telemetry {
     sql: COUNT(CASE WHEN ${type} = 'api_reactions_save' THEN ${id} ELSE NULL END);;
   }
 
+  measure: custom_emojis_added {
+    label: "  Custom Emojis Added Count"
+    description: "The distinct count of custom emojis added within each grouping."
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'api_emoji_custom_add' THEN ${id} ELSE NULL END);;
+  }
+
   measure: team_count {
     label: "  Team Count"
     description: "The distinct count of Teams within each grouping."
@@ -1149,8 +1156,8 @@ view: user_events_telemetry {
   measure: views {
     label: "Gif Views"
     description: "The sum of gif views by users w/in each grouping."
-    type: sum
-    sql: CASE WHEN ${type} = 'views' THEN ${count} ELSE NULL END ;;
+    type: number
+    sql: COUNT(CASE WHEN ${type} = 'views' THEN ${id} ELSE NULL END) ;;
     drill_fields: [server_drill*]
   }
 
