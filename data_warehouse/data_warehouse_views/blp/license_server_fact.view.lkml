@@ -175,6 +175,11 @@ view: license_server_fact {
     sql: CASE WHEN ${license_activation_date} is not null THEN TRUE ELSE FALSE END ;;
   }
 
+  measure: is_activated_max {
+    type: yesno
+    sql: MAX(CASE WHEN ${license_activation_date} is not null THEN TRUE ELSE FALSE END) ;;
+  }
+
   dimension: first_paid_license {
     type: yesno
     sql: ${server_fact.first_paid_license_date} = ${issued_date} ;;
@@ -183,6 +188,17 @@ view: license_server_fact {
   dimension: first_trial_license {
     type: yesno
     sql: ${server_fact.first_trial_license_date} = ${issued_date} and not ${trial};;
+  }
+
+  dimension: days_to_expiration {
+    type: number
+    sql: datediff(DAYS, CURRENT_DATE::DATE, ${expire_date}::DATE) ;;
+  }
+
+  measure: min_days_to_expiration {
+    description: "The min. number of days until a license expires within each grouping."
+    type: number
+    sql: min(${days_to_expiration}) ;;
   }
 
 
@@ -196,6 +212,11 @@ view: license_server_fact {
     hidden: no
   }
 
+  measure: min_issued_date {
+    type: date
+    sql: MIN(${issued_date}::date) ;;
+  }
+
   dimension_group: start {
     label: "License Start"
     description: ""
@@ -205,6 +226,11 @@ view: license_server_fact {
     hidden: no
   }
 
+  measure: min_start_date {
+    type: date
+    sql: MIN(${start_date}::date) ;;
+  }
+
   dimension_group: expire {
     label: "License Expire"
     description: ""
@@ -212,6 +238,11 @@ view: license_server_fact {
     timeframes: [date, month, year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
+  }
+
+  measure: max_expire_date {
+    type: date
+    sql: MAX(${start_date}::date) ;;
   }
 
   dimension_group: license_activation {
@@ -307,6 +338,5 @@ view: license_server_fact {
                 ELSE 0 END) = 0 THEN NULL
             ELSE NULL END;;
   }
-
 
 }

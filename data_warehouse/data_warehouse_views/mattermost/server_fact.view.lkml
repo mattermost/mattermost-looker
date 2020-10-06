@@ -1156,4 +1156,10 @@ sql_table_name: mattermost.server_fact ;;
     type: number
     sql: COUNT(DISTINCT CASE WHEN ${active_paying_customer} THEN ${company_name} ELSE NULL END) ;;
   }
+
+  measure: mau_pct_licensed {
+    label: "MAU % of Licensed Users"
+    type: number
+    sql: ${mau_sum}/${license_server_fact.users_sum_distinct} ;;
+  }
 }
