@@ -39,7 +39,7 @@ view: license_server_fact {
   }
 
   dimension: edition {
-    label: "License Edition"
+    label: "Edition"
     description: ""
     type: string
     sql: ${TABLE}.edition ;;
@@ -47,7 +47,7 @@ view: license_server_fact {
   }
 
   dimension: users {
-    label: "Licensed Users"
+    label: "Users"
     description: ""
     type: number
     sql: ${TABLE}.users ;;
@@ -84,6 +84,10 @@ view: license_server_fact {
       url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ value }}"
+    }
   }
 
   dimension: account_name {
@@ -97,7 +101,7 @@ view: license_server_fact {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
   }
 
@@ -116,6 +120,10 @@ view: license_server_fact {
       label: "Salesforce Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     hidden: no
   }
@@ -141,6 +149,10 @@ view: license_server_fact {
       label: "Salesforce Account Record"
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
+    link: {
+      label: "Server Metrics Dashboard"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     hidden: no
   }
@@ -257,11 +269,43 @@ view: license_server_fact {
     drill_fields: [licensed_server_drill*]
   }
 
+  measure: users_sum_distinct {
+    description: "The sum of distinct Users values per grouping."
+    label: "Licensed Users (Distinct)"
+    type: number
+    sql: SUM(DISTINCT ${users}) ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
   measure: customer_count {
     description: "The count of distinct customers per grouping."
     type: count_distinct
     sql: ${users} ;;
     drill_fields: [licensed_server_drill*]
+  }
+
+  measure: max_edition {
+    label: "Edition (Max)"
+    description: "The highest (E20 -> E10 -> Null) edition found in each grouped dimension."
+    type: string
+    sql: CASE WHEN
+              MAX(CASE WHEN ${edition} = 'E20' THEN 3
+                WHEN ${edition} = 'E10' THEN 2
+                WHEN ${edition} IS NULL THEN 0
+                ELSE 0 END) = 3 THEN 'E20'
+              WHEN
+               MAX(CASE WHEN ${edition} = 'E20' THEN 3
+                WHEN ${edition} = 'E10' THEN 2
+                WHEN ${edition} IS NOT NULL THEN 1
+                WHEN ${edition} IS NULL THEN 0
+                ELSE 0 END) = 2 THEN 'E10'
+             WHEN
+              MAX(CASE WHEN ${edition} = 'E20' THEN 3
+                WHEN ${edition} = 'E10' THEN 2
+                WHEN ${edition} IS NOT NULL THEN 1
+                WHEN ${edition} IS NULL THEN 0
+                ELSE 0 END) = 0 THEN NULL
+            ELSE NULL END;;
   }
 
 
