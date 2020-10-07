@@ -242,7 +242,7 @@ view: license_server_fact {
 
   measure: max_expire_date {
     type: date
-    sql: MAX(${start_date}::date) ;;
+    sql: MAX(${expire_date}::date) ;;
   }
 
   dimension_group: license_activation {
