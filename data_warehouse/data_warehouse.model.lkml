@@ -1761,12 +1761,12 @@ explore: server_upgrades {
   }
 }
 
-explore: nps_server_daily_score {
-  label: "Nps Server Daily Score"
-  group_label: "Product"
-  description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
-  hidden: yes
-}
+# explore: nps_server_daily_score {
+#   label: "Nps Server Daily Score"
+#   group_label: "Product"
+#   description: "Use this explore to trend NPS at the daily server level to track how a servers NPS changes over time."
+#   hidden: yes
+# }
 
 explore: excludable_servers {
   label: "Excludable Servers"
@@ -1781,29 +1781,26 @@ explore: server_events_by_date {
 explore: nps_server_version_daily_score {
   label: "NPS Server Version Daily Score"
   group_label: "Product"
-  extends: [_base_account_core_explore, server_fact]
   always_filter: {
     filters: [21days_since_release: "yes"]
   }
 
-  join: account {
-    sql_on: ${server_fact.account_sfid} = ${account.sfid} ;;
-    fields: [account.account_core*]
-    relationship: many_to_one
-  }
+  # join: account {
+  #   sql_on: ${server_fact.account_sfid} = ${account.sfid} ;;
+  #   fields: [account.account_core*]
+  #   relationship: many_to_one
+  # }
 
   join: server_fact {
-    view_label: "NPS Server Version Daily Score"
+    view_label: "Server Fact"
     sql_on: ${nps_server_version_daily_score.server_id} = ${server_fact.server_id};;
     relationship: many_to_one
   }
 
-  join: license_current {
-    from: license_server_fact
+  join: license_server_fact {
     type: left_outer
     relationship: many_to_one
-    sql_on: (${license_current.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.logging_date} BETWEEN ${license_current.start_date} AND ${license_current.license_retired_date});;
-    fields: []
+    sql_on: (${license_server_fact.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
   join: excludable_servers {

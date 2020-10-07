@@ -7141,7 +7141,7 @@ view: server_daily_details_ext {
 
   measure: enable_nps_count {
     label: "Servers w/ NPS Enabled"
-    description: "The count of servers with Plugin Enable Nps enabled."
+    description: "The count of servers with the NPS & NPS Survey Plugin enabled."
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${enable_nps} and ${enable_nps_survey} then ${server_id} else null end ;;
