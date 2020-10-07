@@ -311,7 +311,7 @@ view: license_server_fact {
   measure: customer_count {
     description: "The count of distinct customers per grouping."
     type: count_distinct
-    sql: ${users} ;;
+    sql: ${customer_id} ;;
     drill_fields: [licensed_server_drill*]
   }
 
