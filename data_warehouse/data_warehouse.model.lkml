@@ -732,6 +732,8 @@ explore: lead {
   }
 }
 
+explore: lead_status_hist {}
+
 explore: contributor_map_data {
   group_label: "Contributors"
 }
@@ -2270,7 +2272,6 @@ explore: community_program_members {
 explore: license_server_fact {
   label: "License Server Fact"
   hidden: no
-  required_access_grants: [admin_access]
 
   join: server_fact {
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
