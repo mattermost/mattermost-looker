@@ -891,6 +891,13 @@ view: account {
     value_format_name: percent_0
   }
 
+  dimension: seats_registered {
+    group_label: "Telemetry"
+    type: number
+    sql: ${TABLE}.seats_registered__c ;;
+    value_format_name: decimal_0
+  }
+
   dimension: sector {
     sql: ${TABLE}.sector__c ;;
     type: string

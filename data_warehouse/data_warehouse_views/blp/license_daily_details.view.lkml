@@ -165,7 +165,7 @@ view: license_daily_details {
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20(SFDC)%2FCompany%20Name={{ value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
     }
     type: string
     sql: COALESCE(${TABLE}.account_name, ${TABLE}.company) ;;

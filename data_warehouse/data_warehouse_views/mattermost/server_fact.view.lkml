@@ -3,7 +3,7 @@ sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
   set: drill_set1 {
-    fields: [server_id, account_sfid, company_name, currently_sending_telemetry, first_active_date, last_active_date, license_id, paid_license_expire_date, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
+    fields: [server_id, account_sfid, license_id, company_name, currently_sending_telemetry, first_active_date, last_active_date, license_id, paid_license_expire_date, max_registered_users, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
   }
 
   filter: license_all {
@@ -379,9 +379,9 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: max_registered_users {
     label: "Registered Users"
-    description: "The all-time maximum number of registered users logged on the server."
+    description: "The current number of registered users logged on the server."
     type: number
-    sql: ${TABLE}.registered_users;;
+    sql: ${TABLE}.registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
   }
 
   dimension: max_registered_deactivated_users {
@@ -667,7 +667,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "   Total DAU"
     description: "The current Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: number
-    sql: ${TABLE}.dau_total;;
+    sql: CASE WHEN ${TABLE}.dau_total >= coalesce(${active_users}, 0) THEN ${TABLE}.dau_total else ${active_users} END;;
   }
 
   dimension: mobile_dau {
@@ -683,7 +683,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "   Total MAU"
     description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (on the last date the server logged user-level events.)."
     type: number
-    sql: ${TABLE}.mau_total;;
+    sql: case when ${TABLE}.mau_total >= COALESCE(${monthly_active_users}, 0) then ${TABLE}.mau_total else ${monthly_active_users} end;;
   }
 
   dimension: first_time_mau {
@@ -972,7 +972,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "   Total DAU"
     description: "The current Daily Active User count based on all users that performed events on the last complete day (on the last date the server logged user-level events.)."
     type: sum
-    sql: ${TABLE}.dau_total;;
+    sql: ${dau};;
     drill_fields: [drill_set1*]
   }
 
@@ -990,7 +990,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "  Total MAU"
     description: "The current Monthly Active User count based on all users that performed events in the last 30 days from the last complete day (on the last date the server logged user-level events.)."
     type: sum
-    sql: ${TABLE}.mau_total;;
+    sql: ${mau};;
     drill_fields: [drill_set1*]
   }
 
@@ -1027,6 +1027,38 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of events performed by all users associated with the server on the last date the server logged user-level events.."
     type: sum
     sql: ${TABLE}.total_events;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: posts_sum {
+    label: "  Posts"
+    description: "The total number of posts performed by all users associated for all servers within the grouping."
+    type: sum
+    sql: ${max_posts} ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: channels_sum {
+    label: "  Channels"
+    description: "The total number of public, private, and direct message channels for all servers within the grouping."
+    type: sum
+    sql: ${direct_message_channels} + ${private_channels} + ${public_channels};;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: guest_accounts_sum {
+    label: "  Guest Accounts"
+    description: "The total number of guest accounts for all servers within the grouping."
+    type: sum
+    sql: ${guest_accounts};;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: teams_sum {
+    label: "  Teams"
+    description: "The total number of teams for all servers within the grouping."
+    type: sum
+    sql: ${teams};;
     drill_fields: [drill_set1*]
   }
 
@@ -1106,8 +1138,28 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.version_upgrade_count ;;
   }
 
+  measure: registered_users {
+    description: "The sum of registered users associated with all servers in the current grouping."
+    type: number
+    sql: sum(${max_registered_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: server_version_list {
+    label: "Server Versions"
+    type: string
+    sql: listagg(${server_version_major}, '; ') within group (order by ${server_version_major_sort} desc) ;;
+    description: "A list of all server versions sorted from highest to lowest within the current grouping."
+  }
+
   measure: customer_count {
     type: number
     sql: COUNT(DISTINCT CASE WHEN ${active_paying_customer} THEN ${company_name} ELSE NULL END) ;;
+  }
+
+  measure: mau_pct_licensed {
+    label: "MAU % of Licensed Users"
+    type: number
+    sql: ${mau_sum}/${license_server_fact.users_sum_distinct} ;;
   }
 }
