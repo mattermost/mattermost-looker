@@ -9,6 +9,18 @@ view: license_server_fact {
   }
 
   # DIMENSIONS
+  dimension: active_last_7days {
+    type: yesno
+    description: "Boolean indicating the customer has sent telemetry w/in the last 7 days."
+    sql: CASE WHEN ${TABLE}.last_telemetry_date >= CURRENT_DATE - INTERVAL '7 DAYS' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension_group: last_telemetry {
+    type: time
+    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    sql: ${TABLE}.last_telemetry_date ;;
+  }
+
   dimension: id {
     description: ""
     type: string
@@ -171,8 +183,127 @@ view: license_server_fact {
   }
 
   dimension: is_activated {
+    description: "Boolean indicating the license is associated with an activated server that has sent telemetry with the license key associated."
     type: yesno
     sql: CASE WHEN ${license_activation_date} is not null THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: active_users {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.active_users ;;
+  }
+
+  dimension: monthly_active_users {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.monthly_active_users ;;
+  }
+
+  dimension:bot_accounts {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.bot_accounts ;;
+  }
+
+  dimension: bot_posts_previous_day {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.bot_posts_previous_day ;;
+  }
+
+  dimension: direct_message_channels {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.direct_message_channels ;;
+  }
+
+  dimension: incoming_webhooks {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.incoming_webhooks ;;
+  }
+
+  dimension: outgoing_webhooks {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.outgoing_webhooks ;;
+  }
+
+  dimension: posts {
+    description: "The sum of all posts made on servers associated with the customer id."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.posts ;;
+  }
+
+  dimension: posts_previous_day {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.posts_previous_day ;;
+  }
+
+  dimension: private_channels {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.private_channels - COALESCE(${TABLE}.private_channels_deleted, 0) ;;
+  }
+
+  dimension: public_channels {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.public_channels - COALESCe(${TABLE}.public_channels_deleted, 0) ;;
+  }
+
+  dimension: registered_users {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0) ;;
+  }
+
+  dimension: registered_inactive_users {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.registered_inactive_users ;;
+  }
+
+  dimension: slash_commands {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.slash_commands ;;
+  }
+
+  dimension: teams {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.teams ;;
+  }
+
+  dimension: guest_accounts {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.guest_accounts ;;
+  }
+
+  dimension: expired_license {
+    type: yesno
+    description: "Boolean indicating the license is expired."
+    sql: CASE WHEN ${license_retired_date} <= CURRENT_DATE OR (${license_retired_date} IS NULL AND ${expire_date} <= CURRENT_DATE) THEN TRUE ELSE FALSE END ;;
   }
 
   measure: is_activated_max {
@@ -312,6 +443,28 @@ view: license_server_fact {
     description: "The count of distinct customers per grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: active_customer_count {
+    description: "The count of distinct accounts that have sent server telemetry w/in the last 7 days."
+    type: count_distinct
+    sql: case when ${TABLE}.last_telemetry_date >= current_date - interval '7 days' then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: inactive_customer_count {
+    description: "The count of distinct accounts that have not sent server telemetry w/in the last 7 days."
+    type: count_distinct
+    sql: case when ${TABLE}.last_telemetry_date < current_date - interval '7 days' then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: customer_wout_telemetry_count {
+    label: "Customers w/ No Telemetry"
+    description: "The count of distinct accounts that have not sent server telemetry w/in the last 7 days."
+    type: count_distinct
+    sql: case when ${TABLE}.last_telemetry_date IS NULL then ${customer_id} else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
