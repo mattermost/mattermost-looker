@@ -118,6 +118,12 @@ view: customer_risk {
     sql: ${TABLE}."COMPETITOR__C" ;;
   }
 
+  dimension: contraction {
+    label: "Contraction?"
+    type: string
+    sql: ${TABLE}."CONTRACTION__C" ;;
+  }
+
   dimension: createdbyid {
     hidden: yes
     type: string
@@ -252,6 +258,11 @@ view: customer_risk {
   dimension: seats_at_risk {
     type: number
     sql: ${TABLE}."SEATS_AT_RISK__C" ;;
+  }
+
+  dimension: secondary_reason {
+    type: string
+    sql: ${TABLE}."SECONDARY_REASON__C" ;;
   }
 
   dimension: sfid {
