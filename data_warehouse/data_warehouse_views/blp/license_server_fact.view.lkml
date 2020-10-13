@@ -21,6 +21,19 @@ view: license_server_fact {
     sql: ${TABLE}.last_telemetry_date ;;
   }
 
+  dimension_group: last_server_telemetry {
+    description: "The last time the server associated with the license sent telemetry."
+    type: time
+    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    sql: ${TABLE}.last_server_telemetry ;;
+  }
+
+  dimension: active_paying_customer {
+    description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated or the license has never been associated with a server, and it is not a trial."
+    type: yesno
+    sql: CASE WHEN (${last_server_telemetry_date} >= CURRENT_DATE - INTERVAL '7 DAYS' OR ${license_activation_date} IS NULL) AND ${latest_license} AND ${license_retired_date} >= CURRENT_DATE AND ${customer_name} NOT LIKE 'Mattermost%' THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: id {
     description: ""
     type: string
@@ -193,6 +206,58 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     sql: ${TABLE}.active_users ;;
+    order_by_field: active_users_sort
+  }
+
+  dimension: active_users_sort {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: COALESCE(${TABLE}.active_users, 0) ;;
+    hidden: yes
+  }
+
+  dimension: customer_licensed_users {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: ${TABLE}.customer_license_users ;;
+    order_by_field: customer_licensed_users_sort
+  }
+
+  dimension: customer_licensed_users_sort {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: COALESCE(${TABLE}.customer_license_users, 0) ;;
+    hidden: yes
+  }
+
+  dimension: mau_pct_licensed {
+    description: "The percentage/ration of monthly active users to licensed users."
+    label: "MAU % of Licensed"
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    value_format_name: percent_1
+    sql: ${monthly_active_users}::float/${customer_licensed_users}::float ;;
+  }
+
+  dimension: dau_pct_licensed {
+    description: "The percentage/ration of daily active users to licensed users."
+    label: "DAU % of Licensed"
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    value_format_name: percent_1
+    sql: ${active_users}::float/${customer_licensed_users}::float ;;
+  }
+
+  dimension: registered_pct_licensed {
+    description: "The percentage/ration of registered users to licensed users."
+    label: "Registered % of Licensed"
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    value_format_name: percent_1
+    sql: ${registered_users}::float/${customer_licensed_users}::float ;;
   }
 
   dimension: monthly_active_users {
@@ -200,6 +265,15 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     sql: ${TABLE}.monthly_active_users ;;
+    order_by_field: monthly_active_users_sort
+  }
+
+  dimension: monthly_active_users_sort {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: COALESCE(${TABLE}.monthly_active_users, 0) ;;
+    hidden: yes
   }
 
   dimension:bot_accounts {
@@ -270,7 +344,18 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     sql: ${TABLE}.registered_users - COALESCE(${TABLE}.registered_deactivated_users, 0) ;;
+    order_by_field: registered_users_sort
   }
+
+  dimension: registered_users_sort {
+    description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: COALESCE(${registered_users}, 0) ;;
+    hidden: yes
+  }
+
+
 
   dimension: registered_inactive_users {
     description: "The sum of the measure for all servers associated with the customer id that have sent telemetry in the last 7 days."
@@ -300,6 +385,13 @@ view: license_server_fact {
     sql: ${TABLE}.guest_accounts ;;
   }
 
+  dimension: channels {
+    description: "The total number of public, private, and direct message channels for all servers associated with the customer id that have sent telemetry in the last 7 days."
+    group_label: "Aggregate Server Telemetry"
+    type: number
+    sql: coalesce(${direct_message_channels}, 0) + coalesce(${public_channels}, 0) + coalesce(${private_channels}, 0) ;;
+  }
+
   dimension: expired_license {
     type: yesno
     description: "Boolean indicating the license is expired."
@@ -327,9 +419,10 @@ view: license_server_fact {
   }
 
   measure: min_days_to_expiration {
-    description: "The min. number of days until a license expires within each grouping."
+    label: "Max. Days to Expiration"
+    description: "The max. number of days until a license expires within each grouping."
     type: number
-    sql: min(${days_to_expiration}) ;;
+    sql: max(${days_to_expiration}) ;;
   }
 
 
@@ -446,25 +539,59 @@ view: license_server_fact {
     drill_fields: [licensed_server_drill*]
   }
 
+  measure: customer_mau_less50_telemetry_count {
+    label: "Customers w/ MAU < 50% Licensed"
+    description: "The count of distinct customer accounts with < 50% monthly active users to licensed users."
+    type: count_distinct
+    sql: case when ${mau_pct_licensed} < .5 then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: customer_nomau_telemetry_count {
+    label: "Customers w/out MAU Data"
+    description: "The count of distinct customer accounts with < 50% monthly active users to licensed users."
+    type: count_distinct
+    sql: case when ${monthly_active_users} IS NULL then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: customer_mau50_telemetry_count {
+    label: "Customers w/ MAU 50-100% Licensed"
+    description: "The count of distinct customer accounts with 50-100% monthly active users to licensed users."
+    type: count_distinct
+    sql: case when ${mau_pct_licensed} >= .5 and ${mau_pct_licensed} <= 1 then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: customer_mau100_telemetry_count {
+    label: "Customers w/ MAU > 100% Licensed"
+    description: "The count of distinct customer accounts with > 100% monthly active users to licensed users."
+    type: count_distinct
+    sql: case when ${mau_pct_licensed} > 1 then ${customer_id} else null end ;;
+    drill_fields: [licensed_server_drill*]
+  }
+
   measure: active_customer_count {
+    label: "Customers w/ Active Telemetry"
     description: "The count of distinct accounts that have sent server telemetry w/in the last 7 days."
     type: count_distinct
     sql: case when ${TABLE}.last_telemetry_date >= current_date - interval '7 days' then ${customer_id} else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
-  measure: inactive_customer_count {
-    description: "The count of distinct accounts that have not sent server telemetry w/in the last 7 days."
+  measure: customer_wout_telemetry_count {
+    label: "Customers w/ No Telemetry"
+    description: "The count of distinct customer accounts that have never sent server telemetry."
     type: count_distinct
-    sql: case when ${TABLE}.last_telemetry_date < current_date - interval '7 days' then ${customer_id} else null end ;;
+    sql: case when ${TABLE}.last_telemetry_date IS NULL then ${customer_id} else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
-  measure: customer_wout_telemetry_count {
-    label: "Customers w/ No Telemetry"
-    description: "The count of distinct accounts that have not sent server telemetry w/in the last 7 days."
+  measure: customer_woutdated_telemetry_count {
+    label: "Customers w/ Outdated Telemetry"
+    description: "The count of distinct customer accounts that have not sent server telemetry w/in the last 7 days."
     type: count_distinct
-    sql: case when ${TABLE}.last_telemetry_date IS NULL then ${customer_id} else null end ;;
+    sql: case when ${TABLE}.last_telemetry_date < CURRENT_DATE - INTERVAL '7 DAYS' then ${customer_id} else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
