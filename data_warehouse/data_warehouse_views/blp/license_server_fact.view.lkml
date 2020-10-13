@@ -113,6 +113,10 @@ view: license_server_fact {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ value }}"
     }
+    link: {
+      label: "Customer 360 Dashboard"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
+    }
   }
 
   dimension: account_name {
@@ -127,6 +131,10 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+    }
+    link: {
+      label: "Customer 360 Dashboard"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
     }
   }
 
@@ -149,6 +157,10 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+    }
+    link: {
+      label: "Customer 360 Dashboard"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
     }
     hidden: no
   }
@@ -178,6 +190,10 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+    }
+    link: {
+      label: "Customer 360 Dashboard"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
     }
     hidden: no
   }
