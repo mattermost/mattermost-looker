@@ -29,6 +29,7 @@ view: license_server_fact {
   }
 
   dimension: active_paying_customer {
+    label: "Active Customer"
     description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated or the license has never been associated with a server, and it is not a trial."
     type: yesno
     sql: CASE WHEN (${last_server_telemetry_date} >= CURRENT_DATE - INTERVAL '7 DAYS' OR ${license_activation_date} IS NULL) AND ${latest_license} AND ${license_retired_date} >= CURRENT_DATE AND ${customer_name} NOT LIKE 'Mattermost%' THEN TRUE ELSE FALSE END ;;
@@ -79,10 +80,25 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension: paying_cloud_customer {
+    group_label: "Cloud Filters"
+    description: "Boolean indicating the license is associated with a *paying* cloud customer."
+    type: yesno
+    sql:  CASE WHEN COALESCE(lower(${edition}), 'None') != 'mattermost cloud' AND COALESCE(lower(${edition}), 'None') LIKE '%cloud%' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: cloud_customer {
+    group_label: "Cloud Filters"
+    description: "Boolean indicating the license is associated with a cloud customer."
+    type: yesno
+    sql:  CASE WHEN COALESCE(lower(${edition}), 'None') LIKE '%cloud%' THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: trial {
     description: "Indicates the license is marked a trial or is <= 90 days from start to expire."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial OR DATEDIFF(day, ${start_date}::date, ${expire_date}::date) <= 90 then TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.trial OR (DATEDIFF(day, ${start_date}::date, ${expire_date}::date) <= 90 AND COALESCE(lower(${edition}), 'None') <> 'mattermost cloud')
+    OR COALESCE(lower(${edition}), 'None') = 'mattermost cloud' then TRUE ELSE FALSE END ;;
     hidden: no
   }
 
@@ -255,7 +271,7 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     value_format_name: percent_1
-    sql: ${monthly_active_users}::float/${customer_licensed_users}::float ;;
+    sql: ${monthly_active_users}::float/NULLIF(${customer_licensed_users}::float, 0) ;;
   }
 
   dimension: dau_pct_licensed {
@@ -264,7 +280,7 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     value_format_name: percent_1
-    sql: ${active_users}::float/${customer_licensed_users}::float ;;
+    sql: ${active_users}::float/NULLIF(${customer_licensed_users}::float, 0) ;;
   }
 
   dimension: registered_pct_licensed {
@@ -273,7 +289,7 @@ view: license_server_fact {
     group_label: "Aggregate Server Telemetry"
     type: number
     value_format_name: percent_1
-    sql: ${registered_users}::float/${customer_licensed_users}::float ;;
+    sql: ${registered_users}::float/NULLIF(${customer_licensed_users}::float, 0) ;;
   }
 
   dimension: monthly_active_users {

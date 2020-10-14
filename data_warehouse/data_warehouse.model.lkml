@@ -1306,8 +1306,10 @@ explore: nps_user_monthly_score {
   }
 
   join: license_server_fact {
-    sql_on: ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
-    AND ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id} ;;
+    sql_on: CASE WHEN ${license_server_fact.server_id} IS NULL THEN ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
+              ELSE ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
+              AND ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id}
+              END ;;
     relationship: many_to_one
   }
 
