@@ -80,6 +80,20 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension: paying_cloud_customer {
+    group_label: "Cloud Filters"
+    description: "Boolean indicating the license is associated with a *paying* cloud customer."
+    type: yesno
+    sql:  CASE WHEN COALESCE(lower(${edition}), 'None') != 'mattermost cloud' AND COALESCE(lower(${edition}), 'None') LIKE '%cloud%' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: cloud_customer {
+    group_label: "Cloud Filters"
+    description: "Boolean indicating the license is associated with a cloud customer."
+    type: yesno
+    sql:  CASE WHEN COALESCE(lower(${edition}), 'None') LIKE '%cloud%' THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: trial {
     description: "Indicates the license is marked a trial or is <= 90 days from start to expire."
     type: yesno
