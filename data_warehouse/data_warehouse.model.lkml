@@ -2322,6 +2322,11 @@ explore: incident_response_events {
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
+
+  join: license_server_fact {
+    sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: plugin_events {
