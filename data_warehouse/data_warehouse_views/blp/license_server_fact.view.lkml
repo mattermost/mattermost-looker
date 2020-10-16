@@ -29,7 +29,7 @@ view: license_server_fact {
   }
 
   dimension: active_paying_customer {
-    label: "Active Customer"
+    label: "Active, Licensed Customer"
     description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated or the license has never been associated with a server, and it is not a trial."
     type: yesno
     sql: CASE WHEN (${last_server_telemetry_date} >= CURRENT_DATE - INTERVAL '7 DAYS' OR ${license_activation_date} IS NULL) AND ${latest_license} AND ${license_retired_date} >= CURRENT_DATE AND ${customer_name} NOT LIKE 'Mattermost%' THEN TRUE ELSE FALSE END ;;
