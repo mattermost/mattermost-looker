@@ -126,9 +126,23 @@ explore: user_events_telemetry {
     fields: []
   }
 
+  join: portal_customers {
+    from: customers
+    relationship: many_to_one
+    sql_on: ${portal_customers.cws_customer} = ${user_events_telemetry.context_traits_portal_customer_id} ;;
+    fields: []
+  }
+
+  join: portal_subscriptions {
+    from: subscriptions
+    relationship: one_to_many
+    sql_on: ${portal_customers.id} = ${portal_subscriptions.customer} ;;
+    fields: []
+  }
+
   join: license_server_fact {
     relationship: many_to_one
-    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
+    sql_on: (${user_events_telemetry.user_id} = ${license_server_fact.server_id} OR ${user_events_telemetry.context_traits_portal_customer_id} = ${license_server_fact.customer_id})
     and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
 }
