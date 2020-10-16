@@ -15,6 +15,12 @@ view: incident_response_events {
     sql: CASE WHEN ${user_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: licensed_server {
+    description: "Boolean indicating the server was licensed at the time the incident response telemetry was logged."
+    type: yesno
+    sql: CASE WHEN ${license_server_fact.license_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: _dbt_source_relation {
     description: ""
     type: string
