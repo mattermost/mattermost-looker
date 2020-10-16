@@ -5,10 +5,16 @@ view: incident_response_events {
 
   # DRILL SETS
   set: incidents_drill {
-    fields: [timestamp_date, id, user_id, useractualid, server_fact.company_name, event, pluginversion, serverversion, incidentid, playbookid, teamid, channelids, checklists_sum, totalchecklistitems_sum, nummember_sum, numslashcommands_sum]
+    fields: [timestamp_date, id, user_id, useractualid, license_server_fact.customer_name, server_fact.company_name, event, pluginversion, serverversion, incidentid, playbookid, teamid, channelids, checklists_sum, totalchecklistitems_sum, nummember_sum, numslashcommands_sum]
   }
 
   # DIMENSIONS
+  dimension: community_server {
+    description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    type: yesno
+    sql: CASE WHEN ${user_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: _dbt_source_relation {
     description: ""
     type: string
@@ -572,6 +578,70 @@ view: incident_response_events {
     description: "The sum of Playbook Totalchecklistitems per grouped dimension(s)."
     type: sum
     sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: server_w_playbooks {
+    group_label: "Server Counts"
+    label: "Servers Created Playbook"
+    description: "The distinct count of servers that have created a playbook."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('create_playbook') THEN ${user_id} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+
+  measure: users_w_playbooks {
+    group_label: "User Counts"
+    label: "Users Created Playbook"
+    description: "The distinct count of users that have created a playbook."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('create_playbook') THEN ${useractualid} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: server_w_incidents {
+    group_label: "Server Counts"
+    label: "Servers Created Incident"
+    description: "The distinct count of servers that have created/started an incident."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('create_incident') THEN ${user_id} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: users_w_incidents {
+    group_label: "User Counts"
+    label: "Users Created Incident"
+    description: "The distinct count of users that have created/started an incident."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('create_incident') THEN ${useractualid} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: server_w_stage_changes {
+    group_label: "Server Counts"
+    label: "Servers Changed Incident Stages"
+    description: "The distinct count of servers that have changed an incident stage i.e. progressed the incident down the incident workflow pipeline."
+    type: count_distinct
+    sql: CASE WHEN ${event} = 'change_stage' THEN ${user_id} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: server_w_checklist_items {
+    group_label: "Server Counts"
+    label: "Servers Modifying Checklist Items"
+    description: "The distinct count of servers that have added and/or updated checklist items within a playbook."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('modify_state_checklist_item', 'move_checklist_item', 'remove_checklist_item','rename_checklist_item','uncheck_checklist_item', 'check_checklist_item', 'add_checklist_item') THEN ${user_id} ELSE NULL END ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: users_w_checklist_items {
+    group_label: "User Counts"
+    label: "Users Modifying Checklist Items"
+    description: "The distinct count of users that have added and/or updated checklist items within a playbook."
+    type: count_distinct
+    sql: CASE WHEN ${event} IN ('modify_state_checklist_item', 'move_checklist_item', 'remove_checklist_item','rename_checklist_item','uncheck_checklist_item', 'check_checklist_item', 'add_checklist_item') THEN ${useractualid} ELSE NULL END ;;
     drill_fields: [incidents_drill*]
   }
 
