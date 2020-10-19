@@ -4,7 +4,7 @@ view: user_events_telemetry {
   view_label: "User Events Telemetry"
 
   set: server_drill {
-    fields: [event_date, user_id, stripe_customer_dns, category, type, user_actual_count, event_count]
+    fields: [event_date, user_id, license_server_fact.customer_name, stripe_customer_dns, stripe_customer_email, category, type, user_actual_count, event_count]
   }
 
   # FILTERS
@@ -54,7 +54,7 @@ view: user_events_telemetry {
     group_label: "Stripe Customer Details"
     description: "The email provided when purchasing an online subscription or creating a cloud workspace."
     type: string
-    sql: ${customers.email} ;;
+    sql: COALESCE(${customers.email}, ${portal_customers.email}) ;;
   }
 
   dimension: stripe_customer_dns {
@@ -62,7 +62,7 @@ view: user_events_telemetry {
     label: "Stripe Customer DNS"
     description: "The workspace domain name of the stripe customers Mattermost workspace."
     type: string
-    sql: ${subscriptions.cws_dns} ;;
+    sql: COALESCE(${subscriptions.cws_dns}, ${portal_subscriptions.cws_dns}) ;;
   }
 
   dimension: properties {
@@ -284,7 +284,7 @@ view: user_events_telemetry {
     label: " User ID"
     description: "The unique user id of the user performing the event."
     type: string
-    sql: ${TABLE}.user_actual_id ;;
+    sql: COALESCE(${TABLE}.user_actual_id, ${user_id}) ;;
     hidden: no
   }
 
