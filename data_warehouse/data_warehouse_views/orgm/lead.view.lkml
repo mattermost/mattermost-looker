@@ -1231,6 +1231,26 @@ view: lead {
     type: count_distinct
   }
 
+  measure: count_recycle_since_most_recent_mql_no_scl {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Recycle w/o SCL Since Most Recent MQL"
+    group_item_label: "# Recycled w/o SCL"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [recycle_since_most_recent_mql: "yes",scl_since_most_recent_mql: "no" ]
+    type: count_distinct
+  }
+
+  measure: count_junk_since_most_recent_mql_no_scl {
+    sql: ${sfid} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Junk w/o SCL Since Most Recent MQL"
+    group_item_label: "# Junk w/o SCL"
+    group_label: "Since Most Recent MQL Counts"
+    filters: [junk_yn: "yes",scl_since_most_recent_mql: "no" ]
+    type: count_distinct
+  }
+
   measure: count_conv_y {
     sql: ${sfid} ;;
     filters: {
