@@ -284,7 +284,7 @@ view: user_events_telemetry {
     label: " User ID"
     description: "The unique user id of the user performing the event."
     type: string
-    sql: ${TABLE}.user_actual_id ;;
+    sql: COALESCE(${TABLE}.user_actual_id, ${user_id}) ;;
     hidden: no
   }
 
