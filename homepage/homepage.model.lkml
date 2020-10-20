@@ -31,26 +31,26 @@ view: _homepage {
                 <li>
                   <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Metrics Definitions</a>
                 </li>
-                <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Automating Metrics Timeline</a>
-                </li>
               </ul>
             <div style="font-size: 15px">Content in Looker</div>
             <ul>
+                  <li><a href="https://mattermost.looker.com/dashboards/222" style="@{css_link_style}">-  Business Review Dashboard</a></li>
+            </ul>
+            <ul>
               <li>
-                <div>Community</div>
+                <div>-  Community</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/69" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  GitHub Contributors Dashboard</a></li>
                 </ul>
               </li>
               <li>
-                <div>Customer Success</div>
+                <div>-  Customer Success</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/72" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Customer Success Overview</a></li>
                 </ul>
               </li>
               <li>
-                <div>Finance</div>
+                <div>-  Finance</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/73" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Overview Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/218" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  ARR Historical Finance Dashboard</a></li>
@@ -58,7 +58,7 @@ view: _homepage {
                 </ul>
               </li>
               <li>
-                <div>Product</div>
+                <div>-  Product</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/163" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  NPS Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/76" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  TEDAU Overview Dashboard</a></li>
@@ -67,7 +67,7 @@ view: _homepage {
                 </ul>
               </li>
               <li>
-                <div>Customer Journey Lifecycle</div>
+                <div>-  Customer Journey Lifecycle</div>
                 <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/77" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Traffic &amp; Organic Google Search Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/74" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Downloads Dashboard</a></li>
