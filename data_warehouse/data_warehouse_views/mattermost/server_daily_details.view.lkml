@@ -126,6 +126,13 @@ view: server_daily_details {
     group_label: "  Telemetry Flags"
   }
 
+  dimension: installation_id {
+    label: "Installation ID"
+    description: "The distinct installation of the cloud workspace. Only populated for cloud hosted users."
+    type: string
+    sql: ${TABLE}.installation_id ;;
+  }
+
   dimension: in_mattermost2_server {
     description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
     label: "In Diagnostics Telemetry"
