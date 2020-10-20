@@ -1306,10 +1306,7 @@ explore: nps_user_monthly_score {
   }
 
   join: license_server_fact {
-    sql_on: CASE WHEN ${license_server_fact.server_id} IS NULL THEN ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
-              ELSE ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
-              AND ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id}
-              END ;;
+    sql_on: ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id} AND ${nps_user_monthly_score.last_score_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
   }
 
@@ -2326,6 +2323,12 @@ explore: incident_response_events {
   join: license_server_fact {
     sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
+  }
+
+  join: version_release_dates {
+    sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
+    relationship: many_to_one
+    fields: []
   }
 }
 
