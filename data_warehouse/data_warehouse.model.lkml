@@ -2324,6 +2324,12 @@ explore: incident_response_events {
     sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
   }
+
+  join: version_release_dates {
+    sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: plugin_events {

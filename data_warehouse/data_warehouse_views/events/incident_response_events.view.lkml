@@ -8,7 +8,17 @@ view: incident_response_events {
     fields: [timestamp_date, id, user_id, useractualid, license_server_fact.customer_name, server_fact.company_name, event, pluginversion, serverversion, incidentid, playbookid, teamid, channelids, checklists_sum, totalchecklistitems_sum, nummember_sum, numslashcommands_sum]
   }
 
+  set: customer_drill {
+    fields: [license_server_fact.customer_name, user_id, playbook_count, incidentid_count, modify_state_checklist_item_count, user_count]
+  }
+
   # DIMENSIONS
+  dimension: dev_server {
+    description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    type: yesno
+    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: community_server {
     description: "Boolean indicating the server performing the event is the Mattermost Community server."
     type: yesno
