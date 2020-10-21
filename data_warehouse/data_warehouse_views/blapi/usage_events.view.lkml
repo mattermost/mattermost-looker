@@ -7,105 +7,105 @@ view: USAGE_EVENTS {
 
   # DIMENSIONS
   dimension: version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_id ;;
     hidden: no
   }
 
   dimension: previous_version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.previous_version_id ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: subscription_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.subscription_id ;;
     hidden: no
   }
 
   dimension: cloud_installation_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.cloud_installation_id ;;
     hidden: no
   }
 
   dimension: active_users {
-    description: "" 
+    description: "The number of registered users associated with the cloud installation record at the given date/time of the usage event record."
     type: number
     sql: ${TABLE}.active_users ;;
     hidden: no
   }
 
   dimension: _sdc_deleted_at {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._sdc_deleted_at ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: created_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.created_at ;;
     hidden: no
   }
 
   dimension_group: updated_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.updated_at ;;
     hidden: no
   }
 
   dimension_group: deleted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.deleted_at ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: "The date/time the usage event record was created."
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_extracted_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -124,6 +124,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Previous Versions within each grouping."
     type: count_distinct
     sql: ${previous_version_id} ;;
+    hidden: yes
   }
 
   measure: id_count {

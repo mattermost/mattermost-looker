@@ -7,109 +7,109 @@ view: CONTACT_US_REQUESTS {
 
   # DIMENSIONS
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.name ;;
     hidden: no
   }
 
   dimension: email {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.email ;;
     hidden: no
   }
 
   dimension: inquiry_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.inquiry_type ;;
     hidden: no
   }
 
   dimension: inquiry_issue {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.inquiry_issue ;;
     hidden: no
   }
 
   dimension: comment {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.comment ;;
     hidden: no
   }
 
   dimension: customer_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.customer_id ;;
     hidden: no
   }
 
   dimension: source {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.source ;;
     hidden: no
   }
 
   dimension: zendesk_ticket_id {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.zendesk_ticket_id ;;
     hidden: no
   }
 
   dimension: campaign_member_sfid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.campaign_member_sfid ;;
     hidden: no
   }
 
   dimension: _sdc_deleted_at {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._sdc_deleted_at ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: created_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.created_at ;;
     hidden: no
   }
 
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_extracted_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

@@ -1612,6 +1612,7 @@ explore: license_daily_details {
   label: "License Daily Details"
   group_label: "BLP"
   description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
+  hidden: yes
 }
 
 explore: data_errors {
@@ -1827,7 +1828,7 @@ explore: licenses_grouped {
 explore: licenses_only {
   label: "Licenses"
   group_label: "BLP"
-  hidden: no
+  hidden: yes
 }
 
 explore: version_release_dates {
@@ -2281,6 +2282,7 @@ explore: community_program_members {
 }
 
 explore: license_server_fact {
+  group_label: "BLP"
   label: "License Server Fact"
   hidden: no
 
@@ -2334,7 +2336,7 @@ explore: incident_response_events {
 
 explore: plugin_events {
   label: "Plugin Telemetry"
-  group_label: "Product"
+  group_label: "Integrations"
   description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
 
   join: server_daily_details {
@@ -2361,35 +2363,66 @@ explore: plugin_events {
 }
 
 explore: ADDRESSES {
+  group_label: "BLApi"
+  description: "Contains all billing and shipping addresses provided by Mattermost customers."
   label: "Addresses"
 }
+
 explore: CONTACT_US_REQUESTS {
+  group_label: "BLApi"
+  description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
   label: "Contact Us Requests"
 }
+
 explore: CREDIT_CARDS {
+  group_label: "BLApi"
+  description: "Contains all credit cards provided by Mattermost Customers."
   label: "Credit Cards"
 }
+
 explore: CUSTOMERS {
+  group_label: "BLApi"
+  description: "Contains all Mattermost customer records."
   label: "Customers"
 }
+
 explore: FEATURES {
+  group_label: "BLApi"
+  description: "Contains a list of features provided by varioius Mattermost SKU's."
   label: "Features"
 }
+
 explore: INVOICES {
+  group_label: "BLApi"
+  description: "Contains all invoices for Mattermost Cloud customers."
   label: "Invoices"
 }
+
 explore: PAYMENTS {
+  group_label: "BLApi"
+  description: "Contains all future, received and currently processing payments from Mattermost customers."
   label: "Payments"
 }
 explore: PAYMENT_METHODS {
+  group_label: "BLApi"
+  description: "Contains all identifying information for all payment methods provided by customers."
   label: "Payment Methods"
 }
+
 explore: PURCHASE_FACT {
+  group_label: "BLApi"
+  description: "Contains all customers and key identifiers/most recent customer attributes."
   label: "Purchase Fact"
 }
+
 explore: SUBSCRIPTIONS {
+  group_label: "BLApi"
+  description: "Contains all subscriptions for Mattermost customers."
   label: "Subscriptions"
 }
+
 explore: USAGE_EVENTS {
+  group_label: "BLApi"
   label: "Usage Events"
+  description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
 }

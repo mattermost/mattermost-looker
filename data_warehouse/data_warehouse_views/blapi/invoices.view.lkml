@@ -7,204 +7,183 @@ view: INVOICES {
 
   # DIMENSIONS
   dimension: version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_id ;;
     hidden: no
   }
 
   dimension: previous_version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.previous_version_id ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: subscription_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.subscription_id ;;
     hidden: no
   }
 
   dimension: stripe_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.stripe_id ;;
     hidden: no
   }
 
   dimension: full_month_users {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.full_month_users ;;
     hidden: no
   }
 
   dimension: partial_users {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.partial_users ;;
     hidden: no
   }
 
   dimension: total_user_months {
-    description: "" 
-    type: number
-    sql: ${TABLE}.total_user_months ;;
-    hidden: no
-  }
-
-  dimension: total_user_months {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.total_user_months ;;
     hidden: no
   }
 
   dimension: free_user_months {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.free_user_months ;;
     hidden: no
   }
 
   dimension: max_users_in_month {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.max_users_in_month ;;
     hidden: no
   }
 
   dimension: subtotal_20201019_1749 {
-    description: "" 
-    type: number
-    sql: ${TABLE}.subtotal_20201019_1749 ;;
-    hidden: no
-  }
-
-  dimension: subtotal_20201019_1749 {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.subtotal_20201019_1749 ;;
     hidden: no
   }
 
   dimension: partial_user_months {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.partial_user_months ;;
     hidden: no
   }
 
   dimension: _sdc_deleted_at {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._sdc_deleted_at ;;
     hidden: no
   }
 
   dimension: discounts_total {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.discounts_total ;;
     hidden: no
   }
 
   dimension: total {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.total ;;
     hidden: no
   }
 
   dimension: subtotal {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.subtotal ;;
     hidden: no
   }
 
   dimension: forecasted_total {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.forecasted_total ;;
     hidden: no
   }
 
-  dimension: forecasted_total {
-    description: "" 
-    type: number
-    sql: ${TABLE}.forecasted_total ;;
-    hidden: no
-  }
 
-  
   # DIMENSION GROUPS/DATES
   dimension_group: created_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.created_at ;;
     hidden: no
   }
 
   dimension_group: updated_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.updated_at ;;
     hidden: no
   }
 
   dimension_group: deleted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.deleted_at ;;
     hidden: no
   }
 
-  dimension_group: start_date {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  dimension_group: invoice_start {
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.start_date ;;
     hidden: no
   }
 
-  dimension_group: end_date {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  dimension_group: invoice_end {
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.end_date ;;
     hidden: no
   }
 
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_extracted_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

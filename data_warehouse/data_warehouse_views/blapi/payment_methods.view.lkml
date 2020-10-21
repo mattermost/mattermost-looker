@@ -7,104 +7,104 @@ view: PAYMENT_METHODS {
 
   # DIMENSIONS
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: state {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.state ;;
     hidden: no
   }
 
   dimension: version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.version_id ;;
     hidden: no
   }
 
   dimension: previous_version_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.previous_version_id ;;
     hidden: no
   }
 
   dimension: payment_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.payment_type ;;
     hidden: no
   }
 
   dimension: customer_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.customer_id ;;
     hidden: no
   }
 
   dimension: address_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.address_id ;;
     hidden: no
   }
 
   dimension: _sdc_deleted_at {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._sdc_deleted_at ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: created_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.created_at ;;
     hidden: no
   }
 
   dimension_group: updated_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.updated_at ;;
     hidden: no
   }
 
   dimension_group: deleted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.deleted_at ;;
     hidden: no
   }
 
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_extracted_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -123,6 +123,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Versions within each grouping."
     type: count_distinct
     sql: ${version_id} ;;
+    hidden: yes
   }
 
   measure: previous_version_count {
@@ -130,6 +131,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Previous Versions within each grouping."
     type: count_distinct
     sql: ${previous_version_id} ;;
+    hidden: yes
   }
 
   measure: customer_count {

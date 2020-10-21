@@ -7,115 +7,115 @@ view: CREDIT_CARDS {
 
   # DIMENSIONS
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: fingerprint {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.fingerprint ;;
     hidden: no
   }
 
   dimension: stripe_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.stripe_id ;;
     hidden: no
   }
 
   dimension: card_brand {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.card_brand ;;
     hidden: no
   }
 
   dimension: last4 {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.last4 ;;
     hidden: no
   }
 
   dimension: exp_month {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.exp_month ;;
     hidden: no
   }
 
   dimension: exp_year {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.exp_year ;;
     hidden: no
   }
 
   dimension: address_check {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.address_check ;;
     hidden: no
   }
 
   dimension: cvc_check {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.cvc_check ;;
     hidden: no
   }
 
   dimension: zip_check {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.zip_check ;;
     hidden: no
   }
 
   dimension: three_d_secure_support {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.three_d_secure_support ;;
     hidden: no
   }
 
   dimension: card_country {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.card_country ;;
     hidden: no
   }
 
   dimension: _sdc_deleted_at {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._sdc_deleted_at ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: _sdc_extracted_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_extracted_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: _sdc_batched_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
-    hidden: no
+    hidden: yes
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -124,44 +124,16 @@ view: CREDIT_CARDS {
 
   measure: id_count {
     label: " Id Count"
-    description: "The distinct count of Credit Cards Id within each grouping."
+    description: "The distinct count of Credit Card Id's within each grouping."
     type: count_distinct
     sql: ${id} ;;
   }
 
   measure: stripe_count {
     label: " Stripe Count"
-    description: "The distinct count of Credit Cards Stripes within each grouping."
+    description: "The distinct count of Credit Cards Stripe Id's within each grouping."
     type: count_distinct
     sql: ${stripe_id} ;;
-  }
-
-  measure: last4_max {
-    description: "The max Last4s within each grouping."
-    type: max
-    group_label: "Last4 Measures"
-    sql: ${last4} ;;
-  }
-
-  measure: last4_min {
-    description: "The min Last4s within each grouping."
-    type: min
-    group_label: "Last4 Measures"
-    sql: ${last4} ;;
-  }
-
-  measure: last4_avg {
-    description: "The average Last4s within each grouping."
-    type: average
-    group_label: "Last4 Measures"
-    sql: ${last4} ;;
-  }
-
-  measure: last4_median {
-    description: "The median  Last4s within each grouping."
-    type: median
-    group_label: "Last4 Measures"
-    sql: ${last4} ;;
   }
 
   measure: exp_month_max {
