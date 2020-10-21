@@ -2359,3 +2359,37 @@ explore: plugin_events {
     fields: [excludable_servers.reason]
   }
 }
+
+explore: ADDRESSES {
+  label: "Addresses"
+}
+explore: CONTACT_US_REQUESTS {
+  label: "Contact Us Requests"
+}
+explore: CREDIT_CARDS {
+  label: "Credit Cards"
+}
+explore: CUSTOMERS {
+  label: "Customers"
+}
+explore: FEATURES {
+  label: "Features"
+}
+explore: INVOICES {
+  label: "Invoices"
+}
+explore: PAYMENTS {
+  label: "Payments"
+}
+explore: PAYMENT_METHODS {
+  label: "Payment Methods"
+}
+explore: PURCHASE_FACT {
+  label: "Purchase Fact"
+}
+explore: SUBSCRIPTIONS {
+  label: "Subscriptions"
+}
+explore: USAGE_EVENTS {
+  label: "Usage Events"
+}
