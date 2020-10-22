@@ -145,4 +145,9 @@ explore: user_events_telemetry {
     sql_on: (${user_events_telemetry.user_id} = ${license_server_fact.server_id} OR ${user_events_telemetry.context_traits_portal_customer_id} = ${license_server_fact.customer_id})
     and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
+
+  join: cloud_onboarding_flows {
+    relationship: many_to_one
+    sql_on: ${user_events_telemetry.type} = ${cloud_onboarding_flows.type} AND ${user_events_telemetry.category} = ${cloud_onboarding_flows.category} ;;
+  }
 }
