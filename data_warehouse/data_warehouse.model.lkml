@@ -2426,3 +2426,7 @@ explore: USAGE_EVENTS {
   label: "Usage Events"
   description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
 }
+
+explore: cloud_onboarding_flows {
+  label: "Cloud Onboarding Flows"
+}
