@@ -1048,7 +1048,7 @@ view: user_events_telemetry {
     label: "  User Count"
     description: "The distinct count of Users within each grouping."
     type: count_distinct
-    sql: COALESCE(${user_actual_id}, ${anonymous_id}) ;;
+    sql: COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id}) ;;
     drill_fields: [server_drill*]
   }
 
