@@ -25,6 +25,7 @@ view: INVOICES {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: subscription_id {

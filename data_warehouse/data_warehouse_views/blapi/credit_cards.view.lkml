@@ -11,6 +11,7 @@ view: CREDIT_CARDS {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: fingerprint {

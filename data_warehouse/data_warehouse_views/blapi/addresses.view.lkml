@@ -11,6 +11,7 @@ view: ADDRESSES {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: version_id {

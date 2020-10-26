@@ -11,6 +11,7 @@ view: PURCHASE_FACT {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: customer_id {
