@@ -3,7 +3,10 @@ view: PAYMENT_METHODS {
   sql_table_name: blapi.PAYMENT_METHODS ;;
   view_label: "Payment Methods"
 
-  # FILTERS
+  # DRILL SETS
+  set: payment_method_drill {
+    fields: []
+  }
 
   # DIMENSIONS
   dimension: id {
@@ -11,6 +14,7 @@ view: PAYMENT_METHODS {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key:yes
   }
 
   dimension: state {
