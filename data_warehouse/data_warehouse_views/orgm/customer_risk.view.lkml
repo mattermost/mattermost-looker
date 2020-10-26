@@ -255,6 +255,34 @@ view: customer_risk {
     type: yesno
   }
 
+  dimension_group: delayed {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    sql: CAST(${TABLE}."DELAYED_DATE__C" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension_group: risk_resolved {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    sql: CAST(${TABLE}."RISK_RESOLVED_DATE__C" AS TIMESTAMP_NTZ) ;;
+  }
+
   dimension: seats_at_risk {
     type: number
     sql: ${TABLE}."SEATS_AT_RISK__C" ;;
