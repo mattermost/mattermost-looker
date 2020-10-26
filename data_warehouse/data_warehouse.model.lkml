@@ -2383,7 +2383,31 @@ explore: CREDIT_CARDS {
 explore: CUSTOMERS {
   group_label: "BLApi"
   description: "Contains all Mattermost customer records."
-  label: "Customers"
+  label: "Customers (BLApi)"
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: INVOICES {
+    view_label: "Invoices (BLApi)"
+    sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: CREDIT_CARDS {
+    view_label: "Credit Cards (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: one_to_many
+  }
+
+  join: PAYMENT_METHODS {
+    view_label: "Payment Methods (BLApi)"
+    sql_on: ${PAYMENT_METHODS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
 }
 
 explore: FEATURES {

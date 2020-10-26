@@ -28,6 +28,13 @@ view: license_server_fact {
     sql: ${TABLE}.last_server_telemetry ;;
   }
 
+  dimension: current_customer {
+    label: "Active License"
+    description: "Boolean indicating the license is the customers latest (customers can expand mid-contract and be provisioned a new license - the expire date of the previous license is never updated, so there is logic in place to identify the latest), and is not expired."
+    sql: CASE WHEN ${license_retired_date} >= CURRENT_DATE AND LOWER(${customer_name}) not like 'mattermost%' and ${latest_license} THEN TRUE ELSE FALSE END ;;
+    type: yesno
+  }
+
   dimension: active_paying_customer {
     label: "Active, Licensed Customer"
     description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated or the license has never been associated with a server, and it is not a trial."
@@ -97,8 +104,8 @@ view: license_server_fact {
   dimension: trial {
     description: "Indicates the license is marked a trial or is <= 90 days from start to expire."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial OR (DATEDIFF(day, ${start_date}::date, ${expire_date}::date) <= 90 AND COALESCE(lower(${edition}), 'None') <> 'mattermost cloud')
-    OR COALESCE(lower(${edition}), 'None') = 'mattermost cloud' then TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.trial OR (DATEDIFF(day, ${start_date}::date, ${expire_date}::date) <= 90 AND COALESCE(lower(${edition}), 'None') <> 'mattermost cloud') THEN TRUE
+    WHEN COALESCE(lower(${edition}), 'None') = 'mattermost cloud' then FALSE ELSE FALSE END ;;
     hidden: no
   }
 
@@ -567,7 +574,7 @@ view: license_server_fact {
   measure: customer_count {
     description: "The count of distinct customers per grouping."
     type: count_distinct
-    sql: ${customer_id} ;;
+    sql: md5(${customer_id}) ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -575,7 +582,7 @@ view: license_server_fact {
     label: "Customers w/ MAU < 50% Licensed"
     description: "The count of distinct customer accounts with < 50% monthly active users to licensed users."
     type: count_distinct
-    sql: case when ${mau_pct_licensed} < .5 then ${customer_id} else null end ;;
+    sql: case when ${mau_pct_licensed} < .5 then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -583,7 +590,7 @@ view: license_server_fact {
     label: "Customers w/out MAU Data"
     description: "The count of distinct customer accounts with < 50% monthly active users to licensed users."
     type: count_distinct
-    sql: case when ${monthly_active_users} IS NULL then ${customer_id} else null end ;;
+    sql: case when ${monthly_active_users} IS NULL then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -591,7 +598,7 @@ view: license_server_fact {
     label: "Customers w/ MAU 50-100% Licensed"
     description: "The count of distinct customer accounts with 50-100% monthly active users to licensed users."
     type: count_distinct
-    sql: case when ${mau_pct_licensed} >= .5 and ${mau_pct_licensed} <= 1 then ${customer_id} else null end ;;
+    sql: case when ${mau_pct_licensed} >= .5 and ${mau_pct_licensed} <= 1 then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -599,7 +606,7 @@ view: license_server_fact {
     label: "Customers w/ MAU > 100% Licensed"
     description: "The count of distinct customer accounts with > 100% monthly active users to licensed users."
     type: count_distinct
-    sql: case when ${mau_pct_licensed} > 1 then ${customer_id} else null end ;;
+    sql: case when ${mau_pct_licensed} > 1 then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -607,7 +614,7 @@ view: license_server_fact {
     label: "Customers w/ Active Telemetry"
     description: "The count of distinct accounts that have sent server telemetry w/in the last 7 days."
     type: count_distinct
-    sql: case when ${TABLE}.last_telemetry_date >= current_date - interval '7 days' then ${customer_id} else null end ;;
+    sql: case when ${TABLE}.last_telemetry_date >= current_date - interval '7 days' then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -615,7 +622,7 @@ view: license_server_fact {
     label: "Customers w/ No Telemetry"
     description: "The count of distinct customer accounts that have never sent server telemetry."
     type: count_distinct
-    sql: case when ${TABLE}.last_telemetry_date IS NULL then ${customer_id} else null end ;;
+    sql: case when ${TABLE}.last_telemetry_date IS NULL then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
@@ -623,7 +630,7 @@ view: license_server_fact {
     label: "Customers w/ Outdated Telemetry"
     description: "The count of distinct customer accounts that have not sent server telemetry w/in the last 7 days."
     type: count_distinct
-    sql: case when ${TABLE}.last_telemetry_date < CURRENT_DATE - INTERVAL '7 DAYS' then ${customer_id} else null end ;;
+    sql: case when ${TABLE}.last_telemetry_date < CURRENT_DATE - INTERVAL '7 DAYS' then md5(${customer_id}) else null end ;;
     drill_fields: [licensed_server_drill*]
   }
 
