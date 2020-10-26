@@ -2417,7 +2417,7 @@ explore: CUSTOMERS {
 
   join: ADDRESSES {
     view_label: "Address (Billing)"
-    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'billing' ;;
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
     relationship: one_to_one
   }
 
@@ -2466,6 +2466,11 @@ explore: PAYMENT_METHODS {
   join: CUSTOMERS {
     sql_on: ${CUSTOMERS.id} = ${PAYMENT_METHODS.customer_id} ;;
     relationship: many_to_one
+  }
+
+  join: ADDRESSES {
+    sql_on: ${PAYMENT_METHODS.address_id} = ${ADDRESSES.id} AND ${ADDRESSES.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
   }
 }
 

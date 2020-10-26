@@ -5,7 +5,7 @@ view: PAYMENT_METHODS {
 
   # DRILL SETS
   set: payment_method_drill {
-    fields: [customer_id, CUSTOMERS.company_name, CUSTOMERS.email, payment_type, ADDRESSES.state, ADDRESSES.country]
+    fields: [id, customer_id, CUSTOMERS.company_name, CUSTOMERS.email, payment_type, ADDRESSES.id, ADDRESSES.line1, ADDRESSES.line2, ADDRESSES.city, ADDRESSES.state, ADDRESSES.postal_code, ADDRESSES.country]
   }
 
   # DIMENSIONS
