@@ -5,7 +5,7 @@ view: PAYMENT_METHODS {
 
   # DRILL SETS
   set: payment_method_drill {
-    fields: []
+    fields: [customer_id, CUSTOMERS.company_name, CUSTOMERS.email, payment_type, ADDRESSES.state, ADDRESSES.country]
   }
 
   # DIMENSIONS
@@ -113,6 +113,7 @@ view: PAYMENT_METHODS {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [payment_method_drill*]
   }
 
   measure: id_count {
@@ -120,6 +121,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
   measure: version_count {
@@ -143,6 +145,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Customers within each grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
   measure: address_count {
@@ -150,6 +153,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Addresss within each grouping."
     type: count_distinct
     sql: ${address_id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
 
