@@ -2427,6 +2427,7 @@ explore: PAYMENTS {
   description: "Contains all future, received and currently processing payments from Mattermost customers."
   label: "Payments"
 }
+
 explore: PAYMENT_METHODS {
   group_label: "BLApi"
   description: "Contains all identifying information for all payment methods provided by customers."
