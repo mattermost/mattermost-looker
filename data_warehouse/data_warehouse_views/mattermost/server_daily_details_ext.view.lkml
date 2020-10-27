@@ -2700,6 +2700,77 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: system_manager_count {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_manager_count ;;
+    hidden: no
+  }
+
+  dimension: system_manager_permissions {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_manager_permissions ;;
+    hidden: no
+  }
+  dimension: system_manager_permissions_modified {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_manager_permissions_modified ;;
+    hidden: no
+  }
+
+  dimension: system_read_only_admin_count {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_read_only_admin_count ;;
+    hidden: no
+  }
+
+  dimension: system_read_only_admin_permissions {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_read_only_admin_permissions ;;
+    hidden: no
+  }
+
+  dimension: system_read_only_admin_permissions_modified {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_read_only_admin_permissions_modified ;;
+    hidden: no
+  }
+
+  dimension: system_user_manager_count {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_user_manager_count ;;
+    hidden: no
+  }
+
+  dimension: system_user_manager_permissions {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_user_manager_permissions ;;
+    hidden: no
+  }
+
+  dimension: system_user_manager_permissions_modified {
+    description: ""
+    type: string
+    group_label: "Permissions System Configuration"
+    sql: ${TABLE}.system_user_manager_permissions_modified ;;
+    hidden: no
+  }
+
   dimension: allow_insecure_download_url {
   label: "Allow Insecure Download Url"
     description: ""
