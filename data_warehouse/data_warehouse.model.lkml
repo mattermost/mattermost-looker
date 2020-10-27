@@ -1962,9 +1962,22 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
+  join: CUSTOMERS {
+    view_label: "Customer (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
+    relationship: one_to_one
+  }
+
   join: subscriptions {
     sql_on: ${customers.id} = ${subscriptions.customer} ;;
     relationship: one_to_many
+  }
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+
   }
 
   join: subscription_items {
@@ -1977,6 +1990,12 @@ explore: customers {
     relationship: one_to_many
   }
 
+  join: INVOICES {
+    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (BLApi)"
+  }
+
   join: invoice_line_items {
     sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
     relationship: one_to_many
@@ -1985,6 +2004,12 @@ explore: customers {
   join: charges {
     sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
     relationship: one_to_many
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.stripe_id} = ${charges.id} ;;
+    relationship: one_to_one
   }
 
   join: products {
@@ -2379,12 +2404,17 @@ explore: CREDIT_CARDS {
     relationship: many_to_one
     view_label: "Customers (BLApi)"
   }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
 }
 
 explore: CUSTOMERS {
   group_label: "BLApi"
   description: "Contains all Mattermost customer records."
-  label: "Customers"
+  label: "Customers (Blapi)"
 
   join: SUBSCRIPTIONS {
     view_label: "Subscriptions (BLApi)"
@@ -2392,10 +2422,22 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
+  join: subscriptions {
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+  }
+
   join: INVOICES {
     view_label: "Invoices (BLApi)"
     sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
     relationship: one_to_many
+  }
+
+  join: invoices {
+    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
   }
 
   join: CREDIT_CARDS {
@@ -2411,14 +2453,14 @@ explore: CUSTOMERS {
   }
 
   join: ADDRESSES {
-    view_label: "Address (Billing)"
+    view_label: "Addresses (Billing)"
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
     relationship: one_to_one
   }
 
   join: company_addresses {
     from: ADDRESSES
-    view_label: "Address (Company)"
+    view_label: "Addresses (Company)"
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
     relationship: one_to_one
   }
@@ -2432,6 +2474,12 @@ explore: CUSTOMERS {
     sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
     relationship: many_to_one
   }
+
+  join: customers {
+    view_label: "Customer (Stripe)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: FEATURES {
@@ -2442,20 +2490,26 @@ explore: FEATURES {
 }
 
 explore: INVOICES {
-  hidden: yes
   group_label: "BLApi"
   description: "Contains all invoices for Mattermost Cloud customers."
-  label: "Invoices"
+  label: "Invoices (BLApi)"
 
   join: SUBSCRIPTIONS {
     sql_on: ${SUBSCRIPTIONS.id} = ${INVOICES.subscription_id} ;;
     relationship: many_to_one
+    view_label: "Subscriptions (BLApi)"
   }
 
   join: CUSTOMERS {
     sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
     relationship: many_to_one
     view_label: "Customers (BLApi)"
+  }
+
+  join: invoices {
+    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
   }
 }
 
@@ -2464,6 +2518,19 @@ explore: PAYMENTS {
   group_label: "BLApi"
   description: "Contains all future, received and currently processing payments from Mattermost customers."
   label: "Payments"
+
+  join: charges {
+    view_label: "Charges (Stripe)"
+    sql_on: ${PAYMENTS.stripe_charge_id} = ${charges.id} ;;
+    relationship: one_to_one
+  }
+
+  join: customers {
+    view_label: "Charges (Stripe)"
+    sql_on: ${charges.customer} = ${customers.id} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: PAYMENT_METHODS {
@@ -2475,6 +2542,11 @@ explore: PAYMENT_METHODS {
   join: CUSTOMERS {
     sql_on: ${CUSTOMERS.id} = ${PAYMENT_METHODS.customer_id} ;;
     relationship: many_to_one
+  }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
   }
 
   join: ADDRESSES {
@@ -2494,7 +2566,7 @@ explore: SUBSCRIPTIONS {
   hidden: yes
   group_label: "BLApi"
   description: "Contains all subscriptions for Mattermost customers."
-  label: "Subscriptions"
+  label: "Subscriptions (BLApi)"
 
   join: CUSTOMERS {
     sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
@@ -2506,6 +2578,12 @@ explore: SUBSCRIPTIONS {
     view_label: "Invoices (BLApi)"
     sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
     relationship: one_to_many
+  }
+
+  join: subscriptions {
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
   }
 }
 
