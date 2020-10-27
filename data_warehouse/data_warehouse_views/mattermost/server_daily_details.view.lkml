@@ -977,6 +977,18 @@ view: server_daily_details {
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 
+
+  measure: server_w_mau {
+    group_label: " Server Counts"
+    label: " Servers w/ MAU"
+    description: "Use this to count distinct TEDAS Server ID's with > 0 monthly active users across dimensions. Servers w/ monthly active users are automatically idenfitiable as Telemetry Enabled because the monthly active user count is provided via telemetry."
+    type: count_distinct
+    sql: CASE WHEN
+          CASE WHEN COALESCE(${server_daily_details_ext.active_users_daily},0) >= COALESCE(${mau},0) THEN COALESCE(${server_daily_details_ext.active_users_daily},0) ELSE COALESCE(${mau},0) END > 0
+          THEN ${server_id} ELSE NULL END;;
+    drill_fields: [logging_date, server_id, account_sfid, account.name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
+  }
+
   measure: total_active_user_count {
     group_label: "User Counts"
     label: "Active Users"
