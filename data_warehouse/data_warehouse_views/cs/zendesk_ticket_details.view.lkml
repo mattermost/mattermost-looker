@@ -20,6 +20,11 @@ view: zendesk_ticket_details {
     type: string
   }
 
+  dimension: business_impract {
+    type: string
+    sql: ${TABLE}."BUSINESS_IMPACT" ;;
+  }
+
   dimension: last_comment_at {
     description: "Date last comment was added on a ticket"
     group_label: "Last Comment"
