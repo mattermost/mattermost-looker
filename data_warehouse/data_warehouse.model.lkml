@@ -2355,18 +2355,21 @@ explore: plugin_events {
 }
 
 explore: ADDRESSES {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all billing and shipping addresses provided by Mattermost customers."
   label: "Addresses"
 }
 
 explore: CONTACT_US_REQUESTS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
   label: "Contact Us Requests"
 }
 
 explore: CREDIT_CARDS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all credit cards provided by Mattermost Customers."
   label: "Credit Cards"
@@ -2381,7 +2384,7 @@ explore: CREDIT_CARDS {
 explore: CUSTOMERS {
   group_label: "BLApi"
   description: "Contains all Mattermost customer records."
-  label: "Customers (BLApi)"
+  label: "Customers"
 
   join: SUBSCRIPTIONS {
     view_label: "Subscriptions (BLApi)"
@@ -2419,15 +2422,27 @@ explore: CUSTOMERS {
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
     relationship: one_to_one
   }
+
+  join: CONTACT_US_REQUESTS {
+    sql_on: ${CUSTOMERS.id} = ${CONTACT_US_REQUESTS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: USAGE_EVENTS {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: FEATURES {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains a list of features provided by varioius Mattermost SKU's."
   label: "Features"
 }
 
 explore: INVOICES {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all invoices for Mattermost Cloud customers."
   label: "Invoices"
@@ -2445,12 +2460,14 @@ explore: INVOICES {
 }
 
 explore: PAYMENTS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all future, received and currently processing payments from Mattermost customers."
   label: "Payments"
 }
 
 explore: PAYMENT_METHODS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all identifying information for all payment methods provided by customers."
   label: "Payment Methods"
@@ -2470,9 +2487,11 @@ explore: PURCHASE_FACT {
   group_label: "BLApi"
   description: "Contains all customers and key identifiers/most recent customer attributes."
   label: "Purchase Fact"
+  hidden: yes
 }
 
 explore: SUBSCRIPTIONS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all subscriptions for Mattermost customers."
   label: "Subscriptions"
@@ -2494,6 +2513,47 @@ explore: USAGE_EVENTS {
   group_label: "BLApi"
   label: "Usage Events"
   description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
+  hidden: yes
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${USAGE_EVENTS.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: CUSTOMERS {
+    sql_on: ${SUBSCRIPTIONS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: INVOICES {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
+  }
+
+  join: CREDIT_CARDS {
+    view_label: "Credit Cards (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: one_to_many
+  }
+
+  join: PAYMENT_METHODS {
+    view_label: "Payment Methods (BLApi)"
+    sql_on: ${PAYMENT_METHODS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    view_label: "Address (Billing)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
+    relationship: one_to_one
+  }
+
+  join: company_addresses {
+    from: ADDRESSES
+    view_label: "Address (Company)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
+    relationship: one_to_one
+  }
 }
 
 explore: cloud_onboarding_flows {
