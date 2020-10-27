@@ -18,7 +18,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: installation_type {
     description: "The installation type of the server at time of build/install (i.e. docker, gitlab, omnibus, etc.)."
-    sql: COALESCE(${TABLE}.installation_type, CASE WHEN ${gitlab_install} THEN 'gitlab' ELSE NULL END) ;;
+    sql: COALESCE(${TABLE}.installation_type, CASE WHEN ${gitlab_install} THEN 'gitlab' ELSE NULL END, 'Other') ;;
     type: string
   }
 
