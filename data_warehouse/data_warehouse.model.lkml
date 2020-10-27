@@ -1962,9 +1962,10 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
-  join: CUSTOMERS {
+  join: customers_blapi {
+    from: CUSTOMERS
     view_label: "Customer (BLApi)"
-    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
+    sql_on: ${customers_blapi.stripe_id} = ${customers.id} ;;
     relationship: one_to_one
   }
 
@@ -1973,9 +1974,10 @@ explore: customers {
     relationship: one_to_many
   }
 
-  join: SUBSCRIPTIONS {
+  join: subscriptions_blapi {
+    from: SUBSCRIPTIONS
     view_label: "Subscriptions (BLApi)"
-    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    sql_on: ${subscriptions_blapi.stripe_id} = ${subscriptions.id} ;;
     relationship: one_to_one
 
   }
@@ -1990,8 +1992,9 @@ explore: customers {
     relationship: one_to_many
   }
 
-  join: INVOICES {
-    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+  join: invoices_blapi {
+    from: INVOICES
+    sql_on: ${invoices_blapi.stripe_id} = ${invoices.id} ;;
     relationship: one_to_one
     view_label: "Invoices (BLApi)"
   }
@@ -2422,9 +2425,10 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
-  join: subscriptions {
+  join: subscriptions_stripe {
+    from: subscriptions
     view_label: "Subscriptions (Stripe)"
-    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
     relationship: one_to_one
   }
 
@@ -2434,8 +2438,9 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
-  join: invoices {
-    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+  join: invoices_stripe {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
     relationship: one_to_one
     view_label: "Invoices (Stripe)"
   }
@@ -2475,9 +2480,10 @@ explore: CUSTOMERS {
     relationship: many_to_one
   }
 
-  join: customers {
+  join: customers_stripe {
+    from: customers
     view_label: "Customer (Stripe)"
-    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers_stripe.id} ;;
     relationship: one_to_one
   }
 }
@@ -2506,8 +2512,9 @@ explore: INVOICES {
     view_label: "Customers (BLApi)"
   }
 
-  join: invoices {
-    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+  join: invoices_blapi {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_blapi.id} ;;
     relationship: one_to_one
     view_label: "Invoices (Stripe)"
   }
@@ -2580,9 +2587,10 @@ explore: SUBSCRIPTIONS {
     relationship: one_to_many
   }
 
-  join: subscriptions {
+  join: subscriptions_stripe {
+    from: subscriptions
     view_label: "Subscriptions (Stripe)"
-    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
     relationship: one_to_one
   }
 }
