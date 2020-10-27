@@ -11,6 +11,7 @@ view: CONTACT_US_REQUESTS {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: name {

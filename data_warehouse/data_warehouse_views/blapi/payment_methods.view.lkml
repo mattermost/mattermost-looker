@@ -3,7 +3,10 @@ view: PAYMENT_METHODS {
   sql_table_name: blapi.PAYMENT_METHODS ;;
   view_label: "Payment Methods"
 
-  # FILTERS
+  # DRILL SETS
+  set: payment_method_drill {
+    fields: [id, customer_id, CUSTOMERS.company_name, CUSTOMERS.email, payment_type, ADDRESSES.id, ADDRESSES.line1, ADDRESSES.line2, ADDRESSES.city, ADDRESSES.state, ADDRESSES.postal_code, ADDRESSES.country]
+  }
 
   # DIMENSIONS
   dimension: id {
@@ -11,6 +14,7 @@ view: PAYMENT_METHODS {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key:yes
   }
 
   dimension: state {
@@ -109,6 +113,7 @@ view: PAYMENT_METHODS {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [payment_method_drill*]
   }
 
   measure: id_count {
@@ -116,6 +121,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
   measure: version_count {
@@ -139,6 +145,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Customers within each grouping."
     type: count_distinct
     sql: ${customer_id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
   measure: address_count {
@@ -146,6 +153,7 @@ view: PAYMENT_METHODS {
     description: "The distinct count of Payment Methods Addresss within each grouping."
     type: count_distinct
     sql: ${address_id} ;;
+    drill_fields: [payment_method_drill*]
   }
 
 
