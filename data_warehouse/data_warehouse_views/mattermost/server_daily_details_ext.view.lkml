@@ -826,8 +826,24 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: admin_notices_enabled {
+    description: ""
+    type: yesno
+    group_label: "Annoucement Configuration"
+    sql: ${TABLE}.admin_notices_enabled ;;
+    hidden: no
+  }
+
+  dimension: user_notices_enabled {
+    description: ""
+    type: yesno
+    group_label: "Annoucement Configuration"
+    sql: ${TABLE}.user_notices_enabled ;;
+    hidden: no
+  }
+
   dimension: isdefault_banner_text_color {
-  label: "Isdefault Banner Text Color"
+    label: "Isdefault Banner Text Color"
     description: ""
     type: yesno
     group_label: "Annoucement Configuration"
@@ -1487,6 +1503,22 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_shared_channels {
+    description: ""
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.enable_shared_channels ;;
+    hidden: no
+  }
+
+  dimension: cloud_user_limit {
+    description: ""
+    type: number
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.cloud_user_limit ;;
+    hidden: no
+  }
+
   dimension: enable_click_to_reply {
   label: "Enable Click To Reply"
     description: ""
@@ -1789,6 +1821,22 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Ldap Configuration"
     sql: ${TABLE}.enable_ldap ;;
+    hidden: no
+  }
+
+  dimension: isnotempty_private_key {
+    description: ""
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isnotempty_private_key ;;
+    hidden: no
+  }
+
+  dimension: isnotempty_public_certificate {
+    description: ""
+    type: yesno
+    group_label: "Ldap Configuration"
+    sql: ${TABLE}.isnotempty_public_certificate ;;
     hidden: no
   }
 
@@ -2702,7 +2750,7 @@ view: server_daily_details_ext {
 
   dimension: system_manager_count {
     description: ""
-    type: string
+    type: number
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_manager_count ;;
     hidden: no
@@ -2717,7 +2765,7 @@ view: server_daily_details_ext {
   }
   dimension: system_manager_permissions_modified {
     description: ""
-    type: string
+    type: yesno
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_manager_permissions_modified ;;
     hidden: no
@@ -2725,7 +2773,7 @@ view: server_daily_details_ext {
 
   dimension: system_read_only_admin_count {
     description: ""
-    type: string
+    type: number
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_read_only_admin_count ;;
     hidden: no
@@ -2741,7 +2789,7 @@ view: server_daily_details_ext {
 
   dimension: system_read_only_admin_permissions_modified {
     description: ""
-    type: string
+    type: yesno
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_read_only_admin_permissions_modified ;;
     hidden: no
@@ -2749,7 +2797,7 @@ view: server_daily_details_ext {
 
   dimension: system_user_manager_count {
     description: ""
-    type: string
+    type: number
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_user_manager_count ;;
     hidden: no
@@ -2765,7 +2813,7 @@ view: server_daily_details_ext {
 
   dimension: system_user_manager_permissions_modified {
     description: ""
-    type: string
+    type: yesno
     group_label: "Permissions System Configuration"
     sql: ${TABLE}.system_user_manager_permissions_modified ;;
     hidden: no
@@ -2948,6 +2996,24 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_skype4business ;;
+    hidden: no
+  }
+
+  dimension: enable_mattermostprofanityfilter {
+    label: "Enable Skype4Business"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_mattermostprofanityfilter ;;
+    hidden: no
+  }
+
+  dimension: version_mattermostprofanityfilter {
+    label: "Enable Skype4Business"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_mattermostprofanityfilter ;;
     hidden: no
   }
 
@@ -3771,6 +3837,22 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_api_channel_deletion {
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_api_channel_deletion ;;
+    hidden: no
+  }
+
+  dimension: enable_api_user_deletion {
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_api_user_deletion ;;
+    hidden: no
+  }
+
   dimension: allow_edit_post_service {
     description: ""
     type: string
@@ -4533,6 +4615,62 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Warn Metrics"
     sql: ${TABLE}.warn_metric_number_of_active_users_500 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_email_domain {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_email_domain ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_mfa {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_mfa ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_teams_5 {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_teams_5 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_active_users_100 {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_active_users_100 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_active_users_300 {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_active_users_300 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_channels_50 {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_channels_50 ;;
+    hidden: no
+  }
+
+  dimension: warn_metric_number_of_posts_2m {
+    description: ""
+    type: yesno
+    group_label: "Warn Metrics"
+    sql: ${TABLE}.warn_metric_number_of_posts_2m ;;
     hidden: no
   }
 
