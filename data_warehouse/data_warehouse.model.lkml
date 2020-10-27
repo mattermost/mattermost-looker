@@ -1001,7 +1001,6 @@ explore: server_daily_details {
   }
 
   join: server_fact {
-    view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: inner
@@ -1306,10 +1305,7 @@ explore: nps_user_monthly_score {
   }
 
   join: license_server_fact {
-    sql_on: CASE WHEN ${license_server_fact.server_id} IS NULL THEN ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
-              ELSE ${nps_user_monthly_score.license_id} = ${license_server_fact.license_id}
-              AND ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id}
-              END ;;
+    sql_on: ${nps_user_monthly_score.server_id} = ${license_server_fact.server_id} AND ${nps_user_monthly_score.last_score_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
   }
 
@@ -1341,16 +1337,9 @@ explore: server_daily_details_ext {
   }
 
   join: server_fact {
-    view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     type: left_outer
     relationship: many_to_one
-    fields: [server_fact.license_id, server_fact.first_trial_license_date, server_fact.first_trial_license_month, server_fact.first_trial_license_year, server_fact.first_trial_license_week, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.last_active_date, server_fact.last_active_week, server_fact.last_active_month,
-      server_fact.last_active_year, server_fact.last_active_fiscal_quarter, server_fact.last_active_fiscal_year,
-      server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.first_active_month,
-      server_fact.first_paid_license_date, server_fact.first_paid_license_week, server_fact.first_paid_license_month, server_fact.first_paid_license_year, server_fact.first_paid_license_fiscal_quarter, server_fact.first_paid_license_fiscal_year,
-      server_fact.has_admin_events, server_fact.has_invite_events, server_fact.has_post_events, server_fact.has_signup_email_events, server_fact.has_signup_events, server_fact.has_tutorial_events, server_fact.license_all, server_fact.license_id_filter,
-      server_fact.cloud_server, server_fact.installation_id]
   }
 
   join: nps_server_daily_score {
@@ -1615,6 +1604,7 @@ explore: license_daily_details {
   label: "License Daily Details"
   group_label: "BLP"
   description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
+  hidden: yes
 }
 
 explore: data_errors {
@@ -1830,7 +1820,7 @@ explore: licenses_grouped {
 explore: licenses_only {
   label: "Licenses"
   group_label: "BLP"
-  hidden: no
+  hidden: yes
 }
 
 explore: version_release_dates {
@@ -1972,9 +1962,24 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
+  join: customers_blapi {
+    from: CUSTOMERS
+    view_label: "Customer (BLApi)"
+    sql_on: ${customers_blapi.stripe_id} = ${customers.id} ;;
+    relationship: one_to_one
+  }
+
   join: subscriptions {
     sql_on: ${customers.id} = ${subscriptions.customer} ;;
     relationship: one_to_many
+  }
+
+  join: subscriptions_blapi {
+    from: SUBSCRIPTIONS
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${subscriptions_blapi.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+
   }
 
   join: subscription_items {
@@ -1987,6 +1992,13 @@ explore: customers {
     relationship: one_to_many
   }
 
+  join: invoices_blapi {
+    from: INVOICES
+    sql_on: ${invoices_blapi.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (BLApi)"
+  }
+
   join: invoice_line_items {
     sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
     relationship: one_to_many
@@ -1995,6 +2007,12 @@ explore: customers {
   join: charges {
     sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
     relationship: one_to_many
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.stripe_id} = ${charges.id} ;;
+    relationship: one_to_one
   }
 
   join: products {
@@ -2284,6 +2302,7 @@ explore: community_program_members {
 }
 
 explore: license_server_fact {
+  group_label: "BLP"
   label: "License Server Fact"
   hidden: no
 
@@ -2327,11 +2346,17 @@ explore: incident_response_events {
     sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
   }
+
+  join: version_release_dates {
+    sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: plugin_events {
   label: "Plugin Telemetry"
-  group_label: "Product"
+  group_label: "Integrations"
   description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
 
   join: server_daily_details {
@@ -2355,4 +2380,268 @@ explore: plugin_events {
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
+}
+
+explore: ADDRESSES {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all billing and shipping addresses provided by Mattermost customers."
+  label: "Addresses"
+}
+
+explore: CONTACT_US_REQUESTS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
+  label: "Contact Us Requests"
+}
+
+explore: CREDIT_CARDS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all credit cards provided by Mattermost Customers."
+  label: "Credit Cards"
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: many_to_one
+    view_label: "Customers (BLApi)"
+  }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: CUSTOMERS {
+  group_label: "BLApi"
+  description: "Contains all Mattermost customer records."
+  label: "Customers (Blapi)"
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+  }
+
+  join: INVOICES {
+    view_label: "Invoices (BLApi)"
+    sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: invoices_stripe {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
+  }
+
+  join: CREDIT_CARDS {
+    view_label: "Credit Cards (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: one_to_many
+  }
+
+  join: PAYMENT_METHODS {
+    view_label: "Payment Methods (BLApi)"
+    sql_on: ${PAYMENT_METHODS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    view_label: "Addresses (Billing)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
+    relationship: one_to_one
+  }
+
+  join: company_addresses {
+    from: ADDRESSES
+    view_label: "Addresses (Company)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
+    relationship: one_to_one
+  }
+
+  join: CONTACT_US_REQUESTS {
+    sql_on: ${CUSTOMERS.id} = ${CONTACT_US_REQUESTS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: USAGE_EVENTS {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
+  }
+
+  join: customers_stripe {
+    from: customers
+    view_label: "Customer (Stripe)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers_stripe.id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: FEATURES {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains a list of features provided by varioius Mattermost SKU's."
+  label: "Features"
+}
+
+explore: INVOICES {
+  group_label: "BLApi"
+  description: "Contains all invoices for Mattermost Cloud customers."
+  label: "Invoices (BLApi)"
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${SUBSCRIPTIONS.id} = ${INVOICES.subscription_id} ;;
+    relationship: many_to_one
+    view_label: "Subscriptions (BLApi)"
+  }
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: many_to_one
+    view_label: "Customers (BLApi)"
+  }
+
+  join: invoices_blapi {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_blapi.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
+  }
+}
+
+explore: PAYMENTS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all future, received and currently processing payments from Mattermost customers."
+  label: "Payments"
+
+  join: charges {
+    view_label: "Charges (Stripe)"
+    sql_on: ${PAYMENTS.stripe_charge_id} = ${charges.id} ;;
+    relationship: one_to_one
+  }
+
+  join: customers {
+    view_label: "Charges (Stripe)"
+    sql_on: ${charges.customer} = ${customers.id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: PAYMENT_METHODS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all identifying information for all payment methods provided by customers."
+  label: "Payment Methods"
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${PAYMENT_METHODS.customer_id} ;;
+    relationship: many_to_one
+  }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    sql_on: ${PAYMENT_METHODS.address_id} = ${ADDRESSES.id} AND ${ADDRESSES.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: PURCHASE_FACT {
+  group_label: "BLApi"
+  description: "Contains all customers and key identifiers/most recent customer attributes."
+  label: "Purchase Fact"
+  hidden: yes
+}
+
+explore: SUBSCRIPTIONS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all subscriptions for Mattermost customers."
+  label: "Subscriptions (BLApi)"
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: many_to_one
+    view_label: "Customers (BLApi)"
+  }
+
+  join: INVOICES {
+    view_label: "Invoices (BLApi)"
+    sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: USAGE_EVENTS {
+  group_label: "BLApi"
+  label: "Usage Events"
+  description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
+  hidden: yes
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${USAGE_EVENTS.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: CUSTOMERS {
+    sql_on: ${SUBSCRIPTIONS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: INVOICES {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
+  }
+
+  join: CREDIT_CARDS {
+    view_label: "Credit Cards (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: one_to_many
+  }
+
+  join: PAYMENT_METHODS {
+    view_label: "Payment Methods (BLApi)"
+    sql_on: ${PAYMENT_METHODS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    view_label: "Address (Billing)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
+    relationship: one_to_one
+  }
+
+  join: company_addresses {
+    from: ADDRESSES
+    view_label: "Address (Company)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
+    relationship: one_to_one
+  }
+}
+
+explore: cloud_onboarding_flows {
+  label: "Cloud Onboarding Flows"
 }

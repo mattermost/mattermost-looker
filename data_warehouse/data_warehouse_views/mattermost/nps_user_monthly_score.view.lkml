@@ -22,6 +22,12 @@ view: nps_user_monthly_score {
           THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: cloud_server {
+    type: yesno
+    description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
+    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: score_submission_date {
     type: yesno
     description: "Filters so the only rows that appear are days where a new NPS submission was received. Useful when displaying raw data to prevent fanning out by logging date."

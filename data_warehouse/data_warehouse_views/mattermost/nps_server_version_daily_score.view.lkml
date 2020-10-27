@@ -32,6 +32,12 @@ view: nps_server_version_daily_score {
     sql: CASE WHEN ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
   }
 
+  dimension: cloud_server {
+    type: yesno
+    description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
+    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} THEN TRUE ELSE FALSE END ;;
+  }
+
   # DIMENSIONS
   dimension: server_id {
     description: "The server id associated with the user that submitted the NPS response."
