@@ -1962,9 +1962,22 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
+  join: CUSTOMERS {
+    view_label: "Customer (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
+    relationship: one_to_one
+  }
+
   join: subscriptions {
     sql_on: ${customers.id} = ${subscriptions.customer} ;;
     relationship: one_to_many
+  }
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+
   }
 
   join: subscription_items {
@@ -1977,6 +1990,12 @@ explore: customers {
     relationship: one_to_many
   }
 
+  join: INVOICES {
+    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (BLApi)"
+  }
+
   join: invoice_line_items {
     sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
     relationship: one_to_many
@@ -1985,6 +2004,12 @@ explore: customers {
   join: charges {
     sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
     relationship: one_to_many
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.stripe_id} = ${charges.id} ;;
+    relationship: one_to_one
   }
 
   join: products {
@@ -2397,10 +2422,22 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
+  join: subscriptions {
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+  }
+
   join: INVOICES {
     view_label: "Invoices (BLApi)"
     sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
     relationship: one_to_many
+  }
+
+  join: invoices {
+    sql_on: ${INVOICES.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
   }
 
   join: CREDIT_CARDS {
@@ -2526,6 +2563,7 @@ explore: PURCHASE_FACT {
 }
 
 explore: SUBSCRIPTIONS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all subscriptions for Mattermost customers."
   label: "Subscriptions (BLApi)"
