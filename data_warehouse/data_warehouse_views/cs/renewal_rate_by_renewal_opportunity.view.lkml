@@ -83,8 +83,17 @@ view: renewal_rate_by_renewal_opportunity {
       date,
       month,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       fiscal_year
     ]
+  }
+
+  dimension: renewal_quarter {
+    type:  string
+    sql:${renewal_fiscal_year} || '-' || ${renewal_fiscal_quarter_of_year};;
+    label: "Renewal Fiscal Quarter"
+    group_item_label: "Renewal Fiscal Quarter (String)"
+    group_label: "Renewal Date"
   }
 
   dimension: closed_qtr_category {
