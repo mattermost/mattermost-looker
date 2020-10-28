@@ -60,7 +60,7 @@ view: CUSTOMERS {
     sql: ${TABLE}.company_name ;;
     hidden: no
     link: {
-      label: "Go To/Filter Invoice Disputes Dashboard"
+      label: "Filter Invoice Disputes Dashboard"
       url: "/dashboards/224?Company%20Name={{ value }}"
     }
   }
