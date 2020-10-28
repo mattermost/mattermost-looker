@@ -3,6 +3,10 @@ view: nps_user_monthly_score {
   sql_table_name: mattermost.nps_user_daily_score ;;
   view_label: "NPS User Daily Score"
 
+  set: nps_drill {
+    fields: [last_score_date, server_id, user_id, server_version, license_sku, promoter_type,  score, feedback, last_feedback_date, user_age, server_age]
+  }
+
   # FILTERS
   dimension: last_day_of_month {
     type: yesno
@@ -351,7 +355,7 @@ view: nps_user_monthly_score {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_servers {
@@ -359,7 +363,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Server Id's per grouping."
     type: count_distinct
     sql: ${server_id} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_users {
@@ -368,7 +372,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Users that have ever responded to an NPS Survey."
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_users_current {
@@ -377,7 +381,7 @@ view: nps_user_monthly_score {
     description: "The distinct count of Users that responded to an NPS survey in the record month."
     type: count_distinct
     sql: case when DATE_TRUNC('DAY', ${month_date}::date) =  date_trunc('day', ${last_score_date}::date) then ${user_id} else null end ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_promoters {
@@ -388,7 +392,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_detractors {
@@ -399,7 +403,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: count_passive {
@@ -410,7 +414,7 @@ view: nps_user_monthly_score {
     }
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: pct_promoter_score {
@@ -419,7 +423,7 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_promoters}::float/NULLIF(${count_users}::float, 0) ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: pct_detractor_score {
@@ -428,7 +432,7 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_detractors}::float/NULLIF(${count_users}::float, 0) ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
 
@@ -438,7 +442,7 @@ view: nps_user_monthly_score {
     type: number
     value_format_name: percent_1
     sql: ${count_passive}::float/NULLIF(${count_users}::float, 0) ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: nps_score {
@@ -447,7 +451,7 @@ view: nps_user_monthly_score {
     value_format_name: decimal_1
     type: number
     sql: 100*(${pct_promoter_score} - ${pct_detractor_score}) ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: avg_score {
@@ -456,7 +460,7 @@ view: nps_user_monthly_score {
     value_format: "@{decimal}"
     type: average
     sql: ${score} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: avg_promoter_score {
@@ -469,7 +473,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: avg_detractor_score {
@@ -482,7 +486,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: avg_passive_score {
@@ -495,7 +499,7 @@ view: nps_user_monthly_score {
     }
     type: average
     sql: ${score} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: sum_responses {
@@ -505,7 +509,7 @@ view: nps_user_monthly_score {
     value_format_name: decimal_0
     type: sum
     sql: ${responses} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
   measure: sum_responses_all_time {
@@ -515,7 +519,7 @@ view: nps_user_monthly_score {
     value_format_name: decimal_0
     type: sum
     sql: ${responses_alltime} ;;
-    drill_fields: [month_date, server_id, user_id, server_version, license_sku, promoter_type,  score, last_score_date, feedback, last_feedback_date, user_age, server_age]
+    drill_fields: [nps_drill*]
   }
 
 }
