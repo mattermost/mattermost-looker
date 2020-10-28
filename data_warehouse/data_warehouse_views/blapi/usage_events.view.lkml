@@ -4,7 +4,7 @@ view: USAGE_EVENTS {
   view_label: "Usage Events"
 
   set: usage_drill {
-    fields: [timestamp_time, CUSTOMERS.id, CUSTOMERS.company_name, INVOICES.id, INVOICES.total, INVOICES.forecasted_total, INVOICES.total_user_months, INVOICES.free_user_months, active_users, cloud_installation_id, subscription_id]
+    fields: [active_users, timestamp_time, CUSTOMERS.id, CUSTOMERS.company_name, INVOICES.id, INVOICES.total, INVOICES.forecasted_total, INVOICES.total_user_months, INVOICES.free_user_months, cloud_installation_id, subscription_id]
   }
 
   # FILTERS
