@@ -20,7 +20,7 @@ view: zendesk_ticket_details {
     type: string
   }
 
-  dimension: business_impract {
+  dimension: business_impact {
     type: string
     sql: ${TABLE}."BUSINESS_IMPACT" ;;
   }
