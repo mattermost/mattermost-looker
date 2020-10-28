@@ -5,6 +5,7 @@ view: CUSTOMERS {
 
   # FILTERS
 
+
   # DIMENSIONS
   dimension: id {
     description: ""

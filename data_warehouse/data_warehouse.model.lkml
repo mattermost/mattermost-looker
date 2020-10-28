@@ -1962,9 +1962,24 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
+  join: customers_blapi {
+    from: CUSTOMERS
+    view_label: "Customer (BLApi)"
+    sql_on: ${customers_blapi.stripe_id} = ${customers.id} ;;
+    relationship: one_to_one
+  }
+
   join: subscriptions {
     sql_on: ${customers.id} = ${subscriptions.customer} ;;
     relationship: one_to_many
+  }
+
+  join: subscriptions_blapi {
+    from: SUBSCRIPTIONS
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${subscriptions_blapi.stripe_id} = ${subscriptions.id} ;;
+    relationship: one_to_one
+
   }
 
   join: subscription_items {
@@ -1977,6 +1992,13 @@ explore: customers {
     relationship: one_to_many
   }
 
+  join: invoices_blapi {
+    from: INVOICES
+    sql_on: ${invoices_blapi.stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (BLApi)"
+  }
+
   join: invoice_line_items {
     sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
     relationship: one_to_many
@@ -1985,6 +2007,12 @@ explore: customers {
   join: charges {
     sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
     relationship: one_to_many
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.stripe_id} = ${charges.id} ;;
+    relationship: one_to_one
   }
 
   join: products {
@@ -2355,18 +2383,21 @@ explore: plugin_events {
 }
 
 explore: ADDRESSES {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all billing and shipping addresses provided by Mattermost customers."
   label: "Addresses"
 }
 
 explore: CONTACT_US_REQUESTS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
   label: "Contact Us Requests"
 }
 
 explore: CREDIT_CARDS {
+  hidden: yes
   group_label: "BLApi"
   description: "Contains all credit cards provided by Mattermost Customers."
   label: "Credit Cards"
@@ -2376,12 +2407,17 @@ explore: CREDIT_CARDS {
     relationship: many_to_one
     view_label: "Customers (BLApi)"
   }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
 }
 
 explore: CUSTOMERS {
   group_label: "BLApi"
   description: "Contains all Mattermost customer records."
-  label: "Customers (BLApi)"
+  label: "Customers (Blapi)"
 
   join: SUBSCRIPTIONS {
     view_label: "Subscriptions (BLApi)"
@@ -2389,10 +2425,195 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+  }
+
   join: INVOICES {
     view_label: "Invoices (BLApi)"
     sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
     relationship: one_to_many
+  }
+
+  join: invoices_stripe {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
+  }
+
+  join: CREDIT_CARDS {
+    view_label: "Credit Cards (BLApi)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${CREDIT_CARDS.stripe_id} ;;
+    relationship: one_to_many
+  }
+
+  join: PAYMENT_METHODS {
+    view_label: "Payment Methods (BLApi)"
+    sql_on: ${PAYMENT_METHODS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    view_label: "Addresses (Billing)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.id} = ${PAYMENT_METHODS.address_id} AND ${ADDRESSES.address_type} = 'billing' ;;
+    relationship: one_to_one
+  }
+
+  join: company_addresses {
+    from: ADDRESSES
+    view_label: "Addresses (Company)"
+    sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
+    relationship: one_to_one
+  }
+
+  join: CONTACT_US_REQUESTS {
+    sql_on: ${CUSTOMERS.id} = ${CONTACT_US_REQUESTS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: USAGE_EVENTS {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
+  }
+
+  join: customers_stripe {
+    from: customers
+    view_label: "Customer (Stripe)"
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers_stripe.id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: FEATURES {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains a list of features provided by varioius Mattermost SKU's."
+  label: "Features"
+}
+
+explore: INVOICES {
+  group_label: "BLApi"
+  description: "Contains all invoices for Mattermost Cloud customers."
+  label: "Invoices (BLApi)"
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${SUBSCRIPTIONS.id} = ${INVOICES.subscription_id} ;;
+    relationship: many_to_one
+    view_label: "Subscriptions (BLApi)"
+  }
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: many_to_one
+    view_label: "Customers (BLApi)"
+  }
+
+  join: invoices_blapi {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_blapi.id} ;;
+    relationship: one_to_one
+    view_label: "Invoices (Stripe)"
+  }
+}
+
+explore: PAYMENTS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all future, received and currently processing payments from Mattermost customers."
+  label: "Payments"
+
+  join: charges {
+    view_label: "Charges (Stripe)"
+    sql_on: ${PAYMENTS.stripe_charge_id} = ${charges.id} ;;
+    relationship: one_to_one
+  }
+
+  join: customers {
+    view_label: "Charges (Stripe)"
+    sql_on: ${charges.customer} = ${customers.id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: PAYMENT_METHODS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all identifying information for all payment methods provided by customers."
+  label: "Payment Methods"
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${PAYMENT_METHODS.customer_id} ;;
+    relationship: many_to_one
+  }
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: ADDRESSES {
+    sql_on: ${PAYMENT_METHODS.address_id} = ${ADDRESSES.id} AND ${ADDRESSES.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: PURCHASE_FACT {
+  group_label: "BLApi"
+  description: "Contains all customers and key identifiers/most recent customer attributes."
+  label: "Purchase Fact"
+  hidden: yes
+}
+
+explore: SUBSCRIPTIONS {
+  hidden: yes
+  group_label: "BLApi"
+  description: "Contains all subscriptions for Mattermost customers."
+  label: "Subscriptions (BLApi)"
+
+  join: CUSTOMERS {
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: many_to_one
+    view_label: "Customers (BLApi)"
+  }
+
+  join: INVOICES {
+    view_label: "Invoices (BLApi)"
+    sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: one_to_many
+  }
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: USAGE_EVENTS {
+  group_label: "BLApi"
+  label: "Usage Events"
+  description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
+  hidden: yes
+
+  join: SUBSCRIPTIONS {
+    sql_on: ${USAGE_EVENTS.subscription_id} = ${SUBSCRIPTIONS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: CUSTOMERS {
+    sql_on: ${SUBSCRIPTIONS.customer_id} = ${CUSTOMERS.id} ;;
+    relationship: many_to_one
+  }
+
+  join: INVOICES {
+    sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
+    relationship: many_to_one
   }
 
   join: CREDIT_CARDS {
@@ -2419,81 +2640,6 @@ explore: CUSTOMERS {
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
     relationship: one_to_one
   }
-}
-
-explore: FEATURES {
-  group_label: "BLApi"
-  description: "Contains a list of features provided by varioius Mattermost SKU's."
-  label: "Features"
-}
-
-explore: INVOICES {
-  group_label: "BLApi"
-  description: "Contains all invoices for Mattermost Cloud customers."
-  label: "Invoices"
-
-  join: SUBSCRIPTIONS {
-    sql_on: ${SUBSCRIPTIONS.id} = ${INVOICES.subscription_id} ;;
-    relationship: many_to_one
-  }
-
-  join: CUSTOMERS {
-    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
-    relationship: many_to_one
-    view_label: "Customers (BLApi)"
-  }
-}
-
-explore: PAYMENTS {
-  group_label: "BLApi"
-  description: "Contains all future, received and currently processing payments from Mattermost customers."
-  label: "Payments"
-}
-
-explore: PAYMENT_METHODS {
-  group_label: "BLApi"
-  description: "Contains all identifying information for all payment methods provided by customers."
-  label: "Payment Methods"
-
-  join: CUSTOMERS {
-    sql_on: ${CUSTOMERS.id} = ${PAYMENT_METHODS.customer_id} ;;
-    relationship: many_to_one
-  }
-
-  join: ADDRESSES {
-    sql_on: ${PAYMENT_METHODS.address_id} = ${ADDRESSES.id} AND ${ADDRESSES.customer_id} = ${CUSTOMERS.id} ;;
-    relationship: one_to_many
-  }
-}
-
-explore: PURCHASE_FACT {
-  group_label: "BLApi"
-  description: "Contains all customers and key identifiers/most recent customer attributes."
-  label: "Purchase Fact"
-}
-
-explore: SUBSCRIPTIONS {
-  group_label: "BLApi"
-  description: "Contains all subscriptions for Mattermost customers."
-  label: "Subscriptions"
-
-  join: CUSTOMERS {
-    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
-    relationship: many_to_one
-    view_label: "Customers (BLApi)"
-  }
-
-  join: INVOICES {
-    view_label: "Invoices (BLApi)"
-    sql_on: ${INVOICES.subscription_id} = ${SUBSCRIPTIONS.id} ;;
-    relationship: one_to_many
-  }
-}
-
-explore: USAGE_EVENTS {
-  group_label: "BLApi"
-  label: "Usage Events"
-  description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
 }
 
 explore: cloud_onboarding_flows {

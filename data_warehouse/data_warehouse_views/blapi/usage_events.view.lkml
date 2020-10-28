@@ -4,6 +4,11 @@ view: USAGE_EVENTS {
   view_label: "Usage Events"
 
   # FILTERS
+  dimension: cloud_workspace {
+    description: "Boolean indicating the customer subscriptions utilizes Mattermost's cloud offering."
+    type: yesno
+    sql: CASE WHEN ${cloud_installation_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+  }
 
   # DIMENSIONS
   dimension: version_id {
@@ -45,7 +50,7 @@ view: USAGE_EVENTS {
   dimension: active_users {
     description: "The number of registered users associated with the cloud installation record at the given date/time of the usage event record."
     type: number
-    sql: ${TABLE}.active_users ;;
+    sql: ${TABLE}.active_users::int ;;
     hidden: no
   }
 
