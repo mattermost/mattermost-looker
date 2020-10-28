@@ -12,6 +12,10 @@ view: SUBSCRIPTIONS {
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+    link: {
+      label: "Filter Invoice Disputes Dashboard"
+      url: "/dashboards/224?Subscription%20ID={{ value }}"
+    }
   }
 
   dimension: state {

@@ -26,6 +26,10 @@ view: INVOICES {
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+    link: {
+      label: "Filter Invoice Disputes Dashboard"
+      url: "/dashboards/224?Invoice%20ID={{ value }}"
+    }
   }
 
   dimension: subscription_id {
@@ -45,6 +49,7 @@ view: INVOICES {
   dimension: full_month_users {
     description: ""
     type: number
+    value_format_name: decimal_0
     sql: ${TABLE}.full_month_users ;;
     hidden: no
   }
@@ -52,6 +57,7 @@ view: INVOICES {
   dimension: partial_users {
     description: ""
     type: number
+    value_format_name: decimal_0
     sql: ${TABLE}.partial_users ;;
     hidden: no
   }
@@ -59,6 +65,7 @@ view: INVOICES {
   dimension: total_user_months {
     description: ""
     type: number
+    value_format_name: decimal_2
     sql: ${TABLE}.total_user_months ;;
     hidden: no
   }
@@ -66,6 +73,7 @@ view: INVOICES {
   dimension: free_user_months {
     description: ""
     type: number
+    value_format_name: decimal_2
     sql: ${TABLE}.free_user_months ;;
     hidden: no
   }
@@ -73,6 +81,7 @@ view: INVOICES {
   dimension: max_users_in_month {
     description: ""
     type: number
+    value_format_name: decimal_0
     sql: ${TABLE}.max_users_in_month ;;
     hidden: no
   }
@@ -87,6 +96,7 @@ view: INVOICES {
   dimension: partial_user_months {
     description: ""
     type: number
+    value_format_name: decimal_2
     sql: ${TABLE}.partial_user_months ;;
     hidden: no
   }
@@ -101,27 +111,31 @@ view: INVOICES {
   dimension: discounts_total {
     description: ""
     type: number
-    sql: ${TABLE}.discounts_total ;;
+    value_format_name: usd
+    sql: round(${TABLE}.discounts_total::float/100.0::float, 2) ;;
     hidden: no
   }
 
   dimension: total {
     description: ""
     type: number
-    sql: ${TABLE}.total ;;
+    value_format_name: usd
+    sql: round(${TABLE}.total::float/100.0::float, 2) ;;
     hidden: no
   }
 
   dimension: subtotal {
     description: ""
     type: number
-    sql: ${TABLE}.subtotal ;;
+    value_format_name: usd
+    sql: round(${TABLE}.subtotal::float/100.0::float, 2) ;;
     hidden: no
   }
 
   dimension: forecasted_total {
     description: ""
     type: number
+    value_format_name: usd
     sql: ${TABLE}.forecasted_total ;;
     hidden: no
   }

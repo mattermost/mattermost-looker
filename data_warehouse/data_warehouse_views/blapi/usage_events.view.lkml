@@ -3,6 +3,10 @@ view: USAGE_EVENTS {
   sql_table_name: blapi.USAGE_EVENTS ;;
   view_label: "Usage Events"
 
+  set: usage_drill {
+    fields: [active_users, timestamp_time, CUSTOMERS.id, CUSTOMERS.company_name, INVOICES.id, INVOICES.total, INVOICES.forecasted_total, INVOICES.total_user_months, INVOICES.free_user_months, cloud_installation_id, subscription_id]
+  }
+
   # FILTERS
   dimension: cloud_workspace {
     description: "Boolean indicating the customer subscriptions utilizes Mattermost's cloud offering."
@@ -123,6 +127,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Versions within each grouping."
     type: count_distinct
     sql: ${version_id} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: previous_version_count {
@@ -130,6 +135,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Previous Versions within each grouping."
     type: count_distinct
     sql: ${previous_version_id} ;;
+    drill_fields: [usage_drill*]
     hidden: yes
   }
 
@@ -138,6 +144,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: subscription_count {
@@ -145,6 +152,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Subscriptions within each grouping."
     type: count_distinct
     sql: ${subscription_id} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: cloud_installation_count {
@@ -152,6 +160,7 @@ view: USAGE_EVENTS {
     description: "The distinct count of Usage Events Cloud Installations within each grouping."
     type: count_distinct
     sql: ${cloud_installation_id} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: active_users_sum {
@@ -159,6 +168,7 @@ view: USAGE_EVENTS {
     type: sum
     group_label: "Active Users Measures"
     sql: ${active_users} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: active_users_max {
@@ -166,6 +176,7 @@ view: USAGE_EVENTS {
     type: max
     group_label: "Active Users Measures"
     sql: ${active_users} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: active_users_min {
@@ -173,6 +184,7 @@ view: USAGE_EVENTS {
     type: min
     group_label: "Active Users Measures"
     sql: ${active_users} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: active_users_avg {
@@ -180,6 +192,7 @@ view: USAGE_EVENTS {
     type: average
     group_label: "Active Users Measures"
     sql: ${active_users} ;;
+    drill_fields: [usage_drill*]
   }
 
   measure: active_users_median {
@@ -187,6 +200,7 @@ view: USAGE_EVENTS {
     type: median
     group_label: "Active Users Measures"
     sql: ${active_users} ;;
+    drill_fields: [usage_drill*]
   }
 
 

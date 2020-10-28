@@ -13,6 +13,10 @@ view: CUSTOMERS {
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+    link: {
+      label: "Filter Invoice Disputes Dashboard"
+      url: "/dashboards/224?Customer%20ID={{ value }}"
+    }
   }
 
   dimension: state {
@@ -55,6 +59,10 @@ view: CUSTOMERS {
     type: string
     sql: ${TABLE}.company_name ;;
     hidden: no
+    link: {
+      label: "Filter Invoice Disputes Dashboard"
+      url: "/dashboards/224?Company%20Name={{ value }}"
+    }
   }
 
   dimension: first_name {
