@@ -456,10 +456,19 @@ view: lead {
       date,
       week,
       month,
+      fiscal_quarter_of_year,
       fiscal_quarter,
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: most_recent_mql_quarter_string {
+    type:  string
+    sql:${most_recent_mql_fiscal_year} || '-' || ${most_recent_mql_fiscal_quarter_of_year};;
+    label: "MQL Most Recent Fiscal Quarter"
+    group_item_label: "MQL Most Recent Fiscal Quarter (String)"
+    group_label: "Lead Lifecycle: MQL"
   }
 
   dimension: mql_yn {

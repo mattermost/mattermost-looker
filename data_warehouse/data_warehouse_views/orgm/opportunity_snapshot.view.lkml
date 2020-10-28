@@ -111,6 +111,14 @@ view_label: ""
     sql: CAST(${TABLE}."CLOSEDATE" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: close_quarter {
+    type:  string
+    sql:${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
+    label: "Close Fiscal Quarter"
+    group_item_label: "Fiscal Quarter (String)"
+    group_label: "Close Date"
+  }
+
   dimension: close_yyyy_qq {
     type: string
     sql: ${close_fiscal_year} || '-' || ${close_fiscal_quarter_of_year};;
