@@ -237,17 +237,17 @@ dimension: forecastcategoryname_sort {
 
   dimension: sales_segment {
     type: string
-    sql: ${TABLE}."TERRITORY_SEGMENT__C" ;;
+    sql: CASE WHEN ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END ;;
     label: "Sales Segment"
     description: "Sales Segment at snapshot"
   }
 
   dimension: sales_segment_current {
     type: string
-    sql: ${opportunity.territory_sales_segment} ;;
+    sql: ${opportunity.territory_sales_segment};;
     label: "Sales Segment (Current)"
     description: "Sales Segment of current opportunity"
-    }
+  }
 
   dimension: type {
     type: string

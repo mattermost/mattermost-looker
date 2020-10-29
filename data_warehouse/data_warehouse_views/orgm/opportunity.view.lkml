@@ -272,6 +272,14 @@ view: opportunity {
     group_label: "Created"
   }
 
+  dimension: created_quarter {
+    type:  string
+    sql:${created_fiscal_year} || '-' || ${created_fiscal_quarter_of_year};;
+    label: "Created Fiscal Quarter"
+    group_item_label: "Created Fiscal Quarter (String)"
+    group_label: "Created Date"
+  }
+
 
   dimension: ce_name {
     type: string
