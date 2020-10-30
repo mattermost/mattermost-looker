@@ -21,4 +21,4 @@
     listen: {}
     row: 0
     col: 0
-    height: 18
+    height: 20

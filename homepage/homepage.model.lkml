@@ -118,7 +118,7 @@ view: _homepage {
                   <div>Sales</div>
                   <ul>
                     <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (WW)</a></li>
-                    <li><a href="https://mattermost.looker.com/dashboards/127" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards/219" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/113" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Self Service)</a></li>
                   </ul>
                 </li>
@@ -200,7 +200,7 @@ view: _homepage {
                   <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (WW)</a></li>
               </ul>
               <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/127" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards/219" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
               </ul>
               <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/113" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Self Service)</a></li>
