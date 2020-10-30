@@ -7,71 +7,6 @@ view_label: ""
     fields: [name, stagename, forecastcategoryname, ownerid, ownername, close_date, total_amount, sales_segment, sales_segment_current]
   }
 
-  drill_fields: [stand_drill_fields*]
-
-  dimension: __sdc_primary_key {
-    type: string
-    sql: ${TABLE}."__SDC_PRIMARY_KEY" ;;
-    group_label: "System"
-  }
-
-  dimension_group: _sdc_batched {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}."_SDC_BATCHED_AT" AS TIMESTAMP_NTZ) ;;
-    group_label: "System"
-  }
-
-  dimension_group: _sdc_extracted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}."_SDC_EXTRACTED_AT" AS TIMESTAMP_NTZ) ;;
-    group_label: "System"
-  }
-
-  dimension_group: _sdc_received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}."_SDC_RECEIVED_AT" AS TIMESTAMP_NTZ) ;;
-    group_label: "System"
-  }
-
-  dimension: _sdc_sequence {
-    type: number
-    sql: ${TABLE}."_SDC_SEQUENCE" ;;
-    group_label: "System"
-  }
-
-  dimension: _sdc_table_version {
-    type: number
-    sql: ${TABLE}."_SDC_TABLE_VERSION" ;;
-    group_label: "System"
-  }
-
   dimension: amount {
     type: number
     sql: ${TABLE}."AMOUNT" ;;
@@ -139,20 +74,19 @@ view_label: ""
     label: "Forecast Category"
   }
 
-dimension: forecastcategoryname_sort {
-  type: number
-  sql: CASE
-          WHEN ${forecastcategoryname} = 'Closed' THEN 1
-          WHEN ${forecastcategoryname} = 'Commit' THEN 2
-          WHEN ${forecastcategoryname} = 'Best Case' THEN 3
-          WHEN ${forecastcategoryname} = 'Pipeline' THEN 4
-          WHEN ${forecastcategoryname} = 'Omitted' THEN 5
-        ELSE 6 END ;;
-  group_label: "Forecasting"
-  label: "Forecast Category Name"
-  hidden: yes
-}
-
+  dimension: forecastcategoryname_sort {
+    type: number
+    sql: CASE
+            WHEN ${forecastcategoryname} = 'Closed' THEN 1
+            WHEN ${forecastcategoryname} = 'Commit' THEN 2
+            WHEN ${forecastcategoryname} = 'Best Case' THEN 3
+            WHEN ${forecastcategoryname} = 'Pipeline' THEN 4
+            WHEN ${forecastcategoryname} = 'Omitted' THEN 5
+          ELSE 6 END ;;
+    group_label: "Forecasting"
+    label: "Forecast Category Name"
+    hidden: yes
+  }
 
   dimension: isclosed {
     type: yesno
@@ -254,6 +188,11 @@ dimension: forecastcategoryname_sort {
     sql: ${TABLE}."TYPE" ;;
   }
 
+  dimension: net_new_type {
+    type: string
+    sql: CASE WHEN ${type} IN ('Renewal','Contract Expansion','Account Expansion') AND ${amount_net_new} > 0 THEN 'Expansion' WHEN ${type}='New Subscription' THEN 'New' ELSE 'Unknown' END;;
+  }
+
 #measures
 
   measure: count {
@@ -265,6 +204,7 @@ dimension: forecastcategoryname_sort {
     sql: ${amount} ;;
     label: "Total"
     value_format_name: usd_0
+    drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount_net_new, total_amount_renewal, close_date]
   }
 
   measure: total_amount_net_new {
@@ -272,6 +212,7 @@ dimension: forecastcategoryname_sort {
     sql: ${amount_net_new} ;;
     label: "Net New"
     value_format_name: usd_0
+    drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount, total_amount_net_new, close_date]
   }
 
   measure: total_amount_renewal {
@@ -279,5 +220,6 @@ dimension: forecastcategoryname_sort {
     sql: ${amount_renewal} ;;
     label: "Renewal"
     value_format_name: usd_0
+    drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount, total_amount_renewal, close_date]
   }
 }
