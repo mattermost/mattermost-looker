@@ -3,318 +3,327 @@ view: incident_response_telemetry {
   sql_table_name: qa.incident_response_telemetry ;;
   view_label: "Incident Response Telemetry"
 
-  # FILTERS
+  # Constructs
+  dimension: properties {
+    sql: OBJECT_CONSTRUCT(*) ;;
+    html:
+    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    <ul>
+    {% for word in words %}
+    <li>{{ word }}</li>
+    {% endfor %} ;;
+  }
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: no
   }
 
   dimension: commanderuserid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.commanderuserid ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: postid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.postid ;;
     hidden: no
   }
 
   dimension: anonymous_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
   dimension: action {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.action ;;
     hidden: no
   }
 
   dimension: isactive {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.isactive ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: totalchecklistitems {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.totalchecklistitems ;;
     hidden: no
   }
 
   dimension: event {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
   }
 
   dimension: useractualid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.useractualid ;;
     hidden: no
   }
 
   dimension: numchecklists {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.numchecklists ;;
     hidden: no
   }
 
   dimension: incidentid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.incidentid ;;
     hidden: no
   }
 
   dimension: activestage {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.activestage ;;
     hidden: no
   }
 
   dimension: teamid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.teamid ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
     hidden: no
   }
 
   dimension: createat {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.createat ;;
     hidden: no
   }
 
   dimension: context_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
     hidden: no
   }
 
   dimension: event_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_text ;;
     hidden: no
   }
 
   dimension: pluginversion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.pluginversion ;;
     hidden: no
   }
 
   dimension: public {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.public ;;
     hidden: no
   }
 
   dimension: serverversion {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.serverversion ;;
     hidden: no
   }
 
   dimension: header_isactive {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.header_isactive ;;
     hidden: no
   }
 
   dimension: key {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.key ;;
     hidden: no
   }
 
   dimension: header_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.header_name ;;
     hidden: no
   }
 
   dimension: header_commanderuserid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.header_commanderuserid ;;
     hidden: no
   }
 
   dimension: header_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.header_id ;;
     hidden: no
   }
 
   dimension: header_createdat {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.header_createdat ;;
     hidden: no
   }
 
   dimension: channelids_0 {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.channelids_0 ;;
     hidden: no
   }
 
   dimension: header_teamid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.header_teamid ;;
     hidden: no
   }
 
   dimension: numslashcommands {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.numslashcommands ;;
     hidden: no
   }
 
   dimension: ispublic {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.ispublic ;;
     hidden: no
   }
 
   dimension: nummembers {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.nummembers ;;
     hidden: no
   }
 
   dimension: playbookid {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.playbookid ;;
     hidden: no
   }
 
   dimension: wascommander {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.wascommander ;;
     hidden: no
   }
 
   dimension: newstate {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.newstate ;;
     hidden: no
   }
 
   dimension: wasassignee {
-    description: "" 
+    description: ""
     type: yesno
     sql: ${TABLE}.wasassignee ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: sent_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
     hidden: no
   }
 
   dimension_group: received_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
     hidden: no
   }
 
   dimension_group: original_timestamp {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.original_timestamp ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
   dimension_group: uuid_ts {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
