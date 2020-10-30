@@ -2645,3 +2645,7 @@ explore: USAGE_EVENTS {
 explore: cloud_onboarding_flows {
   label: "Cloud Onboarding Flows"
 }
+
+explore: incident_response_telemetry {
+  label: "Incident Response Telemetry"
+}
