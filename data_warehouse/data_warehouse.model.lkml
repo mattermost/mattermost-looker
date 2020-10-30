@@ -448,11 +448,11 @@ explore: account {
 
 explore: opportunity_snapshot {
   group_label: "Salesforce"
+  extends: [_base_opportunity_core_explore]
 
   join: opportunity {
     sql_on: ${opportunity_snapshot.opportunityid} = ${opportunity.sfid} ;;
     relationship: many_to_one
-    fields: []
   }
 
   join: opportunity_owner {

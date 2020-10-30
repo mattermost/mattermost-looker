@@ -38,6 +38,10 @@ view: opportunity {
     fields: [
       name,
       sfid,
+      created_date,
+      created_month,
+      created_fiscal_quarter,
+      created_fiscal_year,
       close_date,
       close_month,
       close_fiscal_quarter_of_year,
