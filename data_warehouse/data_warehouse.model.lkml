@@ -1128,6 +1128,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_onboarding_primary_contact {
+    view_label: "Primary Contact"
     from: contact
     sql_on: ${customer_onboarding.primary_contact} = ${customer_onboarding_primary_contact.sfid} ;;
     relationship: many_to_one
@@ -1135,6 +1136,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_onboarding_executive_sponsor {
+    view_label: "Executive Sponsor Contact"
     from: contact
     sql_on: ${customer_onboarding.executive_sponsor} = ${customer_onboarding_executive_sponsor.sfid} ;;
     relationship: many_to_one
