@@ -369,6 +369,12 @@ explore: account {
     sql_on: ${account.sfid} = ${opportunity.accountid} ;;
   }
 
+  join: renewal_rate_by_renewal_opportunity {
+    view_label: "Available Renewals"
+    sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
+    relationship: one_to_one
+  }
+
   join: original_opportunity {
     from: opportunity
     view_label: "Original Opportunity"
@@ -1129,6 +1135,7 @@ explore: account_cs_extended  {
 
   join: customer_onboarding_primary_contact {
     from: contact
+    view_label: "Primary Contact"
     sql_on: ${customer_onboarding.primary_contact} = ${customer_onboarding_primary_contact.sfid} ;;
     relationship: many_to_one
     fields: []
@@ -1136,6 +1143,7 @@ explore: account_cs_extended  {
 
   join: customer_onboarding_executive_sponsor {
     from: contact
+    view_label: "Executive Sponsor"
     sql_on: ${customer_onboarding.executive_sponsor} = ${customer_onboarding_executive_sponsor.sfid} ;;
     relationship: many_to_one
     fields: []
