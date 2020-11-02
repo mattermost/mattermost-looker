@@ -366,17 +366,6 @@ view: account {
 
 
 
-  dimension: g2k_rank {
-    sql: ${TABLE}.g2k_rank__c ;;
-    type: number
-  }
-
-  dimension: g2k_account {
-    sql: ${g2k_rank} IS NOT NULL ;;
-    type: yesno
-    label: "Is G2K Account?"
-  }
-
   dimension: geo {
     description: "Global regions (eg. AMER, APAC, EMEA, ROW)"
     sql: ${TABLE}.geo__c ;;
