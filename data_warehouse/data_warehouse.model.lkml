@@ -326,6 +326,7 @@ explore: account {
 
   join: contact {
     view_label: "Account Contacts"
+    from: contact
     sql_on: ${account.sfid} = ${contact.accountid};;
     relationship: one_to_many
   }
