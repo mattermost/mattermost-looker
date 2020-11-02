@@ -130,7 +130,7 @@ view: renewal_rate_by_renewal_opportunity {
     group_label: "Amounts"
     label: "Available Renewal"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${available_renewal} ;;
     value_format_name: usd_0
     drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo,
@@ -141,7 +141,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Lost"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${lost_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -156,7 +156,7 @@ view: renewal_rate_by_renewal_opportunity {
     hidden: yes
     group_label: "Net Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${lost_renewal_net} ;;
     value_format_name: usd_0
   }
@@ -165,7 +165,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Open"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${open_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -180,7 +180,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Open in Qtr"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${open_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -199,7 +199,7 @@ view: renewal_rate_by_renewal_opportunity {
     hidden: yes
     group_label: "Net Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${open_renewal_net} ;;
     value_format_name: usd_0
   }
@@ -208,7 +208,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Won"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -223,7 +223,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Won in Qtr"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -242,7 +242,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Won in Earlier Qtr"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -261,7 +261,7 @@ view: renewal_rate_by_renewal_opportunity {
     label: "Won in Later Qtr"
     group_label: "Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_gross} ;;
     filters: {
       field: opportunity.status_wlo
@@ -280,7 +280,7 @@ view: renewal_rate_by_renewal_opportunity {
     hidden: yes
     group_label: "Net Amounts"
     type: sum_distinct
-    sql_distinct_key: opportunityid ;;
+    sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_net} ;;
     value_format_name: usd_0
   }
