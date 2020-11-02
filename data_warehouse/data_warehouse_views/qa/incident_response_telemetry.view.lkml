@@ -331,14 +331,14 @@ view: incident_response_telemetry {
   }
 
   measure: user_count {
-    label: " User Count"
+    label: " User Id Count"
     description: "The distinct count of Incident Response Telemetry record Users Id's within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
   measure: user_count_notnull {
-    label: " User Count (Non-Null)"
+    label: " User Id Count (Non-Null)"
     description: "The count of non-null Incident Response Telemetry record User Id's within each grouping."
     type: number
     sql: count(${user_id}) ;;
@@ -361,7 +361,7 @@ view: incident_response_telemetry {
   measure: isactive_count {
     label: "Isactive Users"
     description: "The distinct count of Incident Response Telemetry record with Isactive marked true."
-    group_label: "User Counts"
+    group_label: "Is Active (Yes/No) Measures"
     type: count_distinct
     sql: case when ${isactive} then ${id} else null end ;;
   }
@@ -527,6 +527,7 @@ view: incident_response_telemetry {
     description: "The count of non-null Createat values within each grouping."
     type: number
     group_label: "Create At Measures"
+    label: "Create At (Non-Null)"
     sql: count(${createat}) ;;
   }
 
@@ -585,7 +586,7 @@ view: incident_response_telemetry {
 
   measure: header_count_notnull {
     label: " Header Id Count (Non-Null)"
-    group_label: "Header Measures"
+    group_label: "Header Id Measures"
     description: "The count of Incident Response Telemetry record Header Id's that are not null within each grouping."
     type: number
     sql: count(${header_id}) ;;
@@ -593,7 +594,7 @@ view: incident_response_telemetry {
 
   measure: header_count {
     label: " Header Id Count"
-    group_label: "Header Measures"
+    group_label: "Header Id Measures"
     description: "The distinct count of Incident Response Telemetry record Header Id's within each grouping."
     type: count_distinct
     sql: ${header_id} ;;
@@ -670,9 +671,9 @@ view: incident_response_telemetry {
   }
 
   measure: ispublic_count {
-    label: "Is Public Users"
+    label: "Is Public Count"
     description: "The distinct count of Incident Response Telemetry record with Ispublic marked true."
-    group_label: "User Counts"
+    group_label: "Is Public (Yes/No) Measures"
     type: count_distinct
     sql: case when ${ispublic} then ${id} else null end ;;
   }
@@ -680,7 +681,7 @@ view: incident_response_telemetry {
   measure: ispublic_count_notnull {
     label: "Is Public (Non-Null)"
     description: "The count of Incident Response Telemetry record with non-null Is Public values within each grouping."
-    group_label: "User Counts"
+    group_label: "Is Public (Yes/No) Measures"
     type: number
     sql: count(${ispublic}) ;;
   }
@@ -732,7 +733,7 @@ view: incident_response_telemetry {
   measure: wasassignee_count {
     label: "Was Assignee Count"
     description: "The distinct count of Incident Response Telemetry records with Wasassignee marked true."
-    group_label: "User Counts"
+    group_label: "Was Assignee (Yes/No) Measures"
     type: count_distinct
     sql: case when ${wasassignee} then ${id} else null end ;;
   }
@@ -740,7 +741,7 @@ view: incident_response_telemetry {
   measure: wasassignee_count_notnull {
     label: "Was Assignee Count (Non-Null)"
     description: "The distinct count of Incident Response Telemetry records with Wasassignee marked true."
-    group_label: "User Counts"
+    group_label: "Was Assignee (Yes/No) Measures"
     type: count_distinct
     sql: case when ${wasassignee} then ${id} else null end ;;
   }
@@ -773,20 +774,6 @@ view: incident_response_telemetry {
     sql: COUNT(case when ${commanderuserid} IS NOT NULL then ${commanderuserid} else null end) ;;
   }
 
-  measure: user_id_count {
-    label: "User Id Count (Distinct)"
-    description: "The distinct count of user id's per grouping."
-    type: count_distinct
-    sql: ${user_id} ;;
-  }
-
-  measure: user_id_count_all {
-    label: "User Id Count"
-    description: "The count of all non-null user id occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${user_id} IS NOT NULL then ${user_id} else null end) ;;
-  }
-
   measure: postid_count {
     label: "Postid Count (Distinct)"
     description: "The distinct count of postid's per grouping."
@@ -801,20 +788,6 @@ view: incident_response_telemetry {
     sql: COUNT(case when ${postid} IS NOT NULL then ${postid} else null end) ;;
   }
 
-  measure: anonymous_id_count {
-    label: "Anonymous Id Count (Distinct)"
-    description: "The distinct count of anonymous id's per grouping."
-    type: count_distinct
-    sql: ${anonymous_id} ;;
-  }
-
-  measure: anonymous_id_count_all {
-    label: "Anonymous Id Count"
-    description: "The count of all non-null anonymous id occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${anonymous_id} IS NOT NULL then ${anonymous_id} else null end) ;;
-  }
-
   measure: action_count {
     label: "Action Count (Distinct)"
     description: "The distinct count of action's per grouping."
@@ -827,27 +800,6 @@ view: incident_response_telemetry {
     description: "The count of all non-null action occurrences per grouping."
     type: number
     sql: COUNT(case when ${action} IS NOT NULL then ${action} else null end) ;;
-  }
-
-  measure: id_count_all {
-    label: "Id Count"
-    description: "The count of all non-null id occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${id} IS NOT NULL then ${id} else null end) ;;
-  }
-
-  measure: totalchecklistitems_count {
-    label: "Totalchecklistitems Count (Distinct)"
-    description: "The distinct count of totalchecklistitems's per grouping."
-    type: count_distinct
-    sql: ${totalchecklistitems} ;;
-  }
-
-  measure: totalchecklistitems_count_all {
-    label: "Totalchecklistitems Count"
-    description: "The count of all non-null totalchecklistitems occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${totalchecklistitems} IS NOT NULL then ${totalchecklistitems} else null end) ;;
   }
 
   measure: event_count {
@@ -880,16 +832,10 @@ view: incident_response_telemetry {
 
   measure: numchecklists_count {
     label: "Numchecklists Count (Distinct)"
+    group_label: "Numchecklists Measures"
     description: "The distinct count of numchecklists's per grouping."
     type: count_distinct
     sql: ${numchecklists} ;;
-  }
-
-  measure: numchecklists_count_all {
-    label: "Numchecklists Count"
-    description: "The count of all non-null numchecklists occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${numchecklists} IS NOT NULL then ${numchecklists} else null end) ;;
   }
 
   measure: incidentid_count {
@@ -952,14 +898,8 @@ view: incident_response_telemetry {
     label: "Createat Count (Distinct)"
     description: "The distinct count of createat's per grouping."
     type: count_distinct
+    group_label: "Create At Measures"
     sql: ${createat} ;;
-  }
-
-  measure: createat_count_all {
-    label: "Createat Count"
-    description: "The count of all non-null createat occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${createat} IS NOT NULL then ${createat} else null end) ;;
   }
 
   measure: context_ip_count {
@@ -1068,24 +1008,10 @@ view: incident_response_telemetry {
   }
 
   measure: header_commanderuserid_count_all {
-    label: "Header Commanderuserid Count"
+    label: "Header Commanderuserid Count (Non-Null)"
     description: "The count of all non-null header commanderuserid occurrences per grouping."
     type: number
     sql: COUNT(case when ${header_commanderuserid} IS NOT NULL then ${header_commanderuserid} else null end) ;;
-  }
-
-  measure: header_id_count {
-    label: "Header Id Count (Distinct)"
-    description: "The distinct count of header id's per grouping."
-    type: count_distinct
-    sql: ${header_id} ;;
-  }
-
-  measure: header_id_count_all {
-    label: "Header Id Count"
-    description: "The count of all non-null header id occurrences per grouping."
-    type: number
-    sql: COUNT(case when ${header_id} IS NOT NULL then ${header_id} else null end) ;;
   }
 
   measure: channelids_0_count {
@@ -1118,13 +1044,15 @@ view: incident_response_telemetry {
 
   measure: nummembers_count {
     label: "Nummembers Count (Distinct)"
+    group_label: "Nummembers Measures"
     description: "The distinct count of nummembers's per grouping."
     type: count_distinct
     sql: ${nummembers} ;;
   }
 
   measure: nummembers_count_all {
-    label: "Nummembers Count"
+    label: "Nummembers Count (Non-Null)"
+    group_label: "Nummembers Measures"
     description: "The count of all non-null nummembers occurrences per grouping."
     type: number
     sql: COUNT(case when ${nummembers} IS NOT NULL then ${nummembers} else null end) ;;
