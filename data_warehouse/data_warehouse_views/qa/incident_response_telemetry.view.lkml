@@ -1,7 +1,7 @@
 # This is the view file for the analytics.qa.incident_response_telemetry table.
 view: incident_response_telemetry {
   sql_table_name: qa.incident_response_telemetry ;;
-  view_label: "Incident Response Telemetry"
+  view_label: "Incident Management Telemetry"
 
   # Constructs
   set: ir_drill {
