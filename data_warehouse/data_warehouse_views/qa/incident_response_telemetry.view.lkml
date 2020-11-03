@@ -335,6 +335,20 @@ view: incident_response_telemetry {
 
 
   # MEASURES
+  measure: first_triggered {
+    label: "First Triggered"
+    description: "The date & time the event was first triggered."
+    type: date_time
+    sql: MIN(${TABLE}.timestamp) ;;
+  }
+
+  measure: last_triggered {
+    label: "Last Triggered"
+    description: "The date & time the event was last triggered."
+    type: date_time
+    sql: MAX(${TABLE}.timestamp) ;;
+  }
+
   measure: count {
     description: "Count of rows/occurrences."
     type: count
