@@ -2655,6 +2655,6 @@ explore: cloud_onboarding_flows {
 }
 
 explore: incident_response_telemetry {
-  label: "Incident Response Telemetry"
+  label: "Incident Management Telemetry"
   group_label: "Quality Assurance"
 }
