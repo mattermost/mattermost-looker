@@ -2323,13 +2323,13 @@ explore: license_server_fact {
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: "Incident Response"
-  label: "Incident Response"
+  view_label: "Incident Management"
+  label: "Incident Management"
   group_label: "Integrations"
   extends: [server_fact]
 
   join: server_daily_details {
-    view_label: "Incident Response"
+    view_label: "Incident Management"
     sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -2337,14 +2337,14 @@ explore: incident_response_events {
   }
 
   join: server_fact {
-    view_label: "Incident Response"
+    view_label: "Incident Management"
     sql_on: ${incident_response_events.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
   }
 
   join: excludable_servers {
-    view_label: "Incident Response"
+    view_label: "Incident Management"
     sql_on: ${incident_response_events.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
