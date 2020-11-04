@@ -17,13 +17,9 @@ view: incident_response_events {
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
     sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL THEN ${license_server_fact.edition}
-                      WHEN ${license_server_fact.edition} IS NULL AND ${license_server_fact.trial} THEN 'E0'
-                      WHEN ${license_server_fact.edition} IS NULL AND NOT ${license_server_fact.trial} THEN 'E10'
-                      ELSE CASE WHEN ${server_daily_details.edition} = 'true' THEN 'E0'
-                              WHEN ${server_daily_details.edition} = 'false' THEN 'TE'
-                              WHEN ${server_fact.server_edition} = 'true' THEN 'E0'
-                              WHEN ${server_fact.server_edition} = 'false' THEN 'TE'
-                              ELSE NULL END
+                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND ${license_server_fact.trial} THEN 'E0'
+                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
                       END ;;
   }
 

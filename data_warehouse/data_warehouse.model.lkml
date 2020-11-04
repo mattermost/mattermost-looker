@@ -2326,7 +2326,6 @@ explore: incident_response_events {
   view_label: "Incident Management"
   label: "Incident Management"
   group_label: "Integrations"
-  extends: [server_fact]
 
   join: server_daily_details {
     view_label: "Incident Management"
@@ -2338,9 +2337,9 @@ explore: incident_response_events {
 
   join: server_fact {
     view_label: "Incident Management"
-    sql_on: ${incident_response_events.user_id} = ${server_fact.server_id} ;;
+    sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server]
   }
 
   join: excludable_servers {
