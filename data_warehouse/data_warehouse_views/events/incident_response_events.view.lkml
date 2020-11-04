@@ -13,6 +13,20 @@ view: incident_response_events {
   }
 
   # DIMENSIONS
+  dimension: product_edition {
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} IS NULL AND ${license_server_fact.trial} THEN 'E0'
+                      WHEN ${license_server_fact.edition} IS NULL AND NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE CASE WHEN ${server_daily_details.edition} = 'true' THEN 'E0'
+                              WHEN ${server_daily_details.edition} = 'false' THEN 'TE'
+                              WHEN ${server_fact.server_edition} = 'true' THEN 'E0'
+                              WHEN ${server_fact.server_edition} = 'false' THEN 'TE'
+                              ELSE NULL END
+                      END ;;
+  }
+
   dimension: dev_server {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
@@ -563,6 +577,7 @@ view: incident_response_events {
 
   measure: user_count {
     label: " User Count"
+    group_label: "User Counts"
     description: "The distinct count of Users per grouped dimension(s)."
     type: count_distinct
     sql: ${useractualid} ;;
@@ -582,6 +597,14 @@ view: incident_response_events {
     description: "The sum of Playbook Totalchecklistitems per grouped dimension(s)."
     type: sum
     sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: server_count {
+    group_label: "Server Counts"
+    description: "The distinct count of servers within each grouping."
+    type: count_distinct
+    sql: ${user_id} ;;
     drill_fields: [incidents_drill*]
   }
 
