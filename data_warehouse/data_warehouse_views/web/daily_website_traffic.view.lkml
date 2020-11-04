@@ -108,7 +108,7 @@ view: daily_website_traffic {
     label: "Page Path"
     description: ""
     type: string
-    sql: ${TABLE}.context_page_path ;;
+    sql: COALESCE(${TABLE}.context_page_path, ${TABLE}.path) ;;
     hidden: no
   }
 
@@ -353,8 +353,8 @@ view: daily_website_traffic {
   dimension_group: logging {
     description: ""
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.date ;;
+    timeframes: [date, time, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
