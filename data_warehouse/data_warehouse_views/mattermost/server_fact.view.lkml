@@ -3,7 +3,7 @@ sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
   set: drill_set1 {
-    fields: [server_id, account_sfid, license_id, company_name, currently_sending_telemetry, first_active_date, last_active_date, license_id, paid_license_expire_date, max_registered_users, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
+    fields: [server_id, license_server_fact.customer_name, license_server_fact.license_id, currently_sending_telemetry, first_active_date, last_active_date, max_registered_users, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
   }
 
   filter: license_all {
@@ -387,6 +387,15 @@ sql_table_name: mattermost.server_fact ;;
     label: "Registered Users"
     description: "The current number of registered users logged on the server."
     type: number
+    sql: ${TABLE}.registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
+  }
+
+  dimension: registered_user_bands {
+    label: "Registered User Bands"
+    description: "The current number of registered users stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [2, 5, 11, 21, 50, 101, 1001]
     sql: ${TABLE}.registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
   }
 
