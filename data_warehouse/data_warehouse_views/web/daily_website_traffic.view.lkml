@@ -169,8 +169,8 @@ view: daily_website_traffic {
   dimension: name {
     description: ""
     type: string
-    sql: ${TABLE}.name ;;
-    hidden: yes
+    sql: COALESCE(${TABLE}.name, '') ;;
+    hidden: no
   }
 
   dimension: objectobjectpath {
