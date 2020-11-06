@@ -3000,7 +3000,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_mattermostprofanityfilter {
-    label: "Enable Skype4Business"
+    label: "Enable Profanity Filter"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3009,7 +3009,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_mattermostprofanityfilter {
-    label: "Enable Skype4Business"
+    label: "Profanity Filter Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"

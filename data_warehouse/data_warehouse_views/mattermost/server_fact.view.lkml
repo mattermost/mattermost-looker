@@ -3,7 +3,7 @@ sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
   set: drill_set1 {
-    fields: [server_id, license_server_fact.customer_name, license_server_fact.license_id, currently_sending_telemetry, first_active_date, last_active_date, max_registered_users, max_active_user_count, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime, nps_score_all, nps_users]
+    fields: [server_id, license_server_fact.customer_name, first_active_date, last_active_date, max_registered_users, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime]
   }
 
   filter: license_all {
@@ -299,7 +299,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: first_active {
-    label: " Server First Active Telemetry"
+    label: " First Active"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
@@ -307,7 +307,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_active {
-    label: " Server Last Active Telemetry"
+    label: " Last Active"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
