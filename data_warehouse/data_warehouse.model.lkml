@@ -1000,7 +1000,7 @@ explore: server_daily_details {
   extends: [_base_account_core_explore]
 
   join: account {
-    sql_on: ${server_daily_details.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_one
     type: left_outer
     fields: [account.account_core*]
@@ -1339,8 +1339,9 @@ explore: server_daily_details_ext {
 
 
   join: account {
-    sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     type: left_outer
+    relationship: many_to_one
     fields: [account.account_core*]
   }
 
