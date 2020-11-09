@@ -310,7 +310,7 @@ view: server_daily_details {
     description: "The count of all users registered/associated with the server tiered into distinct ranges."
     type: tier
     style: integer
-    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    tiers: [2, 5, 11, 21, 50, 101, 1001]#[1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
     sql: ${user_count} ;;
   }
 
@@ -568,7 +568,7 @@ view: server_daily_details {
     label: "Months Since First Telemetry Enabled"
     description: "Displays the age in months of the server. Age is calculated as months between the first active month (first date telemetry enabled) and logging month of the record."
     type: number
-    sql: datediff(day, date_trunc('month', COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date})), date_trunc('month', ${logging_date}::date)::date) ;;
+    sql: datediff(month, date_trunc('month', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('month', ${logging_date}::date)::date) ;;
   }
 
   dimension: weeks_since_first_telemetry_enabled {
@@ -576,7 +576,7 @@ view: server_daily_details {
     label: "Weeks Since First Telemetry Enabled"
     description: "Displays the age in weeks of the server. Age is calculated as weeks between the first active week (first date telemetry enabled) and logging week of the record."
     type: number
-    sql: datediff(day, date_trunc('week', COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date})), date_trunc('week', ${logging_date}::date)::date) ;;
+    sql: datediff(week, date_trunc('week', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('week', ${logging_date}::date)::date) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
