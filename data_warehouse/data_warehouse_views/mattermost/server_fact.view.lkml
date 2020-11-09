@@ -538,7 +538,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: admin_events_alltime {
     group_label: "Event Dimensions (All-Time)"
-    description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
+    description: "The all-time count of admin events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.admin_events_alltime;;
   }

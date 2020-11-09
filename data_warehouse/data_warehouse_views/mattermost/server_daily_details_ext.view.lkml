@@ -592,7 +592,8 @@ view: server_daily_details_ext {
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: COALESCE(${TABLE}.active_users_daily, ${active_users}, 0)  ;;
+    sql: CASE WHEN ${logging_date}::date = ${server_fact.first_active_date}::date AND ${server_fact.cloud_server} then COALESCE(nullif(${TABLE}.active_users_daily, 0), nullif(${active_users}, 0), 1)
+          ELSE COALESCE(${TABLE}.active_users_daily, ${active_users}, 0) END ;;
     hidden: no
   }
 
@@ -751,7 +752,8 @@ view: server_daily_details_ext {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
     group_label: " Activity Diagnostics User Counts"
-    sql: NULLIF(COALESCE(${TABLE}.registered_users, 0) - COALESCE(${TABLE}.registered_deactivated_users, 0),0) ;;
+    sql: CASE WHEN ${logging_date}::date = ${server_fact.first_active_date}::date AND ${server_fact.cloud_server} then NULLIF(COALESCE(NULLIF(${TABLE}.registered_users, 0), 1) - COALESCE(${TABLE}.registered_deactivated_users, 0),0)
+      ELSE NULLIF(COALESCE(${TABLE}.registered_users, 0) - COALESCE(${TABLE}.registered_deactivated_users, 0),0) END;;
     hidden: no
   }
 
