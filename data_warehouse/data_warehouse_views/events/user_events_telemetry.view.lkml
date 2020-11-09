@@ -327,7 +327,8 @@ view: user_events_telemetry {
     label: " Event Name"
     description: "The name of the event that was performed."
     type: string
-    sql: COALESCE(${TABLE}.type, ${event}) ;;
+    sql: CASE WHEN COALESCE(${TABLE}.type, ${event}) = 'pageview_getting_started' THEN COALESCE(${TABLE}.type, ${event}) || '_cloud'
+          ELSE COALESCE(${TABLE}.type, ${event}) end;;
     hidden: no
   }
 

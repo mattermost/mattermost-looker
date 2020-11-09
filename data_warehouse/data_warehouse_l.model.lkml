@@ -151,6 +151,6 @@ explore: user_events_telemetry {
 
   join: cloud_onboarding_flows {
     relationship: many_to_one
-    sql_on: ${user_events_telemetry.type} = ${cloud_onboarding_flows.type} AND ${user_events_telemetry.category} = ${cloud_onboarding_flows.category} ;;
+    sql_on: CASE WHEN ${user_events_telemetry.type} = 'pageview_getting_started_cloud' THEN  'pageview_getting_started' ELSE ${user_events_telemetry.type} END = ${cloud_onboarding_flows.type} AND ${user_events_telemetry.category} = ${cloud_onboarding_flows.category} ;;
   }
 }
