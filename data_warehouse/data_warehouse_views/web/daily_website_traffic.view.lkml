@@ -139,10 +139,15 @@ view: daily_website_traffic {
     label: "Page URL"
     description: "The URL of the webpage visited (less the UTM tracking parameters)."
     type: string
-    sql: CASE WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '?utm', 2),'') IS NULL THEN ${TABLE}.context_page_url
-          ELSE SPLIT_PART(${TABLE}.context_page_url, '?utm', 1)  END ;;
+    sql: CASE WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '?', 2),'') IS NOT NULL THEN
+              CASE WHEN regexp_substr(SPLIT_PART(${TABLE}.context_page_url, '?', 1), 'preparing[-]{1}workspace') = 'preparing-workspace' THEN 'https://customers.mattermost.com/preparing-workspace'
+              ELSE SPLIT_PART(${TABLE}.context_page_url, '?', 1) END
+            WHEN regexp_substr(${TABLE}.context_page_url, 'preparing[-]{1}workspace') = 'preparing-workspace' THEN 'https://customers.mattermost.com/preparing-workspace'
+            WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '/requests/', 2),'') IS NOT NULL THEN SPLIT_PART(${TABLE}.context_page_url, '/requests/', 1) || '/requests'
+          ELSE ${TABLE}.context_page_url END ;;
     hidden: no
   }
+
 
   dimension: context_screen_density {
     description: "The Screen Density of the device used to visit the webpage."
