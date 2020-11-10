@@ -3415,7 +3415,7 @@ view: server_daily_details_ext {
     label: "Enable Advanced Logging Config"
     type: yesno
     group_label: "Audit Configuration"
-    sql: ${TABLE}.advanced_logging_config ;;
+    sql: ${TABLE}.advanced_logging_config_notifications ;;
     hidden: no
   }
 
