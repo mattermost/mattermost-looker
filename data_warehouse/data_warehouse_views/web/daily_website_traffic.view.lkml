@@ -108,7 +108,7 @@ view: daily_website_traffic {
     label: "Page Path"
     description: ""
     type: string
-    sql: ${TABLE}.context_page_path ;;
+    sql: COALESCE(${TABLE}.context_page_path, ${TABLE}.path) ;;
     hidden: no
   }
 
@@ -139,10 +139,15 @@ view: daily_website_traffic {
     label: "Page URL"
     description: "The URL of the webpage visited (less the UTM tracking parameters)."
     type: string
-    sql: CASE WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '?utm', 2),'') IS NULL THEN ${TABLE}.context_page_url
-          ELSE SPLIT_PART(${TABLE}.context_page_url, '?utm', 1)  END ;;
+    sql: CASE WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '?', 2),'') IS NOT NULL THEN
+              CASE WHEN regexp_substr(SPLIT_PART(${TABLE}.context_page_url, '?', 1), 'preparing[-]{1}workspace') = 'preparing-workspace' THEN 'https://customers.mattermost.com/preparing-workspace'
+              ELSE SPLIT_PART(${TABLE}.context_page_url, '?', 1) END
+            WHEN regexp_substr(${TABLE}.context_page_url, 'preparing[-]{1}workspace') = 'preparing-workspace' THEN 'https://customers.mattermost.com/preparing-workspace'
+            WHEN NULLIF(SPLIT_PART(${TABLE}.context_page_url, '/requests/', 2),'') IS NOT NULL THEN SPLIT_PART(${TABLE}.context_page_url, '/requests/', 1) || '/requests'
+          ELSE ${TABLE}.context_page_url END ;;
     hidden: no
   }
+
 
   dimension: context_screen_density {
     description: "The Screen Density of the device used to visit the webpage."
@@ -169,8 +174,8 @@ view: daily_website_traffic {
   dimension: name {
     description: ""
     type: string
-    sql: ${TABLE}.name ;;
-    hidden: yes
+    sql: COALESCE(${TABLE}.name, '') ;;
+    hidden: no
   }
 
   dimension: objectobjectpath {
@@ -262,7 +267,7 @@ view: daily_website_traffic {
     label: "UTM Source"
     description: "The Mattermost advertising source (google, bing, etc) that directed the user to the Mattermost webpage URL."
     type: string
-    sql: NULLIF(INITCAP(lower(${TABLE}.utm_source)),'') ;;
+    sql: NULLIF(INITCAP(lower(COALESCE(split_part(regexp_substr(${context_page_search}, 'utm_source=[A-Za-z0-9_]{0,100}'), '=', 2), ${TABLE}.context_campaign_source, ${TABLE}.context_campaign_source__c))),'') ;;
     hidden: no
   }
 
@@ -271,7 +276,7 @@ view: daily_website_traffic {
     label: "UTM Medium"
     description: "The Mattermost advertising medium (cpc, display, etc.) that directed the user to the Mattermost webpage URL."
     type: string
-    sql: NULLIF(INITCAP(lower(${TABLE}.utm_medium)),'') ;;
+    sql: NULLIF(INITCAP(lower(COALESCE(split_part(regexp_substr(${context_page_search}, 'utm_medium=[A-Za-z0-9_]{0,100}'), '=', 2), ${TABLE}.context_campaign_medium, ${TABLE}.context_campaign_medium__c))),'') ;;
     hidden: no
   }
 
@@ -280,7 +285,8 @@ view: daily_website_traffic {
     label: "UTM Campaign"
     description: "The Mattermost advertising campaign name that directed the user to the Mattermost webpage URL."
     type: string
-    sql: NULLIF(INITCAP(lower(${TABLE}.utm_campaign)),'') ;;
+    sql: NULLIF(INITCAP(lower(COALESCE(replace(replace(split_part(regexp_substr(${context_page_search}, 'utm_campaign=[A-Za-z0-9_%-]{0,100}'), '=', 2),
+                        '%2B', ''), '%20', ' '), ${TABLE}.context_campaign_name, ${TABLE}.context_campaign_campaign__c))),'') ;;
     hidden: no
   }
 
@@ -289,7 +295,7 @@ view: daily_website_traffic {
     label: "UTM Adgroup"
     description: "The Mattermost advertising adgroup that directed the user to the Mattermost webpage URL."
     type: string
-    sql: INITCAP(lower(${TABLE}.utm_adgroup)) ;;
+    sql: NULLIF(INITCAP(lower(COALESCE(split_part(regexp_substr(${context_page_search}, 'utm_adgroup=[A-Za-z0-9_]{0,100}'), '=', 2), ${TABLE}.context_campaign_adgroup, ${TABLE}.context_campaign_adgroup__c))), '') ;;
     hidden: no
   }
 
@@ -298,7 +304,7 @@ view: daily_website_traffic {
     label: "UTM Content ID"
     description: "The Mattermost advertising content id that directed the user to the webpage URL."
     type: string
-    sql: NULLIF(INITCAP(lower(${TABLE}.utm_content)),'') ;;
+    sql: NULLIF(INITCAP(lower(COALESCE(split_part(regexp_substr(${context_page_search}, 'utm_content=[A-Za-z0-9_]{0,100}'), '=', 2), ${TABLE}.context_campaign_content, ${TABLE}.context_campaign_content__c))),'') ;;
     hidden: no
   }
 
@@ -307,8 +313,10 @@ view: daily_website_traffic {
     label: "UTM Term"
     description: "The Mattermost advertising term that directed the user to the webpage URL."
     type: string
-    sql: NULLIF(INITCAP(lower(CASE WHEN REGEXP_SUBSTR(${TABLE}.utm_term, '^[0-9]{1}(\-|\_)') IS NOT NULL THEN NULL
-                              ELSE ${TABLE}.utm_term END)),'') ;;
+    sql: NULLIF(INITCAP(lower(CASE WHEN REGEXP_SUBSTR(COALESCE(replace(replace(split_part(regexp_substr(${context_page_search}, 'utm_term=[A-Za-z0-9_%-]{0,100}'), '=', 2), '%2B',
+                        ''), '%20', ' '), ${TABLE}.context_campaign_term, ${TABLE}.context_campaign_term__c), '^[0-9]{1}(\-|\_)') IS NOT NULL THEN NULL
+                              ELSE COALESCE(replace(replace(split_part(regexp_substr(${context_page_search}, 'utm_term=[A-Za-z0-9_%-]{0,100}'), '=', 2), '%2B',
+                        ''), '%20', ' '), ${TABLE}.context_campaign_term, ${TABLE}.context_campaign_term__c) END)),'') ;;
     hidden: no
   }
 
@@ -353,8 +361,8 @@ view: daily_website_traffic {
   dimension_group: logging {
     description: ""
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.date ;;
+    timeframes: [date, time, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 

@@ -1001,7 +1001,7 @@ explore: server_daily_details {
   extends: [_base_account_core_explore]
 
   join: account {
-    sql_on: ${server_daily_details.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_one
     type: left_outer
     fields: [account.account_core*]
@@ -1340,8 +1340,9 @@ explore: server_daily_details_ext {
 
 
   join: account {
-    sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     type: left_outer
+    relationship: many_to_one
     fields: [account.account_core*]
   }
 
@@ -2324,13 +2325,12 @@ explore: license_server_fact {
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: "Incident Response"
-  label: "Incident Response"
+  view_label: "Incident Management"
+  label: "Incident Management"
   group_label: "Integrations"
-  extends: [server_fact]
 
   join: server_daily_details {
-    view_label: "Incident Response"
+    view_label: "Incident Management"
     sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -2338,14 +2338,14 @@ explore: incident_response_events {
   }
 
   join: server_fact {
-    view_label: "Incident Response"
-    sql_on: ${incident_response_events.user_id} = ${server_fact.server_id} ;;
+    view_label: "Incident Management"
+    sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server]
   }
 
   join: excludable_servers {
-    view_label: "Incident Response"
+    view_label: "Incident Management"
     sql_on: ${incident_response_events.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -2656,5 +2656,6 @@ explore: cloud_onboarding_flows {
 }
 
 explore: incident_response_telemetry {
-  label: "Incident Response Telemetry"
+  label: "Incident Management Telemetry"
+  group_label: "Quality Assurance"
 }
