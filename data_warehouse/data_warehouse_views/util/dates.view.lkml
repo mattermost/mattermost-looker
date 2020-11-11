@@ -37,7 +37,7 @@ view: dates {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" + interval '1 day';;
-    hidden: yes
+    # hidden: yes
   }
 
   dimension: date_month_full_date {
