@@ -96,7 +96,11 @@ view: server_daily_details_ext {
     group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${server_fact.last_mm2_telemetry_date}::DATE = CURRENT_DATE::DATE THEN
+              CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE - INTERVAL '1 DAY'
+                THEN TRUE ELSE FALSE END
+          ELSE CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE THEN TRUE ELSE FALSE END
+          END ;;
     hidden: no
   }
 
@@ -3011,7 +3015,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_mattermostprofanityfilter {
-    label: "Profanity Filter Version"
+    label: "Version Profanity Filter"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3038,7 +3042,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_commattermostpluginincidentmanagement {
-    label: "Incident Management Version"
+    label: "Version Incident Management"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3047,7 +3051,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_comgithubmatterpollmatterpoll {
-    label: "Matterpoll Version"
+    label: "Version Matterpoll"
     description: ""
     type: string
     group_label: "Plugin Configuration"
