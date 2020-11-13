@@ -223,7 +223,6 @@ view: customer_risk {
   dimension: opportunity_name {
     type: string
     sql: ${opportunity.name} ;;
-    drill_fields: [opportunity_name]
   }
 
   dimension: reason {
@@ -304,7 +303,6 @@ view: customer_risk {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS__C" ;;
-    drill_fields: [opportunity_name]
   }
 
   dimension: status_short {
