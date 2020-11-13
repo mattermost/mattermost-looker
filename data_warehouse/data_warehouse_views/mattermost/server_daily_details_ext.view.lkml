@@ -3019,6 +3019,42 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_comgithubmatterpollmatterpoll {
+    label: "Enable Matterpoll"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_comgithubmatterpollmatterpoll ;;
+    hidden: no
+  }
+
+  dimension: enable_commattermostpluginincidentmanagement {
+    label: "Enable Incident Management"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostpluginincidentmanagement ;;
+    hidden: no
+  }
+
+  dimension: version_commattermostpluginincidentmanagement {
+    label: "Incident Management Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostpluginincidentmanagement ;;
+    hidden: no
+  }
+
+  dimension: version_comgithubmatterpollmatterpoll {
+    label: "Matterpoll Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_comgithubmatterpollmatterpoll ;;
+    hidden: no
+  }
+
   dimension: enable_todo {
     label: "Enable ToDo"
     description: ""
@@ -7184,6 +7220,24 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Server Counts"
     sql: case when ${allow_insecure_download_url} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_matterpoll_count {
+    label: "Servers w/ Plugin Enable Matterpoll"
+    description: "The count of servers with the Matterpoll plugin enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    sql: case when ${enable_comgithubmatterpollmatterpoll} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_incident_management_count {
+    label: "Servers w/ Plugin Enable Incident Management"
+    description: "The count of servers with the Incident Management plugin enabled."
+    type: count_distinct
+    group_label: " Server Counts"
+    sql: case when ${enable_commattermostpluginincidentmanagement} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
