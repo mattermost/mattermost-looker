@@ -3011,7 +3011,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_mattermostprofanityfilter {
-    label: "Profanity Filter Version"
+    label: "Version Profanity Filter"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3038,7 +3038,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_commattermostpluginincidentmanagement {
-    label: "Incident Management Version"
+    label: "Version Incident Management"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3047,7 +3047,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_comgithubmatterpollmatterpoll {
-    label: "Matterpoll Version"
+    label: "Version Matterpoll"
     description: ""
     type: string
     group_label: "Plugin Configuration"
