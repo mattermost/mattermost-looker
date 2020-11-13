@@ -196,7 +196,9 @@ view_label: ""
 #measures
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${opportunityid} ;;
+    drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount_net_new, total_amount_renewal, close_date]
   }
 
   measure: total_amount {

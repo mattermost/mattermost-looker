@@ -670,7 +670,7 @@ view: account {
     label: "# of Employees Tier"
     sql: ${number_of_employees} ;;
     type: tier
-    tiers: [251,501,1001,5001]
+    tiers: [100,251,501,1001,5001,10001]
     style: integer
   }
 
