@@ -1418,6 +1418,18 @@ view: opportunity {
     }
   }
 
+  measure: self_service_count {
+    label: "# Self Service"
+    group_label: "Counts"
+    sql: ${opportunity.sfid};;
+    type: count_distinct
+    drill_fields: [opportunity_drill_fields*]
+    filters: {
+      field: opportunity.sales_channel
+      value: "Self Service"
+    }
+  }
+
   measure: integration_jira_count {
     label: "Jira Count"
     group_label: "Customer Journey Integration Counts"
