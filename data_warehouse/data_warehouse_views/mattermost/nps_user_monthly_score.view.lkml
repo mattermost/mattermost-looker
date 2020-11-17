@@ -522,4 +522,18 @@ view: nps_user_monthly_score {
     drill_fields: [nps_drill*]
   }
 
+  measure: last_score_date_max {
+    label: "Last Score Date"
+    description: "The latest date an NPS submission was received within the grouping."
+    type: date
+    sql: MAX(${last_score_date}) ;;
+  }
+
+  measure: last_nps_server_version {
+    label: "Latest NPS Server Version"
+    description: "The server version associated with the latest NPS response received within the grouping."
+    type: string
+    sql: MAX(${server_version}) ;;
+  }
+
 }
