@@ -2495,6 +2495,18 @@ explore: CUSTOMERS {
     sql_on: ${CUSTOMERS.stripe_id} = ${customers_stripe.id} ;;
     relationship: one_to_one
   }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: FEATURES {
@@ -2526,6 +2538,18 @@ explore: INVOICES {
     sql_on: ${INVOICES.stripe_id} = ${invoices_blapi.id} ;;
     relationship: one_to_one
     view_label: "Invoices (Stripe)"
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_blapi.id} ;;
+    relationship: one_to_one
   }
 }
 
