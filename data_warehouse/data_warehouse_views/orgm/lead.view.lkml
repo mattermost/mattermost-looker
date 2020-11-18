@@ -342,6 +342,7 @@ view: lead {
   }
 
   dimension: number_of_employees {
+    group_label: "Employee Counts"
     sql: ${TABLE}.NUMBEROFEMPLOYEES ;;
     type: number
   }
@@ -675,6 +676,12 @@ view: lead {
     type: time
   }
 
+  dimension: clearbit_employee_count{
+    group_label: "Employee Counts"
+    sql: ${TABLE}.Clearbit_Employee_Count__c ;;
+    type: number
+  }
+
   dimension: connected_since_most_recent_mql {
     sql: ${connected_date} >= ${most_recent_mql_date} ;;
     type: yesno
@@ -759,6 +766,18 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: discoverorg_employee_count{
+    group_label: "Employee Counts"
+    sql: ${TABLE}.DiscoverOrg_Employee_Count__c ;;
+    type: number
+  }
+
+  dimension: employee_count_override {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.Employee_Count_Override__c ;;
+    type: number
   }
 
   dimension_group: first_recycle {

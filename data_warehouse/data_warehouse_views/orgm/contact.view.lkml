@@ -49,6 +49,18 @@ view: contact {
     type: time
   }
 
+  dimension: clearbit_employee_count {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.Clearbit_Employee_Count__c ;;
+    type: number
+  }
+
+  dimension: discoverorg_employee_count {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.DiscoverOrg_Employee_Count__c ;;
+    type: number
+  }
+
   dimension: do_not_call {
     sql: ${TABLE}.DONOTCALL ;;
     type: yesno
@@ -61,6 +73,18 @@ view: contact {
       label: "Salesforce Lead"
       url: "@{salesforce_link}{{sfid}}"
     }
+  }
+
+  dimension: employee_count {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.Employees__c ;;
+    type: number
+  }
+
+  dimension: employee_count_override {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.Employee_Count_Override__c ;;
+    type: number
   }
 
   dimension: is_deleted {
