@@ -334,6 +334,13 @@ view: SUBSCRIPTIONS {
     sql: ${cloud_installation_id} ;;
   }
 
+  measure: runrate_sum {
+    description: "The sum Runrate within each grouping."
+    type: sum
+    group_label: "Runrate Measures"
+    sql: ${runrate} ;;
+  }
+
   measure: runrate_max {
     description: "The max Runrate within each grouping."
     type: max
