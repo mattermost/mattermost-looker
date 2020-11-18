@@ -147,6 +147,12 @@ view: PURCHASE_FACT {
     hidden: no
   }
 
+  dimension: invoice_stripe_id {
+    type: string
+    sql: ${TABLE}.invoice_stripe_id ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: created_at {
