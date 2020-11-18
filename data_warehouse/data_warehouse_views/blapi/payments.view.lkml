@@ -91,6 +91,12 @@ view: PAYMENTS {
     hidden: no
   }
 
+  dimension: invoice_stripe_id {
+    type: string
+    sql: ${TABLE}.invoice_stripe_id ;;
+    hidden: no
+  }
+
   dimension: _sdc_deleted_at {
     description: ""
     type: string

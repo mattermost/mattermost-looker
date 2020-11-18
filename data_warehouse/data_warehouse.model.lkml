@@ -326,6 +326,7 @@ explore: account {
 
   join: contact {
     view_label: "Account Contacts"
+    from: contact
     sql_on: ${account.sfid} = ${contact.accountid};;
     relationship: one_to_many
   }
@@ -1000,7 +1001,7 @@ explore: server_daily_details {
   extends: [_base_account_core_explore]
 
   join: account {
-    sql_on: ${server_daily_details.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_one
     type: left_outer
     fields: [account.account_core*]
@@ -1339,8 +1340,9 @@ explore: server_daily_details_ext {
 
 
   join: account {
-    sql_on: ${server_daily_details_ext.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     type: left_outer
+    relationship: many_to_one
     fields: [account.account_core*]
   }
 
@@ -2007,6 +2009,18 @@ explore: customers {
     view_label: "Invoices (BLApi)"
   }
 
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices.id} ;;
+    relationship: one_to_one
+  }
+
   join: invoice_line_items {
     sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
     relationship: one_to_many
@@ -2015,12 +2029,6 @@ explore: customers {
   join: charges {
     sql_on: ${customers.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
     relationship: one_to_many
-  }
-
-  join: PAYMENTS {
-    view_label: "Payments (BLApi)"
-    sql_on: ${PAYMENTS.stripe_id} = ${charges.id} ;;
-    relationship: one_to_one
   }
 
   join: products {
@@ -2493,6 +2501,18 @@ explore: CUSTOMERS {
     sql_on: ${CUSTOMERS.stripe_id} = ${customers_stripe.id} ;;
     relationship: one_to_one
   }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: FEATURES {
@@ -2524,6 +2544,18 @@ explore: INVOICES {
     sql_on: ${INVOICES.stripe_id} = ${invoices_blapi.id} ;;
     relationship: one_to_one
     view_label: "Invoices (Stripe)"
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_blapi.id} ;;
+    relationship: one_to_one
   }
 }
 
@@ -2594,6 +2626,24 @@ explore: SUBSCRIPTIONS {
     relationship: one_to_many
   }
 
+  join: invoices_stripe {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+  }
+
   join: subscriptions_stripe {
     from: subscriptions
     view_label: "Subscriptions (Stripe)"
@@ -2621,6 +2671,24 @@ explore: USAGE_EVENTS {
   join: INVOICES {
     sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
     relationship: many_to_one
+  }
+
+  join: invoices_stripe {
+    from: invoices
+    sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
+  }
+
+  join: PAYMENTS {
+    view_label: "Payments (BLApi)"
+    sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
+    relationship: one_to_one
+  }
+
+  join: PURCHASE_FACT {
+    view_label: "Purchase Fact (Blapi)"
+    sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
+    relationship: one_to_one
   }
 
   join: CREDIT_CARDS {

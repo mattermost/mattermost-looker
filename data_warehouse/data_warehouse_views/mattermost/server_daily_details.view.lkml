@@ -110,11 +110,15 @@ view: server_daily_details {
 
   dimension: latest_segment_telemetry_record {
     label: "  Latest Diagnostics Telemetry Record"
-    description: "Boolean indicating the record is the last (most recent) date that the server sent Diagnostics (diagnostics.go) telemetry data."
-    type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
-    hidden: no
     group_label: "  Telemetry Flags"
+    description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
+    type: yesno
+    sql: CASE WHEN ${server_fact.last_mm2_telemetry_date}::DATE = CURRENT_DATE::DATE THEN
+              CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE - INTERVAL '1 DAY'
+                THEN TRUE ELSE FALSE END
+          ELSE CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE THEN TRUE ELSE FALSE END
+          END ;;
+    hidden: no
   }
 
   dimension: before_last_segment_telemetry_date {
@@ -310,7 +314,7 @@ view: server_daily_details {
     description: "The count of all users registered/associated with the server tiered into distinct ranges."
     type: tier
     style: integer
-    tiers: [1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
+    tiers: [2, 5, 11, 21, 50, 101, 1001]#[1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
     sql: ${user_count} ;;
   }
 
@@ -556,14 +560,32 @@ view: server_daily_details {
   }
 
   dimension: days_since_first_telemetry_enabled {
-    label: "Days First to Last Telemetry Enabled"
+    group_label: "Timeframes Since First Active"
+    label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date},${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}::date) ;;
+  }
+
+  dimension: months_since_first_telemetry_enabled {
+    group_label: "Timeframes Since First Active"
+    label: "Months Since First Telemetry Enabled"
+    description: "Displays the age in months of the server. Age is calculated as months between the first active month (first date telemetry enabled) and logging month of the record."
+    type: number
+    sql: datediff(month, date_trunc('month', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('month', ${logging_date}::date)::date) ;;
+  }
+
+  dimension: weeks_since_first_telemetry_enabled {
+    group_label: "Timeframes Since First Active"
+    label: "Weeks Since First Telemetry Enabled"
+    description: "Displays the age in weeks of the server. Age is calculated as weeks between the first active week (first date telemetry enabled) and logging week of the record."
+    type: number
+    sql: datediff(week, date_trunc('week', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('week', ${logging_date}::date)::date) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
-    label: "Days First-to-Last Telemetry Band"
+    group_label: "Timeframes Since First Active"
+    label: "Days Since First Telemetry Band"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
