@@ -170,10 +170,6 @@ view: campaignmember {
     type: string
   }
 
-  dimension: g2_k_rank {
-    sql: ${TABLE}.G2K_RANK__C ;;
-    type: number
-  }
 
   dimension: geo {
     sql: ${TABLE}.GEO__C ;;
