@@ -174,16 +174,16 @@ view: license_server_fact {
     sql: ${TABLE}.customer_id ;;
     link: {
       label: "Salesforce Account Record"
-      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ value }}"
     }
     link: {
       label: "Customer 360 Dashboard"
-      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ value }}"
     }
     hidden: no
   }
@@ -207,16 +207,16 @@ view: license_server_fact {
     sql: ${TABLE}.customer_name ;;
     link: {
       label: "Salesforce Account Record"
-      url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
+      url: "https://mattermost.lightning.force.com/lightning/r/{{ customer_id._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
     link: {
       label: "Server Metrics Dashboard"
-      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ customer_id._value }}"
     }
     link: {
       label: "Customer 360 Dashboard"
-      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
+      url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ customer_id._value }}"
     }
     hidden: no
   }
