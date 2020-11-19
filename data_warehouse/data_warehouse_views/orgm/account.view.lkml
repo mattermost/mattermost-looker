@@ -50,7 +50,8 @@ view: account {
       website,
       website_count,
       territory_sales_segment,
-      company_type_major
+      company_type_major,
+      geo
     ]
   }
 
