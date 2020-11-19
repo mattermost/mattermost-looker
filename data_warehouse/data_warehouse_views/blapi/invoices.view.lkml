@@ -4,6 +4,11 @@ view: INVOICES {
   view_label: "Invoices"
 
   # FILTERS
+  dimension: paid {
+    type: yesno
+    sql: CASE WHEN ${PURCHASE_FACT.id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+    hidden: no
+  }
 
   # DIMENSIONS
   dimension: version_id {
@@ -83,13 +88,6 @@ view: INVOICES {
     type: number
     value_format_name: decimal_0
     sql: ${TABLE}.max_users_in_month ;;
-    hidden: no
-  }
-
-  dimension: subtotal_20201019_1749 {
-    description: ""
-    type: number
-    sql: ${TABLE}.subtotal_20201019_1749 ;;
     hidden: no
   }
 
@@ -220,7 +218,7 @@ view: INVOICES {
   }
 
   measure: id_count {
-    label: " Id Count"
+    label: " Invoice Count"
     description: "The distinct count of Invoices Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
@@ -372,45 +370,12 @@ view: INVOICES {
     sql: ${max_users_in_month} ;;
   }
 
-  measure: subtotal_20201019_1749_sum {
-    description: "The sum of Subtotal 20201019 1749s within each grouping."
-    type: sum
-    group_label: "Subtotal 20201019 1749 Measures"
-    sql: ${subtotal_20201019_1749} ;;
-  }
-
-  measure: subtotal_20201019_1749_max {
-    description: "The max Subtotal 20201019 1749s within each grouping."
-    type: max
-    group_label: "Subtotal 20201019 1749 Measures"
-    sql: ${subtotal_20201019_1749} ;;
-  }
-
-  measure: subtotal_20201019_1749_min {
-    description: "The min Subtotal 20201019 1749s within each grouping. within each grouping."
-    type: min
-    group_label: "Subtotal 20201019 1749 Measures"
-    sql: ${subtotal_20201019_1749} ;;
-  }
-
-  measure: subtotal_20201019_1749_avg {
-    description: "The averag Subtotal 20201019 1749s within each grouping."
-    type: average
-    group_label: "Subtotal 20201019 1749 Measures"
-    sql: ${subtotal_20201019_1749} ;;
-  }
-
-  measure: subtotal_20201019_1749_median {
-    description: "The median  Subtotal 20201019 1749s within each grouping."
-    type: median
-    group_label: "Subtotal 20201019 1749 Measures"
-    sql: ${subtotal_20201019_1749} ;;
-  }
   measure: discounts_total_sum {
     description: "The sum of Discounts Totals within each grouping."
     type: sum
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
+    value_format_name: usd
   }
 
   measure: discounts_total_max {
@@ -418,6 +383,7 @@ view: INVOICES {
     type: max
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
+    value_format_name: usd
   }
 
   measure: discounts_total_min {
@@ -425,6 +391,7 @@ view: INVOICES {
     type: min
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
+    value_format_name: usd
   }
 
   measure: discounts_total_avg {
@@ -432,6 +399,7 @@ view: INVOICES {
     type: average
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
+    value_format_name: usd
   }
 
   measure: discounts_total_median {
@@ -439,6 +407,7 @@ view: INVOICES {
     type: median
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
+    value_format_name: usd
   }
 
   measure: total_sum {
@@ -446,6 +415,7 @@ view: INVOICES {
     type: sum
     group_label: "Total Measures"
     sql: ${total} ;;
+    value_format_name: usd
   }
 
   measure: total_max {
@@ -453,6 +423,7 @@ view: INVOICES {
     type: max
     group_label: "Total Measures"
     sql: ${total} ;;
+    value_format_name: usd
   }
 
   measure: total_min {
@@ -460,6 +431,7 @@ view: INVOICES {
     type: min
     group_label: "Total Measures"
     sql: ${total} ;;
+    value_format_name: usd
   }
 
   measure: total_avg {
@@ -467,6 +439,7 @@ view: INVOICES {
     type: average
     group_label: "Total Measures"
     sql: ${total} ;;
+    value_format_name: usd
   }
 
   measure: total_median {
@@ -474,6 +447,7 @@ view: INVOICES {
     type: median
     group_label: "Total Measures"
     sql: ${total} ;;
+    value_format_name: usd
   }
 
   measure: subtotal_sum {
@@ -481,6 +455,7 @@ view: INVOICES {
     type: sum
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
+    value_format_name: usd
   }
 
   measure: subtotal_max {
@@ -488,6 +463,7 @@ view: INVOICES {
     type: max
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
+    value_format_name: usd
   }
 
   measure: subtotal_min {
@@ -495,6 +471,7 @@ view: INVOICES {
     type: min
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
+    value_format_name: usd
   }
 
   measure: subtotal_avg {
@@ -502,6 +479,7 @@ view: INVOICES {
     type: average
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
+    value_format_name: usd
   }
 
   measure: subtotal_median {
@@ -509,6 +487,7 @@ view: INVOICES {
     type: median
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
+    value_format_name: usd
   }
 
   measure: forecasted_total_sum {
@@ -516,6 +495,7 @@ view: INVOICES {
     type: sum
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
   }
 
   measure: forecasted_total_max {
@@ -523,6 +503,7 @@ view: INVOICES {
     type: max
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
   }
 
   measure: forecasted_total_min {
@@ -530,6 +511,7 @@ view: INVOICES {
     type: min
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
   }
 
   measure: forecasted_total_avg {
@@ -537,6 +519,7 @@ view: INVOICES {
     type: average
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
   }
 
   measure: forecasted_total_median {
@@ -544,6 +527,7 @@ view: INVOICES {
     type: median
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
   }
 
 }

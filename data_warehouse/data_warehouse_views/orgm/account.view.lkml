@@ -181,6 +181,12 @@ view: account {
     type: string
   }
 
+  dimension: clearbit_employee_count {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.clearbit_employee_count__c ;;
+    type: number
+  }
+
   dimension: company_licensed_percent {
     group_label: "Telemetry"
     sql: ${TABLE}.company_licensed_percent__c / 100 ;;
@@ -287,6 +293,13 @@ view: account {
     type: string
   }
 
+  dimension: discover_org_employee_count {
+    group_label: "Employee Counts"
+    sql: ${TABLE}.DiscoverOrg_Employee_Count__c ;;
+    type: number
+
+  }
+
   dimension: dwh_external_id__c {
     type: string
     sql: ${TABLE}.dwh_external_id__c ;;
@@ -294,6 +307,11 @@ view: account {
     label: "DWH External ID"
   }
 
+ dimension: empoloyee_count_override {
+   group_label: "Employee Counts"
+  sql: ${TABLE}.Employee_Count_Override__c ;;
+  type: number
+ }
 
   dimension_group: e_purchase {
     sql: ${TABLE}.e_purchase_date__c ;;
@@ -662,6 +680,7 @@ view: account {
   }
 
   dimension: number_of_employees {
+    group_label: "Employee Counts"
     label: "# of Employees"
     sql: ${TABLE}.numberofemployees ;;
     type: number
