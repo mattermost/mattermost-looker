@@ -35,7 +35,7 @@ view: zendesk_ticket_details {
         WHEN regexp_like(${subject}, '(\B|\b|.)*(guest account|guest link)(\B|\b|.)*', 'is')
                                                                                                                  THEN 'Guest Account'
         WHEN regexp_like(${subject}, '(\B|\b|.)*(gitlab|omnibus)(\B|\b|.)*', 'is')
-                                                                                                                 THEN 'Gitlabl Omnibus'
+                                                                                                                 THEN 'Gitlab Omnibus'
         WHEN regexp_like(${subject}, '(\B|\b|.)*(api)(\B|\b|.)*', 'is') OR ${category} in ('Developer Toolkit')
                                                                                                                  THEN 'Developer Toolkit'
         WHEN regexp_like(${subject}, '(\B|\b|.)*(bleve)(\B|\b|.)*', 'is')
