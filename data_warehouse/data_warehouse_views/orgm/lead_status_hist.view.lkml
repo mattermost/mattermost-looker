@@ -32,6 +32,16 @@ view: lead_status_hist {
     sql: ${TABLE}."STATUS" ;;
   }
 
+  dimension: owner {
+    type: string
+    sql: ${TABLE}."OWNER" ;;
+  }
+
+  dimension: additional_details {
+    type: string
+    sql: ${TABLE}."ADDITIONAL_DETAILS" ;;
+  }
+
   measure: count_leads {
     type: count_distinct
     sql: ${lead_sfid} ;;
