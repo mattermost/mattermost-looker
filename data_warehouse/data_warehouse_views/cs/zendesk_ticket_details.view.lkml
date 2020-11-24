@@ -20,6 +20,189 @@ view: zendesk_ticket_details {
     type: string
   }
 
+  dimension: automated_ticket_classification {
+    description: "Automated ticket category classification based on a standard list of ticket classification groupings and regular expression pattern matching."
+    type: string
+    sql: CASE
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(renewal|check in|checking in|check in|health check|new subscription|Closed/Won|invoice|subscription)(\B|\b|.)*',
+                         'is')                                                                                   THEN 'Renewals & Health Checks'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(react native)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'React Native App'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(import|export)(\B|\b|.)*', 'is') or ${category} = 'Data Export and Import'
+                                                                                                                 THEN 'Data Import/Export'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(cluster|multiserver|multi-server|servers|node)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Multi-Server/Clustering'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(guest account|guest link)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Guest Account'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(gitlab|omnibus)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Gitlab Omnibus'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(api)(\B|\b|.)*', 'is') OR ${category} in ('Developer Toolkit')
+                                                                                                                 THEN 'Developer Toolkit'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(bleve)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Bleve'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(emoji|giphy|gif|emoticon)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Emojis & Gifs'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(elastic|search)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Search/ElasticSearch'
+        WHEN regexp_like(${subject},
+                 '(\B|\b|.)*(getting started|get started|new user|invite|invitation|members|adding guests|add guests|onboard|join team|join the team|user create|create new user|create user|add user|add a new user|add new user|signup|adding users|user account creat|sign up|user not saving)(\B|\b|.)*',
+                 'is')
+                                                                                                                 THEN 'Invites & Onboarding'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(delete user|delete my user|user access|deactivating user|user deactivation|deactivation user|remove user|removing inactive user|remove inactive user|deactivate user|disable user|diabling user|disabled user|decrease active user)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'User Deactivation'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(active user|user stat|telemetry|system statistics|system console|admin console|user activity|usage|admin|accessibility)(\B|\b|.)*', 'is') or ${category} = 'System Console'
+                                                                                                                 THEN 'Admin Console, Usage & Telemetry'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(team|groups|group discovery|person to group|user to group)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Teams & Groups'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(log|logs of users|user logs|chat logs|backup|archive|archiv|unarchiv|logging|user log|get the posts|chat history)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Logging & Chat History'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(admin)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Admin'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(restrict|permissions|role|system setting)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'System/User Permissions & Roles'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(phone app|mobile|ios|android|andorid)(\B|\b|.)*', 'is') or ${category} = 'Mobile'
+                                                                                                                 THEN 'Mobile'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(theme)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Custom Themes'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(desktop)(\B|\b|.)*', 'is') or ${category} = 'Desktop'
+                                                                                                                 THEN 'Desktop'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(cli|command line interface|command line)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'CLI'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(webhook|web hook)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Webhooks'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(zoom|integration|plugin|marketplace|jitsi|jira|mscalendar|todo|to do|plug in|digitalocean)(\B|\b|.)*',
+                         'is') OR ${category} = 'Integrations'
+                                                                                                                 THEN 'Plugins'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(AD/LDAP|ldap|ladp| ad |ad )(\B|\b|.)*', 'is') or ${category} = 'LDAP'
+                                                                                                                 THEN 'AD/LDAP'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(experimental|latex)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Experimental Features'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(sso|single sign on|signle sign on|single-signon|single signon|mfa|multifactor authentication|multifactor|multi factor|authentication|oauth|saml|authenticat|multi-factor)(\B|\b|.)*',
+                         'is') OR ${category} = 'Authentication & Provisioning'
+                                                                                                                 THEN 'Authentication (SSO/MFA/OAuth/SAML)'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(posts|scroll|group chat)(\B|\b|.)*', 'is') OR ${category} IN ('User Interface')
+                                                                                                                 THEN 'Chat, Posts & Channel UI'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(server)(\B|\b|.)*', 'is') OR ${category} IN ('Server Issue', 'Server Issues')
+                                                                                                                 THEN 'Server Issues'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(nonprofit|non-profit|npo|university|student|school)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Education & Non-Profit'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(mysql|database|postgres|db|sql)(\B|\b|.)*', 'is') or ${category} = 'Database'
+                                                                                                                 THEN 'Database'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(pw|password|pasword|passwort)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Password'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(users get invalid|login|logout|log in|log out|logged in|logged out|logon|log on|unable to access|log-in|log-out|logging in|log back|sign in|forgot username|sing in|user disconnecting|loggin)(\B|\b|.)*', 'is') or ${category} in ('Login')
+                                                                                                                 THEN 'Login/Logout Issues'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(upgrade|upgrading|Enterprise|e10|switch mattermost edition|switch edition)(\B|\b|.)*', 'is') or ${category} = 'Upgrading'
+                                                                                                                 THEN 'Upgrade'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(cloud|preparing your workspace|prepare your workspace)(\B|\b|.)*',
+                         'is')
+                                                                                                                 THEN 'Cloud'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(slack)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Slack'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(channel|sidebar|grouping|group away)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Channels & Sidebar'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(email)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Email'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(slash)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Slash Commands'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(performance|compression|slowness|loading|unresponsive|lag)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Performance'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(attachment|attachement|file|photo|attach|documents|image)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Files & Attachments'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(preview)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Previews (Links/Files)'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(not running|cannot start|can\'t start|production is down|not workign|outage|mattermost down|can\'t launch|unreachable|glitch|not running|doesn\'t open|not able|stopped working|production incident|crash|bug|whitescreen|white screen|greyscreen|grayscreen|grey screen|gray screen|issue|bad gateway|unavailable|500 error|error|service restart|not displaying|not working|prod down|prod not work|froze|service failed|went down|failing|cant open|can\'t open|broken|cpu spik)(\B|\b|.)*',
+                         'is')
+                                                                                                                 THEN 'General Crashes & Bugs'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(contact us)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Contact Us'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(trial)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Mattermost Trial'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(migrate|migrating|migration)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Migration'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(monitoring)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Monitoring'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(rentention|delete data|delete old data|retention|dataretention|data retention|storage|deleting history|deleting chat history)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Data Retention & Storage'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(uninstall)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Uninstall'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(network|connection|connectivity|internet|connect)(\B|\b|.)*', 'is') or ${category} = 'Connectivity'
+                                                                                                                 THEN 'Network Connection'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(mattermost app|application|app review)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Mattermost Application'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(consolidation|combining|combination of two licenses into one|consolidat|merge)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Mattermost Consolidation'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(unlock|cannot access|can not access|reactivat|unlock account|disable account|disabling account|disabled account|locked account|locked out|disabled account|account deactivation|account deactivated|account deactvated|account lock|delete account|delete my account|account created by mistake|remove the account|cancel|leave|account deletion|locked out)(\B|\b|.)*',
+                         'is')
+                                                                                                                 THEN 'Account Deactivation/Lockout'
+        WHEN regexp_like(${subject},
+                         '(\B|\b|.)*(user deactivation|user deactivation|remove user|user removal|sync user|user sync|disabled users|disable user|user disabl|disable a user|disabling users)(\B|\b|.)*',
+                         'is')
+                                                                                                                 THEN 'User Deactivation'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(notification|alerting|alarming|alert|alarm)(\B|\b|.)*', 'is') OR ${category} = 'Notifications & Status'
+                                                                                                                 THEN 'Alerting & Notifications'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(read message|read receipt|read reciept|alerting|alarming|alert|alarm)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Read Receipts'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(documentation|docs)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Documentation'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(price|pricing|quote|purchase)(\B|\b|.)*', 'is') or ${category} = 'Pricing'
+                                                                                                                 THEN 'Pricing'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(test)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Test'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(multitenant|multi-tenan|tenant|tenancy|own environment)(\B|\b|.)*',
+                         'is')
+                                                                                                                 THEN 'Multi-Tenancy'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(license|licensing|seats available|available seat)(\B|\b|.)*', 'is') OR ${category} = 'Licensing'
+                                                                                                                 THEN 'Licensing & Seats'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(intern|internship|work from home|hire|working from home|job|career|data analyst|working for mattermost|work for mattermost|work at mattermost)(\B|\b|.)*'
+        , 'is')                                                                                                  THEN 'Jobs & Hiring'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(contributor|customs duty receive|contribut)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Contributor Community'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(encrypt|privacy|vulnerability|secure|security|ssl|proxy|firewall|untrusted|locking down)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Encryption, Security & Privacy'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(gdpr)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'GDPR'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(implement)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Implementation'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(account activat|activate account|mattermost account|account on mattermost|create account|reactivate)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Mattermost Account'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(help|support|question|technical difficult|problem)(\B|\b|.)*', 'is') or ${category}  IN ('General Inquiry','General Support')
+                                                                                                                 THEN 'General Support'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(config|adding a phone number|subpath|install|nicknames|pronouns|modification|username|deployment)(\B|\b|.)*'
+        , 'is') or ${category} = 'Installation'                                                                     THEN 'Installation & Configuration'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(not possible|add feature)(\B|\b|.)*', 'is') or ${category} in ('Product')
+                                                                                                                 THEN 'Product/Feature Request'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(partnership|partner|resale|reseller)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Partnerships'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(version)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Mattermost Version'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(message|messaging)(\B|\b|.)*', 'is') or ${category} = 'Messaging'
+                                                                                                                 THEN 'Messaging Issue'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(disabl)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Disabling Feature'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(quarterly|trueup|true up|usage screenshot)(\B|\b|.)*', 'is') or ${category} = 'Compliance & Auditing'
+                                                                                                                 THEN 'Compliance & Auditing'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(additional seat|more users|expand|expansion)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Expansion'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(thread|reply|replies)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Threads & Replies'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(invoic|pay per month|pay for month|billing|monthly payment|paypal|visa|charge|receipt|bill|payment|shipping address|billing address)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Billing & Invoicing'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(audio|video|call)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Audio & Video'
+        WHEN regexp_like(${subject}, '(\B|\b|.)*(unsubscribe)(\B|\b|.)*', 'is')
+                                                                                                                 THEN 'Unsubscribe'
+        WHEN ${category} in ('User Issue')                                                                       THEN 'General User Issue'
+        WHEN ${category} in ('Uncategorized', 'Unknown')                                                                    THEN 'Uncategorized'
+
+                                                                                                                 ELSE 'Uncategorized' END ;;
+  }
+
   dimension: business_impact {
     type: string
     sql: ${TABLE}."BUSINESS_IMPACT" ;;
