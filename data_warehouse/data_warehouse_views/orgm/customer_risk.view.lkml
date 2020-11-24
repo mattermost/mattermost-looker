@@ -1,7 +1,5 @@
 view: customer_risk {
-  sql_table_name: "ORGM"."CUSTOMER_RISK__C"
-    ;;
-  drill_fields: [id]
+  sql_table_name: "ORGM"."CUSTOMER_RISK__C";;
 
   dimension: id {
     hidden: yes
@@ -247,6 +245,7 @@ view: customer_risk {
   dimension: risk_amount {
     type: number
     sql: ${TABLE}."RISK_AMOUNT__C" ;;
+    value_format_name: mm_usd_short
   }
 
   dimension: risk_assigned {
@@ -268,6 +267,7 @@ view: customer_risk {
     ]
     sql: CAST(${TABLE}."DELAYED_DATE__C" AS TIMESTAMP_NTZ) ;;
   }
+
 
   dimension_group: risk_resolved {
     type: time
@@ -423,5 +423,20 @@ view: customer_risk {
     label: "# of Customer Risks"
     type: count
     drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
+  }
+
+  measure: risk_detail_drilldown {
+    type: string
+    sql: ${status};;
+    drill_fields: [status, seats_at_risk, risk_amount, contraction, account.name, account_ext.use_case, opportunity.name, opportunity.csm_name, account.owner_name, account.number_of_employees, account.customer_segmentation_tier,
+                   opportunity_ext.renewal_amount, opportunity_ext.license_min_start_date_date, account.seats_licensed, account.seat_utilization, reason, additional_details,
+                  account.last_activity_date, type, next_step]
+    link: {
+      label: "Drill into Additional Risk Details"
+      url: "
+      {% assign vis_config = '{\"type\": \"looker_single_record\"}' %}
+      {{ link }}&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis&limit=5000"
+    }
+
   }
 }
