@@ -429,7 +429,7 @@ view: customer_risk {
     type: string
     sql: ${status};;
     drill_fields: [status, seats_at_risk, risk_amount, contraction, account.name, account_ext.use_case, opportunity.name, opportunity.csm_name, account.owner_name, account.number_of_employees, account.customer_segmentation_tier,
-                   opportunity_ext.renewal_amount, opportunity_ext.license_min_start_date_date, account.seats_licensed, account.seat_utilization, reason, additional_details,
+                   opportunity_ext.renewal_amount, opportunity_ext.license_min_start_date_date, account.seats_licensed, account.seats_registered, account.seats_active_latest, account.seat_utilization, reason, additional_details,
                   account.last_activity_date, type, next_step]
     link: {
       label: "Drill into Additional Risk Details"
