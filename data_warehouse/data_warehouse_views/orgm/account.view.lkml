@@ -1146,6 +1146,10 @@ view: account {
     type: string
   }
 
+  dimension: cleaned_up_website {
+    sql: ${TABLE}.cleaned_up_website__c ;;
+    type: string
+  }
 
   dimension: website_domain {
     type: string

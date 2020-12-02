@@ -739,7 +739,13 @@ explore: lead {
   }
 }
 
-explore: lead_status_hist {}
+explore: lead_status_hist {
+  join: user {
+    sql_on: ${user.sfid} = ${lead_status_hist.owner} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
 
 explore: contributor_map_data {
   group_label: "Contributors"
@@ -2514,6 +2520,64 @@ explore: CUSTOMERS {
     sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
     relationship: one_to_one
   }
+
+  join: person {
+    view_label: "Person"
+    sql_on: ${person.email} = ${CUSTOMERS.email};;
+    relationship: one_to_one
+  }
+
+  join: lead {
+    view_label: "Lead"
+    sql_on: ${person.object} = 'Lead' AND ${lead.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: contact {
+    view_label: "Contact"
+    sql_on: ${person.object} = 'Contact' AND ${contact.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: account {
+    view_label: "Account"
+    sql_on: ${person.accountid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [name, account.owner_name, sfid]
+    required_joins: [person,lead,contact]
+  }
+
+  join: account_domain_mapping {
+    sql_on: ${person.domain} = ${account_domain_mapping.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_domain {
+    from: territory_mapping
+    sql_on: concat('.',split_part(${person.domain},'.',2)) = ${territory_mapping_domain.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: ${person.country_code} = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account_owner.sfid} = ${account.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
 }
 
 explore: FEATURES {
