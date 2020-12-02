@@ -31,6 +31,11 @@ view: person {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    link: {
+      label: "Salesforce Link"
+      url: "@{salesforce_link}{{sfid}}"
+      icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
+    }
   }
 
   dimension: domain {
@@ -119,8 +124,10 @@ view: person {
   }
 
   measure: count {
+    label: "Count Cloud Workspaces"
     type: count_distinct
-    sql: ${CUSTOMERS.id} ;;
+    sql: ${subscriptions_stripe.cws_dns} ;;
+    drill_fields: [account.name, account.owner_name, email, subscriptions_stripe.cws_dns]
   }
 
 }
