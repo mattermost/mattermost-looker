@@ -35,6 +35,12 @@ view: lead_status_hist {
   dimension: owner {
     type: string
     sql: ${TABLE}."OWNER" ;;
+    hidden: yes
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: ${user.name} ;;
   }
 
   dimension: additional_details {
@@ -45,5 +51,6 @@ view: lead_status_hist {
   measure: count_leads {
     type: count_distinct
     sql: ${lead_sfid} ;;
+    drill_fields: [lead_sfid]
   }
 }
