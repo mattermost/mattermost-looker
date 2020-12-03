@@ -3134,6 +3134,22 @@ view: server_daily_details_ext {
     sql: ${TABLE}.enable_memes ;;
     hidden: no
   }
+  dimension: enable_agenda {
+    label: "Agenda Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostagenda ;;
+    hidden: no
+  }
+  dimension: version_agenda {
+    label: "Agenda Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostagenda ;;
+    hidden: no
+  }
 
   dimension: is_default_marketplace_url {
   label: "Is Default Marketplace Url"
