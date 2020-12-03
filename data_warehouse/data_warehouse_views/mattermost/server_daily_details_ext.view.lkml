@@ -7289,6 +7289,15 @@ view: server_daily_details_ext {
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
+  measure: enable_agenda_count {
+    label: "Servers w/ Agenda Enabled"
+    description: "The count of servers with the Agenda plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_agenda} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
   measure: automatic_prepackaged_plugins_count {
     label: "Servers w/ Plugin Automatic Prepackaged Plugins"
     description: "The count of servers with Plugin Automatic Prepackaged Plugins enabled."
