@@ -155,6 +155,11 @@ view: lead {
     }
   }
 
+  dimension: is_public_domain {
+    type: yesno
+    sql: ${account_domain_mapping.domain} IS NOT NULL ;;
+  }
+
   dimension: existing_account__c {
     sql: ${TABLE}.EXISTING_ACCOUNT__C ;;
     type: string
