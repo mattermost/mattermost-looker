@@ -273,7 +273,7 @@ view: license_server_fact {
   }
 
   dimension: mau_pct_licensed {
-    description: "The percentage/ration of monthly active users to licensed users."
+    description: "The percentage/ratio of monthly active users to licensed users."
     label: "MAU % of Licensed"
     group_label: "Aggregate Server Telemetry"
     type: number
@@ -282,7 +282,7 @@ view: license_server_fact {
   }
 
   dimension: dau_pct_licensed {
-    description: "The percentage/ration of daily active users to licensed users."
+    description: "The percentage/ratio of daily active users to licensed users."
     label: "DAU % of Licensed"
     group_label: "Aggregate Server Telemetry"
     type: number
@@ -291,8 +291,8 @@ view: license_server_fact {
   }
 
   dimension: registered_pct_licensed {
-    description: "The percentage/ration of registered users to licensed users."
-    label: "Registered % of Licensed"
+    description: "The percentage/ratio of registered users to licensed users."
+    label: "License Utilization"
     group_label: "Aggregate Server Telemetry"
     type: number
     value_format_name: percent_1
