@@ -745,6 +745,12 @@ explore: lead_status_hist {
     relationship: many_to_one
     fields: []
   }
+
+  join: lead {
+    sql_on: ${lead.sfid} = ${lead_status_hist.lead_sfid} ;;
+    relationship: many_to_one
+    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date]
+  }
 }
 
 explore: contributor_map_data {
