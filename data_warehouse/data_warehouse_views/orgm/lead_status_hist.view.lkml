@@ -48,9 +48,15 @@ view: lead_status_hist {
     sql: ${TABLE}."ADDITIONAL_DETAILS" ;;
   }
 
+  dimension: current_lead_status {
+    label: "Current Status"
+    type: string
+    sql: ${lead.status} ;;
+  }
+
   measure: count_leads {
     type: count_distinct
     sql: ${lead_sfid} ;;
-    drill_fields: [lead_sfid]
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date, lead.most_recent_scl_date]
   }
 }

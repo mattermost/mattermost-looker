@@ -737,11 +737,29 @@ explore: lead {
     relationship: one_to_one
     fields: [customer_risk.status,customer_risk.risk_assigned]
   }
+
+  join: account_domain_mapping {
+    sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: lead_status_hist {
   join: user {
     sql_on: ${user.sfid} = ${lead_status_hist.owner} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: lead {
+    sql_on: ${lead.sfid} = ${lead_status_hist.lead_sfid} ;;
+    relationship: many_to_one
+    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain]
+  }
+
+  join: account_domain_mapping {
+    sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
     relationship: many_to_one
     fields: []
   }

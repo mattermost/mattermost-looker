@@ -1211,6 +1211,12 @@ view: account {
     value_format_name: usd_0
   }
 
+  measure: total_seats_licensed {
+    sql: ${seats_licensed} ;;
+    type: sum
+    value_format_name: decimal_0
+  }
+
   measure: website_count {
     hidden: yes
     type: count_distinct
