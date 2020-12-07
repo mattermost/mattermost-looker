@@ -561,9 +561,20 @@ view: license_server_fact {
     label: " License Count"
     description: "The distinct count of Licenses per grouping."
     type: count_distinct
-    sql: ${license_id} ;;
+    sql: case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end;;
     drill_fields: [licensed_server_drill*]
   }
+
+
+  measure: activated_license_count {
+    label: " Actived License Count"
+    description: "The distinct count of Activated Licenses per grouping."
+    type: count_distinct
+    sql: case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end;;
+    filters: [is_activated: "yes"]
+    drill_fields: [licensed_server_drill*]
+  }
+
 
   measure: users_sum {
     description: "The sum of Users per grouping."
