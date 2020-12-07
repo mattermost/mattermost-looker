@@ -1061,6 +1061,13 @@ explore: server_daily_details {
     sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
   join: server_events_by_date {
     view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
@@ -1107,6 +1114,13 @@ explore: server_fact {
     view_label: "License Fact"
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id};;
     relationship: one_to_many
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 
   join: excludable_servers {
@@ -1343,6 +1357,13 @@ explore: nps_user_monthly_score {
     relationship: many_to_one
   }
 
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
   join: excludable_servers {
     sql_on: ${excludable_servers.server_id} = ${nps_user_monthly_score.server_id} ;;
     relationship: many_to_one
@@ -1420,6 +1441,13 @@ explore: server_daily_details_ext {
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 }
 
@@ -1830,6 +1858,13 @@ explore: nps_server_version_daily_score {
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 
   join: excludable_servers {
@@ -2354,10 +2389,26 @@ explore: license_server_fact {
     type: left_outer
     }
 
+  join: excludable_servers {
+    view_label: "License Server Fact"
+    sql_on: ${license_server_fact.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+
+  }
+
   join: person {
     view_label: "Person"
     sql_on: ${person.email} = ${license_server_fact.license_email};;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   }
 
