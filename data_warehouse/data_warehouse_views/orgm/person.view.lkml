@@ -74,7 +74,7 @@ view: person {
     group_item_label: "Salesforce (Primary)"
     label: "Salesforce Employee Count"
     type: number
-    sql: coalesce(${lead.number_of_employees}, ${contact.employee_count}) ;;
+    sql: coalesce(${account.number_of_employees},${lead.number_of_employees}, ${contact.employee_count}) ;;
   }
 
   dimension: market_segment {
@@ -112,7 +112,7 @@ view: person {
     group_item_label: "Clearbit"
     label: "Clearbit Employee Count"
     type: string
-    sql: coalesce(${lead.clearbit_employee_count}, ${contact.clearbit_employee_count}) ;;
+    sql: coalesce(${account.clearbit_employee_count}, ${lead.clearbit_employee_count}, ${contact.clearbit_employee_count}) ;;
   }
 
   dimension: object_do_num_employees {
@@ -120,7 +120,7 @@ view: person {
     group_item_label: "DiscoverOrg"
     label: "DiscoverOrg Employee Count"
     type: string
-    sql: coalesce(${lead.discoverorg_employee_count}, ${contact.discoverorg_employee_count}) ;;
+    sql: coalesce(${account.discover_org_employee_count}, ${lead.discoverorg_employee_count}, ${contact.discoverorg_employee_count}) ;;
   }
 
   measure: count {

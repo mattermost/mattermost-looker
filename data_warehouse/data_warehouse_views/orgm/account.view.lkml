@@ -187,15 +187,6 @@ view: account {
     type: number
   }
 
-  dimension: employee_count_band {
-    group_label: "Employee Counts"
-    sql: CASE WHEN COALESCE(${number_of_employees}, ${TABLE}.clearbit_employee_count__c) >= 5000 THEN '5000+'
-            WHEN COALESCE(${number_of_employees}, ${TABLE}.clearbit_employee_count__c) >= 500 THEN '500-4,999'
-            WHEN COALESCE(${number_of_employees}, ${TABLE}.clearbit_employee_count__c) >= 0 THEN '0-499'
-            ELSE COALESCE(${number_of_employees}, ${TABLE}.clearbit_employee_count__c)::varchar END;;
-    type: string
-  }
-
   dimension: company_licensed_percent {
     group_label: "Telemetry"
     sql: ${TABLE}.company_licensed_percent__c / 100 ;;

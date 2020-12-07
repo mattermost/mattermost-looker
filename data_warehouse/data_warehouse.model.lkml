@@ -2346,12 +2346,19 @@ explore: license_server_fact {
   group_label: "BLP"
   label: "License Server Fact"
   hidden: no
+  extends: [person]
 
   join: server_fact {
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: left_outer
     }
+
+  join: person {
+    view_label: "Person"
+    sql_on: ${person.email} = ${license_server_fact.license_email};;
+    relationship: one_to_one
+  }
   }
 
 explore: incident_response_events {
@@ -2359,6 +2366,7 @@ explore: incident_response_events {
   view_label: "Incident Management"
   label: "Incident Management"
   group_label: "Integrations"
+  extends: [license_server_fact]
 
   join: server_daily_details {
     view_label: "Incident Management"
@@ -2385,12 +2393,6 @@ explore: incident_response_events {
   join: license_server_fact {
     sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
-  }
-
-  join: account {
-    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
-    relationship: many_to_one
-    fields: [account.clearbit_employee_count, account.employee_count_band, account.territory_sales_segment]
   }
 
   join: version_release_dates {
@@ -2603,6 +2605,84 @@ explore: CUSTOMERS {
   }
 
 }
+
+explore: person {
+  extension: required
+  label: "Person"
+
+  join: CUSTOMERS {
+    sql_on: ${person.email} = ${CUSTOMERS.email};;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: subscriptions_stripe {
+      from: subscriptions
+      view_label: "Subscriptions (Stripe)"
+      sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+      relationship: one_to_one
+      fields: []
+  }
+
+  join: lead {
+    view_label: "Lead"
+    sql_on: ${person.object} = 'Lead' AND ${lead.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: contact {
+    view_label: "Contact"
+    sql_on: ${person.object} = 'Contact' AND ${contact.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: account {
+    view_label: "Account"
+    sql_on: ${person.accountid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [name, account.owner_name, sfid]
+    required_joins: [person,lead,contact]
+  }
+
+  join: account_domain_mapping {
+    sql_on: ${person.domain} = ${account_domain_mapping.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_domain {
+    from: territory_mapping
+    sql_on: concat('.',split_part(${person.domain},'.',2)) = ${territory_mapping_domain.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: ${person.country_code} = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account_owner.sfid} = ${account.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 
 explore: FEATURES {
   hidden: yes
