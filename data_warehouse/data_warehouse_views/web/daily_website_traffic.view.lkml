@@ -335,7 +335,7 @@ view: daily_website_traffic {
                                                                                          , ${TABLE}.referrer), 'q=[A-Za-z0-9_%+/:.-]{0,100}'),
                                                            '=', 2), '%2B', ''), '%20', ' '), '%2', ''), '+', ' '), ' %',
                    1)  ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: referrer_source {
@@ -355,7 +355,7 @@ view: daily_website_traffic {
                                                                                    '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
                                                                            '//'
                                                                , 2) END ;;
-    hidden: yes
+    hidden: no
   }
 
   filter: week_to_date {
