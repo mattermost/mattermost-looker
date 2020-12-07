@@ -42,6 +42,15 @@ view: license_server_fact {
     sql: CASE WHEN (${last_server_telemetry_date} >= CURRENT_DATE - INTERVAL '7 DAYS' OR ${license_activation_date} IS NULL) AND ${latest_license} AND ${license_retired_date} >= CURRENT_DATE AND ${customer_name} NOT LIKE 'Mattermost%' THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: trial_request_type {
+    label: "Trial Request Type"
+    type: string
+    sql: CASE WHEN ${trial_requests.server_id} IS NOT NULL THEN 'In-Product'
+          WHEN ${cloud_customer} THEN 'Cloud'
+          WHEN ${trial} THEN 'Website'
+          ELSE NULL END ;;
+  }
+
   dimension: id {
     description: ""
     type: string
@@ -470,7 +479,7 @@ view: license_server_fact {
     label: "License Issued"
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.issued_date ;;
     hidden: no
   }
@@ -484,7 +493,7 @@ view: license_server_fact {
     label: "License Start"
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.start_date ;;
     hidden: no
   }
@@ -498,7 +507,7 @@ view: license_server_fact {
     label: "License Expire"
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
   }
