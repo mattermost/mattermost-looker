@@ -2387,6 +2387,12 @@ explore: incident_response_events {
     relationship: many_to_one
   }
 
+  join: account {
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
+    relationship: many_to_one
+    fields: [account.clearbit_employee_count, account.employee_count_band, account.territory_sales_segment]
+  }
+
   join: version_release_dates {
     sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
     relationship: many_to_one
