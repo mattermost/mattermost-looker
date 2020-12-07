@@ -69,6 +69,13 @@ view: person {
     sql: coalesce(${account.billing_country_code}, ${account.shipping_country_code}, ${lead.country_code}, ${lead.company_country_code}) ;;
   }
 
+  dimension: company {
+    label: "Lead Company/Account Name"
+    description: "Coalesce value representing either the contact's SF Account Name or lead's company name."
+    type: string
+    sql: COALESCE(${account.name}, ${lead.company}) ;;
+  }
+
   dimension: object_num_employees {
     group_label: "Number of Employees"
     group_item_label: "Salesforce (Primary)"
