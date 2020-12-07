@@ -63,6 +63,12 @@ view: lead {
     type: string
   }
 
+  dimension: company_country_code {
+    sql: ${TABLE}.DSCORGPKG__Company_HQ_Country_Code__c ;;
+    type: string
+  }
+
+
   dimension: convertedaccountid {
     label: "Converted Account ID"
     sql: ${TABLE}.CONVERTEDACCOUNTID ;;
