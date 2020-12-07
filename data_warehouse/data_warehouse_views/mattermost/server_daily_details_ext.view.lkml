@@ -9187,4 +9187,16 @@ view: server_daily_details_ext {
     type: date
     sql: MAX(${expire_date}::date) ;;
   }
+
+  measure: license_utilization {
+    description: "The license utilization represented as registered user/licensed user per grouping."
+    type: number
+    sql: ${registered_users_sum}/${license_server_fact.users_sum} ;;
+  }
+
+  measure: active_license_utilization {
+    description: "The license utilization represented as active user/licensed user per grouping."
+    type: number
+    sql: ${active_users_daily_sum}/${license_server_fact.users_sum} ;;
+  }
 }

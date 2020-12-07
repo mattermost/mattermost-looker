@@ -330,14 +330,31 @@ view: daily_website_traffic {
   dimension: referrer_search_term {
     description: ""
     type: string
-    sql: ${TABLE}.referrer_search_term ;;
+    sql:  split_part(replace(replace(replace(replace(split_part(
+                                                           regexp_substr(COALESCE(${TABLE}.context_page_referrer
+                                                                                         , ${TABLE}.referrer), 'q=[A-Za-z0-9_%+/:.-]{0,100}'),
+                                                           '=', 2), '%2B', ''), '%20', ' '), '%2', ''), '+', ' '), ' %',
+                   1)  ;;
     hidden: yes
   }
 
   dimension: referrer_source {
     description: ""
     type: string
-    sql: ${TABLE}.referrer_source ;;
+    sql: CASE
+                                                       WHEN split_part(regexp_substr(COALESCE(${TABLE}.context_page_referrer
+                                                                                         , ${TABLE}.referrer)
+                                                                           ,
+                                                                                     '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9]{0,100}[\.]{1}[a-z]{1,10}'),
+                                                                       '//'
+                                                           , 2) IS NULL
+                                                           THEN 'Other'
+                                                           ELSE split_part(regexp_substr(
+                                                                                   COALESCE(${TABLE}.context_page_referrer, ${TABLE}.referrer)
+                                                                               ,
+                                                                                   '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
+                                                                           '//'
+                                                               , 2) END ;;
     hidden: yes
   }
 
