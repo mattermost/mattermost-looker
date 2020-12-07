@@ -1,7 +1,7 @@
 view: person {
   derived_table: {
     sql:
-        SELECT lead.sfid, email, 'Lead' as object, lead.existing_account__c as accountid
+        SELECT lead.sfid, email, 'Lead' as object, coalesce(lead.existing_account__c,lead.engagio__matched_account__c) as accountid
         FROM orgm.lead
         WHERE converteddate IS NULL
 
@@ -66,14 +66,14 @@ view: person {
 
   dimension: country_code {
     type: string
-    sql: coalesce(${account.billing_country_code}, ${account.shipping_country_code}, ${lead.country_code}) ;;
+    sql: coalesce(${account.billing_country_code}, ${account.shipping_country_code}, ${lead.country_code}, ${lead.company_country_code}) ;;
   }
 
   dimension: object_num_employees {
     group_label: "Number of Employees"
     group_item_label: "Salesforce (Primary)"
     label: "Salesforce Employee Count"
-    type: string
+    type: number
     sql: coalesce(${lead.number_of_employees}, ${contact.employee_count}) ;;
   }
 
