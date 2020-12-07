@@ -114,7 +114,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: cloud_server {
-    label: "   Cloud Server"
+    label: "   Cloud Workspace"
     description: "Indicates whether the server is using Mattermost's cloud product."
     type: yesno
     sql: CASE WHEN ${TABLE}.installation_id IS NOT NULL THEN TRUE ELSE FALSE END ;;
