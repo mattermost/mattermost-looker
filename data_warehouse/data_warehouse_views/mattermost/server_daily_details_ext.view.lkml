@@ -3151,6 +3151,57 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_commattermostmsteamsmeetings {
+    label: "MS Teams Meetings Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostmsteamsmeetings ;;
+    hidden: no
+  }
+  dimension: version_commattermostmsteamsmeetings {
+    label: "MS Teams Meetings Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostmsteamsmeetings ;;
+    hidden: no
+  }
+
+  dimension: enable_commattermostpluginchannelexport {
+    label: "Channel Export Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostpluginchannelexport ;;
+    hidden: no
+  }
+  dimension: version_commattermostpluginchannelexport {
+    label: "Channel Export Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostpluginchannelexport ;;
+    hidden: no
+  }
+
+  dimension: enable_comnilsbrinkmannicebreaker {
+    label: "Icebreaker Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_comnilsbrinkmannicebreaker ;;
+    hidden: no
+  }
+  dimension: version_comnilsbrinkmannicebreaker {
+    label: "Icebreaker Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_comnilsbrinkmannicebreaker ;;
+    hidden: no
+  }
+
   dimension: is_default_marketplace_url {
   label: "Is Default Marketplace Url"
     description: ""
@@ -7286,6 +7337,33 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Plugin Server Counts"
     sql: case when ${enable_comgithubmatterpollmatterpoll} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_msteamsmeeting_count {
+    label: "Servers w/ MS Teams Meetings Enabled"
+    description: "The count of servers with the MS Teams Meetings plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_commattermostmsteamsmeetings} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_channelexport_count {
+    label: "Servers w/ Channel Export Enabled"
+    description: "The count of servers with the Channel Export plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_commattermostpluginchannelexport} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_icebreaker_count {
+    label: "Servers w/ Icebreaker Enabled"
+    description: "The count of servers with the Icebreaker plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_comnilsbrinkmannicebreaker} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
