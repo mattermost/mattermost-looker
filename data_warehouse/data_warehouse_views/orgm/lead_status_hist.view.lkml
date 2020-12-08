@@ -40,7 +40,7 @@ view: lead_status_hist {
 
   dimension: owner_name {
     type: string
-    sql: ${user.name} ;;
+    sql: CASE WHEN ${lead.ownerid} != '00G1R000003KGjFUAW' AND ${lead.ownerid} NOT LIKE '00G360000026ZoQ%' AND ${lead.ownerid} NOT  LIKE '00G3p000005V9UP%' THEN ${lead.owner_name} ELSE ${user.name} END ;;
   }
 
   dimension: owner_segment {
