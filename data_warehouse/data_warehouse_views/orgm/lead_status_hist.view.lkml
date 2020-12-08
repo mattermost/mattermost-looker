@@ -43,6 +43,11 @@ view: lead_status_hist {
     sql: ${user.name} ;;
   }
 
+  dimension: owner_segment {
+    type: string
+    sql: ${user.sales_segment} ;;
+  }
+
   dimension: additional_details {
     type: string
     sql: ${TABLE}."ADDITIONAL_DETAILS" ;;
@@ -52,6 +57,12 @@ view: lead_status_hist {
     label: "Current Status"
     type: string
     sql: ${lead.status} ;;
+  }
+
+  dimension: mql_sla_breached {
+    label: "MQL SLA Breached"
+    type: yesno
+    sql: CASE WHEN ${lead.status} = 'MQL' AND ${date_date} < current_date - interval '2 days' AND ${lead.most_recent_mql_date} < current_date THEN true else false end ;;
   }
 
   measure: count_leads {
