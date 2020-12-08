@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [fullname, email, company, status, lead_source, first_action, first_mcl_date, first_mql_date]
+    fields: [fullname, email, company, status, lead_source, first_action, first_mcl_date, first_mql_date, count]
   }
 
 
@@ -190,7 +190,7 @@ view: lead {
   }
 
   dimension: geo {
-    sql: ${TABLE}.GEO__C ;;
+    sql: coalesce(${TABLE}.GEO__C,${territory_mapping_country.geo}) ;;
     type: string
     group_label: "Geo"
   }
@@ -875,7 +875,7 @@ view: lead {
   dimension: lead_segment {
     type: string
     label: "Lead Segment"
-    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' else ${geo} end ;;
+    sql: case when ${owner.sales_segment} is not null AND ${owner.sales_segment} != 'SMB' then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' WHEN ${geo} IS NOT NULL then ${geo} ELSE 'Unknown' end ;;
   }
 
   dimension: original_owner__c {

@@ -258,6 +258,12 @@ explore: _base_opportunity_explore {
     relationship: many_to_one
   }
 
+  join: territory_mapping {
+    sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code}
+            OR coalesce(${opportunity.shipping_country},${opportunity.billing_country}) = ${territory_mapping.country_name};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: _base_opportunity_core_explore {
@@ -309,7 +315,13 @@ explore: _base_opportunity_core_explore {
     sql_on: ${opportunity.ce_owner__c} = ${opportunity_ce.sfid} ;;
     relationship: many_to_one
     fields: []
- }
+  }
+
+  join: territory_mapping {
+    sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 
@@ -743,6 +755,13 @@ explore: lead {
     relationship: many_to_one
     fields: []
   }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: lead_status_hist {
@@ -767,6 +786,13 @@ explore: lead_status_hist {
 
   join: account_domain_mapping {
     sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
     relationship: many_to_one
     fields: []
   }
@@ -932,6 +958,13 @@ explore: campaign {
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
   }
 
   join: contact {

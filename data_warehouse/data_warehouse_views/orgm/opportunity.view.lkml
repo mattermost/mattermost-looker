@@ -160,10 +160,22 @@ view: opportunity {
     sql: ${TABLE}.BILLING_COUNTRY__C ;;
   }
 
+  dimension: billing_country_code {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.BILLING_COUNTRY_CODE__C ;;
+  }
+
   dimension: shipping_country {
     group_label: "Address"
     type: string
     sql: ${TABLE}.SHIPPING_COUNTRY__C ;;
+  }
+
+  dimension: shipping_country_code {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.SHIPPING_COUNTRY_CODE__C ;;
   }
 
   dimension_group: close {
@@ -729,7 +741,13 @@ view: opportunity {
 
   dimension: territory_sales_segment {
     type: string
-    sql: CASE WHEN ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC' ELSE ${TABLE}.territory_segment__c END;;
+    sql: CASE
+          WHEN ${TABLE}.territory_segment__c = 'Federal' THEN ${TABLE}.territory_segment__c
+          WHEN ${TABLE}.territory_segment__c  = 'AMER_APAC' THEN 'AMER/APAC'
+          WHEN ${TABLE}.territory_segment__c  = 'EMEA' THEN ${TABLE}.territory_segment__c
+          WHEN ${TABLE}.territory_segment__c = 'SMB' AND ${territory_mapping.geo} IN ('AMER','APAC','ROW') THEN 'AMER/APAC'
+          WHEN ${TABLE}.territory_segment__c = 'SMB' AND ${territory_mapping.geo} IN ('EMEA') THEN 'EMEA'
+          ELSE 'Unknown' END;;
     group_label: "Territory"
     label: "Territory Sales Segment"
   }
