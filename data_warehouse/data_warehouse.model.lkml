@@ -758,6 +758,13 @@ explore: lead_status_hist {
     fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain]
   }
 
+  join: owner {
+    from: user
+    sql_on: ${owner.sfid} = ${lead.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: account_domain_mapping {
     sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
     relationship: many_to_one
