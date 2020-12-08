@@ -896,8 +896,16 @@ view: account {
   dimension: seat_utilization {
     group_label: "Telemetry"
     type: number
-    sql: ${TABLE}.seat_utilization__c / 100 ;;
-    value_format_name: percent_0
+    sql: ${TABLE}.seat_utilization__c / 100.0 ;;
+    value_format_name: percent_1
+  }
+
+  measure: seat_utilization_agg {
+    label: "Seat Utilization (%)"
+    type: number
+    sql: (SUM(${seats_registered})/SUM(${seats_licensed})) * 100.0 ;;
+    value_format_name: percent_1
+    drill_fields: [sfid, name, arr_current, seats_licensed, seats_registered, seats_active_latest]
   }
 
   dimension: seats_registered {
