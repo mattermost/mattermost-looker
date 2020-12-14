@@ -2844,7 +2844,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_plugins {
-  label: "Enable Plugins"
+    label: " Plugins Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2853,7 +2853,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_antivirus {
-  label: "Enable Antivirus"
+    label: "Antivirus Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2862,7 +2862,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_autolink {
-  label: "Enable Autolink"
+    label: "Autolink Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2871,7 +2871,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_aws_sns {
-  label: "Enable Aws Sns"
+    label: "AWS SNS Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2880,7 +2880,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_confluence {
-    label: "Enable Confluence"
+    label: "Confluence Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2889,7 +2889,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_user_attributes {
-  label: "Enable Custom User Attributes"
+    label: "Custom User Attributes Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2898,7 +2898,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_github {
-  label: "Enable Github"
+    label: "Github Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2907,7 +2907,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_gitlab {
-  label: "Enable Gitlab"
+    label: "Gitlab Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2916,7 +2916,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_health_check {
-  label: "Enable Health Check"
+    label: "Health Check Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2925,7 +2925,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_jenkins {
-  label: "Enable Jenkins"
+    label: "Jenkins Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2934,7 +2934,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_jira {
-  label: "Enable Jira"
+    label: "Jira Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2943,7 +2943,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_jitsi {
-    label: "Enable Jitsi"
+    label: "Jitsi Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2952,7 +2952,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_marketplace {
-  label: "Enable Marketplace"
+    label: "Marketplace Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2961,7 +2961,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_mscalendar {
-    label: "Enable MS Calendar"
+    label: "MS Calendar Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2970,25 +2970,25 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_nps {
-  label: "Enable Nps"
+    label: "NPS Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_nps ;;
+    sql: COALESCE(${TABLE}.enable_nps, ${enable_nps_survey}) ;;
     hidden: no
   }
 
   dimension: enable_nps_survey {
-  label: "Enable Nps Survey"
+    label: "NPS Survey Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_nps_survey ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: enable_remote_marketplace {
-  label: "Enable Remote Marketplace"
+    label: "Remote Marketplace Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -2997,7 +2997,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_skype4business {
-    label: "Enable Skype4Business"
+    label: "Skype4Business Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3006,7 +3006,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_mattermostprofanityfilter {
-    label: "Enable Profanity Filter"
+    label: "Profanity Filter Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3015,7 +3015,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_mattermostprofanityfilter {
-    label: "Version Profanity Filter"
+    label: "Profanity Filter Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3024,7 +3024,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_comgithubmatterpollmatterpoll {
-    label: "Enable Matterpoll"
+    label: "Matterpoll Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3033,7 +3033,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_commattermostpluginincidentmanagement {
-    label: "Enable Incident Management"
+    label: "Incident Management Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3042,7 +3042,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_commattermostpluginincidentmanagement {
-    label: "Version Incident Management"
+    label: "Incident Management Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3051,7 +3051,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_comgithubmatterpollmatterpoll {
-    label: "Version Matterpoll"
+    label: "Matterpoll Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3060,7 +3060,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_todo {
-    label: "Enable ToDo"
+    label: "ToDo Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3069,7 +3069,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_uploads {
-  label: "Enable Uploads"
+    label: "Uploads Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3078,7 +3078,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_webex {
-  label: "Enable Webex"
+    label: "WebEx Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3087,7 +3087,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_welcome_bot {
-  label: "Enable Welcome Bot"
+    label: "Welcome Bot Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3095,7 +3095,7 @@ view: server_daily_details_ext {
     hidden: no
   }
   dimension: enable_zoom {
-    label: "Enable Zoom"
+    label: "Zoom Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3103,7 +3103,7 @@ view: server_daily_details_ext {
     hidden: no
   }
   dimension: enable_giphy {
-    label: "Enable Giphy"
+    label: "Giphy Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3111,7 +3111,7 @@ view: server_daily_details_ext {
     hidden: no
   }
   dimension: enable_digital_ocean {
-    label: "Enable Digital Ocean"
+    label: "Digital Ocean Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
@@ -3119,19 +3119,86 @@ view: server_daily_details_ext {
     hidden: no
   }
   dimension: enable_incident_response {
-    label: "Enable Incident Response"
+    label: "Incident Management Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_incident_response ;;
-    hidden: no
+    hidden: yes
   }
   dimension: enable_memes {
-    label: "Enable Memes"
+    label: "Memes Enabled"
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
     sql: ${TABLE}.enable_memes ;;
+    hidden: no
+  }
+  dimension: enable_agenda {
+    label: "Agenda Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostagenda ;;
+    hidden: no
+  }
+  dimension: version_agenda {
+    label: "Agenda Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostagenda ;;
+    hidden: no
+  }
+
+  dimension: enable_commattermostmsteamsmeetings {
+    label: "MS Teams Meetings Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostmsteamsmeetings ;;
+    hidden: no
+  }
+  dimension: version_commattermostmsteamsmeetings {
+    label: "MS Teams Meetings Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostmsteamsmeetings ;;
+    hidden: no
+  }
+
+  dimension: enable_commattermostpluginchannelexport {
+    label: "Channel Export Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_commattermostpluginchannelexport ;;
+    hidden: no
+  }
+  dimension: version_commattermostpluginchannelexport {
+    label: "Channel Export Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_commattermostpluginchannelexport ;;
+    hidden: no
+  }
+
+  dimension: enable_comnilsbrinkmannicebreaker {
+    label: "Icebreaker Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_comnilsbrinkmannicebreaker ;;
+    hidden: no
+  }
+  dimension: version_comnilsbrinkmannicebreaker {
+    label: "Icebreaker Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_comnilsbrinkmannicebreaker ;;
     hidden: no
   }
 
@@ -3162,6 +3229,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_antivirus {
+    label: "Antivirus Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3170,6 +3238,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_autolink {
+    label: "Autolink Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3178,6 +3247,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_aws_sns {
+    label: "AWS SNS Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3186,6 +3256,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_custom_user_attributes {
+    label: "Custom User Attributes Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3194,6 +3265,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_github {
+    label: "Github Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3202,6 +3274,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_gitlab {
+    label: "Jenkins Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3218,6 +3291,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_jira {
+    label: "Jira Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3226,6 +3300,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_nps {
+    label: "NPS Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3234,6 +3309,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_webex {
+    label: "WebEx Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3242,6 +3318,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_welcome_bot {
+    label: "Welcome Bot Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3250,6 +3327,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_zoom {
+    label: "Zoom Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3258,6 +3336,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_giphy {
+    label: "Giphy Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3274,6 +3353,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_confluence {
+    label: "Confluence Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3282,6 +3362,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_mscalendar {
+    label: "MS Calendar Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3290,14 +3371,16 @@ view: server_daily_details_ext {
   }
 
   dimension: version_incident_response {
+    label: "Incident Management Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
     sql: ${TABLE}.version_incident_response ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: version_todo {
+    label: "ToDo Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3306,6 +3389,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_memes {
+    label: "Memes Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3314,6 +3398,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_jitsi {
+    label: "Jitsi Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3322,6 +3407,7 @@ view: server_daily_details_ext {
   }
 
   dimension: version_skype4business {
+    label: "Skype4Business Version"
     description: ""
     type: string
     group_label: "Plugin Configuration"
@@ -3329,10 +3415,28 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_comgithubjespinorecommend {
+    label: "Channel Recommender Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_comgithubjespinorecommend ;;
+    hidden: no
+  }
+
+  dimension: version_comgithubjespinorecommend {
+    label: "Channel Recommender Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_comgithubjespinorecommend ;;
+    hidden: no
+  }
+
   dimension: active_backend_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.active_backend_plugins ;;
     hidden: no
   }
@@ -3340,7 +3444,7 @@ view: server_daily_details_ext {
   dimension: active_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.active_plugins ;;
     hidden: no
   }
@@ -3348,7 +3452,7 @@ view: server_daily_details_ext {
   dimension: active_webapp_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.active_webapp_plugins ;;
     hidden: no
   }
@@ -3356,7 +3460,7 @@ view: server_daily_details_ext {
   dimension: disabled_backend_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.disabled_backend_plugins ;;
     hidden: no
   }
@@ -3364,7 +3468,7 @@ view: server_daily_details_ext {
   dimension: disabled_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.disabled_plugins ;;
     hidden: no
   }
@@ -3372,7 +3476,7 @@ view: server_daily_details_ext {
   dimension: disabled_webapp_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.disabled_webapp_plugins ;;
     hidden: no
   }
@@ -3380,7 +3484,7 @@ view: server_daily_details_ext {
   dimension: enabled_backend_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.enabled_backend_plugins ;;
     hidden: no
   }
@@ -3388,7 +3492,7 @@ view: server_daily_details_ext {
   dimension: enabled_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.enabled_plugins ;;
     hidden: no
   }
@@ -3396,7 +3500,7 @@ view: server_daily_details_ext {
   dimension: enabled_webapp_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.enabled_webapp_plugins ;;
     hidden: no
   }
@@ -3404,7 +3508,7 @@ view: server_daily_details_ext {
   dimension: inactive_backend_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.inactive_backend_plugins ;;
     hidden: no
   }
@@ -3412,7 +3516,7 @@ view: server_daily_details_ext {
   dimension: inactive_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.inactive_plugins ;;
     hidden: no
   }
@@ -3420,7 +3524,7 @@ view: server_daily_details_ext {
   dimension: inactive_webapp_plugins {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.inactive_webapp_plugins ;;
     hidden: no
   }
@@ -3428,7 +3532,7 @@ view: server_daily_details_ext {
   dimension: plugins_with_broken_manifests {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.plugins_with_broken_manifests ;;
     hidden: no
   }
@@ -3436,7 +3540,7 @@ view: server_daily_details_ext {
   dimension: plugins_with_settings {
     description: ""
     type: number
-    group_label: "Plugin Configuration"
+    group_label: "Plugin (System-Level) Configuration"
     sql: ${TABLE}.plugins_with_settings ;;
     hidden: no
   }
@@ -7228,20 +7332,47 @@ view: server_daily_details_ext {
   }
 
   measure: enable_matterpoll_count {
-    label: "Servers w/ Plugin Enable Matterpoll"
+    label: "Servers w/ Matterpoll Enabled"
     description: "The count of servers with the Matterpoll plugin enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_comgithubmatterpollmatterpoll} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
-  measure: enable_incident_management_count {
-    label: "Servers w/ Plugin Enable Incident Management"
-    description: "The count of servers with the Incident Management plugin enabled."
+  measure: enable_msteamsmeeting_count {
+    label: "Servers w/ MS Teams Meetings Enabled"
+    description: "The count of servers with the MS Teams Meetings plugin enabled."
     type: count_distinct
-    group_label: " Server Counts"
-    sql: case when ${enable_commattermostpluginincidentmanagement} then ${server_id} else null end ;;
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_commattermostmsteamsmeetings} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_channelexport_count {
+    label: "Servers w/ Channel Export Enabled"
+    description: "The count of servers with the Channel Export plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_commattermostpluginchannelexport} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_icebreaker_count {
+    label: "Servers w/ Icebreaker Enabled"
+    description: "The count of servers with the Icebreaker plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_comnilsbrinkmannicebreaker} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_agenda_count {
+    label: "Servers w/ Agenda Enabled"
+    description: "The count of servers with the Agenda plugin enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_agenda} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
@@ -7255,181 +7386,181 @@ view: server_daily_details_ext {
   }
 
   measure: enable_plugins_count {
-    label: "Servers w/ Plugin Enable Plugins"
-    description: "The count of servers with Plugin Enable Plugins enabled."
+    label: "Servers w/ Plugins Enabled"
+    description: "The count of servers with Plugins enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_plugins} then ${server_id} else null end ;;
   }
 
   measure: enable_antivirus_count {
-    label: "Servers w/ Plugin Enable Antivirus"
-    description: "The count of servers with Plugin Enable Antivirus enabled."
+    label: "Servers w/ Antivirus Enabled"
+    description: "The count of servers with plugin Antivirus enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_antivirus} then ${server_id} else null end ;;
   }
 
   measure: enable_autolink_count {
-    label: "Servers w/ Plugin Enable Autolink"
-    description: "The count of servers with Plugin Enable Autolink enabled."
+    label: "Servers w/ Autolink Enabled"
+    description: "The count of servers with plugin Autolink enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_autolink} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_aws_sns_count {
-    label: "Servers w/ Plugin Enable Aws Sns"
-    description: "The count of servers with Plugin Enable Aws Sns enabled."
+    label: "Servers w/ Aws Sns Enabled"
+    description: "The count of servers with plugin Aws Sns enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_aws_sns} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_custom_user_attributes_count {
-    label: "Servers w/ Plugin Enable Custom User Attributes"
-    description: "The count of servers with Plugin Enable Custom User Attributes enabled."
+    label: "Servers w/ Custom User Attributes Enabled"
+    description: "The count of servers with plugin Custom User Attributes enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_custom_user_attributes} then ${server_id} else null end ;;
   }
 
   measure: enable_github_count {
-    label: "Servers w/ Plugin Enable Github"
-    description: "The count of servers with Plugin Enable Github enabled."
+    label: "Servers w/ Github Enabled"
+    description: "The count of servers with plugin Github enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_github} then ${server_id} else null end ;;
   }
 
   measure: enable_gitlab_count {
-    label: "Servers w/ Plugin Enable Gitlab"
-    description: "The count of servers with Plugin Enable Gitlab enabled."
+    label: "Servers w/ Gitlab Enabled"
+    description: "The count of servers with plugin Gitlab enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_gitlab} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_health_check_count {
-    label: "Servers w/ Plugin Enable Health Check"
-    description: "The count of servers with Plugin Enable Health Check enabled."
+    label: "Servers w/ Health Check Enabled"
+    description: "The count of servers with plugin Health Check enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_health_check} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_jenkins_count {
-    label: "Servers w/ Plugin Enable Jenkins"
-    description: "The count of servers with Plugin Enable Jenkins enabled."
+    label: "Servers w/ Jenkins Enabled"
+    description: "The count of servers with plugin Jenkins enabled."
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_jenkins} then ${server_id} else null end ;;
   }
 
   measure: enable_jira_count {
-    label: "Servers w/ Plugin Enable Jira"
-    description: "The count of servers with Plugin Enable Jira enabled."
+    label: "Servers w/ Jira Enabled"
+    description: "The count of servers with plugin Jira enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_jira} then ${server_id} else null end ;;
   }
 
   measure: enable_jitsi_count {
-    label: "Servers w/ Plugin Enable Jitsi"
-    description: "The count of servers with Plugin Enable Jitsi enabled."
+    label: "Servers w/ Jitsi Enabled"
+    description: "The count of servers with plugin Jitsi enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_jitsi} then ${server_id} else null end ;;
   }
 
   measure: enable_confluence_count {
-    label: "Servers w/ Plugin Enable Confluence"
-    description: "The count of servers with Plugin Enable Confluence enabled."
+    label: "Servers w/ Confluence Enabled"
+    description: "The count of servers with plugin Confluence enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_confluence} then ${server_id} else null end ;;
   }
 
   measure: enable_todo_count {
-    label: "Servers w/ Plugin Enable ToDo"
-    description: "The count of servers with Plugin Enable ToDo enabled."
+    label: "Servers w/ ToDo Enabled"
+    description: "The count of servers with plugin ToDo enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_todo} then ${server_id} else null end ;;
   }
 
   measure: enable_mscalendar_count {
-    label: "Servers w/ Plugin Enable MS Calendar"
-    description: "The count of servers with Plugin Enable MS Calendar enabled."
+    label: "Servers w/ MS Calendar Enabled"
+    description: "The count of servers with plugin MS Calendar enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_mscalendar} then ${server_id} else null end ;;
   }
 
   measure: enable_skype4business_count {
-    label: "Servers w/ Plugin Enable Skype4Business"
-    description: "The count of servers with Plugin Enable Skype4Business enabled."
+    label: "Servers w/ Skype4Business Enabled"
+    description: "The count of servers with plugin Skype4Business enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_skype4business} then ${server_id} else null end ;;
   }
 
   measure: enable_giphy_count {
-    label: "Servers w/ Plugin Enable Giphy"
-    description: "The count of servers with Plugin Enable Giphy enabled."
+    label: "Servers w/ Giphy Enabled"
+    description: "The count of servers with plugin Giphy enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_giphy} then ${server_id} else null end ;;
   }
 
   measure: enable_digital_ocean_count {
-    label: "Servers w/ Plugin Enable Digital Ocean"
-    description: "The count of servers with Plugin Enable Digital Ocean enabled."
+    label: "Servers w/ Digital Ocean Enabled"
+    description: "The count of servers with plugin Digital Ocean enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_digital_ocean} then ${server_id} else null end ;;
   }
 
   measure: enable_incident_response_count {
-    label: "Servers w/ Plugin Enable Incident Response"
-    description: "The count of servers with Plugin Enable Incident Response enabled."
+    label: "Servers w/ Incident Mgmt Enabled"
+    description: "The count of servers with plugin Incident Response enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
-    sql: case when ${enable_incident_response} then ${server_id} else null end ;;
+    sql: case when ${enable_commattermostpluginincidentmanagement} then ${server_id} else null end ;;
   }
 
   measure: enable_memes_count {
-    label: "Servers w/ Plugin Enable Memes"
-    description: "The count of servers with Plugin Enable Memes enabled."
+    label: "Servers w/ Memes Enabled"
+    description: "The count of servers with plugin Memes enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_memes} then ${server_id} else null end ;;
   }
 
   measure: enable_marketplace_count {
-    label: "Servers w/ Plugin Enable Marketplace"
-    description: "The count of servers with Plugin Enable Marketplace enabled."
+    label: "Servers w/ Marketplace Enabled"
+    description: "The count of servers with plugin Marketplace enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_marketplace} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -7438,62 +7569,72 @@ view: server_daily_details_ext {
     label: "Servers w/ NPS Enabled"
     description: "The count of servers with the NPS & NPS Survey Plugin enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_nps} and ${enable_nps_survey} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_nps_survey_count {
-    label: "Servers w/ Plugin Enable Nps Survey"
-    description: "The count of servers with Plugin Enable Nps Survey enabled."
+    label: "Servers w/ Nps Survey"
+    description: "The count of servers with plugin Nps Survey enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
+    hidden: yes
     sql: case when ${enable_nps_survey} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_remote_marketplace_count {
-    label: "Servers w/ Plugin Enable Remote Marketplace"
-    description: "The count of servers with Plugin Enable Remote Marketplace enabled."
+    label: "Servers w/ Remote Marketplace Enabled"
+    description: "The count of servers with plugin Remote Marketplace enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_remote_marketplace} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_uploads_count {
-    label: "Servers w/ Plugin Enable Uploads"
-    description: "The count of servers with Plugin Enable Uploads enabled."
+    label: "Servers w/ Uploads Enabled"
+    description: "The count of servers with plugin Uploads enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_uploads} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_webex_count {
-    label: "Servers w/ Plugin Enable Webex"
-    description: "The count of servers with Plugin Enable Webex enabled."
+    label: "Servers w/ Webex Enabled"
+    description: "The count of servers with plugin Webex enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_webex} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_welcome_bot_count {
-    label: "Servers w/ Plugin Enable Welcome Bot"
-    description: "The count of servers with Plugin Enable Welcome Bot enabled."
+    label: "Servers w/ Welcome Bot Enabled"
+    description: "The count of servers with plugin Welcome Bot enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_welcome_bot} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_zoom_count {
-    label: "Servers w/ Plugin Enable Zoom"
-    description: "The count of servers with Plugin Enable Zoom enabled."
+    label: "Servers w/ Zoom Enabled"
+    description: "The count of servers with plugin Zoom enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Plugin Server Counts"
     sql: case when ${enable_zoom} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_channel_recommender_count {
+    label: "Servers w/ Channel Recommender Enabled"
+    description: "The count of servers with plugin Channel Recommender enabled."
+    type: count_distinct
+    group_label: " Plugin Server Counts"
+    sql: case when ${enable_comgithubjespinorecommend} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
@@ -9123,5 +9264,17 @@ view: server_daily_details_ext {
     group_label: "License Configuration"
     type: date
     sql: MAX(${expire_date}::date) ;;
+  }
+
+  measure: license_utilization {
+    description: "The license utilization represented as registered user/licensed user per grouping."
+    type: number
+    sql: ${registered_users_sum}/${license_server_fact.users_sum} ;;
+  }
+
+  measure: active_license_utilization {
+    description: "The license utilization represented as active user/licensed user per grouping."
+    type: number
+    sql: ${active_users_daily_sum}/${license_server_fact.users_sum} ;;
   }
 }

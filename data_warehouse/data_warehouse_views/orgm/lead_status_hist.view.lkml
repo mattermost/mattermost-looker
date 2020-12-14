@@ -35,6 +35,17 @@ view: lead_status_hist {
   dimension: owner {
     type: string
     sql: ${TABLE}."OWNER" ;;
+    hidden: yes
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: CASE WHEN ${lead.ownerid} != '00G1R000003KGjFUAW' AND ${lead.ownerid} NOT LIKE '00G360000026ZoQ%' AND ${lead.ownerid} NOT  LIKE '00G3p000005V9UP%' THEN ${lead.owner_name} ELSE ${user.name} END ;;
+  }
+
+  dimension: owner_segment {
+    type: string
+    sql: ${user.sales_segment} ;;
   }
 
   dimension: additional_details {
@@ -42,8 +53,21 @@ view: lead_status_hist {
     sql: ${TABLE}."ADDITIONAL_DETAILS" ;;
   }
 
+  dimension: current_lead_status {
+    label: "Current Status"
+    type: string
+    sql: ${lead.status} ;;
+  }
+
+  dimension: mql_sla_breached {
+    label: "MQL SLA Breached"
+    type: yesno
+    sql: CASE WHEN ${lead.status} = 'MQL' AND ${date_date} < current_date - interval '2 days' AND ${lead.most_recent_mql_date} < current_date THEN true else false end ;;
+  }
+
   measure: count_leads {
     type: count_distinct
     sql: ${lead_sfid} ;;
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date, lead.most_recent_scl_date]
   }
 }

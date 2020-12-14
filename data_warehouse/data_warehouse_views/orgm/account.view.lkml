@@ -896,8 +896,16 @@ view: account {
   dimension: seat_utilization {
     group_label: "Telemetry"
     type: number
-    sql: ${TABLE}.seat_utilization__c / 100 ;;
-    value_format_name: percent_0
+    sql: ${TABLE}.seat_utilization__c / 100.0 ;;
+    value_format_name: percent_1
+  }
+
+  measure: seat_utilization_agg {
+    label: "Seat Utilization (%)"
+    type: number
+    sql: (SUM(${seats_registered})/SUM(${seats_licensed})) * 100.0 ;;
+    value_format_name: percent_1
+    drill_fields: [sfid, name, arr_current, seats_licensed, seats_registered, seats_active_latest]
   }
 
   dimension: seats_registered {
@@ -1146,6 +1154,10 @@ view: account {
     type: string
   }
 
+  dimension: cleaned_up_website {
+    sql: ${TABLE}.cleaned_up_website__c ;;
+    type: string
+  }
 
   dimension: website_domain {
     type: string
@@ -1205,6 +1217,12 @@ view: account {
     sql: ${arr_current} ;;
     type: sum_distinct
     value_format_name: usd_0
+  }
+
+  measure: total_seats_licensed {
+    sql: ${seats_licensed} ;;
+    type: sum
+    value_format_name: decimal_0
   }
 
   measure: website_count {

@@ -149,6 +149,13 @@ explore: user_events_telemetry {
     and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
 
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
   join: cloud_onboarding_flows {
     relationship: many_to_one
     sql_on: CASE WHEN ${user_events_telemetry.type} = 'pageview_getting_started_cloud' THEN  'pageview_getting_started' ELSE ${user_events_telemetry.type} END = ${cloud_onboarding_flows.type} AND ${user_events_telemetry.category} = ${cloud_onboarding_flows.category} ;;

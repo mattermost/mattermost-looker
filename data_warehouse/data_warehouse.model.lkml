@@ -737,9 +737,40 @@ explore: lead {
     relationship: one_to_one
     fields: [customer_risk.status,customer_risk.risk_assigned]
   }
+
+  join: account_domain_mapping {
+    sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
-explore: lead_status_hist {}
+explore: lead_status_hist {
+  join: user {
+    sql_on: ${user.sfid} = ${lead_status_hist.owner} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: lead {
+    sql_on: ${lead.sfid} = ${lead_status_hist.lead_sfid} ;;
+    relationship: many_to_one
+    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain]
+  }
+
+  join: owner {
+    from: user
+    sql_on: ${owner.sfid} = ${lead.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_domain_mapping {
+    sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
 
 explore: contributor_map_data {
   group_label: "Contributors"
@@ -1037,6 +1068,13 @@ explore: server_daily_details {
     sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
   join: server_events_by_date {
     view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
@@ -1083,6 +1121,13 @@ explore: server_fact {
     view_label: "License Fact"
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id};;
     relationship: one_to_many
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 
   join: excludable_servers {
@@ -1319,6 +1364,13 @@ explore: nps_user_monthly_score {
     relationship: many_to_one
   }
 
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
   join: excludable_servers {
     sql_on: ${excludable_servers.server_id} = ${nps_user_monthly_score.server_id} ;;
     relationship: many_to_one
@@ -1396,6 +1448,13 @@ explore: server_daily_details_ext {
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 }
 
@@ -1806,6 +1865,13 @@ explore: nps_server_version_daily_score {
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
   }
 
   join: excludable_servers {
@@ -2322,12 +2388,35 @@ explore: license_server_fact {
   group_label: "BLP"
   label: "License Server Fact"
   hidden: no
+  extends: [person]
 
   join: server_fact {
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     type: left_outer
     }
+
+  join: excludable_servers {
+    view_label: "License Server Fact"
+    sql_on: ${license_server_fact.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [excludable_servers.reason]
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+
+  }
+
+  join: person {
+    view_label: "Person"
+    sql_on: ${person.email} = ${license_server_fact.license_email};;
+    relationship: many_to_one
+  }
   }
 
 explore: incident_response_events {
@@ -2335,6 +2424,7 @@ explore: incident_response_events {
   view_label: "Incident Management"
   label: "Incident Management"
   group_label: "Integrations"
+  extends: [license_server_fact]
 
   join: server_daily_details {
     view_label: "Incident Management"
@@ -2514,7 +2604,143 @@ explore: CUSTOMERS {
     sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_stripe.id} ;;
     relationship: one_to_one
   }
+
+  join: person {
+    view_label: "Person"
+    sql_on: ${person.email} = ${CUSTOMERS.email};;
+    relationship: one_to_one
+  }
+
+  join: lead {
+    view_label: "Lead"
+    sql_on: ${person.object} = 'Lead' AND ${lead.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: contact {
+    view_label: "Contact"
+    sql_on: ${person.object} = 'Contact' AND ${contact.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: account {
+    view_label: "Account"
+    sql_on: ${person.accountid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [name, account.owner_name, sfid]
+    required_joins: [person,lead,contact]
+  }
+
+  join: account_domain_mapping {
+    sql_on: ${person.domain} = ${account_domain_mapping.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_domain {
+    from: territory_mapping
+    sql_on: concat('.',split_part(${person.domain},'.',2)) = ${territory_mapping_domain.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: ${person.country_code} = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account_owner.sfid} = ${account.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
 }
+
+explore: person {
+  extension: required
+  label: "Person"
+
+  join: CUSTOMERS {
+    sql_on: ${person.email} = ${CUSTOMERS.email};;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: SUBSCRIPTIONS {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${CUSTOMERS.id} = ${SUBSCRIPTIONS.customer_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: subscriptions_stripe {
+      from: subscriptions
+      view_label: "Subscriptions (Stripe)"
+      sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+      relationship: one_to_one
+      fields: []
+  }
+
+  join: lead {
+    view_label: "Lead"
+    sql_on: ${person.object} = 'Lead' AND ${lead.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: contact {
+    view_label: "Contact"
+    sql_on: ${person.object} = 'Contact' AND ${contact.sfid} = ${person.sfid};;
+    relationship: one_to_one
+    fields: []
+    required_joins: [person]
+  }
+
+  join: account {
+    view_label: "Account"
+    sql_on: ${person.accountid} = ${account.sfid};;
+    relationship: many_to_one
+    fields: [name, account.owner_name, sfid]
+    required_joins: [person,lead,contact]
+  }
+
+  join: account_domain_mapping {
+    sql_on: ${person.domain} = ${account_domain_mapping.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_domain {
+    from: territory_mapping
+    sql_on: concat('.',split_part(${person.domain},'.',2)) = ${territory_mapping_domain.domain};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: ${person.country_code} = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: account_owner {
+    from: user
+    sql_on: ${account_owner.sfid} = ${account.ownerid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
 
 explore: FEATURES {
   hidden: yes

@@ -7,6 +7,11 @@ view: scrub_ww {
     sql: ${TABLE}."QTR" ;;
   }
 
+  dimension: scrub_segment {
+    type: string
+    sql: 'WW' ;;
+  }
+
 # Net New
   measure: nn_actual {
     type: sum

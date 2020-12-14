@@ -63,6 +63,12 @@ view: lead {
     type: string
   }
 
+  dimension: company_country_code {
+    sql: ${TABLE}.DSCORGPKG__Company_HQ_Country_Code__c ;;
+    type: string
+  }
+
+
   dimension: convertedaccountid {
     label: "Converted Account ID"
     sql: ${TABLE}.CONVERTEDACCOUNTID ;;
@@ -155,6 +161,11 @@ view: lead {
     }
   }
 
+  dimension: is_public_domain {
+    type: yesno
+    sql: ${account_domain_mapping.domain} IS NOT NULL ;;
+  }
+
   dimension: existing_account__c {
     sql: ${TABLE}.EXISTING_ACCOUNT__C ;;
     type: string
@@ -212,10 +223,10 @@ view: lead {
     type: yesno
   }
 
-#   dimension: industry {
-#     sql: ${TABLE}.INDUSTRY ;;
-#     type: string
-#   }
+  dimension: industry {
+    sql: ${TABLE}.INDUSTRY_TEXT__C ;;
+    type: string
+  }
 
   dimension: is_deleted {
     sql: ${TABLE}.ISDELETED ;;
