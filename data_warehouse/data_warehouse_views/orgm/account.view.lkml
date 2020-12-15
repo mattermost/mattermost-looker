@@ -903,9 +903,9 @@ view: account {
   measure: seat_utilization_agg {
     label: "Seat Utilization (%)"
     type: number
-    sql: (SUM(${seats_registered})/SUM(${seats_licensed})) * 100.0 ;;
+    sql: (SUM(coalesce(${seats_registered},0))/nullif(SUM(coalesce(${seats_licensed},0)),0)) ;;
     value_format_name: percent_1
-    drill_fields: [sfid, name, arr_current, seats_licensed, seats_registered, seats_active_latest]
+    drill_fields: [sfid, name, arr_current, seats_licensed, seats_registered, seats_active_latest, seat_utilization_agg]
   }
 
   dimension: seats_registered {
