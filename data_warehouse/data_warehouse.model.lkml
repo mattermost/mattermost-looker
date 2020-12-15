@@ -1423,7 +1423,6 @@ explore: server_daily_details_ext {
   }
 
   join: server_events_by_date {
-    view_label: "Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_events_by_date.server_id}
     AND ${server_daily_details_ext.logging_date} = ${server_events_by_date.logging_date};;
     relationship: one_to_one
