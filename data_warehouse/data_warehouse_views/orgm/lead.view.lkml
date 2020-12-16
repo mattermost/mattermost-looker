@@ -525,6 +525,22 @@ view: lead {
     type: time
   }
 
+  dimension: time_since_scl {
+    group_label: "Lead Lifecycle: SCL"
+    sql: case when ${status} = 'SCL' then datediff('day', ${most_recent_scl_date},current_date) else null end ;;
+    type: tier
+    tiers: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
+    style: integer
+  }
+
+  dimension: time_since_mql {
+    group_label: "Lead Lifecycle: MQL"
+    sql: case when ${status} = 'MQL' then datediff('day', ${most_recent_mql_date},current_date) else null end ;;
+    type: tier
+    tiers: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
+    style: integer
+  }
+
   dimension: scl_yn {
     group_label: "Lead Lifecycle: SCL"
     label: "SCL?"
