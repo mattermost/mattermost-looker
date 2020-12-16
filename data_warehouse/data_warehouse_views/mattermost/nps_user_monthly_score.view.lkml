@@ -48,7 +48,7 @@ view: nps_user_monthly_score {
     label: "Response >= 21 Days Since Release"
     type: yesno
     description: "Boolean indicating the response for the server version associated with the NPS submissions was >= 21 since the release date."
-    sql: CASE WHEN ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
+    sql: CASE WHEN ${cloud_server} or ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
   }
 
   dimension: trailing_3_months_nps {
