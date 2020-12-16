@@ -90,8 +90,14 @@ view: opportunitylineitem {
   }
 
   dimension: discount {
+    sql: ${TABLE}.discount_calc__c;;
+    type: number
+  }
+
+  dimension: discount_old {
     sql: ${TABLE}.discount;;
     type: number
+    hidden: yes
   }
 
   dimension: discounted_unit_price {
@@ -130,8 +136,38 @@ view: opportunitylineitem {
     type: yesno
   }
 
+  dimension: is_discounted {
+    hidden: yes
+    sql: ${discount} != 0;;
+    type: yesno
+  }
+
   dimension: is_deleted {
     sql: ${TABLE}.isdeleted;;
+    type: yesno
+  }
+
+  dimension: is_nonprofit {
+    sql: ${name} like '%E%0 (Non-profit)';;
+    hidden: yes
+    type: yesno
+  }
+
+  dimension: is_academic {
+    sql: ${name} like '%E%0 (Academic)' or ${name} like '%E%0 (Student)' ;;
+    hidden: yes
+    type: yesno
+  }
+
+  dimension: is_nfr {
+    sql: ${name} like '%E%0 - Not For Resale';;
+    hidden: yes
+    type: yesno
+  }
+
+  dimension: is_nonrecurring {
+    sql: ${product_type} != 'Recurring';;
+    hidden: yes
     type: yesno
   }
 
@@ -409,6 +445,65 @@ view: opportunitylineitem {
     sql: ${quantity} ;;
     type: sum
     drill_fields: [opportunitylineitem_drill*,total_quantity]
+  }
+
+  measure: total_discounted {
+    label: "Count Discounted Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_discounted: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_discounted, discount]
+  }
+
+  measure: total_nonprofit {
+    label: "Count Non-Profit Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_nonprofit: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_nonprofit]
+  }
+
+  measure: total_academic {
+    label: "Count Academic / Student Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_academic: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_academic]
+  }
+
+  measure: total_nfr {
+    label: "Count NFR Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_nfr: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_nfr]
+  }
+
+  measure: total_nonrecurring {
+    label: "Count Non-Reccuring Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_nonrecurring: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_nonrecurring]
+  }
+
+  measure: total_special_products {
+    label: "Count Special Line Items"
+    description: "Count Non-Profit, Student, Acadmic, or Not for Resale Line Items "
+    group_label: "Counts"
+    sql: ${total_academic} + ${total_nonprofit} + ${total_nfr} ;;
+    type: number
+    drill_fields: [opportunitylineitem_drill*,total_special_products]
   }
 
   measure: total_price {

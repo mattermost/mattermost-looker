@@ -18,7 +18,7 @@ view: lead {
   #
 
   set: lead_drill_fields {
-    fields: [fullname, email, company, status, lead_source, first_action, first_mcl_date, first_mql_date]
+    fields: [fullname, email, company, status, lead_source, first_action, first_mcl_date, first_mql_date, count]
   }
 
 
@@ -190,7 +190,7 @@ view: lead {
   }
 
   dimension: geo {
-    sql: ${TABLE}.GEO__C ;;
+    sql: coalesce(${TABLE}.GEO__C,${territory_mapping_country.geo}) ;;
     type: string
     group_label: "Geo"
   }
@@ -523,6 +523,22 @@ view: lead {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: time_since_scl {
+    group_label: "Lead Lifecycle: SCL"
+    sql: case when ${status} = 'SCL' then datediff('day', ${most_recent_scl_date},current_date) else null end ;;
+    type: tier
+    tiers: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
+    style: integer
+  }
+
+  dimension: time_since_mql {
+    group_label: "Lead Lifecycle: MQL"
+    sql: case when ${status} = 'MQL' then datediff('day', ${most_recent_mql_date},current_date) else null end ;;
+    type: tier
+    tiers: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
+    style: integer
   }
 
   dimension: scl_yn {
@@ -875,7 +891,7 @@ view: lead {
   dimension: lead_segment {
     type: string
     label: "Lead Segment"
-    sql: case when ${owner.sales_segment} is not null then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' else ${geo} end ;;
+    sql: case when ${owner.sales_segment} is not null AND ${owner.sales_segment} != 'SMB' then ${owner.sales_segment} when ${geo} IN ('AMER','APAC','ROW') then 'AMER/APAC' WHEN ${geo} IS NOT NULL then ${geo} ELSE 'Unknown' end ;;
   }
 
   dimension: original_owner__c {
