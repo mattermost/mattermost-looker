@@ -2261,7 +2261,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, total_amount, status_wlo, count]
+    fields: [sfid, name, order_type, total_amount, status_wlo, count]
   }
 
   join: original_opportunity_ext {
@@ -2295,7 +2295,7 @@ explore: available_renewals_dynamic {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
+    fields: [sfid, name, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
   }
 
   join: renewal_opportunity_ext {
