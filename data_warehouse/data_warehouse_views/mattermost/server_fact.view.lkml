@@ -390,6 +390,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
   }
 
+  dimension: registered_users_max {
+    label: "Max. Registered Users"
+    description: "The max number of registered users logged on the server during it's lifetime."
+    type: number
+    sql: ${TABLE}.max_registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
+  }
+
   dimension: registered_user_bands {
     label: "Registered User Bands"
     description: "The current number of registered users stratified into bands currently logged on the server."

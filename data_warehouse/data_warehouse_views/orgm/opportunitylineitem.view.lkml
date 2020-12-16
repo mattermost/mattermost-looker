@@ -219,6 +219,11 @@ view: opportunitylineitem {
     type: string
   }
 
+  dimension: pricing_method {
+    sql: ${TABLE}.Pricing_Method__c;;
+    type: string
+  }
+
   dimension: product2id {
     label: "Product2 ID"
     hidden: yes

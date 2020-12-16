@@ -5,7 +5,11 @@ view: server_daily_details_ext {
 
   # Drill Field Sets
   set: server_fact {
-    fields: [server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, company_name, paid_license_expire_date, max_active_user_count]
+    fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, company_name, paid_license_expire_date, max_active_user_count]
+  }
+
+  set: cse_drill {
+    fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, posts_sum2, dau_sum, avg_posts_per_user_per_day, posts_previous_day_sum, active_users_daily_sum, avg_posts_per_user_per_day2]
   }
 
   dimension: max_active_user_count {
@@ -5531,6 +5535,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${active_users}) ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, active_users_daily_sum, active_users_monthly_sum, registered_users_sum, logging_date]
     hidden: yes
   }
 
@@ -5557,6 +5562,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${active_users_daily}) ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, active_users_daily_sum, active_users_monthly_sum, registered_users_sum, logging_date]
   }
 
   measure: active_users_daily_max {
@@ -5587,6 +5593,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: number
     sql: SUM(${active_users_monthly}) ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, active_users_daily_sum, active_users_monthly_sum, registered_users_sum, logging_date]
     value_format_name: decimal_1
   }
 
@@ -5662,6 +5669,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: sum
     sql: ${incoming_webhooks} ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, incoming_webhooks, outgoing_webhooks, logging_date]
   }
 
   measure: incoming_webhooks_avg {
@@ -5677,6 +5685,7 @@ view: server_daily_details_ext {
     group_label: "Activity Diagnostics"
     type: sum
     sql: ${outgoing_webhooks} ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, incoming_webhooks, outgoing_webhooks, logging_date]
   }
 
   measure: outgoing_webhooks_avg {
@@ -5845,6 +5854,7 @@ view: server_daily_details_ext {
     type: number
     value_format_name: decimal_0
     sql: SUM(${registered_users}) ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, active_users_daily_sum, active_users_monthly_sum, registered_users_sum, logging_date]
   }
 
   measure: registered_users_median {
@@ -5877,6 +5887,7 @@ view: server_daily_details_ext {
     type: sum
     value_format_name: decimal_0
     sql: ${slash_commands} ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, slash_commands_sum, logging_date]
   }
 
   measure: slash_commands_avg {
@@ -7773,6 +7784,7 @@ view: server_daily_details_ext {
     group_label: "Plugin Configuration"
     type: sum
     sql: ${enabled_plugins} ;;
+    drill_fields: [license_server_fact.customer_Name, server_id, enabled_plugins_sum, logging_date]
   }
 
   measure: enabled_plugins_avg {
@@ -9104,6 +9116,7 @@ view: server_daily_details_ext {
     label: "Avg. Posts Per Active User (Activity)"
     type: number
     sql: (${posts_previous_day_sum}::float/nullif(${active_users_daily_sum}::float,0)) ;;
+    drill_fields: [cse_drill*]
     value_format_name: decimal_1
   }
 
@@ -9118,10 +9131,10 @@ view: server_daily_details_ext {
   measure: avg_posts_per_user_per_day {
     group_label: "Server-Level User Events"
     label: "Avg. Posts Per Active User (Events)"
-    type: average
-    sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
+    type: number
+    sql: sum(${server_events_by_date.post_events})::FLOAT/SUM(NULLIF(${server_events_by_date.dau_total}::float,0)) ;;
     value_format_name: decimal_1
-    drill_fields: [server_fact*]
+    drill_fields: [cse_drill*]
   }
 
   measure: median_posts_per_user_per_day {
@@ -9135,7 +9148,7 @@ view: server_daily_details_ext {
 
   measure: posts_sum2 {
     group_label: "Server-Level User Events"
-    label: "Posts"
+    label: "Posts (Events)"
     description: "The sum of all posts performed by all active user across all servers within the given grouping (from events telemetry)."
     type: sum
     sql: ${posts2} ;;
@@ -9155,7 +9168,7 @@ view: server_daily_details_ext {
 
   measure: dau_sum {
     group_label: "Server-Level User Events"
-    label: "Daily Active Users (Sum)"
+    label: "DAU (Events)"
     description: "The sum of all daily active users across all servers within the given grouping."
     type: number
     sql: SUM(${dau}) ;;

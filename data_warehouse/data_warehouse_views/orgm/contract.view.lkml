@@ -182,6 +182,24 @@ view: contract {
     sql: CAST(${TABLE}."CUSTOMERSIGNEDDATE" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: days_since_deal_signed {
+    type: number
+    description: "# of days since the contract was signed."
+    sql: datediff(day, ${customer_signed_date}, CURRENT_DATE) ;;
+  }
+
+  measure: min_days_since_deal_signed {
+    type: number
+    description: "# of days since the contract was signed."
+    sql: MIN(datediff(day, ${customer_signed_date}, CURRENT_DATE)) ;;
+  }
+
+  measure: max_days_since_deal_signed {
+    type: number
+    description: "# of days since the contract was signed."
+    sql: MAX(datediff(day, ${customer_signed_date}, CURRENT_DATE)) ;;
+  }
+
   dimension: customer_signed_id {
     label: "Customer Signed ID"
     type: string
