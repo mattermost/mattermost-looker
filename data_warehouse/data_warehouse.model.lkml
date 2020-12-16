@@ -258,6 +258,12 @@ explore: _base_opportunity_explore {
     relationship: many_to_one
   }
 
+  join: territory_mapping {
+    sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code}
+            OR coalesce(${opportunity.shipping_country},${opportunity.billing_country}) = ${territory_mapping.country_name};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: _base_opportunity_core_explore {
@@ -309,7 +315,13 @@ explore: _base_opportunity_core_explore {
     sql_on: ${opportunity.ce_owner__c} = ${opportunity_ce.sfid} ;;
     relationship: many_to_one
     fields: []
- }
+  }
+
+  join: territory_mapping {
+    sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 
@@ -743,6 +755,13 @@ explore: lead {
     relationship: many_to_one
     fields: []
   }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: lead_status_hist {
@@ -767,6 +786,13 @@ explore: lead_status_hist {
 
   join: account_domain_mapping {
     sql_on: lower(split_part(${lead.email},'@',2)) = ${account_domain_mapping.domain} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
     relationship: many_to_one
     fields: []
   }
@@ -932,6 +958,13 @@ explore: campaign {
   join: lead {
     sql_on: ${campaignmember.leadid}= ${lead.sfid} ;;
     relationship: many_to_one
+  }
+
+  join: territory_mapping_country {
+    from: territory_mapping
+    sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
+    relationship: many_to_one
+    fields: []
   }
 
   join: contact {
@@ -2175,7 +2208,7 @@ explore: customer_reference {
 }
 
 explore: available_renewals_dynamic {
-  hidden: yes
+  # hidden: yes
   from: account
   view_name: account
   label: "Available Renewals Dynamic"
@@ -2244,7 +2277,10 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity Line Items"
     sql_on: ${opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount,
+             start_date, end_date, length_days, quantity, discount, total_price,
+             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring
+            ]
   }
 
   join: original_product2 {
@@ -2275,7 +2311,10 @@ explore: available_renewals_dynamic {
     from: opportunitylineitem
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, start_date, end_date, length_days, quantity, discount, total_price]
+    fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount,
+             start_date, end_date, length_days, quantity, discount, total_price,
+             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring
+            ]
   }
 
   join: renewal_product2 {
