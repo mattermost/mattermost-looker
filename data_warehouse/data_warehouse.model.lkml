@@ -153,6 +153,12 @@ explore: _base_account_explore {
     relationship: many_to_one
     fields: []
   }
+
+  join: territory_mapping {
+    sql_on: coalesce(${account.shipping_country_code},${account.billing_country_code}) = ${territory_mapping.country_code}
+      OR coalesce(${account.shipping_country},${account.billing_country}) = ${territory_mapping.country_name};;
+    relationship: many_to_one
+  }
 }
 
 explore: _base_account_core_explore {
@@ -262,7 +268,6 @@ explore: _base_opportunity_explore {
     sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code}
             OR coalesce(${opportunity.shipping_country},${opportunity.billing_country}) = ${territory_mapping.country_name};;
     relationship: many_to_one
-    fields: []
   }
 }
 
