@@ -39,7 +39,7 @@ view: nps_server_version_daily_score {
   dimension: cloud_server {
     type: yesno
     description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} or (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' and ${logging_date}::date >= '2020-10-09'::date) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ((${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer}) and ${server_id} != '93mykbogbjfrbbdqphx3zhze5c') or (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' and ${logging_date}::date >= '2020-10-09'::date) THEN TRUE ELSE FALSE END ;;
   }
 
   # DIMENSIONS
