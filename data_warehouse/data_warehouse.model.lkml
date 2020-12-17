@@ -1430,7 +1430,7 @@ explore: nps_user_monthly_score {
   }
 
   join: server_daily_details {
-    sql_on: ${nps_user_monthly_score.server_id} = ${server_daily_details.server_id} and ${nps_user_monthly_score.month_date} = ${server_daily_details.logging_date} ;;
+    sql_on: ${nps_user_monthly_score.server_id} = ${server_daily_details.server_id} and ${nps_user_monthly_score.last_score_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
     fields: []
@@ -1915,7 +1915,7 @@ explore: nps_server_version_daily_score {
   join: license_server_fact {
     type: left_outer
     relationship: many_to_one
-    sql_on: (${license_server_fact.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.logging_date} BETWEEN CASE WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN ${license_server_fact.issued_date} ELSE ${license_server_fact.start_date} END AND ${license_server_fact.license_retired_date});;
+    sql_on: (${license_server_fact.server_id} = ${nps_server_version_daily_score.server_id}) and (${nps_server_version_daily_score.last_score_date} BETWEEN CASE WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN ${license_server_fact.issued_date} ELSE ${license_server_fact.start_date} END AND ${license_server_fact.license_retired_date});;
   }
 
   join: trial_requests {
@@ -1939,7 +1939,7 @@ explore: nps_server_version_daily_score {
   }
 
   join: server_daily_details {
-    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id} and ${nps_server_version_daily_score.logging_date} = ${server_daily_details.logging_date} ;;
+    sql_on: ${nps_server_version_daily_score.server_id} = ${server_daily_details.server_id} and ${nps_server_version_daily_score.last_score_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
     fields: []
