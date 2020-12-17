@@ -39,7 +39,7 @@ view: nps_server_version_daily_score {
   dimension: cloud_server {
     type: yesno
     description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} or (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' and ${logging_date}::date >= '2020-10-09'::date) THEN TRUE ELSE FALSE END ;;
   }
 
   # DIMENSIONS
@@ -77,7 +77,7 @@ view: nps_server_version_daily_score {
     type: string
     sql: CASE WHEN ${cloud_server} THEN 'Cloud'
           ELSE SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
+          '.' || split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
     hidden: no
     order_by_field: server_version_major_sort
   }
