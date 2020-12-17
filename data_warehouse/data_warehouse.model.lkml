@@ -153,6 +153,12 @@ explore: _base_account_explore {
     relationship: many_to_one
     fields: []
   }
+
+  join: territory_mapping {
+    sql_on: coalesce(${account.shipping_country_code},${account.billing_country_code}) = ${territory_mapping.country_code}
+      OR coalesce(${account.shipping_country},${account.billing_country}) = ${territory_mapping.country_name};;
+    relationship: many_to_one
+  }
 }
 
 explore: _base_account_core_explore {
@@ -262,7 +268,6 @@ explore: _base_opportunity_explore {
     sql_on: coalesce(${opportunity.shipping_country_code},${opportunity.billing_country_code}) = ${territory_mapping.country_code}
             OR coalesce(${opportunity.shipping_country},${opportunity.billing_country}) = ${territory_mapping.country_name};;
     relationship: many_to_one
-    fields: []
   }
 }
 
@@ -347,6 +352,13 @@ explore: account {
     view_label: "Account"
     sql_on: ${account.sfid} = ${account_ext.account_sfid};;
     relationship: one_to_one
+  }
+
+  join: account_territory_mapping {
+    from: territory_mapping
+    sql_on: coalesce(${account.billing_country_code},${account.shipping_country_code}) = ${account_territory_mapping.country_code}
+      AND ((${account.billing_country_code} IN ('US','CA') AND ${account.billing_state_code} = ${account_territory_mapping.state_code}) OR COALESCE(${account.billing_country_code},'') NOT IN ('US','CA'));;
+    relationship: many_to_one
   }
 
   join: account_csm {
@@ -2261,7 +2273,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, total_amount, status_wlo, count]
+    fields: [sfid, name, order_type, total_amount, status_wlo, count]
   }
 
   join: original_opportunity_ext {
@@ -2295,7 +2307,7 @@ explore: available_renewals_dynamic {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
+    fields: [sfid, name, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
   }
 
   join: renewal_opportunity_ext {
