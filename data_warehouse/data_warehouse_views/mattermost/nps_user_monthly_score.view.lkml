@@ -29,7 +29,7 @@ view: nps_user_monthly_score {
   dimension: cloud_server {
     type: yesno
     description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN ${server_fact.installation_id} is not null or ${license_server_fact.cloud_customer} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN (${server_daily_details.installation_id} is not null or ${license_server_fact.cloud_customer} OR (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${month_date} >= '2020-10-09')) THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: score_submission_date {
@@ -83,7 +83,17 @@ view: nps_user_monthly_score {
   dimension: server_version {
     description: "The Mattermost server version associated with the user's server at the point in time that they submitted the NPS response."
     type: string
-    sql: ${TABLE}.server_version ;;
+    sql: CASE WHEN ${cloud_server} THEN 'Cloud' ELSE ${TABLE}.server_version END ;;
+    hidden: no
+    order_by_field: server_version_major_sort
+  }
+
+  dimension: server_version_major {
+    description: "The Mattermost server version (major) associated with the user's server at the point in time that they submitted the NPS response."
+    type: string
+    sql: CASE WHEN ${cloud_server} THEN 'Cloud'
+          ELSE SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+          split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
     hidden: no
     order_by_field: server_version_major_sort
   }
@@ -93,9 +103,13 @@ view: nps_user_monthly_score {
     label: "  Server Version: Major (Current)"
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
-    sql: (split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          CASE WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-            ELSE split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int ;;
+    sql: CASE WHEN ${cloud_server} THEN '1000000'::int
+          ELSE (split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+          CASE WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)::int < 10 THEN
+              ('0' || split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2))
+            WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
+            ELSE split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int
+            END;;
     hidden: yes
   }
 
