@@ -354,6 +354,13 @@ explore: account {
     relationship: one_to_one
   }
 
+  join: account_territory_mapping {
+    from: territory_mapping
+    sql_on: coalesce(${account.billing_country_code},${account.shipping_country_code}) = ${account_territory_mapping.country_code}
+      AND ((${account.billing_country_code} IN ('US','CA') AND ${account.billing_state_code} = ${account_territory_mapping.state_code}) OR COALESCE(${account.billing_country_code},'') NOT IN ('US','CA'));;
+    relationship: many_to_one
+  }
+
   join: account_csm {
     from: user
     sql_on: ${account.csm_lookup} = ${account_csm.sfid} ;;
