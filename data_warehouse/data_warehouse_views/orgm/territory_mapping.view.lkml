@@ -82,4 +82,15 @@ view: territory_mapping {
     sql: ${TABLE}."TERRITORY__C" ;;
   }
 
+  dimension: territory_segment {
+    type: string
+    sql: ${TABLE}."TERRITORY_SEGMENT_C" ;;
+  }
+
+  dimension: territory_segment_minor {
+    type: string
+    sql: ${TABLE}."TERRITORY_SEGMENT_MINOR_C" ;;
+  }
+
+
 }
