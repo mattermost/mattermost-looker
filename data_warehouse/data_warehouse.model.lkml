@@ -1090,13 +1090,20 @@ explore: server_daily_details {
     type: inner
 }
 
+  join: subscriptions {
+    view_label: "Subscriptions (BLApi)"
+    sql_on: ${license_server_fact.license_id} = ${subscriptions.cws_installation} ;;
+    relationship: one_to_one
+    fields: [subscriptions.cws_dns]
+  }
+
   join: nps_server_daily_score {
     view_label: "Server NPS"
     sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details.server_id}
       AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details.logging_date}::DATE);;
     relationship: one_to_one
     type: left_outer
-    fields: [nps_server_daily_score.nps_server_core*]
+    fields: []
   }
 
   join: server_upgrades {
@@ -1149,6 +1156,15 @@ explore: server_daily_details {
     sql_on: ${server_daily_details.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
+  }
+
+  join: user_events_telemetry {
+    view_label: "User Events"
+    sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} and ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
+    relationship: one_to_many
+    fields: [user_events_telemetry.post_count, user_events_telemetry.count1, user_events_telemetry.event_count, user_events_telemetry.thread_count, user_events_telemetry.members_added_to_team_sum,
+      user_events_telemetry.members_removed_from_team_sum, user_events_telemetry.groups_removed_from_team_sum, user_events_telemetry.batch_add_members_sum, user_events_telemetry.user_actual_count, user_events_telemetry.event_count,
+      user_events_telemetry.custom_emojis_added, user_events_telemetry.post_reaction_count, user_events_telemetry.groups_added_to_team_sum, user_events_telemetry.plugin_added_count, user_events_telemetry.plugin_updates_count]
   }
 }
 
