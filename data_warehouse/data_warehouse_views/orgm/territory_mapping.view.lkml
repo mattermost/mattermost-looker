@@ -84,12 +84,12 @@ view: territory_mapping {
 
   dimension: territory_segment {
     type: string
-    sql: ${TABLE}."TERRITORY_SEGMENT_C" ;;
+    sql: ${TABLE}."TERRITORY_SEGMENT__C" ;;
   }
 
   dimension: territory_segment_minor {
     type: string
-    sql: ${TABLE}."TERRITORY_SEGMENT_MINOR_C" ;;
+    sql: ${TABLE}."TERRITORY_SEGMENT_MINOR__C" ;;
   }
 
 
