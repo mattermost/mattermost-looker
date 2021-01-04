@@ -430,6 +430,7 @@ view: user_events_telemetry {
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
+    primary_key: yes
   }
 
   dimension: event_text {
@@ -1016,7 +1017,8 @@ view: user_events_telemetry {
   measure: count1 {
     label: "Count"
     description: "Count of rows/occurrences."
-    type: count
+    type: number
+    sql: coalesce(count(${id}),0) ;;
     drill_fields: [server_drill*]
   }
 
@@ -1048,8 +1050,8 @@ view: user_events_telemetry {
   measure: user_actual_count {
     label: "  User Count"
     description: "The distinct count of Users within each grouping."
-    type: count_distinct
-    sql: COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id}) ;;
+    type: number
+    sql: COALESCE(COUNT(DISTINCT COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id})), 0) ;;
     drill_fields: [server_drill*]
   }
 
@@ -1166,8 +1168,8 @@ view: user_events_telemetry {
     group_label: "Batch Add Members Measures"
     label: "Batch Add Members (Sum)"
     description: "The sum of new members batch added to (group or team?) by users w/in each grouping."
-    type: sum
-    sql: CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END ;;
+    type: number
+    sql: COALESCE(SUM(CASE WHEN ${type} = 'api_teams_batch_add_members' THEN ${count} ELSE NULL END),0) ;;
     drill_fields: [server_drill*]
   }
 
@@ -1193,8 +1195,8 @@ view: user_events_telemetry {
     group_label: "Admin Team Configuration Measures"
     label: "Members Removed From Team (Sum)"
     description: "The sum of members removed from a team w/in each grouping."
-    type: sum
-    sql: CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END ;;
+    type: number
+    sql: COALESCE(SUM(CASE WHEN ${type} = 'members_removed_from_team' THEN ${count} ELSE NULL END),0) ;;
     drill_fields: [server_drill*]
   }
 
@@ -1274,8 +1276,8 @@ view: user_events_telemetry {
     group_label: "Admin Team Configuration Measures"
     label: "Members Added To Team (Sum)"
     description: "The sum of members added to teams w/in each grouping."
-    type: sum
-    sql: CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END ;;
+    type: number
+    sql: COALESCE(SUM(CASE WHEN ${type} = 'members_added_to_team' THEN ${count} ELSE NULL END),0) ;;
     drill_fields: [server_drill*]
   }
 
@@ -1360,15 +1362,15 @@ view: user_events_telemetry {
   measure: plugin_added_count {
     label: " Plugin Downloads"
     description: "The distinct count of Plugin download events performed within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'ui_marketplace_download' then ${id} ELSE NULL END ;;
+    type: number
+    sql: COALESCE(COUNT(DISTINCT CASE WHEN ${type} = 'ui_marketplace_download' then ${id} ELSE NULL END),0) ;;
   }
 
   measure: plugin_updates_count {
     label: " Plugin Updates"
     description: "The distinct count of Plugin update events performed within each grouping."
-    type: count_distinct
-    sql: CASE WHEN ${type} = 'ui_marketplace_download_update' then ${id} ELSE NULL END ;;
+    type: number
+    sql: COALESCE(COUNT(DISTINCT CASE WHEN ${type} = 'ui_marketplace_download_update' then ${id} ELSE NULL END),0) ;;
   }
 
   measure: scheme_count {

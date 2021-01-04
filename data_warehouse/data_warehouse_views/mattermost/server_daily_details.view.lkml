@@ -523,9 +523,10 @@ view: server_daily_details {
   dimension: license_at_logging {
     label: "License At Logging"
     description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
-    view_label: "License Fact"
+    view_label: "License Server Fact"
     type: yesno
     sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
+    hidden: yes
   }
 
   dimension: server_status {
