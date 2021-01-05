@@ -518,6 +518,16 @@ view: opportunity {
     sql: ${TABLE}.license_key__c ;;
   }
 
+  measure: license_key_count {
+    type: count_distinct
+    sql: ${license_key} ;;
+  }
+
+  measure: license_key_agg {
+    type: string
+    sql: LISTAGG(DISTINCT coalesce(${license_key},'null'),', ') ;;
+  }
+
   dimension_group: license_end {
     convert_tz: no
     description: "Date when the license is ending. Max end date of all Product Line Items in Opportunity."

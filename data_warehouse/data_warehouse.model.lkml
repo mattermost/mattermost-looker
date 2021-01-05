@@ -2303,7 +2303,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, order_type, total_amount, status_wlo, count, is_monthly_billing]
+    fields: [sfid, name, order_type, total_amount, status_wlo, count, is_monthly_billing, license_key, license_key_agg, license_key_count]
   }
 
   join: original_opportunity_ext {
