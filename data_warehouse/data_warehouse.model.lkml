@@ -2511,7 +2511,7 @@ explore: incident_response_events {
     sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+    fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
   }
 
   join: server_fact {
