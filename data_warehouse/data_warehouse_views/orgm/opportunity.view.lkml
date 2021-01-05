@@ -66,7 +66,8 @@ view: opportunity {
       owner_name,
       csm_name,
       ce_name,
-      type
+      type,
+      is_monthly_billing
     ]
   }
 
@@ -116,12 +117,9 @@ view: opportunity {
   dimension: amount {
     description: "The estimated total sale amount. For opportunities with products, the amount is the sum of the related products. Any attempt to update this field, if the record has products, will be ignored. The update call will not be rejected, and other fields will be updated as specified, but the Amount will be unchanged."
     group_label: "Amounts"
-    # BP: Override drill fields using sets
     drill_fields: [opportunity_drill_fields*,amount]
     sql: ${TABLE}.amount ;;
     type: number
-
-    # BP: Leverage named value formats
     value_format: "@{mm_usd_short}"
   }
 
@@ -164,6 +162,12 @@ view: opportunity {
     group_label: "Address"
     type: string
     sql: ${TABLE}.BILLING_COUNTRY_CODE__C ;;
+  }
+
+  dimension: is_monthly_billing {
+    type: yesno
+    sql: ${type} = 'Monthly Billing' ;;
+    hidden: yes
   }
 
   dimension: shipping_country {
@@ -1126,16 +1130,16 @@ view: opportunity {
   }
 
   measure: total_amount {
-    # description: "TODO"
     group_label: "Total Amounts"
+    label: "Total TCV"
     sql: ${amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
+    filters: [is_monthly_billing: "no"]
     value_format_name: mm_usd_short
   }
 
   measure: total_amount_in_commit {
-    # description: "TODO"
     group_label: "Total Amounts"
     sql: ${amount_in_commit};;
     type: sum_distinct
@@ -1144,7 +1148,6 @@ view: opportunity {
   }
 
   measure: total_amount_in_pipeline {
-    # description: "TODO"
     group_label: "Total Amounts"
     sql: ${amount_in_pipeline};;
     type: sum_distinct
@@ -1433,6 +1436,17 @@ view: opportunity {
     }
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
+
+  measure: total_monthly_billing_amount {
+    label: "Monthly Billing Amount"
+    group_label: "Product Line Type Totals"
+    sql: ${opportunitylineitem.monthly_billing_amount};;
+    type: sum_distinct
+    value_format_name: mm_usd_short
+    drill_fields: [opportunity_drill_fields*,total_monthly_billing_amount]
+    sql_distinct_key: ${opportunitylineitem.sfid} ;;
+  }
+
 
   measure: new_logo_count {
     label: "# New Logo"

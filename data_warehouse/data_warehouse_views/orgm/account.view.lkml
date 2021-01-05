@@ -1212,7 +1212,7 @@ view: account {
   }
 
   measure: total_current_arr {
-    drill_fields: [sfid, name, arr_current]
+    drill_fields: [sfid, name, total_current_arr]
     label: "Total Current ARR"
     sql: ${arr_current} ;;
     type: sum_distinct

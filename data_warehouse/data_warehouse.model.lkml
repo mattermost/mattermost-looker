@@ -405,7 +405,7 @@ explore: account {
     view_label: "Original Opportunity"
     sql_on: ${opportunity.original_opportunity_sfid} = ${original_opportunity.sfid};;
     relationship: one_to_many
-    fields: [name, sfid, total_amount, status_wlo]
+    fields: [name, sfid, total_amount, status_wlo, is_monthly_billing]
   }
 
   join: original_opportunity_ext {
@@ -421,7 +421,7 @@ explore: account {
     view_label: "Original Opportunity"
     sql_on: ${original_opportunity.sfid} = ${original_opportunitylineitem.opportunityid};;
     relationship: one_to_many
-    fields: [total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount]
+    fields: [total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount, is_monthly_billing]
   }
 
   join: account_industry_mapping {
@@ -577,7 +577,7 @@ explore: account_daily_arr_deltas {
     view_label: "Related Opportunities"
     sql_on: ${account.sfid} = ${opportunity.accountid} and ${opportunity.license_start_date}=${account_daily_arr_deltas.new_day_date} ;;
     relationship: one_to_many
-    fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid,name]
+    fields: [count_open_oppt_current_fy,isclosed,iswon,close_current_fy,opportunity.close_date,opportunity.stagename,sfid,name,is_monthly_billing]
   }
 
   join: opportunity_ext {
@@ -590,7 +590,7 @@ explore: account_daily_arr_deltas {
     view_label: "Related Opportunities"
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.start_date} = ${account_daily_arr_deltas.new_day_date};;
     relationship: one_to_many
-    fields: [total_bookings_open_curr_fy,total_bookings_curr_fy,total_new_amount,total_ren_amount,total_exp_amount,opportunitylineitem.product_line_type,is_loe]
+    fields: [total_bookings_open_curr_fy,total_bookings_curr_fy,total_new_amount,total_ren_amount,total_exp_amount,opportunitylineitem.product_line_type,is_loe,is_monthly_billing]
   }
 }
 
@@ -2303,7 +2303,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, order_type, total_amount, status_wlo, count, license_key, license_key_agg, license_key_count]
+    fields: [sfid, name, order_type, total_amount, status_wlo, count, is_monthly_billing, license_key, license_key_agg, license_key_count]
   }
 
   join: original_opportunity_ext {
@@ -2321,7 +2321,7 @@ explore: available_renewals_dynamic {
     relationship: one_to_many
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount,
              start_date, end_date, length_days, quantity, discount, total_price,
-             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring
+             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing
             ]
   }
 
@@ -2337,7 +2337,7 @@ explore: available_renewals_dynamic {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count]
+    fields: [sfid, name, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count, is_monthly_billing]
   }
 
   join: renewal_opportunity_ext {
@@ -2355,7 +2355,7 @@ explore: available_renewals_dynamic {
     relationship: one_to_many
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount,
              start_date, end_date, length_days, quantity, discount, total_price,
-             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring
+             total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing
             ]
   }
 
