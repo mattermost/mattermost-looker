@@ -59,7 +59,9 @@ view: opportunitylineitem {
       coterm_expansion_amount,
       leftover_expansion_amount,
       multi_amount,
-      ren_multi_amount
+      ren_multi_amount,
+      monthly_billing_amount,
+      is_monthly_billing
     ]
   }
 
@@ -117,6 +119,12 @@ view: opportunitylineitem {
       fiscal_year
     ]
     type: time
+  }
+
+  dimension: is_monthly_billing {
+    type: yesno
+    sql: ${opportunity.type} = 'Monthly Billing' ;;
+    hidden: yes
   }
 
   dimension: is_prorated_expansion {
@@ -457,6 +465,16 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_discounted, discount]
   }
 
+  measure: total_monthly_billing {
+    label: "Count Monthly Billing Line Items"
+    group_label: "Counts"
+    description: ""
+    sql: ${sfid} ;;
+    filters: [is_monthly_billing: "yes"]
+    type: count_distinct
+    drill_fields: [opportunitylineitem_drill*,total_monthly_billing]
+  }
+
   measure: total_nonprofit {
     label: "Count Non-Profit Line Items"
     group_label: "Counts"
@@ -521,6 +539,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${arr} + ${open_arr} + ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
+    filters: [is_monthly_billing: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings]
   }
 
@@ -530,10 +549,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.iswon
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.iswon: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings]
   }
 
@@ -543,10 +559,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "no"
-    }
+    filters: [is_monthly_billing: "no", opportunity.isclosed: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_open]
   }
 
@@ -556,31 +569,8 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.iswon
-      value: "no"
-    }
+    filters: [is_monthly_billing: "no", opportunity.isclosed: "yes", opportunity.iswon: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost]
-  }
-
-
-  measure: total_price_curr_fy {
-    group_label: "Current FY"
-    group_item_label: "Total TCV"
-    label: "Total TCV (Curr FY)"
-    sql: ${totalprice} ;;
-    type: sum
-    value_format_name: "usd_0"
-
-    filters: {
-      field: opportunity.close_current_fy
-      value: "yes"
-    }
-    drill_fields: [opportunitylineitem_drill*,total_price_curr_fy]
   }
 
   measure: total_bookings_curr_fy {
@@ -590,14 +580,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.iswon
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.close_current_fy
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_fy: "yes", opportunity.iswon: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_fy]
   }
 
@@ -608,14 +591,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_fy
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.isclosed: "no", opportunity.close_current_fy: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_fy]
   }
 
@@ -626,18 +602,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.iswon
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_fy
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.isclosed: "yes", opportunity.close_current_fy: "yes", opportunity.iswon: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_fy]
   }
 
@@ -648,14 +613,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.iswon
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.close_current_qtr
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_qtr: "yes", opportunity.iswon: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_qtr]
   }
 
@@ -666,14 +624,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_qtr
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_qtr: "yes", opportunity.isclosed: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_qtr]
   }
 
@@ -684,18 +635,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.iswon
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_qtr
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_qtr: "yes", opportunity.iswon: "no", opportunity.isclosed: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_qtr]
   }
 
@@ -706,14 +646,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.iswon
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.close_current_mo
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_mo: "yes", opportunity.iswon: "yes"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_curr_mo]
   }
 
@@ -724,14 +657,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${open_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_mo
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_mo: "yes", opportunity.isclosed: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_open_curr_mo]
   }
 
@@ -742,18 +668,7 @@ view: opportunitylineitem {
     sql: case when ${length_days} >=365 then ${lost_arr} else ${totalprice} end;;
     type: sum
     value_format_name: "usd_0"
-    filters: {
-      field: opportunity.isclosed
-      value: "yes"
-    }
-    filters: {
-      field: opportunity.iswon
-      value: "no"
-    }
-    filters: {
-      field: opportunity.close_current_mo
-      value: "yes"
-    }
+    filters: [is_monthly_billing: "no", opportunity.close_current_mo: "yes", opportunity.isclosed: "yes", opportunity.iswon: "no"]
     drill_fields: [opportunitylineitem_drill*,total_bookings_lost_curr_mo]
   }
 
@@ -886,6 +801,14 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,ren_multi_amount]
   }
 
+  dimension: monthly_billing_amount {
+    hidden: yes
+    sql: ${TABLE}.monthly_billing_amount__c;;
+    type: number
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,monthly_billing_amount]
+  }
+
   measure: total_new_amount {
     group_label: "Product Line Type Totals"
     label: "New"
@@ -998,6 +921,16 @@ view: opportunitylineitem {
     sql_distinct_key: ${sfid} ;;
     value_format_name: mm_usd_short
     drill_fields: [opportunitylineitem_drill*,total_ren_multi_amount]
+  }
+
+  measure: total_monthly_billing_amount {
+    group_label: "Product Line Type Totals"
+    label: "Monthly Billing"
+    sql: ${monthly_billing_amount};;
+    type: sum_distinct
+    sql_distinct_key: ${sfid} ;;
+    value_format_name: mm_usd_short
+    drill_fields: [opportunitylineitem_drill*,total_monthly_billing_amount]
   }
 
 }

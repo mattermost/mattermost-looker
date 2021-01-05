@@ -359,6 +359,14 @@ view: server_daily_details {
     order_by_field: server_version_major_sort
   }
 
+  dimension: database_type_version {
+    label: " Database Type + Version"
+    group_label: " Database Info."
+    description: "The database type & version associated with the server on the given date."
+    type: string
+    sql: ${db_type} || ' ' || ${database_version_major} ;;
+  }
+
   dimension: database_version {
     label: " Database Version"
     group_label: " Database Info."
