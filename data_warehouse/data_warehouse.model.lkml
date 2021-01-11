@@ -2337,7 +2337,7 @@ explore: available_renewals_dynamic {
     from: opportunity
     sql_on: ${opportunity.renewed_by_opportunity_id} = ${renewal_opportunity.sfid};;
     relationship: many_to_one
-    fields: [sfid, name, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count, is_monthly_billing]
+    fields: [sfid, name, stagename, order_type, total_amount, close_date, close_fiscal_quarter, close_fiscal_year, status_wlo, count, is_monthly_billing]
   }
 
   join: renewal_opportunity_ext {
