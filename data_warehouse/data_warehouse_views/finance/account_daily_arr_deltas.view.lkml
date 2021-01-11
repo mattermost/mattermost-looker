@@ -22,7 +22,9 @@ view: account_daily_arr_deltas {
   filter: ytd_yoy_comparison {
     type: yesno
     description: "Filters so the ARR date is equal to the last day of the current fiscal year for each previous fiscal year. Useful for YTD YoY comparisons."
-    sql: CASE WHEN (LEFT(DATE_TRUNC('DAY', CURRENT_DATE),4) || '-' || RIGHT(DATE_TRUNC('day', ${new_day_date}::date), 5))::DATE = DATE_TRUNC('DAY', CURRENT_DATE)
+    sql: CASE WHEN (LEFT(DATE_TRUNC('DAY', CURRENT_DATE),4) || '-' ||
+            CASE WHEN LEFT(CURRENT_DATE::DATE, 4)::INT%4 <> 0 AND EXTRACT(MONTH FROM ${new_day_date}::date) = 2 AND EXTRACT(DAY FROM ${new_day_date}::DATE) = 29 THEN '02-28'
+              ELSE RIGHT(DATE_TRUNC('day', ${new_day_date}::date), 5) END)::DATE = DATE_TRUNC('DAY', CURRENT_DATE)
           THEN TRUE ELSE FALSE END ;;
   }
 

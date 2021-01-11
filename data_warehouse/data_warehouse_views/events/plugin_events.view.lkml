@@ -3,7 +3,10 @@ view: plugin_events {
   sql_table_name: events.plugin_events ;;
   view_label: "Plugin Events"
 
-  # FILTERS
+  # Drill Sets
+  set: plugin_drill {
+    fields: [timestamp_date, user_id, useractualid, license_server_fact.customer_id, license_server_fact.customer_name, license_server_fact.license_email, plugin_name, pluginversion, event, user_count, useractual_count, count, first_triggered, last_triggered, server_fact.cloud_server]
+  }
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
@@ -193,6 +196,7 @@ view: plugin_events {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [plugin_drill*]
   }
 
   measure: user_count {
@@ -200,6 +204,7 @@ view: plugin_events {
     description: "The distinct count of Servers within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [plugin_drill*]
   }
 
   measure: useractual_count {
@@ -207,6 +212,7 @@ view: plugin_events {
     description: "The distinct count of Users within each grouping."
     type: count_distinct
     sql: ${useractualid} ;;
+    drill_fields: [plugin_drill*]
   }
 
   measure: anonymous_count {
@@ -214,6 +220,7 @@ view: plugin_events {
     description: "The distinct count of Anonymous ID's within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    drill_fields: [plugin_drill*]
     hidden: yes
   }
 

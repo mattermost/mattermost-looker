@@ -2542,8 +2542,10 @@ explore: incident_response_events {
 
 explore: plugin_events {
   label: "Plugin Telemetry"
+  view_label: "Plugin Telemetry"
   group_label: "Integrations"
   description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
+  extends: [person]
 
   join: server_daily_details {
     view_label: "Plugin Telemetry"
@@ -2565,6 +2567,17 @@ explore: plugin_events {
     sql_on: ${plugin_events.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
+  }
+
+  join: license_server_fact {
+    sql_on: ${license_server_fact.server_id} = ${plugin_events.user_id} AND ${plugin_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+    relationship: many_to_one
+    fields: [license_server_fact.customer_id, license_server_fact.customer_name, license_server_fact.edition, license_server_fact.license_email]
+  }
+
+  join: person {
+    sql_on: ${person.email} = ${license_server_fact.license_email};;
+    relationship: many_to_one
   }
 }
 
