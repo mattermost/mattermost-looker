@@ -786,7 +786,7 @@ explore: lead_status_hist {
   join: lead {
     sql_on: ${lead.sfid} = ${lead_status_hist.lead_sfid} ;;
     relationship: many_to_one
-    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain]
+    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain, lead.lead_status_minor, lead.status_minor_order, lead.lead_status_combined_order, lead.lead_status_combined, lead.avg_mql_to_scl, lead.avg_scl_to_converted]
   }
 
   join: owner {
@@ -2303,7 +2303,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${account.sfid} = ${opportunity.accountid};;
     relationship: one_to_many
-    fields: [sfid, name, order_type, total_amount, status_wlo, count, is_monthly_billing, license_key, license_key_agg, license_key_count]
+    fields: [sfid, name, order_type, total_amount, status_wlo, close_date, count, is_monthly_billing, license_key, license_key_agg, license_key_count]
   }
 
   join: original_opportunity_ext {

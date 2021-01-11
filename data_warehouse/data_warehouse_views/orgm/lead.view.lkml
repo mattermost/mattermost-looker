@@ -548,6 +548,20 @@ view: lead {
     sql: ${first_scl_date} IS NOT NULL ;;
   }
 
+  dimension: mql_to_scl {
+    group_label: "Time To"
+    label: "Days from MQL to SCL"
+    sql: case when ${scl_since_most_recent_mql} then datediff('day', ${most_recent_mql_date},${most_recent_scl_date}) else null end ;;
+    type: number
+  }
+
+  dimension: scl_to_converted {
+    group_label: "Time To"
+    label: "Days from SCL to Converted"
+    sql: datediff('day', ${most_recent_scl_date},${converted_date}) ;;
+    type: number
+  }
+
   dimension_group: first_qsc {
     group_label: "Lead Lifecycle: QSC"
     label: "QSC First"
@@ -1396,4 +1410,19 @@ view: lead {
     label: "# Junk"
     type: count_distinct
   }
+
+  measure: avg_mql_to_scl {
+    group_label: "Time To"
+    label: "Avg Days from MQL to SCL"
+    type: average_distinct
+    sql: ${mql_to_scl} ;;
+  }
+
+  measure: avg_scl_to_converted {
+    group_label: "Time To"
+    label: "Avg Days from SCL to Converted"
+    type: average_distinct
+    sql: ${scl_to_converted} ;;
+  }
+
 }
