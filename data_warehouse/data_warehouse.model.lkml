@@ -786,7 +786,13 @@ explore: lead_status_hist {
   join: lead {
     sql_on: ${lead.sfid} = ${lead_status_hist.lead_sfid} ;;
     relationship: many_to_one
-    fields: [email, sfid, status, status_order, lead.most_recent_scl_date, lead.most_recent_mql_date, lead.is_public_domain, lead.lead_status_minor, lead.status_minor_order, lead.lead_status_combined_order, lead.lead_status_combined, lead.avg_mql_to_scl, lead.avg_scl_to_converted]
+    fields: [
+              email, sfid, status, status_order,
+              lead.most_recent_scl_date, lead.most_recent_scl_month, lead.most_recent_scl_fiscal_quarter, lead.most_recent_scl_fiscal_year, lead.avg_scl_to_converted,
+              lead.most_recent_mql_date, lead.most_recent_mql_month, lead.most_recent_mql_fiscal_quarter, lead.most_recent_mql_fiscal_year, lead.avg_mql_to_scl,
+              lead.is_public_domain, lead.lead_status_minor, lead.status_minor_order, lead.lead_status_combined_order, lead.lead_status_combined,
+              lead.count
+            ]
   }
 
   join: owner {
