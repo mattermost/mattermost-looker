@@ -828,6 +828,12 @@ explore: daily_traffic {
 explore: daily_page_visits {
   group_label: "Google Analytics"
   label: "Daily Page Visits"
+  join: blog_paths {
+    view_label: "Daily Page Visits"
+    sql_on: ${daily_page_visits.page_path_2} = ${blog_paths.page_path} ;;
+    relationship: many_to_one
+    fields: [blog_paths.category]
+  }
 }
 
 explore: downloads {
