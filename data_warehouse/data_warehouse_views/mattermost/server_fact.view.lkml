@@ -397,6 +397,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.max_registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
   }
 
+  dimension: enabled_plugins_max {
+    label: "Max. Enabled Plugins"
+    description: "The max number of enabled plugins logged on the server during it's lifetime."
+    type: number
+    sql: COALESCE(${TABLE}.max_enabled_plugins, 3);;
+  }
+
 
   dimension: max_registered_user_bands {
     label: "Max. Registered User Bands"
@@ -405,6 +412,15 @@ sql_table_name: mattermost.server_fact ;;
     style: integer
     tiers: [2, 3, 4, 5, 6, 7, 8, 9, 10]
     sql: ${registered_users_max};;
+  }
+
+  dimension: max_enabled_plugins_bands {
+    label: "Max. Enabled Plugins Bands"
+    description: "The max number of enabled plugins on the server stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [2, 3, 4, 5]
+    sql: ${enabled_plugins_max};;
   }
 
 
