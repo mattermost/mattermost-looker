@@ -325,7 +325,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: days_active {
     description: "The number of days a server logged >= 1 event since it's first active date."
     type: number
-    sql: ${TABLE}.days_active ;;
+    sql: coalesce(${TABLE}.days_active, 0) ;;
     value_format_name: decimal_0
   }
 
@@ -415,17 +415,29 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_enabled_plugins_bands {
-    label: "Max. Enabled Plugins Bands"
+    label: "Max. Enabled Plugins Band"
+    group_label: " Activity Bands"
     description: "The max number of enabled plugins on the server stratified into bands currently logged on the server."
     type: tier
     style: integer
-    tiers: [2, 3, 4, 5]
+    tiers: [1, 2, 3, 4, 5]
     sql: ${enabled_plugins_max};;
+  }
+
+  dimension: max_disabled_plugins_bands {
+    label: "Max. Disabled Plugins Band"
+    group_label: " Activity Bands"
+    description: "The max number of disabled plugins on the server stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5]
+    sql: COALESCE(IFF(${TABLE}.max_disabled_plugins < 0, 0, ${TABLE}.max_disabled_plugins),0);;
   }
 
 
   dimension: registered_user_bands {
-    label: "Registered User Bands"
+    label: "Registered User Band"
+    group_label: " Activity Bands"
     description: "The current number of registered users stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -451,7 +463,26 @@ sql_table_name: mattermost.server_fact ;;
     group_label: "Event Dimensions (All-Time)"
     description: "The all-time count of posts created by users on the server (from user event telemetry)."
     type: number
-    sql: ${TABLE}.posts_events_alltime;;
+    sql: COALESCE(${TABLE}.posts_events_alltime, 0);;
+  }
+
+  dimension: avg_posts_per_active_day {
+    group_label: "Event Dimensions (All-Time)"
+    description: "The total number of posts performed on the server/workspace divided by the number of days active (user performing >=1 event)."
+    type: number
+    value_format_name: decimal_1
+    sql: COALESCE(COALESCE(${post_events_alltime},0)/NULLIF(${days_active},0), 0) ;;
+  }
+
+  dimension: posts_per_day_bands {
+    label: "Posts Per Active Day Band"
+    group_label: " Activity Bands"
+    description: "The average number of posts performed by the server/workspace per active day since first activity stratified into bands to date."
+    type: tier
+    style: relational
+    value_format_name: decimal_0
+    tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
+    sql: COALESCE(${avg_posts_per_active_day},0);;
   }
 
   dimension: api_request_trial_events_alltime {
@@ -478,25 +509,65 @@ sql_table_name: mattermost.server_fact ;;
   dimension: public_channels {
     description: "The running total number of public channels created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.public_channels;;
+    sql: COALESCE(IFF(${TABLE}.public_channels < 0, 0, ${TABLE}.public_channels),0);;
+  }
+
+  dimension: public_channels_bands {
+    label: "Public Channels Band"
+    group_label: " Activity Bands"
+    description: "The total number of public channels created on the server stratified into bands  (logged via the server diagnostics.go code) to date."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
+    sql: ${public_channels};;
   }
 
   dimension: private_channels {
     description: "The running total number of private channels created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.private_channels;;
+    sql: COALESCE(IFF(${TABLE}.private_channels < 0, 0, ${TABLE}.private_channels), 0);;
+  }
+
+  dimension: private_channels_bands {
+    label: "Private Channels Band"
+    group_label: " Activity Bands"
+    description: "The total number of private channels created on the server stratified into bands  (logged via the server diagnostics.go code) to date."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
+    sql: ${private_channels};;
   }
 
   dimension: slash_commands {
-    description: "The running total number of slash_commands created on the server (logged via the server diagnostics.go code) to date."
+    description: "The running total number of slash_commands executed on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.slash_commands;;
+    sql: COALESCE(IFF(${TABLE}.slash_commands < 0, 0, ${TABLE}.slash_commands), 0) ;;
+  }
+
+  dimension: slash_commands_bands {
+    label: "Slash Commands Band"
+    group_label: " Activity Bands"
+    description: "The total number of slash commands executed on the server stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${slash_commands};;
   }
 
   dimension: teams {
     description: "The total number of teams associated with the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.teams;;
+    sql: COALESCE(IFF(${TABLE}.teams < 0, 0, ${TABLE}.teams), 0);;
+  }
+
+  dimension: teams_bands {
+    label: "Teams Band"
+    group_label: " Activity Bands"
+    description: "The total number of teams associated with the server stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${teams};;
   }
 
   dimension: posts_previous_day {
@@ -528,7 +599,17 @@ sql_table_name: mattermost.server_fact ;;
   dimension: bot_accounts {
     description: "The total number of bot_accounts created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.bot_accounts;;
+    sql: COALESCE(IFF(${TABLE}.bot_accounts <0, 0, ${TABLE}.bot_accounts), 0);;
+  }
+
+  dimension: bot_account_bands {
+    label: "Bot Accounts Band"
+    group_label: " Activity Bands"
+    description: "The total number of bot accounts associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${bot_accounts};;
   }
 
   dimension: guest_accounts {
@@ -537,16 +618,46 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${TABLE}.guest_accounts;;
   }
 
+  dimension: guest_account_bands {
+    label: "Guest Accounts Band"
+    group_label: " Activity Bands"
+    description: "The total number of guest accounts associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${guest_accounts};;
+  }
+
   dimension: incoming_webhooks {
     description: "The total number of incoming_webhooks created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.incoming_webhooks;;
+    sql: COALESCE(${TABLE}.incoming_webhooks, 0);;
+  }
+
+  dimension: incoming_webhooks_bands {
+    label: "Incoming Webhooks Band"
+    group_label: " Activity Bands"
+    description: "The total number of incoming webhooks associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${incoming_webhooks};;
   }
 
   dimension: outgoing_webhooks {
     description: "The total number of guest_accounts created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: ${TABLE}.outgoing_webhooks;;
+    sql: COALESCE(${TABLE}.outgoing_webhooks, 0);;
+  }
+
+  dimension: outgoing_webhooks_bands {
+    label: "Outgoing Webhooks Band"
+    group_label: " Activity Bands"
+    description: "The total number of outgoing webhooks associated with the server stratified into bands currently logged on the server."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10, 20]
+    sql: ${outgoing_webhooks};;
   }
 
   dimension: invite_members_alltime {
