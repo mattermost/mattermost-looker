@@ -325,7 +325,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: days_active {
     description: "The number of days a server logged >= 1 event since it's first active date."
     type: number
-    sql: ${TABLE}.days_active ;;
+    sql: coalesce(${TABLE}.days_active, 0) ;;
     value_format_name: decimal_0
   }
 
@@ -463,7 +463,7 @@ sql_table_name: mattermost.server_fact ;;
     group_label: "Event Dimensions (All-Time)"
     description: "The all-time count of posts created by users on the server (from user event telemetry)."
     type: number
-    sql: ${TABLE}.posts_events_alltime;;
+    sql: COALESCE(${TABLE}.posts_events_alltime, 0);;
   }
 
   dimension: avg_posts_per_active_day {
@@ -471,17 +471,18 @@ sql_table_name: mattermost.server_fact ;;
     description: "The total number of posts performed on the server/workspace divided by the number of days active (user performing >=1 event)."
     type: number
     value_format_name: decimal_1
-    sql: COALESCE(${post_events_alltime}/NULLIF((${days_active}+${days_inactive}),0), 0) ;;
+    sql: COALESCE(COALESCE(${post_events_alltime},0)/NULLIF(${days_active},0), 0) ;;
   }
 
   dimension: posts_per_day_bands {
-    label: "Post Per Active Day Band"
+    label: "Posts Per Active Day Band"
     group_label: " Activity Bands"
     description: "The average number of posts performed by the server/workspace per active day since first activity stratified into bands to date."
     type: tier
-    style: integer
+    style: relational
+    value_format_name: decimal_0
     tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
-    sql: ${avg_posts_per_active_day};;
+    sql: COALESCE(${avg_posts_per_active_day},0);;
   }
 
   dimension: api_request_trial_events_alltime {
@@ -524,7 +525,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: private_channels {
     description: "The running total number of private channels created on the server (logged via the server diagnostics.go code) to date."
     type: number
-    sql: COALESCE(IFF(${TABLE}.private_channels < 0, 0, ${TABLE}.private_channels < 0), 0);;
+    sql: COALESCE(IFF(${TABLE}.private_channels < 0, 0, ${TABLE}.private_channels), 0);;
   }
 
   dimension: private_channels_bands {
