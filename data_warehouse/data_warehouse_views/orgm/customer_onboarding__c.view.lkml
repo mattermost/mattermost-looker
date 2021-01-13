@@ -204,6 +204,12 @@ view: customer_onboarding {
     sql: CAST(${TABLE}."LASTMODIFIEDDATE" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: latest_telemetry_date {
+    group_label: "Adoption"
+    type: date
+    sql: ${TABLE}."LATEST_TELEMETRY_DATE__C" ;;
+  }
+
   dimension: load_balancer {
     group_label: "Customer Journey"
     type: string
@@ -310,10 +316,22 @@ view: customer_onboarding {
     sql: ${TABLE}."SEATS_ACTIVE_MAU__C" ;;
   }
 
+  dimension: seats_active_max {
+    group_label: "Adoption"
+    type: number
+    sql: ${TABLE}."SEATS_ACTIVE_MAX__C" ;;
+  }
+
   dimension: seats_active_override {
     group_label: "Adoption"
     type: yesno
     sql: ${TABLE}."SEATS_ACTIVE_OVERRIDE__C" ;;
+  }
+
+  dimension: server_version {
+    group_label: "Adoption"
+    type: number
+    sql: ${TABLE}."SERVER_VERSION__C" ;;
   }
 
   dimension: sfid {
