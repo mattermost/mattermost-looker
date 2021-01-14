@@ -1261,6 +1261,14 @@ explore: account_cs_extended  {
     fields: []
   }
 
+  join: customer_onboarding_cse {
+    from: user
+    view_label: "CSE"
+    sql_on: ${customer_onboarding_cse.sfid} = ${customer_onboarding.cse_owner} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: customer_onboarding_executive_sponsor {
     from: contact
     view_label: "Executive Sponsor"
