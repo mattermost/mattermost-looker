@@ -7,6 +7,12 @@ view_label: ""
     fields: [name, stagename, forecastcategoryname, ownerid, ownername, close_date, total_amount, sales_segment, sales_segment_current]
   }
 
+  dimension: compound_primary {
+    sql: ${opportunityid} || ${snapshot_date} ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: amount {
     type: number
     sql: ${TABLE}."AMOUNT" ;;
@@ -20,10 +26,61 @@ view_label: ""
   }
 
   dimension: amount_renewal {
+    hidden: yes
     type: number
     sql: ${TABLE}."RENEWAL_AMOUNT" ;;
     group_label: "Amounts"
   }
+
+  dimension: new {
+    type: number
+    sql: ${TABLE}."NEW" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: expansion {
+    type: number
+    sql: ${TABLE}."EXPANSION" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: coterm {
+    type: number
+    sql: ${TABLE}."COTERM" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: loe {
+    type: number
+    sql: ${TABLE}."LOE" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: renewal {
+    type: number
+    sql: ${TABLE}."RENEWAL" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: multi {
+    type: number
+    sql: ${TABLE}."MULTI" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: renewal_multi {
+    type: number
+    sql: ${TABLE}."RENEWAL_MULTI" ;;
+    group_label: "Amounts"
+  }
+
+  dimension: monthly_billing {
+    type: number
+    sql: ${TABLE}."MONTHLY_BILLING" ;;
+    group_label: "Amounts"
+  }
+
+
 
 
   dimension: arr_contributed {
@@ -202,7 +259,7 @@ view_label: ""
   }
 
   measure: total_amount {
-    type: sum
+    type: sum_distinct
     sql: ${amount} ;;
     label: "Total"
     value_format_name: usd_0
@@ -210,18 +267,66 @@ view_label: ""
   }
 
   measure: total_amount_net_new {
-    type: sum
-    sql: ${amount_net_new} ;;
+    type: sum_distinct
+    sql: greatest(${new} + ${expansion} + ${coterm} + ${loe}, ${amount_net_new});;
     label: "Net New"
     value_format_name: usd_0
     drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount, total_amount_net_new, close_date]
   }
 
   measure: total_amount_renewal {
-    type: sum
-    sql: ${amount_renewal} ;;
+    type: sum_distinct
+    sql: ${renewal} ;;
     label: "Renewal"
     value_format_name: usd_0
     drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount, total_amount_renewal, close_date]
+  }
+
+  measure: total_new {
+    type: sum_distinct
+    sql: ${new} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_expansion {
+    type: sum_distinct
+    sql: ${expansion} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_coterm {
+    type: sum_distinct
+    sql: ${coterm} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_loe {
+    type: sum_distinct
+    sql: ${loe} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_renewal {
+    type: sum_distinct
+    sql: ${renewal} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_multi {
+    type: sum_distinct
+    sql: ${multi} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_renewal_multi {
+    type: sum_distinct
+    sql: ${renewal_multi} ;;
+    group_label: "Amounts"
+  }
+
+  measure: total_monthly_billing {
+    type: sum_distinct
+    sql: ${monthly_billing};;
+    group_label: "Amounts"
   }
 }

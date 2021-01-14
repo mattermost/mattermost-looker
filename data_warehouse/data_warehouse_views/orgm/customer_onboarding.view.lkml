@@ -53,6 +53,19 @@ view: customer_onboarding {
     sql:${customer_onboarding_csm.name}  ;;
   }
 
+  dimension: cse_owner {
+    hidden: yes
+    type: string
+    sql: ${TABLE}."CSE_OWNER__C" ;;
+  }
+
+  dimension: cse_owner_name {
+    label: "CSE Owner"
+    group_label: "Owners"
+    type: string
+    sql: ${customer_onboarding_cse.name} ;;
+  }
+
   dimension: primary_contact {
     hidden: yes
     type: string
@@ -208,6 +221,11 @@ view: customer_onboarding {
     group_label: "Adoption"
     type: date
     sql: ${TABLE}."LATEST_TELEMETRY_DATE__C" ;;
+  }
+
+  dimension: license_key {
+    type: string
+    sql: ${TABLE}."LICENSE_KEY__C";;
   }
 
   dimension: load_balancer {
