@@ -276,6 +276,11 @@ view: customer_onboarding {
     sql: ${TABLE}."PRODUCT__C" ;;
   }
 
+  dimension: seats_registered {
+    group_label: "Adoption"
+    type: number
+    sql: ${TABLE}."SEATS_REGISTERED__C" ;;
+  }
 
   dimension: regulatory_requirements {
     group_label: "Customer Journey"
@@ -392,7 +397,61 @@ view: customer_onboarding {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${sfid} ;;
     drill_fields: [account_name, owner_name, csm_owner_name, use_case, stage, seat_utilization]
+  }
+
+  measure: total_number_of_plugins  {
+    label: "# of Plugins"
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${number_of_plugins} ;;
+  }
+
+  measure: total_number_of_seats_licensed {
+    label: "# of Seats Licensed"
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${number_of_seats_licensed} ;;
+  }
+
+  measure: total_number_of_webhooks {
+    label: "# of Webhooks"
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${number_of_webhooks} ;;
+  }
+
+  measure: total_seats_registered {
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${seats_registered} ;;
+  }
+
+  measure: total_seat_utilization {
+    group_label: "Adoption"
+    type: number
+    value_format_name: percent_2
+    sql: ${total_seats_registered}/${total_number_of_seats_licensed} ;;
+  }
+
+  measure: total_seats_active_latest {
+    description: "Daily Active Users"
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${seats_active_latest} ;;
+  }
+
+  measure: total_seats_active_mau {
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${seats_active_mau} ;;
+  }
+
+  measure: total_seats_active_max {
+    group_label: "Adoption"
+    type: sum_distinct
+    sql: ${seats_active_max} ;;
   }
 }
