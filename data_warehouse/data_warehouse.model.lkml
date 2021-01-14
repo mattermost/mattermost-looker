@@ -479,6 +479,7 @@ explore: account {
 
 explore: opportunity_snapshot {
   group_label: "Salesforce"
+  view_label: "Opportunity Snapshot"
   extends: [_base_opportunity_core_explore]
 
   join: opportunity {
@@ -491,7 +492,7 @@ explore: opportunity_snapshot {
     sql_on: ${opportunity_snapshot.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
     fields: []
-    }
+  }
 }
 
 

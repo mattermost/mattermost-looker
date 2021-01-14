@@ -266,9 +266,17 @@ view_label: ""
     drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount_net_new, total_amount_renewal, close_date]
   }
 
-  measure: total_amount_net_new {
+  measure: total_amount_net_new_old {
+    hidden: yes
     type: sum_distinct
-    sql: greatest(${new} + ${expansion} + ${coterm} + ${loe}, ${amount_net_new});;
+    sql: ${amount_net_new} ;;
+    label: "Total"
+    value_format_name: usd_0
+  }
+
+  measure: total_amount_net_new {
+    type: number
+    sql: greatest(${total_new} + ${total_expansion} + ${total_coterm} + ${total_loe}, ${total_amount_net_new_old});;
     label: "Net New"
     value_format_name: usd_0
     drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount, total_amount_net_new, close_date]
