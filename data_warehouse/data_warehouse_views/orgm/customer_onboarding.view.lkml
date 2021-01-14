@@ -451,7 +451,7 @@ view: customer_onboarding {
     group_label: "Adoption"
     type: number
     value_format_name: percent_2
-    sql: ${total_seats_registered}/${total_number_of_seats_licensed} ;;
+    sql: ${total_seats_registered}/nullif(${total_number_of_seats_licensed},0) ;;
   }
 
   measure: total_seats_active_latest {
