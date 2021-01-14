@@ -1236,7 +1236,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_onboarding {
-    sql_on:${account.sfid} = ${customer_onboarding.accountid};;
+    sql_on:${opportunity.sfid} = ${customer_onboarding.opportunity_name};;
     relationship: one_to_many
   }
 
