@@ -479,6 +479,7 @@ explore: account {
 
 explore: opportunity_snapshot {
   group_label: "Salesforce"
+  view_label: "Opportunity Snapshot"
   extends: [_base_opportunity_core_explore]
 
   join: opportunity {
@@ -491,7 +492,7 @@ explore: opportunity_snapshot {
     sql_on: ${opportunity_snapshot.ownerid} = ${opportunity_owner.sfid} ;;
     relationship: many_to_one
     fields: []
-    }
+  }
 }
 
 
@@ -1235,7 +1236,7 @@ explore: account_cs_extended  {
   }
 
   join: customer_onboarding {
-    sql_on:${account.sfid} = ${customer_onboarding.accountid};;
+    sql_on:${opportunity.sfid} = ${customer_onboarding.opportunity_name};;
     relationship: one_to_many
   }
 
@@ -1257,6 +1258,14 @@ explore: account_cs_extended  {
     from: contact
     view_label: "Primary Contact"
     sql_on: ${customer_onboarding.primary_contact} = ${customer_onboarding_primary_contact.sfid} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: customer_onboarding_cse {
+    from: user
+    view_label: "CSE"
+    sql_on: ${customer_onboarding_cse.sfid} = ${customer_onboarding.cse_owner} ;;
     relationship: many_to_one
     fields: []
   }
