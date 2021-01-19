@@ -420,7 +420,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The max number of enabled plugins on the server stratified into bands currently logged on the server."
     type: tier
     style: integer
-    tiers: [1, 2, 3, 4, 5]
+    tiers: [1, 2, 3, 4, 5, 10]
     sql: ${enabled_plugins_max};;
   }
 

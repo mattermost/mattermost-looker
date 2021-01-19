@@ -144,10 +144,12 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
     link: {
       label: "Customer 360 Dashboard"
       url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
   }
 
@@ -163,10 +165,12 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ account_sfid._value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
     link: {
       label: "Customer 360 Dashboard"
       url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ account_sfid._value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
   }
 
@@ -222,10 +226,12 @@ view: license_server_fact {
     link: {
       label: "Server Metrics Dashboard"
       url: "https://mattermost.looker.com/dashboards/95?Account%20SFID%2FCustomer%20ID={{ customer_id._value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
     link: {
       label: "Customer 360 Dashboard"
       url: "https://mattermost.looker.com/dashboards/175?Account%20Name=&Account%20SFID={{ customer_id._value }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=looker.com"
     }
     hidden: no
   }
