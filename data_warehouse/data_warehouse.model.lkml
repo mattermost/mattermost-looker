@@ -1217,6 +1217,13 @@ explore: server_fact {
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
+
+  join: cloud_clearbit {
+    view_label: "Clearbit (Cloud)"
+    sql_on: ${server_fact.server_id} = ${cloud_clearbit.server_id} ;;
+    relationship: one_to_one
+
+  }
 }
 
 explore: dates {
