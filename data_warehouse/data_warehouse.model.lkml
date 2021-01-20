@@ -3066,3 +3066,7 @@ explore: incident_response_telemetry {
   label: "Incident Management Telemetry"
   group_label: "Quality Assurance"
 }
+
+explore: cloud_clearbit {
+  label: "Cloud Clearbit"
+}
