@@ -3,17 +3,30 @@ view: cloud_clearbit {
   sql_table_name: mattermost.cloud_clearbit ;;
   view_label: "Cloud Clearbit"
 
-  # FILTERS
+  # Sets
+  set: clearbit_drill {
+    fields: [company_name, workspace, person_email, company_category_industry, company_metrics_employees, company_metrics_estimatedannualrevenue, person_name_fullname, person_employment_role, person_employment_subrole, company_metrics_alexaglobalrank]
+  }
 
   # DIMENSIONS
   dimension: person_github_avatar {
+    group_label: "Person Websites"
+    label: "Github Avatar"
     description: ""
     type: string
     sql: ${TABLE}.person_github_avatar ;;
-    hidden: no
+    hidden: yes
+  }
+
+  dimension: workspace {
+    group_label: "Company Details"
+    description: "The customers workspace name"
+    type: string
+    sql: ${license_server_fact.customer_name} ;;
   }
 
   dimension: company_name {
+    label: " Company Name"
     description: ""
     type: string
     sql: ${TABLE}.company_name ;;
@@ -21,20 +34,26 @@ view: cloud_clearbit {
   }
 
   dimension: company_timezone {
+    group_label: "Company Geo"
+    label: "Timezone"
     description: ""
     type: string
-    sql: ${TABLE}.company_timezone ;;
+    sql: COALESCE(${TABLE}.company_timezone, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_employment_name {
+    group_label: "Person Employment"
+    label: "Employment Name"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_name ;;
+    sql: COALESCE(${TABLE}.person_employment_name, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_twitter_bio {
+    group_label: "Company Websites"
+    label: "Twitter Bio"
     description: ""
     type: string
     sql: ${TABLE}.company_twitter_bio ;;
@@ -42,6 +61,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_timezone {
+    group_label: "Person Geo"
+    label: "Timezone"
     description: ""
     type: string
     sql: ${TABLE}.person_timezone ;;
@@ -49,13 +70,17 @@ view: cloud_clearbit {
   }
 
   dimension: person_email {
+    group_label: "Person Email"
+    label: "Email"
     description: ""
     type: string
-    sql: ${TABLE}.person_email ;;
+    sql: COALESCE(${license_server_fact.license_email}, ${TABLE}.person_email) ;;
     hidden: no
   }
 
   dimension: company_twitter_followers {
+    group_label: "Company Websites"
+    label: "Twitter Followers"
     description: ""
     type: number
     sql: ${TABLE}.company_twitter_followers ;;
@@ -66,17 +91,21 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_twitter_avatar ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_category_subindustry {
+    group_label: "Company Industry"
+    label: "Sub-Industry"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_subindustry ;;
+    sql: COALESCE(${TABLE}.company_category_subindustry, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_inactiveat {
+    group_label: "Person Details"
+    label: "Inactive At"
     description: ""
     type: string
     sql: ${TABLE}.person_inactiveat ;;
@@ -87,10 +116,12 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_parent_domain ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_name_givenname {
+    group_label: "Person  Name"
+    label: "Given Name"
     description: ""
     type: string
     sql: ${TABLE}.person_name_givenname ;;
@@ -98,13 +129,17 @@ view: cloud_clearbit {
   }
 
   dimension: person_employment_seniority {
+    group_label: "Person Employment"
+    label: "Employment Seniority"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_seniority ;;
+    sql: COALESCE(${TABLE}.person_employment_seniority, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_site {
+    group_label: "Person Websites"
+    label: "Site"
     description: ""
     type: string
     sql: ${TABLE}.person_site ;;
@@ -112,6 +147,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_facebook_likes {
+    group_label: "Company Websites"
+    label: "Facebook Likes"
     description: ""
     type: number
     sql: ${TABLE}.company_facebook_likes ;;
@@ -119,41 +156,52 @@ view: cloud_clearbit {
   }
 
   dimension: person_location {
+    group_label: "Person Geo"
+    label: "Location"
     description: ""
     type: string
-    sql: ${TABLE}.person_location ;;
+    sql: COALESCE(${TABLE}.person_location, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_type {
+    group_label: "Company Industry"
+    label: "Type"
     description: ""
     type: string
-    sql: ${TABLE}.company_type ;;
+    sql: COALESCE(${TABLE}.company_type, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_employment_domain {
+    group_label: "Person Employment"
+    label: "Employment Domain"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_domain ;;
+    sql: COALESCE(${TABLE}.person_employment_domain, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_googleplus_handle {
+    group_label: "Person Websites"
+    label: "Google+ Handle"
     description: ""
     type: string
     sql: ${TABLE}.person_googleplus_handle ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_id {
+    label: "Person ID"
     description: ""
     type: string
     sql: ${TABLE}.person_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_geo_streetnumber {
+    group_label: "Company Geo"
+    label: "Street Number"
     description: ""
     type: string
     sql: ${TABLE}.company_geo_streetnumber ;;
@@ -164,10 +212,12 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_name_familyname {
+    group_label: "Person  Name"
+    label: "Last Name"
     description: ""
     type: string
     sql: ${TABLE}.person_name_familyname ;;
@@ -175,6 +225,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_following {
+    group_label: "Person Websites"
+    label: "Twitter Following"
     description: ""
     type: number
     sql: ${TABLE}.person_twitter_following ;;
@@ -182,13 +234,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_geo_statecode {
+    group_label: "Company Geo"
+    label: "State (ISO)"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_statecode ;;
+    sql: COALESCE(${TABLE}.company_geo_statecode, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_facebook_handle {
+    group_label: "Company Websites"
+    label: "Facebook Handle"
     description: ""
     type: string
     sql: ${TABLE}.company_facebook_handle ;;
@@ -196,16 +252,20 @@ view: cloud_clearbit {
   }
 
   dimension: company_location {
+    group_label: "Company Geo"
+    label: "Location"
     description: ""
     type: string
-    sql: ${TABLE}.company_location ;;
+    sql: COALESCE(${TABLE}.company_location, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_category_naicscode {
+    group_label: "Company Industry"
+    label: "NAICS Code"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_naicscode ;;
+    sql: COALESCE(${TABLE}.company_category_naicscode, 'Unknown') ;;
     hidden: no
   }
 
@@ -213,10 +273,12 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_ultimateparent_domain ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_twitter_site {
+    group_label: "Company Websites"
+    label: "Twitter Site"
     description: ""
     type: string
     sql: ${TABLE}.company_twitter_site ;;
@@ -224,13 +286,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_category_industry {
+    group_label: "Company Industry"
+    label: "Industry"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_industry ;;
+    sql: COALESCE(${TABLE}.company_category_industry, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_github_company {
+    group_label: "Person Websites"
+    label: "Github Company"
     description: ""
     type: string
     sql: ${TABLE}.person_github_company ;;
@@ -241,10 +307,12 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_identifiers_usein ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_site_phonenumbers {
+    group_label: "Company Details"
+    label: "Phone Numbers"
     description: ""
     type: string
     sql: ${TABLE}.company_site_phonenumbers ;;
@@ -252,6 +320,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_geo_lng {
+    group_label: "Company Geo"
+    label: "Longitude"
     description: ""
     type: number
     sql: ${TABLE}.company_geo_lng ;;
@@ -259,6 +329,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_activeat {
+    group_label: "Person Details"
+    label: "Active At"
     description: ""
     type: string
     sql: ${TABLE}.person_activeat ;;
@@ -269,24 +341,30 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_twitter_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_github_id {
+    group_label: "Person Websites"
+    label: "Github ID"
     description: ""
     type: number
     sql: ${TABLE}.person_github_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_gravatar_avatar {
+    group_label: "Person Websites"
+    label: "Gravatar Avatar"
     description: ""
     type: string
     sql: ${TABLE}.person_gravatar_avatar ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_twitter_site {
+    group_label: "Person Websites"
+    label: "Twitter Site"
     description: ""
     type: string
     sql: ${TABLE}.person_twitter_site ;;
@@ -294,6 +372,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_metrics_employees {
+    group_label: "Company Employees"
+    label: "Employees"
     description: ""
     type: number
     sql: ${TABLE}.company_metrics_employees ;;
@@ -301,6 +381,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_bio {
+    group_label: "Person Details"
+    label: "Bio"
     description: ""
     type: string
     sql: ${TABLE}.person_bio ;;
@@ -308,13 +390,17 @@ view: cloud_clearbit {
   }
 
   dimension: person_employment_subrole {
+    group_label: "Person Employment"
+    label: "Subrole"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_subrole ;;
+    sql: COALESCE(${TABLE}.person_employment_subrole, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_twitter_handle {
+    group_label: "Company Websites"
+    label: "Twitter Handle"
     description: ""
     type: string
     sql: ${TABLE}.company_twitter_handle ;;
@@ -322,6 +408,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_emailprovider {
+    group_label: "Person Email"
+    label: "Email Provider"
     description: ""
     type: yesno
     sql: ${TABLE}.person_emailprovider ;;
@@ -329,20 +417,26 @@ view: cloud_clearbit {
   }
 
   dimension: person_geo_state {
+    group_label: "Person Geo"
+    label: "State"
     description: ""
     type: string
-    sql: ${TABLE}.person_geo_state ;;
+    sql: COALESCE(${TABLE}.person_geo_state, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_metrics_alexaglobalrank {
-    description: ""
+    group_label: "Company Alexa Rank"
+    label: "Global Rank"
+    description: "Alexa Rank is a measure of a websites global popularity."
     type: number
     sql: ${TABLE}.company_metrics_alexaglobalrank ;;
     hidden: no
   }
 
   dimension: person_indexedat {
+    group_label: "Person Details"
+    label: "Last Indexed"
     description: ""
     type: string
     sql: ${TABLE}.person_indexedat ;;
@@ -350,13 +444,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_twitter_location {
+    group_label: "Company Websites"
+    label: "Twitter Location"
     description: ""
     type: string
-    sql: ${TABLE}.company_twitter_location ;;
+    sql: COALESCE(${TABLE}.company_twitter_location, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_geo_streetname {
+    group_label: "Company Geo"
+    label: "Street Name"
     description: ""
     type: string
     sql: ${TABLE}.company_geo_streetname ;;
@@ -364,55 +462,86 @@ view: cloud_clearbit {
   }
 
   dimension: company_metrics_marketcap {
+    group_label: "Company Financials"
+    label: "Market Cap."
     description: ""
     type: number
+    value_format_name: usd_0
     sql: ${TABLE}.company_metrics_marketcap ;;
     hidden: no
   }
 
   dimension: company_geo_countrycode {
+    group_label: "Company Geo"
+    label: "Country (ISO)"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_countrycode ;;
+    sql: COALESCE(${TABLE}.company_geo_countrycode, 'Unknown') ;;
     hidden: no
+  }
+
+  dimension: company_lat_lon {
+    group_label: "Company Geo"
+    label: "Location (Lat. & Lon.)"
+    type: location
+    sql_latitude: ${company_geo_lat} ;;
+    sql_longitude: ${company_geo_lng} ;;
   }
 
   dimension: person_avatar {
     description: ""
     type: string
     sql: ${TABLE}.person_avatar ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_twitter_avatar {
+    group_label: "Person Websites"
+    label: "Twitter Avatar"
     description: ""
     type: string
     sql: ${TABLE}.person_twitter_avatar ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_employment_role {
+    group_label: "Person Employment"
+    label: "Role"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_role ;;
+    sql: COALESCE(${TABLE}.person_employment_role, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_geo_statecode {
+    group_label: "Person Geo"
+    label: "State (ISO)"
     description: ""
     type: string
-    sql: ${TABLE}.person_geo_statecode ;;
+    sql: COALESCE(${TABLE}.person_geo_statecode, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_linkedin_handle {
+    group_label: "Company Websites"
+    label: "LinkedIn Handle"
     description: ""
     type: string
-    sql: ${TABLE}.company_linkedin_handle ;;
+    sql: COALESCE(${TABLE}.company_linkedin_handle, 'Unknown') ;;
     hidden: no
   }
 
+  dimension: person_lat_lon {
+    group_label: "Person Geo"
+    label: "Location (Lat. & Lon.)"
+    type: location
+    sql_latitude: ${person_geo_lat} ;;
+    sql_longitude: ${person_geo_lng} ;;
+  }
+
   dimension: person_geo_lat {
+    group_label: "Person Geo"
+    label: "Latitude"
     description: ""
     type: number
     sql: ${TABLE}.person_geo_lat ;;
@@ -420,13 +549,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_techcategories {
+    group_label: "Company Technology"
+    label: "Tech Categories"
     description: ""
     type: string
-    sql: ${TABLE}.company_techcategories ;;
+    sql: COALESCE(${TABLE}.company_techcategories, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_domainaliases {
+    group_label: "Company Email/Domain"
+    label: "Domain Aliases"
     description: ""
     type: string
     sql: ${TABLE}.company_domainaliases ;;
@@ -434,6 +567,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_indexedat {
+    group_label: "Company Details"
+    label: "Last Indexed"
     description: ""
     type: string
     sql: ${TABLE}.company_indexedat ;;
@@ -441,6 +576,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_github_handle {
+    group_label: "Person Websites"
+    label: "Github Handle"
     description: ""
     type: string
     sql: ${TABLE}.person_github_handle ;;
@@ -448,6 +585,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_location {
+    group_label: "Person Websites"
+    label: "Twitter Location"
     description: ""
     type: string
     sql: ${TABLE}.person_twitter_location ;;
@@ -458,13 +597,15 @@ view: cloud_clearbit {
     description: ""
     type: number
     sql: ${TABLE}.company_metrics_fiscalyearend ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_category_sector {
+    group_label: "Company Industry"
+    label: "Sector"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_sector ;;
+    sql: COALESCE(${TABLE}.company_category_sector, 'Unknown') ;;
     hidden: no
   }
 
@@ -472,13 +613,15 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.person_gravatar_handle ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_employment_title {
+    group_label: "Person Employment"
+    label: "Title"
     description: ""
     type: string
-    sql: ${TABLE}.person_employment_title ;;
+    sql: COALESCE(${TABLE}.person_employment_title, 'Unknown') ;;
     hidden: no
   }
 
@@ -486,24 +629,30 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_tech {
+    group_label: "Company Technology"
+    label: "Tech Stack"
     description: ""
     type: string
-    sql: ${TABLE}.company_tech ;;
+    sql: COALESCE(${TABLE}.company_tech, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_geo_country {
+    group_label: "Company Geo"
+    label: "Country"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_country ;;
+    sql: COALESCE(INITCAP(${TABLE}.company_geo_country), 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_utcoffset {
+    group_label: "Person Geo"
+    label: "UTC Offset"
     description: ""
     type: number
     sql: ${TABLE}.person_utcoffset ;;
@@ -511,6 +660,7 @@ view: cloud_clearbit {
   }
 
   dimension: company_legalname {
+    label: "Company (Legal Name)"
     description: ""
     type: string
     sql: ${TABLE}.company_legalname ;;
@@ -518,13 +668,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_geo_city {
+    group_label: "Company Geo"
+    label: "City"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_city ;;
+    sql: COALESCE(${TABLE}.company_geo_city, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_domain {
+    group_label: "Company Email/Domain"
+    label: "Domain"
     description: ""
     type: string
     sql: ${TABLE}.company_domain ;;
@@ -532,6 +686,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_utcoffset {
+    group_label: "Company Geo"
+    label: "UTC Offset"
     description: ""
     type: number
     sql: ${TABLE}.company_utcoffset ;;
@@ -539,6 +695,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_phone {
+    group_label: "Company Details"
+    label: "Phone"
     description: ""
     type: string
     sql: ${TABLE}.company_phone ;;
@@ -546,13 +704,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_category_siccode {
+    group_label: "Company Industry"
+    label: "SIC Code"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_siccode ;;
+    sql: COALESCE(${TABLE}.company_category_siccode, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_ticker {
+    group_label: "Company Financials"
+    label: "Ticker"
     description: ""
     type: string
     sql: ${TABLE}.company_ticker ;;
@@ -560,6 +722,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_statuses {
+    group_label: "Person Websites"
+    label: "Twitter Statuses"
     description: ""
     type: number
     sql: ${TABLE}.person_twitter_statuses ;;
@@ -570,17 +734,21 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_crunchbase_handle ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_geo_state {
+    group_label: "Company Geo"
+    label: "State"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_state ;;
+    sql: COALESCE(${TABLE}.company_geo_state, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_geo_lat {
+    group_label: "Company Geo"
+    label: "latitude"
     description: ""
     type: number
     sql: ${TABLE}.company_geo_lat ;;
@@ -591,13 +759,64 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.person_gravatar_urls ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_metrics_raised {
+    group_label: "Company Financials"
+    label: "Funds Raised"
     description: ""
+    value_format_name: usd_0
     type: number
     sql: ${TABLE}.company_metrics_raised ;;
+    hidden: no
+  }
+
+  dimension: company_metrics_raised_thousands {
+    group_label: "Company Financials"
+    label: "Funds Raised (Thousands)"
+    description: ""
+    value_format: "$0.00,\"k\""
+    type: number
+    sql: ${TABLE}.company_metrics_raised ;;
+    hidden: yes
+  }
+
+  dimension: company_metrics_raised_millions {
+    group_label: "Company Financials"
+    label: "Funds Raised (Millions)"
+    description: ""
+    value_format: "$0.00,,\"M\""
+    type: number
+    sql: ${TABLE}.company_metrics_raised ;;
+    hidden: yes
+  }
+
+  dimension: company_metrics_raised_billions {
+    group_label: "Company Financials"
+    label: "Funds Raised (Billions)"
+    description: ""
+    value_format: "$0.00,,,\"B\""
+    type: number
+    sql: ${TABLE}.company_metrics_raised ;;
+    hidden: yes
+  }
+
+  dimension: funds_raised_band {
+    group_label: "Company Financials"
+    label: "Funds Raised Band"
+    description: ""
+    type: string
+    sql: CASE WHEN ${company_metrics_raised} IS NULL THEN 'Unknown'
+              WHEN ${company_metrics_raised} < 50000 THEN '$0-50k'
+              WHEN ${company_metrics_raised} < 250000 THEN '$50k-250k'
+              WHEN ${company_metrics_raised} < 1000000 THEN '$250k-1M'
+              WHEN ${company_metrics_raised} < 10000000 THEN '$1M-10M'
+              WHEN ${company_metrics_raised} < 50000000 THEN '$10M-50M'
+              WHEN ${company_metrics_raised} < 250000000 THEN '$50M-250M'
+              WHEN ${company_metrics_raised} < 1000000000 THEN '$250M-1B'
+              WHEN ${company_metrics_raised} >= 1000000000 THEN '$1B+'
+              ELSE 'Uknown' END ;;
     hidden: no
   }
 
@@ -605,24 +824,30 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.company_logo ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_geo_country {
+    group_label: "Person Geo"
+    label: "Country"
     description: ""
     type: string
-    sql: ${TABLE}.person_geo_country ;;
+    sql: COALESCE(INITCAP(${TABLE}.person_geo_country), 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_geo_countrycode {
+    group_label: "Person Geo"
+    label: "Country (ISO)"
     description: ""
     type: string
-    sql: ${TABLE}.person_geo_countrycode ;;
+    sql: COALESCE(${TABLE}.person_geo_countrycode, 'Unknown') ;;
     hidden: no
   }
 
   dimension: person_github_followers {
+    group_label: "Person Websites"
+    label: "Github Followers"
     description: ""
     type: number
     sql: ${TABLE}.person_github_followers ;;
@@ -630,6 +855,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_favorites {
+    group_label: "Person Websites"
+    label: "Twitter Favorites"
     description: ""
     type: number
     sql: ${TABLE}.person_twitter_favorites ;;
@@ -637,6 +864,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_github_following {
+    group_label: "Person Websites"
+    label: "Github Following"
     description: ""
     type: number
     sql: ${TABLE}.person_github_following ;;
@@ -644,23 +873,29 @@ view: cloud_clearbit {
   }
 
   dimension: company_metrics_employeesrange {
+    group_label: "Company Employees"
+    label: "Employees Band"
     description: ""
     type: string
-    sql: ${TABLE}.company_metrics_employeesrange ;;
+    sql: COALESCE(${TABLE}.company_metrics_employeesrange, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_geo_subpremise {
+    group_label: "Company Geo"
+    label: "Subpremise"
     description: ""
     type: string
-    sql: ${TABLE}.company_geo_subpremise ;;
+    sql: COALESCE(${TABLE}.company_geo_subpremise, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_foundedyear {
+    group_label: "Company Details"
+    label: "Founded Year"
     description: ""
-    type: number
-    sql: ${TABLE}.company_foundedyear ;;
+    type: string
+    sql: COALESCE(${TABLE}.company_foundedyear::varchar, 'Unknown') ;;
     hidden: no
   }
 
@@ -668,10 +903,12 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.person ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: person_twitter_followers {
+    group_label: "Person Websites"
+    label: "Twitter Followers"
     description: ""
     type: number
     sql: ${TABLE}.person_twitter_followers ;;
@@ -679,6 +916,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_description {
+    group_label: "Company Details"
+    label: "Description"
     description: ""
     type: string
     sql: ${TABLE}.company_description ;;
@@ -686,6 +925,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_handle {
+    group_label: "Person Websites"
+    label: "Twitter Handle"
     description: ""
     type: string
     sql: ${TABLE}.person_twitter_handle ;;
@@ -693,6 +934,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_bio {
+    group_label: "Person Websites"
+    label: "Twitter Bio"
     description: ""
     type: string
     sql: ${TABLE}.person_twitter_bio ;;
@@ -700,6 +943,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_twitter_id {
+    group_label: "Person Websites"
+    label: "Twitter ID"
     description: ""
     type: number
     sql: ${TABLE}.person_twitter_id ;;
@@ -707,13 +952,17 @@ view: cloud_clearbit {
   }
 
   dimension: company_metrics_alexausrank {
-    description: ""
+    group_label: "Company Alexa Rank"
+    label: "Alexa US Rank"
+    description: "A measure of website popularity w/in the US."
     type: number
     sql: ${TABLE}.company_metrics_alexausrank ;;
     hidden: no
   }
 
   dimension: company_emailprovider {
+    group_label: "Company Email/Domain"
+    label: "Email Provider"
     description: ""
     type: yesno
     sql: ${TABLE}.company_emailprovider ;;
@@ -721,6 +970,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_name_fullname {
+    group_label: "Person  Name"
+    label: "Full Name"
     description: ""
     type: string
     sql: ${TABLE}.person_name_fullname ;;
@@ -731,24 +982,30 @@ view: cloud_clearbit {
     description: ""
     type: string
     sql: ${TABLE}.person_gravatar_avatars ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_metrics_annualrevenue {
-    description: ""
+    group_label: "Company Financials"
+    label: "Annual Revenue"
+    description: "The company's annual revenue sourced by Clearbit from Crunchbase."
     type: number
     sql: ${TABLE}.company_metrics_annualrevenue ;;
     hidden: no
   }
 
   dimension: company_metrics_estimatedannualrevenue {
-    description: ""
+    group_label: "Company Financials"
+    label: "Annual Revenue Band"
+    description: "The company's estimated annual revenue range sourced by Clearbit from Crunchbase."
     type: string
-    sql: ${TABLE}.company_metrics_estimatedannualrevenue ;;
+    sql: COALESCE(${TABLE}.company_metrics_estimatedannualrevenue, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_geo_postalcode {
+    group_label: "Company Geo"
+    label: "Postal Code"
     description: ""
     type: string
     sql: ${TABLE}.company_geo_postalcode ;;
@@ -756,41 +1013,52 @@ view: cloud_clearbit {
   }
 
   dimension: person_fuzzy {
-    description: ""
+    label: "Fuzzy Match"
+    description: "Indicates the data may not be an exact match but an inference made by Clearbit."
     type: yesno
     sql: ${TABLE}.person_fuzzy ;;
     hidden: no
   }
 
   dimension: company_tags {
-    description: ""
+    group_label: "Company Industry"
+    label: "Tags"
+    description: "Tags used to classify company by various industry focuses."
     type: string
     sql: ${TABLE}.company_tags ;;
     hidden: no
   }
 
   dimension: person_geo_city {
+    group_label: "Person Geo"
+    label: "City"
     description: ""
     type: string
-    sql: ${TABLE}.person_geo_city ;;
+    sql: COALESCE(${TABLE}.person_geo_city, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_category_industrygroup {
+    group_label: "Company Industry"
+    label: "Industry Group"
     description: ""
     type: string
-    sql: ${TABLE}.company_category_industrygroup ;;
+    sql: COALESCE(${TABLE}.company_category_industrygroup, 'Unknown') ;;
     hidden: no
   }
 
   dimension: company_site_emailaddresses {
-    description: ""
+    group_label: "Company Email/Domain"
+    label: "Email Addresses"
+    description: "Various company contact/department email addresses scraped from the web."
     type: string
     sql: ${TABLE}.company_site_emailaddresses ;;
     hidden: no
   }
 
   dimension: person_facebook_handle {
+    group_label: "Person Websites"
+    label: "Facebook Handle"
     description: ""
     type: string
     sql: ${TABLE}.person_facebook_handle ;;
@@ -798,6 +1066,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_linkedin_handle {
+    group_label: "Person Websites"
+    label: "LinkedIn Handle"
     description: ""
     type: string
     sql: ${TABLE}.person_linkedin_handle ;;
@@ -805,6 +1075,8 @@ view: cloud_clearbit {
   }
 
   dimension: company_twitter_following {
+    group_label: "Company Websites"
+    label: "Twitter Following"
     description: ""
     type: number
     sql: ${TABLE}.company_twitter_following ;;
@@ -812,6 +1084,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_geo_lng {
+    group_label: "Person Geo"
+    label: "Longitude"
     description: ""
     type: number
     sql: ${TABLE}.person_geo_lng ;;
@@ -819,6 +1093,8 @@ view: cloud_clearbit {
   }
 
   dimension: person_github_blog {
+    group_label: "Person Websites"
+    label: "Github Blog"
     description: ""
     type: string
     sql: ${TABLE}.person_github_blog ;;
@@ -1482,10 +1758,11 @@ view: cloud_clearbit {
   }
 
   measure: server_count {
-    label: " Server Count"
+    label: " Workspaces"
     description: "The distinct count of Cloud Clearbit Servers within each grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [clearbit_drill*]
   }
 
 
