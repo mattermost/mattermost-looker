@@ -3076,4 +3076,10 @@ explore: incident_response_telemetry {
 
 explore: cloud_clearbit {
   label: "Cloud Clearbit"
+
+  join: license_server_fact {
+    sql_on: ${cloud_clearbit.server_id} = ${license_server_fact.server_id} AND ${license_server_fact.edition} = 'Mattermost Cloud' ;;
+    relationship: one_to_one
+    fields: []
+  }
 }
