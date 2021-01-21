@@ -1217,6 +1217,13 @@ explore: server_fact {
     relationship: many_to_one
     fields: [version_release_dates.supported]
   }
+
+  join: cloud_clearbit {
+    view_label: "Clearbit (Cloud)"
+    sql_on: ${server_fact.server_id} = ${cloud_clearbit.server_id} ;;
+    relationship: one_to_one
+
+  }
 }
 
 explore: dates {
@@ -3065,4 +3072,14 @@ explore: cloud_onboarding_flows {
 explore: incident_response_telemetry {
   label: "Incident Management Telemetry"
   group_label: "Quality Assurance"
+}
+
+explore: cloud_clearbit {
+  label: "Cloud Clearbit"
+
+  join: license_server_fact {
+    sql_on: ${cloud_clearbit.server_id} = ${license_server_fact.server_id} AND ${license_server_fact.edition} = 'Mattermost Cloud' ;;
+    relationship: one_to_one
+    fields: []
+  }
 }
