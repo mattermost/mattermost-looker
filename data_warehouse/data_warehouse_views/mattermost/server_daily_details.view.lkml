@@ -13,12 +13,36 @@ view: server_daily_details {
 
   }
 
+  dimension: product_edition {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END ;;
+  }
+
   dimension: id {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+  }
+
+  dimension: dev_server {
+    description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    type: yesno
+    sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: community_server {
+    description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    type: yesno
+    sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: last_day_of_month {
@@ -884,7 +908,7 @@ view: server_daily_details {
     label: "   TEDAS Count"
     description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is prefiltered to only count TEDAS. Use to track TEDAS (Telemetry-Enabled Daily Active Servers) when grouped by logging dates."
     type: count_distinct
-    sql: CASE WHEN ${in_security} OR ${in_mattermost2_server} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${in_security} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 

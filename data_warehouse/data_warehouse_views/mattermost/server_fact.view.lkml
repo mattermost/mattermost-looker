@@ -10,6 +10,18 @@ sql_table_name: mattermost.server_fact ;;
     type: string
   }
 
+  dimension: product_edition {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_edition}, ${first_server_edition})
+                      END ;;
+  }
+
   dimension: license_id_filter {
     description: "The license ID1 & ID2 or condition filter for dashboard usage."
     sql: {% condition license_all %} ${license_id} {% endcondition %} OR  {% condition license_all %} ${license_id2} {% endcondition %};;
@@ -28,6 +40,18 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Status & Activity Filters"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: dev_server {
+    description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    type: yesno
+    sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: community_server {
+    description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    type: yesno
+    sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: currently_sending_telemetry {
@@ -129,6 +153,24 @@ sql_table_name: mattermost.server_fact ;;
     regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
     ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: server_version_major_sort
+  }
+
+  dimension: version {
+    group_label: " Server Versions"
+    label: "  Server Version (Current)"
+    description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
+    type: string
+    sql: ${TABLE}.version ;;
+    hidden: yes
+  }
+
+  dimension: first_version {
+    group_label: " Server Versions"
+    label: "First Server Version"
+    description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server."
+    type: string
+    sql: ${TABLE}.first_server_version;;
+    hidden: yes
   }
 
   dimension: server_version_major {
@@ -660,6 +702,13 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${outgoing_webhooks};;
   }
 
+  dimension: incident_mgmt_events_alltime {
+    label: "Incident Mgmt Events (All-Time)"
+    description: "The count of distinct incident management events performed by the server."
+    type: number
+    sql: COALESCE(${TABLE}.incident_mgmt_events_alltime, 0) ;;
+  }
+
   dimension: invite_members_alltime {
     group_label: "Event Dimensions (All-Time)"
     description: "The all-time count of 'Invite Members' events performed by users on the server (from user event telemetry)."
@@ -1017,6 +1066,14 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of distinct servers w/ > 0 Invite Member Events during the server's lifetime."
     type: count_distinct
     sql: case when ${invite_members_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: servers_w_incident_mgmt_events {
+    label: " Servers w/ Incident Mgmt Events"
+    description: "The count of distinct servers w/ > 0 Incident Mgmt Events during the server's lifetime."
+    type: count_distinct
+    sql: case when ${incident_mgmt_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [drill_set1*]
   }
 
