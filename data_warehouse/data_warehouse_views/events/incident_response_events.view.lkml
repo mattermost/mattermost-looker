@@ -16,9 +16,10 @@ view: incident_response_events {
   dimension: product_edition {
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
-    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL THEN ${license_server_fact.edition}
-                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND ${license_server_fact.trial} THEN 'E0'
-                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND NOT ${license_server_fact.trial} THEN 'E10'
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
                       ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
                       END ;;
   }
@@ -26,7 +27,8 @@ view: incident_response_events {
   dimension: dev_server {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
-    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE
+    OR ${user_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: community_server {
