@@ -196,7 +196,8 @@ view: server_daily_details {
     group_label: " Status & Activity Filters"
     type: yesno
     description: "Indicates the server is currently associated with a paid license that is not expired."
-    sql: CASE WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${license_server_fact.license_retired_date} >= CURRENT_DATE AND NOT ${license_server_fact.trial}
+          AND COALESCE(${license_server_fact.edition}, 'NONE') != 'Mattermost Cloud' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: active_users_alltime {
@@ -244,7 +245,11 @@ view: server_daily_details {
     group_label: " Server Editions"
     description: "The server edition. Either E0 or TE."
     type: string
-    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN  ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
+    sql: CASE WHEN ${TABLE}.edition IS NULL THEN
+              CASE WHEN COALESCE(${server_fact.edition_upgrades}, 0) = 0 THEN ${server_fact.first_server_edition}
+                   WHEN COALESCE(${server_fact.edition_upgrades}, 0) > 0 THEN ${server_fact.server_edition}
+                   ELSE NULL END
+              WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN  ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
   }
 
   dimension: first_server_edition {
@@ -879,7 +884,7 @@ view: server_daily_details {
     label: "   TEDAS Count"
     description: "Use to trend the count of distinct TEDAS Servers across grouped dimensions. This measure is prefiltered to only count TEDAS. Use to track TEDAS (Telemetry-Enabled Daily Active Servers) when grouped by logging dates."
     type: count_distinct
-    sql: CASE WHEN ${in_security} THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${in_security} OR ${in_mattermost2_server} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 
