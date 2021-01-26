@@ -60,9 +60,9 @@ view: lead_status_hist {
   }
 
   dimension: mql_sla_breached {
-    label: "MQL SLA Breached"
+    label: "Contact Us MQL SLA Breached"
     type: yesno
-    sql: CASE WHEN ${lead.status} = 'MQL' AND ${date_date} < current_date - interval '2 days' AND ${lead.most_recent_mql_date} < current_date THEN true else false end ;;
+    sql: CASE WHEN ${lead.status} = 'MQL' AND ${additional_details} like 'Contact%' AND ${date_date} < current_date - interval '1 days' AND ${lead.most_recent_mql_date} < current_date THEN true else false end ;;
   }
 
   measure: count_leads {
