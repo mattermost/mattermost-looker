@@ -2546,7 +2546,7 @@ explore: incident_response_events {
     view_label: "Incident Management"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
