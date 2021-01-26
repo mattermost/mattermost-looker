@@ -26,7 +26,8 @@ view: incident_response_events {
   dimension: dev_server {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
-    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE
+    OR ${user_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: community_server {
