@@ -3083,3 +3083,7 @@ explore: cloud_clearbit {
     fields: []
   }
 }
+
+explore: hacktoberboard_dev {
+  label: "Hacktoberboard Dev"
+}
