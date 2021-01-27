@@ -77,6 +77,7 @@ include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/experimental/*.view.lkml"
 
 #
 # Base Explores for Extensions
