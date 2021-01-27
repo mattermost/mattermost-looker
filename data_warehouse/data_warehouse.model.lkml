@@ -77,6 +77,7 @@ include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/experimental/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -3067,6 +3068,7 @@ explore: USAGE_EVENTS {
 
 explore: cloud_onboarding_flows {
   label: "Cloud Onboarding Flows"
+  hidden: yes
 }
 
 explore: incident_response_telemetry {
@@ -3076,10 +3078,16 @@ explore: incident_response_telemetry {
 
 explore: cloud_clearbit {
   label: "Cloud Clearbit"
+  hidden: yes
 
   join: license_server_fact {
     sql_on: ${cloud_clearbit.server_id} = ${license_server_fact.server_id} AND ${license_server_fact.edition} = 'Mattermost Cloud' ;;
     relationship: one_to_one
     fields: []
   }
+}
+
+explore: hacktoberboard_dev {
+  label: "Hacktoberboard Dev"
+  group_label: "Experimental"
 }
