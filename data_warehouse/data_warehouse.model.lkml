@@ -3068,6 +3068,7 @@ explore: USAGE_EVENTS {
 
 explore: cloud_onboarding_flows {
   label: "Cloud Onboarding Flows"
+  hidden: yes
 }
 
 explore: incident_response_telemetry {
@@ -3077,6 +3078,7 @@ explore: incident_response_telemetry {
 
 explore: cloud_clearbit {
   label: "Cloud Clearbit"
+  hidden: yes
 
   join: license_server_fact {
     sql_on: ${cloud_clearbit.server_id} = ${license_server_fact.server_id} AND ${license_server_fact.edition} = 'Mattermost Cloud' ;;
@@ -3087,4 +3089,5 @@ explore: cloud_clearbit {
 
 explore: hacktoberboard_dev {
   label: "Hacktoberboard Dev"
+  group_label: "Experimental"
 }
