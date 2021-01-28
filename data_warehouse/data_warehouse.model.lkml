@@ -2441,20 +2441,18 @@ explore: server_telemetry {
   join: server_version {
     view_label: "Server Details"
     from: server_telemetry
-    sql_where: ${server_version.telemetry_relation} = 'SERVER' ;;
-    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} ;;
-    type: inner
-    relationship: many_to_one
+    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_date} = ${server_version.timestamp_date} AND ${server_version.telemetry_relation} = 'SERVER' ;;
+    type: left_outer
+    relationship: many_to_many
     fields: [server_version.version]
   }
 
   join: server_license {
     view_label: "Server Details"
-    sql_where: ${server_license.telemetry_relation} = 'LICENSE' ;;
     from: server_telemetry
-    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_second} = ${server_license.timestamp_second};;
-    type: inner
-    relationship: many_to_one
+    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_date} = ${server_license.timestamp_date} AND ${server_license.telemetry_relation} = 'LICENSE';;
+    type: left_outer
+    relationship: many_to_many
     fields: [server_license.license_id]
   }
 }
