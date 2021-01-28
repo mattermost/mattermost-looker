@@ -2562,6 +2562,14 @@ explore: incident_response_events {
     relationship: many_to_one
   }
 
+  join: license_current {
+    from: license_server_fact
+    view_label: "License Current"
+    sql_on: TRIM(${license_current.server_id}) = TRIM(${incident_response_events.user_id}) AND ${license_current.current_customer} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
   join: version_release_dates {
     sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
     relationship: many_to_one
