@@ -211,7 +211,12 @@ view: opportunity_ext {
   dimension: payment_method {
     label: "Payment Method"
     description: "Netsuite Payment Method"
-    sql: ${TABLE}.payment_method ;;
+    sql: CASE
+          WHEN ${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL THEN 'Self Service CC'
+          WHEN ${TABLE}.payment_method = 'E-Invoice' THEN 'Sales Serve CC'
+          WHEN ${TABLE}.payment_method = 'Check' THEN 'Sales Serve Check'
+          ELSE ${TABLE}.payment_method
+         END ;;
     type: string
   }
 
