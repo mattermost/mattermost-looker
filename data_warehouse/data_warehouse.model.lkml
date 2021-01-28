@@ -77,6 +77,7 @@ include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
 include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
+include: "/data_warehouse/data_warehouse_views/experimental/*.view.lkml"
 
 #
 # Base Explores for Extensions
@@ -2536,7 +2537,7 @@ explore: incident_response_events {
 
   join: server_daily_details {
     view_label: "Incident Management"
-    sql_on: ${incident_response_events.user_id} = ${server_daily_details.server_id} AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
+    sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
     fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
@@ -2546,19 +2547,27 @@ explore: incident_response_events {
     view_label: "Incident Management"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
     view_label: "Incident Management"
-    sql_on: ${incident_response_events.user_id} = ${excludable_servers.server_id} ;;
+    sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${excludable_servers.server_id}) ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: license_server_fact {
-    sql_on: ${license_server_fact.server_id} = ${incident_response_events.user_id} AND ${incident_response_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+    sql_on: TRIM(${license_server_fact.server_id}) = TRIM(${incident_response_events.user_id}) AND ${incident_response_events.timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
+  }
+
+  join: license_current {
+    from: license_server_fact
+    view_label: "License Current"
+    sql_on: TRIM(${license_current.server_id}) = TRIM(${incident_response_events.user_id}) AND ${license_current.current_customer} ;;
+    relationship: many_to_one
+    fields: []
   }
 
   join: version_release_dates {
@@ -3067,6 +3076,7 @@ explore: USAGE_EVENTS {
 
 explore: cloud_onboarding_flows {
   label: "Cloud Onboarding Flows"
+  hidden: yes
 }
 
 explore: incident_response_telemetry {
@@ -3076,10 +3086,16 @@ explore: incident_response_telemetry {
 
 explore: cloud_clearbit {
   label: "Cloud Clearbit"
+  hidden: yes
 
   join: license_server_fact {
     sql_on: ${cloud_clearbit.server_id} = ${license_server_fact.server_id} AND ${license_server_fact.edition} = 'Mattermost Cloud' ;;
     relationship: one_to_one
     fields: []
   }
+}
+
+explore: hacktoberboard_dev {
+  label: "Hacktoberboard Dev"
+  group_label: "Experimental"
 }

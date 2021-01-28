@@ -13,12 +13,36 @@ view: server_daily_details {
 
   }
 
+  dimension: product_edition {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END ;;
+  }
+
   dimension: id {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
     primary_key: yes
+  }
+
+  dimension: dev_server {
+    description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    type: yesno
+    sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: community_server {
+    description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    type: yesno
+    sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: last_day_of_month {
@@ -196,7 +220,8 @@ view: server_daily_details {
     group_label: " Status & Activity Filters"
     type: yesno
     description: "Indicates the server is currently associated with a paid license that is not expired."
-    sql: CASE WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${license_server_fact.license_retired_date} >= CURRENT_DATE AND NOT ${license_server_fact.trial}
+          AND COALESCE(${license_server_fact.edition}, 'NONE') != 'Mattermost Cloud' THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: active_users_alltime {
@@ -244,7 +269,11 @@ view: server_daily_details {
     group_label: " Server Editions"
     description: "The server edition. Either E0 or TE."
     type: string
-    sql: CASE WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN  ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
+    sql: CASE WHEN ${TABLE}.edition IS NULL THEN
+              CASE WHEN COALESCE(${server_fact.edition_upgrades}, 0) = 0 THEN ${server_fact.first_server_edition}
+                   WHEN COALESCE(${server_fact.edition_upgrades}, 0) > 0 THEN ${server_fact.server_edition}
+                   ELSE NULL END
+              WHEN ${TABLE}.edition = 'true' THEN 'E0' WHEN  ${TABLE}.edition = 'false' THEN 'TE' ELSE NULL END ;;
   }
 
   dimension: first_server_edition {
