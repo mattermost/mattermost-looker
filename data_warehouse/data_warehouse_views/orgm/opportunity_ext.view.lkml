@@ -208,6 +208,13 @@ view: opportunity_ext {
     type: string
   }
 
+  dimension: payment_method {
+    label: "Payment Method"
+    description: "Netsuite Payment Method"
+    sql: ${TABLE}.payment_method ;;
+    type: string
+  }
+
   dimension_group: paid {
     type: time
     timeframes: [
