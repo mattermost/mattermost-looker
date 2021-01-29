@@ -2573,6 +2573,13 @@ explore: incident_response_events {
     relationship: many_to_one
     fields: []
   }
+
+  join: dates {
+    view_label: "Monthly Active Dates"
+    sql_on: ${incident_response_events.timestamp_date}::date <= ${dates.date_date}::date AND ${incident_response_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
+    relationship: many_to_many
+    type: left_outer
+  }
 }
 
 explore: plugin_events {
