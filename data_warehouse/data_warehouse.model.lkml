@@ -2441,20 +2441,18 @@ explore: server_telemetry {
   join: server_version {
     view_label: "Server Details"
     from: server_telemetry
-    sql_where: ${server_version.telemetry_relation} = 'SERVER' ;;
-    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_second} = ${server_version.timestamp_second} ;;
-    type: inner
-    relationship: many_to_one
+    sql_on: ${server_telemetry.user_id} = ${server_version.user_id} and ${server_telemetry.timestamp_date} = ${server_version.timestamp_date} AND ${server_version.telemetry_relation} = 'SERVER' ;;
+    type: left_outer
+    relationship: many_to_many
     fields: [server_version.version]
   }
 
   join: server_license {
     view_label: "Server Details"
-    sql_where: ${server_license.telemetry_relation} = 'LICENSE' ;;
     from: server_telemetry
-    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_second} = ${server_license.timestamp_second};;
-    type: inner
-    relationship: many_to_one
+    sql_on: ${server_telemetry.user_id} = ${server_license.user_id} and ${server_telemetry.timestamp_date} = ${server_license.timestamp_date} AND ${server_license.telemetry_relation} = 'LICENSE';;
+    type: left_outer
+    relationship: many_to_many
     fields: [server_license.license_id]
   }
 }
@@ -2574,6 +2572,13 @@ explore: incident_response_events {
     sql_on: ${incident_response_events.serverversion_major} = SPLIT_PART(${version_release_dates.version}, '.',1) || '.' || SPLIT_PART(${version_release_dates.version}, '.',2) ;;
     relationship: many_to_one
     fields: []
+  }
+
+  join: dates {
+    view_label: "Monthly Active Dates"
+    sql_on: ${incident_response_events.timestamp_date}::date <= ${dates.date_date}::date AND ${incident_response_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
+    relationship: many_to_many
+    type: left_outer
   }
 }
 
