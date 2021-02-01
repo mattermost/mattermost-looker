@@ -214,7 +214,6 @@ view: opportunity_ext {
     sql: CASE
           WHEN ${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL THEN 'Self Service CC'
           WHEN ${TABLE}.payment_method = 'E-Invoice' THEN 'Sales Serve CC'
-          WHEN ${TABLE}.payment_method = 'Check' THEN 'Sales Serve Check'
           ELSE ${TABLE}.payment_method
          END ;;
     type: string
