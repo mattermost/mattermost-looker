@@ -1566,6 +1566,11 @@ explore: financial_model {
   label: "Financial Model"
 }
 
+explore: mql_to_close {
+  group_label: "Finance"
+  label: "MQL to Close"
+}
+
 explore: target_fact {
   group_label: "Target vs Actual"
   label: "Target Definitions"
