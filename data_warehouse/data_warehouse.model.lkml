@@ -1848,12 +1848,6 @@ explore: renewal_rate_by_renewal_opportunity {
   group_label: "Customer Success"
   extends: [_base_opportunity_core_explore, _base_account_core_explore]
 
-  join: account {
-    sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
-    relationship: many_to_one
-    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
-  }
-
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
@@ -1861,6 +1855,12 @@ explore: renewal_rate_by_renewal_opportunity {
              opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor,
              opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
              opportunity.total_amount]
+  }
+
+  join: account {
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
   }
 
   join: customer_risk {
