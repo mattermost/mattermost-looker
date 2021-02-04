@@ -217,7 +217,7 @@ view: opportunity_ext {
   dimension: payment_method {
     label: "Payment Method"
     description: "Netsuite Payment Method"
-    sql: ${TABLE}.payment_method ;;
+    sql: CASE WHEN ${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL THEN 'Stripe' ELSE ${TABLE}.payment_method END;;
     type: string
   }
 
