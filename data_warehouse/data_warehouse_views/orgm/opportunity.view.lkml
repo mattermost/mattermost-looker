@@ -67,7 +67,8 @@ view: opportunity {
       csm_name,
       ce_name,
       type,
-      is_monthly_billing
+      is_monthly_billing,
+      status_wlo
     ]
   }
 
