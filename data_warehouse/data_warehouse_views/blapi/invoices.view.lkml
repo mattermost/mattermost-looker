@@ -547,6 +547,7 @@ view: INVOICES {
   }
 
   measure: forecasted_total_sum_curr {
+    label: "Forecast Total Current Month"
     description: "The sum of Forecasted Totals within each grouping."
     type: sum
     group_label: "Forecasted Total Measures"
