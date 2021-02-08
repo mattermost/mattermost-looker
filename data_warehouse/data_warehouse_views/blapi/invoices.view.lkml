@@ -10,6 +10,18 @@ view: INVOICES {
     hidden: no
   }
 
+  dimension: current_month_filter {
+    hidden: yes
+    type: yesno
+    sql: ${current_month} = ${invoice_start_month} ;;
+  }
+
+  dimension: previous_month_filter {
+    hidden: yes
+    type: yesno
+    sql: ${previous_month} = ${invoice_start_month} ;;
+  }
+
   # DIMENSIONS
   dimension: version_id {
     description: ""
@@ -194,6 +206,22 @@ view: INVOICES {
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}._sdc_batched_at ;;
     hidden: yes
+  }
+
+  dimension_group: current {
+    description: ""
+    type: time
+    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: current_date ;;
+    hidden: no
+  }
+
+  dimension_group: previous {
+    description: ""
+    type: time
+    timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: DATE_TRUNC('month',current_date) - interval '1 month' ;;
+    hidden: no
   }
 
 
@@ -418,6 +446,26 @@ view: INVOICES {
     value_format_name: usd
   }
 
+  measure: total_sum_curr_mo {
+    description: "The sum of Totals within each grouping."
+    type: sum
+    group_label: "Total Measures"
+    label: "Total Sum Current Month"
+    sql: ${total} ;;
+    filters: [current_month_filter: "yes"]
+    value_format_name: usd
+  }
+
+  measure: total_sum_prev_mo {
+    description: "The sum of Totals within each grouping."
+    type: sum
+    group_label: "Total Measures"
+    label: "Total Sum Previous Month"
+    sql: ${total} ;;
+    filters: [previous_month_filter: "yes"]
+    value_format_name: usd
+  }
+
   measure: total_max {
     description: "The max Totals within each grouping."
     type: max
@@ -495,6 +543,7 @@ view: INVOICES {
     type: sum
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    filters: [current_month_filter: "yes"]
     value_format_name: usd
   }
 
