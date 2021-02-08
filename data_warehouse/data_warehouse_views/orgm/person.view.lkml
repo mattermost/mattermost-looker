@@ -50,13 +50,25 @@ view: person {
   }
 
   dimension: object_ownerid {
+    hidden: yes
     type: string
     sql: coalesce(${lead.ownerid},${contact.ownerid});;
+  }
+
+  dimension: owner_name {
+    type: string
+    sql: ${person_owner.name} ;;
   }
 
   dimension: website {
     type: string
     sql: coalesce(${lead.website},${account.cleaned_up_website});;
+  }
+
+  dimension: status {
+    label: "Lead Status"
+    type: string
+    sql: ${lead.status};;
   }
 
   dimension: industry {
