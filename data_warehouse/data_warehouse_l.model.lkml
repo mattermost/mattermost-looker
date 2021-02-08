@@ -160,4 +160,11 @@ explore: user_events_telemetry {
     relationship: many_to_one
     sql_on: CASE WHEN ${user_events_telemetry.type} = 'pageview_getting_started_cloud' THEN  'pageview_getting_started' ELSE ${user_events_telemetry.type} END = ${cloud_onboarding_flows.type} AND ${user_events_telemetry.category} = ${cloud_onboarding_flows.category} ;;
   }
+
+  join: dates {
+    sql_on: ${user_events_telemetry.event_date}::date <= ${dates.date_date}::date AND ${user_events_telemetry.event_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date} <= CURRENT_DATE ;;
+    relationship: many_to_many
+    view_label: "Monthly Active Dates"
+    type: left_outer
+  }
 }
