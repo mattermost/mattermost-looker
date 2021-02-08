@@ -543,6 +543,14 @@ view: INVOICES {
     type: sum
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
+    value_format_name: usd
+  }
+
+  measure: forecasted_total_sum_curr {
+    description: "The sum of Forecasted Totals within each grouping."
+    type: sum
+    group_label: "Forecasted Total Measures"
+    sql: ${forecasted_total} ;;
     filters: [current_month_filter: "yes"]
     value_format_name: usd
   }
