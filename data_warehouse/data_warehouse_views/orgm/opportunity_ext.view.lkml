@@ -208,15 +208,16 @@ view: opportunity_ext {
     type: string
   }
 
+  dimension: is_credit_card {
+    type: yesno
+    label: "Is Credit Card?"
+    sql: (${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL) OR ${TABLE}.payment_method IN ('E-Invoice','Stripe') ;;
+  }
+
   dimension: payment_method {
     label: "Payment Method"
     description: "Netsuite Payment Method"
-    sql: CASE
-          WHEN ${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL THEN 'Self Service CC'
-          WHEN ${TABLE}.payment_method = 'E-Invoice' THEN 'Sales Serve CC'
-          WHEN ${TABLE}.payment_method = 'Check' THEN 'Sales Serve Check'
-          ELSE ${TABLE}.payment_method
-         END ;;
+    sql: CASE WHEN ${TABLE}.payment_method IS NULL AND ${opportunity.stripe_id} IS NOT NULL THEN 'Stripe' ELSE ${TABLE}.payment_method END;;
     type: string
   }
 

@@ -779,6 +779,7 @@ explore: lead {
 }
 
 explore: lead_status_hist {
+  extends: [_base_opportunity_core_explore, _base_account_core_explore]
   join: user {
     sql_on: ${user.sfid} = ${lead_status_hist.owner} ;;
     relationship: many_to_one
@@ -815,6 +816,25 @@ explore: lead_status_hist {
     sql_on: coalesce(${lead.country_code},${lead.company_country_code}) = ${territory_mapping_country.country_code};;
     relationship: many_to_one
     fields: []
+  }
+
+  join: opportunity {
+    view_label: "Converted Opportunity"
+    sql_on: ${opportunity.sfid} = ${lead.convertedopportunityid} ;;
+    relationship: one_to_one
+  }
+
+  join: contact {
+    view_label: "Converted Contact"
+    sql_on: ${contact.sfid} = ${lead.convertedcontactid} ;;
+    relationship: one_to_one
+    fields: [email,name,sfid]
+  }
+
+  join: account {
+    view_label: "Converted Account"
+    sql_on: coalesce(${opportunity.accountid},${contact.accountid},${lead.convertedaccountid}) = ${account.sfid} ;;
+    relationship: many_to_one
   }
 }
 
@@ -1566,6 +1586,11 @@ explore: financial_model {
   label: "Financial Model"
 }
 
+explore: mql_to_close {
+  group_label: "Finance"
+  label: "MQL to Close"
+}
+
 explore: target_fact {
   group_label: "Target vs Actual"
   label: "Target Definitions"
@@ -1843,12 +1868,6 @@ explore: renewal_rate_by_renewal_opportunity {
   group_label: "Customer Success"
   extends: [_base_opportunity_core_explore, _base_account_core_explore]
 
-  join: account {
-    sql_on: ${account.sfid} = ${renewal_rate_by_renewal_opportunity.accountid} ;;
-    relationship: many_to_one
-    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
-  }
-
   join: opportunity {
     sql_on: ${opportunity.sfid} = ${renewal_rate_by_renewal_opportunity.opportunityid} ;;
     relationship: one_to_one
@@ -1856,6 +1875,12 @@ explore: renewal_rate_by_renewal_opportunity {
              opportunity.lost_reason, opportunity.lost_reason_details, opportunity.lost_to_competitor,
              opportunity.gtm_save_motions, opportunity.use_case, opportunity.territory_sales_segment,
              opportunity.total_amount]
+  }
+
+  join: account {
+    sql_on: ${account.sfid} = ${opportunity.accountid} ;;
+    relationship: many_to_one
+    fields: [account.account_core*, account.seats_licensed, account.seats_active_latest, account.seats_active_max, ]
   }
 
   join: customer_risk {
