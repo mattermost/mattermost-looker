@@ -1243,7 +1243,19 @@ explore: server_fact {
     view_label: "Clearbit (Cloud)"
     sql_on: ${server_fact.server_id} = ${cloud_clearbit.server_id} ;;
     relationship: one_to_one
+  }
 
+  join: server_daily_details_ext {
+    view_label: "Enabled Plugins"
+    sql_on: ${server_daily_details_ext.server_id} = ${license_server_fact.server_id} AND ${server_daily_details_ext.logging_date} = ${server_fact.last_mm2_telemetry_date} ;;
+    relationship: one_to_one
+    fields: [server_daily_details_ext.enable_plugins_count, server_daily_details_ext.enable_antivirus_count, server_daily_details_ext.enable_autolink_count, server_daily_details_ext.enable_aws_sns_count,
+      server_daily_details_ext.enable_custom_user_attributes_count, server_daily_details_ext.enable_github_count, server_daily_details_ext.enable_gitlab_count, server_daily_details_ext.enable_health_check_count,
+      server_daily_details_ext.enable_jenkins_count, server_daily_details_ext.enable_jira_count, server_daily_details_ext.enable_marketplace_count, server_daily_details_ext.enable_nps_count, server_daily_details_ext.enable_remote_marketplace_count,
+      server_daily_details_ext.enable_uploads, server_daily_details_ext.enable_webex_count, server_daily_details_ext.enable_welcome_bot_count, server_daily_details_ext.enable_zoom_count, server_daily_details_ext.enable_confluence_count,
+      server_daily_details_ext.enable_jitsi_count, server_daily_details_ext.enable_mscalendar_count, server_daily_details_ext.enable_todo_count, server_daily_details_ext.enable_skype4business_count, server_daily_details_ext.enable_giphy_count,
+      server_daily_details_ext.enable_digital_ocean_count, server_daily_details_ext.enable_incident_response_count, server_daily_details_ext.enable_memes_count, server_daily_details_ext.ask_community_link_enabled_count, server_daily_details_ext.enable_matterpoll_count,
+      server_daily_details_ext.enable_channel_recommender_count, server_daily_details_ext.enable_agenda_count, server_daily_details_ext.enable_msteamsmeeting_count, server_daily_details_ext.enable_icebreaker_count]
   }
 }
 
@@ -1520,6 +1532,20 @@ explore: server_daily_details_ext {
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     type: left_outer
     relationship: many_to_one
+  }
+
+  join: server_daily_details_ext2 {
+    from: server_daily_details_ext
+    view_label: "Enabled Plugins First 7 Days"
+    sql_on: ${server_daily_details_ext2.server_id} = ${server_fact.server_id} AND ${server_daily_details_ext2.logging_date}::date <= ${server_fact.first_active_date}::date + interval '7 days' ;;
+    relationship: one_to_many
+    fields: [server_daily_details_ext2.enable_plugins_count, server_daily_details_ext2.enable_antivirus_count, server_daily_details_ext2.enable_autolink_count, server_daily_details_ext2.enable_aws_sns_count,
+      server_daily_details_ext2.enable_custom_user_attributes_count, server_daily_details_ext2.enable_github_count, server_daily_details_ext2.enable_gitlab_count, server_daily_details_ext2.enable_health_check_count,
+      server_daily_details_ext2.enable_jenkins_count, server_daily_details_ext2.enable_jira_count, server_daily_details_ext2.enable_marketplace_count, server_daily_details_ext2.enable_nps_count, server_daily_details_ext2.enable_remote_marketplace_count,
+      server_daily_details_ext2.enable_uploads_count, server_daily_details_ext2.enable_webex_count, server_daily_details_ext2.enable_welcome_bot_count, server_daily_details_ext2.enable_zoom_count, server_daily_details_ext2.enable_confluence_count,
+      server_daily_details_ext2.enable_jitsi_count, server_daily_details_ext2.enable_mscalendar_count, server_daily_details_ext2.enable_todo_count, server_daily_details_ext2.enable_skype4business_count, server_daily_details_ext2.enable_giphy_count,
+      server_daily_details_ext2.enable_digital_ocean_count, server_daily_details_ext2.enable_incident_response_count, server_daily_details_ext2.enable_memes_count, server_daily_details_ext2.enable_matterpoll_count,
+      server_daily_details_ext2.enable_channel_recommender_count, server_daily_details_ext2.enable_agenda_count, server_daily_details_ext2.enable_msteamsmeeting_count, server_daily_details_ext2.enable_icebreaker_count]
   }
 
   join: nps_server_daily_score {
