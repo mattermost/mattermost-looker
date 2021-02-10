@@ -1512,6 +1512,20 @@ explore: nps_user_monthly_score {
     type: left_outer
     fields: []
   }
+
+  join: server_daily_details_ext {
+    view_label: "Enabled Plugins"
+    sql_on: ${nps_user_monthly_score.server_id} = ${server_daily_details_ext.server_id} and ${nps_user_monthly_score.month_date}::date = ${server_daily_details_ext.logging_date}::date ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details_ext.enable_plugins, server_daily_details_ext.enable_antivirus, server_daily_details_ext.enable_autolink, server_daily_details_ext.enable_aws_sns,
+      server_daily_details_ext.enable_custom_user_attributes, server_daily_details_ext.enable_github, server_daily_details_ext.enable_gitlab, server_daily_details_ext.enable_health_check,
+      server_daily_details_ext.enable_jenkins, server_daily_details_ext.enable_jira, server_daily_details_ext.enable_marketplace, server_daily_details_ext.enable_nps, server_daily_details_ext.enable_remote_marketplace,
+      server_daily_details_ext.enable_uploads, server_daily_details_ext.enable_webex, server_daily_details_ext.enable_welcome_bot, server_daily_details_ext.enable_zoom, server_daily_details_ext.enable_confluence,
+      server_daily_details_ext.enable_jitsi, server_daily_details_ext.enable_mscalendar, server_daily_details_ext.enable_todo, server_daily_details_ext.enable_skype4business, server_daily_details_ext.enable_giphy,
+      server_daily_details_ext.enable_digital_ocean, server_daily_details_ext.enable_incident_response, server_daily_details_ext.enable_memes, server_daily_details_ext.enable_comgithubmatterpollmatterpoll,
+      server_daily_details_ext.enable_agenda, server_daily_details_ext.enable_commattermostmsteamsmeetings, server_daily_details_ext.enable_comnilsbrinkmannicebreaker, server_daily_details_ext.enable_comgithubjespinorecommend]
+  }
 }
 
 explore: server_daily_details_ext {
