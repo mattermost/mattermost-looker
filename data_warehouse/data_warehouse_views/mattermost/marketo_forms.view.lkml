@@ -81,6 +81,7 @@ view: marketo_forms {
   }
 
   dimension: anonymous_id {
+    label: "User Id"
     description: "Distinct user id of user submitting form."
     type: string
     sql: ${TABLE}.anonymous_id ;;
