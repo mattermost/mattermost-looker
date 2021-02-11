@@ -214,6 +214,7 @@ view: marketo_forms {
   }
 
   dimension: where_are_you_with_mattermost__c {
+    group_label: "Form Questions"
     label: "Mattermost Stage"
     description: "The input provided by the user when asked 'Where are you with Mattermost?'."
     type: string
@@ -261,6 +262,7 @@ view: marketo_forms {
   }
 
   dimension: how_did_you_hear_about_mattermost__c {
+    group_label: "Form Questions"
     label: "Heard About Mattermost"
     description: "The input provided by the user when asked 'How did you hear about Mattermost?'."
     type: string
