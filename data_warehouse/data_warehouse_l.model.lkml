@@ -95,7 +95,7 @@ explore: user_events_telemetry {
     view_label: "Server Fact"
     sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server, server_fact.registered_users_max]
   }
 
   join: excludable_servers {
