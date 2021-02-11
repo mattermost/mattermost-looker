@@ -436,7 +436,7 @@ sql_table_name: mattermost.server_fact ;;
     label: "Max. Registered Users"
     description: "The max number of registered users logged on the server during it's lifetime."
     type: number
-    sql: ${TABLE}.max_registered_users - COALESCE(${max_registered_deactivated_users}, 0);;
+    sql: CASE WHEN ${TABLE}.max_registered_users - COALESCE(${max_registered_deactivated_users}, 0) < 0 THEN 0 ELSE ${TABLE}.max_registered_users - COALESCE(${max_registered_deactivated_users}, 0) END;;
   }
 
   dimension: enabled_plugins_max {
