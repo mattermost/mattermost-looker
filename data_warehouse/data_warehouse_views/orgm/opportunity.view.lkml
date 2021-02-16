@@ -31,7 +31,7 @@ view: opportunity {
 
   set: opportunity_drill_fields {
     fields: [account.name, name, owner_name, csm_name, ce_name, close_date, created_date, status_wlo, stagename,
-             forecastcategoryname, total_new_amount, total_exp_amount, total_ren_amount, type]
+             forecastcategoryname, opportunitylineitem.total_new_amount, opportunitylineitem.total_exp_amount, opportunitylineitem.total_ren_amount, type]
   }
 
   set: opportunity_core {

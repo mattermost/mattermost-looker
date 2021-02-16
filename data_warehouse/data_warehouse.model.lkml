@@ -1886,7 +1886,7 @@ explore: renewal_rate_by_renewal_opportunity {
   join: customer_risk {
     sql_on: ${opportunity.sfid} = ${customer_risk.opportunity};;
     relationship: one_to_one
-    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount, customer_risk.at_risk_date, customer_risk.early_warning_date]
+    fields: [customer_risk.status, customer_risk.competitor, customer_risk.additional_details, customer_risk.next_step, customer_risk.reason, customer_risk.type, customer_risk.seats_at_risk, customer_risk.risk_amount, customer_risk.at_risk_date, customer_risk.early_warning_date, customer_risk.is_at_risk, customer_risk.is_early_warning]
   }
 }
 

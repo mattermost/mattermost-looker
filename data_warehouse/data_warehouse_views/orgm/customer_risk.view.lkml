@@ -316,6 +316,20 @@ view: customer_risk {
     group_label: "Renewals"
   }
 
+  dimension: is_at_risk {
+    sql: ${status} = 'At Risk';;
+    type: yesno
+    label: "Is At Risk?"
+    group_label: "Renewals"
+  }
+
+  dimension: is_early_warning {
+    sql: ${status} = 'Early Warning';;
+    type: yesno
+    label: "Is Early Warning?"
+    group_label: "Renewals"
+  }
+
   dimension_group: systemmodstamp {
     hidden: yes
     type: time

@@ -61,6 +61,15 @@ view: opportunitylineitem {
       multi_amount,
       ren_multi_amount,
       monthly_billing_amount,
+      total_new_amount,
+      total_ren_amount,
+      total_exp_amount,
+      total_exp_only_amount,
+      total_coterm_amount,
+      total_loe_amount,
+      total_multi_amount,
+      total_ren_multi_amount,
+      monthly_billing_amount,
       is_monthly_billing
     ]
   }
