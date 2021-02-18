@@ -455,6 +455,7 @@ sql_table_name: mattermost.server_fact ;;
   dimension: days_to_first_plugin_install_band {
     description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user segmented into bands."
     type: tier
+    style: integer
     tiers: [1, 8, 31, 61, 91, 181, 366]
     sql: ${days_to_first_plugin_install} ;;
   }
