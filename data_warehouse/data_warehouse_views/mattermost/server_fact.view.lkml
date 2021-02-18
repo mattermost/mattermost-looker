@@ -1421,4 +1421,28 @@ sql_table_name: mattermost.server_fact ;;
     type: number
     sql: ${mau_sum}/${license_server_fact.users_sum_distinct} ;;
   }
+
+  measure: avg_days_to_install_plugins {
+    type: average
+    sql: ${days_to_first_plugin_install} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_days_to_install_plugins {
+    type: median
+    sql: ${days_to_first_plugin_install} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: avg_plugins_downloaded {
+    type: average
+    sql: ${plugins_downloaded} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_plugins_downloaded {
+    type: median
+    sql: ${plugins_downloaded} ;;
+    value_format_name: decimal_1
+  }
 }
