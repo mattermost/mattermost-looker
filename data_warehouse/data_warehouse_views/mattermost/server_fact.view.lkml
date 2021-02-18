@@ -8,6 +8,7 @@ sql_table_name: mattermost.server_fact ;;
 
   filter: license_all {
     type: string
+    hidden: yes
   }
 
   dimension: product_edition {
