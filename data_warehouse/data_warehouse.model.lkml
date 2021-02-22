@@ -3195,3 +3195,10 @@ explore: hacktoberboard_dev {
 explore: marketo_forms {
   label: "Marketo Forms"
 }
+
+explore: telemetry_columns {
+  label: "Telemetry Columns"
+}
+explore: telemetry_tables {
+  label: "Telemetry Tables"
+}
