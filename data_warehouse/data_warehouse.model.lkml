@@ -843,13 +843,13 @@ explore: contributor_map_data {
 }
 
 explore: daily_traffic {
-  group_label: "Google Analytics"
-  label: "Daily Traffic"
+  group_label: "Marketing"
+  label: "GA Daily Traffic"
 }
 
 explore: daily_page_visits {
-  group_label: "Google Analytics"
-  label: "Daily Page Visits"
+  group_label: "Marketing"
+  label: "GA Daily Page Visits"
   join: blog_paths {
     view_label: "Daily Page Visits"
     sql_on: ${daily_page_visits.page_path_2} = ${blog_paths.page_path} ;;
@@ -3193,5 +3193,23 @@ explore: hacktoberboard_dev {
 }
 
 explore: marketo_forms {
+  group_label: "Marketing"
   label: "Marketo Forms"
+
+  join: form_attribution {
+    sql_on: ${marketo_forms.id} = ${form_attribution.form_fill_id} ;;
+    relationship: one_to_one
+  }
+
+  join: marketo_form_names {
+    sql_on: ${marketo_forms.formid} = ${marketo_form_names.form_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+}
+
+explore: form_attribution {
+  group_label: "Marketing"
+  label: "Marketo Forms Attribution"
+
 }

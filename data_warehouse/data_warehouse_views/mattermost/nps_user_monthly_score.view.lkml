@@ -184,7 +184,7 @@ view: nps_user_monthly_score {
     hidden: no
     action: {
       label: "Update Subcategory"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.zapier.com/hooks/catch/8652774/osne36z/"
       icon_url: "https://1amiydhcmj36tz3733v94f15-wpengine.netdna-ssl.com/wp-content/themes/snowflake/img/favicons/favicon-32x32.png"
       form_param: {
         name: "new_value"

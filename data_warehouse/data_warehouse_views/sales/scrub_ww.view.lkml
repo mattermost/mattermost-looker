@@ -53,7 +53,7 @@ view: scrub_ww {
     group_label: "Updates"
     action: {
       label: "Update Net New Forecast"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.zapier.com/hooks/catch/8652774/osne36z/"
       form_param: {
         name: "new_value"
         label: "What would you like Net New Forecast updated to?"
@@ -170,7 +170,7 @@ view: scrub_ww {
     label:"New New Upside Update"
     action: {
       label: "Update Net New Upside"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.zapier.com/hooks/catch/8652774/osne36z/"
       form_param: {
         name: "new_value"
         label: "What would you like Net New Upside updated to?"
@@ -244,7 +244,7 @@ view: scrub_ww {
     group_label: "Updates"
     action: {
       label: "Update Renewal Forecast"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.zapier.com/hooks/catch/8652774/osne36z/"
       form_param: {
         name: "new_value"
         label: "What would you like Renewal Forecast updated to?"
@@ -513,7 +513,7 @@ view: scrub_ww {
     label: "Renewal Upside Update"
     action: {
       label: "Update Renewal Upside"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.zapier.com/hooks/catch/8652774/osne36z/"
       form_param: {
         name: "new_value"
         label: "What would you like Renewal Upside updated to?"
