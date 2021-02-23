@@ -1252,7 +1252,7 @@ explore: server_fact {
     fields: [server_daily_details_ext.enable_plugins_count, server_daily_details_ext.enable_antivirus_count, server_daily_details_ext.enable_autolink_count, server_daily_details_ext.enable_aws_sns_count,
       server_daily_details_ext.enable_custom_user_attributes_count, server_daily_details_ext.enable_github_count, server_daily_details_ext.enable_gitlab_count, server_daily_details_ext.enable_health_check_count,
       server_daily_details_ext.enable_jenkins_count, server_daily_details_ext.enable_jira_count, server_daily_details_ext.enable_marketplace_count, server_daily_details_ext.enable_nps_count, server_daily_details_ext.enable_remote_marketplace_count,
-      server_daily_details_ext.enable_uploads, server_daily_details_ext.enable_webex_count, server_daily_details_ext.enable_welcome_bot_count, server_daily_details_ext.enable_zoom_count, server_daily_details_ext.enable_confluence_count,
+      server_daily_details_ext.enable_uploads_count, server_daily_details_ext.enable_webex_count, server_daily_details_ext.enable_welcome_bot_count, server_daily_details_ext.enable_zoom_count, server_daily_details_ext.enable_confluence_count,
       server_daily_details_ext.enable_jitsi_count, server_daily_details_ext.enable_mscalendar_count, server_daily_details_ext.enable_todo_count, server_daily_details_ext.enable_skype4business_count, server_daily_details_ext.enable_giphy_count,
       server_daily_details_ext.enable_digital_ocean_count, server_daily_details_ext.enable_incident_response_count, server_daily_details_ext.enable_memes_count, server_daily_details_ext.ask_community_link_enabled_count, server_daily_details_ext.enable_matterpoll_count,
       server_daily_details_ext.enable_channel_recommender_count, server_daily_details_ext.enable_agenda_count, server_daily_details_ext.enable_msteamsmeeting_count, server_daily_details_ext.enable_icebreaker_count]
@@ -3211,5 +3211,4 @@ explore: marketo_forms {
 explore: form_attribution {
   group_label: "Marketing"
   label: "Marketo Forms Attribution"
-
 }

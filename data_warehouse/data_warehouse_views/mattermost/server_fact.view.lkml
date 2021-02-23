@@ -8,6 +8,7 @@ sql_table_name: mattermost.server_fact ;;
 
   filter: license_all {
     type: string
+    hidden: yes
   }
 
   dimension: product_edition {
@@ -143,6 +144,25 @@ sql_table_name: mattermost.server_fact ;;
     type: yesno
     sql: CASE WHEN ${TABLE}.installation_id IS NOT NULL THEN TRUE ELSE FALSE END ;;
   }
+
+  dimension: plugins_downloaded {
+    label: " Plugins Downloaded"
+    description: "The distinct count of plugins downloaded by users on the server/cloud workspace."
+    type: number
+    value_format_name: decimal_0
+    sql: COALESCE(${TABLE}.plugins_downloaded, 0) ;;
+  }
+
+  dimension: downloaded_plugins_bands {
+    label: "Plugins Downloaded Band"
+    group_label: " Activity Bands"
+    description: "The number of distinct plugins downloaded on the server stratified into bands."
+    type: tier
+    style: integer
+    tiers: [1, 2, 3, 4, 5, 10]
+    sql: ${plugins_downloaded};;
+  }
+
 
   dimension: server_version {
     group_label: " Server Versions"
@@ -416,6 +436,29 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_mm2_telemetry_date ;;
+  }
+
+  dimension_group: first_plugin_install {
+    label: " First Plugin Install"
+    description: "The date the first plugin was manually downloaded to the server/cloud workspace."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_plugin_install_date ;;
+  }
+
+  dimension: days_to_first_plugin_install {
+    description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user."
+    type: number
+    sql: datediff(days, ${first_active_date}::date, ${first_plugin_install_date}::date) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: days_to_first_plugin_install_band {
+    description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user segmented into bands."
+    type: tier
+    style: integer
+    tiers: [1, 8, 31, 61, 91, 181, 366]
+    sql: ${days_to_first_plugin_install} ;;
   }
 
   dimension: max_active_user_count {
@@ -1378,5 +1421,29 @@ sql_table_name: mattermost.server_fact ;;
     label: "MAU % of Licensed Users"
     type: number
     sql: ${mau_sum}/${license_server_fact.users_sum_distinct} ;;
+  }
+
+  measure: avg_days_to_install_plugins {
+    type: average
+    sql: ${days_to_first_plugin_install} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_days_to_install_plugins {
+    type: median
+    sql: ${days_to_first_plugin_install} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: avg_plugins_downloaded {
+    type: average
+    sql: ${plugins_downloaded} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_plugins_downloaded {
+    type: median
+    sql: ${plugins_downloaded} ;;
+    value_format_name: decimal_1
   }
 }
