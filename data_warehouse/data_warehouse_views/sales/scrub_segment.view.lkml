@@ -36,8 +36,9 @@ view: scrub_segment {
   measure: nn_forecast {
     type: sum
     sql: ${TABLE}."NN_FORECAST" ;;
-    label:"Forecast"
+    group_item_label:"Forecast"
     group_label: "Net New"
+    label: "Net New Forecast"
     value_format_name: usd_0
   }
 
@@ -101,7 +102,8 @@ view: scrub_segment {
     type:sum
     sql: ${TABLE}."NN_UPSIDE" ;;
     group_label: "Net New"
-    label:"Upside"
+    group_item_label:"Upside"
+    label: "Net New Upside"
     value_format_name: usd_0
   }
 
@@ -136,7 +138,8 @@ view: scrub_segment {
   measure: ren_forecast {
     type:sum
     sql: ${TABLE}."REN_FORECAST" ;;
-    label: "Forecast"
+    label: "Renewal Forecast"
+    group_item_label: "Forecast"
     group_label: "Renewal"
     value_format_name: usd_0
   }
@@ -358,7 +361,8 @@ view: scrub_segment {
     type:sum
     sql: ${TABLE}."REN_UPSIDE" ;;
     group_label: "Renewal"
-    label: "Upside"
+    label: "Renewal Upside"
+    group_item_label: "Upside"
     value_format_name: usd_0
   }
 

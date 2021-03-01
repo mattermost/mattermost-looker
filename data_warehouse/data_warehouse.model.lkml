@@ -1062,6 +1062,8 @@ explore: github_contributions {
 
 explore: scrub_segment {
   group_label: "Target vs Actual"
+  label: "Scrub by Segment"
+  view_label: "Scrub by Segment"
 }
 
 explore: scrub_ww {
