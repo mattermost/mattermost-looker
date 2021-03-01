@@ -655,17 +655,6 @@ explore: account_cohorts_arr {
   }
 }
 
-explore: commit_ww {
-  label: "Commits (WW)"
-  group_label: "Target vs Actual"
-}
-
-explore: commit_segment {
-  label: "Commits (Segment)"
-  group_label: "Target vs Actual"
-}
-
-
 explore: forecast_ww {
   label: "Forecast (WW)"
   group_label: "Target vs Actual"
