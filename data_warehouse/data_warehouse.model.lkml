@@ -58,26 +58,8 @@ week_start_day: sunday
 # Views
 #
 
-include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/cs/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/blapi/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
-include: "/data_warehouse/data_warehouse_tests/*.lkml"
-include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/experimental/*.view.lkml"
+include: "/data_warehouse/**/**/*.view.lkml"
+
 
 #
 # Base Explores for Extensions
@@ -1622,64 +1604,8 @@ explore: mql_to_close {
   label: "MQL to Close"
 }
 
-explore: target_fact {
-  group_label: "Target vs Actual"
-  label: "Target Definitions"
-}
 
-explore: tva_all_by_mo {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
-  group_label: "Target vs Actual"
-  label: "Monthly TvA"
-
-  join: target_fact {
-    view_label: "TvA by Month"
-    sql_on: CONTAINS(${tva_all_by_mo.target_slug},${target_fact.slug}) ;;
-    relationship: many_to_one
-  }
-
-  join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_mo.target_slug},'attain_new_and_exp_by_rep_by_mo_') ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
-explore: tva_all_by_qtr {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
-  group_label: "Target vs Actual"
-  label: "Quarterly TvA"
-
-  join: target_fact {
-    view_label: "TvA by Quarter"
-    sql_on: CONTAINS(${tva_all_by_qtr.target_slug},${target_fact.slug}) ;;
-    relationship: many_to_one
-  }
-
-  join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_qtr.target_slug},'attain_new_and_exp_by_rep_by_qtr_') ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
-
-explore: tva_all_by_fy {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},${target_fact.visibility}) ;;
-  group_label: "Target vs Actual"
-  label: "TvA by Fiscal Year"
-
-  join: target_fact {
-    view_label: "Fiscal TvA"
-    sql_on: CONTAINS(${tva_all_by_fy.target_slug},${target_fact.slug});;
-    relationship: many_to_one
-  }
-
-  join: user {
-    sql_on: ${user.employeenumber} = REPLACE(${tva_all_by_fy.target_slug},'attain_new_and_exp_by_rep_by_fy_') ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
+explore: arr_tva_by_qtr { hidden: yes}
 
 explore: events_registry {
   label: "Events Registry"
