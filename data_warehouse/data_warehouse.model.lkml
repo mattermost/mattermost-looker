@@ -3132,6 +3132,13 @@ explore: form_attribution {
 
 explore: telemetry_columns {
   label: "Telemetry Columns"
+
+  join: telemetry_tables {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${telemetry_columns.table} = ${telemetry_tables.table} AND ${telemetry_columns.date_added_date}::date = ${telemetry_tables.snapshot_date}::date ;;
+    fields: []
+  }
 }
 explore: telemetry_tables {
   label: "Telemetry Tables"
