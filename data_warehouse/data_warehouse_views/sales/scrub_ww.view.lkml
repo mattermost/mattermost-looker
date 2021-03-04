@@ -21,7 +21,6 @@ view: scrub_ww {
     value_format_name: usd_0
     link: {
       label: "See Details"
-      url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ scrub_qtr }}&f[opportunity.status_wlo]=Won"
     }
   }
 
@@ -40,50 +39,10 @@ view: scrub_ww {
   measure: nn_forecast {
     type: sum
     sql: ${TABLE}."NN_FORECAST" ;;
-    label:"Forecast"
+    group_item_label:"Forecast"
     group_label: "Net New"
+    label: "Net New Forecast"
     value_format_name: usd_0
-  }
-
-  measure: nn_forecast_update {
-    hidden: yes
-    type: sum
-    sql: ${TABLE}."NN_FORECAST" ;;
-    label:"Net New Forecast Update"
-    group_label: "Updates"
-    action: {
-      label: "Update Net New Forecast"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
-      form_param: {
-        name: "new_value"
-        label: "What would you like Net New Forecast updated to?"
-        default: "{{ value }}"
-        type: string
-        required: yes
-      }
-      param: {
-        name: "field_name"
-        value: "nn_forecast"
-      }
-      param: {
-        name: "old_value"
-        value: "{{ value }}"
-      }
-      param: {
-        name: "table"
-        value: "scrub_ww"
-      }
-      param: {
-        name: "other_params"
-        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
-      }
-      user_attribute_param: {
-        user_attribute: email
-        name: "action_performed_by"
-      }
-    }
-    value_format_name: usd_0
-    required_access_grants: [admin_access]
   }
 
   measure: nn_commit_max {
@@ -158,51 +117,10 @@ view: scrub_ww {
     type:sum
     sql: ${TABLE}."NN_UPSIDE" ;;
     group_label: "Net New"
-    label:"Upside"
+    group_item_label:"Upside"
+    label: "Net New Upside"
     value_format_name: usd_0
   }
-
-  measure: nn_upside_update {
-    hidden: yes
-    type:sum
-    sql: ${TABLE}."NN_UPSIDE" ;;
-    group_label: "Updates"
-    label:"New New Upside Update"
-    action: {
-      label: "Update Net New Upside"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
-      form_param: {
-        name: "new_value"
-        label: "What would you like Net New Upside updated to?"
-        default: "{{ value }}"
-        type: string
-        required: yes
-      }
-      param: {
-        name: "field_name"
-        value: "nn_upside"
-      }
-      param: {
-        name: "old_value"
-        value: "{{ value }}"
-      }
-      param: {
-        name: "table"
-        value: "scrub_ww"
-      }
-      param: {
-        name: "other_params"
-        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
-      }
-      user_attribute_param: {
-        user_attribute: email
-        name: "action_performed_by"
-      }
-    }
-    value_format_name: usd_0
-    required_access_grants: [admin_access]
-  }
-
 
   measure: ren_actual {
     type:sum
@@ -231,50 +149,10 @@ view: scrub_ww {
   measure: ren_forecast {
     type:sum
     sql: ${TABLE}."REN_FORECAST" ;;
-    label: "Forecast"
+    group_item_label: "Forecast"
     group_label: "Renewal"
+    label: "Renewal Forecast"
     value_format_name: usd_0
-  }
-
-  measure: ren_forecast_update {
-    type:sum
-    hidden: yes
-    sql: ${TABLE}."REN_FORECAST" ;;
-    label: "Renewal Forecast Update"
-    group_label: "Updates"
-    action: {
-      label: "Update Renewal Forecast"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
-      form_param: {
-        name: "new_value"
-        label: "What would you like Renewal Forecast updated to?"
-        default: "{{ value }}"
-        type: string
-        required: yes
-      }
-      param: {
-        name: "field_name"
-        value: "ren_forecast"
-      }
-      param: {
-        name: "old_value"
-        value: "{{ value }}"
-      }
-      param: {
-        name: "table"
-        value: "scrub_ww"
-      }
-      param: {
-        name: "other_params"
-        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
-      }
-      user_attribute_param: {
-        user_attribute: email
-        name: "action_performed_by"
-      }
-    }
-    value_format_name: usd_0
-    required_access_grants: [admin_access]
   }
 
   measure: ren_commit_max {
@@ -501,49 +379,9 @@ view: scrub_ww {
     type:sum
     sql: ${TABLE}."REN_UPSIDE" ;;
     group_label: "Renewal"
-    label: "Upside"
+    group_item_label: "Upside"
+    label: "Renewal Upside"
     value_format_name: usd_0
-  }
-
-  measure: ren_upside_update {
-    hidden: yes
-    type:sum
-    sql: ${TABLE}."REN_UPSIDE" ;;
-    group_label: "Updates"
-    label: "Renewal Upside Update"
-    action: {
-      label: "Update Renewal Upside"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
-      form_param: {
-        name: "new_value"
-        label: "What would you like Renewal Upside updated to?"
-        default: "{{ value }}"
-        type: string
-        required: yes
-      }
-      param: {
-        name: "field_name"
-        value: "ren_upside"
-      }
-      param: {
-        name: "old_value"
-        value: "{{ value }}"
-      }
-      param: {
-        name: "table"
-        value: "scrub_ww"
-      }
-      param: {
-        name: "other_params"
-        value: "\"{\"qtr\": \"{{ scrub_qtr }}\"}\""
-      }
-      user_attribute_param: {
-        user_attribute: email
-        name: "action_performed_by"
-      }
-    }
-    value_format_name: usd_0
-    required_access_grants: [admin_access]
   }
 
 }

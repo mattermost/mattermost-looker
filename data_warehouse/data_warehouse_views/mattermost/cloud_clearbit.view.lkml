@@ -380,6 +380,15 @@ view: cloud_clearbit {
     hidden: no
   }
 
+  dimension: market_segment {
+    description: "The market segment of the company based on the number of employees identified via the employees field."
+    type: string
+    sql: CASE WHEN ${company_metrics_employees} >= 5000 THEN 'Enterprise'
+              WHEN ${company_metrics_employees} >= 500 and ${company_metrics_employees} < 5000 THEN 'Mid-Market'
+              WHEN ${company_metrics_employees} < 500 THEN 'SMB'
+              ELSE NULL END;;
+  }
+
   dimension: person_bio {
     group_label: "Person Details"
     label: "Bio"

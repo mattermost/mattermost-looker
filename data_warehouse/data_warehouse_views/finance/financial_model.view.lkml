@@ -1,5 +1,5 @@
 view: financial_model {
-  sql_table_name: "FINANCE"."FINANCIAL_MODEL";;
+  sql_table_name: "FINANCE_GSHEETS"."FINANCIAL_MODEL";;
 
   dimension: period {
     type: string
@@ -86,7 +86,7 @@ view: financial_model {
   measure: g_and_a {
     label: "G&A ($k)"
     type: sum
-    sql: ${TABLE}."G_AND_A" ;;
+    sql: ${TABLE}."G_AND_A_1" ;;
     value_format_name: usd_0
   }
 
@@ -169,7 +169,7 @@ view: financial_model {
   measure: r_and_d {
     label: "R&D ($k)"
     type: sum
-    sql: ${TABLE}."R_AND_D" ;;
+    sql: ${TABLE}."R_AND_D_1" ;;
     value_format_name: usd_0
   }
 
@@ -204,7 +204,7 @@ view: financial_model {
   measure: s_and_m {
     label: "S&M ($k)"
     type: sum
-    sql: ${TABLE}."S_AND_M" ;;
+    sql: ${TABLE}."S_AND_M_1" ;;
     value_format_name: usd_0
   }
 

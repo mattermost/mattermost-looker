@@ -184,6 +184,14 @@ view: marketo_forms {
     hidden: no
   }
 
+  dimension: form_name {
+    label: "Form Name"
+    description: "Marketo form name."
+    type: string
+    sql: ${marketo_form_names.name} ;;
+    hidden: no
+  }
+
   dimension: context_page_url {
     description: ""
     type: string
@@ -832,7 +840,7 @@ view: marketo_forms {
   }
 
   measure: id_count {
-    label: " Form Completes"
+    label: " Form Fills"
     description: "The distinct count of Marketo Form completes within each grouping."
     type: count_distinct
     sql: ${id} ;;

@@ -58,24 +58,7 @@ week_start_day: sunday
 # Views
 #
 
-include: "/data_warehouse/data_warehouse_views/blp/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/cs/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/employee/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/events/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/finance/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/ga/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/mattermost/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/orgm/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/sales/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/tva/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/util/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/bizops/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/blapi/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/web/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/mattermost_jira/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/qa/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/social_mentions/*.view.lkml"
-include: "/data_warehouse/data_warehouse_views/stripe/*.view.lkml"
+include: "/data_warehouse/**/**/*.view.lkml"
 
 explore: user_events_telemetry {
   label: "User Events Telemetry"

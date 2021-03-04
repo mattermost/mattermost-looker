@@ -184,7 +184,7 @@ view: nps_user_monthly_score {
     hidden: no
     action: {
       label: "Update Subcategory"
-      url: "https://hooks.zapier.com/hooks/catch/6573053/osne36z/"
+      url: "https://hooks.stitchdata.com/v1/clients/153136/token/91961d1963812ad2228be7691ec4198cfd7b78e7d8c57d059203e712f688867c"
       icon_url: "https://1amiydhcmj36tz3733v94f15-wpengine.netdna-ssl.com/wp-content/themes/snowflake/img/favicons/favicon-32x32.png"
       form_param: {
         name: "new_value"
@@ -253,8 +253,20 @@ view: nps_user_monthly_score {
         value: "nps_feedback_classification"
       }
       param: {
-        name: "other_params"
-        value: "\"{\"server_id\": \"{{ server_id }}\", \"user_id\": \"{{ user_id }}\", \"last_feedback_date\": \"{{ last_feedback_date }}\"}\""
+        name: "server_id"
+        value: "{{ server_id }}"
+      }
+      param: {
+        name: "server_id"
+        value: "{{ server_id }}"
+      }
+      param: {
+        name: "user_id"
+        value: "{{ user_id }}"
+      }
+      param: {
+        name: "last_feedback_date"
+        value: "{{ last_feedback_date }}"
       }
       user_attribute_param: {
         user_attribute: email
