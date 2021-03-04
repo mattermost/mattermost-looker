@@ -1191,6 +1191,13 @@ explore: server_fact {
     relationship: one_to_many
   }
 
+  join: lead {
+    view_label: "Lead (Salesforce)"
+    sql_on:  ${license_server_fact.license_email} = ${lead.email} ;;
+    relationship: many_to_one
+    fields: [lead.email, lead.name, lead.convertedaccountid, lead.existing_account__c, lead.matched_account, lead.sfid, lead.job_function, lead.convertedcontactid, lead.lead_source, lead.lead_type, lead.lead_status_combined, lead.most_recent_action]
+  }
+
   join: trial_requests {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
