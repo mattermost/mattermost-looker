@@ -206,7 +206,7 @@ view: server_daily_details {
     label: "   Logging"
     description: "The date the server details were logged."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, day_of_week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
   }
 
