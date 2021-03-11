@@ -7,107 +7,107 @@ view: daily_server_user_agent_events {
 
   # DIMENSIONS
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: event_source {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_source ;;
     hidden: no
   }
 
   dimension: context_useragent {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_useragent ;;
     hidden: no
   }
 
   dimension: browser {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.browser ;;
     hidden: no
   }
 
   dimension: browser_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.browser_version ;;
     hidden: no
   }
 
   dimension: operating_system {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.operating_system ;;
     hidden: no
   }
 
   dimension: os_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.os_version ;;
     hidden: no
   }
 
   dimension: device_type {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.device_type ;;
     hidden: no
   }
 
   dimension: device_brand {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.device_brand ;;
     hidden: no
   }
 
   dimension: device_model {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.device_model ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: user_count {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.user_count ;;
     hidden: no
   }
 
   dimension: events {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.events ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
-    description: "" 
+    description: ""
     type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
@@ -126,6 +126,7 @@ view: daily_server_user_agent_events {
     description: "The distinct count of Daily Server User Agent Events Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    hidden: yes
   }
 
   measure: user_count_sum {
