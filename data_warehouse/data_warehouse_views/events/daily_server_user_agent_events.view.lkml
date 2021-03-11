@@ -14,7 +14,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: event_source {
-    description: ""
+    description: "The Mattermost client being used at the time the event was performed i.e. Desktop, WebApp, or Mobile."
     type: string
     sql: ${TABLE}.event_source ;;
     hidden: no
@@ -41,6 +41,12 @@ view: daily_server_user_agent_events {
     hidden: no
   }
 
+  dimension: browser_version_major {
+    description: ""
+    type: string
+    sql: SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2) ;;
+  }
+
   dimension: operating_system {
     description: ""
     type: string
@@ -49,9 +55,19 @@ view: daily_server_user_agent_events {
   }
 
   dimension: os_version {
+    label: "Operating System Version"
     description: ""
     type: string
     sql: ${TABLE}.os_version ;;
+    hidden: no
+  }
+
+  dimension: os_version_major {
+    label: "Operating System Version (Major)"
+    description: ""
+    type: string
+    sql: CASE WHEN SPLIT_PART(${os_version}, '.',2) IS NOT NULL THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
+          ELSE ${os_version} END ;;
     hidden: no
   }
 
