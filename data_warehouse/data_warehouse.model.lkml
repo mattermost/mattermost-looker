@@ -3150,3 +3150,7 @@ explore: telemetry_columns {
 explore: telemetry_tables {
   label: "Telemetry Tables"
 }
+
+explore: daily_server_user_agent_events {
+  label: "Daily Server User Agent Events"
+}
