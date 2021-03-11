@@ -28,6 +28,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: browser {
+    group_label: "Browser Details"
     description: ""
     type: string
     sql: ${TABLE}.browser ;;
@@ -35,6 +36,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: browser_version {
+    group_label: "Browser Details"
     description: ""
     type: string
     sql: ${TABLE}.browser_version ;;
@@ -42,12 +44,33 @@ view: daily_server_user_agent_events {
   }
 
   dimension: browser_version_major {
+    group_label: "Browser Details"
     description: ""
     type: string
-    sql: SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2) ;;
+    sql:
+    --CASE WHEN ${browser} = 'Chrome' THEN left(SPLIT_PART(${browser_version}, '.', 1), 4)
+      --    ELSE SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2) END
+          SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2);;
+  }
+
+  dimension: browser_w_version {
+    group_label: "Browser Details"
+    description: ""
+    type: string
+    sql: ${browser} || ' ' || ${browser_version} ;;
+    hidden: no
+  }
+
+  dimension: browser_w_version_major {
+    group_label: "Browser Details"
+    description: ""
+    type: string
+    sql: ${browser} || ' ' || ${browser_version_major} ;;
+    hidden: no
   }
 
   dimension: operating_system {
+    group_label: "Operating System Details"
     description: ""
     type: string
     sql: ${TABLE}.operating_system ;;
@@ -55,6 +78,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: os_version {
+    group_label: "Operating System Details"
     label: "Operating System Version"
     description: ""
     type: string
@@ -63,15 +87,39 @@ view: daily_server_user_agent_events {
   }
 
   dimension: os_version_major {
+    group_label: "Operating System Details"
     label: "Operating System Version (Major)"
     description: ""
     type: string
-    sql: CASE WHEN SPLIT_PART(${os_version}, '.',2) IS NOT NULL THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
-          ELSE ${os_version} END ;;
+    sql: CASE WHEN ${browser} = 'Chrome' THEN SPLIT_PART(${os_version}, '.',1)
+          ELSE
+              CASE WHEN SPLIT_PART(${os_version}, '.',2) IS NOT NULL THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
+                ELSE ${os_version} END
+        END;;
     hidden: no
   }
 
+  dimension: os_w_version {
+    group_label: "Operating System Details"
+    label: "Operating System + Version"
+    description: ""
+    type: string
+    sql: ${operating_system} || ' ' || ${os_version} ;;
+    hidden: no
+  }
+
+  dimension: os_w_version_major {
+    group_label: "Operating System Details"
+    label: "Operating System + Version (Major)"
+    description: ""
+    type: string
+    sql: ${operating_system} || ' ' || ${os_version_major} ;;
+    hidden: no
+  }
+
+
   dimension: device_type {
+    group_label: "Device Details"
     description: ""
     type: string
     sql: ${TABLE}.device_type ;;
@@ -79,6 +127,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: device_brand {
+    group_label: "Device Details"
     description: ""
     type: string
     sql: ${TABLE}.device_brand ;;
@@ -86,6 +135,7 @@ view: daily_server_user_agent_events {
   }
 
   dimension: device_model {
+    group_label: "Device Details"
     description: ""
     type: string
     sql: ${TABLE}.device_model ;;
