@@ -3173,16 +3173,18 @@ explore: daily_server_user_agent_events {
 
   join: server_fact {
     relationship: many_to_one
+    view_label: "Server Details"
     type: left_outer
     sql_on: ${server_fact.server_id} = ${daily_server_user_agent_events.server_id} ;;
-    fields: []
+    fields: [server_fact.cloud_server, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major]
   }
 
   join: license_server_fact {
     type: left_outer
     relationship: many_to_one
+    view_label: "License & Customer Details"
     sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
-    fields: []
+    fields: [license_server_fact.customer_name, license_server_fact.license_email, license_server_fact.customer_id, license_server_fact.users]
   }
 
 
