@@ -4,6 +4,11 @@ view: daily_server_user_agent_events {
   view_label: "Daily Server User Agent Events"
 
   # FILTERS
+  dimension: bot {
+    description: "Boolean indicating if the user agent is associated with a bot and/or spider."
+    type: yesno
+    sql: CASE WHEN CASE WHEN ${TABLE}.device_type IS NULL THEN 'Other' ELSE ${TABLE}.device_type END = 'Spider' THEN TRUE ELSE FALSE END ;;
+  }
 
   # DIMENSIONS
   dimension: server_id {
@@ -80,7 +85,7 @@ view: daily_server_user_agent_events {
     label: "Operating System Version"
     description: ""
     type: string
-    sql: ${TABLE}.os_version ;;
+    sql: trim(${TABLE}.os_version) ;;
     hidden: no
   }
 
@@ -89,9 +94,10 @@ view: daily_server_user_agent_events {
     label: "Operating System Version (Major)"
     description: ""
     type: string
-    sql: CASE WHEN ${browser} = 'Chrome' THEN SPLIT_PART(${os_version}, '.',1)
+    sql: CASE WHEN ${operating_system} = 'Chrome Os' THEN SPLIT_PART(${os_version}, '.',1)
           ELSE
-              CASE WHEN SPLIT_PART(${os_version}, '.',2) IS NOT NULL THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
+              CASE WHEN ${os_version} RLIKE '[0-9]{1,20}.[0-9]{1,20}$' OR ${os_version} RLIKE '[0-9]{1,20}.[0-9]{1,20}.[0-9a-zA-Z]{1,20}$' THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
+              --WHEN SPLIT_PART(${os_version}, '.',1) IS NOT NULL THEN SPLIT_PART(${os_version}, '.',1) || '.' || SPLIT_PART(${os_version}, '.',2)
                 ELSE ${os_version} END
         END;;
     hidden: no
