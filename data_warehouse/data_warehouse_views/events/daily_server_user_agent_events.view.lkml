@@ -31,7 +31,7 @@ view: daily_server_user_agent_events {
     group_label: "Browser Details"
     description: ""
     type: string
-    sql: ${TABLE}.browser ;;
+    sql: INITCAP(TRIM(${TABLE}.browser)) ;;
     hidden: no
   }
 
@@ -47,10 +47,8 @@ view: daily_server_user_agent_events {
     group_label: "Browser Details"
     description: ""
     type: string
-    sql:
-    --CASE WHEN ${browser} = 'Chrome' THEN left(SPLIT_PART(${browser_version}, '.', 1), 4)
-      --    ELSE SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2) END
-          SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2);;
+    sql: CASE WHEN COALESCE(SPLIT_PART(${browser_version}, '.', 1), SPLIT_PART(${browser_version},'.',2)) IS NULL THEN ${browser_version}
+          ELSE SPLIT_PART(${browser_version}, '.', 1) || '.' || SPLIT_PART(${browser_version},'.',2) END ;;
   }
 
   dimension: browser_w_version {
@@ -73,7 +71,7 @@ view: daily_server_user_agent_events {
     group_label: "Operating System Details"
     description: ""
     type: string
-    sql: ${TABLE}.operating_system ;;
+    sql: INITCAP(TRIM(${TABLE}.operating_system)) ;;
     hidden: no
   }
 
