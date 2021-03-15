@@ -7,7 +7,11 @@ view: daily_server_user_agent_events {
   dimension: bot {
     description: "Boolean indicating if the user agent is associated with a bot and/or spider."
     type: yesno
-    sql: CASE WHEN CASE WHEN ${TABLE}.device_type IS NULL THEN 'Other' ELSE ${TABLE}.device_type END = 'Spider' THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN
+                CASE WHEN ${TABLE}.device_type IS NULL THEN 'Other' ELSE ${TABLE}.device_type END = 'Spider' THEN TRUE
+              WHEN lower(${context_useragent}::VARCHAR) like '%bot%' OR lower(${context_useragent}::VARCHAR) like '%crawler%'
+                OR lower(${context_useragent}::VARCHAR) like '%spider%' THEN TRUE
+              ELSE FALSE END ;;
   }
 
   # DIMENSIONS
@@ -167,6 +171,13 @@ view: daily_server_user_agent_events {
     hidden: no
   }
 
+  dimension: posts {
+    description: ""
+    type: number
+    sql: ${TABLE}.posts ;;
+    hidden: no
+  }
+
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
@@ -234,6 +245,13 @@ view: daily_server_user_agent_events {
     sql: ${user_count} ;;
   }
 
+  measure: events_sum {
+    description: "The sum Events within each grouping."
+    type: sum
+    group_label: "Events Measures"
+    sql: ${events} ;;
+  }
+
   measure: events_max {
     description: "The max Events within each grouping."
     type: max
@@ -260,6 +278,41 @@ view: daily_server_user_agent_events {
     type: median
     group_label: "Events Measures"
     sql: ${events} ;;
+  }
+
+  measure: posts_sum {
+    description: "The sum posts within each grouping."
+    type: sum
+    group_label: "Posts Measures"
+    sql: ${posts} ;;
+  }
+
+  measure: posts_max {
+    description: "The max posts within each grouping."
+    type: max
+    group_label: "Posts Measures"
+    sql: ${posts} ;;
+  }
+
+  measure: posts_min {
+    description: "The min posts within each grouping."
+    type: min
+    group_label: "Posts Measures"
+    sql: ${posts} ;;
+  }
+
+  measure: posts_avg {
+    description: "The average posts within each grouping."
+    type: average
+    group_label: "Posts Measures"
+    sql: ${posts} ;;
+  }
+
+  measure: posts_median {
+    description: "The median posts within each grouping."
+    type: median
+    group_label: "Posts Measures"
+    sql: ${posts} ;;
   }
 
 
