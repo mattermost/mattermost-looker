@@ -113,7 +113,7 @@ view: license_server_fact {
   dimension: trial {
     description: "Indicates the license is marked a trial or is <= 90 days from start to expire."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial OR (DATEDIFF(day, ${start_date}::date, ${expire_date}::date) <= 90 AND COALESCE(lower(${edition}), 'None') <> 'mattermost cloud') THEN TRUE
+    sql: CASE WHEN ${TABLE}.trial AND COALESCE(lower(${edition}), 'None') <> 'mattermost cloud' THEN TRUE
     WHEN COALESCE(lower(${edition}), 'None') = 'mattermost cloud' then FALSE ELSE FALSE END ;;
     hidden: no
   }
