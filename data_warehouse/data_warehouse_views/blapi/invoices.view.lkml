@@ -231,6 +231,12 @@ view: INVOICES {
     type: count
   }
 
+  measure: min_invoice_date {
+    description: "The minimum invoice date within each grouping."
+    type: date
+    sql: MIN(${invoice_start_date}::date) ;;
+  }
+
   measure: version_count {
     label: " Version Count"
     description: "The distinct count of Invoices Versions within each grouping."

@@ -2930,6 +2930,20 @@ explore: INVOICES {
     sql_on: ${PURCHASE_FACT.invoice_stripe_id} = ${invoices_blapi.id} ;;
     relationship: one_to_one
   }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    relationship: one_to_one
+    sql_on: ${SUBSCRIPTIONS.cloud_installation_id} = ${server_fact.installation_id} ;;
+  }
+
+  join: license_server_fact {
+    view_label: "License Fact"
+    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id};;
+    relationship: one_to_many
+    fields: []
+  }
+
 }
 
 explore: PAYMENTS {
