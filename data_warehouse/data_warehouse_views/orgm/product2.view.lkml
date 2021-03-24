@@ -3,23 +3,17 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_systemmodstamp.view"
+
+
 
 view: product2 {
   label: "Product"
   sql_table_name: orgm.product2 ;;
-  extends: [ _hc_fields, _systemmodstamp ]
-  drill_fields: [product2_drill_fields*]
 
 
   #
   # Sets
   #
-
-  set: product2_drill_fields {
-    fields: [id]
-  }
 
 
   #
@@ -245,7 +239,7 @@ view: product2 {
   #
 
   measure: count {
-    drill_fields: [id, name, opportunitylineitem.count]
+    drill_fields: [name, opportunitylineitem.count]
     label: "# of Product2s"
     type: count
   }

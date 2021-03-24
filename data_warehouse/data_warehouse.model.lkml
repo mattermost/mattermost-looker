@@ -65,17 +65,17 @@ include: "/data_warehouse/**/**/*.view.lkml"
 # Base Explores for Extensions
 #
 
-explore: tasks_filtered {
+explore: task {
   group_label: "Salesforce"
   join: task_owner {
     from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    sql_on: ${task.ownerid} = ${task_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }
 
   join: account {
-    sql: ${account.sfid} = ${tasks_filtered.accountid};;
+    sql: ${account.sfid} = ${task.accountid};;
     relationship: many_to_one
     fields: []
   }
@@ -635,17 +635,6 @@ explore: account_cohorts_arr {
     relationship: many_to_one
     fields: [account.arr_current, account.total_current_arr]
   }
-}
-
-explore: forecast_ww {
-  label: "Forecast (WW)"
-  group_label: "Target vs Actual"
-
-  join: forecast_ww_history {
-    sql_on: ${forecast_ww.sfid} = ${forecast_ww_history.fc_to_history};;
-    relationship: one_to_many
-  }
-
 }
 
 
@@ -1309,14 +1298,14 @@ explore: account_cs_extended  {
     fields: []
   }
 
-  join: tasks_filtered {
-    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+  join: task {
+    sql_on: ${account.sfid} = ${task.accountid} ;;
     relationship: one_to_many
   }
 
   join: task_owner {
     from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    sql_on: ${task.ownerid} = ${task_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }

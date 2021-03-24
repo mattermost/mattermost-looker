@@ -10,18 +10,6 @@ view_label: "Delete History"
     sql: ${TABLE}.id ;;
   }
 
-  dimension: _hc_err {
-    type: string
-    sql: ${TABLE}._hc_err ;;
-    group_label: "System"
-  }
-
-  dimension: _hc_lastop {
-    type: string
-    sql: ${TABLE}._hc_lastop ;;
-    group_label: "System"
-  }
-
   dimension: createdbyid {
     type: string
     sql: ${TABLE}.createdbyid ;;
@@ -39,7 +27,6 @@ view_label: "Delete History"
     sql: ${TABLE}.date_processed__c ;;
     label: "Date Processed"
   }
-
 
   dimension: deleted_by__c {
     type: string
