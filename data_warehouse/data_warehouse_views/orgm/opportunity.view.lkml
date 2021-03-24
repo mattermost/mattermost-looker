@@ -14,12 +14,11 @@
 # - Created
 
 
-include: "_hc_fields.view"
-include: "_systemmodstamp.view"
+
+
 
 view: opportunity {
   sql_table_name: orgm.opportunity ;;
-  extends: [ _hc_fields, _systemmodstamp ]
 
   # BP: Leverage sets for drill fields
   drill_fields: [opportunity_drill_fields*]
@@ -767,10 +766,10 @@ view: opportunity {
     label: "Territory Sales Segment"
   }
 
-  dimension: time_in_stage {
-    type: number
-    sql: ${TABLE}.Time_in_Stage__c ;;
-  }
+  # dimension: time_in_stage {
+  #   type: number
+  #   sql: ${TABLE}.Time_in_Stage__c ;;
+  # }
 
   dimension: type {
     description: "Type of Opportunity. For example, New, Renewal, etc."

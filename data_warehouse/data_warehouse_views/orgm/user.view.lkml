@@ -3,13 +3,8 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
 view: user {
   sql_table_name: orgm."USER" ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
   drill_fields: [user_drill_fields*]
 
 
@@ -18,7 +13,7 @@ view: user {
   #
 
   set: user_drill_fields {
-    fields: [id, name, username]
+    fields: [name, username]
   }
 
 

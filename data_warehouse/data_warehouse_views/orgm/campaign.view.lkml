@@ -3,14 +3,8 @@
 # Groups Labels
 # - Hierarchy
 
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
 view: campaign {
   sql_table_name: ORGM.CAMPAIGN ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
-
   drill_fields: [campaign_drill_fields*]
 
   #
@@ -18,7 +12,7 @@ view: campaign {
   #
 
   set: campaign_drill_fields {
-    fields: [id, name, campaign_member.count]
+    fields: [name, campaign_member.count]
   }
 
 

@@ -3,24 +3,14 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
 view: campaignmember {
   view_label: "Campaign Member"
   sql_table_name: ORGM.CAMPAIGNMEMBER ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
-  drill_fields: [campaign_member_drill_fields*]
 
 
   #
   # Sets
   #
-
-  set: campaign_member_drill_fields {
-    fields: [id]
-  }
 
 
   #
@@ -387,7 +377,6 @@ view: campaignmember {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id,
       lastname,
       firstname,
       name,

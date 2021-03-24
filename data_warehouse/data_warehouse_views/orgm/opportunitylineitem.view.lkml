@@ -3,13 +3,13 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_systemmodstamp.view"
+
+
 
 view: opportunitylineitem {
   view_label: "Opportunity Line Item"
   sql_table_name: orgm.opportunitylineitem ;;
-  extends: [ _hc_fields, _systemmodstamp ]
+
   drill_fields: [opportunitylineitem_drill*]
 
 
@@ -187,6 +187,12 @@ view: opportunitylineitem {
     hidden: yes
     type: yesno
   }
+
+  dimension: invoice_status {
+    sql: ${TABLE}.INVOICE_STATUS__C;;
+    type: string
+  }
+
 
   dimension: lastmodifiedbyid {
     label: "Last Modified By ID"
