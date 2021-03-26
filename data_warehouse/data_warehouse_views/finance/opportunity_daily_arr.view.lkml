@@ -38,7 +38,7 @@ view: opportunity_daily_arr {
   dimension: won_arr {
     label: "Won ARR"
     type: number
-    sql: ${TABLE}."TOTAL_ARR" ;;
+    sql: ${TABLE}."WON_ARR" ;;
   }
 
   dimension: lost_arr {
