@@ -35,9 +35,28 @@ view: opportunity_daily_arr {
     hidden: yes
   }
 
-  dimension: total_arr {
+  dimension: won_arr {
+    label: "Won ARR"
     type: number
     sql: ${TABLE}."TOTAL_ARR" ;;
+  }
+
+  dimension: lost_arr {
+    label: "Lost ARR"
+    type: number
+    sql: ${TABLE}."LOST_ARR" ;;
+  }
+
+  dimension: open_arr {
+    label: "Open ARR"
+    type: number
+    sql: ${TABLE}."OPEN_ARR" ;;
+  }
+
+  dimension: total_arr {
+    label: "ARR"
+    type: number
+    sql: greatest(${won_arr},${lost_arr},${open_arr}) ;;
   }
 
   measure: count_arr_totals {
