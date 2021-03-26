@@ -115,7 +115,21 @@ view: opportunity_ext {
     sql: ${TABLE}.MAX_END_DATE ;;
     label: "License End Date (Max)"
     description: "Max end date for all line items in that opportunity. Populated hourly via DWH script. Not the fields on the opportunity."
-    }
+  }
+
+  dimension: license_max_end_yyyy_mm {
+    type: string
+    sql: to_char(${TABLE}.MAX_END_DATE,'YYYY-MM');;
+    label: "License End (Max) Month YYYY-MM"
+    group_label: "License Dates (End)"
+  }
+
+  dimension: license_max_end_yyyy_qq {
+    type: string
+    sql: ${license_max_end_date_fiscal_year} || '-' || ${license_max_end_date_fiscal_quarter_of_year};;
+    label: "License End (Max) FQ YYYY-QQ"
+    group_label: "License Dates (End)"
+  }
 
   dimension_group: license_max_start_date {
     group_label: "License Dates (Start)"
