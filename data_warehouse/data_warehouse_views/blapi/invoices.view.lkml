@@ -134,6 +134,23 @@ view: INVOICES {
     hidden: no
   }
 
+  dimension: previous_month_total {
+    description: "The customer's invoice total from the previous month"
+    type: number
+    value_format_name: usd
+    sql: round(${invoices_previous_month.total}::float/100.0::float, 2) ;;
+  }
+
+  dimension: billing_type {
+    type: string
+    sql: CASE WHEN DATE_TRUNC('MONTH', ${CUSTOMERS.created_at_date}::date) <= DATE_TRUNC('MONTH', ${invoice_start_date}::DATE) AND ${previous_month_total} IS NULL THEN 'Net New'
+              WHEN ${total} > ${previous_month_total} THEN 'Expansion'
+              WHEN ${total} < ${previous_month_total} THEN 'Contraction'
+              WHEN ${total} = ${previous_month_total} THEN 'Flat'
+              ELSE NULL END
+              ;;
+  }
+
   dimension: subtotal {
     description: ""
     type: number

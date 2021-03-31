@@ -2131,10 +2131,10 @@ explore: customers {
   view_label: "Stripe Customers"
   group_label: "Finance"
 
-  join: customers_blapi {
+  join: CUSTOMERS{
     from: CUSTOMERS
     view_label: "Customer (BLApi)"
-    sql_on: ${customers_blapi.stripe_id} = ${customers.id} ;;
+    sql_on: ${CUSTOMERS.stripe_id} = ${customers.id} ;;
     relationship: one_to_one
   }
 
@@ -2166,6 +2166,13 @@ explore: customers {
     sql_on: ${invoices_blapi.stripe_id} = ${invoices.id} ;;
     relationship: one_to_one
     view_label: "Invoices (BLApi)"
+  }
+
+  join: invoices_previous_month {
+    from: INVOICES
+    relationship: one_to_one
+    sql_on: ${invoices_previous_month.subscription_id} = ${invoices_blapi.subscription_id} AND date_trunc('month', ${invoices_blapi.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    fields: []
   }
 
   join: PAYMENTS {
@@ -2668,6 +2675,13 @@ explore: CUSTOMERS {
     relationship: one_to_many
   }
 
+  join: invoices_previous_month {
+    from: INVOICES
+    relationship: one_to_one
+    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id} AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    fields: []
+  }
+
   join: invoices_stripe {
     from: invoices
     sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
@@ -2919,6 +2933,14 @@ explore: INVOICES {
     view_label: "Invoices (Stripe)"
   }
 
+  join: invoices_previous_month {
+    from: INVOICES
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id} AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    fields: []
+  }
+
   join: PAYMENTS {
     view_label: "Payments (BLApi)"
     sql_on: ${PAYMENTS.id} = ${PURCHASE_FACT.payment_id} ;;
@@ -3013,6 +3035,13 @@ explore: SUBSCRIPTIONS {
     relationship: one_to_many
   }
 
+  join: invoices_previous_month {
+    from: INVOICES
+    relationship: one_to_one
+    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id} AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    fields: []
+  }
+
   join: invoices_stripe {
     from: invoices
     sql_on: ${INVOICES.stripe_id} = ${invoices_stripe.id} ;;
@@ -3056,8 +3085,18 @@ explore: USAGE_EVENTS {
   }
 
   join: INVOICES {
+    view_label: "Invoices"
     sql_on: ${INVOICES.subscription_id} = ${USAGE_EVENTS.subscription_id} AND ${USAGE_EVENTS.timestamp_date} between ${INVOICES.invoice_start_date} AND ${INVOICES.invoice_end_date} ;;
     relationship: many_to_one
+  }
+
+  join: invoices_previous_month {
+    from: INVOICES
+    view_label: "Invoices Previous Month"
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id} AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    fields: []
   }
 
   join: invoices_stripe {
