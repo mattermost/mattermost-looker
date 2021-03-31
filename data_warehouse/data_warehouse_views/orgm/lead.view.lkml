@@ -3,13 +3,8 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
 view: lead {
   sql_table_name: ORGM.LEAD ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
   drill_fields: [lead_drill_fields*]
 
 

@@ -1,11 +1,6 @@
-view: tasks_filtered {
-  sql_table_name: "ORGM"."TASKS_FILTERED"
+view: task {
+  sql_table_name: "ORGM"."TASK"
     ;;
-
-  dimension: __sdc_primary_key {
-    type: string
-    sql: ${TABLE}."__SDC_PRIMARY_KEY" ;;
-  }
 
   dimension: name {
     description: "Account Name pulled from Salesforce"
@@ -17,58 +12,6 @@ view: tasks_filtered {
     }
     sql: ${account.name} ;;
     type: string
-  }
-
-  dimension_group: _sdc_batched {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."_SDC_BATCHED_AT" ;;
-  }
-
-  dimension_group: _sdc_extracted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."_SDC_EXTRACTED_AT" ;;
-  }
-
-  dimension_group: _sdc_received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."_SDC_RECEIVED_AT" ;;
-  }
-
-  dimension: _sdc_sequence {
-    type: number
-    sql: ${TABLE}."_SDC_SEQUENCE" ;;
-  }
-
-  dimension: _sdc_table_version {
-    type: number
-    sql: ${TABLE}."_SDC_TABLE_VERSION" ;;
   }
 
   dimension: accountid {

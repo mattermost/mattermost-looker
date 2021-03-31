@@ -65,17 +65,17 @@ include: "/data_warehouse/**/**/*.view.lkml"
 # Base Explores for Extensions
 #
 
-explore: tasks_filtered {
+explore: task {
   group_label: "Salesforce"
   join: task_owner {
     from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    sql_on: ${task.ownerid} = ${task_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }
 
   join: account {
-    sql: ${account.sfid} = ${tasks_filtered.accountid};;
+    sql: ${account.sfid} = ${task.accountid};;
     relationship: many_to_one
     fields: []
   }
@@ -195,6 +195,12 @@ explore: _base_opportunity_explore {
     relationship: many_to_one
   }
 
+  join: opportunity_daily_arr {
+    view_label: "Opportunity ARR by Date"
+    sql_on: ${opportunity.sfid} = ${opportunity_daily_arr.opportunity_sfid} ;;
+    relationship: many_to_one
+  }
+
   join: opportunity_ext {
     view_label: "Opportunity"
     sql_on: ${opportunity.sfid} = ${opportunity_ext.opportunityid} ;;
@@ -241,9 +247,10 @@ explore: _base_opportunity_explore {
     relationship: one_to_many
   }
 
-  join: contact {
+  join: opportunity_contact {
+    from: contact
     view_label: "Oppt Contact Role (Contact)"
-    sql_on: ${opportunitycontactrole.contactid} = ${contact.sfid};;
+    sql_on: ${opportunitycontactrole.contactid} = ${opportunity_contact.sfid};;
     relationship: many_to_one
   }
 
@@ -635,17 +642,6 @@ explore: account_cohorts_arr {
     relationship: many_to_one
     fields: [account.arr_current, account.total_current_arr]
   }
-}
-
-explore: forecast_ww {
-  label: "Forecast (WW)"
-  group_label: "Target vs Actual"
-
-  join: forecast_ww_history {
-    sql_on: ${forecast_ww.sfid} = ${forecast_ww_history.fc_to_history};;
-    relationship: one_to_many
-  }
-
 }
 
 
@@ -1309,14 +1305,14 @@ explore: account_cs_extended  {
     fields: []
   }
 
-  join: tasks_filtered {
-    sql_on: ${account.sfid} = ${tasks_filtered.accountid} ;;
+  join: task {
+    sql_on: ${account.sfid} = ${task.accountid} ;;
     relationship: one_to_many
   }
 
   join: task_owner {
     from: user
-    sql_on: ${tasks_filtered.ownerid} = ${task_owner.sfid} ;;
+    sql_on: ${task.ownerid} = ${task_owner.sfid} ;;
     relationship: many_to_one
     fields: []
   }
@@ -2336,7 +2332,14 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity"
     sql_on: ${opportunity.sfid} = ${original_opportunity_ext.opportunityid};;
     relationship: one_to_one
-    fields: [license_max_end_date_date, license_max_end_date_fiscal_quarter]
+    fields: [license_max_end_date_date, license_max_end_date_fiscal_quarter, license_max_end_yyyy_mm, license_max_end_yyyy_qq]
+  }
+
+  join: opportunity_daily_arr {
+    view_label: "Original Opportunity"
+    sql_on: ${original_opportunity_ext.opportunityid} = ${opportunity_daily_arr.opportunity_sfid} and ${opportunity_daily_arr.day_date} = ${original_opportunity_ext.license_max_end_date_date} ;;
+    relationship: one_to_one
+    fields: [opportunity_daily_arr.arr]
   }
 
   join: original_opportunitylineitem {
@@ -2371,6 +2374,14 @@ explore: available_renewals_dynamic {
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunity_ext.opportunityid};;
     relationship: one_to_one
     fields: [license_min_start_date_date, license_min_start_date_fiscal_quarter]
+  }
+
+  join: new_opportunity_daily_arr {
+    from: opportunity_daily_arr
+    view_label: "Renewal Opportunity"
+    sql_on: ${renewal_opportunity_ext.opportunityid} = ${new_opportunity_daily_arr.opportunity_sfid} and ${new_opportunity_daily_arr.day_date} = ${renewal_opportunity_ext.license_min_start_date_date} ;;
+    relationship: one_to_one
+    fields: [new_opportunity_daily_arr.arr]
   }
 
   join: renewal_opportunitylineitem {

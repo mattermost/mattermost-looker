@@ -15,13 +15,8 @@
 # - System
 # - Zendesk
 
-
-include: "_hc_fields.view"
-include: "_systemmodstamp.view"
-
 view: account {
   sql_table_name: orgm.account ;;
-  extends: [ _hc_fields, _systemmodstamp ]
   drill_fields: [account_drill_fields*]
 
   #

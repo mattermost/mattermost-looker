@@ -3,25 +3,9 @@
 # Groups Labels
 # -
 
-include: "_hc_fields.view"
-include: "_sdf_fields.view"
-include: "_systemmodstamp.view"
-
 
 view: contact {
   sql_table_name: orgm.contact ;;
-  extends: [ _hc_fields, _sdf_fields, _systemmodstamp ]
-  drill_fields: [contact_drill_fields*]
-
-
-  #
-  # Sets
-  #
-
-  set: contact_drill_fields {
-    fields: [id]
-  }
-
 
   #
   # Dimensions
@@ -373,7 +357,6 @@ view: contact {
   #
 
   measure: count {
-    drill_fields: [contact_drill_fields*]
     label: "# of Contacts"
     type: count
   }
