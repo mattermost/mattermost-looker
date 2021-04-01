@@ -357,7 +357,7 @@ view: account {
   }
 
   dimension: incident_collaboration {
-    type: string
+    type: yesno
     sql: ${TABLE}.incident_collaboration__c;;
     group_label: "E20 Features"
     label: "Incident Collaboration"
