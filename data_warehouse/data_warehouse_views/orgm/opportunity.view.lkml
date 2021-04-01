@@ -307,6 +307,12 @@ view: opportunity {
     label: "Customer Engineer Name"
   }
 
+  dimension: cs_qualified_lead {
+    type: yesno
+    sql: ${TABLE}.CS_QUALIFIED_LEAD__C ;;
+    label: "CS Qualified Lead"
+  }
+
   dimension: csm_owner_id {
      type: string
      sql: ${TABLE}.csm_owner__c ;;
