@@ -10,6 +10,12 @@ view: INVOICES {
     hidden: no
   }
 
+  dimension: paid_status {
+    type: string
+    sql: CASE WHEN ${paid} THEN 'Paid' WHEN ${current_month_filter} THEN 'Pending' ELSE 'Unpaid' END ;;
+    hidden: no
+  }
+
   dimension: current_month_filter {
     hidden: yes
     type: yesno
