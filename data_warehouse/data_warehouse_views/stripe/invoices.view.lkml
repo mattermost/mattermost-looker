@@ -228,4 +228,104 @@ view: invoices {
     type: count
     drill_fields: [id]
   }
+
+
+  measure: total_sum {
+    description: "The sum of invoice totals within each grouping."
+    type: sum
+    group_label: "Total Measures"
+    sql: ${total} ;;
+    value_format_name: usd
+  }
+
+  measure: total_sum_curr_mo {
+    description: "The sum of the dollar amount paid within the grouped dimension."
+    type: sum
+    group_label: "Amount Due/Paid Measures"
+    label: "Amount Paid (USD)"
+    sql: ${amount_paid}/100.0 ;;
+    value_format_name: usd
+  }
+
+  measure: amount_due_sum {
+    description: "The sum of the dollar amount due within the grouped dimension."
+    type: sum
+    group_label: "Amount Due/Paid Measures"
+    label: "Amount Due (USD)"
+    sql: ${amount_due}/100.0 ;;
+    value_format_name: usd
+  }
+
+  measure: total_max {
+    description: "The max invoice total within each grouping."
+    type: max
+    group_label: "Total Measures"
+    sql: ${total} ;;
+    value_format_name: usd
+  }
+
+  measure: total_min {
+    description: "The min invoice total within each grouping."
+    type: min
+    group_label: "Total Measures"
+    sql: ${total} ;;
+    value_format_name: usd
+  }
+
+  measure: total_avg {
+    description: "The average invoice total within each grouping."
+    type: average
+    group_label: "Total Measures"
+    sql: ${total} ;;
+    value_format_name: usd
+  }
+
+  measure: total_median {
+    description: "The median invoice total within each grouping."
+    type: median
+    group_label: "Total Measures"
+    sql: ${total} ;;
+    value_format_name: usd
+  }
+
+  measure: subtotal_sum {
+    description: "The sum of Subtotals within each grouping."
+    type: sum
+    group_label: "Subtotal Measures"
+    sql: ${subtotal} ;;
+    value_format_name: usd
+  }
+
+  measure: subtotal_max {
+    description: "The max Subtotals within each grouping."
+    type: max
+    group_label: "Subtotal Measures"
+    sql: ${subtotal} ;;
+    value_format_name: usd
+  }
+
+  measure: subtotal_min {
+    description: "The min Subtotals within each grouping."
+    type: min
+    group_label: "Subtotal Measures"
+    sql: ${subtotal} ;;
+    value_format_name: usd
+  }
+
+  measure: subtotal_avg {
+    description: "The average Subtotals within each grouping."
+    type: average
+    group_label: "Subtotal Measures"
+    sql: ${subtotal} ;;
+    value_format_name: usd
+  }
+
+  measure: subtotal_median {
+    description: "The median  Subtotals within each grouping."
+    type: median
+    group_label: "Subtotal Measures"
+    sql: ${subtotal} ;;
+    value_format_name: usd
+  }
+
 }
