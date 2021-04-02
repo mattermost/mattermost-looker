@@ -138,7 +138,7 @@ view: INVOICES {
     description: "The customer's invoice total from the previous month"
     type: number
     value_format_name: usd
-    sql: round(${invoices_previous_month.total}::float/100.0::float, 2) ;;
+    sql: ${invoices_previous_month.total} ;;
   }
 
   dimension: billing_type {
