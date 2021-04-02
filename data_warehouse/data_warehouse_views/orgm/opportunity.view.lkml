@@ -145,6 +145,15 @@ view: opportunity {
     value_format_name: mm_usd_short
   }
 
+
+  dimension: available_renewal {
+    group_label: "Amounts"
+    sql: ${TABLE}.AVAILABLE_RENEWAL__C ;;
+    type: number
+    value_format_name: mm_usd_short
+  }
+
+
   dimension: campaignid {
     description: "The ID of the campaign responsible for generating the opportunity."
     sql: ${TABLE}.campaignid ;;
@@ -1081,6 +1090,16 @@ view: opportunity {
       field: known_attrition_curr_fy
       value: "No"
     }
+  }
+
+  measure: total_available_renewal {
+    group_label: "Amount"
+    group_item_label: "Available Renewal"
+    sql: ${available_renewal} ;;
+    drill_fields: [opportunity_drill_fields*,available_renewal]
+    label: "Available Renewal"
+    value_format_name: mm_usd_short
+    type: sum_distinct
   }
 
   measure: risk_amount_current_qtr {
