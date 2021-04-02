@@ -281,7 +281,6 @@ view: account {
     type: time
   }
 
-
   dimension: description {
     label: "Account Description"
     sql: ${TABLE}.description ;;
@@ -302,11 +301,67 @@ view: account {
     label: "DWH External ID"
   }
 
- dimension: empoloyee_count_override {
+ dimension: employee_count_override {
    group_label: "Employee Counts"
   sql: ${TABLE}.Employee_Count_Override__c ;;
   type: number
  }
+
+  dimension: elastic_search {
+    type: yesno
+    sql: ${TABLE}.ELASTICSEARCH__C;;
+    group_label: "E20 Features"
+    label: "Elastic Search"
+  }
+
+  dimension: read_only_announcement_channels {
+    type: yesno
+    sql: ${TABLE}.READ_ONLY_ANNOUNCEMENT_CHANNELS__C;;
+    group_label: "E20 Features"
+    label: "Read Only Announcement Channels"
+  }
+
+  dimension: high_availability {
+    type: yesno
+    sql: ${TABLE}.HIGH_AVAILABILITY_HA__C;;
+    group_label: "E20 Features"
+    label: "High Availability (HA)"
+  }
+
+  dimension: saml_sso {
+    type: yesno
+    sql: ${TABLE}.SAML_SSO__C;;
+    group_label: "E20 Features"
+    label: "SAML/SSO"
+  }
+
+  dimension: ldap_group_sync {
+    type: yesno
+    sql: ${TABLE}.LDAP_GROUP_SYNC__C;;
+    group_label: "E20 Features"
+    label: "LDAP Group Sync"
+  }
+
+  dimension: compliance_custom_data_retention {
+    type: yesno
+    sql: ${TABLE}.COMPLIANCE_CUSTOM_DATA_RETENTION__C;;
+    group_label: "E20 Features"
+    label: "Compliance Custom Data Retention"
+  }
+
+  dimension: Integrations {
+    type: string
+    sql: ${TABLE}.Integrations__c;;
+    group_label: "E20 Features"
+    label: "Ingetgrations"
+  }
+
+  dimension: incident_collaboration {
+    type: yesno
+    sql: ${TABLE}.incident_collaboration__c;;
+    group_label: "E20 Features"
+    label: "Incident Collaboration"
+  }
 
   dimension_group: e_purchase {
     sql: ${TABLE}.e_purchase_date__c ;;
