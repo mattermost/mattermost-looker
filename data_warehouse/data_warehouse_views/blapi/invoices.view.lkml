@@ -135,16 +135,25 @@ view: INVOICES {
   }
 
   dimension: previous_month_total {
+    label: "Prev. Month Invoice Total"
     description: "The customer's invoice total from the previous month"
     type: number
     value_format_name: usd
     sql: ${invoices_previous_month.total} ;;
   }
 
+  dimension: total_mom_delta {
+    label: "Invoice Total Delta (MoM)"
+    type: number
+    value_format_name: usd
+    sql: COALESCE(${total}, 0) - COALESCE(${previous_month_total}, 0);;
+  }
+
   dimension: billing_type {
     type: string
-    sql: CASE WHEN DATE_TRUNC('MONTH', ${CUSTOMERS.created_at_date}::date) <= DATE_TRUNC('MONTH', ${invoice_start_date}::DATE) AND ${previous_month_total} IS NULL THEN 'Net New'
+    sql: CASE WHEN DATE_TRUNC('MONTH', ${CUSTOMERS.created_at_date}::date) <= DATE_TRUNC('MONTH', ${invoice_start_date}::DATE) AND COALESCE(${previous_month_total}, 0) = 0 THEN 'Net New'
               WHEN ${total} > ${previous_month_total} THEN 'Expansion'
+              WHEN COALESCE(${total}, 0) = 0 AND COALESCE(${previous_month_total},0) > 0 THEN 'Churn'
               WHEN ${total} < ${previous_month_total} THEN 'Contraction'
               WHEN ${total} = ${previous_month_total} THEN 'Flat'
               ELSE NULL END
@@ -241,11 +250,65 @@ view: INVOICES {
     hidden: no
   }
 
+  # DRILL SETS
+  set: invoice_deltas {
+    fields: [total_mom_delta, CUSTOMERS.company_name,  total, previous_month_total, subscription_id]
+  }
 
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+  }
+
+  measure: invoice_delta_sum {
+    label: "Invoice Delta (MoM)"
+    description: "The sum of the month-over-month invoice total change within each grouping."
+    type: sum
+    group_label: "MoM Invoice Delta Measures"
+    sql: ${total_mom_delta} ;;
+    value_format_name: usd
+    drill_fields: [invoice_deltas*]
+  }
+
+  measure: invoice_delta_max {
+    description: "The max month-over-month invoice total delta within each grouping."
+    label: "Invoice Delta Max (MoM)"
+    type: max
+    group_label: "MoM Invoice Delta Measures"
+    sql: ${total_mom_delta} ;;
+    value_format_name: usd
+    drill_fields: [invoice_deltas*]
+  }
+
+  measure: invoice_delta_min {
+    description: "The min month-over-month invoice total delta within each grouping."
+    label: "Invoice Delta Min (MoM)"
+    type: min
+    group_label: "MoM Invoice Delta Measures"
+    sql: ${total_mom_delta} ;;
+    value_format_name: usd
+    drill_fields: [invoice_deltas*]
+  }
+
+  measure: invoice_delta_avg {
+    description: "The average month-over-month invoice total delta within each grouping."
+    label: "Invoice Delta Avg (MoM)"
+    type: average
+    group_label: "MoM Invoice Delta Measures"
+    sql: ${total_mom_delta} ;;
+    value_format_name: usd
+    drill_fields: [invoice_deltas*]
+  }
+
+  measure: invoice_delta_median {
+    description: "The median month-over-month invoice total delta within each grouping."
+    label: "Invoice Delta Median (MoM)"
+    type: median
+    group_label: "MoM Invoice Delta Measures"
+    sql: ${total_mom_delta} ;;
+    value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: min_invoice_date {
@@ -473,6 +536,7 @@ view: INVOICES {
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: total_sum_curr_mo {
@@ -501,6 +565,7 @@ view: INVOICES {
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: total_min {
@@ -509,6 +574,7 @@ view: INVOICES {
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: total_avg {
@@ -517,6 +583,7 @@ view: INVOICES {
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: total_median {
@@ -525,6 +592,7 @@ view: INVOICES {
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
+    drill_fields: [invoice_deltas*]
   }
 
   measure: subtotal_sum {
