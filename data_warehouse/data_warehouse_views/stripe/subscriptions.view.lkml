@@ -19,6 +19,11 @@ view: subscriptions {
     sql: ${TABLE}."BILLING" ;;
   }
 
+  dimension: billing_type {
+    type: string
+    sql: ${TABLE}."BILLING_TYPE" ;;
+  }
+
   dimension_group: billing_cycle_anchor {
     type: time
     timeframes: [
