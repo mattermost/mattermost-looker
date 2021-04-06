@@ -12,7 +12,12 @@ view: INVOICES {
 
   dimension: paid_status {
     type: string
-    sql: CASE WHEN ${paid} THEN 'Paid' WHEN ${current_month_filter} THEN 'Pending' ELSE 'Unpaid' END ;;
+    sql: CASE WHEN ${paid} THEN 'Paid'
+              WHEN ${current_month_filter} THEN 'Pending'
+              WHEN ${subscriptions_stripe.billing_type} = 'internal' AND NOT ${paid} THEN 'Internal'
+              WHEN ${subscriptions_stripe.billing_type} = 'licensed' AND NOT ${paid} THEN 'Licensed'
+              WHEN ${subscriptions_stripe.billing_type} IS NOT NULL AND NOT ${paid} THEN 'Non-Billable'
+              ELSE 'Unpaid' END ;;
     hidden: no
   }
 
