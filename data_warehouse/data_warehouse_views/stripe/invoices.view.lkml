@@ -232,7 +232,7 @@ view: invoices {
 
   measure: total_sum {
     description: "The sum of invoice totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
@@ -240,7 +240,7 @@ view: invoices {
 
   measure: total_sum_curr_mo {
     description: "The sum of the dollar amount paid within the grouped dimension."
-    type: sum
+    type: sum_distinct
     group_label: "Amount Due/Paid Measures"
     label: "Amount Paid (USD)"
     sql: ${amount_paid}/100.0 ;;
@@ -249,7 +249,7 @@ view: invoices {
 
   measure: amount_due_sum {
     description: "The sum of the dollar amount due within the grouped dimension."
-    type: sum
+    type: sum_distinct
     group_label: "Amount Due/Paid Measures"
     label: "Amount Due (USD)"
     sql: ${amount_due}/100.0 ;;
@@ -290,7 +290,7 @@ view: invoices {
 
   measure: subtotal_sum {
     description: "The sum of Subtotals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
     value_format_name: usd

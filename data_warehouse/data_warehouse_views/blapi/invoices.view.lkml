@@ -270,7 +270,7 @@ view: INVOICES {
   measure: invoice_delta_sum {
     label: "Invoice Delta (MoM)"
     description: "The sum of the month-over-month invoice total change within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "MoM Invoice Delta Measures"
     sql: ${total_mom_delta} ;;
     value_format_name: usd
@@ -366,7 +366,7 @@ view: INVOICES {
 
   measure: full_month_users_sum {
     description: "The sum of Full Month Users within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Full Month Users Measures"
     sql: ${full_month_users} ;;
   }
@@ -401,7 +401,7 @@ view: INVOICES {
 
   measure: partial_users_sum {
     description: "The sum of Partial Users within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Partial Users Measures"
     sql: ${partial_users} ;;
   }
@@ -436,7 +436,7 @@ view: INVOICES {
 
   measure: total_user_months_sum {
     description: "The sum of Total User Months within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Total User Months Measures"
     sql: ${total_user_months} ;;
   }
@@ -498,7 +498,7 @@ view: INVOICES {
 
   measure: discounts_total_sum {
     description: "The sum of Discounts Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Discounts Total Measures"
     sql: ${discounts_total} ;;
     value_format_name: usd
@@ -538,7 +538,7 @@ view: INVOICES {
 
   measure: total_sum {
     description: "The sum of Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
@@ -547,7 +547,7 @@ view: INVOICES {
 
   measure: total_sum_curr_mo {
     description: "The sum of Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Total Measures"
     label: "Total Sum Current Month"
     sql: ${total} ;;
@@ -557,7 +557,7 @@ view: INVOICES {
 
   measure: total_sum_prev_mo {
     description: "The sum of Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Total Measures"
     label: "Total Sum Previous Month"
     sql: ${total} ;;
@@ -603,7 +603,7 @@ view: INVOICES {
 
   measure: subtotal_sum {
     description: "The sum of Subtotals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Subtotal Measures"
     sql: ${subtotal} ;;
     value_format_name: usd
@@ -643,7 +643,7 @@ view: INVOICES {
 
   measure: forecasted_total_sum {
     description: "The sum of Forecasted Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
     value_format_name: usd
@@ -652,7 +652,7 @@ view: INVOICES {
   measure: forecasted_total_sum_curr {
     label: "Forecast Total Current Month"
     description: "The sum of Forecasted Totals within each grouping."
-    type: sum
+    type: sum_distinct
     group_label: "Forecasted Total Measures"
     sql: ${forecasted_total} ;;
     filters: [current_month_filter: "yes"]
