@@ -124,42 +124,9 @@ view: product2 {
   }
 
   dimension: general_product {
-    sql: CASE WHEN ${name} like '%E10%' THEN 'E10' WHEN ${name} like '%E20%' THEN 'E20' ELSE 'Unknown' END  ;;
+    sql: CASE WHEN ${name} like '%E10%' THEN 'E10' WHEN ${name} like '%E20%' THEN 'E20' WHEN ${name} like '%Cloud Professional%' THEN 'Cloud Professional' WHEN ${name} like '%Cloud Enterprise%' THEN 'Cloud Enterprise' ELSE 'Unknown' END  ;;
     type: string
   }
-
-  # TODO: These netsuite fields do not exist in the db
-  # dimension: netsuite_conn__item_category {
-  #   group_item_label: "Item Category"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Item Category"
-  #   sql: ${TABLE}.netsuite_conn__item_category__c ;;
-  #   type: string
-  # }
-
-  # dimension: netsuite_conn__netsuite_item_type {
-  #   group_item_label: "Item Type"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Item Type"
-  #   sql: ${TABLE}.netsuite_conn__netsuite_item_type__c ;;
-  #   type: string
-  # }
-
-  # dimension: netsuite_conn__sync_in_progress {
-  #   group_item_label: "Sync In Progress"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Sync In Progress"
-  #   sql: ${TABLE}.netsuite_conn__sync_in_progress__c ;;
-  #   type: yesno
-  # }
-
-  # dimension: netsuite_conn__term_contract_pricing_type {
-  #   group_item_label: "Term Contract Pricing Type"
-  #   group_label: "Netsuite"
-  #   label: "Netsuite Term Contract Pricing Type"
-  #   sql: ${TABLE}.netsuite_conn__term_contract_pricing_type__c ;;
-  #   type: string
-  # }
 
   dimension: netsuite_conn__celigo_update {
     group_item_label: "Celigo Update"
