@@ -24,21 +24,21 @@ view: focalboard_activity {
     description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: event {
     description: ""
     type: string
     sql: ${TABLE}.event ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: user_id {
     description: ""
     type: string
     sql: ${TABLE}.user_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: registered_users {
@@ -52,7 +52,7 @@ view: focalboard_activity {
     description: ""
     type: string
     sql: ${TABLE}.context_request_ip ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: daily_active_users {
@@ -66,35 +66,35 @@ view: focalboard_activity {
     description: ""
     type: string
     sql: ${TABLE}.event_text ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_name {
     description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: id {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_version {
     description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_ip {
     description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -104,7 +104,7 @@ view: focalboard_activity {
     type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.logging_date ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: received_at {
@@ -112,7 +112,7 @@ view: focalboard_activity {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: sent_at {
@@ -120,7 +120,7 @@ view: focalboard_activity {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: uuid_ts {
@@ -128,7 +128,7 @@ view: focalboard_activity {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: original_timestamp {
@@ -136,7 +136,7 @@ view: focalboard_activity {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.original_timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: timestamp {
@@ -144,7 +144,7 @@ view: focalboard_activity {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -152,6 +152,7 @@ view: focalboard_activity {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    hidden: yes
   }
 
   measure: weekly_active_users_sum {
@@ -229,6 +230,7 @@ view: focalboard_activity {
     description: "The distinct count of Focalboard Activity Anonymouss within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    hidden: yes
   }
 
   measure: user_count {
@@ -236,6 +238,7 @@ view: focalboard_activity {
     description: "The distinct count of Focalboard Activity Users within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    hidden: yes
   }
 
   measure: registered_users_sum {
@@ -313,6 +316,7 @@ view: focalboard_activity {
     description: "The distinct count of Focalboard Activity Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    hidden: yes
   }
 
 }

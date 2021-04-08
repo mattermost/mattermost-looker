@@ -24,7 +24,7 @@ view: focalboard_server {
     description: ""
     type: string
     sql: ${TABLE}.event ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: build_number {
@@ -59,14 +59,14 @@ view: focalboard_server {
     description: ""
     type: string
     sql: ${TABLE}.event_text ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: anonymous_id {
     description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_request_ip {
@@ -77,6 +77,7 @@ view: focalboard_server {
   }
 
   dimension: user_id {
+    label: " Server ID"
     description: ""
     type: string
     sql: ${TABLE}.user_id ;;
@@ -94,7 +95,7 @@ view: focalboard_server {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_name {
@@ -106,6 +107,7 @@ view: focalboard_server {
 
   # DIMENSION GROUPS/DATES
   dimension_group: logging {
+    label: " Logging"
     description: ""
     type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
@@ -126,7 +128,7 @@ view: focalboard_server {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.original_timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: sent_at {
@@ -134,7 +136,7 @@ view: focalboard_server {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: uuid_ts {
@@ -142,7 +144,7 @@ view: focalboard_server {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: received_at {
@@ -150,7 +152,7 @@ view: focalboard_server {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -165,11 +167,12 @@ view: focalboard_server {
     description: "The distinct count of Focalboard Server Anonymouss within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    hidden: yes
   }
 
   measure: user_count {
-    label: " User Count"
-    description: "The distinct count of Focalboard Server Users within each grouping."
+    label: " Server Count"
+    description: "The distinct count of Focalboard instances within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
@@ -179,6 +182,7 @@ view: focalboard_server {
     description: "The distinct count of Focalboard Server Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    hidden: yes
   }
 
 
