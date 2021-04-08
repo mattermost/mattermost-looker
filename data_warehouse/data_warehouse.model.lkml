@@ -3271,3 +3271,13 @@ explore: daily_server_user_agent_events {
 
 
 }
+
+explore: focalboard_activity {
+  label: "Focalboard Activity"
+}
+explore: focalboard_config {
+  label: "Focalboard Config"
+}
+explore: focalboard_server {
+  label: "Focalboard Server"
+}
