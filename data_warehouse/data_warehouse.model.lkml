@@ -3273,13 +3273,31 @@ explore: daily_server_user_agent_events {
 }
 
 explore: focalboard_activity {
-  label: "Focalboard Activity"
+  label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+  hidden: yes
 }
 
 explore: focalboard_config {
-  label: "Focalboard Config"
+  label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+  hidden: yes
 }
 
 explore: focalboard_server {
-  label: "Focalboard Server"
+  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event]
+  view_label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+
+  join: focalboard_activity {
+    view_label: "Focalboard Telemetry"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date} ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Telemetry"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date} ;;
+    relationship: one_to_one
+  }
 }

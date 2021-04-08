@@ -10,14 +10,14 @@ view: focalboard_config {
     description: ""
     type: string
     sql: ${TABLE}.context_request_ip ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: anonymous_id {
     description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: port {
@@ -35,6 +35,7 @@ view: focalboard_config {
   }
 
   dimension: usessl {
+    label: "Use SSL"
     description: ""
     type: yesno
     sql: ${TABLE}.usessl ;;
@@ -45,17 +46,18 @@ view: focalboard_config {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_version {
     description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: dbtype {
+    label: "Database Type"
     description: ""
     type: string
     sql: ${TABLE}.dbtype ;;
@@ -63,6 +65,7 @@ view: focalboard_config {
   }
 
   dimension: serverroot {
+    label: "Server Root"
     description: ""
     type: yesno
     sql: ${TABLE}.serverroot ;;
@@ -73,7 +76,7 @@ view: focalboard_config {
     description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: single_user {
@@ -87,14 +90,14 @@ view: focalboard_config {
     description: ""
     type: string
     sql: ${TABLE}.event ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: event_text {
     description: ""
     type: string
     sql: ${TABLE}.event_text ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -104,7 +107,7 @@ view: focalboard_config {
     type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.logging_date ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: timestamp {
@@ -112,7 +115,7 @@ view: focalboard_config {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: sent_at {
@@ -120,7 +123,7 @@ view: focalboard_config {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: received_at {
@@ -128,7 +131,7 @@ view: focalboard_config {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: original_timestamp {
@@ -144,7 +147,7 @@ view: focalboard_config {
   type: time
   timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -152,6 +155,7 @@ view: focalboard_config {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    hidden: yes
   }
 
   measure: anonymous_count {
@@ -159,12 +163,12 @@ view: focalboard_config {
     description: "The distinct count of Focalboard Config Anonymouss within each grouping."
     type: count_distinct
     sql: ${anonymous_id} ;;
+    hidden: yes
   }
 
   measure: port_count {
-    label: "Port Users"
-    description: "The distinct count of Focalboard Config with Port marked true."
-    group_label: "User Counts"
+    label: "Port Count"
+    description: "The distinct count of Focalboard instances with Port marked true."
     type: count_distinct
     sql: case when ${port} then ${id} else null end ;;
   }
@@ -174,12 +178,12 @@ view: focalboard_config {
     description: "The distinct count of Focalboard Config Users within each grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    hidden: yes
   }
 
   measure: usessl_count {
-    label: "Usessl Users"
-    description: "The distinct count of Focalboard Config with Usessl marked true."
-    group_label: "User Counts"
+    label: "Use SSL Count"
+    description: "The distinct count of Focalboard instances with Use SSL marked true."
     type: count_distinct
     sql: case when ${usessl} then ${id} else null end ;;
   }
@@ -189,20 +193,19 @@ view: focalboard_config {
     description: "The distinct count of Focalboard Config Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    hidden: yes
   }
 
   measure: serverroot_count {
-    label: "Serverroot Users"
-    description: "The distinct count of Focalboard Config with Serverroot marked true."
-    group_label: "User Counts"
+    label: "Server Root Count"
+    description: "The distinct count of Focalboard instances with Serverroot marked true."
     type: count_distinct
     sql: case when ${serverroot} then ${id} else null end ;;
   }
 
   measure: single_user_count {
-    label: "Single Users"
-    description: "The distinct count of Focalboard Config with Single User marked true."
-    group_label: "User Counts"
+    label: "Single User Count"
+    description: "The distinct count of Focalboard instances with Single User marked true."
     type: count_distinct
     sql: case when ${single_user} then ${id} else null end ;;
   }
