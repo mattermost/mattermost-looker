@@ -2140,26 +2140,27 @@ explore: customers {
     relationship: one_to_one
   }
 
-  join: subscriptions {
-    sql_on: ${customers.id} = ${subscriptions.customer} ;;
+  join: subscriptions_stripe {
+    from: subscriptions
+    sql_on: ${customers.id} = ${subscriptions_stripe.customer} ;;
     relationship: one_to_many
   }
 
   join: subscriptions_blapi {
     from: SUBSCRIPTIONS
     view_label: "Subscriptions (BLApi)"
-    sql_on: ${subscriptions_blapi.stripe_id} = ${subscriptions.id} ;;
+    sql_on: ${subscriptions_blapi.stripe_id} = ${subscriptions_stripe.id} ;;
     relationship: one_to_one
 
   }
 
   join: subscription_items {
-    sql_on: ${subscriptions.id} = ${subscription_items.subscription} ;;
+    sql_on: ${subscriptions_stripe.id} = ${subscription_items.subscription} ;;
     relationship: one_to_many
   }
 
   join: invoices {
-    sql_on: ${subscriptions.id} = ${invoices.subscription} ;;
+    sql_on: ${subscriptions_stripe.id} = ${invoices.subscription} ;;
     relationship: one_to_many
   }
 
@@ -2205,7 +2206,7 @@ explore: customers {
   }
 
   join: server_fact {
-    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    sql_on: ${subscriptions_stripe.cws_installation} = ${server_fact.installation_id} ;;
     relationship: one_to_one
     view_label: "Stripe Customer Server Details"
     fields: [server_fact.active_users, server_fact.monthly_active_users, server_fact.direct_message_channels, server_fact.public_channels, server_fact.private_channels, server_fact.slash_commands, server_fact.teams, server_fact.bot_posts_previous_day, server_fact.posts_previous_day, server_fact.bot_accounts, server_fact.guest_accounts, server_fact.incoming_webhooks, server_fact.outgoing_webhooks, server_fact.first_active_date, server_fact.first_active_month, server_fact.first_active_week, server_fact.first_active_year, server_fact.last_active_date, server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.max_registered_users, server_fact.max_registered_deactivated_users, server_fact.max_posts]
@@ -2983,6 +2984,14 @@ explore: INVOICES {
     fields: []
   }
 
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
 }
 
 explore: PAYMENTS {
@@ -3095,6 +3104,15 @@ explore: USAGE_EVENTS {
     sql_on: ${USAGE_EVENTS.subscription_id} = ${SUBSCRIPTIONS.id} ;;
     relationship: many_to_one
   }
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${SUBSCRIPTIONS.stripe_id} = ${subscriptions_stripe.id} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
 
   join: CUSTOMERS {
     sql_on: ${SUBSCRIPTIONS.customer_id} = ${CUSTOMERS.id} ;;
@@ -3258,4 +3276,34 @@ explore: daily_server_user_agent_events {
   }
 
 
+}
+
+explore: focalboard_activity {
+  label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+  hidden: yes
+}
+
+explore: focalboard_config {
+  label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+  hidden: yes
+}
+
+explore: focalboard_server {
+  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event]
+  view_label: "Focalboard Telemetry"
+  group_label: "Focalboard"
+
+  join: focalboard_activity {
+    view_label: "Focalboard Telemetry"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date} ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Telemetry"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date} ;;
+    relationship: one_to_one
+  }
 }
