@@ -198,7 +198,7 @@ explore: _base_opportunity_explore {
   join: opportunity_daily_arr {
     view_label: "Opportunity ARR by Date"
     sql_on: ${opportunity.sfid} = ${opportunity_daily_arr.opportunity_sfid} ;;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 
   join: opportunity_ext {
@@ -232,6 +232,12 @@ explore: _base_opportunity_explore {
 
   join: opportunitylineitem {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid};;
+    relationship: one_to_many
+  }
+
+  join: opportunitylineitem_daily_arr {
+    view_label: "Opportunity Line Item ARR by Date"
+    sql_on: ${opportunitylineitem.sfid} = ${opportunitylineitem_daily_arr.opportunitylineitem_sfid} and ${opportunitylineitem.start_date} = ${opportunitylineitem_daily_arr.day_date};;
     relationship: one_to_many
   }
 
