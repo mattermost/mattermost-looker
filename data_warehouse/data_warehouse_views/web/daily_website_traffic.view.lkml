@@ -18,7 +18,7 @@ view: daily_website_traffic {
     type: string
     sql: CASE WHEN coalesce(split_part(regexp_substr(${context_page_url},
                                           '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
-                            '//', 2), '') NOT IN ('mattermost.com', 'integrations.mattermost.com', 'support.mattermost.com','customers.mattermost.com')
+                            '//', 2), '') NOT IN ('mattermost.com', 'integrations.mattermost.com', 'support.mattermost.com','customers.mattermost.com', 'docs.mattermost.com')
                             THEN 'Other'
               ELSE split_part(regexp_substr(${context_page_url},
                                           '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
