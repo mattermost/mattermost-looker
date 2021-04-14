@@ -70,4 +70,32 @@ view: lead_status_hist {
     sql: ${lead_sfid} ;;
     drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date, lead.most_recent_scl_date]
   }
+
+  measure: count_mql_leads {
+    type: count_distinct
+    sql: ${lead_sfid} ;;
+    filters: [status: "MQL"]
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date]
+  }
+
+  measure: count_scl_leads {
+    type: count_distinct
+    sql: ${lead_sfid} ;;
+    filters: [status: "SCL"]
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date]
+  }
+
+  measure: count_qso_leads {
+    type: count_distinct
+    sql: ${lead_sfid} ;;
+    filters: [status: "QSO"]
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date]
+  }
+
+  measure: count_qsc_leads {
+    type: count_distinct
+    sql: ${lead_sfid} ;;
+    filters: [status: "QSC"]
+    drill_fields: [owner_name, lead.email, additional_details, lead_sfid, current_lead_status, date_date]
+  }
 }
