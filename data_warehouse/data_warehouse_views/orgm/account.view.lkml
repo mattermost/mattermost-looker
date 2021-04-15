@@ -966,7 +966,7 @@ view: account {
   }
 
   dimension: sector {
-    sql: ${TABLE}.sector__c ;;
+    sql: ${TABLE}.sector_picklist__c ;;
     type: string
   }
 
