@@ -69,19 +69,21 @@ view: incident_response_events {
     label: "Non-Null"
     type: string
     sql: 'QA & Release Candidate' ;;
+    hidden: yes
   }
 
   dimension: commanderuserid {
     description: ""
     type: string
-    sql: ${TABLE}.commanderuserid ;;
-    hidden: no
+    sql: COALESCE(${TABLE}.commanderuserid, ${TABLE}.commanderuserid) ;;
+    hidden: yes
   }
 
   dimension: user_id {
-    description: ""
+    label: "Instance ID"
+    description: "The server or workspace ID associated with the Mattermost Instance performing the Incident Collaboration Event."
     type: string
-    sql: ${TABLE}.user_id ;;
+    sql: COALESCE(${TABLE}.user_id, ${TABLE}.anonymous_id) ;;
     hidden: no
   }
 
@@ -89,6 +91,51 @@ view: incident_response_events {
     description: ""
     type: string
     sql: ${TABLE}.postid ;;
+    hidden: yes
+  }
+
+  dimension: currentstatus {
+    group_label: "Incident Dimensions"
+    label: "Current Status"
+    description: ""
+    type: string
+    sql: ${TABLE}.currentstatus ;;
+    hidden: no
+  }
+
+  dimension: remindertimersecond {
+    group_label: "Incident Dimensions"
+    label: "Reminder Timer (Seconds)"
+    description: ""
+    type: number
+    sql: ${TABLE}.remindertimerseconds ;;
+    hidden: no
+  }
+
+  dimension: remindertimerdefaultsecond {
+    group_label: "Playbook Dimensions"
+    label: "Reminder Timer Default (Seconds)"
+    description: ""
+    type: number
+    sql: ${TABLE}.remindertimedefaultseconds ;;
+    hidden: no
+  }
+
+  dimension: broadcastchannelid {
+    group_label: "Playbook Dimensions"
+    label: "Broadcast Channel ID"
+    description: ""
+    type: string
+    sql: ${TABLE}.broadcastchannelid ;;
+    hidden: no
+  }
+
+  dimension: useremindermessagetemplate {
+    group_label: "Playbook Dimensions"
+    label: "Use Reminder Message Template"
+    description: ""
+    type: yesno
+    sql: ${TABLE}.useremindermessagetemplate ;;
     hidden: no
   }
 
@@ -96,10 +143,11 @@ view: incident_response_events {
     description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: action {
+    label: "Event Action"
     description: ""
     type: string
     sql: ${TABLE}.action ;;
@@ -109,7 +157,7 @@ view: incident_response_events {
   dimension: isactive {
     description: ""
     type: yesno
-    sql: ${TABLE}.isactive ;;
+    sql: COALESCE(${TABLE}.isactive, ${TABLE}.is_active) ;;
     hidden: no
   }
 
@@ -117,17 +165,19 @@ view: incident_response_events {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: totalchecklistitems {
+    label: "Total Checklist Items"
     description: ""
     type: number
-    sql: ${TABLE}.totalchecklistitems ;;
+    sql: COALESCE(${TABLE}.totalchecklistitems, ${TABLE}.total_checklist_items) ;;
     hidden: no
   }
 
   dimension: event {
+    label: "Event Type"
     description: ""
     type: string
     sql: ${TABLE}.event ;;
@@ -135,37 +185,42 @@ view: incident_response_events {
   }
 
   dimension: useractualid {
+    label: "User ID"
     description: ""
     type: string
-    sql: ${TABLE}.useractualid ;;
+    sql: COALESCE(${TABLE}.useractualid, ${TABLE}.user_actual_id) ;;
     hidden: no
   }
 
   dimension: numchecklists {
+    label: "# of Checklists"
     description: ""
     type: number
-    sql: ${TABLE}.numchecklists ;;
+    sql: COALESCE(${TABLE}.numchecklists, ${TABLE}.num_checklists) ;;
     hidden: no
   }
 
   dimension: incidentid {
+    label: "Incident ID"
     description: ""
     type: string
-    sql: ${TABLE}.incidentid ;;
+    sql: COALESCE(${TABLE}.incidentid, ${TABLE}.incident_id);;
     hidden: no
   }
 
   dimension: activestage {
+    label: "Active Stage"
     description: ""
     type: number
-    sql: ${TABLE}.activestage ;;
-    hidden: no
+    sql: COALESCE(${TABLE}.activestage, ${TABLE}.active_stage) ;;
+    hidden: yes
   }
 
   dimension: teamid {
+    label: "Team ID"
     description: ""
     type: string
-    sql: ${TABLE}.teamid ;;
+    sql: COALESCE(${TABLE}.teamid, ${TABLE}.team_id) ;;
     hidden: no
   }
 
@@ -173,45 +228,47 @@ view: incident_response_events {
     description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: createat {
     description: ""
     type: number
     sql: ${TABLE}.createat ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_ip {
     description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: context_library_version {
     description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: event_text {
     description: ""
     type: string
     sql: ${TABLE}.event_text ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: pluginversion {
+    label: "Plugin Version"
     description: ""
     type: string
-    sql: ${TABLE}.pluginversion ;;
+    sql: COALESCE(${TABLE}.pluginversion, ${TABLE}.plugin_version) ;;
     hidden: no
   }
 
   dimension: public {
+    group_label: "Incident Dimensions"
     description: ""
     type: yesno
     sql: ${TABLE}.public ;;
@@ -219,76 +276,23 @@ view: incident_response_events {
   }
 
   dimension: serverversion {
+    label: "Server Version"
     description: ""
     type: string
-    sql: ${TABLE}.serverversion ;;
+    sql: COALESCE(${TABLE}.serverversion, ${TABLE}.server_version) ;;
     hidden: no
   }
 
   dimension: serverversion_major {
+    label: "Server Version (Major)"
     description: ""
     type: string
     sql: SPLIT_PART(${TABLE}.serverversion, '.', 1) || '.' || SPLIT_PART(${TABLE}.serverversion, '.', 2) ;;
     hidden: no
-  }
-
-  dimension: header_isactive {
-    description: ""
-    type: yesno
-    sql: ${TABLE}.header_isactive ;;
-    hidden: no
-  }
-
-  dimension: key {
-    description: ""
-    type: string
-    sql: ${TABLE}.key ;;
-    hidden: no
-  }
-
-  dimension: header_name {
-    description: ""
-    type: string
-    sql: ${TABLE}.header_name ;;
-    hidden: no
-  }
-
-  dimension: header_commanderuserid {
-    description: ""
-    type: string
-    sql: ${TABLE}.header_commanderuserid ;;
-    hidden: no
-  }
-
-  dimension: header_id {
-    description: ""
-    type: string
-    sql: ${TABLE}.header_id ;;
-    hidden: no
-  }
-
-  dimension: header_createdat {
-    description: ""
-    type: number
-    sql: ${TABLE}.header_createdat ;;
-    hidden: no
-  }
-
-  dimension: channelids_0 {
-    description: ""
-    type: string
-    sql: ${TABLE}.channelids_0 ;;
-    hidden: no
-  }
-
-  dimension: header_teamid {
-    description: ""
-    type: string
-    sql: ${TABLE}.header_teamid ;;
-    hidden: no
-  }
+}
 
   dimension: numslashcommands {
+    group_label: "Playbook Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.numslashcommands ;;
@@ -296,6 +300,7 @@ view: incident_response_events {
   }
 
   dimension: ispublic {
+    group_label: "Playbook Dimensions"
     description: ""
     type: yesno
     sql: ${TABLE}.ispublic ;;
@@ -303,6 +308,8 @@ view: incident_response_events {
   }
 
   dimension: nummembers {
+    group_label: "Playbook Dimensions"
+    label: "# of Members"
     description: ""
     type: number
     sql: ${TABLE}.nummembers ;;
@@ -310,9 +317,11 @@ view: incident_response_events {
   }
 
   dimension: playbookid {
+    group_label: "Playbook Dimensions"
+    label: "Playbook ID"
     description: ""
     type: string
-    sql: ${TABLE}.playbookid ;;
+    sql: COALESCE(${TABLE}.playbookid, ${TABLE}.playbook_id) ;;
     hidden: no
   }
 
@@ -320,10 +329,12 @@ view: incident_response_events {
     description: ""
     type: yesno
     sql: ${TABLE}.wascommander ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: newstate {
+    group_label: "Task Dimensions"
+    label: "New State"
     description: ""
     type: string
     sql: ${TABLE}.newstate ;;
@@ -334,7 +345,7 @@ view: incident_response_events {
     description: ""
     type: yesno
     sql: ${TABLE}.wasassignee ;;
-    hidden: no
+    hidden: yes
   }
 
 
@@ -344,7 +355,7 @@ view: incident_response_events {
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: received_at {
@@ -352,7 +363,7 @@ view: incident_response_events {
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: original_timestamp {
@@ -360,10 +371,11 @@ view: incident_response_events {
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.original_timestamp ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension_group: timestamp {
+    label: " Logging"
     description: ""
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
@@ -376,7 +388,7 @@ view: incident_response_events {
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
-    hidden: no
+    hidden: yes
   }
 
 
