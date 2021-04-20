@@ -207,7 +207,7 @@ view: incident_response_events {
   dimension: pluginversion {
     description: ""
     type: string
-    sql: ${TABLE}.pluginversion ;;
+    sql: COALESCE(${TABLE}.pluginversion, ${TABLE}.plugin_version) ;;
     hidden: no
   }
 
