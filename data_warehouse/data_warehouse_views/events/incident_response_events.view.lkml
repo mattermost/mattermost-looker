@@ -137,7 +137,7 @@ view: incident_response_events {
   dimension: useractualid {
     description: ""
     type: string
-    sql: ${TABLE}.useractualid ;;
+    sql: COALESCE(${TABLE}.useractualid, ${TABLE}.user_actual_id) ;;
     hidden: no
   }
 
