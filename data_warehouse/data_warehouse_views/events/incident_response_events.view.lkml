@@ -81,7 +81,7 @@ view: incident_response_events {
   dimension: user_id {
     description: ""
     type: string
-    sql: ${TABLE}.user_id ;;
+    sql: COALESCE(${TABLE}.user_id, ${TABLE}.annonymous_id) ;;
     hidden: no
   }
 
