@@ -38,6 +38,7 @@ view: opportunity {
       name,
       sfid,
       created_date,
+      created_week,
       created_month,
       created_fiscal_quarter,
       created_fiscal_year,
