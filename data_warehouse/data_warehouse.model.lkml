@@ -545,19 +545,6 @@ explore: account_monthly_arr_deltas_by_type {
   }
 }
 
-explore: master_account_monthly_arr_deltas_by_type {
-  label: "Monthly Master Account ARR Changes by Type"
-  hidden: yes
-  group_label: "Finance"
-  extends: [_base_account_core_explore]
-
-  join: account {
-    view_label: "Master Account Monthly ARR Changes"
-    relationship: one_to_one
-    sql_on: ${account.sfid} = ${master_account_monthly_arr_deltas_by_type.master_account_sfid} ;;
-  }
-}
-
 explore: account_daily_arr_deltas {
   label: "Daily Account ARR Changes"
   group_label: "Finance"
@@ -588,21 +575,6 @@ explore: account_daily_arr_deltas {
     sql_on: ${opportunity.sfid} = ${opportunitylineitem.opportunityid} AND ${opportunitylineitem.start_date} = ${account_daily_arr_deltas.new_day_date};;
     relationship: one_to_many
     fields: [total_bookings_open_curr_fy,total_bookings_curr_fy,total_new_amount,total_ren_amount,total_exp_amount,opportunitylineitem.product_line_type,is_loe,is_monthly_billing]
-  }
-}
-
-explore: master_account_daily_arr_deltas {
-  label: "Daily Master Account ARR Changes"
-  view_label: "Master Account Daily ARR Deltas"
-  hidden: yes
-  group_label: "Finance"
-  extends: [_base_account_core_explore]
-
-  join: account {
-    view_label: "Master Account Daily ARR Deltas"
-    sql_on: ${account.sfid} = ${master_account_daily_arr_deltas.master_account_sfid} ;;
-    relationship: many_to_one
-    fields: [name,sfid]
   }
 }
 
