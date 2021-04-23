@@ -1,8 +1,3 @@
-# Campaign member data from salesforce.
-#
-# Groups Labels
-# -
-
 view: campaignmember {
   view_label: "Campaign Member"
   sql_table_name: ORGM.CAMPAIGNMEMBER ;;
@@ -341,20 +336,6 @@ view: campaignmember {
     sql: ${TABLE}.TITLE ;;
     type: string
   }
-
-#  dimension_group: trial_req {
-#    sql: ${TABLE}.TRIAL_REQ_DATE__C ;;
-#    timeframes: [
-#      raw,
-#      time,
-#      date,
-#      week,
-#      month,
-#      quarter,
-#      year
-#    ]
-#    type: time
-#  }
 
   dimension: type {
     sql: ${TABLE}.TYPE ;;
