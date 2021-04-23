@@ -3279,3 +3279,7 @@ explore: focalboard_server {
     relationship: one_to_one
   }
 }
+
+explore: incident_daily_details {
+  label: "Incident Daily Details"
+}
