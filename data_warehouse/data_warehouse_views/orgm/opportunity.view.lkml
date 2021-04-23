@@ -121,7 +121,6 @@ view: opportunity {
     drill_fields: [opportunity_drill_fields*,amount]
     sql: ${TABLE}.amount ;;
     type: number
-    value_format: "@{mm_usd_short}"
   }
 
 
@@ -129,21 +128,21 @@ view: opportunity {
     group_label: "Amounts"
     sql: ${opportunity_ext.amount_in_commit} ;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   dimension: amount_in_pipeline {
     group_label: "Amounts"
     sql: ${opportunity_ext.amount_in_pipeline} ;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   dimension: amount_in_best_case {
     group_label: "Amounts"
     sql: ${opportunity_ext.amount_in_best_case} ;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
 
@@ -151,7 +150,7 @@ view: opportunity {
     group_label: "Amounts"
     sql: ${TABLE}.AVAILABLE_RENEWAL__C ;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
 
@@ -353,7 +352,7 @@ view: opportunity {
     description: "Calculated revenue based on the Amount and Probability fields."
     sql: ${TABLE}.expectedrevenue ;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     label: "Expected Revenue"
     group_label: "Forecasting"
   }
@@ -702,9 +701,7 @@ view: opportunity {
   dimension: probability_color_tiers {
     description: "Likelihood that opportunity will close, stated as a percentage."
     sql: ${probability} ;;
-    html: @{colored_tiered_percent} ;;
     type: number
-#     value_format_name: mm_integer_percent
     label: "Prob %"
     group_label: "Forecasting"
   }
@@ -971,7 +968,7 @@ view: opportunity {
     label: "ARR"
     sql: ${opportunitylineitem.arr} ;;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
 
@@ -1048,7 +1045,7 @@ view: opportunity {
     sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     filters: {
@@ -1072,7 +1069,7 @@ view: opportunity {
     sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_fy]
     label: "Risk Amount (Curr FY Close)"
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     filters: {
@@ -1099,7 +1096,7 @@ view: opportunity {
     sql: ${available_renewal} ;;
     drill_fields: [opportunity_drill_fields*,available_renewal]
     label: "Available Renewal"
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     type: sum_distinct
   }
 
@@ -1110,7 +1107,7 @@ view: opportunity {
     sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,risk_amount_current_qtr]
     label: "At Risk & Early Warning Amount (Curr Qtr Close)"
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     filters: {
@@ -1134,7 +1131,7 @@ view: opportunity {
     sql: ${customer_risk.risk_amount} ;;
     drill_fields: [opportunity_drill_fields*,at_risk_amount_current_qtr]
     label: "At Risk Amount (Curr Qtr Close)"
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     filters: {
@@ -1162,7 +1159,7 @@ view: opportunity {
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
     filters: [is_monthly_billing: "no"]
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   measure: total_amount_in_commit {
@@ -1170,7 +1167,7 @@ view: opportunity {
     sql: ${amount_in_commit};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   measure: total_amount_in_pipeline {
@@ -1178,7 +1175,7 @@ view: opportunity {
     sql: ${amount_in_pipeline};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   measure: total_amount_in_best_case {
@@ -1186,7 +1183,7 @@ view: opportunity {
     sql: ${amount_in_best_case};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
 
@@ -1196,7 +1193,7 @@ view: opportunity {
     sql: ${customer_risk.risk_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
@@ -1207,7 +1204,7 @@ view: opportunity {
     filters: [customer_risk.status: "At Risk"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
@@ -1218,7 +1215,7 @@ view: opportunity {
     filters: [customer_risk.status: "Early Warning"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
@@ -1229,7 +1226,7 @@ view: opportunity {
     filters: [customer_risk.risk_assigned: "yes", isclosed: "no"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_renewal_risk_amount]
   }
 
@@ -1239,7 +1236,7 @@ view: opportunity {
     description: "Leftover Expansion"
     sql: ${opportunitylineitem.leftover_expansion_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_exp_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1250,7 +1247,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_exp_with_loe_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1261,7 +1258,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.new_amount} + ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount} + ${opportunitylineitem.leftover_expansion_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_with_loe_amount,total_new_and_exp_with_loe_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1285,7 +1282,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_exp_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1296,7 +1293,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.expansion_amount} + ${opportunitylineitem.coterm_expansion_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_exp_amount]
     filters: {
       field: opportunity.sales_channel
@@ -1323,7 +1320,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.new_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1334,7 +1331,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.new_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_new_amount]
     filters: {
       field: opportunity.sales_channel
@@ -1357,7 +1354,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
 
@@ -1368,7 +1365,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount}+${total_exp_amount};;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     link: {
       label: "List Pipeline"
       url:"https://mattermost.looker.com/looks/542?toggle&toggle=det,pik&f[opportunity.close_quarter]={{ close_quarter }}&f[opportunity.forecastcategoryname]={{ forecastcategoryname }}"
@@ -1381,7 +1378,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${total_new_amount_self_serv}+${total_exp_amount_self_serve};;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_new_amount,total_exp_amount,total_new_and_exp_amount]
   }
 
@@ -1391,7 +1388,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.renewal_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_ren_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1402,7 +1399,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.renewal_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_ren_amount]
     filters: {
       field: opportunity.sales_channel
@@ -1417,7 +1414,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.multi_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_multi_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1428,7 +1425,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.multi_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_multi_amount]
     filters: {
       field: opportunity.sales_channel
@@ -1443,7 +1440,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.ren_multi_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_ren_multi_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }
@@ -1454,7 +1451,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.ren_multi_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_ren_multi_amount]
     filters: {
       field: opportunity.sales_channel
@@ -1468,7 +1465,7 @@ view: opportunity {
     group_label: "Product Line Type Totals"
     sql: ${opportunitylineitem.monthly_billing_amount};;
     type: sum_distinct
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunity_drill_fields*,total_monthly_billing_amount]
     sql_distinct_key: ${opportunitylineitem.sfid} ;;
   }

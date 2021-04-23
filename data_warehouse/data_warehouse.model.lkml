@@ -783,10 +783,6 @@ explore: lead_status_hist {
   }
 }
 
-explore: contributor_map_data {
-  group_label: "Contributors"
-}
-
 explore: daily_traffic {
   group_label: "Marketing"
   label: "GA Daily Traffic"
@@ -1736,23 +1732,6 @@ explore: license_daily_details {
   hidden: yes
 }
 
-explore: data_errors {
-  label: "Business Data Errors"
-  group_label: "zBizOps"
-
-  join: account {
-    sql_on: ${account.sfid} = ${data_errors.object_id} and ${data_errors.object} = 'account';;
-    relationship: many_to_many
-    fields: []
-  }
-
-  join: opportunity {
-    sql_on: ${opportunity.sfid} = ${data_errors.object_id} and ${data_errors.object} = 'opportunity';;
-    relationship: many_to_many
-    fields: []
-  }
-}
-
 explore: user_fact {
   label: "User Fact"
   description: "Contains the current state (or last recorded state) of a user including first active dates, all time event/activity counts, NPS scores/dates, etc."
@@ -2085,10 +2064,6 @@ explore: daily_website_traffic {
   }
 }
 
-explore: snowflake_data_checks {
-  group_label: "zBizOps"
-}
-
 explore: stripe_charges {
   label: "Stripe Charges"
   group_label: "Finance"
@@ -2182,25 +2157,6 @@ explore: customers {
     relationship: one_to_one
     view_label: "Stripe Customer Server Details"
     fields: [server_fact.active_users, server_fact.monthly_active_users, server_fact.direct_message_channels, server_fact.public_channels, server_fact.private_channels, server_fact.slash_commands, server_fact.teams, server_fact.bot_posts_previous_day, server_fact.posts_previous_day, server_fact.bot_accounts, server_fact.guest_accounts, server_fact.incoming_webhooks, server_fact.outgoing_webhooks, server_fact.first_active_date, server_fact.first_active_month, server_fact.first_active_week, server_fact.first_active_year, server_fact.last_active_date, server_fact.last_active_month, server_fact.last_active_week, server_fact.last_active_year, server_fact.max_registered_users, server_fact.max_registered_deactivated_users, server_fact.max_posts]
-  }
-}
-
-explore: stripe_charges_data_check {
-  extends: [_base_opportunity_core_explore]
-  from: charges
-  view_name: charges
-  label: "Stripe Charges to Opportunity"
-  group_label: "zBizOps"
-  join: customers {
-    sql_on: ${customers.id} = ${charges.customer} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: opportunity {
-    sql_on: (${opportunity.stripe_id} = ${charges.id} OR ${opportunity.stripe_id} = ${charges.payment_intent})
-            AND ${opportunity.iswon};;
-    relationship: one_to_one
   }
 }
 
