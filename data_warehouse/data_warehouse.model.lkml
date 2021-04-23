@@ -3307,10 +3307,3 @@ explore: focalboard_server {
     relationship: one_to_one
   }
 }
-
-explore: incident_fact {
-  label: "Incident Fact"
-}
-explore: playbook_fact {
-  label: "Playbook Fact"
-}
