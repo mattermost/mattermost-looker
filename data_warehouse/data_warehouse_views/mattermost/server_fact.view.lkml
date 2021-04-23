@@ -6,6 +6,10 @@ sql_table_name: mattermost.server_fact ;;
     fields: [server_id, license_server_fact.customer_name, first_active_date, last_active_date, max_registered_users, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime]
   }
 
+  set: incident_collaboration {
+    fields: [product_edition, server_count, server_id]
+  }
+
   filter: license_all {
     type: string
     hidden: yes
@@ -17,7 +21,7 @@ sql_table_name: mattermost.server_fact ;;
     type: string
     sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
-                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
                       WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
                       ELSE COALESCE(${server_edition}, ${first_server_edition})
                       END ;;
@@ -47,6 +51,12 @@ sql_table_name: mattermost.server_fact ;;
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
     sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: max_mau {
+    type: number
+    sql: ${TABLE}.max_mau ;;
+    hidden: yes
   }
 
   dimension: community_server {
@@ -1050,7 +1060,8 @@ sql_table_name: mattermost.server_fact ;;
   # Measures
   measure: server_count {
     label: " Server Count"
-    description: "Use this for counting distinct Server ID's across many servers, days, or dates."
+    group_label: " Instance Counts"
+    description: "The distinct count of all servers. If unfiltered this will show all servers that have ever sent telemetry to internal Mattermost Servers."
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [drill_set1*]
