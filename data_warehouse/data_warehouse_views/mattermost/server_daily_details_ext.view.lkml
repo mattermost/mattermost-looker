@@ -8,6 +8,16 @@ view: server_daily_details_ext {
     fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, company_name, paid_license_expire_date, max_active_user_count]
   }
 
+  set: incident_collaboration {
+    fields: [total_instances]
+  }
+
+  measure: total_instances {
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: ${server_id} ;;
+  }
+
   set: cse_drill {
     fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, posts_sum2, dau_sum, avg_posts_per_user_per_day, posts_previous_day_sum, active_users_daily_sum, avg_posts_per_user_per_day2]
   }
@@ -221,7 +231,7 @@ view: server_daily_details_ext {
 
   # DIMENSIONS
   dimension: server_id {
-    label: " Server Id"
+    label: " Instance Id"
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;

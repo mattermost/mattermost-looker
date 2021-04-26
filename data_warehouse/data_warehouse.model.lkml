@@ -3282,4 +3282,43 @@ explore: focalboard_server {
 
 explore: incident_daily_details {
   label: "Incident Daily Details"
+  hidden: yes
+}
+
+explore: incident_collaboration {
+  from: server_daily_details_ext
+  sql_always_where: ${currently_sending_telemetry} ;;
+  view_label: "Incident Collaboration Daily"
+  group_label: "Incident Collaboration"
+  label: "Incident Collaboration Daily"
+  fields: [incident_collaboration.server_id, incident_collaboration.product_edition, incident_collaboration.version, incident_collaboration.server_version_major, incident_daily_details*, license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users,-incident_daily_details.logging_date,-incident_daily_details.logging_month, -incident_daily_details.logging_week,-incident_daily_details.logging_year,-incident_daily_details.logging_fiscal_quarter, -incident_daily_details.logging_fiscal_year, incident_collaboration.logging_date,incident_collaboration.logging_week,incident_collaboration.logging_month,incident_collaboration.logging_year,incident_collaboration.logging_fiscal_quarter,incident_collaboration.logging_fiscal_year,server_daily_details_ext.incident_collaboration*]
+
+  join: incident_daily_details {
+    view_label: "Incident Collaboration Daily"
+    sql_on: ${incident_daily_details.server_id} = ${incident_collaboration.server_id} AND ${incident_collaboration.logging_date} = ${incident_daily_details.logging_date} ;;
+    relationship: one_to_one
+    type: left_outer
+  }
+
+  join: license_server_fact {
+    view_label: "Incident Collaboration Daily"
+    relationship: many_to_one
+    sql_on: (${license_server_fact.server_id} = ${incident_collaboration.server_id}) and (${incident_collaboration.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+    fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
+  }
+
+  join: server_fact {
+    sql_on: ${server_fact.server_id} = ${incident_collaboration.server_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
+  join: server_daily_details_ext {
+    view_label: "Incident Collaboration Daily"
+    sql_on: ${server_daily_details_ext.server_id} = ${incident_collaboration.server_id} AND ${server_daily_details_ext.logging_date} = ${incident_collaboration.logging_date} ;;
+    relationship: one_to_one
+    type: left_outer
+    fields: [server_daily_details_ext.incident_collaboration*]
+  }
 }
