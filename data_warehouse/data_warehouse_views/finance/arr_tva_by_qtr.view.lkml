@@ -54,6 +54,5 @@ view: arr_tva_by_qtr {
     type: number
     value_format: "@{percent}"
     sql: 100*${total_actual}/${total_target};;
-    html: @{cond_style_attain} ;;
   }
 }
