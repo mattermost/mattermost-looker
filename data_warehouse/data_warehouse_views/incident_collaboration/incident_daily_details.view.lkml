@@ -414,238 +414,238 @@ view: incident_daily_details {
   }
 
   measure: instances_with_reported_incidents {
-    description: "The distinct count of instances that have Reported Incident."
+    description: "The distinct count of instances that have Reported Incidents."
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: reported_incidents_sum {
-    description: "The Sum of Reported Incident."
+    description: "The Sum of Reported Incidents."
     type: sum
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_max {
-    description: "The Max. Reported Incident."
+    description: "The Max. Reported Incidents."
     type: max
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_min {
-    description: "The Min. Reported Incident."
+    description: "The Min. Reported Incidents."
     type: min
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_avg {
-    description: "The Average Reported Incident."
+    description: "The Average Reported Incidents."
     type: average
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_median {
-    description: "The Median Reported Incident."
+    description: "The Median Reported Incidents."
     type: median
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: instances_with_acknowledged_incidents {
-    description: "The distinct count of instances that have Acknowledged Incident."
+    description: "The distinct count of instances that have Acknowledged Incidents."
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: acknowledged_incidents_sum {
-    description: "The Sum of Acknowledged Incident."
+    description: "The Sum of Acknowledged Incidents."
     type: sum
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_max {
-    description: "The Max. Acknowledged Incident."
+    description: "The Max. Acknowledged Incidents."
     type: max
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_min {
-    description: "The Min. Acknowledged Incident."
+    description: "The Min. Acknowledged Incidents."
     type: min
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_avg {
-    description: "The Average Acknowledged Incident."
+    description: "The Average Acknowledged Incidents."
     type: average
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_median {
-    description: "The Median Acknowledged Incident."
+    description: "The Median Acknowledged Incidents."
     type: median
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: instances_with_archived_incidents {
-    description: "The distinct count of instances that have Archived Incident."
+    description: "The distinct count of instances that have Archived Incidents."
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: archived_incidents_sum {
-    description: "The Sum of Archived Incident."
+    description: "The Sum of Archived Incidents."
     type: sum
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_max {
-    description: "The Max. Archived Incident."
+    description: "The Max. Archived Incidents."
     type: max
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_min {
-    description: "The Min. Archived Incident."
+    description: "The Min. Archived Incidents."
     type: min
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_avg {
-    description: "The Average Archived Incident."
+    description: "The Average Archived Incidents."
     type: average
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_median {
-    description: "The Median Archived Incident."
+    description: "The Median Archived Incidents."
     type: median
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: instances_with_resolved_incidents {
-    description: "The distinct count of instances that have Resolved Incident."
+    description: "The distinct count of instances that have Resolved Incidents."
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: resolved_incidents_sum {
-    description: "The Sum of Resolved Incident."
+    description: "The Sum of Resolved Incidents."
     type: sum
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_max {
-    description: "The Max. Resolved Incident."
+    description: "The Max. Resolved Incidents."
     type: max
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_min {
-    description: "The Min. Resolved Incident."
+    description: "The Min. Resolved Incidents."
     type: min
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_avg {
-    description: "The Average Resolved Incident."
+    description: "The Average Resolved Incidents."
     type: average
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_median {
-    description: "The Median Resolved Incident."
+    description: "The Median Resolved Incidents."
     type: median
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: incident_contributors_sum {
-    description: "The Sum of Incident Contributor."
+    description: "The Sum of Incident Contributors."
     type: sum
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_max {
-    description: "The Max. Incident Contributor."
+    description: "The Max. Incident Contributors."
     type: max
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_min {
-    description: "The Min. Incident Contributor."
+    description: "The Min. Incident Contributors."
     type: min
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_avg {
-    description: "The Average Incident Contributor."
+    description: "The Average Incident Contributors."
     type: average
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_median {
-    description: "The Median Incident Contributor."
+    description: "The Median Incident Contributors."
     type: median
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: status_updates_sum {
-    description: "The Sum of Status Update."
+    description: "The Sum of Status Updates."
     type: sum
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_max {
-    description: "The Max. Status Update."
+    description: "The Max. Status Updates."
     type: max
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_min {
-    description: "The Min. Status Update."
+    description: "The Min. Status Updates."
     type: min
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_avg {
-    description: "The Average Status Update."
+    description: "The Average Status Updates."
     type: average
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_median {
-    description: "The Median Status Update."
+    description: "The Median Status Updates."
     type: median
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
@@ -757,105 +757,105 @@ view: incident_daily_details {
   }
 
   measure: timeline_tab_clicks_sum {
-    description: "The Sum of Timeline Tab Click."
+    description: "The Sum of Timeline Tab Clicks."
     type: sum
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_max {
-    description: "The Max. Timeline Tab Click."
+    description: "The Max. Timeline Tab Clicks."
     type: max
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_min {
-    description: "The Min. Timeline Tab Click."
+    description: "The Min. Timeline Tab Clicks."
     type: min
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_avg {
-    description: "The Average Timeline Tab Click."
+    description: "The Average Timeline Tab Clicks."
     type: average
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_median {
-    description: "The Median Timeline Tab Click."
+    description: "The Median Timeline Tab Clicks."
     type: median
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: ended_incident_sum {
-    description: "The Sum of Ended Incident."
+    description: "The Sum of Ended Incidents."
     type: sum
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_max {
-    description: "The Max. Ended Incident."
+    description: "The Max. Ended Incidents."
     type: max
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_min {
-    description: "The Min. Ended Incident."
+    description: "The Min. Ended Incidents."
     type: min
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_avg {
-    description: "The Average Ended Incident."
+    description: "The Average Ended Incidents."
     type: average
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_median {
-    description: "The Median Ended Incident."
+    description: "The Median Ended Incidents."
     type: median
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: restarted_incident_sum {
-    description: "The Sum of Restarted Incident."
+    description: "The Sum of Restarted Incidents."
     type: sum
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_max {
-    description: "The Max. Restarted Incident."
+    description: "The Max. Restarted Incidents."
     type: max
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_min {
-    description: "The Min. Restarted Incident."
+    description: "The Min. Restarted Incidents."
     type: min
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_avg {
-    description: "The Average Restarted Incident."
+    description: "The Average Restarted Incidents."
     type: average
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_median {
-    description: "The Median Restarted Incident."
+    description: "The Median Restarted Incidents."
     type: median
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
