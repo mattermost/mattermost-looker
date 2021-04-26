@@ -251,652 +251,855 @@ view: incident_daily_details {
     sql: ${server_id} ;;
   }
 
+  measure: playbooks_sum {
+    description: "The Sum of Playbook."
+    type: sum
+    group_label: "Playbooks Measures"
+    sql: ${playbooks} ;;
+  }
+
   measure: playbooks_max {
-    description: "The max Playbooks within each grouping."
+    description: "The Max. Playbook."
     type: max
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
   }
 
   measure: playbooks_min {
-    description: "The min Playbooks within each grouping."
+    description: "The Min. Playbook."
     type: min
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
   }
 
   measure: playbooks_avg {
-    description: "The average Playbooks within each grouping."
+    description: "The Average Playbook."
     type: average
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
   }
 
   measure: playbooks_median {
-    description: "The median  Playbooks within each grouping."
+    description: "The Median Playbook."
     type: median
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
   }
 
+  measure: instances_with_playbooks_created {
+    description: "The distinct count of instances that have Playbooks Created."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: playbooks_created_sum {
+    description: "The Sum of Playbooks Created."
+    type: sum
+    group_label: "Playbooks Created Measures"
+    sql: ${playbooks_created} ;;
+  }
+
   measure: playbooks_created_max {
-    description: "The max Playbooks Createds within each grouping."
+    description: "The Max. Playbooks Created."
     type: max
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
 
   measure: playbooks_created_min {
-    description: "The min Playbooks Createds within each grouping."
+    description: "The Min. Playbooks Created."
     type: min
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
 
   measure: playbooks_created_avg {
-    description: "The average Playbooks Createds within each grouping."
+    description: "The Average Playbooks Created."
     type: average
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
 
   measure: playbooks_created_median {
-    description: "The median  Playbooks Createds within each grouping."
+    description: "The Median Playbooks Created."
     type: median
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
 
+  measure: instances_with_playbooks_edited {
+    description: "The distinct count of instances that have Playbooks Edited."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: playbooks_edited_sum {
+    description: "The Sum of Playbooks Edited."
+    type: sum
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
   measure: playbooks_edited_max {
-    description: "The max Playbooks Editeds within each grouping."
+    description: "The Max. Playbooks Edited."
     type: max
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
   }
 
   measure: playbooks_edited_min {
-    description: "The min Playbooks Editeds within each grouping."
+    description: "The Min. Playbooks Edited."
     type: min
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
   }
 
   measure: playbooks_edited_avg {
-    description: "The average Playbooks Editeds within each grouping."
+    description: "The Average Playbooks Edited."
     type: average
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
   }
 
   measure: playbooks_edited_median {
-    description: "The median  Playbooks Editeds within each grouping."
+    description: "The Median Playbooks Edited."
     type: median
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
   }
 
+  measure: instances_with_playbooks_deleted {
+    description: "The distinct count of instances that have Playbooks Deleted."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: playbooks_deleted_sum {
+    description: "The Sum of Playbooks Deleted."
+    type: sum
+    group_label: "Playbooks Deleted Measures"
+    sql: ${playbooks_deleted} ;;
+  }
+
   measure: playbooks_deleted_max {
-    description: "The max Playbooks Deleteds within each grouping."
+    description: "The Max. Playbooks Deleted."
     type: max
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
   }
 
   measure: playbooks_deleted_min {
-    description: "The min Playbooks Deleteds within each grouping."
+    description: "The Min. Playbooks Deleted."
     type: min
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
   }
 
   measure: playbooks_deleted_avg {
-    description: "The average Playbooks Deleteds within each grouping."
+    description: "The Average Playbooks Deleted."
     type: average
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
   }
 
   measure: playbooks_deleted_median {
-    description: "The median  Playbooks Deleteds within each grouping."
+    description: "The Median Playbooks Deleted."
     type: median
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
   }
 
+  measure: instances_with_reported_incidents {
+    description: "The distinct count of instances that have Reported Incidents."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: reported_incidents_sum {
+    description: "The Sum of Reported Incidents."
+    type: sum
+    group_label: "Reported Incidents Measures"
+    sql: ${reported_incidents} ;;
+  }
+
   measure: reported_incidents_max {
-    description: "The max Reported Incidents within each grouping."
+    description: "The Max. Reported Incidents."
     type: max
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_min {
-    description: "The min Reported Incidents within each grouping."
+    description: "The Min. Reported Incidents."
     type: min
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_avg {
-    description: "The average Reported Incidents within each grouping."
+    description: "The Average Reported Incidents."
     type: average
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
   measure: reported_incidents_median {
-    description: "The median  Reported Incidents within each grouping."
+    description: "The Median Reported Incidents."
     type: median
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
   }
 
+  measure: instances_with_acknowledged_incidents {
+    description: "The distinct count of instances that have Acknowledged Incidents."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: acknowledged_incidents_sum {
+    description: "The Sum of Acknowledged Incidents."
+    type: sum
+    group_label: "Acknowledged Incidents Measures"
+    sql: ${acknowledged_incidents} ;;
+  }
+
   measure: acknowledged_incidents_max {
-    description: "The max Acknowledged Incidents within each grouping."
+    description: "The Max. Acknowledged Incidents."
     type: max
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_min {
-    description: "The min Acknowledged Incidents within each grouping."
+    description: "The Min. Acknowledged Incidents."
     type: min
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_avg {
-    description: "The average Acknowledged Incidents within each grouping."
+    description: "The Average Acknowledged Incidents."
     type: average
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
   measure: acknowledged_incidents_median {
-    description: "The median  Acknowledged Incidents within each grouping."
+    description: "The Median Acknowledged Incidents."
     type: median
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
   }
 
+  measure: instances_with_archived_incidents {
+    description: "The distinct count of instances that have Archived Incidents."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: archived_incidents_sum {
+    description: "The Sum of Archived Incidents."
+    type: sum
+    group_label: "Archived Incidents Measures"
+    sql: ${archived_incidents} ;;
+  }
+
   measure: archived_incidents_max {
-    description: "The max Archived Incidents within each grouping."
+    description: "The Max. Archived Incidents."
     type: max
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_min {
-    description: "The min Archived Incidents within each grouping."
+    description: "The Min. Archived Incidents."
     type: min
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_avg {
-    description: "The average Archived Incidents within each grouping."
+    description: "The Average Archived Incidents."
     type: average
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
   measure: archived_incidents_median {
-    description: "The median  Archived Incidents within each grouping."
+    description: "The Median Archived Incidents."
     type: median
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
   }
 
+  measure: instances_with_resolved_incidents {
+    description: "The distinct count of instances that have Resolved Incidents."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: resolved_incidents_sum {
+    description: "The Sum of Resolved Incidents."
+    type: sum
+    group_label: "Resolved Incidents Measures"
+    sql: ${resolved_incidents} ;;
+  }
+
   measure: resolved_incidents_max {
-    description: "The max Resolved Incidents within each grouping."
+    description: "The Max. Resolved Incidents."
     type: max
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_min {
-    description: "The min Resolved Incidents within each grouping."
+    description: "The Min. Resolved Incidents."
     type: min
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_avg {
-    description: "The average Resolved Incidents within each grouping."
+    description: "The Average Resolved Incidents."
     type: average
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
   measure: resolved_incidents_median {
-    description: "The median  Resolved Incidents within each grouping."
+    description: "The Median Resolved Incidents."
     type: median
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
   }
 
+  measure: incident_contributors_sum {
+    description: "The Sum of Incident Contributors."
+    type: sum
+    group_label: "Incident Contributors Measures"
+    sql: ${incident_contributors} ;;
+  }
+
   measure: incident_contributors_max {
-    description: "The max Incident Contributors within each grouping."
+    description: "The Max. Incident Contributors."
     type: max
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_min {
-    description: "The min Incident Contributors within each grouping."
+    description: "The Min. Incident Contributors."
     type: min
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_avg {
-    description: "The average Incident Contributors within each grouping."
+    description: "The Average Incident Contributors."
     type: average
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
   measure: incident_contributors_median {
-    description: "The median  Incident Contributors within each grouping."
+    description: "The Median Incident Contributors."
     type: median
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
   }
 
+  measure: status_updates_sum {
+    description: "The Sum of Status Updates."
+    type: sum
+    group_label: "Status Updates Measures"
+    sql: ${status_updates} ;;
+  }
+
   measure: status_updates_max {
-    description: "The max Status Updates within each grouping."
+    description: "The Max. Status Updates."
     type: max
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_min {
-    description: "The min Status Updates within each grouping."
+    description: "The Min. Status Updates."
     type: min
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_avg {
-    description: "The average Status Updates within each grouping."
+    description: "The Average Status Updates."
     type: average
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
   measure: status_updates_median {
-    description: "The median  Status Updates within each grouping."
+    description: "The Median Status Updates."
     type: median
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
   }
 
+  measure: stages_changed_sum {
+    description: "The Sum of Stages Changed."
+    type: sum
+    group_label: "Stages Changed Measures"
+    sql: ${stages_changed} ;;
+  }
+
   measure: stages_changed_max {
-    description: "The max Stages Changeds within each grouping."
+    description: "The Max. Stages Changed."
     type: max
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
   }
 
   measure: stages_changed_min {
-    description: "The min Stages Changeds within each grouping."
+    description: "The Min. Stages Changed."
     type: min
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
   }
 
   measure: stages_changed_avg {
-    description: "The average Stages Changeds within each grouping."
+    description: "The Average Stages Changed."
     type: average
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
   }
 
   measure: stages_changed_median {
-    description: "The median  Stages Changeds within each grouping."
+    description: "The Median Stages Changed."
     type: median
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
   }
 
   measure: timeline_events_added_sum {
-    description: "The sum of Timeline Events Addeds within each grouping."
+    description: "The Sum of Timeline Events Added."
     type: sum
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
   }
 
   measure: timeline_events_added_max {
-    description: "The max Timeline Events Addeds within each grouping."
+    description: "The Max. Timeline Events Added."
     type: max
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
   }
 
   measure: timeline_events_added_min {
-    description: "The min Timeline Events Addeds within each grouping."
+    description: "The Min. Timeline Events Added."
     type: min
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
   }
 
   measure: timeline_events_added_avg {
-    description: "The average Timeline Events Addeds within each grouping."
+    description: "The Average Timeline Events Added."
     type: average
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
   }
 
   measure: timeline_events_added_median {
-    description: "The median  Timeline Events Addeds within each grouping."
+    description: "The Median Timeline Events Added."
     type: median
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
   }
 
+  measure: commanders_changed_sum {
+    description: "The Sum of Commanders Changed."
+    type: sum
+    group_label: "Commanders Changed Measures"
+    sql: ${commanders_changed} ;;
+  }
+
   measure: commanders_changed_max {
-    description: "The max Commanders Changeds within each grouping."
+    description: "The Max. Commanders Changed."
     type: max
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
   }
 
   measure: commanders_changed_min {
-    description: "The min Commanders Changeds within each grouping."
+    description: "The Min. Commanders Changed."
     type: min
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
   }
 
   measure: commanders_changed_avg {
-    description: "The average Commanders Changeds within each grouping."
+    description: "The Average Commanders Changed."
     type: average
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
   }
 
   measure: commanders_changed_median {
-    description: "The median  Commanders Changeds within each grouping."
+    description: "The Median Commanders Changed."
     type: median
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
   }
 
+  measure: timeline_tab_clicks_sum {
+    description: "The Sum of Timeline Tab Clicks."
+    type: sum
+    group_label: "Timeline Tab Clicks Measures"
+    sql: ${timeline_tab_clicks} ;;
+  }
+
   measure: timeline_tab_clicks_max {
-    description: "The max Timeline Tab Clicks within each grouping."
+    description: "The Max. Timeline Tab Clicks."
     type: max
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_min {
-    description: "The min Timeline Tab Clicks within each grouping."
+    description: "The Min. Timeline Tab Clicks."
     type: min
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_avg {
-    description: "The average Timeline Tab Clicks within each grouping."
+    description: "The Average Timeline Tab Clicks."
     type: average
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
   measure: timeline_tab_clicks_median {
-    description: "The median  Timeline Tab Clicks within each grouping."
+    description: "The Median Timeline Tab Clicks."
     type: median
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
   }
 
+  measure: ended_incident_sum {
+    description: "The Sum of Ended Incidents."
+    type: sum
+    group_label: "Ended Incident Measures"
+    sql: ${ended_incident} ;;
+  }
+
   measure: ended_incident_max {
-    description: "The max Ended Incidents within each grouping."
+    description: "The Max. Ended Incidents."
     type: max
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_min {
-    description: "The min Ended Incidents within each grouping."
+    description: "The Min. Ended Incidents."
     type: min
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_avg {
-    description: "The average Ended Incidents within each grouping."
+    description: "The Average Ended Incidents."
     type: average
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
   measure: ended_incident_median {
-    description: "The median  Ended Incidents within each grouping."
+    description: "The Median Ended Incidents."
     type: median
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
   }
 
+  measure: restarted_incident_sum {
+    description: "The Sum of Restarted Incidents."
+    type: sum
+    group_label: "Restarted Incident Measures"
+    sql: ${restarted_incident} ;;
+  }
+
   measure: restarted_incident_max {
-    description: "The max Restarted Incidents within each grouping."
+    description: "The Max. Restarted Incidents."
     type: max
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_min {
-    description: "The min Restarted Incidents within each grouping."
+    description: "The Min. Restarted Incidents."
     type: min
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_avg {
-    description: "The average Restarted Incidents within each grouping."
+    description: "The Average Restarted Incidents."
     type: average
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
   measure: restarted_incident_median {
-    description: "The median  Restarted Incidents within each grouping."
+    description: "The Median Restarted Incidents."
     type: median
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
   }
 
+  measure: task_assignees_set_sum {
+    description: "The Sum of Task Assignees Set."
+    type: sum
+    group_label: "Task Assignees Set Measures"
+    sql: ${task_assignees_set} ;;
+  }
+
   measure: task_assignees_set_max {
-    description: "The max Task Assignees Sets within each grouping."
+    description: "The Max. Task Assignees Set."
     type: max
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
   }
 
   measure: task_assignees_set_min {
-    description: "The min Task Assignees Sets within each grouping."
+    description: "The Min. Task Assignees Set."
     type: min
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
   }
 
   measure: task_assignees_set_avg {
-    description: "The average Task Assignees Sets within each grouping."
+    description: "The Average Task Assignees Set."
     type: average
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
   }
 
   measure: task_assignees_set_median {
-    description: "The median  Task Assignees Sets within each grouping."
+    description: "The Median Task Assignees Set."
     type: median
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
   }
 
+  measure: task_states_modified_sum {
+    description: "The Sum of Task States Modified."
+    type: sum
+    group_label: "Task States Modified Measures"
+    sql: ${task_states_modified} ;;
+  }
+
   measure: task_states_modified_max {
-    description: "The max Task States Modifieds within each grouping."
+    description: "The Max. Task States Modified."
     type: max
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
   }
 
   measure: task_states_modified_min {
-    description: "The min Task States Modifieds within each grouping."
+    description: "The Min. Task States Modified."
     type: min
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
   }
 
   measure: task_states_modified_avg {
-    description: "The average Task States Modifieds within each grouping."
+    description: "The Average Task States Modified."
     type: average
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
   }
 
   measure: task_states_modified_median {
-    description: "The median  Task States Modifieds within each grouping."
+    description: "The Median Task States Modified."
     type: median
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
   }
 
+  measure: tasks_added_sum {
+    description: "The Sum of Tasks Added."
+    type: sum
+    group_label: "Tasks Added Measures"
+    sql: ${tasks_added} ;;
+  }
+
   measure: tasks_added_max {
-    description: "The max Tasks Addeds within each grouping."
+    description: "The Max. Tasks Added."
     type: max
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
   }
 
   measure: tasks_added_min {
-    description: "The min Tasks Addeds within each grouping."
+    description: "The Min. Tasks Added."
     type: min
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
   }
 
   measure: tasks_added_avg {
-    description: "The average Tasks Addeds within each grouping."
+    description: "The Average Tasks Added."
     type: average
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
   }
 
   measure: tasks_added_median {
-    description: "The median  Tasks Addeds within each grouping."
+    description: "The Median Tasks Added."
     type: median
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
   }
 
+  measure: tasks_removed_sum {
+    description: "The Sum of Tasks Removed."
+    type: sum
+    group_label: "Tasks Removed Measures"
+    sql: ${tasks_removed} ;;
+  }
+
   measure: tasks_removed_max {
-    description: "The max Tasks Removeds within each grouping."
+    description: "The Max. Tasks Removed."
     type: max
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
   }
 
   measure: tasks_removed_min {
-    description: "The min Tasks Removeds within each grouping."
+    description: "The Min. Tasks Removed."
     type: min
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
   }
 
   measure: tasks_removed_avg {
-    description: "The average Tasks Removeds within each grouping."
+    description: "The Average Tasks Removed."
     type: average
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
   }
 
   measure: tasks_removed_median {
-    description: "The median  Tasks Removeds within each grouping."
+    description: "The Median Tasks Removed."
     type: median
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
   }
 
+  measure: tasks_renamed_sum {
+    description: "The Sum of Tasks Renamed."
+    type: sum
+    group_label: "Tasks Renamed Measures"
+    sql: ${tasks_renamed} ;;
+  }
+
   measure: tasks_renamed_max {
-    description: "The max Tasks Renameds within each grouping."
+    description: "The Max. Tasks Renamed."
     type: max
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
   }
 
   measure: tasks_renamed_min {
-    description: "The min Tasks Renameds within each grouping."
+    description: "The Min. Tasks Renamed."
     type: min
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
   }
 
   measure: tasks_renamed_avg {
-    description: "The average Tasks Renameds within each grouping."
+    description: "The Average Tasks Renamed."
     type: average
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
   }
 
   measure: tasks_renamed_median {
-    description: "The median  Tasks Renameds within each grouping."
+    description: "The Median Tasks Renamed."
     type: median
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
   }
 
+  measure: task_slash_commands_run_sum {
+    description: "The Sum of Task Slash Commands Run."
+    type: sum
+    group_label: "Task Slash Commands Run Measures"
+    sql: ${task_slash_commands_run} ;;
+  }
+
   measure: task_slash_commands_run_max {
-    description: "The max Task Slash Commands Runs within each grouping."
+    description: "The Max. Task Slash Commands Run."
     type: max
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
   }
 
   measure: task_slash_commands_run_min {
-    description: "The min Task Slash Commands Runs within each grouping."
+    description: "The Min. Task Slash Commands Run."
     type: min
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
   }
 
   measure: task_slash_commands_run_avg {
-    description: "The average Task Slash Commands Runs within each grouping."
+    description: "The Average Task Slash Commands Run."
     type: average
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
   }
 
   measure: task_slash_commands_run_median {
-    description: "The median  Task Slash Commands Runs within each grouping."
+    description: "The Median Task Slash Commands Run."
     type: median
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
   }
 
+  measure: tasks_moved_sum {
+    description: "The Sum of Tasks Moved."
+    type: sum
+    group_label: "Tasks Moved Measures"
+    sql: ${tasks_moved} ;;
+  }
+
   measure: tasks_moved_max {
-    description: "The max Tasks Moveds within each grouping."
+    description: "The Max. Tasks Moved."
     type: max
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
   }
 
   measure: tasks_moved_min {
-    description: "The min Tasks Moveds within each grouping."
+    description: "The Min. Tasks Moved."
     type: min
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
   }
 
   measure: tasks_moved_avg {
-    description: "The average Tasks Moveds within each grouping."
+    description: "The Average Tasks Moved."
     type: average
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
   }
 
   measure: tasks_moved_median {
-    description: "The median  Tasks Moveds within each grouping."
+    description: "The Median Tasks Moved."
     type: median
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
