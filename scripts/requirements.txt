@@ -1,2 +1,0 @@
-flask-script
-looker_sdk
