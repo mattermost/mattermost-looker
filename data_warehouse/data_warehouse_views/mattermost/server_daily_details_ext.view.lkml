@@ -16,6 +16,7 @@ view: server_daily_details_ext {
     group_label: "Instance Counts"
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [server_fact*]
   }
 
   set: cse_drill {
@@ -54,7 +55,7 @@ view: server_daily_details_ext {
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
                       WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
-                      ELSE COALESCE(${server_daily_details_ext.edition}, ${server_fact.server_edition})
+                      ELSE COALESCE(${edition}, ${server_fact.server_edition})
                       END ;;
   }
 

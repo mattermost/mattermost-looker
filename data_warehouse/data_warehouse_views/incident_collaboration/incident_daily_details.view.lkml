@@ -3,7 +3,10 @@ view: incident_daily_details {
   sql_table_name: incident_collaboration.incident_daily_details ;;
   view_label: "Incident Daily Details"
 
-  # FILTERS
+  # SET
+  set: incident {
+    fields: [license_server_fact.customer_id, license_server_fact.customer_name, server_daily_details.product_edition, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, task_slash_commands_run_max, task_assignees_set_max]
+  }
 
   # DIMENSIONS
   dimension: id {
@@ -14,6 +17,7 @@ view: incident_daily_details {
   }
 
   dimension: server_id {
+    label: "Instance ID"
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;
@@ -21,9 +25,19 @@ view: incident_daily_details {
   }
 
   dimension: plugin_version {
+    group_label: "Plugin Version"
     description: ""
     type: string
     sql: ${TABLE}.plugin_version ;;
+    hidden: no
+  }
+
+  dimension: plugin_version_major {
+    label: "Plugin Version (Major)"
+    group_label: "Plugin Version"
+    description: ""
+    type: string
+    sql: SPLIT_PART(${plugin_version}, '.', 1) || '.' || SPLIT_PART(${plugin_version}, '.', 2) ;;
     hidden: no
   }
 
@@ -250,6 +264,7 @@ view: incident_daily_details {
     description: "The distinct count of Incident Daily Details Servers within each grouping."
     type: count_distinct
     sql: ${server_id} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_sum {
@@ -292,6 +307,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_sum {
@@ -334,6 +350,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_edited_sum {
@@ -376,6 +393,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_deleted_sum {
@@ -418,6 +436,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_sum {
@@ -460,6 +479,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: acknowledged_incidents_sum {
@@ -502,6 +522,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: archived_incidents_sum {
@@ -544,6 +565,7 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
   }
 
   measure: resolved_incidents_sum {
