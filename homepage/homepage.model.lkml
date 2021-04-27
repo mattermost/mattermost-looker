@@ -25,13 +25,6 @@ view: _homepage {
         <div style="font-size: 13px">This Mattermost Board Looker homepage was created to get you started digging into Mattermost Metrics.</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
-            <br>
-            <div style="font-size: 15px">Handbook & Documentation Links</div>
-              <ul>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Metrics Definitions</a>
-                </li>
-              </ul>
             <div style="font-size: 15px">Content in Looker</div>
             <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/222" style="@{css_link_style}">-  Business Review Dashboard</a></li>
@@ -89,22 +82,6 @@ view: _homepage {
           <div style="font-size: 12px">There are many other ways to use Looker, but we wanted to make it super easy to get started.</div>
           <div style="font-size: 13px; text-align: left;">
             <div ng-bind-html="element.body_text_as_html">
-              <br>
-              <div style="font-size: 15px">Handbook & Documentation Links</div>
-                <ul>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Metrics Definitions</a>
-                  </li>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Automating Metrics Timeline</a>
-                  </li>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Looker at Mattermost</a>
-                  </li>
-                  <li>
-                    <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" target="_blank" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Provide Feedback on Looker Dashboards</a>
-                  </li>
-                </ul>
               <div style="font-size: 15px">Content in Looker</div>
               <ul>
                 <li><a href="https://mattermost.looker.com/dashboards/110" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Weekly Business Review Dashboard</a></li>
@@ -152,11 +129,8 @@ view: _homepage {
                 <li>
                   <div>Customer Journey Lifecycle</div>
                   <ul>
-                    <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Traffic &amp; Organic Google Search</a></li>
+                    <li><a href="https://mattermost.looker.com/dashboards-next/142" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Website Data</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Downloads</a></li>
-                    <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Contact Us Requests</li>
-                    <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Trial Requests</a></li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  MQL Dashboard - Coming Soon!</li>
                   </ul>
                 </li>
               </ul>
@@ -179,22 +153,6 @@ view: _homepage {
           <div style="font-size: 30px">Sales Looker Homepage</div>
           <div style="font-size: 13px; text-align: left;">
             <div ng-bind-html="element.body_text_as_html">
-              <br>
-              <div style="font-size: 15px">Handbook & Documentation Links</div>
-                <ul>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Metrics Definitions</a>
-                  </li>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Automating Metrics Timeline</a>
-                  </li>
-                  <li>
-                    <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Looker at Mattermost</a>
-                  </li>
-                  <li>
-                    <a href="https://docs.google.com/document/d/14PxD7onptAyE5FcPAZXeR8IjUAg1lq7R-4YfXCv8IF8/edit?usp=sharing" target="_blank" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Provide Feedback on Looker Dashboards</a>
-                  </li>
-                </ul>
               <div style="font-size: 15px">Sales Content in Looker</div>
               <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (WW)</a></li>
@@ -230,34 +188,6 @@ view: _homepage {
         <div style="font-size: 30px">Welcome to Looker, {{ _user_attributes['first_name'] }}!</div>
         <div style="font-size: 13px; text-align: left;">
           <div ng-bind-html="element.body_text_as_html">
-            <div style="font-size: 15px">
-              {% if _user_attributes['role'] == 'Viewer' %}
-                You are a {{ _user_attributes['role'] }}.
-                Learn more about your {{ _user_attributes['role'] }} role <a href="https://docs.google.com/document/d/1vp3Ce76kOVROy1nj-Us_ZpOAaW0OY-xYbQkoqPqOxi0/edit?usp=sharing#heading=h.ayouhbp6gxq" target="_blank" style="@{css_link_style};">here</a>.
-              {% elsif _user_attributes['role'] == 'Explorer' %}
-                You are a {{ _user_attributes['role'] }}.
-                Learn more about your {{ _user_attributes['role'] }} role <a href="https://docs.google.com/document/d/1vp3Ce76kOVROy1nj-Us_ZpOAaW0OY-xYbQkoqPqOxi0/edit?usp=sharing#heading=h.b3b0e8vgbnrg" target="_blank" style="@{css_link_style};">here</a>.
-              {% elsif _user_attributes['role'] == 'Developer' %}
-                You are a {{ _user_attributes['role'] }}.
-                Learn more about your {{ _user_attributes['role'] }} role <a href="https://docs.google.com/document/d/1vp3Ce76kOVROy1nj-Us_ZpOAaW0OY-xYbQkoqPqOxi0/edit?usp=sharing#heading=h.saf3bubf33za" target="_blank" style="@{css_link_style};">here</a>.
-              {% else %}
-                You are a {{ _user_attributes['role'] }}.
-                Learn more about your {{ _user_attributes['role'] }} role <a href="https://docs.google.com/document/d/1vp3Ce76kOVROy1nj-Us_ZpOAaW0OY-xYbQkoqPqOxi0/edit?usp=sharing#heading=h.dzknxy7m5d24" target="_blank" style="@{css_link_style};">here</a>.
-              {% endif %}
-            </div>
-            <br>
-            <div style="font-size: 15px">Handbook & Documentation Links</div>
-              <ul>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/metrics-definitions" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Metrics Definitions</a>
-                </li>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics#automating-metrics" target="_blank" style="@{css_link_style};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Automating Metrics Timeline</a>
-                </li>
-                <li>
-                  <a href="https://handbook.mattermost.com/operations/business-operations/analytics/looker" target="_blank" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Looker at Mattermost</a>
-                </li>
-              </ul>
             <div style="font-size: 15px">Content in Looker</div>
             <ul>
               <li>
@@ -299,11 +229,8 @@ view: _homepage {
               <li>
                 <div>Customer Journey Lifecycle</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/5" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Traffic &amp; Organic Google Search</a></li>
+                  <li><a href="https://mattermost.looker.com/dashboards-next/142" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Website Data</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/11" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Downloads</a></li>
-                  <li><a href="https://mattermost.looker.com/dashboards/25" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Contact Us Requests</li>
-                  <li><a href="https://mattermost.looker.com/dashboards/23" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Trial Requests</a></li>
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  MQL Dashboard - Coming Soon!</li>
                 </ul>
               </li>
             </ul>
