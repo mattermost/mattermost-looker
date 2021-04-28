@@ -3275,6 +3275,7 @@ explore: incident_collaboration {
   from: server_daily_details_ext
   # sql_always_where: ${server_fact.last_active_date}::date >= CURRENT_DATE - INTERVAL '3 DAYS' ;;
   view_label: "Incident Collaboration Daily"
+  hidden: yes
   group_label: "Incident Collaboration"
   label: "Incident Collaboration Daily"
   fields: [incident_collaboration.server_id, incident_collaboration.product_edition, incident_collaboration.version, incident_collaboration.server_version_major, incident_daily_details*, license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users,-incident_daily_details.logging_date,-incident_daily_details.logging_month, -incident_daily_details.logging_week,-incident_daily_details.logging_year,-incident_daily_details.logging_fiscal_quarter, -incident_daily_details.logging_fiscal_year, incident_collaboration.logging_date,incident_collaboration.logging_week,incident_collaboration.logging_month,incident_collaboration.logging_year,incident_collaboration.logging_fiscal_quarter,incident_collaboration.logging_fiscal_year,incident_collaboration.total_instances, server_fact.cloud_server, excludable_servers.reason, incident_collaboration.last_day_of_week, incident_collaboration.last_day_of_month]
