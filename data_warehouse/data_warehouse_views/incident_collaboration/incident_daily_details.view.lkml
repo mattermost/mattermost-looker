@@ -20,6 +20,25 @@ view: incident_daily_details {
     sql: ${server_fact.installation_id} IS NOT NULL ;;
   }
 
+  dimension: dev_server {
+    description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    type: yesno
+    sql: CASE WHEN regexp_substr(${plugin_version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL
+      OR ${server_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw') OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: community_server {
+    description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    type: yesno
+    sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: licensed_server {
+    description: "Boolean indicating the server was licensed at the time the incident response telemetry was logged."
+    type: yesno
+    sql: CASE WHEN ${license_server_fact.license_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
+  }
+
   # DIMENSIONS
   dimension: id {
     description: ""
