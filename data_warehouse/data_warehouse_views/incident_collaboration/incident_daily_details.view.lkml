@@ -8,6 +8,18 @@ view: incident_daily_details {
     fields: [license_server_fact.customer_id, license_server_fact.customer_name, server_daily_details.product_edition, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
+  dimension: current_version {
+    description: "Boolean indicating the instance's Incident Collaboration Plugin Version is their current version at that point in time. (Last Version Date >= Date)."
+    type: yesno
+    sql: ${logging_date} <= ${last_version_date} and ${logging_date} >= ${first_version_date} and ${logging_date} <= ${last_active_date};;
+  }
+
+  dimension: cloud_workspace {
+    description: "Boolean indicating the instance is a cloud workspace (instance's Cloud Installation ID is not null)."
+    type: yesno
+    sql: ${server_fact.installation_id} IS NOT NULL ;;
+  }
+
   # DIMENSIONS
   dimension: id {
     description: ""
