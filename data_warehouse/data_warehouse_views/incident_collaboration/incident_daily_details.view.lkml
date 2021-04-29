@@ -39,6 +39,20 @@ view: incident_daily_details {
     sql: CASE WHEN ${license_server_fact.license_id} IS NOT NULL THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: last_day_of_week {
+    description: "Boolean indicating the date is the most recent date or the last day of week."
+    sql: ${logging_date} = last_day(${logging_date}::date, 'week') ;;
+    type: yesno
+  }
+
+  dimension: last_day_of_month {
+    description: "Boolean indicating the date is the most recent date or the last day of week."
+    sql: CASE WHEN ${logging_date} = CURRENT_DATE - INTERVAL '1 DAY' THEN TRUE
+          WHEN ${logging_date} = last_day(${logging_date}::date) THEN TRUE
+          ELSE FALSE END;;
+    type: yesno
+  }
+
   # DIMENSIONS
   dimension: id {
     description: ""
