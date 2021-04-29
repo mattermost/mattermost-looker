@@ -3307,3 +3307,10 @@ explore: incident_collaboration {
     sql_on: ${excludable_servers.server_id} = ${incident_collaboration.server_id} ;;
   }
 }
+
+explore: incident_collaboration_fact {
+  label: "Incident Collaboration Fact"
+}
+explore: focalboard_fact {
+  label: "Focalboard Fact"
+}
