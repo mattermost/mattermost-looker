@@ -3314,3 +3314,6 @@ explore: incident_collaboration_fact {
 explore: focalboard_fact {
   label: "Focalboard Fact"
 }
+explore: focalboard_fact {
+  label: "Focalboard Fact"
+}
