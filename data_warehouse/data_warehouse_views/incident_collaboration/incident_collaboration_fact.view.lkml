@@ -4,90 +4,99 @@ view: incident_collaboration_fact {
   view_label: "Incident Collaboration Fact"
 
   # FILTERS
+  set: incident_facts{
+    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active]
+  }
 
   # DIMENSIONS
   dimension: server_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
+  dimension: days_active {
+    type: number
+    description: "The count of days from the instances first to last active date where >= 1 active incident collaboration user was associated with the instance."
+    sql: ${TABLE}.days_active ;;
+  }
+
   dimension: current_plugin_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.current_plugin_version ;;
     hidden: no
   }
 
   dimension: users_max {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.users_max ;;
     hidden: no
   }
 
   dimension: daily_active_users_max {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.daily_active_users_max ;;
     hidden: no
   }
 
   dimension: playbooks_created {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.playbooks_created ;;
     hidden: no
   }
 
   dimension: incidents_reported {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.incidents_reported ;;
     hidden: no
   }
 
   dimension: incidents_acknowledged {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.incidents_acknowledged ;;
     hidden: no
   }
 
   dimension: incidents_resolved {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.incidents_resolved ;;
     hidden: no
   }
 
   dimension: incidents_archived {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.incidents_archived ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: first_active {
-    description: "" 
+    description: ""
     type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
     hidden: no
   }
 
-  dimension_group: last_active_date {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  dimension_group: last_active {
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."

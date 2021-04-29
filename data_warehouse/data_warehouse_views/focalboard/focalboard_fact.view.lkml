@@ -4,55 +4,64 @@ view: focalboard_fact {
   view_label: "Focalboard Fact"
 
   # FILTERS
+  set: focalboard_facts{
+    fields: [weekly_active_users_max, daily_active_users_max, monthly_active_users_max, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active]
+    }
 
   # DIMENSIONS
   dimension: instance_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.instance_id ;;
     hidden: no
   }
 
+  dimension: days_active {
+    type: number
+    description: "The count of days from the instances first to last active date where >= 1 active incident collaboration user was associated with the instance."
+    sql: ${TABLE}.days_active ;;
+  }
+
   dimension: daily_active_users_max {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.daily_active_users_max ;;
     hidden: no
   }
 
   dimension: weekly_active_users_max {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.weekly_active_users_max ;;
     hidden: no
   }
 
   dimension: monthly_active_users_max {
-    description: "" 
+    description: ""
     type: number
     sql: ${TABLE}.monthly_active_users_max ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: first_active {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active ;;
     hidden: no
   }
 
   dimension_group: last_active {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
