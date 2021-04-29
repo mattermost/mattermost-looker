@@ -3109,7 +3109,7 @@ view: server_telemetry {
   dimension: properties {
     sql: OBJECT_CONSTRUCT(server_telemetry.*) ;;
     html:
-    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    {% assign words = value | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>
     {% for word in words %}
     <li>{{ word }}</li>
