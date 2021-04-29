@@ -8,6 +8,22 @@ view: incident_daily_details {
     fields: [license_server_fact.customer_id, license_server_fact.customer_name, server_daily_details.product_edition, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
+  dimension: age_days {
+    description: "The number of days from the first active date to the given logging date."
+    label: "Age (Days)"
+    sql: datediff(day, ${incident_collaboration_fact.first_active_date}::date, ${logging_date}) ;;
+    type: number
+  }
+
+  dimension: age_band {
+    label: "Age Band (Days)"
+    description: "Displays the age in days of the incident collaboaration instance bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and given logging date of the record."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${age_days} ;;
+  }
+
   dimension: current_version {
     description: "Boolean indicating the instance's Incident Collaboration Plugin Version is their current version at that point in time. (Last Version Date >= Date)."
     type: yesno
@@ -245,6 +261,18 @@ view: incident_daily_details {
     type: number
     sql: ${TABLE}.tasks_moved ;;
     hidden: no
+  }
+
+  dimension: daily_active_users {
+    type: number
+    description: "The count of distinct users that performed an Incident Collaboration on the given logging date."
+    sql: ${TABLE}.daily_active_users ;;
+  }
+
+  dimension: version_users_to_date {
+    type: number
+    description: "The count of distinct users that have performed at least one Incident Collaboration event on the plugin version on or before the given logging date."
+    sql: ${TABLE}.version_users_to_date ;;
   }
 
 
@@ -1171,6 +1199,48 @@ view: incident_daily_details {
     type: median
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+  }
+
+  measure: daily_active_users_sum {
+    description: "The Sum of Daily Active Users on the given logging date."
+    type: sum
+    group_label: "Daily Active User Measures"
+    sql: ${daily_active_users} ;;
+  }
+
+  measure: daily_active_users_avg {
+    description: "The Average Daily Active Users on the given logging date."
+    type: average
+    group_label: "Daily Active User Measures"
+    sql: ${daily_active_users} ;;
+  }
+
+  measure: daily_active_users_median {
+    description: "The Median Daily Active Users on the given logging date."
+    type: median
+    group_label: "Daily Active User Measures"
+    sql: ${daily_active_users} ;;
+  }
+
+  measure: version_users_to_date_sum {
+    description: "The Sum of users that have performed an event on the given plugin versoin on or before the given logging date."
+    type: sum
+    group_label: "Version Active User Measures"
+    sql: ${version_users_to_date} ;;
+  }
+
+  measure: version_users_to_date_avg {
+    description: "The Average # of users that have performed an event on the given plugin versoin on or before the given logging date."
+    type: average
+    group_label: "Version Active User Measures"
+    sql: ${version_users_to_date} ;;
+  }
+
+  measure: version_users_to_date_median {
+    description: "The Median # of users that have performed an event on the given plugin versoin on or before the given logging date."
+    type: median
+    group_label: "Version Active User Measures"
+    sql: ${version_users_to_date} ;;
   }
 
 

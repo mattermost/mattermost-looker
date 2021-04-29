@@ -3219,9 +3219,10 @@ explore: focalboard_config {
 }
 
 explore: focalboard_server {
-  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event]
+  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event, focalboard_fact.focalboard_facts*]
   view_label: "Focalboard Telemetry"
   group_label: "Focalboard"
+  label: "Focalboard Telemtry"
 
   join: focalboard_activity {
     view_label: "Focalboard Telemetry"
@@ -3233,6 +3234,13 @@ explore: focalboard_server {
     view_label: "Focalboard Telemetry"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date} ;;
     relationship: one_to_one
+  }
+
+  join: focalboard_fact {
+    view_label: "Focalboard Instance Facts (To Date)"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: many_to_one
+    fields: [focalboard_fact.focalboard_facts*]
   }
 }
 
@@ -3269,6 +3277,13 @@ explore: incident_daily_details {
     type: left_outer
     fields: [server_daily_details.product_edition, server_daily_details.total_instances, server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.version, server_daily_details.server_version_major]
   }
+
+  join: incident_collaboration_fact {
+    view_label: "Incident Collaboration Facts (To Date)"
+    sql_on: ${incident_collaboration_fact.server_id} = ${incident_daily_details.server_id} ;;
+    relationship: many_to_one
+    fields: [incident_collaboration_fact.incident_facts*]
+}
 }
 
 explore: incident_collaboration {
@@ -3285,6 +3300,13 @@ explore: incident_collaboration {
     sql_on: ${incident_daily_details.server_id} = ${incident_collaboration.server_id} AND ${incident_collaboration.logging_date}::DATE = ${incident_daily_details.logging_date}::DATE ;;
     relationship: one_to_one
     type: left_outer
+  }
+
+  join: incident_collaboration_fact {
+    view_label: "Incident Collaboration Facts (To Date)"
+    sql_on: ${incident_collaboration_fact.server_id} = ${incident_collaboration.server_id} ;;
+    relationship: many_to_one
+    fields: [incident_collaboration_fact.incident_facts*]
   }
 
   join: license_server_fact {
@@ -3306,4 +3328,14 @@ explore: incident_collaboration {
     relationship: many_to_one
     sql_on: ${excludable_servers.server_id} = ${incident_collaboration.server_id} ;;
   }
+}
+
+explore: incident_collaboration_fact {
+  label: "Incident Collaboration Fact"
+  hidden: yes
+}
+
+explore: focalboard_fact {
+  label: "Focalboard Fact"
+  hidden: yes
 }
