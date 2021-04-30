@@ -7,7 +7,7 @@ view: hacktoberboard_dev {
   dimension: properties {
     sql: OBJECT_CONSTRUCT(*) ;;
     html:
-    {% assign words = {{value}} | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
+    {% assign words = value | replace: '}', '' | replace: '{', '' | replace: ', ', '; ' | split: ',' %}
     <ul>
     {% for word in words %}
     <li>{{ word }}</li>

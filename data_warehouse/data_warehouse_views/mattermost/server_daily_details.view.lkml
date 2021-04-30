@@ -2,6 +2,12 @@ view: server_daily_details {
   sql_table_name: mattermost.server_daily_details ;;
   view_label: " Server Daily Details"
 
+  measure: total_instances {
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: ${server_id} ;;
+  }
+
   # Filters
   dimension: latest_telemetry_record_2 {
     label: "  Latest Telemetry Record"
