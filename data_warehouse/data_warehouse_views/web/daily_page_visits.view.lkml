@@ -5,10 +5,7 @@ view: daily_page_visits {
     type: time
     timeframes: [
       date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year
+      month
     ]
     sql: ${TABLE}."START_DATE" ;;
   }
@@ -62,13 +59,6 @@ view: daily_page_visits {
   dimension: site {
     type: string
     sql: ${TABLE}."SITE" ;;
-  }
-
-  measure: page_views {
-    label: "Total Page Views"
-    type: sum
-    sql: ${TABLE}."PAGEVIEWS" ;;
-    description: "A pageview is reported when a page has been viewed by a user on the website"
   }
 
   measure: unique_page_views {

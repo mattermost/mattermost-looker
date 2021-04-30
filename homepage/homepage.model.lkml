@@ -62,7 +62,6 @@ view: _homepage {
               <li>
                 <div>-  Customer Journey Lifecycle</div>
                 <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/77" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Traffic &amp; Organic Google Search Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/74" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Downloads Dashboard</a></li>
                   <li><a href="https://mattermost.looker.com/dashboards/78" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Trial Requests Dashboard</a></li>
                 </ul>

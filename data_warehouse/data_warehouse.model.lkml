@@ -783,14 +783,8 @@ explore: lead_status_hist {
   }
 }
 
-explore: daily_traffic {
-  group_label: "Marketing"
-  label: "GA Daily Traffic"
-}
-
 explore: daily_page_visits {
-  group_label: "Marketing"
-  label: "GA Daily Page Visits"
+  hidden: yes
   join: blog_paths {
     view_label: "Daily Page Visits"
     sql_on: ${daily_page_visits.page_path_2} = ${blog_paths.page_path} ;;
@@ -2062,7 +2056,15 @@ explore: daily_website_traffic {
     sql_on: ${daily_website_traffic.context_useragent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
   }
+
+  join: blog_paths {
+    view_label: "Daily Website Traffic"
+    sql_on: ${daily_website_traffic.context_page_path_pt_2} = ${blog_paths.page_path_pt_2} ;;
+    relationship: many_to_one
+    fields: [blog_paths.category]
+  }
 }
+
 
 explore: stripe_charges {
   label: "Stripe Charges"
