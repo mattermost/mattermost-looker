@@ -70,7 +70,8 @@ view: opportunitylineitem {
       total_multi_amount,
       total_ren_multi_amount,
       monthly_billing_amount,
-      is_monthly_billing
+      is_monthly_billing,
+      total_amount_total_price
     ]
   }
 
@@ -334,6 +335,11 @@ view: opportunitylineitem {
     value_format_name: "usd_0"
   }
 
+  dimension: total_amount_total_price {
+    label: "Amounts Match"
+    sql: ${TABLE}.total_amount_total_price__c;;
+    type: yesno
+  }
 
   dimension: arr {
     label: "ARR"
