@@ -1,5 +1,5 @@
 view: daily_page_visits {
-  sql_table_name: "GA"."DAILY_PAGE_VISITS";;
+  sql_table_name: "WEB"."DAILY_PAGE_VISITS";;
 
   dimension_group: visit {
     type: time
