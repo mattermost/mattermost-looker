@@ -363,6 +363,15 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: playbooks_created_edited {
+    description: "The sum of playbook create and edit events."
+    label: "Playbooks Created/Edited Sum"
+    group_label: "Playbooks Measures"
+    sql: ${playbooks_created_sum} + ${playbooks_edited_sum} ;;
+    type: number
   }
 
   measure: playbooks_max {
@@ -416,6 +425,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_max {
@@ -548,6 +558,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_max {
@@ -555,6 +566,7 @@ view: incident_daily_details {
     type: max
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_min {
@@ -562,6 +574,7 @@ view: incident_daily_details {
     type: min
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_avg {
@@ -569,6 +582,7 @@ view: incident_daily_details {
     type: average
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_median {
@@ -576,6 +590,7 @@ view: incident_daily_details {
     type: median
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_acknowledged_incidents {
