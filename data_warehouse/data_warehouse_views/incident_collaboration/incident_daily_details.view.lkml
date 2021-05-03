@@ -317,6 +317,24 @@ view: incident_daily_details {
     hidden: no
   }
 
+  measure: last_active_date_max{
+    group_label: "Active Date Measures (Min & Max)"
+    label: "Last Active Date (Max)"
+    description: ""
+    type: date
+    sql: MAX(${last_active_date}::date) ;;
+    hidden: no
+  }
+
+  measure: first_active_date_max{
+    group_label: "Active Date Measures (Min & Max)"
+    label: "First Active Date (Max)"
+    description: ""
+    type: date
+    sql: MAX(${first_active_date}::date) ;;
+    hidden: no
+  }
+
 
   # MEASURES
   measure: count {
@@ -345,6 +363,15 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: playbooks_created_edited {
+    description: "The sum of playbook create and edit events."
+    label: "Playbooks Created/Edited Sum"
+    group_label: "Playbooks Measures"
+    sql: ${playbooks_created_sum} + ${playbooks_edited_sum} ;;
+    type: number
   }
 
   measure: playbooks_max {
@@ -377,9 +404,19 @@ view: incident_daily_details {
 
   measure: instances_with_playbooks_created {
     description: "The distinct count of instances that have Playbooks Created."
+    label: "Instances w/ Playbooks Created"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_created_edited {
+    description: "The distinct count of instances that have Playbooks Created."
+    label: "Instances w/ Playbooks Created/Edited"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created} > 0 or ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -388,6 +425,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_max {
@@ -420,6 +458,7 @@ view: incident_daily_details {
 
   measure: instances_with_playbooks_edited {
     description: "The distinct count of instances that have Playbooks Edited."
+    label: "Instances w/ Playbooks Edited"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -463,6 +502,7 @@ view: incident_daily_details {
 
   measure: instances_with_playbooks_deleted {
     description: "The distinct count of instances that have Playbooks Deleted."
+    label: "Instances w/ Playbooks Deleted"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -506,6 +546,7 @@ view: incident_daily_details {
 
   measure: instances_with_reported_incidents {
     description: "The distinct count of instances that have Reported Incidents."
+    label: "Instances w/ Reported Incidents"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -517,6 +558,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_max {
@@ -524,6 +566,7 @@ view: incident_daily_details {
     type: max
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_min {
@@ -531,6 +574,7 @@ view: incident_daily_details {
     type: min
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_avg {
@@ -538,6 +582,7 @@ view: incident_daily_details {
     type: average
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: reported_incidents_median {
@@ -545,10 +590,12 @@ view: incident_daily_details {
     type: median
     group_label: "Reported Incidents Measures"
     sql: ${reported_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_acknowledged_incidents {
     description: "The distinct count of instances that have Acknowledged Incidents."
+    label: "Instances w/ Acknowledged Incidents"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -592,6 +639,7 @@ view: incident_daily_details {
 
   measure: instances_with_archived_incidents {
     description: "The distinct count of instances that have Archived Incidents."
+    label: "Instances w/ Archived Incidents"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -635,6 +683,7 @@ view: incident_daily_details {
 
   measure: instances_with_resolved_incidents {
     description: "The distinct count of instances that have Resolved Incidents."
+    label: "Instances w/ Resolved Incidents"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
