@@ -762,7 +762,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.new_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,new_amount]
   }
 
@@ -770,7 +770,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.renewal_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,renewal_amount]
   }
 
@@ -778,7 +778,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.expansion_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,expansion_amount]
   }
 
@@ -786,7 +786,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${expansion_amount} + ${coterm_expansion_amount};;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,expansion_w_coterm_amount]
   }
 
@@ -794,7 +794,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.coterm_expansion_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,coterm_expansion_amount]
   }
 
@@ -802,7 +802,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.leftover_expansion_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,leftover_expansion_amount]
   }
 
@@ -810,7 +810,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.multi_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,multi_amount]
   }
 
@@ -818,7 +818,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.renewal_multi_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,ren_multi_amount]
   }
 
@@ -826,7 +826,7 @@ view: opportunitylineitem {
     hidden: yes
     sql: ${TABLE}.monthly_billing_amount__c;;
     type: number
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,monthly_billing_amount]
   }
 
@@ -836,7 +836,7 @@ view: opportunitylineitem {
     sql: ${new_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_new_amount]
   }
 
@@ -846,7 +846,7 @@ view: opportunitylineitem {
     sql: ${renewal_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_ren_amount]
   }
 
@@ -856,7 +856,7 @@ view: opportunitylineitem {
     sql: ${expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_exp_only_amount]
   }
 
@@ -866,7 +866,7 @@ view: opportunitylineitem {
     sql: ${coterm_expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
   }
 
@@ -880,7 +880,7 @@ view: opportunitylineitem {
     }
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_coterm_amount]
   }
 
@@ -890,7 +890,7 @@ view: opportunitylineitem {
     sql: ${expansion_amount} + ${coterm_expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_exp_amount]
   }
 
@@ -900,7 +900,7 @@ view: opportunitylineitem {
     sql: ${leftover_expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_loe_amount]
   }
 
@@ -910,7 +910,7 @@ view: opportunitylineitem {
     sql: ${expansion_amount} + ${coterm_expansion_amount} + ${leftover_expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_exp_with_loe_amount]
   }
 
@@ -920,7 +920,7 @@ view: opportunitylineitem {
     sql: ${new_amount} + ${expansion_amount} + ${coterm_expansion_amount} + ${leftover_expansion_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_new_and_exp_with_loe_amount]
   }
 
@@ -930,7 +930,7 @@ view: opportunitylineitem {
     sql: ${multi_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_multi_amount]
   }
 
@@ -940,7 +940,7 @@ view: opportunitylineitem {
     sql: ${ren_multi_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_ren_multi_amount]
   }
 
@@ -950,7 +950,7 @@ view: opportunitylineitem {
     sql: ${monthly_billing_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [opportunitylineitem_drill*,total_monthly_billing_amount]
   }
 

@@ -245,7 +245,7 @@ view: customer_risk {
   dimension: risk_amount {
     type: number
     sql: ${TABLE}."RISK_AMOUNT__C" ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
   }
 
   dimension: risk_assigned {
@@ -358,7 +358,7 @@ view: customer_risk {
     filters: [status: "At Risk"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
@@ -369,7 +369,7 @@ view: customer_risk {
     filters: [status: "Early Warning"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
@@ -380,7 +380,7 @@ view: customer_risk {
     filters: [status: "Delayed"]
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 
@@ -390,7 +390,7 @@ view: customer_risk {
     sql: ${risk_amount};;
     type: sum_distinct
     sql_distinct_key: ${sfid} ;;
-    value_format_name: mm_usd_short
+    value_format_name: usd_0
     drill_fields: [name,  status, risk_amount, seats_at_risk, seats_at_risk]
   }
 

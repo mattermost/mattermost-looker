@@ -694,7 +694,7 @@ view: opportunity {
     description: "Likelihood that opportunity will close, stated as a percentage."
     sql: ${TABLE}.probability ;;
     type: number
-    value_format_name: mm_integer_percent
+    value_format_name: percent_1
     group_label: "Forecasting"
   }
 
@@ -957,7 +957,7 @@ view: opportunity {
     # description: "TODO"
     sql: ${probability};;
     type: average
-    value_format_name: mm_integer_percent
+    value_format_name: percent_1
   }
 
 # Measure

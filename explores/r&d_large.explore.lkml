@@ -1,64 +1,5 @@
-connection: "snowflake_l"
-fiscal_month_offset: -11
-
-
-#
-# Persistence
-#
-
-datagroup: mm_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
-}
-
-datagroup: mm_salesforce_data_group {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "5 minutes"
-}
-
-persist_with: mm_default_datagroup
-
-
-#
-# Access grants
-#
-
-access_grant: debugging_fields {
-  user_attribute: field_visibility
-  allowed_values: [ "all", "developer", "admin" ]
-}
-
-access_grant: sales_mgmt_data_access {
-  user_attribute: data_permissions
-  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'", "'mlt,finance,sales_mgmt,all'", "'sales_mgmt'"]
-}
-
-access_grant: admin_access {
-  user_attribute: data_permissions
-  allowed_values: ["'mlt,finance,finance_only,sales_mgmt,all'"]
-}
-
-#
-# Formats
-#
-
-# BP: Define your own global named value formats to make changing defaults easy
-named_value_format: mm_usd_short {
-  value_format: "$###,##0"
-}
-
-named_value_format: mm_integer_percent {
-  value_format: "0\%"
-}
-
-
-week_start_day: sunday
-
-#
-# Views
-#
-
-include: "/data_warehouse/**/**/*.view.lkml"
+include: "/**/**/*.view.lkml"
+include: "/**/**/*.explore.lkml"
 
 explore: user_events_telemetry {
   label: "User Events Telemetry"
@@ -126,10 +67,10 @@ explore: user_events_telemetry {
   join: license_server_fact {
     relationship: many_to_one
     sql_on: --CASE WHEN ${user_events_telemetry._dbt_source_relation2} IN ('"ANALYTICS".EVENTS.CLOUD_PORTAL_PAGEVIEW_EVENTS', '"ANALYTICS".EVENTS.PORTAL_EVENTS') THEN ${user_events_telemetry.context_traits_portal_customer_id} = ${license_server_fact.customer_id}
-    --ELSE
-    ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
-    --END
-    and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+          --ELSE
+          ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
+          --END
+          and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
 
   join: trial_requests {
