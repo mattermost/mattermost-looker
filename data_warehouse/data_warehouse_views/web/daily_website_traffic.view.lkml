@@ -112,6 +112,14 @@ view: daily_website_traffic {
     hidden: no
   }
 
+  dimension: context_page_path_pt_2 {
+    label: "Page Path (Level 2)"
+    description: ""
+    type: string
+    sql: SPLIT_PART(SPLIT_PART(COALESCE(${TABLE}.context_page_path, ${TABLE}.path),'/',3),'/',1) ;;
+    hidden: no
+  }
+
   dimension: context_page_referrer {
     label: "Page Referrer URL"
     type: string

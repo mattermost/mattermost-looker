@@ -1,5 +1,5 @@
 view: marketo_form_names {
-  sql_table_name: "MARKETO"."MARKETO_FORM_NAMES";;
+  sql_table_name: "STAGING"."MARKETO_FORM_NAMES";;
 
   dimension: form_id {
     type: number
