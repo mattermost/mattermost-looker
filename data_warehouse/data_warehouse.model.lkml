@@ -1575,9 +1575,6 @@ explore: mql_to_close {
   label: "MQL to Close"
 }
 
-
-explore: arr_tva_by_qtr { hidden: yes}
-
 explore: events_registry {
   label: "Events Registry"
   group_label: "Product"
