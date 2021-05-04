@@ -29,7 +29,11 @@ view: nps_user_monthly_score {
   dimension: cloud_server {
     type: yesno
     description: "Boolean indicating the NPS response was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN (${server_daily_details.installation_id} is not null or ${license_server_fact.cloud_customer} OR (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${last_score_date} >= '2020-10-09')) THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${server_daily_details.installation_id} is not null THEN TRUE
+            WHEN ${license_server_fact.cloud_customer} THEN TRUE
+            WHEN ${server_fact.installation_id} is not null THEN TRUE
+            WHEN (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${last_score_date}::date >= '2020-10-09'::date) THEN TRUE
+            ELSE FALSE END ;;
   }
 
   dimension: score_submission_date {
@@ -48,7 +52,9 @@ view: nps_user_monthly_score {
     label: "Response >= 21 Days Since Release"
     type: yesno
     description: "Boolean indicating the response for the server version associated with the NPS submissions was >= 21 since the release date."
-    sql: CASE WHEN ${cloud_server} or ${last_score_date}::DATE >= ${version_release_dates.release_date}::DATE + interval '21 days' THEN true ELSE false END ;;
+    sql: CASE WHEN ${cloud_server} THEN true
+            WHEN ${last_score_date}::DATE >= COALESCE(${version_release_dates.release_date}::DATE + interval '21 days', ${last_score_date}::date - interval '21 days') THEN true
+            ELSE false END ;;
   }
 
   dimension: trailing_3_months_nps {
