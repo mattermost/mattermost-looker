@@ -93,7 +93,6 @@ view: _homepage {
                 <li>
                   <div>Sales</div>
                   <ul>
-                    <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (WW)</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/219" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
                     <li><a href="https://mattermost.looker.com/dashboards/113" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Self Service)</a></li>
                   </ul>
@@ -153,9 +152,6 @@ view: _homepage {
           <div style="font-size: 13px; text-align: left;">
             <div ng-bind-html="element.body_text_as_html">
               <div style="font-size: 15px">Sales Content in Looker</div>
-              <ul>
-                  <li><a href="https://mattermost.looker.com/dashboards/86" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (WW)</a></li>
-              </ul>
               <ul>
                   <li><a href="https://mattermost.looker.com/dashboards/219" style="@{css_link_style}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Sales (Segment)</a></li>
               </ul>
