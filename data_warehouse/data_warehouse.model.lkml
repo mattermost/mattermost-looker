@@ -1451,7 +1451,7 @@ explore: nps_user_monthly_score {
 
   join: version_release_dates {
     view_label: "NPS User Daily Score"
-    sql_on: ${nps_user_monthly_score.server_version} = ${version_release_dates.version} ;;
+    sql_on: ${nps_user_monthly_score.server_version_major} = SPLIT_PART(${version_release_dates.version}, '.', 1) || '.' || SPLIT_PART(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
   }
@@ -1920,7 +1920,7 @@ explore: nps_server_version_daily_score {
 
   join: version_release_dates {
     view_label: "NPS Server Version Daily Score"
-    sql_on: ${nps_server_version_daily_score.server_version} = ${version_release_dates.version} ;;
+    sql_on: ${nps_server_version_daily_score.server_version_major} = SPLIT_PART(${version_release_dates.version}, '.', 1) || '.' || SPLIT_PART(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.release_date, version_release_dates.release_month, version_release_dates.release_year, version_release_dates.release_week]
   }

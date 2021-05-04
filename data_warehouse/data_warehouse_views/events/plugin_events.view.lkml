@@ -33,7 +33,7 @@ view: plugin_events {
     label: "Plugin Version"
     description: ""
     type: string
-    sql: ${TABLE}.pluginversion ;;
+    sql: COALESCE(${TABLE}.pluginversion, ${TABLE}.plugin_version) ;;
     hidden: no
   }
 
@@ -63,7 +63,7 @@ view: plugin_events {
     label: "Server Version"
     description: ""
     type: string
-    sql: ${TABLE}.serverversion ;;
+    sql: coalesce(${TABLE}.serverversion, ${TABLE}.server_version) ;;
     hidden: no
   }
 
@@ -92,7 +92,7 @@ view: plugin_events {
     label: "Plugin ID"
     description: ""
     type: string
-    sql: ${TABLE}.pluginid ;;
+    sql: COALESCE(${TABLE}.pluginid,${TABLE}.plugin_id) ;;
     hidden: no
   }
 
@@ -100,7 +100,7 @@ view: plugin_events {
     label: "User ID"
     description: ""
     type: string
-    sql: ${TABLE}.useractualid ;;
+    sql: coalesce(${TABLE}.useractualid, ${TABLE}.user_actual_id) ;;
     hidden: no
   }
 
