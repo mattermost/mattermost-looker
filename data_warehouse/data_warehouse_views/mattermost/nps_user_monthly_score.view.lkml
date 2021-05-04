@@ -98,7 +98,7 @@ view: nps_user_monthly_score {
     description: "The Mattermost server version (major) associated with the user's server at the point in time that they submitted the NPS response."
     type: string
     sql: CASE WHEN ${cloud_server} THEN 'Cloud'
-          ELSE SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
+          ELSE SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' ||
           split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
     hidden: no
     order_by_field: server_version_major_sort

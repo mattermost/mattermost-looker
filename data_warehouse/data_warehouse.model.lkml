@@ -3256,11 +3256,11 @@ explore: incident_daily_details {
   }
 
   join: server_fact {
-    view_label: "Incident Daily Details"
+    view_label: "Incident Collaboration Facts (To Date)"
     sql_on: ${server_fact.server_id} = ${incident_daily_details.server_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
+    fields: [server_fact.max_registered_users]
   }
 
   join: excludable_servers {
@@ -3326,6 +3326,14 @@ explore: incident_collaboration {
     view_label: "Incident Collaboration Daily"
     relationship: many_to_one
     sql_on: ${excludable_servers.server_id} = ${incident_collaboration.server_id} ;;
+  }
+
+  join: server_daily_details {
+    view_label: "Incident Daily Details"
+    sql_on: ${incident_collaboration.server_id} = ${server_daily_details.server_id} AND ${server_daily_details.logging_date}::DATE = ${incident_collaboration.logging_date}::DATE ;;
+    relationship: one_to_one
+    type: left_outer
+    fields: [server_daily_details.product_edition, server_daily_details.total_instances, server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.version, server_daily_details.server_version_major]
   }
 }
 
