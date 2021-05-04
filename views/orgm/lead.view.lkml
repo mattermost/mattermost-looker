@@ -914,17 +914,6 @@ view: lead {
     sql: ${original_owner.name} ;;
   }
 
-#  dimension: owner_name {
-#    sql: CASE WHEN ${owner.name} IS NOT NULL THEN ${owner.name}
-#              WHEN ${owner.sfid} = '00G1R000003KGjFUAW' THEN 'Queue: Unassigned'
-#              WHEN ${owner.sfid} LIKE '00G360000026ZoQ%' THEN 'Queue: Junk'
-#              WHEN ${owner.sfid} LIKE '00G3p000005V9UP%' THEN 'Queue: Recycled'
-#              ELSE 'Queue: Undefined'
-#              END ;;
-#    type: string
-#    label: "Owner Name"
-#  }
-
   dimension: partner_email {
     sql: ${TABLE}.PARTNER_EMAIL__C ;;
     type: string
