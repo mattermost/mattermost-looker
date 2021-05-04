@@ -1139,11 +1139,6 @@ explore: server_daily_details {
   }
 }
 
-explore: delete_history {
-  view_label: "Delete History"
-  group_label: "Salesforce"
-}
-
 explore: server_fact {
   group_label: "Product"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
