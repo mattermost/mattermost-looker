@@ -24,6 +24,63 @@ view: incident_daily_details {
     sql: ${age_days} ;;
   }
 
+  dimension: product_edition {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END ;;
+    order_by_field: product_edition_sort
+  }
+
+  dimension: product_edition_sort {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: number
+    sql: CASE WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'E20' then 1
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'E10' then 2
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'E20 Trial' then 3
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'E0' then 4
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'Mattermost Cloud' then 5
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
+                      END = 'TE' then 6
+              ELSE 7 END
+                      ;;
+  }
+
   dimension: current_version {
     description: "Boolean indicating the instance's Incident Collaboration Plugin Version is their current version at that point in time. (Last Version Date >= Date)."
     type: yesno

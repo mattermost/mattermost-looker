@@ -1613,6 +1613,13 @@ explore: plugin_events {
     sql_on: ${person.email} = ${license_server_fact.license_email};;
     relationship: many_to_one
   }
+
+  join: nps_user_monthly_score {
+    view_label: "NPS Data"
+    sql_on: ${nps_user_monthly_score.user_id} = ${plugin_events.useractualid} AND ${nps_user_monthly_score.month_date}::DATE = ${plugin_events.timestamp_date}::DATE AND UPPER(${plugin_events.event}) = 'NPS_NPS_DISABLE' ;;
+    relationship: many_to_one
+    fields: [nps_user_monthly_score.count_passive, nps_user_monthly_score.count_users, nps_user_monthly_score.promoter_type,nps_user_monthly_score.pct_promoter_score, nps_user_monthly_score.pct_detractor_score, nps_user_monthly_score.count_promoters, nps_user_monthly_score.count_detractors,nps_user_monthly_score.score, nps_user_monthly_score.responses, nps_user_monthly_score.responses_alltime, nps_user_monthly_score.nps_score, nps_user_monthly_score.avg_score, nps_user_monthly_score.sum_responses, nps_user_monthly_score.sum_responses_all_time, nps_user_monthly_score.feedback, nps_user_monthly_score.last_score_date, nps_user_monthly_score.last_score_week, nps_user_monthly_score.last_score_month, nps_user_monthly_score.last_score_year, nps_user_monthly_score.last_feedback_date, nps_user_monthly_score.last_feedback_week, nps_user_monthly_score.last_feedback_month, nps_user_monthly_score.last_feedback_year]
+  }
 }
 
 explore: cloud_onboarding_flows {
@@ -1750,7 +1757,7 @@ explore: incident_daily_details {
     sql_on: ${server_fact.server_id} = ${incident_daily_details.server_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
+    fields: [server_fact.max_registered_users, server_fact.max_registered_user_bands]
   }
 
   join: excludable_servers {
@@ -1775,49 +1782,57 @@ explore: incident_daily_details {
   }
 }
 
-explore: incident_collaboration {
-  from: server_daily_details_ext
-  # sql_always_where: ${server_fact.last_active_date}::date >= CURRENT_DATE - INTERVAL '3 DAYS' ;;
-  view_label: "Incident Collaboration Daily"
-  hidden: yes
-  group_label: "Incident Collaboration"
-  label: "Incident Collaboration Daily"
-  fields: [incident_collaboration.server_id, incident_collaboration.product_edition, incident_collaboration.version, incident_collaboration.server_version_major, incident_daily_details*, license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users,-incident_daily_details.logging_date,-incident_daily_details.logging_month, -incident_daily_details.logging_week,-incident_daily_details.logging_year,-incident_daily_details.logging_fiscal_quarter, -incident_daily_details.logging_fiscal_year, incident_collaboration.logging_date,incident_collaboration.logging_week,incident_collaboration.logging_month,incident_collaboration.logging_year,incident_collaboration.logging_fiscal_quarter,incident_collaboration.logging_fiscal_year,incident_collaboration.total_instances, server_fact.cloud_server, excludable_servers.reason, incident_collaboration.last_day_of_week, incident_collaboration.last_day_of_month]
+# explore: incident_collaboration {
+#   from: server_daily_details_ext
+#   # sql_always_where: ${server_fact.last_active_date}::date >= CURRENT_DATE - INTERVAL '3 DAYS' ;;
+#   view_label: "Incident Collaboration Daily"
+#   hidden: yes
+#   group_label: "Incident Collaboration"
+#   label: "Incident Collaboration Daily"
+#   fields: [incident_collaboration.server_id, incident_collaboration.product_edition, incident_collaboration.version, incident_collaboration.server_version_major, incident_daily_details*, license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users,-incident_daily_details.logging_date,-incident_daily_details.logging_month, -incident_daily_details.logging_week,-incident_daily_details.logging_year,-incident_daily_details.logging_fiscal_quarter, -incident_daily_details.logging_fiscal_year, incident_collaboration.logging_date,incident_collaboration.logging_week,incident_collaboration.logging_month,incident_collaboration.logging_year,incident_collaboration.logging_fiscal_quarter,incident_collaboration.logging_fiscal_year,incident_collaboration.total_instances, server_fact.cloud_server, excludable_servers.reason, incident_collaboration.last_day_of_week, incident_collaboration.last_day_of_month]
 
-  join: incident_daily_details {
-    view_label: "Incident Collaboration Daily"
-    sql_on: ${incident_daily_details.server_id} = ${incident_collaboration.server_id} AND ${incident_collaboration.logging_date}::DATE = ${incident_daily_details.logging_date}::DATE ;;
-    relationship: one_to_one
-    type: left_outer
-  }
+#   join: incident_daily_details {
+#     view_label: "Incident Collaboration Daily"
+#     sql_on: ${incident_daily_details.server_id} = ${incident_collaboration.server_id} AND ${incident_collaboration.logging_date}::DATE = ${incident_daily_details.logging_date}::DATE ;;
+#     relationship: one_to_one
+#     type: left_outer
+#   }
 
-  join: incident_collaboration_fact {
-    view_label: "Incident Collaboration Facts (To Date)"
-    sql_on: ${incident_collaboration_fact.server_id} = ${incident_collaboration.server_id} ;;
-    relationship: many_to_one
-    fields: [incident_collaboration_fact.incident_facts*]
-  }
+#   join: incident_collaboration_fact {
+#     view_label: "Incident Collaboration Facts (To Date)"
+#     sql_on: ${incident_collaboration_fact.server_id} = ${incident_collaboration.server_id} ;;
+#     relationship: many_to_one
+#     fields: [incident_collaboration_fact.incident_facts*]
+#   }
 
-  join: license_server_fact {
-    view_label: "Incident Collaboration Daily"
-    relationship: many_to_one
-    sql_on: (${license_server_fact.server_id} = ${incident_collaboration.server_id}) and (${incident_collaboration.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
-    fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
-  }
+#   join: license_server_fact {
+#     view_label: "Incident Collaboration Daily"
+#     relationship: many_to_one
+#     sql_on: (${license_server_fact.server_id} = ${incident_collaboration.server_id}) and (${incident_collaboration.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+#     fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
+#   }
 
-  join: server_fact {
-    view_label: "Incident Collaboration Daily"
-    sql_on: ${server_fact.server_id} = ${incident_collaboration.server_id} ;;
-    relationship: many_to_one
-    type: left_outer
-  }
+#   join: server_fact {
+#     view_label: "Incident Collaboration Daily"
+#     sql_on: ${server_fact.server_id} = ${incident_collaboration.server_id} ;;
+#     relationship: many_to_one
+#     type: left_outer
+#   }
 
-  join: excludable_servers {
-    view_label: "Incident Collaboration Daily"
-    relationship: many_to_one
-    sql_on: ${excludable_servers.server_id} = ${incident_collaboration.server_id} ;;
-  }
-}
+#   join: excludable_servers {
+#     view_label: "Incident Collaboration Daily"
+#     relationship: many_to_one
+#     sql_on: ${excludable_servers.server_id} = ${incident_collaboration.server_id} ;;
+#   }
+
+#   join: server_daily_details {
+#     view_label: "Incident Daily Details"
+#     sql_on: ${incident_collaboration.server_id} = ${server_daily_details.server_id} AND ${server_daily_details.logging_date}::DATE = ${incident_collaboration.logging_date}::DATE ;;
+#     relationship: one_to_one
+#     type: left_outer
+#     fields: [server_daily_details.product_edition, server_daily_details.total_instances, server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.version, server_daily_details.server_version_major]
+#   }
+# }
 
 explore: incident_collaboration_fact {
   label: "Incident Collaboration Fact"
