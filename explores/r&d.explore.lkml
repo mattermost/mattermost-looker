@@ -1613,6 +1613,13 @@ explore: plugin_events {
     sql_on: ${person.email} = ${license_server_fact.license_email};;
     relationship: many_to_one
   }
+
+  join: nps_user_monthly_score {
+    view_label: "NPS Data"
+    sql_on: ${nps_user_monthly_score.user_id} = ${plugin_events.useractualid} AND ${nps_user_monthly_score.month_date}::DATE = ${plugin_events.timestamp_date}::DATE AND UPPER(${plugin_events.event}) = 'NPS_NPS_DISABLE' ;;
+    relationship: many_to_one
+    fields: [nps_user_monthly_score.count_passive, nps_user_monthly_score.count_users, nps_user_monthly_score.promoter_type,nps_user_monthly_score.pct_promoter_score, nps_user_monthly_score.pct_detractor_score, nps_user_monthly_score.count_promoters, nps_user_monthly_score.count_detractors,nps_user_monthly_score.score, nps_user_monthly_score.responses, nps_user_monthly_score.responses_alltime, nps_user_monthly_score.nps_score, nps_user_monthly_score.avg_score, nps_user_monthly_score.sum_responses, nps_user_monthly_score.sum_responses_all_time]
+  }
 }
 
 explore: cloud_onboarding_flows {
