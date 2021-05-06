@@ -43,10 +43,31 @@ view: incident_collaboration_fact {
     hidden: no
   }
 
+  dimension: monthly_active_users_max {
+    description: ""
+    type: number
+    sql: ${TABLE}.monthly_active_users_max ;;
+    hidden: no
+  }
+
+  dimension: weekly_active_users_max {
+    description: ""
+    type: number
+    sql: ${TABLE}.weekly_active_users_max ;;
+    hidden: no
+  }
+
   dimension: playbooks_created {
     description: ""
     type: number
     sql: ${TABLE}.playbooks_created ;;
+    hidden: no
+  }
+
+  dimension: playbooks_edited {
+    description: ""
+    type: number
+    sql: ${TABLE}.playbooks_edited ;;
     hidden: no
   }
 
@@ -180,6 +201,76 @@ view: incident_collaboration_fact {
     sql: ${daily_active_users_max} ;;
   }
 
+  measure: weekly_active_users_max_sum {
+    description: "The Sum of Weekly Active Users Max."
+    type: sum
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_max {
+    description: "The Max. Weekly Active Users Max."
+    type: max
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_min {
+    description: "The Min. Weekly Active Users Max."
+    type: min
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_avg {
+    description: "The Average Weekly Active Users Max."
+    type: average
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_median {
+    description: "The Median Weekly Active Users Max."
+    type: median
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_sum {
+    description: "The Sum of Monthly Active Users Max."
+    type: sum
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_max {
+    description: "The Max. Monthly Active Users Max."
+    type: max
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_min {
+    description: "The Min. Monthly Active Users Max."
+    type: min
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_avg {
+    description: "The Average Monthly Active Users Max."
+    type: average
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_median {
+    description: "The Median Monthly Active Users Max."
+    type: median
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
   measure: instances_with_playbooks_created {
     description: "The distinct count of instances that have Playbooks Created."
     type: count_distinct
@@ -221,6 +312,49 @@ view: incident_collaboration_fact {
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
+
+  measure: instances_with_playbooks_edited {
+    description: "The distinct count of instances that have Playbooks Edited."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: playbooks_edited_sum {
+    description: "The Sum of Playbooks Edited."
+    type: sum
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_max {
+    description: "The Max. Playbooks Edited."
+    type: max
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_min {
+    description: "The Min. Playbooks Edited."
+    type: min
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_avg {
+    description: "The Average Playbooks Edited."
+    type: average
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_median {
+    description: "The Median Playbooks Edited."
+    type: median
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
 
   measure: incidents_reported_sum {
     description: "The Sum of Incidents Reported."

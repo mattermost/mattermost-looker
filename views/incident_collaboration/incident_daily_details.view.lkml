@@ -450,6 +450,28 @@ view: incident_daily_details {
     drill_fields: [incident*]
   }
 
+
+  measure: monthly_active_instance_count {
+    label: "Monthly Acitve IC Instance (MAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${monthly_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: daily_active_instance_count {
+    label: "Daily Acitve IC Instance (DAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${daily_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instance_count {
+    label: "Weekly Acitve IC Instance (DAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${weekly_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
   measure: playbooks_sum {
     description: "The Sum of Playbook."
     type: sum
