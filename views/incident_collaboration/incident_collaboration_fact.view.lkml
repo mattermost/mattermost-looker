@@ -5,7 +5,7 @@ view: incident_collaboration_fact {
 
   # FILTERS
   set: incident_facts{
-    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active]
+    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active, first_product_edition]
   }
 
   # DIMENSIONS
@@ -13,6 +13,27 @@ view: incident_collaboration_fact {
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;
+    hidden: no
+  }
+
+  dimension: first_product_edition{
+    description: ""
+    type: string
+    sql: CASE WHEN ${TABLE}.first_product_edition = 5 then 'E20'
+            WHEN ${TABLE}.first_product_edition = 4 then 'E10'
+            WHEN ${TABLE}.first_product_edition = 3 then 'E20 Trial'
+            WHEN ${TABLE}.first_product_edition = 2 then 'Mattermost Cloud'
+            WHEN ${TABLE}.first_product_edition = 1 then 'E0'
+            WHEN ${TABLE}.first_product_edition = 0 then 'TE'
+            ELSE NULL END;;
+    hidden: no
+    order_by_field: first_product_edition_sort
+  }
+
+  dimension: first_product_edition_sort {
+    description: ""
+    type: string
+    sql: ${TABLE}.first_product_edition ;;
     hidden: no
   }
 

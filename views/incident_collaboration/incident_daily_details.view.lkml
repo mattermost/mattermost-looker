@@ -20,7 +20,7 @@ view: incident_daily_details {
     description: "Displays the age in days of the incident collaboaration instance bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and given logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,31,61,91,181,366,731]
     sql: ${age_days} ;;
   }
 
@@ -59,6 +59,7 @@ view: incident_daily_details {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: number
+    hidden: yes
     sql: CASE WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
