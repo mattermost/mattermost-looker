@@ -5,7 +5,7 @@ view: incident_collaboration_fact {
 
   # FILTERS
   set: incident_facts{
-    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active]
+    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active, first_product_edition]
   }
 
   # DIMENSIONS
@@ -13,6 +13,27 @@ view: incident_collaboration_fact {
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;
+    hidden: no
+  }
+
+  dimension: first_product_edition{
+    description: ""
+    type: string
+    sql: CASE WHEN ${TABLE}.first_product_edition = 5 then 'E20'
+            WHEN ${TABLE}.first_product_edition = 4 then 'E10'
+            WHEN ${TABLE}.first_product_edition = 3 then 'E20 Trial'
+            WHEN ${TABLE}.first_product_edition = 2 then 'Mattermost Cloud'
+            WHEN ${TABLE}.first_product_edition = 1 then 'E0'
+            WHEN ${TABLE}.first_product_edition = 0 then 'TE'
+            ELSE NULL END;;
+    hidden: no
+    order_by_field: first_product_edition_sort
+  }
+
+  dimension: first_product_edition_sort {
+    description: ""
+    type: string
+    sql: ${TABLE}.first_product_edition ;;
     hidden: no
   }
 
@@ -43,10 +64,31 @@ view: incident_collaboration_fact {
     hidden: no
   }
 
+  dimension: monthly_active_users_max {
+    description: ""
+    type: number
+    sql: ${TABLE}.monthly_active_users_max ;;
+    hidden: no
+  }
+
+  dimension: weekly_active_users_max {
+    description: ""
+    type: number
+    sql: ${TABLE}.weekly_active_users_max ;;
+    hidden: no
+  }
+
   dimension: playbooks_created {
     description: ""
     type: number
     sql: ${TABLE}.playbooks_created ;;
+    hidden: no
+  }
+
+  dimension: playbooks_edited {
+    description: ""
+    type: number
+    sql: ${TABLE}.playbooks_edited ;;
     hidden: no
   }
 
@@ -180,6 +222,76 @@ view: incident_collaboration_fact {
     sql: ${daily_active_users_max} ;;
   }
 
+  measure: weekly_active_users_max_sum {
+    description: "The Sum of Weekly Active Users Max."
+    type: sum
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_max {
+    description: "The Max. Weekly Active Users Max."
+    type: max
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_min {
+    description: "The Min. Weekly Active Users Max."
+    type: min
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_avg {
+    description: "The Average Weekly Active Users Max."
+    type: average
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: weekly_active_users_max_median {
+    description: "The Median Weekly Active Users Max."
+    type: median
+    group_label: "Weekly Active Users Max Measures"
+    sql: ${weekly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_sum {
+    description: "The Sum of Monthly Active Users Max."
+    type: sum
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_max {
+    description: "The Max. Monthly Active Users Max."
+    type: max
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_min {
+    description: "The Min. Monthly Active Users Max."
+    type: min
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_avg {
+    description: "The Average Monthly Active Users Max."
+    type: average
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
+  measure: monthly_active_users_max_median {
+    description: "The Median Monthly Active Users Max."
+    type: median
+    group_label: "Monthly Active Users Max Measures"
+    sql: ${monthly_active_users_max} ;;
+  }
+
   measure: instances_with_playbooks_created {
     description: "The distinct count of instances that have Playbooks Created."
     type: count_distinct
@@ -221,6 +333,49 @@ view: incident_collaboration_fact {
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
   }
+
+  measure: instances_with_playbooks_edited {
+    description: "The distinct count of instances that have Playbooks Edited."
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: playbooks_edited_sum {
+    description: "The Sum of Playbooks Edited."
+    type: sum
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_max {
+    description: "The Max. Playbooks Edited."
+    type: max
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_min {
+    description: "The Min. Playbooks Edited."
+    type: min
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_avg {
+    description: "The Average Playbooks Edited."
+    type: average
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
+  measure: playbooks_edited_median {
+    description: "The Median Playbooks Edited."
+    type: median
+    group_label: "Playbooks Edited Measures"
+    sql: ${playbooks_edited} ;;
+  }
+
 
   measure: incidents_reported_sum {
     description: "The Sum of Incidents Reported."

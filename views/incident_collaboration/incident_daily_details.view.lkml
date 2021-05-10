@@ -20,8 +20,26 @@ view: incident_daily_details {
     description: "Displays the age in days of the incident collaboaration instance bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and given logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,31,61,91,181,366,731]
     sql: ${age_days} ;;
+  }
+
+  dimension: active {
+    type: yesno
+    description: "Boolean indicating the Mattermost Instance performed an Incident Collaboration action on the given logging date."
+    sql: CASE WHEN ${daily_active_users} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: monthly_active {
+    type: yesno
+    description: "Boolean indicating the Mattermost Instance performed an Incident Collaboration w/in 30 days of the given logging date."
+    sql: CASE WHEN ${monthly_active_users} > 0 THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: weekly_active {
+    type: yesno
+    description: "Boolean indicating the Mattermost Instance performed an Incident Collaboration w/in 30 days of the given logging date."
+    sql: CASE WHEN ${weekly_active_users} > 0 THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: product_edition {
@@ -41,6 +59,7 @@ view: incident_daily_details {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: number
+    hidden: yes
     sql: CASE WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
@@ -321,9 +340,24 @@ view: incident_daily_details {
   }
 
   dimension: daily_active_users {
+    group_label: "Active User Dimensions"
     type: number
     description: "The count of distinct users that performed an Incident Collaboration on the given logging date."
     sql: ${TABLE}.daily_active_users ;;
+  }
+
+  dimension: weekly_active_users {
+    type: number
+    group_label: "Active User Dimensions"
+    description: "The count of distinct users that performed an Incident Collaboration within 7 days of the given logging date."
+    sql: ${TABLE}.weekly_active_users ;;
+  }
+
+  dimension: monthly_active_users {
+    group_label: "Active User Dimensions"
+    type: number
+    description: "The count of distinct users that performed an Incident Collaboration within 30 days of the given logging date."
+    sql: ${TABLE}.monthly_active_users ;;
   }
 
   dimension: version_users_to_date {
@@ -397,6 +431,7 @@ view: incident_daily_details {
   measure: count {
     description: "Count of rows/occurrences."
     type: count
+    drill_fields: [incident*]
   }
 
   measure: id_count {
@@ -404,6 +439,7 @@ view: incident_daily_details {
     description: "The distinct count of Incident Daily Details Id within each grouping."
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [incident*]
   }
 
   measure: server_count {
@@ -413,6 +449,28 @@ view: incident_daily_details {
     type: count_distinct
     sql: ${server_id} ;;
     drill_fields: [incident*]
+  }
+
+
+  measure: monthly_active_instance_count {
+    label: "Monthly Acitve IC Instance (MAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${monthly_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: daily_active_instance_count {
+    label: "Daily Acitve IC Instance (DAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${daily_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instance_count {
+    label: "Weekly Acitve IC Instance (DAICI)"
+    group_label: "Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${weekly_active_users} > 0 THEN ${server_id} ELSE NULL END ;;
   }
 
   measure: playbooks_sum {
@@ -429,6 +487,7 @@ view: incident_daily_details {
     group_label: "Playbooks Measures"
     sql: ${playbooks_created_sum} + ${playbooks_edited_sum} ;;
     type: number
+    drill_fields: [incident*]
   }
 
   measure: playbooks_max {
@@ -436,6 +495,7 @@ view: incident_daily_details {
     type: max
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_min {
@@ -443,6 +503,7 @@ view: incident_daily_details {
     type: min
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_avg {
@@ -450,6 +511,7 @@ view: incident_daily_details {
     type: average
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_median {
@@ -457,6 +519,7 @@ view: incident_daily_details {
     type: median
     group_label: "Playbooks Measures"
     sql: ${playbooks} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_playbooks_created {
@@ -490,6 +553,7 @@ view: incident_daily_details {
     type: max
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_min {
@@ -497,6 +561,7 @@ view: incident_daily_details {
     type: min
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_avg {
@@ -504,6 +569,7 @@ view: incident_daily_details {
     type: average
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_created_median {
@@ -511,6 +577,7 @@ view: incident_daily_details {
     type: median
     group_label: "Playbooks Created Measures"
     sql: ${playbooks_created} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_playbooks_edited {
@@ -527,6 +594,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_edited_max {
@@ -534,6 +602,7 @@ view: incident_daily_details {
     type: max
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_edited_min {
@@ -541,6 +610,7 @@ view: incident_daily_details {
     type: min
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_edited_avg {
@@ -548,6 +618,7 @@ view: incident_daily_details {
     type: average
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_edited_median {
@@ -555,6 +626,7 @@ view: incident_daily_details {
     type: median
     group_label: "Playbooks Edited Measures"
     sql: ${playbooks_edited} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_playbooks_deleted {
@@ -571,6 +643,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_deleted_max {
@@ -578,6 +651,7 @@ view: incident_daily_details {
     type: max
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_deleted_min {
@@ -585,6 +659,7 @@ view: incident_daily_details {
     type: min
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_deleted_avg {
@@ -592,6 +667,7 @@ view: incident_daily_details {
     type: average
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
+    drill_fields: [incident*]
   }
 
   measure: playbooks_deleted_median {
@@ -599,6 +675,7 @@ view: incident_daily_details {
     type: median
     group_label: "Playbooks Deleted Measures"
     sql: ${playbooks_deleted} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_reported_incidents {
@@ -664,6 +741,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: acknowledged_incidents_max {
@@ -671,6 +749,7 @@ view: incident_daily_details {
     type: max
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: acknowledged_incidents_min {
@@ -678,6 +757,7 @@ view: incident_daily_details {
     type: min
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: acknowledged_incidents_avg {
@@ -685,6 +765,7 @@ view: incident_daily_details {
     type: average
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: acknowledged_incidents_median {
@@ -692,6 +773,7 @@ view: incident_daily_details {
     type: median
     group_label: "Acknowledged Incidents Measures"
     sql: ${acknowledged_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_archived_incidents {
@@ -708,6 +790,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: archived_incidents_max {
@@ -715,6 +798,7 @@ view: incident_daily_details {
     type: max
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: archived_incidents_min {
@@ -722,6 +806,7 @@ view: incident_daily_details {
     type: min
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: archived_incidents_avg {
@@ -729,6 +814,7 @@ view: incident_daily_details {
     type: average
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: archived_incidents_median {
@@ -736,6 +822,7 @@ view: incident_daily_details {
     type: median
     group_label: "Archived Incidents Measures"
     sql: ${archived_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: instances_with_resolved_incidents {
@@ -752,6 +839,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: resolved_incidents_max {
@@ -759,6 +847,7 @@ view: incident_daily_details {
     type: max
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: resolved_incidents_min {
@@ -766,6 +855,7 @@ view: incident_daily_details {
     type: min
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: resolved_incidents_avg {
@@ -773,6 +863,7 @@ view: incident_daily_details {
     type: average
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: resolved_incidents_median {
@@ -780,6 +871,7 @@ view: incident_daily_details {
     type: median
     group_label: "Resolved Incidents Measures"
     sql: ${resolved_incidents} ;;
+    drill_fields: [incident*]
   }
 
   measure: incident_contributors_sum {
@@ -787,6 +879,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
+    drill_fields: [incident*]
   }
 
   measure: incident_contributors_max {
@@ -794,6 +887,7 @@ view: incident_daily_details {
     type: max
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
+    drill_fields: [incident*]
   }
 
   measure: incident_contributors_min {
@@ -801,6 +895,7 @@ view: incident_daily_details {
     type: min
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
+    drill_fields: [incident*]
   }
 
   measure: incident_contributors_avg {
@@ -808,6 +903,7 @@ view: incident_daily_details {
     type: average
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
+    drill_fields: [incident*]
   }
 
   measure: incident_contributors_median {
@@ -815,6 +911,7 @@ view: incident_daily_details {
     type: median
     group_label: "Incident Contributors Measures"
     sql: ${incident_contributors} ;;
+    drill_fields: [incident*]
   }
 
   measure: status_updates_sum {
@@ -822,6 +919,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
+    drill_fields: [incident*]
   }
 
   measure: status_updates_max {
@@ -829,6 +927,7 @@ view: incident_daily_details {
     type: max
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
+    drill_fields: [incident*]
   }
 
   measure: status_updates_min {
@@ -836,6 +935,7 @@ view: incident_daily_details {
     type: min
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
+    drill_fields: [incident*]
   }
 
   measure: status_updates_avg {
@@ -843,6 +943,7 @@ view: incident_daily_details {
     type: average
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
+    drill_fields: [incident*]
   }
 
   measure: status_updates_median {
@@ -850,6 +951,7 @@ view: incident_daily_details {
     type: median
     group_label: "Status Updates Measures"
     sql: ${status_updates} ;;
+    drill_fields: [incident*]
   }
 
   measure: stages_changed_sum {
@@ -857,6 +959,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: stages_changed_max {
@@ -864,6 +967,7 @@ view: incident_daily_details {
     type: max
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: stages_changed_min {
@@ -871,6 +975,7 @@ view: incident_daily_details {
     type: min
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: stages_changed_avg {
@@ -878,6 +983,7 @@ view: incident_daily_details {
     type: average
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: stages_changed_median {
@@ -885,6 +991,7 @@ view: incident_daily_details {
     type: median
     group_label: "Stages Changed Measures"
     sql: ${stages_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_events_added_sum {
@@ -892,6 +999,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_events_added_max {
@@ -899,6 +1007,7 @@ view: incident_daily_details {
     type: max
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_events_added_min {
@@ -906,6 +1015,7 @@ view: incident_daily_details {
     type: min
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_events_added_avg {
@@ -913,6 +1023,7 @@ view: incident_daily_details {
     type: average
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_events_added_median {
@@ -920,6 +1031,7 @@ view: incident_daily_details {
     type: median
     group_label: "Timeline Events Added Measures"
     sql: ${timeline_events_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: commanders_changed_sum {
@@ -927,6 +1039,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: commanders_changed_max {
@@ -934,6 +1047,7 @@ view: incident_daily_details {
     type: max
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: commanders_changed_min {
@@ -941,6 +1055,7 @@ view: incident_daily_details {
     type: min
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: commanders_changed_avg {
@@ -948,6 +1063,7 @@ view: incident_daily_details {
     type: average
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: commanders_changed_median {
@@ -955,6 +1071,7 @@ view: incident_daily_details {
     type: median
     group_label: "Commanders Changed Measures"
     sql: ${commanders_changed} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_tab_clicks_sum {
@@ -962,6 +1079,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_tab_clicks_max {
@@ -969,6 +1087,7 @@ view: incident_daily_details {
     type: max
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_tab_clicks_min {
@@ -976,6 +1095,7 @@ view: incident_daily_details {
     type: min
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_tab_clicks_avg {
@@ -983,6 +1103,7 @@ view: incident_daily_details {
     type: average
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
+    drill_fields: [incident*]
   }
 
   measure: timeline_tab_clicks_median {
@@ -990,6 +1111,7 @@ view: incident_daily_details {
     type: median
     group_label: "Timeline Tab Clicks Measures"
     sql: ${timeline_tab_clicks} ;;
+    drill_fields: [incident*]
   }
 
   measure: ended_incident_sum {
@@ -997,6 +1119,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: ended_incident_max {
@@ -1004,6 +1127,7 @@ view: incident_daily_details {
     type: max
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: ended_incident_min {
@@ -1011,6 +1135,7 @@ view: incident_daily_details {
     type: min
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: ended_incident_avg {
@@ -1018,6 +1143,7 @@ view: incident_daily_details {
     type: average
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: ended_incident_median {
@@ -1025,6 +1151,7 @@ view: incident_daily_details {
     type: median
     group_label: "Ended Incident Measures"
     sql: ${ended_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: restarted_incident_sum {
@@ -1032,6 +1159,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: restarted_incident_max {
@@ -1039,6 +1167,7 @@ view: incident_daily_details {
     type: max
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: restarted_incident_min {
@@ -1046,6 +1175,7 @@ view: incident_daily_details {
     type: min
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: restarted_incident_avg {
@@ -1053,6 +1183,7 @@ view: incident_daily_details {
     type: average
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: restarted_incident_median {
@@ -1060,6 +1191,7 @@ view: incident_daily_details {
     type: median
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_assignees_set_sum {
@@ -1067,6 +1199,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_assignees_set_max {
@@ -1074,6 +1207,7 @@ view: incident_daily_details {
     type: max
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_assignees_set_min {
@@ -1081,6 +1215,7 @@ view: incident_daily_details {
     type: min
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_assignees_set_avg {
@@ -1088,6 +1223,7 @@ view: incident_daily_details {
     type: average
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_assignees_set_median {
@@ -1095,6 +1231,7 @@ view: incident_daily_details {
     type: median
     group_label: "Task Assignees Set Measures"
     sql: ${task_assignees_set} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_states_modified_sum {
@@ -1102,6 +1239,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_states_modified_max {
@@ -1109,6 +1247,7 @@ view: incident_daily_details {
     type: max
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_states_modified_min {
@@ -1116,6 +1255,7 @@ view: incident_daily_details {
     type: min
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_states_modified_avg {
@@ -1123,6 +1263,7 @@ view: incident_daily_details {
     type: average
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_states_modified_median {
@@ -1130,6 +1271,7 @@ view: incident_daily_details {
     type: median
     group_label: "Task States Modified Measures"
     sql: ${task_states_modified} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_added_sum {
@@ -1137,6 +1279,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_added_max {
@@ -1144,6 +1287,7 @@ view: incident_daily_details {
     type: max
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_added_min {
@@ -1151,6 +1295,7 @@ view: incident_daily_details {
     type: min
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_added_avg {
@@ -1158,6 +1303,7 @@ view: incident_daily_details {
     type: average
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_added_median {
@@ -1165,6 +1311,7 @@ view: incident_daily_details {
     type: median
     group_label: "Tasks Added Measures"
     sql: ${tasks_added} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_removed_sum {
@@ -1172,6 +1319,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_removed_max {
@@ -1179,6 +1327,7 @@ view: incident_daily_details {
     type: max
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_removed_min {
@@ -1186,6 +1335,7 @@ view: incident_daily_details {
     type: min
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_removed_avg {
@@ -1193,6 +1343,7 @@ view: incident_daily_details {
     type: average
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_removed_median {
@@ -1200,6 +1351,7 @@ view: incident_daily_details {
     type: median
     group_label: "Tasks Removed Measures"
     sql: ${tasks_removed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_renamed_sum {
@@ -1207,6 +1359,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_renamed_max {
@@ -1214,6 +1367,7 @@ view: incident_daily_details {
     type: max
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_renamed_min {
@@ -1221,6 +1375,7 @@ view: incident_daily_details {
     type: min
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_renamed_avg {
@@ -1228,6 +1383,7 @@ view: incident_daily_details {
     type: average
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_renamed_median {
@@ -1235,6 +1391,7 @@ view: incident_daily_details {
     type: median
     group_label: "Tasks Renamed Measures"
     sql: ${tasks_renamed} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_slash_commands_run_sum {
@@ -1242,6 +1399,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_slash_commands_run_max {
@@ -1249,6 +1407,7 @@ view: incident_daily_details {
     type: max
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_slash_commands_run_min {
@@ -1256,6 +1415,7 @@ view: incident_daily_details {
     type: min
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_slash_commands_run_avg {
@@ -1263,6 +1423,7 @@ view: incident_daily_details {
     type: average
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
+    drill_fields: [incident*]
   }
 
   measure: task_slash_commands_run_median {
@@ -1270,6 +1431,7 @@ view: incident_daily_details {
     type: median
     group_label: "Task Slash Commands Run Measures"
     sql: ${task_slash_commands_run} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_moved_sum {
@@ -1277,6 +1439,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_moved_max {
@@ -1284,6 +1447,7 @@ view: incident_daily_details {
     type: max
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_moved_min {
@@ -1291,6 +1455,7 @@ view: incident_daily_details {
     type: min
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_moved_avg {
@@ -1298,6 +1463,7 @@ view: incident_daily_details {
     type: average
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+    drill_fields: [incident*]
   }
 
   measure: tasks_moved_median {
@@ -1305,27 +1471,79 @@ view: incident_daily_details {
     type: median
     group_label: "Tasks Moved Measures"
     sql: ${tasks_moved} ;;
+    drill_fields: [incident*]
   }
 
   measure: daily_active_users_sum {
-    description: "The Sum of Daily Active Users on the given logging date."
+    description: "The Sum of Daily Active Users."
     type: sum
     group_label: "Daily Active User Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [incident*]
   }
 
   measure: daily_active_users_avg {
-    description: "The Average Daily Active Users on the given logging date."
+    description: "The Average Daily Active Users."
     type: average
     group_label: "Daily Active User Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [incident*]
   }
 
   measure: daily_active_users_median {
-    description: "The Median Daily Active Users on the given logging date."
+    description: "The Median Daily Active Users."
     type: median
     group_label: "Daily Active User Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: weekly_active_users_sum {
+    description: "The Sum of Weekly Active Users."
+    type: sum
+    group_label: "Weekly Active User Measures"
+    sql: ${weekly_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: weekly_active_users_avg {
+    description: "The Average Weekly Active Users on the given logging date."
+    type: average
+    group_label: "Weekly Active User Measures"
+    sql: ${weekly_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: weekly_active_users_median {
+    description: "The Median Weekly Active Users on the given logging date."
+    type: median
+    group_label: "Weekly Active User Measures"
+    sql: ${weekly_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: monthly_active_users_sum {
+    description: "The Sum of Monthly Active Users on the given logging date."
+    type: sum
+    group_label: "Monthly Active User Measures"
+    sql: ${monthly_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: monthly_active_users_avg {
+    description: "The Average Monthly Active Users on the given logging date."
+    type: average
+    group_label: "Monthly Active User Measures"
+    sql: ${monthly_active_users} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: monthly_active_users_median {
+    description: "The Median Monthly Active Users on the given logging date."
+    type: median
+    group_label: "Monthly Active User Measures"
+    sql: ${monthly_active_users} ;;
+    drill_fields: [incident*]
   }
 
   measure: version_users_to_date_sum {
@@ -1333,6 +1551,7 @@ view: incident_daily_details {
     type: sum
     group_label: "Version Active User Measures"
     sql: ${version_users_to_date} ;;
+    drill_fields: [incident*]
   }
 
   measure: version_users_to_date_avg {
@@ -1340,6 +1559,7 @@ view: incident_daily_details {
     type: average
     group_label: "Version Active User Measures"
     sql: ${version_users_to_date} ;;
+    drill_fields: [incident*]
   }
 
   measure: version_users_to_date_median {
@@ -1347,6 +1567,7 @@ view: incident_daily_details {
     type: median
     group_label: "Version Active User Measures"
     sql: ${version_users_to_date} ;;
+    drill_fields: [incident*]
   }
 
 
