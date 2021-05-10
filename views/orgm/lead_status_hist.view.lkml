@@ -18,7 +18,7 @@ view: lead_status_hist {
     sql: ${TABLE}."DATE" ;;
   }
 
-  dimension: fate_quarter {
+  dimension: date_fiscal_quarter_string {
     type:  string
     sql:${date_fiscal_year} || '-' || ${date_fiscal_quarter_of_year};;
     label: "Date Fiscal Quarter"
