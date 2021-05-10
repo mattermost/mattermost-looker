@@ -36,6 +36,7 @@ view: server_daily_details {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: number
+    hidden: yes
     sql: CASE WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'

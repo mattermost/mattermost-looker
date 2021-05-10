@@ -3178,7 +3178,7 @@ explore: incident_daily_details {
     sql_on: ${incident_daily_details.server_id} = ${server_daily_details.server_id} AND ${server_daily_details.logging_date}::DATE = ${incident_daily_details.logging_date}::DATE ;;
     relationship: one_to_one
     type: left_outer
-    fields: [server_daily_details.product_edition, server_daily_details.total_instances, server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.version, server_daily_details.server_version_major]
+    fields: [server_daily_details.total_instances, server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.version, server_daily_details.server_version_major]
   }
 
   join: incident_collaboration_fact {
