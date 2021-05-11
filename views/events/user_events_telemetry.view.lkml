@@ -984,7 +984,34 @@ view: user_events_telemetry {
   description: "The date and/or time groupings available to group the timestamps of the events performed by users."
   type: time
     timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.timestamp::date ;;
+    sql: ${TABLE}.timestamp::timestamp ;;
+    hidden: no
+  }
+
+  dimension: event_dayname {
+    label: "Event Day Name"
+    group_label: " Event Date"
+    description: "The name of the day of the week that the event was performed on."
+    type: string
+    sql: dayname(${TABLE}.timestamp::timestamp) ;;
+    order_by_field: event_day
+  }
+
+  dimension: event_day {
+    label: "Event Day #"
+    group_label: " Event Date"
+    description: "The number of the day of the week that the event was performed on."
+    type: number
+    sql: extract(dayofweek from ${TABLE}.timestamp::timestamp)::int ;;
+    hidden: yes
+  }
+
+  dimension: event_week_of_year {
+    label: "Event Week #"
+    group_label: " Event Date"
+    description: "The number of the week in the year that the event was performed on."
+    type: number
+    sql: weekiso(${TABLE}.timestamp::timestamp)::int ;;
     hidden: no
   }
 
