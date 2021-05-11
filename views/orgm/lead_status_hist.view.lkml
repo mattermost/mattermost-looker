@@ -10,11 +10,20 @@ view: lead_status_hist {
       week,
       month,
       fiscal_quarter,
+      fiscal_quarter_of_year,
       fiscal_year
     ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;
+  }
+
+  dimension: date_fiscal_quarter_string {
+    type:  string
+    sql:${date_fiscal_year} || '-' || ${date_fiscal_quarter_of_year};;
+    label: "Date Fiscal Quarter"
+    group_item_label: "Date Fiscal Quarter (String)"
+    group_label: "Date"
   }
 
   dimension: lead_sfid {
