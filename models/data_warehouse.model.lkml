@@ -3250,3 +3250,8 @@ explore: focalboard_fact {
   label: "Focalboard Fact"
   hidden: yes
 }
+
+explore: server_feature_flag_details {
+  label: "Feature Flags"
+  hidden: yes
+}

@@ -7,202 +7,202 @@ view: server_feature_flag_details {
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: no
   }
 
   dimension: id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.id ;;
     hidden: no
   }
 
   dimension: context_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_ip ;;
     hidden: no
   }
 
   dimension: collapsed_threads {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.collapsed_threads ;;
+    sql: IFF(COALESCE(${TABLE}.collapsed_threads, 'false') = 'true', TRUE, FALSE)  ;;
     hidden: no
   }
 
   dimension: context_library_version {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_version ;;
     hidden: no
   }
 
   dimension: enable_remote_cluster_service {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.enable_remote_cluster_service ;;
+    sql: IFF(COALESCE(${TABLE}.enable_remote_cluster_service, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: event_text {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event_text ;;
     hidden: no
   }
 
   dimension: test_feature {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.test_feature ;;
+    sql: IFF(COALESCE(${TABLE}.test_feature, 'false') = 'true', TRUE, FALSE)  ;;
     hidden: no
   }
 
   dimension: context_request_ip {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_request_ip ;;
     hidden: no
   }
 
   dimension: context_library_name {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_library_name ;;
     hidden: no
   }
 
   dimension: custom_data_retention_enabled {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.custom_data_retention_enabled ;;
+    sql: IFF(COALESCE(${TABLE}.custom_data_retention_enabled, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: event {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.event ;;
     hidden: no
   }
 
   dimension: user_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no
   }
 
   dimension: apps_enabled {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.apps_enabled ;;
+    sql: IFF(COALESCE(${TABLE}.apps_enabled, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: cloud_delinquent_email_jobs_enabled {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.cloud_delinquent_email_jobs_enabled ;;
+    sql: IFF(COALESCE(${TABLE}.cloud_delinquent_email_jobs_enabled, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: anonymous_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: no
   }
 
   dimension: files_search {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.files_search ;;
+    sql: IFF(COALESCE(${TABLE}.files_search, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: test_bool_feature {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.test_bool_feature ;;
+    sql: IFF(COALESCE(${TABLE}.test_bool_feature, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: custom_user_statuses {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.custom_user_statuses ;;
+    sql: IFF(COALESCE(${TABLE}.custom_user_statuses, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: plugin_incident_management {
-    description: "" 
+    description: ""
     type: string
-    sql: ${TABLE}.plugin_incident_management ;;
+    sql: IFF(COALESCE(${TABLE}.plugin_incident_management, 'false') = 'true', TRUE, FALSE) ;;
     hidden: no
   }
 
   dimension: context_traits_installation_id {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.context_traits_installation_id ;;
     hidden: no
   }
 
   dimension: plugin_apps {
-    description: "" 
+    description: ""
     type: string
     sql: ${TABLE}.plugin_apps ;;
     hidden: no
   }
 
-  
+
   # DIMENSION GROUPS/DATES
   dimension_group: uuid_ts {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.uuid_ts ;;
     hidden: no
   }
 
   dimension_group: original_timestamp {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.original_timestamp ;;
     hidden: no
   }
 
   dimension_group: sent_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.sent_at ;;
     hidden: no
   }
 
   dimension_group: timestamp {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
     hidden: no
   }
 
   dimension_group: received_at {
-	description: "" 
-	type: time
-	timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
+  description: ""
+  type: time
+  timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
     hidden: no
   }
 
-  
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
