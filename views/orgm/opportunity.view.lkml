@@ -692,9 +692,9 @@ view: opportunity {
 
   dimension: probability {
     description: "Likelihood that opportunity will close, stated as a percentage."
-    sql: ${TABLE}.probability ;;
+    sql: ${TABLE}.probability/100.0 ;;
     type: number
-    value_format_name: percent_1
+    value_format_name: percent_0
     group_label: "Forecasting"
   }
 
