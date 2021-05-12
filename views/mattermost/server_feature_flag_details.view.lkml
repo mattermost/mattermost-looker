@@ -3,7 +3,11 @@ view: server_feature_flag_details {
   sql_table_name: mattermost.server_feature_flag_details ;;
   view_label: "Server Feature Flag Details"
 
-  # FILTERS
+  # SETS
+  set: feature_flags {
+    fields: [collapsed_threads, enable_remote_cluster_service, custom_data_retention_enabled, apps_enabled, cloud_delinquent_email_jobs_enabled, custom_user_statuses, files_search
+      , plugin_apps, plugin_incident_management, user_count, instance_count_remote_cluster_service_enabled, instance_count_apps_enabled, instance_count_cloud_delinquent_email_jobs_enabled, instance_count_custom_data_retention_enabled, instance_count_custom_user_statuses_enabled, instance_count_files_search_enabled, instance_count_collapsed_threads_enabled]
+  }
 
   # DIMENSIONS
   dimension: _dbt_source_relation {
@@ -264,7 +268,7 @@ view: server_feature_flag_details {
     sql: CASE WHEN ${files_search} THEN ${user_id} ELSE NULL END ;;
   }
 
-  measure: instance_count_apps__enabled {
+  measure: instance_count_apps_enabled {
     group_label: "Instance Counts"
     label: "Instances (Apps  Enabled)"
     description: "Count of distinct instances with apps  enabled."
@@ -272,7 +276,7 @@ view: server_feature_flag_details {
     sql: CASE WHEN ${apps_enabled} THEN ${user_id} ELSE NULL END ;;
   }
 
-  measure: instance_count_custom_data_retention__enabled {
+  measure: instance_count_custom_data_retention_enabled {
     group_label: "Instance Counts"
     label: "Instances (Custom Data Retention  Enabled)"
     description: "Count of distinct instances with custom data retention  enabled."
@@ -280,7 +284,7 @@ view: server_feature_flag_details {
     sql: CASE WHEN ${custom_data_retention_enabled} THEN ${user_id} ELSE NULL END ;;
   }
 
-  measure: instance_count__remote_cluster_service_enabled {
+  measure: instance_count_remote_cluster_service_enabled {
     group_label: "Instance Counts"
     label: "Instances ( Remote Cluster Service Enabled)"
     description: "Count of distinct instances with  remote cluster service enabled."
@@ -296,7 +300,7 @@ view: server_feature_flag_details {
     sql: CASE WHEN ${collapsed_threads} THEN ${user_id} ELSE NULL END ;;
   }
 
-  measure: instance_count_cloud_delinquent_email_jobs__enabled {
+  measure: instance_count_cloud_delinquent_email_jobs_enabled {
     group_label: "Instance Counts"
     label: "Instances (Cloud Delinquent Email Jobs  Enabled)"
     description: "Count of distinct instances with cloud delinquent email jobs  enabled."
