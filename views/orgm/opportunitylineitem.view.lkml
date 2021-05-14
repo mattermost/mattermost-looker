@@ -476,6 +476,16 @@ view: opportunitylineitem {
     drill_fields: [opportunitylineitem_drill*,total_quantity]
   }
 
+  measure: list_of_quantity {
+    sql: LISTAGG(DISTINCT ${quantity},', ');;
+    type: string
+  }
+
+  measure: list_of_prorated_listprice {
+    sql: LISTAGG(DISTINCT ROUND((365*${totalprice}/${length_days})/${quantity},0),', ');;
+    type: string
+  }
+
   measure: total_discounted {
     label: "Count Discounted Line Items"
     group_label: "Counts"

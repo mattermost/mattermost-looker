@@ -571,6 +571,12 @@ view: license_server_fact {
     drill_fields: [licensed_server_drill*]
   }
 
+  measure: list_of_email {
+    type: string
+    sql: LISTAGG(DISTINCT ${license_email}, ', ') ;;
+  }
+
+
 
   measure: activated_license_count {
     label: " Actived License Count"
