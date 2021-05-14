@@ -175,7 +175,7 @@ view: daily_website_traffic {
     description: "The user agent string providing the raw information about the os, browser, and device used to visit the webpage."
     group_label: " User Agent Info."
     type: string
-    sql: ${TABLE}.context_useragent ;;
+    sql: COALESCE(${TABLE}.context_useragent, ${TABLE}.context_user_agent) ;;
     hidden: no
   }
 

@@ -1978,6 +1978,7 @@ explore: server_daily_details {
   }
 
   join: license_server_fact {
+    view_label: "License Details"
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
@@ -2029,6 +2030,13 @@ explore: server_daily_details {
       user_events_telemetry.members_removed_from_team_sum, user_events_telemetry.groups_removed_from_team_sum, user_events_telemetry.batch_add_members_sum, user_events_telemetry.user_actual_count, user_events_telemetry.event_count,
       user_events_telemetry.custom_emojis_added, user_events_telemetry.post_reaction_count, user_events_telemetry.groups_added_to_team_sum, user_events_telemetry.plugin_added_count, user_events_telemetry.plugin_updates_count]
   }
+
+  join: server_feature_flag_details {
+    view_label: "Feature Flags (Split.io)"
+    sql_on: ${server_daily_details.server_id} = ${server_feature_flag_details.user_id} AND ${server_feature_flag_details.timestamp_date}::date = ${server_daily_details.logging_date}::date ;;
+    relationship: one_to_one
+    fields: [server_feature_flag_details.feature_flags*]
+  }
 }
 
 explore: server_fact {
@@ -2037,7 +2045,7 @@ explore: server_fact {
   hidden: no
 
   join: license_server_fact {
-    view_label: "License Fact"
+    view_label: "License Details"
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id};;
     relationship: one_to_many
   }
@@ -2071,7 +2079,7 @@ explore: server_fact {
   }
 
   join: cloud_clearbit {
-    view_label: "Clearbit (Cloud)"
+    view_label: "Clearbit (Cloud Only)"
     sql_on: ${server_fact.server_id} = ${cloud_clearbit.server_id} ;;
     relationship: one_to_one
   }
@@ -2185,6 +2193,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_fact {
+    view_label: "Server Fact"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     type: left_outer
     relationship: many_to_one
@@ -2205,7 +2214,7 @@ explore: server_daily_details_ext {
   }
 
   join: nps_server_daily_score {
-    view_label: "NPS Score"
+    view_label: "NPS Daily Details"
     sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details_ext.server_id}
       AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details_ext.logging_date}::DATE);;
     relationship: one_to_one
@@ -2243,6 +2252,7 @@ explore: server_daily_details_ext {
   }
 
   join: license_server_fact {
+    view_label: "License Details"
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
@@ -2253,6 +2263,13 @@ explore: server_daily_details_ext {
     relationship: many_to_one
     type: left_outer
     fields: []
+  }
+
+  join: server_feature_flag_details {
+    view_label: "Feature Flags (Split.io)"
+    sql_on: ${server_daily_details_ext.server_id} = ${server_feature_flag_details.user_id} AND ${server_feature_flag_details.timestamp_date}::date = ${server_daily_details_ext.logging_date}::date ;;
+    relationship: one_to_one
+    fields: [server_feature_flag_details.feature_flags*]
   }
 }
 
@@ -3254,5 +3271,10 @@ explore: incident_collaboration_fact {
 
 explore: focalboard_fact {
   label: "Focalboard Fact"
+  hidden: yes
+}
+
+explore: server_feature_flag_details {
+  label: "Feature Flags"
   hidden: yes
 }
