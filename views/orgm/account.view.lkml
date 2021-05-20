@@ -46,6 +46,7 @@ view: account {
       website_count,
       territory_sales_segment,
       company_type_major,
+      sector,
       geo
     ]
   }
