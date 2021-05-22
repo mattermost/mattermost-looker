@@ -1307,7 +1307,7 @@ explore: account_cohorts_arr {
     view_label: "Account ARR Monthly Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} ;;
     relationship: many_to_one
-    fields: [account.arr_current, account.total_current_arr]
+    fields: [account.arr_current, account.total_current_arr, account.sector]
   }
 }
 
