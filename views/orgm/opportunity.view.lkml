@@ -334,6 +334,12 @@ view: opportunity {
     label: "CSM Name"
   }
 
+  dimension: csm_segment {
+    type: string
+    sql: ${opportunity_csm.sales_segment};;
+    label: "CSM Segment"
+  }
+
   dimension: ce_owner__c {
     hidden: yes
     type: string
@@ -688,6 +694,12 @@ view: opportunity {
     type: string
     sql: ${opportunity_owner.name};;
     label: "Owner Name"
+  }
+
+  dimension: Owner_segment {
+    type: string
+    sql: ${opportunity_owner.sales_segment};;
+    label: "Owner Segment"
   }
 
   dimension: probability {
