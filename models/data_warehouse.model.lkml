@@ -939,7 +939,7 @@ explore: available_renewals_dynamic {
     relationship: one_to_many
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, is_coterm, total_coterm_amount, total_coterm_acv, total_loe_amount, total_multi_amount,
       start_date, end_date, length_days, quantity, discount, total_price,
-      total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing
+      total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing, list_of_quantity
     ]
   }
 
@@ -948,7 +948,7 @@ explore: available_renewals_dynamic {
     view_label: "Original Opportunity Line Items"
     sql_on: ${original_opportunitylineitem.product2id} = ${original_product2.sfid};;
     relationship: many_to_one
-    fields: [name]
+    fields: [name,list_of_products]
   }
 
   join: renewal_opportunity {
@@ -963,7 +963,7 @@ explore: available_renewals_dynamic {
     view_label: "Renewal Opportunity"
     sql_on: ${renewal_opportunity.sfid} = ${renewal_opportunity_ext.opportunityid};;
     relationship: one_to_one
-    fields: [license_min_start_date_date, license_min_start_date_fiscal_quarter]
+    fields: [license_min_start_date_date, license_min_start_date_fiscal_quarter, license_max_end_date_date]
   }
 
   join: new_opportunity_daily_arr {
@@ -981,7 +981,7 @@ explore: available_renewals_dynamic {
     relationship: one_to_many
     fields: [sfid, total_arr, total_new_amount, total_ren_amount, total_exp_only_amount, total_coterm_amount, total_loe_amount, total_multi_amount,
       start_date, end_date, length_days, quantity, discount, total_price,
-      total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing
+      total_discounted, is_discounted, total_nonprofit, is_nonprofit, total_academic, is_academic, total_nfr, is_nfr, total_special_products, total_nonrecurring, is_nonrecurring, is_monthly_billing, list_of_quantity, list_of_prorated_listprice
     ]
   }
 
@@ -990,7 +990,13 @@ explore: available_renewals_dynamic {
     view_label: "Renewal Opportunity Line Items"
     sql_on: ${renewal_opportunitylineitem.product2id} = ${renewal_product2.sfid};;
     relationship: many_to_one
-    fields: [name]
+    fields: [name, list_of_products]
+  }
+
+  join: license_server_fact {
+    sql_on: ${license_server_fact.license_id} = ${opportunity.license_key};;
+    relationship: many_to_one
+    fields: [license_server_fact.list_of_email]
   }
 }
 
@@ -1303,7 +1309,7 @@ explore: account_cohorts_arr {
     view_label: "Account ARR Monthly Changes"
     sql_on: ${account.sfid} = ${account_monthly_arr_deltas_first_month.account_sfid} ;;
     relationship: many_to_one
-    fields: [account.arr_current, account.total_current_arr]
+    fields: [account.arr_current, account.total_current_arr, account.sector]
   }
 }
 
