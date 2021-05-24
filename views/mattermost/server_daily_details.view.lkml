@@ -98,6 +98,7 @@ view: server_daily_details {
   }
 
   dimension: last_day_of_month {
+    group_label: "Date Filters"
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
@@ -145,6 +146,7 @@ view: server_daily_details {
     type: yesno
     sql: CASE WHEN ${mobile_dau} > 0 THEN true ELSE false END ;;
     group_label: "Server Events"
+    hidden: yes
   }
 
   dimension: last_day_of_week {
@@ -154,7 +156,7 @@ view: server_daily_details {
           CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
           ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
-   group_label: "Last Day of Filters"
+   group_label: "Date Filters"
   }
 
   dimension: latest_telemetry_record {
@@ -199,7 +201,7 @@ view: server_daily_details {
 
   dimension: before_last_segment_telemetry_date {
     label: "  <= Last Diagnostics Telemetry Date"
-    description: "Boleane indicating the record's logging date is on or before the last - most recent - date that the server sent Diagnostics (diagnostics.go) telemetry data."
+    description: "Bolean indicating the record's logging date is on or before the last - most recent - date that the server sent Diagnostics (diagnostics.go) telemetry data."
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
@@ -315,6 +317,7 @@ view: server_daily_details {
     description: "Indicates whether the server is noted as having duplicate records in raw security and server tables."
     type: yesno
     sql: ${TABLE}.has_dupes ;;
+    hidden: yes
   }
 
   dimension: edition {
@@ -343,6 +346,7 @@ view: server_daily_details {
     description: "Indicates whether the server is noted as having multiple IP addresses logged in the raw security table."
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
+    hidden: yes
   }
 
   dimension: ip_address {
@@ -350,18 +354,21 @@ view: server_daily_details {
     description: "The server's IP Address."
     type: string
     sql: ${TABLE}.ip_address ;;
+    hidden: yes
   }
 
   dimension: grouping {
     description: "The grouping representing the time of day that the server details were logged (A=AM, B=PM)."
     type: string
     sql: ${TABLE}.grouping ;;
+    hidden: yes
   }
 
   dimension: location {
     description: "The 3 digit ISO code of the city or area that server resides in."
     type: string
     sql: ${TABLE}.location ;;
+    hidden: yes
   }
 
   dimension: active_user_count {
@@ -551,6 +558,7 @@ view: server_daily_details {
     }
     type: string
     sql: ${server_fact.account_sfid} ;;
+    hidden: yes
   }
 
   dimension: license_id {
@@ -559,7 +567,7 @@ view: server_daily_details {
     group_label: "License Info."
     type: string
     sql: ${license_server_fact.license_id} ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: license_id2 {
@@ -608,6 +616,7 @@ view: server_daily_details {
     group_label: "License Info."
     type: string
     sql: COALESCE(${license_server_fact.edition}, ${edition}) ;;
+    hidden: yes
   }
 
   dimension: license_at_logging {
