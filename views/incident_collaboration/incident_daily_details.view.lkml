@@ -158,7 +158,7 @@ view: incident_daily_details {
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: plugin_version {

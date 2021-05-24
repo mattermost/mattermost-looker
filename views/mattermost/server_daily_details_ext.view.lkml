@@ -61,6 +61,7 @@ view: server_daily_details_ext {
 
   # FILTERS
   dimension: last_day_of_month {
+    group_label: "Date Filters"
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
     sql: CASE WHEN ${logging_date} =
@@ -110,6 +111,7 @@ view: server_daily_details_ext {
     CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
     ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
     THEN TRUE ELSE FALSE END ;;
+    group_label: "Date Filters"
   }
 
   dimension: latest_telemetry_record {
@@ -150,33 +152,6 @@ view: server_daily_details_ext {
     type: yesno
     sql: CASE WHEN ${logging_date} <= ${server_fact.last_mm2_telemetry_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
-  }
-
-  dimension: is_telemetry_enabled {
-    label: "In Security Diagnostics"
-    group_label: "  Telemetry Flags"
-    description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
-    type: yesno
-    sql: ${TABLE}.in_security ;;
-    hidden: yes
-  }
-
-  dimension: is_tracking_enabled {
-    label: "In Security or Diagnostics Telemetry"
-    group_label: "  Telemetry Flags"
-    description: "Boolean indicating the server appears (is sending us telemetry) in the events.security (security_update_check.go) or mattermost2.server (diagnostics.go) table data on the given date."
-    type: yesno
-    sql: CASE WHEN ${TABLE}.in_security OR ${in_mm2_server} THEN TRUE ELSE FALSE END ;;
-    hidden: yes
-  }
-
-  dimension: in_mattermost2_server {
-    description: "Boolean indicating the server is in mattermost2.server (diagnostics.go) table data on the given logging date."
-    label: "In Diagnostics Telemetry"
-    group_label: "  Telemetry Flags"
-    type: yesno
-    sql: ${TABLE}.in_mm2_server ;;
-    hidden: yes
   }
 
   dimension: first_telemetry_record {
@@ -244,7 +219,7 @@ view: server_daily_details_ext {
     description: "Ths IP Address associated with the Mattermost Server on the given date."
     type: string
     sql: ${TABLE}.ip_address ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: location {
@@ -252,7 +227,7 @@ view: server_daily_details_ext {
     description: ""
     type: string
     sql: ${TABLE}.location ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: version {
@@ -323,6 +298,7 @@ view: server_daily_details_ext {
     description: "The first server edition logged via telemetry for the server. Either E0 or TE."
     type: string
     sql: ${server_fact.first_server_edition} ;;
+    hidden: yes
   }
 
 
@@ -524,7 +500,7 @@ view: server_daily_details_ext {
     description: "Boolean indicating the Server does not appear in Diagnostics or Server telemetry on the given logging date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline."
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: has_dupes {
@@ -533,7 +509,7 @@ view: server_daily_details_ext {
     description: "True or false indicating whether the server id appears more than once in the raw data on the record date. Can occur for many reasons: server restart, upgrade, cluster, or error."
     type: yesno
     sql: ${TABLE}.has_dupes ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: has_multi_ips {
@@ -542,7 +518,7 @@ view: server_daily_details_ext {
     description: "True or false indicating whether the server id appears more than once in the raw data, and that the server id was associated with multiple ip addresses. Typically occurs as a result of clustering i.e. hosting a signle server across databases."
     type: yesno
     sql: ${TABLE}.has_multi_ips ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: latest_record {
@@ -630,7 +606,7 @@ view: server_daily_details_ext {
   dimension: active_users {
     description: "The number of active users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: COALESCE(${TABLE}.active_users, 0) ;;
     hidden: yes
   }
@@ -639,7 +615,7 @@ view: server_daily_details_ext {
     label: "Active Users (Daily)"
     description: "The number of daily active users logged by the Server's activity diagnostics telemetry data on the given logging date (coalesced active_users and active_users_daily)."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: CASE WHEN ${logging_date}::date = ${server_fact.first_active_date}::date AND ${server_fact.cloud_server} then COALESCE(nullif(${TABLE}.active_users_daily, 0), nullif(${active_users}, 0), 1)
           ELSE COALESCE(${TABLE}.active_users_daily, ${active_users}, 0) END ;;
     hidden: no
@@ -650,7 +626,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [1, 2, 5, 11, 21, 31, 51, 76, 101, 151, 201, 401, 601, 1001, 3001]
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: ${active_users_daily}  ;;
     hidden: no
   }
@@ -658,7 +634,7 @@ view: server_daily_details_ext {
   dimension: active_users_monthly {
     description: "The number of distinct active users that logged in the last 30 days by the Server's activity diagnostic telemetry data on the given logging date."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: ${TABLE}.active_users_monthly ;;
     hidden: no
   }

@@ -516,6 +516,7 @@ explore: lead {
 
 explore: lead_status_hist {
   extends: [_base_opportunity_core_explore, _base_account_core_explore]
+  group_label: "Salesforce"
   join: user {
     sql_on: ${user.sfid} = ${lead_status_hist.owner} ;;
     relationship: many_to_one
@@ -743,6 +744,7 @@ explore: account_cs_extended  {
 
 explore: customer_risk_history {
   extends: [_base_account_core_explore, _base_opportunity_core_explore]
+  group_label: "Customer Success"
 
   join: customer_risk {
     sql_on: ${customer_risk_history.customer_risk_id} = ${customer_risk.sfid} ;;
@@ -1419,25 +1421,26 @@ explore: financial_model {
 
 explore: dates {
   group_label: "Utility"
+  hidden: yes
 }
 
 explore: ADDRESSES {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all billing and shipping addresses provided by Mattermost customers."
   label: "Addresses"
 }
 
 explore: CONTACT_US_REQUESTS {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
   label: "Contact Us Requests"
 }
 
 explore: CREDIT_CARDS {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all credit cards provided by Mattermost Customers."
   label: "Credit Cards"
 
@@ -1454,9 +1457,9 @@ explore: CREDIT_CARDS {
 }
 
 explore: CUSTOMERS {
-  group_label: "BLApi"
-  description: "Contains all Mattermost customer records."
-  label: "Customers (Blapi)"
+  group_label: "Billing & Licensing"
+  description: "Contains all Mattermost customer records, subscriptions and invoice records."
+  label: "Customer Billing"
 
   join: SUBSCRIPTIONS {
     view_label: "Subscriptions (BLApi)"
@@ -1620,15 +1623,16 @@ explore: CUSTOMERS {
 
 explore: FEATURES {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains a list of features provided by varioius Mattermost SKU's."
   label: "Features"
 }
 
 explore: INVOICES {
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all invoices for Mattermost Cloud customers."
   label: "Invoices (BLApi)"
+  hidden: yes
 
   join: SUBSCRIPTIONS {
     sql_on: ${SUBSCRIPTIONS.id} = ${INVOICES.subscription_id} ;;
@@ -1694,7 +1698,7 @@ explore: INVOICES {
 
 explore: PAYMENTS {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all future, received and currently processing payments from Mattermost customers."
   label: "Payments"
 
@@ -1714,7 +1718,7 @@ explore: PAYMENTS {
 
 explore: PAYMENT_METHODS {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all identifying information for all payment methods provided by customers."
   label: "Payment Methods"
 
@@ -1735,7 +1739,7 @@ explore: PAYMENT_METHODS {
 }
 
 explore: PURCHASE_FACT {
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all customers and key identifiers/most recent customer attributes."
   label: "Purchase Fact"
   hidden: yes
@@ -1743,7 +1747,7 @@ explore: PURCHASE_FACT {
 
 explore: SUBSCRIPTIONS {
   hidden: yes
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   description: "Contains all subscriptions for Mattermost customers."
   label: "Subscriptions (BLApi)"
 
@@ -1793,7 +1797,7 @@ explore: SUBSCRIPTIONS {
 }
 
 explore: USAGE_EVENTS {
-  group_label: "BLApi"
+  group_label: "Billing & Licensing"
   label: "Usage Events"
   description: "Daily snapshot of registered users associated with each cloud installation, as well as incremental snapshots for deltas (changes) throughout the day. Supports invoicing."
   hidden: yes
@@ -1887,15 +1891,16 @@ explore: daily_page_visits {
 }
 
 explore: downloads {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   description: "Contains all downloads from Mattermost web properties including server and dekstop app downloads. Use this to trend downloads over time."
 }
 
 explore: nps_data {
   label: "NPS Data"
-  group_label: "Product"
+  group_label: " Product: Messaging"
   description: "Contains raw NPS data. Typically you will want to use 'NPS User Monthly Score' instead of this, which contains a structured version of this data that allows you to trend the aggregate NPS score, not just the score at time of submission."
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: license_overview {
     sql_on: ${nps_data.license_id} = ${license_overview.licenseid}  ;;
@@ -1911,7 +1916,7 @@ explore: nps_data {
 }
 
 explore: github_contributions {
-  group_label: "Contributors & Employees"
+  group_label: " Mattermost Community"
   label: "GitHub Community Contributions"
   sql_always_where: ${is_staff} = FALSE ;;
 
@@ -1935,7 +1940,7 @@ explore: github_contributions {
 }
 
 explore: server_daily_details {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
   extends: [_base_account_core_explore]
@@ -2040,7 +2045,7 @@ explore: server_daily_details {
 }
 
 explore: server_fact {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
   hidden: no
 
@@ -2100,7 +2105,7 @@ explore: server_fact {
 
 
 explore: nps_user_monthly_score {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   label: "NPS User Daily Score"
   description: "Contains NPS Score data per user per day for all users that have submitted an NPS survey (Updated every 30 minutes for new submissions). Can be used to trend NPS by date by server version, server age, user role, user age, etc.."
   extends: [_base_account_core_explore]
@@ -2179,7 +2184,7 @@ explore: nps_user_monthly_score {
 }
 
 explore: server_daily_details_ext {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   label: " Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
   extends: [_base_account_core_explore]
@@ -2275,16 +2280,16 @@ explore: server_daily_details_ext {
 
 explore: events_registry {
   label: "Events Registry"
-  group_label: "Product"
-  description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
+  group_label: " Product: Messaging"
+  description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost Messaging platform. Including the first and most recent date the event was logged."
 }
 
 explore: user_events_by_date {
   extends: [_base_account_core_explore, server_fact]
   label: " User Events By Date"
-  group_label: "Product"
+  group_label: " Product: Messaging"
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
-
+  hidden: yes
   join: server_daily_details {
     view_label: "Server Details"
     sql_on: ${user_events_by_date.server_id} = ${server_daily_details.server_id}
@@ -2347,9 +2352,9 @@ explore: user_events_by_date {
 explore: user_events_by_date_agg {
   extends: [_base_account_core_explore, server_fact]
   label: "User Events By Date Agg"
-  group_label: "Product"
+  group_label: " Product: Messaging"
   description: "Contains an aggregated version of the 'User Events By Date' explore. Sums all events performed by the user across mobile, web, and desktop. Use this to trend DAU and MAU over time. 1 row per user per day for all dates >= the user's first event date (i.e. contains row for users on dates where user has not performed event to track disengagement)."
-
+  hidden: yes
   join: server_daily_details {
     view_label: "Server Details"
     sql_on: ${user_events_by_date_agg.server_id} = ${server_daily_details.server_id}
@@ -2412,13 +2417,13 @@ explore: snowflake_warehouse_cost {
 
 explore: licenses {
   label: "Licenses"
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   hidden: yes
 }
 
 explore: license_daily_details {
   label: "License Daily Details"
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
   hidden: yes
 }
@@ -2426,8 +2431,9 @@ explore: license_daily_details {
 explore: user_fact {
   label: "User Fact"
   description: "Contains the current state (or last recorded state) of a user including first active dates, all time event/activity counts, NPS scores/dates, etc."
-  group_label: "Product"
+  group_label: " Product: Messaging"
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
     sql_on: ${user_fact.account_sfid} = ${account.sfid} ;;
@@ -2454,8 +2460,9 @@ explore: user_fact {
 explore: user_daily_details {
   label: "User Daily Details"
   description: "Use this to trend the state of a users activity (events), mau status, NPS score, etc. over time. Contains a daily snapshot of user allowing you to trend by various dimensions and measures including user age at the time of the logging data (snapshot date)."
-  group_label: "Product"
+  group_label: " Product: Messaging"
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
     sql_on: ${user_daily_details.account_sfid} = ${account.sfid} ;;
@@ -2474,9 +2481,9 @@ explore: user_daily_details {
 explore: server_upgrades {
   label: " Server Upgrades"
   description: "Use this to trend the number of server upgrades by version or edition over time."
-  group_label: "Product"
+  group_label: " Product: Messaging"
   extends: [_base_account_core_explore, server_fact]
-  hidden: no
+  hidden: yes
 
   join: account {
     sql_on: ${server_fact.account_sfid} = ${account.sfid} ;;
@@ -2538,7 +2545,7 @@ explore: server_events_by_date {
 
 explore: nps_server_version_daily_score {
   label: "NPS Server Version Daily Score"
-  group_label: "Product"
+  group_label: " Product: Messaging"
   always_filter: {
     filters: [21days_since_release: "yes"]
   }
@@ -2591,13 +2598,13 @@ explore: nps_server_version_daily_score {
 
 explore: licenses_grouped {
   label: "Licenses (Server Level)"
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   hidden: yes
 }
 
 explore: licenses_only {
   label: "Licenses"
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   hidden: yes
 }
 
@@ -2609,7 +2616,7 @@ explore: version_release_dates {
 explore: hist_license_mapping {
   label: "Legacy License Mapping"
   view_label: "Legacy License Mapping"
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   join: account {
     view_label: "Legacy License Mapping"
 
@@ -2621,7 +2628,7 @@ explore: hist_license_mapping {
 
 explore: enterprise_license_fact {
   extends: [_base_account_core_explore]
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   join: account {
     sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
     type: full_outer
@@ -2660,7 +2667,7 @@ explore: trial_licenses {
 }
 
 explore: in_product_trial_requests {
-  group_label: "Product"
+  group_label: " Product: Messaging"
   label: "In Product Trial Requests"
   from: trial_requests
 
@@ -2708,7 +2715,8 @@ explore: user_agent_registry {
 }
 
 explore: daily_website_traffic {
-  group_label: "Website"
+  group_label: " Website Telemetry"
+  description: "User-Level Traffic to Mattermost Web Properties captured via Rudderstack. Includes UTM Campaign, User Agent, Referrer, and more user web traffic attributes."
   label: "Daily Website Traffic"
 
   join: user_agent_registry {
@@ -2824,7 +2832,9 @@ explore: customers {
 
 explore: issues {
   label: "Jira Tickets (Issues)"
-  group_label: "Product"
+  group_label: " Product: Messaging"
+  required_access_grants: []
+  hidden: yes
 
   join: issue_comments {
     sql_on: ${issue_comments.issueid} = ${issues.id} ;;
@@ -2848,7 +2858,9 @@ explore: netsuite_opportunity {
 
 explore: issue_comments {
   label: "Jira Comments (Issues)"
-  group_label: "Product"
+  group_label: " Product: Messaging"
+  required_access_grants: []
+  hidden: yes
 
   join: issues {
     view_label: "Jira Tickets (Issues)"
@@ -2900,7 +2912,7 @@ explore: plugins_telemetry {
 explore: twitter {
   label: "Twitter Mentions"
   description: "Contains all tweets, replies, and retweets for and to tweets containing the keyword 'Mattermost'."
-  group_label: "Mattermost Community"
+  group_label: " Mattermost Community"
 }
 
 explore: nps_feedback_classification {
@@ -2911,17 +2923,17 @@ explore: nps_feedback_classification {
 explore: p2p_forum_activity {
   label: "Peer-to-Peer Forum Activity"
   description: "Contains a dailys snapshot of the aggregate counts of registrations and posts to Mattermost Peer-to-Peer Forums."
-  group_label: "Mattermost Community"
+  group_label: " Mattermost Community"
 }
 
 explore: community_program_members {
   label: "Community Program Members"
   description: "Contains Members and/or Partners participating in Mattermost Community Programs (i.e. Mattermost Superstars & Trusted Partners)."
-  group_label: "Mattermost Community"
+  group_label: " Mattermost Community"
 }
 
 explore: license_server_fact {
-  group_label: "BLP"
+  group_label: "Billing & Licensing"
   label: "License Server Fact"
   hidden: no
   extends: [person]
@@ -2957,13 +2969,13 @@ explore: license_server_fact {
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: "Incident Management"
-  label: "Incident Management"
-  group_label: "Integrations"
+  view_label: "User Events Telemtry (IC)"
+  label: "User Events Telemtry (IC)"
+  group_label: " Product: Incident Collaboration"
   extends: [license_server_fact]
 
   join: server_daily_details {
-    view_label: "Incident Management"
+    view_label: "User Events Telemtry (IC)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -2971,27 +2983,28 @@ explore: incident_response_events {
   }
 
   join: server_fact {
-    view_label: "Incident Management"
+    view_label: "User Events Telemtry (IC)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
-    view_label: "Incident Management"
+    view_label: "User Events Telemtry (IC)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${excludable_servers.server_id}) ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: license_server_fact {
+    view_label: "License Details"
     sql_on: TRIM(${license_server_fact.server_id}) = TRIM(${incident_response_events.user_id}) AND ${incident_response_events.timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
   }
 
   join: license_current {
     from: license_server_fact
-    view_label: "License Current"
+    view_label: "License Details"
     sql_on: TRIM(${license_current.server_id}) = TRIM(${incident_response_events.user_id}) AND ${license_current.current_customer} ;;
     relationship: many_to_one
     fields: []
@@ -3012,14 +3025,14 @@ explore: incident_response_events {
 }
 
 explore: plugin_events {
-  label: "Plugin Telemetry"
-  view_label: "Plugin Telemetry"
-  group_label: "Integrations"
+  label: "App/Integration Telemetry"
+  view_label: "App/Integration Telemetry"
+  group_label: " Product: Messaging"
   description: "Contains all Plugin event telemetry recorded by servers on versions where plugin telemetry has been enabled (v. 5.27+)."
   extends: [person]
 
   join: server_daily_details {
-    view_label: "Plugin Telemetry"
+    view_label: "App/Integration Telemetry"
     sql_on: ${plugin_events.user_id} = ${server_daily_details.server_id} AND ${plugin_events.timestamp_date}_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -3027,20 +3040,21 @@ explore: plugin_events {
   }
 
   join: server_fact {
-    view_label: "Plugin Telemetry"
+    view_label: "App/Integration Telemetry"
     sql_on: ${plugin_events.user_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server]
   }
 
   join: excludable_servers {
-    view_label: "Plugin Telemetry"
+    view_label: "App/Integration Telemetry"
     sql_on: ${plugin_events.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: license_server_fact {
+    view_label: "License Details"
     sql_on: ${license_server_fact.server_id} = ${plugin_events.user_id} AND ${plugin_events.original_timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
     relationship: many_to_one
     fields: [license_server_fact.customer_id, license_server_fact.customer_name, license_server_fact.edition, license_server_fact.license_email]
@@ -3058,7 +3072,7 @@ explore: cloud_onboarding_flows {
 }
 
 explore: incident_response_telemetry {
-  label: "Incident Management Telemetry"
+  label: "Incident Collaboration Telemetry"
   group_label: "Quality Assurance"
 }
 
@@ -3074,12 +3088,13 @@ explore: cloud_clearbit {
 }
 
 explore: hacktoberboard_dev {
-  label: "Hacktoberboard Dev"
-  group_label: "Experimental"
+  label: "Focalboard Telemetry (QA/RC)"
+  group_label: "Quality Assurance"
 }
 
 explore: telemetry_columns {
   label: "Telemetry Columns"
+  hidden: yes
 
   join: telemetry_tables {
     type: left_outer
@@ -3091,11 +3106,12 @@ explore: telemetry_columns {
 
 explore: telemetry_tables {
   label: "Telemetry Tables"
+  hidden: yes
 }
 
 explore: daily_server_user_agent_events {
-  label: "Daily Server User Agent Events"
-  group_label: " User Agent Analysis"
+  label: "User Agent Events (Daily)"
+  group_label: " Product: Messaging"
 
   join: server_daily_details {
     type: left_outer
@@ -3134,21 +3150,22 @@ explore: daily_server_user_agent_events {
 
 explore: focalboard_activity {
   label: "Focalboard Telemetry"
-  group_label: "Focalboard"
+  group_label: " Product: Focalboard"
   hidden: yes
 }
 
 explore: focalboard_config {
   label: "Focalboard Telemetry"
-  group_label: "Focalboard"
+  group_label: " Product: Focalboard"
   hidden: yes
 }
 
 explore: focalboard_server {
   fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event, focalboard_fact.focalboard_facts*]
   view_label: "Focalboard Telemetry"
-  group_label: "Focalboard"
-  label: "Focalboard Telemtry"
+  group_label: " Product: Focalboard"
+  label: "Focalboard Instance Telemtry"
+  description: "Contains the Focalboard Instance configuration telemetry including the config, activity, and server diagnostic properties."
 
   join: focalboard_activity {
     view_label: "Focalboard Telemetry"
@@ -3172,7 +3189,8 @@ explore: focalboard_server {
 
 explore: incident_daily_details {
   label: "Incident Daily Details"
-  group_label: "Incident Collaboration"
+  group_label: " Product: Incident Collaboration"
+  description: "Contains a daily snapshot of each Mattermost Instance's Incident Collaboration usage to date (only contains instances that have performed an incident collaboration event with telemetry enabled)."
   hidden: no
 
   join: license_server_fact {
@@ -3194,6 +3212,7 @@ explore: incident_daily_details {
     view_label: "Incident Daily Details"
     relationship: many_to_one
     sql_on: ${excludable_servers.server_id} = ${incident_daily_details.server_id} ;;
+    fields: [excludable_servers.reason]
   }
 
   join: server_daily_details {
