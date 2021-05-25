@@ -115,6 +115,7 @@ view: renewal_rate_by_renewal_opportunity {
   dimension: won_renewal_gross {
     label: "Won"
     group_label: "Amounts"
+    type: number
     sql: ${TABLE}."WON_RENEWAL_GROSS_TOTAL" ;;
     value_format_name: usd_0
   }
@@ -283,6 +284,16 @@ view: renewal_rate_by_renewal_opportunity {
     sql_distinct_key: renewal_rate_by_renewal_opportunity.opportunityid ;;
     sql: ${won_renewal_net} ;;
     value_format_name: usd_0
+  }
+
+  measure: contraction {
+    group_label: "Amounts"
+    description: "Available - Won"
+    type: number
+    sql: nullif(${available_renewal_total},0) - ${won_renewal_gross_total} ;;
+    value_format_name: usd_0
+    drill_fields: [account.name, account.owner_name, account.csm_name, opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.status_wlo, opportunity.close_date,
+      available_renewal, won_renewal_gross_total, contraction, open_renewal_gross_total, lost_renewal_gross_total, renewal_rate]
   }
 
   measure: available_renewal_qtd {
