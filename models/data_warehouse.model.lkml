@@ -2184,13 +2184,15 @@ explore: nps_user_monthly_score {
 }
 
 explore: server_daily_details_ext {
+  view_label: "  Server Daily Details Ext"
   group_label: " Product: Messaging"
-  label: " Server Daily Details Ext"
+  label: "  Server Daily Details Ext"
   description: "An extension of 'Server Daily Details' explore that includes all server configuration and activity data. Can be used to report the volume of servers by day with various configuration settings activated, activity thresholds reached, or age milestones attained."
   extends: [_base_account_core_explore]
 
 
   join: account {
+    view_label: "Account (Salesforce)"
     sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     type: left_outer
     relationship: many_to_one
@@ -2198,7 +2200,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_fact {
-    view_label: "Server Fact"
+    view_label: " Server Facts (To Date)"
     sql_on: ${server_daily_details_ext.server_id} = ${server_fact.server_id} ;;
     type: left_outer
     relationship: many_to_one
@@ -2206,7 +2208,7 @@ explore: server_daily_details_ext {
 
   join: server_daily_details_ext2 {
     from: server_daily_details_ext
-    view_label: "Enabled Plugins First 7 Days"
+    view_label: "Plugins Enabled First 7 Days"
     sql_on: ${server_daily_details_ext2.server_id} = ${server_fact.server_id} AND ${server_daily_details_ext2.logging_date}::date <= ${server_fact.first_active_date}::date + interval '7 days' ;;
     relationship: one_to_many
     fields: [server_daily_details_ext2.enable_plugins_count, server_daily_details_ext2.enable_antivirus_count, server_daily_details_ext2.enable_autolink_count, server_daily_details_ext2.enable_aws_sns_count,
@@ -2228,7 +2230,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_upgrades {
-    view_label: " Server Daily Details Ext"
+    view_label: "  Server Daily Details Ext"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details_ext.server_id}
       AND ${server_upgrades.logging_date} = ${server_daily_details_ext.logging_date};;
     relationship: one_to_one
@@ -2236,6 +2238,7 @@ explore: server_daily_details_ext {
   }
 
   join: server_events_by_date {
+    view_label: "  Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_id} = ${server_events_by_date.server_id}
       AND ${server_daily_details_ext.logging_date} = ${server_events_by_date.logging_date};;
     relationship: one_to_one
@@ -2243,14 +2246,14 @@ explore: server_daily_details_ext {
   }
 
   join: excludable_servers {
-    view_label: " Server Daily Details Ext"
+    view_label: "  Server Daily Details Ext"
     sql_on: ${excludable_servers.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: version_release_dates {
-    view_label: " Server Daily Details Ext"
+    view_label: "  Server Daily Details Ext"
     sql_on: ${server_daily_details_ext.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
@@ -2264,6 +2267,7 @@ explore: server_daily_details_ext {
   }
 
   join: trial_requests {
+    view_label: "  Server Daily Details Ext"
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
@@ -3110,7 +3114,8 @@ explore: telemetry_tables {
 }
 
 explore: daily_server_user_agent_events {
-  label: "User Agent Events (Daily)"
+  label: "User Agent Daily Events"
+  description: "Contains a daily snapshot of each server's active user agents and the distinct events that they perfomed. All events performed by users with identical user agents on each Mattermost Messaging instance are aggregated to condense the data model for the benefit of the web platform team."
   group_label: " Product: Messaging"
 
   join: server_daily_details {
