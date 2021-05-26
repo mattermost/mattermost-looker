@@ -5,7 +5,7 @@ view: server_daily_details_ext {
 
   # Drill Field Sets
   set: server_fact {
-    fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, company_name, paid_license_expire_date, max_active_user_count]
+    fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, license_server_fact.customer_name, paid_license_expire_date, max_active_user_count]
   }
 
   set: incident_collaboration {
@@ -39,12 +39,14 @@ view: server_daily_details_ext {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
     sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+    group_label: "Excludability Filters"
   }
 
   dimension: community_server {
     description: "Boolean indicating the server performing the event is the Mattermost Community server."
     type: yesno
     sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
+    group_label: "Excludability Filters"
   }
 
   dimension: product_edition {
@@ -207,7 +209,7 @@ view: server_daily_details_ext {
 
   # DIMENSIONS
   dimension: server_id {
-    label: " Instance Id"
+    label: "  Instance Id"
     description: ""
     type: string
     sql: ${TABLE}.server_id ;;
@@ -423,7 +425,7 @@ view: server_daily_details_ext {
     }
     type: string
     sql: ${server_fact.account_sfid} ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: account_name {
@@ -436,7 +438,7 @@ view: server_daily_details_ext {
     }
     type: string
     sql: ${server_fact.account_name} ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: company_name {
@@ -449,7 +451,7 @@ view: server_daily_details_ext {
     }
     type: string
     sql: ${server_fact.company_name} ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: license_id1 {
@@ -457,7 +459,7 @@ view: server_daily_details_ext {
     description: "The Mattermost License ID associated with the server."
     type: string
     sql: ${license_server_fact.license_id} ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: license_id2 {
@@ -759,7 +761,7 @@ view: server_daily_details_ext {
   dimension: registered_deactivated_users {
     description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: ${TABLE}.registered_deactivated_users ;;
     hidden: no
   }
@@ -767,7 +769,7 @@ view: server_daily_details_ext {
   dimension: registered_inactive_users {
     description: "The number of registered inactive users logged by the Server's activity diagnostics telemetry data on the given logging date."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: ${TABLE}.registered_inactive_users ;;
     hidden: no
   }
@@ -775,7 +777,7 @@ view: server_daily_details_ext {
   dimension: registered_users {
     description: "The number of registered users logged by the Server's activity diagnostics telemetry data on the given logging date (registered_users - registered_deactivated_users)."
     type: number
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: CASE WHEN ${logging_date}::date = ${server_fact.first_active_date}::date AND ${server_fact.cloud_server} then NULLIF(COALESCE(NULLIF(${TABLE}.registered_users, 0), 1) - COALESCE(${TABLE}.registered_deactivated_users, 0),0)
       ELSE NULLIF(COALESCE(${TABLE}.registered_users, 0) - COALESCE(${TABLE}.registered_deactivated_users, 0),0) END;;
     hidden: no
@@ -786,7 +788,7 @@ view: server_daily_details_ext {
     type: tier
     style: integer
     tiers: [2, 5, 11, 21, 50, 101, 1001]#[1, 2, 4, 7, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]#[2, 5, 11, 16, 21, 31, 41, 51, 76, 101, 151, 301, 501, 1001]
-    group_label: " Activity Diagnostics User Counts"
+    group_label: " Activity User Counts"
     sql: ${registered_users} ;;
     hidden: no
   }
@@ -5294,6 +5296,7 @@ view: server_daily_details_ext {
     description: "The number of seats (users) provisioned to the license associated with the server (if a license is provisioned and active on the given logging date)."
     type: number
     sql: ${license_server_fact.users} ;;
+    hidden: yes
   }
 
   # DIMENSION GROUPS/DATES
@@ -5312,6 +5315,7 @@ view: server_daily_details_ext {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: last_active_telemetry {
@@ -5320,6 +5324,7 @@ view: server_daily_details_ext {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_telemetry_active_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: last_mm2_telemetry {
@@ -5328,6 +5333,7 @@ view: server_daily_details_ext {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_mm2_telemetry_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: first_mm2_telemetry {
@@ -5336,6 +5342,7 @@ view: server_daily_details_ext {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_mm2_telemetry_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: timestamp {
