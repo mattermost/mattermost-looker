@@ -2045,6 +2045,8 @@ explore: server_daily_details {
 }
 
 explore: server_fact {
+  label: " Server Fact"
+  view_label: " Server Fact"
   group_label: " Product: Messaging"
   description: "Contains the most recent state of a server. Includes first active date, last active date, license id, Salesforce Account ID, version, max active user counts, etc."
   hidden: no
@@ -2070,14 +2072,14 @@ explore: server_fact {
   }
 
   join: excludable_servers {
-    view_label: "Server Fact"
+    view_label: " Server Fact"
     sql_on: ${excludable_servers.server_id} = ${server_fact.server_id} ;;
     relationship: one_to_one
     fields: [excludable_servers.reason]
   }
 
   join: version_release_dates {
-    view_label: "Server Fact"
+    view_label: " Server Fact"
     sql_on: ${server_fact.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.supported]
@@ -2098,7 +2100,7 @@ explore: server_fact {
       server_daily_details_ext.enable_jenkins_count, server_daily_details_ext.enable_jira_count, server_daily_details_ext.enable_marketplace_count, server_daily_details_ext.enable_nps_count, server_daily_details_ext.enable_remote_marketplace_count,
       server_daily_details_ext.enable_uploads_count, server_daily_details_ext.enable_webex_count, server_daily_details_ext.enable_welcome_bot_count, server_daily_details_ext.enable_zoom_count, server_daily_details_ext.enable_confluence_count,
       server_daily_details_ext.enable_jitsi_count, server_daily_details_ext.enable_mscalendar_count, server_daily_details_ext.enable_todo_count, server_daily_details_ext.enable_skype4business_count, server_daily_details_ext.enable_giphy_count,
-      server_daily_details_ext.enable_digital_ocean_count, server_daily_details_ext.enable_incident_response_count, server_daily_details_ext.enable_memes_count, server_daily_details_ext.ask_community_link_enabled_count, server_daily_details_ext.enable_matterpoll_count,
+      server_daily_details_ext.enable_digital_ocean_count, server_daily_details_ext.enable_incident_response_count, server_daily_details_ext.enable_memes_count, server_daily_details_ext.enable_matterpoll_count,
       server_daily_details_ext.enable_channel_recommender_count, server_daily_details_ext.enable_agenda_count, server_daily_details_ext.enable_msteamsmeeting_count, server_daily_details_ext.enable_icebreaker_count]
   }
 }

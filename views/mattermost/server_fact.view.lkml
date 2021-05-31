@@ -31,6 +31,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The license ID1 & ID2 or condition filter for dashboard usage."
     sql: {% condition license_all %} ${license_id} {% endcondition %} OR  {% condition license_all %} ${license_id2} {% endcondition %};;
     type: yesno
+    hidden: yes
   }
 
   dimension: installation_type {
@@ -49,6 +50,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: dev_server {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
+    group_label: " Telemetry Flags"
     type: yesno
     sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
   }
@@ -61,6 +63,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: community_server {
     description: "Boolean indicating the server performing the event is the Mattermost Community server."
+    group_label: " Telemetry Flags"
     type: yesno
     sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
   }
@@ -157,6 +160,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: plugins_downloaded {
     label: " Plugins Downloaded"
+    group_label: "Plugin Dimensions"
     description: "The distinct count of plugins downloaded by users on the server/cloud workspace."
     type: number
     value_format_name: decimal_0
@@ -165,7 +169,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: downloaded_plugins_bands {
     label: "Plugins Downloaded Band"
-    group_label: " Activity Bands"
+    group_label: "Plugin Dimensions"
     description: "The number of distinct plugins downloaded on the server stratified into bands."
     type: tier
     style: integer
@@ -312,6 +316,7 @@ sql_table_name: mattermost.server_fact ;;
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    hidden: yes
   }
 
   dimension: account_name {
@@ -324,6 +329,7 @@ sql_table_name: mattermost.server_fact ;;
       url: "https://mattermost.lightning.force.com/lightning/r/{{ account_sfid._value }}/view"
       icon_url: "https://mattermost.my.salesforce.com/favicon.ico"
     }
+    hidden: yes
   }
 
   dimension: company_name {
@@ -331,6 +337,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The coalesce Mattermost Customer Name using the Salesforce Account Name, or if not available, the license company name, of the Mattermost customer associated with the server (null if no Salesforce Account found)."
     type: string
     sql: COALESCE(${TABLE}.account_name, ${TABLE}.company);;
+    hidden: yes
   }
 
   dimension: active_paying_customer {
@@ -338,6 +345,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "Identifies whether the server is tied to a current customer based on the paid license expiration date."
     type: yesno
     sql: CASE WHEN ${TABLE}.paid_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: active_trial {
@@ -345,6 +353,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "Identifies whether the server is tied to a currently active trial license based on the trial license expiration date."
     type: yesno
     sql: CASE WHEN ${TABLE}.trial_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: license_id {
@@ -352,6 +361,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The latest Mattermost Customer License ID associated with the server i.e. on the current date or last license associated prior to churn and/or disabling telemetry (null if no license found)."
     type: string
     sql: COALESCE(${TABLE}.last_license_id1, ${license_id2}) ;;
+    hidden: yes
   }
 
   dimension: license_id2 {
@@ -388,6 +398,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: first_to_last_active {
     label: "Days First to Last Active"
+    group_label: "Days Active Dimensions"
     description: "The number of days between a server's first active date and last active date i.e. the age of the server, in days, since first sending telemetry to last sending telemetry."
     type: number
     sql: datediff(days,${first_active_date}, ${last_active_date}) ;;
@@ -395,6 +406,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: days_active {
+    group_label: "Days Active Dimensions"
     description: "The number of days a server logged >= 1 event since it's first active date."
     type: number
     sql: coalesce(${TABLE}.days_active, 0) ;;
@@ -402,6 +414,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: days_inactive {
+    group_label: "Days Active Dimensions"
     description: "The number of days a server logged 0 events since it's first active date."
     type: number
     sql: ${TABLE}.days_inactive ;;
@@ -409,6 +422,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: days_active_pct {
+    group_label: "Days Active Dimensions"
     label: "Days Active (% Total)"
     description: "The % of total days first to last active that a server logged >= 1 event."
     type: number
@@ -464,6 +478,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: days_to_first_plugin_install_band {
+    group_label: "Plugin Dimensions"
     description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user segmented into bands."
     type: tier
     style: integer
@@ -472,13 +487,14 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_active_user_count {
-    group_label: "Active User Dimensions"
+    group_label: "*Active User Dimensions"
     description: "The all-time maximum number of active users logged on the server."
     type: number
     sql: ${TABLE}.max_active_user_count;;
   }
 
   dimension: max_registered_users {
+    group_label: "*Registered User Dimensions"
     label: "Registered Users"
     description: "The current number of registered users logged on the server."
     type: number
@@ -486,6 +502,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: registered_users_max {
+    group_label: "*Registered User Dimensions"
     label: "Max. Registered Users"
     description: "The max number of registered users logged on the server during it's lifetime."
     type: number
@@ -493,6 +510,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: enabled_plugins_max {
+    group_label: "Plugin Dimensions"
     label: "Max. Enabled Plugins"
     description: "The max number of enabled plugins logged on the server during it's lifetime."
     type: number
@@ -501,6 +519,7 @@ sql_table_name: mattermost.server_fact ;;
 
 
   dimension: max_registered_user_bands {
+    group_label: "*Registered User Dimensions"
     label: "Max. Registered User Bands"
     description: "The max number of registered users stratified into bands currently logged on the server."
     type: tier
@@ -510,8 +529,8 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_enabled_plugins_bands {
+    group_label: "Plugin Dimensions"
     label: "Max. Enabled Plugins Band"
-    group_label: " Activity Bands"
     description: "The max number of enabled plugins on the server stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -521,7 +540,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: max_disabled_plugins_bands {
     label: "Max. Disabled Plugins Band"
-    group_label: " Activity Bands"
+    group_label: "Plugin Dimensions"
     description: "The max number of disabled plugins on the server stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -532,7 +551,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: registered_user_bands {
     label: "Registered User Band"
-    group_label: " Activity Bands"
+    group_label: "*Registered User Dimensions"
     description: "The current number of registered users stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -541,6 +560,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: max_registered_deactivated_users {
+    group_label: "*Registered User Dimensions"
     label: "Deactivated Users"
     description: "The running total (maximum) of deactivated users logged on the server."
     type: number
@@ -548,21 +568,21 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: signup_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of signup events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.signup_events_alltime;;
   }
 
   dimension: post_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of posts created by users on the server (from user event telemetry)."
     type: number
     sql: COALESCE(${TABLE}.posts_events_alltime, 0);;
   }
 
   dimension: avg_posts_per_active_day {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The total number of posts performed on the server/workspace divided by the number of days active (user performing >=1 event)."
     type: number
     value_format_name: decimal_1
@@ -571,7 +591,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: posts_per_day_bands {
     label: "Posts Per Active Day Band"
-    group_label: " Activity Bands"
+    group_label: "User Event Dimensions"
     description: "The average number of posts performed by the server/workspace per active day since first activity stratified into bands to date."
     type: tier
     style: relational
@@ -581,7 +601,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: api_request_trial_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of request trial events (in-app request trial button clicks) triggered by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.api_request_trial_events_alltime;;
@@ -589,28 +609,31 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: max_posts {
     label: "Posts"
-    description: "The running total number of posts created on the server (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of posts created on the server to date (logged via the server diagnostics.go code)."
     type: number
     sql: ${TABLE}.posts;;
   }
 
   dimension: direct_message_channels {
+    group_label: "Activity Dimensions"
     label: "Direct Message Channels"
-    description: "The running total number of direct messages created on the server (logged via the server diagnostics.go code) to date."
+    description: "The total number of direct messages created on the server to date (logged via the server diagnostics.go code)."
     type: number
     sql: ${TABLE}.direct_message_channels;;
   }
 
   dimension: public_channels {
-    description: "The running total number of public channels created on the server (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of public channels created on the server to date (logged via the server diagnostics.go code)."
     type: number
     sql: COALESCE(IFF(${TABLE}.public_channels < 0, 0, ${TABLE}.public_channels),0);;
   }
 
   dimension: public_channels_bands {
     label: "Public Channels Band"
-    group_label: " Activity Bands"
-    description: "The total number of public channels created on the server stratified into bands  (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of public channels created on the server stratified into bands to date (logged via the server diagnostics.go code)."
     type: tier
     style: integer
     tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
@@ -618,15 +641,16 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: private_channels {
-    description: "The running total number of private channels created on the server (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of private channels created on the server to date (logged via the server diagnostics.go code)."
     type: number
     sql: COALESCE(IFF(${TABLE}.private_channels < 0, 0, ${TABLE}.private_channels), 0);;
   }
 
   dimension: private_channels_bands {
     label: "Private Channels Band"
-    group_label: " Activity Bands"
-    description: "The total number of private channels created on the server stratified into bands  (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of private channels created on the server stratified into bands to date (logged via the server diagnostics.go code)."
     type: tier
     style: integer
     tiers: [1, 2, 3, 4, 5, 10, 20, 50, 100]
@@ -634,14 +658,15 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: slash_commands {
-    description: "The running total number of slash_commands executed on the server (logged via the server diagnostics.go code) to date."
+    group_label: "Activity Dimensions"
+    description: "The total number of slash_commands executed on the server (logged via the server diagnostics.go code) to date."
     type: number
     sql: COALESCE(IFF(${TABLE}.slash_commands < 0, 0, ${TABLE}.slash_commands), 0) ;;
   }
 
   dimension: slash_commands_bands {
     label: "Slash Commands Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of slash commands executed on the server stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -652,12 +677,13 @@ sql_table_name: mattermost.server_fact ;;
   dimension: teams {
     description: "The total number of teams associated with the server (logged via the server diagnostics.go code) to date."
     type: number
+    group_label: "Activity Dimensions"
     sql: COALESCE(IFF(${TABLE}.teams < 0, 0, ${TABLE}.teams), 0);;
   }
 
   dimension: teams_bands {
     label: "Teams Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of teams associated with the server stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -667,6 +693,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: posts_previous_day {
     label: "Posts (Previous Day)"
+    group_label: "Activity Dimensions"
     description: "The total number of posts created on the server (logged via the server diagnostics.go code) the previous day before the last active date (yesterday for servers currently sending telemetry)."
     type: number
     sql: ${TABLE}.posts_previous_day;;
@@ -674,24 +701,28 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: bot_posts_previous_day {
     label: "Bot Posts"
+    group_label: "Activity Dimensions"
     description: "The total number of bot posts created on the server (logged via the server diagnostics.go code) the previous day before the last active date (yesterday for servers currently sending telemetry)."
     type: number
     sql: ${TABLE}.bot_posts_previous_day;;
   }
 
   dimension: active_users {
-    description: "The number of active users on the server (logged via the server diagnostics.go code) on the most recent telemetry date."
+    description: "The number of active users on the server (logged via the server diagnostics.go code) on the most recent telemetry date (last active date)."
     type: number
+    group_label: "Activity Dimensions"
     sql: ${TABLE}.active_users;;
   }
 
   dimension: monthly_active_users {
-    description: "The total number of monthly active users on the servers (logged via the server diagnostics.go code) within the last 30 days of the server's most recent telemetry date.."
+    description: "The total number of monthly active users on the servers (logged via the server diagnostics.go code) within the last 30 days of the server's most recent telemetry date (last active date)."
     type: number
+    group_label: "Activity Dimensions"
     sql: ${TABLE}.monthly_active_users;;
   }
 
   dimension: bot_accounts {
+    group_label: "Activity Dimensions"
     description: "The total number of bot_accounts created on the server (logged via the server diagnostics.go code) to date."
     type: number
     sql: COALESCE(IFF(${TABLE}.bot_accounts <0, 0, ${TABLE}.bot_accounts), 0);;
@@ -699,7 +730,7 @@ sql_table_name: mattermost.server_fact ;;
 
   dimension: bot_account_bands {
     label: "Bot Accounts Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of bot accounts associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
     type: tier
     style: integer
@@ -710,12 +741,13 @@ sql_table_name: mattermost.server_fact ;;
   dimension: guest_accounts {
     description: "The total number of guest_accounts created on the server (logged via the server diagnostics.go code) to date."
     type: number
+    group_label: "Activity Dimensions"
     sql: ${TABLE}.guest_accounts;;
   }
 
   dimension: guest_account_bands {
     label: "Guest Accounts Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of guest accounts associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
     type: tier
     style: integer
@@ -726,12 +758,13 @@ sql_table_name: mattermost.server_fact ;;
   dimension: incoming_webhooks {
     description: "The total number of incoming_webhooks created on the server (logged via the server diagnostics.go code) to date."
     type: number
+    group_label: "Activity Dimensions"
     sql: COALESCE(${TABLE}.incoming_webhooks, 0);;
   }
 
   dimension: incoming_webhooks_bands {
     label: "Incoming Webhooks Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of incoming webhooks associated with the server stratified into bands (logged via the server diagnostics.go code) to date."
     type: tier
     style: integer
@@ -742,12 +775,13 @@ sql_table_name: mattermost.server_fact ;;
   dimension: outgoing_webhooks {
     description: "The total number of guest_accounts created on the server (logged via the server diagnostics.go code) to date."
     type: number
+    group_label: "Activity Dimensions"
     sql: COALESCE(${TABLE}.outgoing_webhooks, 0);;
   }
 
   dimension: outgoing_webhooks_bands {
     label: "Outgoing Webhooks Band"
-    group_label: " Activity Bands"
+    group_label: "Activity Dimensions"
     description: "The total number of outgoing webhooks associated with the server stratified into bands currently logged on the server."
     type: tier
     style: integer
@@ -756,35 +790,35 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: incident_mgmt_events_alltime {
-    label: "Incident Mgmt Events (All-Time)"
-    description: "The count of distinct incident management events performed by the server."
+    label: "Incident Collaboration Events"
+    description: "The count of distinct incident collaboration events performed by the server to date."
     type: number
     sql: COALESCE(${TABLE}.incident_mgmt_events_alltime, 0) ;;
   }
 
   dimension: invite_members_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of 'Invite Members' events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.invite_members_alltime;;
   }
 
   dimension: signup_email_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of signup email events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.signup_email_events_alltime;;
   }
 
   dimension: tutorial_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of tutorial events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.tutorial_events_alltime;;
   }
 
   dimension: admin_events_alltime {
-    group_label: "Event Dimensions (All-Time)"
+    group_label: "User Event Dimensions"
     description: "The all-time count of admin events performed by users on the server (from user event telemetry)."
     type: number
     sql: ${TABLE}.admin_events_alltime;;
@@ -795,6 +829,7 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_event_active_user_date ;;
+    hidden: yes
   }
 
   dimension_group: first_paid_license {
@@ -803,6 +838,7 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_paid_license_date ;;
+    hidden: yes
   }
 
   dimension_group: customer_first_paid_license {
@@ -811,6 +847,7 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.customer_first_paid_license_date ;;
+    hidden: yes
   }
 
   dimension_group: first_trial_license {
@@ -819,6 +856,7 @@ sql_table_name: mattermost.server_fact ;;
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_trial_license_date ;;
+    hidden: yes
   }
 
   dimension_group: first_100reg_users {
@@ -973,7 +1011,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: total_events {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: "   Total Events"
     description: "The total number of events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
@@ -981,7 +1019,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: web_app_events {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: "Web App Events"
     description: "The total number of Web App client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
@@ -989,7 +1027,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: desktop_events {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: "Desktop Events"
     description: "The total number of Desktop client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
@@ -997,7 +1035,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: mobile_events {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: "Mobile Events"
     description: "The total number of Mobile client events performed by all users associated with the server on the last date the server logged user-level events.."
     type: number
@@ -1005,7 +1043,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: events_alltime {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: "  Total Events (All Time)"
     description: "The total number of events performed by all users associated with the server since the servers install date to the last current day ( on the last date the server logged user-level events.)."
     type: number
@@ -1013,7 +1051,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: mobile_events_alltime {
-    group_label: "Event Dimensions"
+    group_label: "User Event Dimensions"
     label: " Mobile Events (All Time)"
     description: "The total number of mobile events performed by all users associated with the server since the servers install date to the last current day (on the last date the server logged user-level events.)."
     type: number
@@ -1026,7 +1064,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of NPS users associated with the server that are promoters (score > 8)."
     type: number
     sql: ${TABLE}.promoters ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: detractors {
@@ -1035,7 +1073,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of NPS users associated with the server that are detractors (score < 7)."
     type: number
     sql: ${TABLE}.detractors ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: passives {
@@ -1044,7 +1082,7 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of NPS users associated with the server that are passives (score >= 7 & <= 8)."
     type: number
     sql: ${TABLE}.passives ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: nps_users {
@@ -1053,13 +1091,13 @@ sql_table_name: mattermost.server_fact ;;
     description: "The count of all NPS users associated with the server (users that have submitted an NPS survey response)."
     type: number
     sql: ${TABLE}.nps_users ;;
-    hidden: no
+    hidden: yes
   }
 
 
   # Measures
   measure: server_count {
-    label: " Server Count"
+    label: "  Server Count"
     group_label: " Instance Counts"
     description: "The distinct count of all servers. If unfiltered this will show all servers that have ever sent telemetry to internal Mattermost Servers."
     type: count_distinct
@@ -1069,6 +1107,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: server_w_active_users {
     label: " Servers w/ Active Users"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 active user during the server's lifetime."
     type: count_distinct
     sql: CASE WHEN ${max_active_user_count} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1077,6 +1116,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_post_events {
     label: " Servers w/ Post Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Posts created during the server's lifetime."
     type: count_distinct
     sql: case when ${post_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1085,6 +1125,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_signup_events {
     label: " Servers w/ Signup Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Signup Events during the server's lifetime."
     type: count_distinct
     sql: case when ${signup_events_alltime} > 0 or ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1093,6 +1134,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_signup_email_events {
     label: " Servers w/ Signup Email Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Signup Email Events during the server's lifetime."
     type: count_distinct
     sql: case when ${signup_email_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1101,6 +1143,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_tutorial_events {
     label: " Servers w/ Tutorial Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Tutorial Events during the server's lifetime."
     type: count_distinct
     sql: case when ${tutorial_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1109,6 +1152,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_admin_events {
     label: " Servers w/ Admin Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Admin Events during the server's lifetime."
     type: count_distinct
     sql: case when ${admin_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1117,6 +1161,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_invite_member_events {
     label: " Servers w/ Invite Member Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Invite Member Events during the server's lifetime."
     type: count_distinct
     sql: case when ${invite_members_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1125,6 +1170,7 @@ sql_table_name: mattermost.server_fact ;;
 
   measure: servers_w_incident_mgmt_events {
     label: " Servers w/ Incident Mgmt Events"
+    group_label: " Instance Counts"
     description: "The count of distinct servers w/ > 0 Incident Mgmt Events during the server's lifetime."
     type: count_distinct
     sql: case when ${incident_mgmt_events_alltime} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -1193,6 +1239,7 @@ sql_table_name: mattermost.server_fact ;;
     value_format_name: decimal_0
     drill_fields: [drill_set1*]
     sql: ${nps_users} ;;
+    hidden: yes
   }
 
   measure: detractors_sum {
@@ -1203,7 +1250,7 @@ sql_table_name: mattermost.server_fact ;;
     value_format_name: decimal_0
     drill_fields: [drill_set1*]
     sql: ${detractors} ;;
-    hidden: no
+    hidden: yes
   }
 
   measure: promoters_sum {
@@ -1214,7 +1261,7 @@ sql_table_name: mattermost.server_fact ;;
     value_format_name: decimal_0
     sql: ${promoters} ;;
     drill_fields: [drill_set1*]
-    hidden: no
+    hidden: yes
   }
 
   measure: passives_sum {
@@ -1225,7 +1272,7 @@ sql_table_name: mattermost.server_fact ;;
     value_format_name: decimal_0
     sql: ${passives} ;;
     drill_fields: [drill_set1*]
-    hidden: no
+    hidden: yes
   }
 
   measure: nps_score_all {
@@ -1236,6 +1283,7 @@ sql_table_name: mattermost.server_fact ;;
     sql: 100.0 * ((${promoters_sum}/nullif(${nps_users_sum},0))-(${detractors_sum}/nullif(${nps_users_sum},0))) ;;
     drill_fields: [drill_set1*]
     value_format_name: decimal_1
+    hidden: yes
   }
 
   measure: dau_sum {
@@ -1426,6 +1474,7 @@ sql_table_name: mattermost.server_fact ;;
   measure: customer_count {
     type: number
     sql: COUNT(DISTINCT CASE WHEN ${active_paying_customer} THEN ${company_name} ELSE NULL END) ;;
+    hidden: yes
   }
 
   measure: mau_pct_licensed {

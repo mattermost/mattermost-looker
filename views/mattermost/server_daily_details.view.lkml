@@ -300,7 +300,7 @@ view: server_daily_details {
     description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
-    hidden: yes
+    hidden: no
   }
 #
 #   dimension: in_mattermost2_server {
