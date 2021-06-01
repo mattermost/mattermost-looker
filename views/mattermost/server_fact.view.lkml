@@ -430,6 +430,22 @@ sql_table_name: mattermost.server_fact ;;
     sql: ${days_active}/(COALESCE(${first_to_last_active},0)+1) ;;
   }
 
+  dimension_group: first_active_user {
+    type: time
+    description: "The first date an active user was logged on the Mattermost Messaging instance."
+    label: " First Active User"
+    sql: ${TABLE}.first_active_user_date ;;
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+  }
+
+  dimension_group: last_active_user_activity {
+    type: time
+    description: "The first date an active user was logged on the Mattermost Messaging instance."
+    label: " Last Active User"
+    sql: ${TABLE}.last_active_user_date ;;
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+  }
+
   dimension_group: first_telemetry_active {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
@@ -825,6 +841,7 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension_group: last_active_user {
+    group_label: " Last Event Active User"
     description: "The date the server was first active (first recorded telemetry enabled date)."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
