@@ -89,12 +89,14 @@ view: server_daily_details {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
     sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: community_server {
     description: "Boolean indicating the server performing the event is the Mattermost Community server."
     type: yesno
     sql: CASE WHEN ${server_id} = '93mykbogbjfrbbdqphx3zhze5c' THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: last_day_of_month {
@@ -268,6 +270,7 @@ view: server_daily_details {
     description: "The hour in the day the server details were logged."
     type: number
     sql: ${TABLE}.hour ;;
+    hidden: yes
   }
 
   dimension: currently_licensed {
@@ -284,6 +287,7 @@ view: server_daily_details {
     label: ">= 1 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 0 THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: active_users2_alltime {
@@ -292,6 +296,7 @@ view: server_daily_details {
     label: ">= 2 Active Users During Lifetime"
     type: yesno
     sql: CASE WHEN ${server_fact.max_active_user_count} > 1 THEN TRUE ELSE FALSE END ;;
+    hidden: yes
   }
 
   dimension: in_security {
@@ -300,7 +305,7 @@ view: server_daily_details {
     description: "Boolean indicating the server appears in the events.security table data (security_update_check.go) on the given date."
     type: yesno
     sql: ${TABLE}.in_security ;;
-    hidden: yes
+    hidden: no
   }
 #
 #   dimension: in_mattermost2_server {
@@ -698,6 +703,7 @@ view: server_daily_details {
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and the current date - 1 day."
     type: number
     sql: datediff(day, COALESCE(${server_fact.first_active_date},${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date})::DATE, CURRENT_DATE - INTERVAL '1 DAY') ;;
+    hidden: yes
   }
 
   dimension: days_since_first_telemetry_to_now_band {
@@ -707,6 +713,7 @@ view: server_daily_details {
     style: integer
     tiers: [1,7,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_to_now} ;;
+    hidden: yes
   }
 
   dimension_group: first_security_telemetry {
@@ -715,6 +722,7 @@ view: server_daily_details {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_telemetry_active_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: last_security_telemetry {
@@ -723,6 +731,7 @@ view: server_daily_details {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_telemetry_active_date}::date ;;
+    hidden: yes
   }
 
   dimension_group: last_mm2_telemetry {
@@ -731,6 +740,7 @@ view: server_daily_details {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_mm2_telemetry_date} ;;
+    hidden: yes
   }
 
   dimension_group: first_mm2_telemetry {
@@ -739,12 +749,14 @@ view: server_daily_details {
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_mm2_telemetry_date} ;;
+    hidden: yes
   }
 
   dimension: days_from_first_telemetry_to_paid_license {
     label: "Days to Paid License"
     description: "The number of days between the servers first telemetry date and it's first paid license issue date."
     type: number
+    hidden: yes
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
     datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
     --END
@@ -755,6 +767,7 @@ view: server_daily_details {
     label: "Days to Paid License (Customer)"
     description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
     type: number
+    hidden: yes
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
           datediff(day, COALESCE(${server_fact.customer_first_active_date}::date, ${nps_server_daily_score.server_install_date}::date), ${server_fact.customer_first_paid_license_date}::date)
           --END
@@ -765,33 +778,39 @@ view: server_daily_details {
     label: "Customer First Paid License Issued"
     description: "The number of days between the customer associated with the server's first server's telemetry and the customer's first paid license issue date."
     type: time
+    hidden: yes
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.customer_first_paid_license_date}::date ;;
   }
 
   measure: median_days_active_to_paid {
     type: number
+    hidden: yes
     sql: median(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: avg_days_active_to_paid {
     type: number
+    hidden: yes
     sql: avg(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: min_days_active_to_paid {
     type: number
+    hidden: yes
     sql: min(${days_from_first_telemetry_to_paid_license}) ;;
   }
 
   dimension: days_trial_to_paid {
     label: "Days From Trial to Paid License"
     type: number
+    hidden: yes
     sql: CASE WHEN DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) <0 THEN 0 ELSE DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) END ;;
   }
 
   measure: median_days_trial_to_paid {
     type: number
+    hidden: yes
     sql: median(${days_trial_to_paid}) ;;
   }
 
@@ -799,6 +818,7 @@ view: server_daily_details {
     label: "Days to Paid License Band"
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: tier
+    hidden: yes
     style: integer
     tiers: [0,7,31,61,91,181,366,731]
     sql: ${days_from_first_telemetry_to_paid_license} ;;
@@ -808,13 +828,14 @@ view: server_daily_details {
     label: "Days to Paid License Band (Customer)"
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: tier
+    hidden: yes
     style: integer
     tiers: [0,7,31,61,91,181,366,731]
     sql: ${customer_days_to_paid_license} ;;
   }
 
   dimension: server_age {
-    label: "Server Age Band (Days)"
+    label: "Age Band (Days)"
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     type: tier
     style: integer
@@ -834,6 +855,7 @@ view: server_daily_details {
     description: "The company derived from the license associated with the server."
     type: string
     sql: ${server_fact.company_name} ;;
+    hidden: yes
   }
 
   dimension: events {
@@ -852,6 +874,7 @@ view: server_daily_details {
     type: number
     value_format_name: decimal_0
     sql: ${server_events_by_date.post_events} ;;
+    hidden: yes
   }
 
   dimension: posts2 {
@@ -861,6 +884,7 @@ view: server_daily_details {
     type: number
     value_format_name: decimal_0
     sql: ${server_events_by_date.post_events} ;;
+    hidden: yes
   }
 
   dimension: posts_per_user_per_day {
@@ -870,6 +894,7 @@ view: server_daily_details {
     type: number
     value_format_name: decimal_1
     sql: ${server_events_by_date.post_events}::FLOAT/NULLIF(${server_events_by_date.users}::float,0) ;;
+    hidden: yes
   }
 
   dimension: posts_per_user_per_day_band {
@@ -880,6 +905,7 @@ view: server_daily_details {
     style: integer
     tiers: [3, 6, 11, 16, 21, 31, 51, 101]
     sql: ${posts_per_user_per_day} ;;
+    hidden: yes
   }
 
   dimension: mau {
@@ -888,6 +914,7 @@ view: server_daily_details {
     description: "The number of monthly active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.mau_total} ;;
+    hidden: yes
   }
 
   dimension: dau {
@@ -896,6 +923,7 @@ view: server_daily_details {
     description: "The number of daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.dau_total} ;;
+    hidden: yes
   }
 
   dimension: mobile_dau {
@@ -904,6 +932,7 @@ view: server_daily_details {
     description: "The number of mobile daily active users associated with the server on the given logging date (derived from mattermost2.events - User Events)."
     type: number
     sql: ${server_events_by_date.mobile_dau} ;;
+    hidden: yes
   }
 
 

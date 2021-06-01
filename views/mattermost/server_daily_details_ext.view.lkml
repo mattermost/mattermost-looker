@@ -221,7 +221,7 @@ view: server_daily_details_ext {
     description: "Ths IP Address associated with the Mattermost Server on the given date."
     type: string
     sql: ${TABLE}.ip_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: location {
@@ -343,7 +343,7 @@ view: server_daily_details_ext {
 
   dimension: system_admins {
     label: " System Admins"
-    group_label: " Diagnostics User Counts"
+    group_label: " Activity User Counts"
     description: "The number of system admins associated with a server on a given logging date (mattermost2.server logged via diagnostics.go)."
     type: number
     sql: ${TABLE}.system_admins ;;
@@ -5288,7 +5288,7 @@ view: server_daily_details_ext {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
+    hidden: yes
     primary_key: yes
   }
 
@@ -5361,6 +5361,24 @@ view: server_daily_details_ext {
     sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}::date) ;;
   }
 
+  dimension: days_since_first_active_user {
+    group_label: "Timeframes Since First Active"
+    label: "Days Since First Active User"
+    description: "Displays the age in days of the server. Age is calculated as days between the first active user date (first date telemetry enabled) and logging date of the record."
+    type: number
+    sql: datediff(day, ${server_fact.first_active_user_date}::date, ${logging_date}::date) ;;
+  }
+
+  dimension: days_since_first_active_user_band {
+    group_label: "Timeframes Since First Active"
+    label: "Days Since First Active User Band"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active user date (first date telemetry enabled) and logging date of the record."
+    type: tier
+    style: integer
+    tiers: [1,7,31,61,91,181,366,731]
+    sql: ${days_since_first_telemetry_enabled} ;;
+  }
+
   dimension: months_since_first_telemetry_enabled {
     group_label: "Timeframes Since First Active"
     label: "Months Since First Telemetry Enabled"
@@ -5389,6 +5407,7 @@ view: server_daily_details_ext {
 
   dimension: days_from_first_telemetry_to_paid_license {
     label: "Days to Paid License"
+    hidden: yes
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: number
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
@@ -5399,27 +5418,32 @@ view: server_daily_details_ext {
 
   measure: median_days_active_to_paid {
     type: number
+    hidden: yes
     sql: median(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: avg_days_active_to_paid {
     type: number
+    hidden: yes
     sql: avg(CASE WHEN ${server_fact.first_paid_license_date} >= ${server_fact.first_active_date} then ${days_from_first_telemetry_to_paid_license} else null end) ;;
   }
 
   measure: min_days_active_to_paid {
     type: number
+    hidden: yes
     sql: min(${days_from_first_telemetry_to_paid_license}) ;;
   }
 
   dimension: days_trial_to_paid {
     label: "Days From Trial to Paid License"
     type: number
+    hidden: yes
     sql: CASE WHEN DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE DATEDIFF(DAY, ${server_fact.first_trial_license_date}, ${server_fact.first_paid_license_date}) END ;;
   }
 
   measure: median_days_trial_to_paid {
     type: number
+    hidden: yes
     sql: median(${days_trial_to_paid}) ;;
   }
 
@@ -5427,6 +5451,7 @@ view: server_daily_details_ext {
     label: "Days to Paid License Band"
     description: "The number of days between the servers first telemetry date and it's first date recording an association with a paid license key."
     type: tier
+    hidden: yes
     style: integer
     tiers: [1,7,31,61,91,181,366,731]
     sql: ${days_from_first_telemetry_to_paid_license} ;;
