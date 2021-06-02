@@ -641,6 +641,12 @@ explore: campaign {
     sql_on: ${lead.matched_account} = ${account.sfid} ;;
     relationship: many_to_one
   }
+
+  join: account_ext {
+    view_label: "Account"
+    sql_on: ${account.sfid} = ${account_ext.account_sfid};;
+    relationship: one_to_one
+  }
 }
 
 explore: account_cs_extended  {
