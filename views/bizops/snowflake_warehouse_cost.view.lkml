@@ -62,7 +62,7 @@ view: snowflake_warehouse_cost {
   dimension_group: usage_month {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, fiscal_year, fiscal_quarter, fiscal_month_num]
     sql: ${TABLE}.usage_month ;;
     hidden: no
   }
@@ -70,7 +70,7 @@ view: snowflake_warehouse_cost {
   dimension_group: usage_day {
     description: ""
     type: time
-    timeframes: [date, month, year]
+    timeframes: [date, month, year, fiscal_year, fiscal_quarter, fiscal_month_num]
     sql: ${TABLE}.usage_day ;;
     hidden: no
   }

@@ -57,7 +57,7 @@ view: nps_server_version_daily_score {
   }
 
   dimension: user_id {
-    description: "The user id of the user that submitted the NPS response."
+    description: "The telemetry id associated with each distinct Mattermost Instance (Server/Cloud Workspace) and the NPS User response submissions."
     type: string
     sql: ${TABLE}.user_id ;;
     hidden: no

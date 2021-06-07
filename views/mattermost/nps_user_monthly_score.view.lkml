@@ -66,7 +66,7 @@ view: nps_user_monthly_score {
 
   # DIMENSIONS
   dimension: server_id {
-    description: "The server id associated with the user that submitted the NPS response."
+    description: "The telemetry id associated with each distinct Mattermost Instance (Server/Cloud Workspace) and the NPS User response submissions."
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no

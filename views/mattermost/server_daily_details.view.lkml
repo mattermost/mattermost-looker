@@ -253,7 +253,7 @@ view: server_daily_details {
 
   # Dimensions
   dimension: server_id {
-    description: "The unique server ID for each telemetry-enabled active server."
+    description: "The telemetry id associated with each distinct Mattermost Instance (Server/Cloud Workspace)."
     type: string
     sql: ${TABLE}.server_id ;;
   }

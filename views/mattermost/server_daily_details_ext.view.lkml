@@ -210,7 +210,7 @@ view: server_daily_details_ext {
   # DIMENSIONS
   dimension: server_id {
     label: "  Instance Id"
-    description: ""
+    description: "The telemetry id associated with each distinct Mattermost Instance (Server/Cloud Workspace)."
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
