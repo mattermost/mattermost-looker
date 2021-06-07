@@ -19,6 +19,7 @@ view: license_server_fact {
     type: time
     timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
     sql: ${TABLE}.last_telemetry_date ;;
+    hidden: yes
   }
 
   dimension_group: last_server_telemetry {
@@ -30,14 +31,14 @@ view: license_server_fact {
 
   dimension: current_customer {
     label: "Active License"
-    description: "Boolean indicating the license is the customers latest (customers can expand mid-contract and be provisioned a new license - the expire date of the previous license is never updated, so there is logic in place to identify the latest), and is not expired."
+    description: "Boolean indicating the license is the customers latest and is not expired (customers can expand mid-contract and be provisioned a new license - the expire date of the previous license is never updated, so there is logic in place to identify the latest)."
     sql: CASE WHEN ${license_retired_date} >= CURRENT_DATE AND LOWER(${customer_name}) not like 'mattermost%' and ${latest_license} THEN TRUE ELSE FALSE END ;;
     type: yesno
   }
 
   dimension: active_paying_customer {
     label: "Active, Licensed Customer"
-    description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated or the license has never been associated with a server, and it is not a trial."
+    description: "Boolean indicating the license is currently active (not expired), the server telemetry is not outdated (sent telemetry w/in 7 days) or the license has never been associated with a server, and it is not a trial."
     type: yesno
     sql: CASE WHEN (${last_server_telemetry_date} >= CURRENT_DATE - INTERVAL '7 DAYS' OR ${license_activation_date} IS NULL) AND ${latest_license} AND ${license_retired_date} >= CURRENT_DATE AND ${customer_name} NOT LIKE 'Mattermost%' THEN TRUE ELSE FALSE END ;;
   }

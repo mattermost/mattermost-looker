@@ -137,8 +137,8 @@ sql_table_name: mattermost.server_fact ;;
 
   # Dimensions
   dimension: server_id {
-    label: "  Server ID"
-    description: "The unique server ID for each server."
+    label: "  Instance ID"
+    description: "The telemetry id associated with each distinct Mattermost Instance (Server/Cloud Workspace)."
     type: string
     sql: ${TABLE}.server_id ;;
     primary_key: yes

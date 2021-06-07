@@ -2941,6 +2941,7 @@ explore: community_program_members {
 explore: license_server_fact {
   group_label: "Billing & Licensing"
   label: "License Server Fact"
+  description: "Contains all issued licenses including paid licenses (E10, E20, Cloud Professional) & trials (website, in-product & cloud)"
   hidden: no
   extends: [person]
 
