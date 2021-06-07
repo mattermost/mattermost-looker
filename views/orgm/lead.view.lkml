@@ -313,7 +313,7 @@ view: lead {
 
 
   dimension: matched_account {
-    sql: ${TABLE}.engagio__Matched_Account__c ;;
+    sql: ${TABLE}.existing_account__c ;;
     type: string
     group_label: "Marketing"
   }

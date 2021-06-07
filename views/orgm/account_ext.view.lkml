@@ -177,15 +177,27 @@ view: account_ext {
     sql: ${TABLE}."SUM_RENEWAL_AMOUNT" ;;
   }
 
- dimension: target_integrations {
-   group_label: "Customer Journey"
-  type: string
-  sql: ${TABLE}."TARGET_INTEGRATIONS" ;;
- }
+  dimension: target_integrations {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."TARGET_INTEGRATIONS" ;;
+  }
 
- dimension: use_case {
-   group_label: "Customer Journey"
-  type: string
-  sql: ${TABLE}."USE_CASE";;
- }
+  dimension: use_case {
+    group_label: "Customer Journey"
+    type: string
+    sql: ${TABLE}."USE_CASE";;
+  }
+
+  dimension_group: min_close_won {
+    sql: ${TABLE}.min_close_won_date ;;
+    timeframes: [
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year
+    ]
+    type: time
+  }
 }
