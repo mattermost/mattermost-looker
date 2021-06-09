@@ -572,6 +572,36 @@ view: license_server_fact {
     drill_fields: [licensed_server_drill*]
   }
 
+  measure: license_count_active_users_7days {
+    label: " Licenses w/ Active Users (>= 7 Days)"
+    description: "The distinct count of Licenses with active usership >= 7 days from the license issued date per grouping."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.last_active_user_date}::date >= ${issued_date}::date + INTERVAL '7 DAYS'
+            THEN case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end
+            ELSE NULL END;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: license_count_active_users_14days {
+    label: " Licenses w/ Active Users (>= 14 Days)"
+    description: "The distinct count of Licenses with active usership >= 14 days from the license issued date per grouping."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.last_active_user_date}::date >= ${issued_date}::date + INTERVAL '14 DAYS'
+            THEN case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end
+            ELSE NULL END;;
+    drill_fields: [licensed_server_drill*]
+  }
+
+  measure: license_count_active_users_28days {
+    label: " Licenses w/ Active Users (>= 28 Days)"
+    description: "The distinct count of Licenses with active usership >= 28 days from the license issued date per grouping."
+    type: count_distinct
+    sql: CASE WHEN ${server_fact.last_active_user_date}::date >= ${issued_date}::date + INTERVAL '28 DAYS'
+            THEN case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end
+            ELSE NULL END;;
+    drill_fields: [licensed_server_drill*]
+  }
+
   measure: list_of_email {
     type: string
     sql: LISTAGG(DISTINCT ${license_email}, ', ') ;;

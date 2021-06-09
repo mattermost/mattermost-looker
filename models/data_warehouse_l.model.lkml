@@ -5,13 +5,13 @@ week_start_day: sunday
 
 explore: user_events_telemetry {
   label: "User Events Telemetry (Messaging)"
-  view_label: "User Events Telemetry (Messaging)"
+  view_label: " User Events Telemetry (Messaging)"
   sql_always_where: ${user_events_telemetry.type} NOT IN ('api_profiles_get_by_ids', 'api_profiles_get_by_usernames');;
   group_label: " Product: Messaging"
   description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
 
   join: server_daily_details {
-    view_label: "User Events Telemetry (Messaging)"
+    view_label: " User Events Telemetry (Messaging)"
     sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} AND ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -26,17 +26,17 @@ explore: user_events_telemetry {
   }
 
   join: excludable_servers {
-    view_label: "User Events Telemetry (Messaging)"
+    view_label: " User Events Telemetry (Messaging)"
     sql_on: ${user_events_telemetry.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: user_agent_registry {
-    view_label: "User Agent Details"
+    view_label: " User Events Telemetry (Messaging)"
     relationship: many_to_one
     sql_on: ${user_events_telemetry.context_user_agent} = ${user_agent_registry.context_useragent} ;;
-    fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.operating_system, user_agent_registry.os_version, user_agent_registry.os_w_version, user_agent_registry.device_brand, user_agent_registry.device_type, user_agent_registry.device_model]
+    fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version, user_agent_registry.os_w_version]
   }
 
   join: subscriptions {

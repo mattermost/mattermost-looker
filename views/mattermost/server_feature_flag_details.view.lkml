@@ -5,8 +5,9 @@ view: server_feature_flag_details {
 
   # SETS
   set: feature_flags {
-    fields: [collapsed_threads, enable_remote_cluster_service, custom_data_retention_enabled, apps_enabled, cloud_delinquent_email_jobs_enabled, custom_user_statuses, files_search
-      , plugin_apps, plugin_incident_management, user_count, instance_count_remote_cluster_service_enabled, instance_count_apps_enabled, instance_count_cloud_delinquent_email_jobs_enabled, instance_count_custom_data_retention_enabled, instance_count_custom_user_statuses_enabled, instance_count_files_search_enabled, instance_count_collapsed_threads_enabled]
+    fields: [collapsed_threads, enable_remote_cluster_service, custom_data_retention_enabled, apps_enabled, cloud_delinquent_email_jobs_enabled, custom_user_statuses,
+      plugin_apps, plugin_incident_management, user_count, instance_count_remote_cluster_service_enabled, instance_count_apps_enabled, instance_count_cloud_delinquent_email_jobs_enabled,
+      instance_count_custom_data_retention_enabled, instance_count_custom_user_statuses_enabled, instance_count_collapsed_threads_enabled]
   }
 
   # DIMENSIONS
@@ -126,14 +127,6 @@ view: server_feature_flag_details {
     type: string
     sql: ${TABLE}.anonymous_id ;;
     hidden: yes
-  }
-
-  dimension: files_search {
-    group_label: "Feature Flags"
-    description: ""
-    type: string
-    sql: IFF(COALESCE(${TABLE}.files_search, 'false') = 'true', TRUE, FALSE) ;;
-    hidden: no
   }
 
   dimension: test_bool_feature {
@@ -260,14 +253,6 @@ view: server_feature_flag_details {
     sql: CASE WHEN ${custom_user_statuses} THEN ${user_id} ELSE NULL END ;;
   }
 
-  measure: instance_count_files_search_enabled {
-    group_label: "Instance Counts"
-    label: "Instances (Files Search Enabled)"
-    description: "Count of distinct instances with files search enabled."
-    type: count_distinct
-    sql: CASE WHEN ${files_search} THEN ${user_id} ELSE NULL END ;;
-  }
-
   measure: instance_count_apps_enabled {
     group_label: "Instance Counts"
     label: "Instances (Apps  Enabled)"
@@ -286,7 +271,7 @@ view: server_feature_flag_details {
 
   measure: instance_count_remote_cluster_service_enabled {
     group_label: "Instance Counts"
-    label: "Instances ( Remote Cluster Service Enabled)"
+    label: "Instances (Remote Cluster Service Enabled)"
     description: "Count of distinct instances with  remote cluster service enabled."
     type: count_distinct
     sql: CASE WHEN ${enable_remote_cluster_service} THEN ${user_id} ELSE NULL END ;;

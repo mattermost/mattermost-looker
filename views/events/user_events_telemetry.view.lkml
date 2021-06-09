@@ -118,7 +118,7 @@ view: user_events_telemetry {
     description: ""
     label: "Device Model"
     type: string
-    sql: ${TABLE}.context_device_model ;;
+    sql: COALESCE(NULLIF(${user_agent_registry.device_model}, 'Other'),${TABLE}.context_device_model) ;;
     hidden: no
   }
 
@@ -144,7 +144,7 @@ view: user_events_telemetry {
     label: "Operating System"
     description: "The operating system of the user performing the event."
     type: string
-    sql: COALESCE(${TABLE}.context_os_name, ${context_device_os}, ${context_traits_device_os}) ;;
+    sql: COALESCE(NULLIF(${user_agent_registry.operating_system}, 'Other'), ${TABLE}.context_os_name, ${context_device_os}, ${context_traits_device_os}) ;;
     hidden: no
   }
 
@@ -153,7 +153,7 @@ view: user_events_telemetry {
     label: "Device Type"
     description: "The device type of the user performing the event."
     type: string
-    sql: ${TABLE}.context_device_type ;;
+    sql: COALESCE(NULLIF(${user_agent_registry.device_type}, 'Other'),${TABLE}.context_device_type) ;;
     hidden: no
   }
 
@@ -310,7 +310,16 @@ view: user_events_telemetry {
     label: "OS Version"
     description: "The OS version of the operating system of the user performing the event."
     type: string
-    sql: ${TABLE}.context_os_version ;;
+    sql: COALESCE(NULLIF(${user_agent_registry.os_version}, 'Other'), ${TABLE}.context_os_version) ;;
+    hidden: no
+  }
+
+  dimension: os_version_major {
+    group_label: "User Agent Attributes"
+    label: "OS Version (Major)"
+    description: "The OS version w/out trailing dot release of the operating system of the user performing the event."
+    type: string
+    sql: CASE WHEN nullif(SPLIT_PART(${context_os_version}, '.', 2), '') IS NULL THEN ${context_os_version} ELSE SPLIT_PART(${context_os_version}, '.',1) || '.' || SPLIT_PART(${context_os_version}, '.',2) END;;
     hidden: no
   }
 
@@ -376,9 +385,9 @@ view: user_events_telemetry {
   dimension: context_device_manufacturer {
     group_label: "User Agent Attributes"
     description: ""
-    label: "Device Manufacturer"
+    label: "Device Brand"
     type: string
-    sql: ${TABLE}.context_device_manufacturer ;;
+    sql: COALESCE(NULLIF(${user_agent_registry.device_brand}, 'Other'),${TABLE}.context_device_manufacturer) ;;
     hidden: no
   }
 
