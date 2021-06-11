@@ -8,6 +8,16 @@ view: server_daily_details_ext {
     fields: [license_server_fact.customer_name, server_id, server_fact.server_version_major, server_fact.first_active_date, server_fact.last_active_date, account_sfid, account_name, license_server_fact.customer_name, paid_license_expire_date, max_active_user_count]
   }
 
+  dimension: supported {
+    description: "Boolean indicating the server version was supported on the given logging date. Indicates support status at a point in time."
+    type: yesno
+    sql: CASE WHEN ${version_release_dates.release_date}::date >= ${logging_date}::DATE - INTERVAL '90 DAYS' AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE
+              WHEN ${version_release_dates.release_date}::date IN ('2021-01-16', '2021-07-16') AND ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '300 DAYS'
+                AND ${version_release_dates.release_date}::DATE <= ${logging_date} THEN TRUE
+              ELSE FALSE END ;;
+    hidden: no
+  }
+
   set: incident_collaboration {
     fields: [total_instances]
   }

@@ -28,9 +28,13 @@ view: version_release_dates {
   }
 
   dimension: supported {
-    description: "Boolean indicating the server version is currently supported."
+    label: "Currently Supported"
+    description: "Boolean indicating the server version is currently supported. Indicates the support status of the server on the current date (today)."
     type: yesno
-    sql: ${TABLE}.supported ;;
+    sql: CASE WHEN ${release_date}::date >= CURRENT_DATE - INTERVAL '90 DAYS' AND ${release_date}::DATE <= CURRENT_DATE THEN TRUE
+              WHEN ${release_date}::date IN ('2021-01-16', '2021-07-16') AND ${release_date}::DATE >= CURRENT_DATE - INTERVAL '300 DAYS' AND ${release_date}::DATE <= CURRENT_DATE THEN TRUE
+              ELSE FALSE END ;;
+    #${TABLE}.supported ;;
     hidden: no
   }
 
