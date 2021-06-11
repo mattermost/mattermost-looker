@@ -11,8 +11,8 @@ view: server_daily_details_ext {
   dimension: supported {
     description: "Boolean indicating the server version was supported on the given logging date. Indicates support status at a point in time."
     type: yesno
-    sql: CASE WHEN ${version_release_dates.release_date}::date >= ${logging_date}::DATE - INTERVAL '90 DAYS' AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE
-              WHEN ${version_release_dates.release_date}::date IN ('2018-05-16','2019-04-16','2020-01-16','2020-07-16','2021-01-16', '2021-07-16') AND ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '300 DAYS'
+    sql: CASE WHEN ${version_release_dates.release_date}::date >= ${logging_date}::DATE - INTERVAL '3 MONTHS' AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE
+              WHEN ${version_release_dates.release_date}::date IN ('2018-05-16','2019-04-16','2020-01-16','2020-07-16','2021-01-16', '2021-07-16') AND ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '9 MONTHS'
                 AND ${version_release_dates.release_date}::DATE <= ${logging_date} THEN TRUE
               ELSE FALSE END ;;
     hidden: no
@@ -512,7 +512,7 @@ view: server_daily_details_ext {
     description: "Boolean indicating the Server does not appear in Diagnostics or Server telemetry on the given logging date. True if server disabled telemetry, was deleted, or there was error/anomaly in the data collection pipeline."
     type: yesno
     sql: ${TABLE}.tracking_disabled ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: has_dupes {
