@@ -8,6 +8,16 @@ view: server_daily_details {
     sql: ${server_id} ;;
   }
 
+  dimension: supported {
+    description: "Boolean indicating the server version was supported on the given logging date. Indicates support status at a point in time."
+    type: yesno
+    sql: CASE WHEN ${version_release_dates.release_date}::date >= ${logging_date}::DATE - INTERVAL '90 DAYS' AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE
+              WHEN ${version_release_dates.release_date}::date IN ('2018-05-16','2019-04-16','2020-01-16','2020-07-16','2021-01-16', '2021-07-16') AND ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '300 DAYS'
+                AND ${version_release_dates.release_date}::DATE <= ${logging_date} THEN TRUE
+              ELSE FALSE END ;;
+    hidden: no
+  }
+
   # Filters
   dimension: latest_telemetry_record_2 {
     label: "  Latest Telemetry Record"
