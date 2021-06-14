@@ -3122,46 +3122,6 @@ explore: telemetry_tables {
   hidden: yes
 }
 
-explore: daily_server_user_agent_events {
-  label: "User Agent Daily Events"
-  description: "Contains a daily snapshot of each server's active user agents and the distinct events that they perfomed. All events performed by users with identical user agents on each Mattermost Messaging instance are aggregated to condense the data model for the benefit of the web platform team."
-  group_label: " Product: Messaging"
-
-  join: server_daily_details {
-    type: left_outer
-    view_label: "Server Details"
-    relationship: many_to_one
-    sql_on: ${daily_server_user_agent_events.logging_date} = ${server_daily_details.logging_date} AND ${server_daily_details.server_id} = ${daily_server_user_agent_events.server_id} ;;
-    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition, server_daily_details.edition2]
-  }
-
-  join: excludable_servers {
-    view_label: "Daily Server User Agent Events"
-    relationship: many_to_one
-    type: left_outer
-    sql_on: ${excludable_servers.server_id} = ${daily_server_user_agent_events.server_id} ;;
-    fields: [excludable_servers.reason]
-  }
-
-  join: server_fact {
-    relationship: many_to_one
-    view_label: "Server Details"
-    type: left_outer
-    sql_on: ${server_fact.server_id} = ${daily_server_user_agent_events.server_id} ;;
-    fields: [server_fact.cloud_server, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major]
-  }
-
-  join: license_server_fact {
-    type: left_outer
-    relationship: many_to_one
-    view_label: "License & Customer Details"
-    sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
-    fields: [license_server_fact.customer_name, license_server_fact.license_email, license_server_fact.customer_id, license_server_fact.users]
-  }
-
-
-}
-
 explore: focalboard_activity {
   label: "Focalboard Telemetry"
   group_label: " Product: Focalboard"

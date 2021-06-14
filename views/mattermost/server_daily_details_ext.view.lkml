@@ -2460,6 +2460,80 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: group_team_count {
+    label: "Group Team Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_team_count ;;
+    hidden: no
+  }
+
+  dimension: group_member_count {
+    label: "Group Member Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_member_count ;;
+    hidden: no
+  }
+
+  dimension: group_channel_count {
+    label: "Group Channel Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_channel_count ;;
+    hidden: no
+  }
+
+  dimension: distinct_group_member_count {
+    label: "Distinct Group Member Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.distinct_group_member_count ;;
+    hidden: no
+  }
+
+
+  dimension: group_synced_team_count {
+    label: "Group Synced Team Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_synced_team_count ;;
+    hidden: no
+  }
+
+
+  dimension: group_count {
+    label: "Group Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_count ;;
+    hidden: no
+  }
+
+  dimension: group_synced_channel_count {
+    label: "Group Synced Channel Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_synced_channel_count ;;
+    hidden: no
+  }
+
+  dimension: group_count_with_allow_reference {
+    label: "Group Count w/ Allow Reference"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_count_with_allow_reference ;;
+    hidden: no
+  }
+
   dimension: batch_size {
     description: ""
     type: number
@@ -2482,6 +2556,15 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.enable_message_export ;;
+    hidden: no
+  }
+
+  dimension: export_retention_days{
+    label: "Export Retention Days"
+    description: ""
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.export_retention_days ;;
     hidden: no
   }
 
@@ -2938,6 +3021,60 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_mattermost_apps {
+    label: "Mattermost Apps Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_mattermost_apps ;;
+    hidden: no
+  }
+
+  dimension: enable_circleci {
+    label: "CircleCI Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_circleci ;;
+    hidden: no
+  }
+
+  dimension: enable_diceroller {
+    label: "Dice Roller Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_diceroller ;;
+    hidden: no
+  }
+
+  dimension: version_mattermost_apps {
+    label: "Mattermost Apps Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_mattermost_apps ;;
+    hidden: no
+  }
+
+  dimension: version_circleci {
+    label: "CircleCI Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_circleci ;;
+    hidden: no
+  }
+
+  dimension: version_diceroller {
+    label: "Dice Roller Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_diceroller ;;
+    hidden: no
+  }
+
   dimension: enable_gitlab {
     label: "Gitlab Enabled"
     description: ""
@@ -3174,6 +3311,7 @@ view: server_daily_details_ext {
     sql: ${TABLE}.enable_commattermostagenda ;;
     hidden: no
   }
+
   dimension: version_agenda {
     label: "Agenda Version"
     description: ""
@@ -4003,6 +4141,42 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.verify_saml ;;
+    hidden: no
+  }
+
+  dimension: enable_link_previews {
+    label: "Link Preview Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_link_previews ;;
+    hidden: no
+  }
+
+  dimension: restrict_link_previews {
+    label: "Link Preview Restricted"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.restrict_link_previews ;;
+    hidden: no
+  }
+
+  dimension: enable_file_search {
+    label: "File Search Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_file_search ;;
+    hidden: no
+  }
+
+  dimension: thread_autofollow {
+    label: "Thread Autofollow Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.thread_autofollow ;;
     hidden: no
   }
 
@@ -4950,7 +5124,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_confirm_notifications_to_channel {
-  label: "Enable Confirm Notifications To Channel"
+  label: "Confirm Notifications To Channel Enabled"
     description: ""
     type: yesno
     group_label: "Team Configuration"
@@ -4959,11 +5133,20 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_brand {
-  label: "Enable Custom Brand"
+  label: "Custom Brand Enabled"
     description: ""
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_custom_brand ;;
+    hidden: no
+  }
+
+  dimension: enable_custom_user_statuses {
+    label: "Custom User Statuses Enabled"
+    description: ""
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_custom_user_statuses ;;
     hidden: no
   }
 
