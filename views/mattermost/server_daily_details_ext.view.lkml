@@ -2460,6 +2460,80 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: group_team_count {
+    label: "Group Team Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_team_count ;;
+    hidden: no
+  }
+
+  dimension: group_member_count {
+    label: "Group Member Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_member_count ;;
+    hidden: no
+  }
+
+  dimension: group_channel_count {
+    label: "Group Channel Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_channel_count ;;
+    hidden: no
+  }
+
+  dimension: distinct_group_member_count {
+    label: "Distinct Group Member Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.distinct_group_member_count ;;
+    hidden: no
+  }
+
+
+  dimension: group_synced_team_count {
+    label: "Group Synced Team Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_synced_team_count ;;
+    hidden: no
+  }
+
+
+  dimension: group_count {
+    label: "Group Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_count ;;
+    hidden: no
+  }
+
+  dimension: group_synced_channel_count {
+    label: "Group Synced Channel Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_synced_channel_count ;;
+    hidden: no
+  }
+
+  dimension: group_count_with_allow_reference {
+    label: "Group Count w/ Allow Reference"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.group_count_with_allow_reference ;;
+    hidden: no
+  }
+
   dimension: batch_size {
     description: ""
     type: number
@@ -2482,6 +2556,15 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Message Export Configuration"
     sql: ${TABLE}.enable_message_export ;;
+    hidden: no
+  }
+
+  dimension: export_retention_days{
+    label: "Export Retention Days"
+    description: ""
+    type: yesno
+    group_label: "Message Export Configuration"
+    sql: ${TABLE}.export_retention_days ;;
     hidden: no
   }
 
@@ -2938,6 +3021,60 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_mattermost_apps {
+    label: "Mattermost Apps Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_mattermost_apps ;;
+    hidden: no
+  }
+
+  dimension: enable_circleci {
+    label: "CircleCI Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_circleci ;;
+    hidden: no
+  }
+
+  dimension: enable_diceroller {
+    label: "Dice Roller Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_diceroller ;;
+    hidden: no
+  }
+
+  dimension: version_mattermost_apps {
+    label: "Mattermost Apps Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_mattermost_apps ;;
+    hidden: no
+  }
+
+  dimension: version_circleci {
+    label: "CircleCI Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_circleci ;;
+    hidden: no
+  }
+
+  dimension: version_diceroller {
+    label: "Dice Roller Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_diceroller ;;
+    hidden: no
+  }
+
   dimension: enable_gitlab {
     label: "Gitlab Enabled"
     description: ""
@@ -3174,6 +3311,7 @@ view: server_daily_details_ext {
     sql: ${TABLE}.enable_commattermostagenda ;;
     hidden: no
   }
+
   dimension: version_agenda {
     label: "Agenda Version"
     description: ""
@@ -4003,6 +4141,42 @@ view: server_daily_details_ext {
     type: yesno
     group_label: "Saml Configuration"
     sql: ${TABLE}.verify_saml ;;
+    hidden: no
+  }
+
+  dimension: enable_link_previews {
+    label: "Link Preview Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_link_previews ;;
+    hidden: no
+  }
+
+  dimension: restrict_link_previews {
+    label: "Link Preview Restricted"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.restrict_link_previews ;;
+    hidden: no
+  }
+
+  dimension: enable_file_search {
+    label: "File Search Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_file_search ;;
+    hidden: no
+  }
+
+  dimension: thread_autofollow {
+    label: "Thread Autofollow Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.thread_autofollow ;;
     hidden: no
   }
 
@@ -4950,7 +5124,7 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_confirm_notifications_to_channel {
-  label: "Enable Confirm Notifications To Channel"
+  label: "Confirm Notifications To Channel Enabled"
     description: ""
     type: yesno
     group_label: "Team Configuration"
@@ -4959,11 +5133,20 @@ view: server_daily_details_ext {
   }
 
   dimension: enable_custom_brand {
-  label: "Enable Custom Brand"
+  label: "Custom Brand Enabled"
     description: ""
     type: yesno
     group_label: "Team Configuration"
     sql: ${TABLE}.enable_custom_brand ;;
+    hidden: no
+  }
+
+  dimension: enable_custom_user_statuses {
+    label: "Custom User Statuses Enabled"
+    description: ""
+    type: yesno
+    group_label: "Team Configuration"
+    sql: ${TABLE}.enable_custom_user_statuses ;;
     hidden: no
   }
 
@@ -5476,7 +5659,8 @@ view: server_daily_details_ext {
   }
 
   measure: server_count {
-    label: " Server Count"
+    label: "  Instance Count"
+    group_label: " Instance Counts"
     description: "The distinct count of Server s per grouping."
     type: count_distinct
     sql: ${server_id} ;;
@@ -5485,7 +5669,7 @@ view: server_daily_details_ext {
 
   measure: server_count_ttr {
     label: "   Server Count (Trailing 3 Releases)"
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
     sql: CASE WHEN ${server_version_major_int}::float >= (
@@ -5546,7 +5730,7 @@ view: server_daily_details_ext {
   measure: in_security_count {
     label: "  TES Servers"
     description: "The count of servers In Security."
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     type: count_distinct
     sql: case when ${in_security} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
@@ -5555,34 +5739,34 @@ view: server_daily_details_ext {
   measure: in_mm2_server_count {
     label: " Mattermost2 Servers"
     description: "The count of servers In Mm2 Server."
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     type: count_distinct
     sql: case when ${in_mm2_server} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: tracking_disabled_count {
-    label: "Servers w/ Tracking Disabled"
+    label: "Instances w/ Tracking Disabled"
     description: "The count of servers Tracking Disabled."
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     type: count_distinct
     sql: case when ${tracking_disabled} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: has_dupes_count {
-    label: "Servers w/ Dupes"
+    label: "Instances w/ Dupes"
     description: "The count of servers Has Dupes."
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     type: count_distinct
     sql: case when ${has_dupes} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: has_multi_ips_count {
-    label: "Servers w/ Multiple IP's"
+    label: "Instances w/ Multiple IP's"
     description: "The count of servers Has Multi Ips."
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     type: count_distinct
     sql: case when ${has_multi_ips} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
@@ -5973,235 +6157,371 @@ view: server_daily_details_ext {
   }
 
   measure: used_apiv3_count {
-    label: "Servers w/ Activity Used Apiv3"
+    label: "Instances w/ Activity Used Apiv3"
     description: "The count of servers with Activity Used Apiv3 enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${used_apiv3} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
+  measure: enable_mattermost_apps_count {
+    label: "Instances w/ Mattermost Apps Enabled"
+    description: "The count of servers with Plugin Mattermost Apps enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_mattermost_apps} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+
+
+  measure: enable_circleci_count {
+    label: "Instances w/ CircleCI Enabled"
+    description: "The count of servers with Plugin CircleCI Enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_circleci} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_diceroller_count {
+    label: "Instances w/ Plugin Dice Roller Enabled"
+    description: "The count of servers with Dice Roller enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_diceroller} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+
+
+
+  measure: restrict_link_previews_count {
+    label: "Instances w/ Restrict Link Previews"
+    description: "The count of servers with Services Restrict Link Previews Enabled enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${restrict_link_previews} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+
+
+
+  measure: enable_link_previews_count {
+    label: "Instances w/ Link Previews Enabled"
+    description: "The count of servers with Services Link Previews enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_link_previews} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_file_search_count {
+    label: "Instances w/ File Search"
+    description: "The count of servers with Services File Search enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_file_search} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+
+
+  measure: thread_autofollow_count {
+    label: "Instances w/ Thread Autofollow"
+    description: "The count of servers with Services Thread Autfollow enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${thread_autofollow} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_teams_count {
+    label: "Instances w/ Group Teams"
+    description: "The count of servers with >= 1 Group Teams."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_team_count} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_members_count {
+      label: "Instances w/ Group Members"
+      description: "The count of servers with >= 1 Group Members."
+      type: count_distinct
+      group_label: " Instance Counts"
+      sql: case when ${group_member_count} > 0 then ${server_id} else null end ;;
+      drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+    }
+
+  measure: group_channel_count_count {
+    label: "Instances w/ Group Channels"
+    description: "The count of servers with >= 1 Group Channels created."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_channel_count}  > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_synced_team_count_count {
+    label: "Instances w/ Group Synced Teams"
+    description: "The count of servers with >= 1 Group Synced Teams enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_synced_team_count} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_count_count {
+    label: "Instances w/ Groups"
+    description: "The count of servers with >= 1 Groups created."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_count} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_synced_channel_count_count {
+    label: "Instances w/ Group Synced Channels"
+    description: "The count of servers with >= 1 Group Synced Channels enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_synced_channel_count} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_count_with_allow_reference_count {
+    label: "Instances w/ Groups Allow Reference"
+    description: "The count of servers with >= 1 Groups w/ Allow Reference enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${group_count_with_allow_reference} > 0 then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
   measure: isdefault_max_users_for_statistics_count {
-    label: "Servers w/ Analytics Isdefault Max Users For Statistics"
+    label: "Instances w/ Analytics Isdefault Max Users For Statistics"
     description: "The count of servers with Analytics Isdefault Max Users For Statistics enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_max_users_for_statistics} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: allow_banner_dismissal_count {
-    label: "Servers w/ Annoucument Allow Banner Dismissal"
+    label: "Instances w/ Annoucument Allow Banner Dismissal"
     description: "The count of servers with Annoucument Allow Banner Dismissal enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${allow_banner_dismissal} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_banner_count {
-    label: "Servers w/ Annoucument Enable Banner"
+    label: "Instances w/ Annoucument Enable Banner"
     description: "The count of servers with Annoucument Enable Banner enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_banner} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_banner_color_count {
-    label: "Servers w/ Annoucument Isdefault Banner Color"
+    label: "Instances w/ Annoucument Isdefault Banner Color"
     description: "The count of servers with Annoucument Isdefault Banner Color enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_banner_color} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_banner_text_color_count {
-    label: "Servers w/ Annoucument Isdefault Banner Text Color"
+    label: "Instances w/ Annoucument Isdefault Banner Text Color"
     description: "The count of servers with Annoucument Isdefault Banner Text Color enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_banner_text_color} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_apiv3_client_count {
-    label: "Servers w/ Client Requirements Enable Apiv3 Client"
+    label: "Instances w/ Client Requirements Enable Apiv3 Client"
     description: "The count of servers with Client Requirements Enable Apiv3 Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_apiv3_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_channel_viewed_messages_client_count {
-    label: "Servers w/ Client Requirements Enable Channel Viewed Messages Client"
+    label: "Instances w/ Client Requirements Enable Channel Viewed Messages Client"
     description: "The count of servers with Client Requirements Enable Channel Viewed Messages Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_channel_viewed_messages_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_commands_client_count {
-    label: "Servers w/ Client Requirements Enable Commands Client"
+    label: "Instances w/ Client Requirements Enable Commands Client"
     description: "The count of servers with Client Requirements Enable Commands Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_commands_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_custom_emoji_client_count {
-    label: "Servers w/ Client Requirements Enable Custom Emoji Client"
+    label: "Instances w/ Client Requirements Enable Custom Emoji Client"
     description: "The count of servers with Client Requirements Enable Custom Emoji Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_custom_emoji_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_developer_client_count {
-    label: "Servers w/ Client Requirements Enable Developer Client"
+    label: "Instances w/ Client Requirements Enable Developer Client"
     description: "The count of servers with Client Requirements Enable Developer Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_developer_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_emoji_picker_client_count {
-    label: "Servers w/ Client Requirements Enable Emoji Picker Client"
+    label: "Instances w/ Client Requirements Enable Emoji Picker Client"
     description: "The count of servers with Client Requirements Enable Emoji Picker Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_emoji_picker_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_incoming_webhooks_client_count {
-    label: "Servers w/ Client Requirements Enable Incoming Webhooks Client"
+    label: "Instances w/ Client Requirements Enable Incoming Webhooks Client"
     description: "The count of servers with Client Requirements Enable Incoming Webhooks Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_incoming_webhooks_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_insecure_outgoing_connections_client_count {
-    label: "Servers w/ Client Requirements Enable Insecure Outgoing Connections Client"
+    label: "Instances w/ Client Requirements Enable Insecure Outgoing Connections Client"
     description: "The count of servers with Client Requirements Enable Insecure Outgoing Connections Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_insecure_outgoing_connections_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_multifactor_authentication_client_count {
-    label: "Servers w/ Client Requirements Enable Multifactor Authentication Client"
+    label: "Instances w/ Client Requirements Enable Multifactor Authentication Client"
     description: "The count of servers with Client Requirements Enable Multifactor Authentication Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_multifactor_authentication_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_oauth_service_provider_client_count {
-    label: "Servers w/ Client Requirements Enable Oauth Service Provider Client"
+    label: "Instances w/ Client Requirements Enable Oauth Service Provider Client"
     description: "The count of servers with Client Requirements Enable Oauth Service Provider Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_oauth_service_provider_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_only_admin_integrations_client_count {
-    label: "Servers w/ Client Requirements Enable Only Admin Integrations Client"
+    label: "Instances w/ Client Requirements Enable Only Admin Integrations Client"
     description: "The count of servers with Client Requirements Enable Only Admin Integrations Client enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_only_admin_integrations_client} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: advertise_address_count {
-    label: "Servers w/ Cluster Advertise Address"
+    label: "Instances w/ Cluster Advertise Address"
     description: "The count of servers with Cluster Advertise Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${advertise_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: bind_address_count {
-    label: "Servers w/ Cluster Bind Address"
+    label: "Instances w/ Cluster Bind Address"
     description: "The count of servers with Cluster Bind Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${bind_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_cluster_count {
-    label: "Servers w/ Cluster Enable Cluster"
+    label: "Instances w/ Cluster Enable Cluster"
     description: "The count of servers with Cluster Enable Cluster enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_cluster} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: network_interface_count {
-    label: "Servers w/ Cluster Network Interface"
+    label: "Instances w/ Cluster Network Interface"
     description: "The count of servers with Cluster Network Interface enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${network_interface} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: read_only_config_count {
-    label: "Servers w/ Cluster Read Only Config"
+    label: "Instances w/ Cluster Read Only Config"
     description: "The count of servers with Cluster Read Only Config enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${read_only_config} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: use_experimental_gossip_count {
-    label: "Servers w/ Cluster Use Experimental Gossip"
+    label: "Instances w/ Cluster Use Experimental Gossip"
     description: "The count of servers with Cluster Use Experimental Gossip enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${use_experimental_gossip} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: use_ip_address_count {
-    label: "Servers w/ Cluster Use Ip Address"
+    label: "Instances w/ Cluster Use Ip Address"
     description: "The count of servers with Cluster Use Ip Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${use_ip_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_compliance_count {
-    label: "Servers w/ Compliance Enable Compliance"
+    label: "Instances w/ Compliance Enable Compliance"
     description: "The count of servers with Compliance Enable Compliance enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_compliance} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_compliance_daily_count {
-    label: "Servers w/ Compliance Enable Compliance Daily"
+    label: "Instances w/ Compliance Enable Compliance Daily"
     description: "The count of servers with Compliance Enable Compliance Daily enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_compliance_daily} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -6235,100 +6555,100 @@ view: server_daily_details_ext {
   }
 
   measure: enable_message_deletion_count {
-    label: "Servers w/ Data Retention Enable Message Deletion"
+    label: "Instances w/ Data Retention Enable Message Deletion"
     description: "The count of servers with Data Retention Enable Message Deletion enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_message_deletion} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_file_deletion_count {
-    label: "Servers w/ Data Retention Enable File Deletion"
+    label: "Instances w/ Data Retention Enable File Deletion"
     description: "The count of servers with Data Retention Enable File Deletion enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_file_deletion} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_timezone_count {
-    label: "Servers w/ Display Experimental Timezone"
+    label: "Instances w/ Display Experimental Timezone"
     description: "The count of servers with Display Experimental Timezone enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_timezone} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_custom_url_schemes_count {
-    label: "Servers w/ Display Isdefault Custom Url Schemes"
+    label: "Instances w/ Display Isdefault Custom Url Schemes"
     description: "The count of servers with Display Isdefault Custom Url Schemes enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_custom_url_schemes} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_autocomplete_count {
-    label: "Servers w/ ElasticSearch Enable Autocomplete"
+    label: "Instances w/ ElasticSearch Enable Autocomplete"
     description: "The count of servers with ElasticSearch Enable Autocomplete enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_autocomplete} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_indexing_count {
-    label: "Servers w/ ElasticSearch Enable Indexing"
+    label: "Instances w/ ElasticSearch Enable Indexing"
     description: "The count of servers with ElasticSearch Enable Indexing enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_indexing} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_searching_count {
-    label: "Servers w/ ElasticSearch Enable Searching"
+    label: "Instances w/ ElasticSearch Enable Searching"
     description: "The count of servers with ElasticSearch Enable Searching enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_searching} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_connection_url_count {
-    label: "Servers w/ ElasticSearch Isdefault Connection Url"
+    label: "Instances w/ ElasticSearch Isdefault Connection Url"
     description: "The count of servers with ElasticSearch Isdefault Connection Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_connection_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_index_prefix_count {
-    label: "Servers w/ ElasticSearch Isdefault Index Prefix"
+    label: "Instances w/ ElasticSearch Isdefault Index Prefix"
     description: "The count of servers with ElasticSearch Isdefault Index Prefix enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_index_prefix} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_password_count {
-    label: "Servers w/ ElasticSearch Isdefault Password"
+    label: "Instances w/ ElasticSearch Isdefault Password"
     description: "The count of servers with ElasticSearch Isdefault Password enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_password} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_username_count {
-    label: "Servers w/ ElasticSearch Isdefault Username"
+    label: "Instances w/ ElasticSearch Isdefault Username"
     description: "The count of servers with ElasticSearch Isdefault Username enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_username} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -6348,1060 +6668,1060 @@ view: server_daily_details_ext {
   }
 
   measure: skip_tls_verification_count {
-    label: "Servers w/ ElasticSearch Skip Tls Verification"
+    label: "Instances w/ ElasticSearch Skip Tls Verification"
     description: "The count of servers with ElasticSearch Skip Tls Verification enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${skip_tls_verification} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: sniff_count {
-    label: "Servers w/ ElasticSearch Sniff"
+    label: "Instances w/ ElasticSearch Sniff"
     description: "The count of servers with ElasticSearch Sniff enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${sniff} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_email_batching_count {
-    label: "Servers w/ Email Enable Email Batching"
+    label: "Instances w/ Email Enable Email Batching"
     description: "The count of servers with Email Enable Email Batching enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_email_batching} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_preview_mode_banner_count {
-    label: "Servers w/ Email Enable Preview Mode Banner"
+    label: "Instances w/ Email Enable Preview Mode Banner"
     description: "The count of servers with Email Enable Preview Mode Banner enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_preview_mode_banner} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_sign_in_with_email_count {
-    label: "Servers w/ Email Enable Sign In With Email"
+    label: "Instances w/ Email Enable Sign In With Email"
     description: "The count of servers with Email Enable Sign In With Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_sign_in_with_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_sign_in_with_username_count {
-    label: "Servers w/ Email Enable Sign In With Username"
+    label: "Instances w/ Email Enable Sign In With Username"
     description: "The count of servers with Email Enable Sign In With Username enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_sign_in_with_username} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_sign_up_with_email_count {
-    label: "Servers w/ Email Enable Sign Up With Email"
+    label: "Instances w/ Email Enable Sign Up With Email"
     description: "The count of servers with Email Enable Sign Up With Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_sign_up_with_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_smtp_auth_count {
-    label: "Servers w/ Email Enable Smtp Auth"
+    label: "Instances w/ Email Enable Smtp Auth"
     description: "The count of servers with Email Enable Smtp Auth enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_smtp_auth} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_feedback_email_count {
-    label: "Servers w/ Email Isdefault Feedback Email"
+    label: "Instances w/ Email Isdefault Feedback Email"
     description: "The count of servers with Email Isdefault Feedback Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_feedback_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_feedback_name_count {
-    label: "Servers w/ Email Isdefault Feedback Name"
+    label: "Instances w/ Email Isdefault Feedback Name"
     description: "The count of servers with Email Isdefault Feedback Name enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_feedback_name} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_feedback_organization_count {
-    label: "Servers w/ Email Isdefault Feedback Organization"
+    label: "Instances w/ Email Isdefault Feedback Organization"
     description: "The count of servers with Email Isdefault Feedback Organization enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_feedback_organization} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_border_color_email_count {
-    label: "Servers w/ Email Isdefault Login Button Border Color Email"
+    label: "Instances w/ Email Isdefault Login Button Border Color Email"
     description: "The count of servers with Email Isdefault Login Button Border Color Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_border_color_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_color_email_count {
-    label: "Servers w/ Email Isdefault Login Button Color Email"
+    label: "Instances w/ Email Isdefault Login Button Color Email"
     description: "The count of servers with Email Isdefault Login Button Color Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_color_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_text_color_email_count {
-    label: "Servers w/ Email Isdefault Login Button Text Color Email"
+    label: "Instances w/ Email Isdefault Login Button Text Color Email"
     description: "The count of servers with Email Isdefault Login Button Text Color Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_text_color_email} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_reply_to_address_count {
-    label: "Servers w/ Email Isdefault Reply To Address"
+    label: "Instances w/ Email Isdefault Reply To Address"
     description: "The count of servers with Email Isdefault Reply To Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_reply_to_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: require_email_verification_count {
-    label: "Servers w/ Email Require Email Verification"
+    label: "Instances w/ Email Require Email Verification"
     description: "The count of servers with Email Require Email Verification enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${require_email_verification} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: send_email_notifications_count {
-    label: "Servers w/ Email Send Email Notifications"
+    label: "Instances w/ Email Send Email Notifications"
     description: "The count of servers with Email Send Email Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${send_email_notifications} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: send_push_notifications_count {
-    label: "Servers w/ Email Send Push Notifications"
+    label: "Instances w/ Email Send Push Notifications"
     description: "The count of servers with Email Send Push Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${send_push_notifications} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: skip_server_certificate_verification_count {
-    label: "Servers w/ Email Skip Server Certificate Verification"
+    label: "Instances w/ Email Skip Server Certificate Verification"
     description: "The count of servers with Email Skip Server Certificate Verification enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${skip_server_certificate_verification} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: use_channel_in_email_notifications_count {
-    label: "Servers w/ Email Use Channel In Email Notifications"
+    label: "Instances w/ Email Use Channel In Email Notifications"
     description: "The count of servers with Email Use Channel In Email Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${use_channel_in_email_notifications} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: client_side_cert_enable_count {
-    label: "Servers w/ Experimental Client Side Cert Enable"
+    label: "Instances w/ Experimental Client Side Cert Enable"
     description: "The count of servers with Experimental Client Side Cert Enable enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${client_side_cert_enable} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_click_to_reply_count {
-    label: "Servers w/ Experimental Enable Click To Reply"
+    label: "Instances w/ Experimental Enable Click To Reply"
     description: "The count of servers with Experimental Enable Click To Reply enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_click_to_reply} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_post_metadata_count {
-    label: "Servers w/ Experimental Enable Post Metadata"
+    label: "Instances w/ Experimental Enable Post Metadata"
     description: "The count of servers with Experimental Enable Post Metadata enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_post_metadata} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_client_side_cert_check_count {
-    label: "Servers w/ Experimental Isdefault Client Side Cert Check"
+    label: "Instances w/ Experimental Isdefault Client Side Cert Check"
     description: "The count of servers with Experimental Isdefault Client Side Cert Check enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_client_side_cert_check} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: restrict_system_admin_count {
-    label: "Servers w/ Experimental Restrict System Admin"
+    label: "Instances w/ Experimental Restrict System Admin"
     description: "The count of servers with Experimental Restrict System Admin enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${restrict_system_admin} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: use_new_saml_library_count {
-    label: "Servers w/ Experimental Use New Saml Library"
+    label: "Instances w/ Experimental Use New Saml Library"
     description: "The count of servers with Experimental Use New Saml Library enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${use_new_saml_library} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_experimental_extensions_count {
-    label: "Servers w/ Extension Enable Experimental Extensions"
+    label: "Instances w/ Extension Enable Experimental Extensions"
     description: "The count of servers with Extension Enable Experimental Extensions enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_experimental_extensions} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: amazon_s3_signv2_count {
-    label: "Servers w/ File Amazon S3 Signv2"
+    label: "Instances w/ File Amazon S3 Signv2"
     description: "The count of servers with File Amazon S3 Signv2 enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${amazon_s3_signv2} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: amazon_s3_sse_count {
-    label: "Servers w/ File Amazon S3 Sse"
+    label: "Instances w/ File Amazon S3 Sse"
     description: "The count of servers with File Amazon S3 Sse enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${amazon_s3_sse} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: amazon_s3_ssl_count {
-    label: "Servers w/ File Amazon S3 Ssl"
+    label: "Instances w/ File Amazon S3 Ssl"
     description: "The count of servers with File Amazon S3 Ssl enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${amazon_s3_ssl} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: amazon_s3_trace_count {
-    label: "Servers w/ File Amazon S3 Trace"
+    label: "Instances w/ File Amazon S3 Trace"
     description: "The count of servers with File Amazon S3 Trace enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${amazon_s3_trace} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_file_attachments_count {
-    label: "Servers w/ File Enable File Attachments"
+    label: "Instances w/ File Enable File Attachments"
     description: "The count of servers with File Enable File Attachments enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_file_attachments} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_mobile_download_count {
-    label: "Servers w/ File Enable Mobile Download"
+    label: "Instances w/ File Enable Mobile Download"
     description: "The count of servers with File Enable Mobile Download enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_mobile_download} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_mobile_upload_count {
-    label: "Servers w/ File Enable Mobile Upload"
+    label: "Instances w/ File Enable Mobile Upload"
     description: "The count of servers with File Enable Mobile Upload enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_mobile_upload} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_public_links_count {
-    label: "Servers w/ File Enable Public Links"
+    label: "Instances w/ File Enable Public Links"
     description: "The count of servers with File Enable Public Links enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_public_links} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isabsolute_directory_count {
-    label: "Servers w/ File Isabsolute Directory"
+    label: "Instances w/ File Isabsolute Directory"
     description: "The count of servers with File Isabsolute Directory enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isabsolute_directory} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_directory_count {
-    label: "Servers w/ File Isdefault Directory"
+    label: "Instances w/ File Isdefault Directory"
     description: "The count of servers with File Isdefault Directory enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_directory} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: allow_email_accounts_count {
-    label: "Servers w/ Guest Account Allow Email Accounts"
+    label: "Instances w/ Guest Account Allow Email Accounts"
     description: "The count of servers with Guest Account Allow Email Accounts enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${allow_email_accounts} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_guest_accounts_count {
-    label: "Servers w/ Guest Account Enable Guest Accounts"
+    label: "Instances w/ Guest Account Enable Guest Accounts"
     description: "The count of servers with Guest Account Enable Guest Accounts enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_guest_accounts} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enforce_multifactor_authentication_guest_count {
-    label: "Servers w/ Guest Account Enforce Multifactor Authentication Guest"
+    label: "Instances w/ Guest Account Enforce Multifactor Authentication Guest"
     description: "The count of servers with Guest Account Enforce Multifactor Authentication Guest enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enforce_multifactor_authentication_guest} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_restrict_creation_to_domains_count {
-    label: "Servers w/ Guest Account Isdefault Restrict Creation To Domains"
+    label: "Instances w/ Guest Account Isdefault Restrict Creation To Domains"
     description: "The count of servers with Guest Account Isdefault Restrict Creation To Domains enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_restrict_creation_to_domains} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_image_proxy_count {
-    label: "Servers w/ Image Proxy Enable Image Proxy"
+    label: "Instances w/ Image Proxy Enable Image Proxy"
     description: "The count of servers with Image Proxy Enable Image Proxy enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_image_proxy} then ${server_id} else null end ;;
   }
 
   measure: isdefault_remote_image_proxy_options_count {
-    label: "Servers w/ Image Proxy Isdefault Remote Image Proxy Options"
+    label: "Instances w/ Image Proxy Isdefault Remote Image Proxy Options"
     description: "The count of servers with Image Proxy Isdefault Remote Image Proxy Options enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_remote_image_proxy_options} then ${server_id} else null end ;;
   }
 
   measure: isdefault_remote_image_proxy_url_count {
-    label: "Servers w/ Image Proxy Isdefault Remote Image Proxy Url"
+    label: "Instances w/ Image Proxy Isdefault Remote Image Proxy Url"
     description: "The count of servers with Image Proxy Isdefault Remote Image Proxy Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_remote_image_proxy_url} then ${server_id} else null end ;;
   }
 
   measure: enable_ldap_count {
-    label: "Servers w/ Ldap Enable Ldap"
+    label: "Instances w/ Ldap Enable Ldap"
     description: "The count of servers with Ldap Enable Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_ldap} then ${server_id} else null end ;;
   }
 
   measure: enable_admin_filter_count {
-    label: "Servers w/ Ldap Enable Admin Filter"
+    label: "Instances w/ Ldap Enable Admin Filter"
     description: "The count of servers with Ldap Enable Admin Filter enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_admin_filter} then ${server_id} else null end ;;
   }
 
   measure: enable_sync_count {
-    label: "Servers w/ Ldap Enable Sync"
+    label: "Instances w/ Ldap Enable Sync"
     description: "The count of servers with Ldap Enable Sync enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_sync} then ${server_id} else null end ;;
   }
 
   measure: isdefault_email_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Email Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Email Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Email Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_email_attribute_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_first_name_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault First Name Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault First Name Attribute Ldap"
     description: "The count of servers with Ldap Isdefault First Name Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_first_name_attribute_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_group_display_name_attribute_count {
-    label: "Servers w/ Ldap Isdefault Group Display Name Attribute"
+    label: "Instances w/ Ldap Isdefault Group Display Name Attribute"
     description: "The count of servers with Ldap Isdefault Group Display Name Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_group_display_name_attribute} then ${server_id} else null end ;;
   }
 
   measure: isdefault_group_id_attribute_count {
-    label: "Servers w/ Ldap Isdefault Group Id Attribute"
+    label: "Instances w/ Ldap Isdefault Group Id Attribute"
     description: "The count of servers with Ldap Isdefault Group Id Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_group_id_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_id_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Id Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Id Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Id Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_id_attribute_ldap} then ${server_id} else null end ;;
   }
 
   measure: isdefault_last_name_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Last Name Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Last Name Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Last Name Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_last_name_attribute_ldap} then ${server_id} else null end ;;
   }
 
   measure: isdefault_login_button_border_color_ldap_count {
-    label: "Servers w/ Ldap Isdefault Login Button Border Color Ldap"
+    label: "Instances w/ Ldap Isdefault Login Button Border Color Ldap"
     description: "The count of servers with Ldap Isdefault Login Button Border Color Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_border_color_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_color_ldap_count {
-    label: "Servers w/ Ldap Isdefault Login Button Color Ldap"
+    label: "Instances w/ Ldap Isdefault Login Button Color Ldap"
     description: "The count of servers with Ldap Isdefault Login Button Color Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_color_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_text_color_ldap_count {
-    label: "Servers w/ Ldap Isdefault Login Button Text Color Ldap"
+    label: "Instances w/ Ldap Isdefault Login Button Text Color Ldap"
     description: "The count of servers with Ldap Isdefault Login Button Text Color Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_text_color_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_field_name_count {
-    label: "Servers w/ Ldap Isdefault Login Field Name"
+    label: "Instances w/ Ldap Isdefault Login Field Name"
     description: "The count of servers with Ldap Isdefault Login Field Name enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_field_name} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_id_attribute_count {
-    label: "Servers w/ Ldap Isdefault Login Id Attribute"
+    label: "Instances w/ Ldap Isdefault Login Id Attribute"
     description: "The count of servers with Ldap Isdefault Login Id Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_id_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_nickname_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Nickname Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Nickname Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Nickname Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_nickname_attribute_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_position_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Position Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Position Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Position Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_position_attribute_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_username_attribute_ldap_count {
-    label: "Servers w/ Ldap Isdefault Username Attribute Ldap"
+    label: "Instances w/ Ldap Isdefault Username Attribute Ldap"
     description: "The count of servers with Ldap Isdefault Username Attribute Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_username_attribute_ldap} then ${server_id} else null end ;;
   }
 
   measure: isempty_admin_filter_count {
-    label: "Servers w/ Ldap Isempty Admin Filter"
+    label: "Instances w/ Ldap Isempty Admin Filter"
     description: "The count of servers with Ldap Isempty Admin Filter enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isempty_admin_filter} then ${server_id} else null end ;;
   }
 
   measure: isempty_group_filter_count {
-    label: "Servers w/ Ldap Isempty Group Filter"
+    label: "Instances w/ Ldap Isempty Group Filter"
     description: "The count of servers with Ldap Isempty Group Filter enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isempty_group_filter} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isempty_guest_filter_count {
-    label: "Servers w/ Ldap Isempty Guest Filter"
+    label: "Instances w/ Ldap Isempty Guest Filter"
     description: "The count of servers with Ldap Isempty Guest Filter enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isempty_guest_filter} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: skip_certificate_verification_count {
-    label: "Servers w/ Ldap Skip Certificate Verification"
+    label: "Instances w/ Ldap Skip Certificate Verification"
     description: "The count of servers with Ldap Skip Certificate Verification enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${skip_certificate_verification} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_cluster_count {
-    label: "Servers w/ License Feature Cluster"
+    label: "Instances w/ License Feature Cluster"
     description: "The count of servers with License Feature Cluster enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_cluster} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_compliance_count {
-    label: "Servers w/ License Feature Compliance"
+    label: "Instances w/ License Feature Compliance"
     description: "The count of servers with License Feature Compliance enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_compliance} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_custom_brand_count {
-    label: "Servers w/ License Feature Custom Brand"
+    label: "Instances w/ License Feature Custom Brand"
     description: "The count of servers with License Feature Custom Brand enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_custom_brand} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_custom_permissions_schemes_count {
-    label: "Servers w/ License Feature Custom Permissions Schemes"
+    label: "Instances w/ License Feature Custom Permissions Schemes"
     description: "The count of servers with License Feature Custom Permissions Schemes enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_custom_permissions_schemes} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_data_retention_count {
-    label: "Servers w/ License Feature Data Retention"
+    label: "Instances w/ License Feature Data Retention"
     description: "The count of servers with License Feature Data Retention enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_data_retention} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_elastic_search_count {
-    label: "Servers w/ License Feature Elastic Search"
+    label: "Instances w/ License Feature Elastic Search"
     description: "The count of servers with License Feature Elastic Search enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_elastic_search} then ${server_id} else null end ;;
   }
 
   measure: feature_email_notification_contents_count {
-    label: "Servers w/ License Feature Email Notification Contents"
+    label: "Instances w/ License Feature Email Notification Contents"
     description: "The count of servers with License Feature Email Notification Contents enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_email_notification_contents} then ${server_id} else null end ;;
   }
 
   measure: feature_future_count {
-    label: "Servers w/ License Feature Future"
+    label: "Instances w/ License Feature Future"
     description: "The count of servers with License Feature Future enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_future} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_google_count {
-    label: "Servers w/ License Feature Google"
+    label: "Instances w/ License Feature Google"
     description: "The count of servers with License Feature Google enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_google} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_guest_accounts_count {
-    label: "Servers w/ License Feature Guest Accounts"
+    label: "Instances w/ License Feature Guest Accounts"
     description: "The count of servers with License Feature Guest Accounts enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_guest_accounts} then ${server_id} else null end ;;
   }
 
   measure: feature_guest_accounts_permissions_count {
-    label: "Servers w/ License Feature Guest Accounts Permissions"
+    label: "Instances w/ License Feature Guest Accounts Permissions"
     description: "The count of servers with License Feature Guest Accounts Permissions enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_guest_accounts_permissions} then ${server_id} else null end ;;
   }
 
   measure: feature_id_loaded_count {
-    label: "Servers w/ License Feature Id Loaded"
+    label: "Instances w/ License Feature Id Loaded"
     description: "The count of servers with License Feature Id Loaded enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_id_loaded} then ${server_id} else null end ;;
   }
 
   measure: feature_ldap_count {
-    label: "Servers w/ License Feature Ldap"
+    label: "Instances w/ License Feature Ldap"
     description: "The count of servers with License Feature Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_ldap} then ${server_id} else null end ;;
   }
 
   measure: feature_ldap_groups_count {
-    label: "Servers w/ License Feature Ldap Groups"
+    label: "Instances w/ License Feature Ldap Groups"
     description: "The count of servers with License Feature Ldap Groups enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_ldap_groups} then ${server_id} else null end ;;
   }
 
   measure: feature_lock_teammate_name_display_count {
-    label: "Servers w/ License Feature Lock Teammate Name Display"
+    label: "Instances w/ License Feature Lock Teammate Name Display"
     description: "The count of servers with License Feature Lock Teammate Name Display enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_lock_teammate_name_display} then ${server_id} else null end ;;
   }
 
   measure: feature_message_export_count {
-    label: "Servers w/ License Feature Message Export"
+    label: "Instances w/ License Feature Message Export"
     description: "The count of servers with License Feature Message Export enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_message_export} then ${server_id} else null end ;;
   }
 
   measure: feature_metrics_count {
-    label: "Servers w/ License Feature Metrics"
+    label: "Instances w/ License Feature Metrics"
     description: "The count of servers with License Feature Metrics enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_metrics} then ${server_id} else null end ;;
   }
 
   measure: feature_mfa_count {
-    label: "Servers w/ License Feature Mfa"
+    label: "Instances w/ License Feature Mfa"
     description: "The count of servers with License Feature Mfa enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_mfa} then ${server_id} else null end ;;
   }
 
   measure: feature_mhpns_count {
-    label: "Servers w/ License Feature Mhpns"
+    label: "Instances w/ License Feature Mhpns"
     description: "The count of servers with License Feature Mhpns enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_mhpns} then ${server_id} else null end ;;
   }
 
   measure: feature_office365_count {
-    label: "Servers w/ License Feature Office365"
+    label: "Instances w/ License Feature Office365"
     description: "The count of servers with License Feature Office365 enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${feature_office365} then ${server_id} else null end ;;
   }
 
   measure: feature_password_count {
-    label: "Servers w/ License Feature Password"
+    label: "Instances w/ License Feature Password"
     description: "The count of servers with License Feature Password enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_password} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: feature_saml_count {
-    label: "Servers w/ License Feature Saml"
+    label: "Instances w/ License Feature Saml"
     description: "The count of servers with License Feature Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${feature_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: console_json_log_count {
-    label: "Servers w/ Log Console Json Log"
+    label: "Instances w/ Log Console Json Log"
     description: "The count of servers with Log Console Json Log enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${console_json_log} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_console_log_count {
-    label: "Servers w/ Log Enable Console Log"
+    label: "Instances w/ Log Enable Console Log"
     description: "The count of servers with Log Enable Console Log enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_console_log} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_file_log_count {
-    label: "Servers w/ Log Enable File Log"
+    label: "Instances w/ Log Enable File Log"
     description: "The count of servers with Log Enable File Log enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_file_log} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_webhook_debugging_count {
-    label: "Servers w/ Log Enable Webhook Debugging"
+    label: "Instances w/ Log Enable Webhook Debugging"
     description: "The count of servers with Log Enable Webhook Debugging enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_webhook_debugging} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: file_json_log_count {
-    label: "Servers w/ Log File Json Log"
+    label: "Instances w/ Log File Json Log"
     description: "The count of servers with Log File Json Log enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${file_json_log} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_file_format_count {
-    label: "Servers w/ Log Isdefault File Format"
+    label: "Instances w/ Log Isdefault File Format"
     description: "The count of servers with Log Isdefault File Format enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_file_format} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_file_location_log_count {
-    label: "Servers w/ Log Isdefault File Location Log"
+    label: "Instances w/ Log Isdefault File Location Log"
     description: "The count of servers with Log Isdefault File Location Log enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_file_location_log} then ${server_id} else null end ;;
   }
 
   measure: enable_message_export_count {
-    label: "Servers w/ Message Export Enable Message Export"
+    label: "Instances w/ Message Export Enable Message Export"
     description: "The count of servers with Message Export Enable Message Export enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_message_export} then ${server_id} else null end ;;
   }
 
   measure: is_default_global_relay_email_address_count {
-    label: "Servers w/ Message Export Is Default Global Relay Email Address"
+    label: "Instances w/ Message Export Is Default Global Relay Email Address"
     description: "The count of servers with Message Export Is Default Global Relay Email Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${is_default_global_relay_email_address} then ${server_id} else null end ;;
   }
 
   measure: is_default_global_relay_smtp_password_count {
-    label: "Servers w/ Message Export Is Default Global Relay Smtp Password"
+    label: "Instances w/ Message Export Is Default Global Relay Smtp Password"
     description: "The count of servers with Message Export Is Default Global Relay Smtp Password enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${is_default_global_relay_smtp_password} then ${server_id} else null end ;;
   }
 
   measure: is_default_global_relay_smtp_username_count {
-    label: "Servers w/ Message Export Is Default Global Relay Smtp Username"
+    label: "Instances w/ Message Export Is Default Global Relay Smtp Username"
     description: "The count of servers with Message Export Is Default Global Relay Smtp Username enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${is_default_global_relay_smtp_username} then ${server_id} else null end ;;
   }
 
   measure: enable_metrics_count {
-    label: "Servers w/ Metric Enable Metrics"
+    label: "Instances w/ Metric Enable Metrics"
     description: "The count of servers with Metric Enable Metrics enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_metrics} then ${server_id} else null end ;;
   }
 
   measure: isdefault_android_app_download_link_count {
-    label: "Servers w/ Nativeapp Isdefault Android App Download Link"
+    label: "Instances w/ Nativeapp Isdefault Android App Download Link"
     description: "The count of servers with Nativeapp Isdefault Android App Download Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_android_app_download_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_app_download_link_count {
-    label: "Servers w/ Nativeapp Isdefault App Download Link"
+    label: "Instances w/ Nativeapp Isdefault App Download Link"
     description: "The count of servers with Nativeapp Isdefault App Download Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_app_download_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_iosapp_download_link_count {
-    label: "Servers w/ Nativeapp Isdefault Iosapp Download Link"
+    label: "Instances w/ Nativeapp Isdefault Iosapp Download Link"
     description: "The count of servers with Nativeapp Isdefault Iosapp Download Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${isdefault_iosapp_download_link} then ${server_id} else null end ;;
   }
 
   measure: console_json_notifications_count {
-    label: "Servers w/ Notifications Log Console Json Notifications"
+    label: "Instances w/ Notifications Log Console Json Notifications"
     description: "The count of servers with Notifications Log Console Json Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${console_json_notifications} then ${server_id} else null end ;;
   }
 
   measure: enable_console_notifications_count {
-    label: "Servers w/ Notifications Log Enable Console Notifications"
+    label: "Instances w/ Notifications Log Enable Console Notifications"
     description: "The count of servers with Notifications Log Enable Console Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_console_notifications} then ${server_id} else null end ;;
   }
 
   measure: enable_file_notifications_count {
-    label: "Servers w/ Notifications Log Enable File Notifications"
+    label: "Instances w/ Notifications Log Enable File Notifications"
     description: "The count of servers with Notifications Log Enable File Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_file_notifications} then ${server_id} else null end ;;
   }
 
   measure: file_json_notifications_count {
-    label: "Servers w/ Notifications Log File Json Notifications"
+    label: "Instances w/ Notifications Log File Json Notifications"
     description: "The count of servers with Notifications Log File Json Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${file_json_notifications} then ${server_id} else null end ;;
   }
 
   measure: isdefault_file_location_notifications_count {
-    label: "Servers w/ Notifications Log Isdefault File Location Notifications"
+    label: "Instances w/ Notifications Log Isdefault File Location Notifications"
     description: "The count of servers with Notifications Log Isdefault File Location Notifications enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_file_location_notifications} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_office365_oauth_count {
-    label: "Servers w/ Oauth Enable Office365 Oauth"
+    label: "Instances w/ Oauth Enable Office365 Oauth"
     description: "The count of servers with Oauth Enable Office365 Oauth enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${enable_office365_oauth} then ${server_id} else null end ;;
   }
 
   measure: enable_google_oauth_count {
-    label: "Servers w/ Oauth Enable Google Oauth"
+    label: "Instances w/ Oauth Enable Google Oauth"
     description: "The count of servers with Oauth Enable Google Oauth enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_google_oauth} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_gitlab_oauth_count {
-    label: "Servers w/ Oauth Enable Gitlab Oauth"
+    label: "Instances w/ Oauth Enable Gitlab Oauth"
     description: "The count of servers with Oauth Enable Gitlab Oauth enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_gitlab_oauth} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_lowercase_count {
-    label: "Servers w/ Password Enable Lowercase"
+    label: "Instances w/ Password Enable Lowercase"
     description: "The count of servers with Password Enable Lowercase enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_lowercase} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_uppercase_count {
-    label: "Servers w/ Password Enable Uppercase"
+    label: "Instances w/ Password Enable Uppercase"
     description: "The count of servers with Password Enable Uppercase enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_uppercase} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_symbol_count {
-    label: "Servers w/ Password Enable Symbol"
+    label: "Instances w/ Password Enable Symbol"
     description: "The count of servers with Password Enable Symbol enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_symbol} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_number_count {
-    label: "Servers w/ Password Enable Number"
+    label: "Instances w/ Password Enable Number"
     description: "The count of servers with Password Enable Number enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_number} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: phase_1_migration_complete_count {
-    label: "Servers w/ Permissions General Phase 1 Migration Complete"
+    label: "Instances w/ Permissions General Phase 1 Migration Complete"
     description: "The count of servers with Permissions General Phase 1 Migration Complete enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${phase_1_migration_complete} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: phase_2_migration_complete_count {
-    label: "Servers w/ Permissions General Phase 2 Migration Complete"
+    label: "Instances w/ Permissions General Phase 2 Migration Complete"
     description: "The count of servers with Permissions General Phase 2 Migration Complete enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${phase_2_migration_complete} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: allow_insecure_download_url_count {
-    label: "Servers w/ Plugin Allow Insecure Download Url"
+    label: "Instances w/ Plugin Allow Insecure Download Url"
     description: "The count of servers with Plugin Allow Insecure Download Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${allow_insecure_download_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_matterpoll_count {
-    label: "Servers w/ Matterpoll Enabled"
+    label: "Instances w/ Matterpoll Enabled"
     description: "The count of servers with the Matterpoll plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7410,7 +7730,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_msteamsmeeting_count {
-    label: "Servers w/ MS Teams Meetings Enabled"
+    label: "Instances w/ MS Teams Meetings Enabled"
     description: "The count of servers with the MS Teams Meetings plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7419,7 +7739,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_channelexport_count {
-    label: "Servers w/ Channel Export Enabled"
+    label: "Instances w/ Channel Export Enabled"
     description: "The count of servers with the Channel Export plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7428,7 +7748,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_icebreaker_count {
-    label: "Servers w/ Icebreaker Enabled"
+    label: "Instances w/ Icebreaker Enabled"
     description: "The count of servers with the Icebreaker plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7437,7 +7757,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_agenda_count {
-    label: "Servers w/ Agenda Enabled"
+    label: "Instances w/ Agenda Enabled"
     description: "The count of servers with the Agenda plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7446,16 +7766,16 @@ view: server_daily_details_ext {
   }
 
   measure: automatic_prepackaged_plugins_count {
-    label: "Servers w/ Plugin Automatic Prepackaged Plugins"
+    label: "Instances w/ Plugin Automatic Prepackaged Plugins"
     description: "The count of servers with Plugin Automatic Prepackaged Plugins enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${automatic_prepackaged_plugins} then ${server_id} else null end ;;
   }
 
   measure: enable_plugins_count {
-    label: "Servers w/ Plugins Enabled"
+    label: "Instances w/ Plugins Enabled"
     description: "The count of servers with Plugins enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7464,7 +7784,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_antivirus_count {
-    label: "Servers w/ Antivirus Enabled"
+    label: "Instances w/ Antivirus Enabled"
     description: "The count of servers with plugin Antivirus enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7473,7 +7793,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_autolink_count {
-    label: "Servers w/ Autolink Enabled"
+    label: "Instances w/ Autolink Enabled"
     description: "The count of servers with plugin Autolink enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7482,7 +7802,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_aws_sns_count {
-    label: "Servers w/ Aws Sns Enabled"
+    label: "Instances w/ Aws Sns Enabled"
     description: "The count of servers with plugin Aws Sns enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7491,7 +7811,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_custom_user_attributes_count {
-    label: "Servers w/ Custom User Attributes Enabled"
+    label: "Instances w/ Custom User Attributes Enabled"
     description: "The count of servers with plugin Custom User Attributes enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7500,7 +7820,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_github_count {
-    label: "Servers w/ Github Enabled"
+    label: "Instances w/ Github Enabled"
     description: "The count of servers with plugin Github enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7509,7 +7829,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_gitlab_count {
-    label: "Servers w/ Gitlab Enabled"
+    label: "Instances w/ Gitlab Enabled"
     description: "The count of servers with plugin Gitlab enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7518,7 +7838,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_health_check_count {
-    label: "Servers w/ Health Check Enabled"
+    label: "Instances w/ Health Check Enabled"
     description: "The count of servers with plugin Health Check enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7527,7 +7847,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_jenkins_count {
-    label: "Servers w/ Jenkins Enabled"
+    label: "Instances w/ Jenkins Enabled"
     description: "The count of servers with plugin Jenkins enabled."
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     type: count_distinct
@@ -7536,7 +7856,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_jira_count {
-    label: "Servers w/ Jira Enabled"
+    label: "Instances w/ Jira Enabled"
     description: "The count of servers with plugin Jira enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7545,7 +7865,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_jitsi_count {
-    label: "Servers w/ Jitsi Enabled"
+    label: "Instances w/ Jitsi Enabled"
     description: "The count of servers with plugin Jitsi enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7554,7 +7874,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_confluence_count {
-    label: "Servers w/ Confluence Enabled"
+    label: "Instances w/ Confluence Enabled"
     description: "The count of servers with plugin Confluence enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7563,7 +7883,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_todo_count {
-    label: "Servers w/ ToDo Enabled"
+    label: "Instances w/ ToDo Enabled"
     description: "The count of servers with plugin ToDo enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7572,7 +7892,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_mscalendar_count {
-    label: "Servers w/ MS Calendar Enabled"
+    label: "Instances w/ MS Calendar Enabled"
     description: "The count of servers with plugin MS Calendar enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7581,7 +7901,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_skype4business_count {
-    label: "Servers w/ Skype4Business Enabled"
+    label: "Instances w/ Skype4Business Enabled"
     description: "The count of servers with plugin Skype4Business enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7590,7 +7910,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_giphy_count {
-    label: "Servers w/ Giphy Enabled"
+    label: "Instances w/ Giphy Enabled"
     description: "The count of servers with plugin Giphy enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7599,7 +7919,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_digital_ocean_count {
-    label: "Servers w/ Digital Ocean Enabled"
+    label: "Instances w/ Digital Ocean Enabled"
     description: "The count of servers with plugin Digital Ocean enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7608,7 +7928,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_incident_response_count {
-    label: "Servers w/ Incident Mgmt Enabled"
+    label: "Instances w/ Incident Mgmt Enabled"
     description: "The count of servers with plugin Incident Response enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7617,7 +7937,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_memes_count {
-    label: "Servers w/ Memes Enabled"
+    label: "Instances w/ Memes Enabled"
     description: "The count of servers with plugin Memes enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7626,7 +7946,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_marketplace_count {
-    label: "Servers w/ Marketplace Enabled"
+    label: "Instances w/ Marketplace Enabled"
     description: "The count of servers with plugin Marketplace enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7635,7 +7955,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_nps_count {
-    label: "Servers w/ NPS Enabled"
+    label: "Instances w/ NPS Enabled"
     description: "The count of servers with the NPS & NPS Survey Plugin enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7644,7 +7964,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_nps_survey_count {
-    label: "Servers w/ Nps Survey"
+    label: "Instances w/ Nps Survey"
     description: "The count of servers with plugin Nps Survey enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7654,7 +7974,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_remote_marketplace_count {
-    label: "Servers w/ Remote Marketplace Enabled"
+    label: "Instances w/ Remote Marketplace Enabled"
     description: "The count of servers with plugin Remote Marketplace enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7663,7 +7983,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_uploads_count {
-    label: "Servers w/ Uploads Enabled"
+    label: "Instances w/ Uploads Enabled"
     description: "The count of servers with plugin Uploads enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7672,7 +7992,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_webex_count {
-    label: "Servers w/ Webex Enabled"
+    label: "Instances w/ Webex Enabled"
     description: "The count of servers with plugin Webex enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7681,7 +8001,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_welcome_bot_count {
-    label: "Servers w/ Welcome Bot Enabled"
+    label: "Instances w/ Welcome Bot Enabled"
     description: "The count of servers with plugin Welcome Bot enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7690,7 +8010,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_zoom_count {
-    label: "Servers w/ Zoom Enabled"
+    label: "Instances w/ Zoom Enabled"
     description: "The count of servers with plugin Zoom enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7699,7 +8019,7 @@ view: server_daily_details_ext {
   }
 
   measure: enable_channel_recommender_count {
-    label: "Servers w/ Channel Recommender Enabled"
+    label: "Instances w/ Channel Recommender Enabled"
     description: "The count of servers with plugin Channel Recommender enabled."
     type: count_distinct
     group_label: " Plugin Server Counts"
@@ -7708,19 +8028,19 @@ view: server_daily_details_ext {
   }
 
   measure: is_default_marketplace_url_count {
-    label: "Servers w/ Plugin Is Default Marketplace Url"
+    label: "Instances w/ Plugin Is Default Marketplace Url"
     description: "The count of servers with Plugin Is Default Marketplace Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${is_default_marketplace_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: require_plugin_signature_count {
-    label: "Servers w/ Plugin Require Plugin Signature"
+    label: "Instances w/ Plugin Require Plugin Signature"
     description: "The count of servers with Plugin Require Plugin Signature enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${require_plugin_signature} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -7937,36 +8257,36 @@ view: server_daily_details_ext {
   }
 
   measure: show_email_address_count {
-    label: "Servers w/ Privacy Show Email Address"
+    label: "Instances w/ Privacy Show Email Address"
     description: "The count of servers with Privacy Show Email Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${show_email_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: show_full_name_count {
-    label: "Servers w/ Privacy Show Full Name"
+    label: "Instances w/ Privacy Show Full Name"
     description: "The count of servers with Privacy Show Full Name enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${show_full_name} then ${server_id} else null end ;;
   }
 
   measure: enable_rate_limiter_count {
-    label: "Servers w/ Rate Enable Rate Limiter"
+    label: "Instances w/ Rate Enable Rate Limiter"
     description: "The count of servers with Rate Enable Rate Limiter enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_rate_limiter} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_vary_by_header_count {
-    label: "Servers w/ Rate Isdefault Vary By Header"
+    label: "Instances w/ Rate Isdefault Vary By Header"
     description: "The count of servers with Rate Isdefault Vary By Header enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_vary_by_header} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -8014,829 +8334,829 @@ view: server_daily_details_ext {
   }
 
   measure: vary_by_remote_address_count {
-    label: "Servers w/ Rate Vary By Remote Address"
+    label: "Instances w/ Rate Vary By Remote Address"
     description: "The count of servers with Rate Vary By Remote Address enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${vary_by_remote_address} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: vary_by_user_count {
-    label: "Servers w/ Rate Vary By User"
+    label: "Instances w/ Rate Vary By User"
     description: "The count of servers with Rate Vary By User enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${vary_by_user} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_saml_count {
-    label: "Servers w/ Saml Enable Saml"
+    label: "Instances w/ Saml Enable Saml"
     description: "The count of servers with Saml Enable Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_admin_attribute_count {
-    label: "Servers w/ Saml Enable Admin Attribute"
+    label: "Instances w/ Saml Enable Admin Attribute"
     description: "The count of servers with Saml Enable Admin Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_admin_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_sync_with_ldap_count {
-    label: "Servers w/ Saml Enable Sync With Ldap"
+    label: "Instances w/ Saml Enable Sync With Ldap"
     description: "The count of servers with Saml Enable Sync With Ldap enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_sync_with_ldap} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_sync_with_ldap_include_auth_count {
-    label: "Servers w/ Saml Enable Sync With Ldap Include Auth"
+    label: "Instances w/ Saml Enable Sync With Ldap Include Auth"
     description: "The count of servers with Saml Enable Sync With Ldap Include Auth enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_sync_with_ldap_include_auth} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: encrypt_saml_count {
-    label: "Servers w/ Saml Encrypt Saml"
+    label: "Instances w/ Saml Encrypt Saml"
     description: "The count of servers with Saml Encrypt Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${encrypt_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_admin_attribute_count {
-    label: "Servers w/ Saml Isdefault Admin Attribute"
+    label: "Instances w/ Saml Isdefault Admin Attribute"
     description: "The count of servers with Saml Isdefault Admin Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_admin_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_canonical_algorithm_count {
-    label: "Servers w/ Saml Isdefault Canonical Algorithm"
+    label: "Instances w/ Saml Isdefault Canonical Algorithm"
     description: "The count of servers with Saml Isdefault Canonical Algorithm enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_canonical_algorithm} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_email_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Email Attribute Saml"
+    label: "Instances w/ Saml Isdefault Email Attribute Saml"
     description: "The count of servers with Saml Isdefault Email Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_email_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_first_name_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault First Name Attribute Saml"
+    label: "Instances w/ Saml Isdefault First Name Attribute Saml"
     description: "The count of servers with Saml Isdefault First Name Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_first_name_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_guest_attribute_count {
-    label: "Servers w/ Saml Isdefault Guest Attribute"
+    label: "Instances w/ Saml Isdefault Guest Attribute"
     description: "The count of servers with Saml Isdefault Guest Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_guest_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_id_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Id Attribute Saml"
+    label: "Instances w/ Saml Isdefault Id Attribute Saml"
     description: "The count of servers with Saml Isdefault Id Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_id_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_last_name_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Last Name Attribute Saml"
+    label: "Instances w/ Saml Isdefault Last Name Attribute Saml"
     description: "The count of servers with Saml Isdefault Last Name Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_last_name_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_locale_attribute_count {
-    label: "Servers w/ Saml Isdefault Locale Attribute"
+    label: "Instances w/ Saml Isdefault Locale Attribute"
     description: "The count of servers with Saml Isdefault Locale Attribute enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_locale_attribute} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_border_color_saml_count {
-    label: "Servers w/ Saml Isdefault Login Button Border Color Saml"
+    label: "Instances w/ Saml Isdefault Login Button Border Color Saml"
     description: "The count of servers with Saml Isdefault Login Button Border Color Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_border_color_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_color_saml_count {
-    label: "Servers w/ Saml Isdefault Login Button Color Saml"
+    label: "Instances w/ Saml Isdefault Login Button Color Saml"
     description: "The count of servers with Saml Isdefault Login Button Color Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_color_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_text_count {
-    label: "Servers w/ Saml Isdefault Login Button Text"
+    label: "Instances w/ Saml Isdefault Login Button Text"
     description: "The count of servers with Saml Isdefault Login Button Text enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_text} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_login_button_text_color_saml_count {
-    label: "Servers w/ Saml Isdefault Login Button Text Color Saml"
+    label: "Instances w/ Saml Isdefault Login Button Text Color Saml"
     description: "The count of servers with Saml Isdefault Login Button Text Color Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_login_button_text_color_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_nickname_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Nickname Attribute Saml"
+    label: "Instances w/ Saml Isdefault Nickname Attribute Saml"
     description: "The count of servers with Saml Isdefault Nickname Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_nickname_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_position_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Position Attribute Saml"
+    label: "Instances w/ Saml Isdefault Position Attribute Saml"
     description: "The count of servers with Saml Isdefault Position Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_position_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_scoping_idp_name_count {
-    label: "Servers w/ Saml Isdefault Scoping Idp Name"
+    label: "Instances w/ Saml Isdefault Scoping Idp Name"
     description: "The count of servers with Saml Isdefault Scoping Idp Name enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_scoping_idp_name} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_scoping_idp_provider_id_count {
-    label: "Servers w/ Saml Isdefault Scoping Idp Provider Id"
+    label: "Instances w/ Saml Isdefault Scoping Idp Provider Id"
     description: "The count of servers with Saml Isdefault Scoping Idp Provider Id enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_scoping_idp_provider_id} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_signature_algorithm_count {
-    label: "Servers w/ Saml Isdefault Signature Algorithm"
+    label: "Instances w/ Saml Isdefault Signature Algorithm"
     description: "The count of servers with Saml Isdefault Signature Algorithm enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_signature_algorithm} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_username_attribute_saml_count {
-    label: "Servers w/ Saml Isdefault Username Attribute Saml"
+    label: "Instances w/ Saml Isdefault Username Attribute Saml"
     description: "The count of servers with Saml Isdefault Username Attribute Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_username_attribute_saml} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: sign_request_count {
-    label: "Servers w/ Saml Sign Request"
+    label: "Instances w/ Saml Sign Request"
     description: "The count of servers with Saml Sign Request enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${sign_request} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: verify_saml_count {
-    label: "Servers w/ Saml Verify Saml"
+    label: "Instances w/ Saml Verify Saml"
     description: "The count of servers with Saml Verify Saml enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${verify_saml} then ${server_id} else null end ;;
   }
 
   measure: allow_cookies_for_subdomains_count {
-    label: "Servers w/ Service Allow Cookies For Subdomains"
+    label: "Instances w/ Service Allow Cookies For Subdomains"
     description: "The count of servers with Service Allow Cookies For Subdomains enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${allow_cookies_for_subdomains} then ${server_id} else null end ;;
   }
 
   measure: close_unused_direct_messages_count {
-    label: "Servers w/ Service Close Unused Direct Messages"
+    label: "Instances w/ Service Close Unused Direct Messages"
     description: "The count of servers with Service Close Unused Direct Messages enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
     sql: case when ${close_unused_direct_messages} then ${server_id} else null end ;;
   }
 
   measure: cors_allow_credentials_count {
-    label: "Servers w/ Service Cors Allow Credentials"
+    label: "Instances w/ Service Cors Allow Credentials"
     description: "The count of servers with Service Cors Allow Credentials enabled."
     type: count_distinct
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${cors_allow_credentials} then ${server_id} else null end ;;
   }
 
   measure: cors_debug_count {
-    label: "Servers w/ Service Cors Debug"
+    label: "Instances w/ Service Cors Debug"
     description: "The count of servers with Service Cors Debug enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${cors_debug} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: custom_service_terms_enabled_service_count {
-    label: "Servers w/ Service Custom Service Terms Enabled Service"
+    label: "Instances w/ Service Custom Service Terms Enabled Service"
     description: "The count of servers with Service Custom Service Terms Enabled Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${custom_service_terms_enabled_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_data_prefetch_count {
-    label: "Servers w/ Service Data Prefetch"
+    label: "Instances w/ Service Data Prefetch"
     description: "The count of servers with Data Prefetch enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_data_prefetch} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: extend_session_length_with_activity_count {
-    label: "Servers w/ Service Extend Session Length w/ Activity"
+    label: "Instances w/ Service Extend Session Length w/ Activity"
     description: "The count of servers with Extend Session Length w/ Activity enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${extend_session_length_with_activity} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: disable_bots_when_owner_is_deactivated_count {
-    label: "Servers w/ Service Disable Bots When Owner Is Deactivated"
+    label: "Instances w/ Service Disable Bots When Owner Is Deactivated"
     description: "The count of servers with Service Disable Bots When Owner Is Deactivated enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${disable_bots_when_owner_is_deactivated} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: disable_legacy_mfa_count {
-    label: "Servers w/ Service Disable Legacy Mfa"
+    label: "Instances w/ Service Disable Legacy Mfa"
     description: "The count of servers with Service Disable Legacy Mfa enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${disable_legacy_mfa} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_apiv3_service_count {
-    label: "Servers w/ Service Enable Apiv3 Service"
+    label: "Instances w/ Service Enable Apiv3 Service"
     description: "The count of servers with Service Enable Apiv3 Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_apiv3_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_api_team_deletion_count {
-    label: "Servers w/ Service Enable Api Team Deletion"
+    label: "Instances w/ Service Enable Api Team Deletion"
     description: "The count of servers with Service Enable Api Team Deletion enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_api_team_deletion} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_bot_account_creation_count {
-    label: "Servers w/ Service Enable Bot Account Creation"
+    label: "Instances w/ Service Enable Bot Account Creation"
     description: "The count of servers with Service Enable Bot Account Creation enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_bot_account_creation} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_channel_viewed_messages_service_count {
-    label: "Servers w/ Service Enable Channel Viewed Messages Service"
+    label: "Instances w/ Service Enable Channel Viewed Messages Service"
     description: "The count of servers with Service Enable Channel Viewed Messages Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_channel_viewed_messages_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_commands_service_count {
-    label: "Servers w/ Service Enable Commands Service"
+    label: "Instances w/ Service Enable Commands Service"
     description: "The count of servers with Service Enable Commands Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_commands_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_custom_emoji_service_count {
-    label: "Servers w/ Service Enable Custom Emoji Service"
+    label: "Instances w/ Service Enable Custom Emoji Service"
     description: "The count of servers with Service Enable Custom Emoji Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_custom_emoji_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_developer_service_count {
-    label: "Servers w/ Service Enable Developer Service"
+    label: "Instances w/ Service Enable Developer Service"
     description: "The count of servers with Service Enable Developer Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_developer_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_email_invitations_count {
-    label: "Servers w/ Service Enable Email Invitations"
+    label: "Instances w/ Service Enable Email Invitations"
     description: "The count of servers with Service Enable Email Invitations enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_email_invitations} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_emoji_picker_service_count {
-    label: "Servers w/ Service Enable Emoji Picker Service"
+    label: "Instances w/ Service Enable Emoji Picker Service"
     description: "The count of servers with Service Enable Emoji Picker Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_emoji_picker_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_gif_picker_count {
-    label: "Servers w/ Service Enable Gif Picker"
+    label: "Instances w/ Service Enable Gif Picker"
     description: "The count of servers with Service Enable Gif Picker enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_gif_picker} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_incoming_webhooks_service_count {
-    label: "Servers w/ Service Enable Incoming Webhooks Service"
+    label: "Instances w/ Service Enable Incoming Webhooks Service"
     description: "The count of servers with Service Enable Incoming Webhooks Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_incoming_webhooks_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_insecure_outgoing_connections_service_count {
-    label: "Servers w/ Service Enable Insecure Outgoing Connections Service"
+    label: "Instances w/ Service Enable Insecure Outgoing Connections Service"
     description: "The count of servers with Service Enable Insecure Outgoing Connections Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_insecure_outgoing_connections_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_latex_count {
-    label: "Servers w/ Service Enable Latex"
+    label: "Instances w/ Service Enable Latex"
     description: "The count of servers with Service Enable Latex enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_latex} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_multifactor_authentication_service_count {
-    label: "Servers w/ Service Enable Multifactor Authentication Service"
+    label: "Instances w/ Service Enable Multifactor Authentication Service"
     description: "The count of servers with Service Enable Multifactor Authentication Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_multifactor_authentication_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_oauth_service_provider_service_count {
-    label: "Servers w/ Service Enable Oauth Service Provider Service"
+    label: "Instances w/ Service Enable Oauth Service Provider Service"
     description: "The count of servers with Service Enable Oauth Service Provider Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_oauth_service_provider_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_only_admin_integrations_service_count {
-    label: "Servers w/ Service Enable Only Admin Integrations Service"
+    label: "Instances w/ Service Enable Only Admin Integrations Service"
     description: "The count of servers with Service Enable Only Admin Integrations Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_only_admin_integrations_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_outgoing_webhooks_count {
-    label: "Servers w/ Service Enable Outgoing Webhooks"
+    label: "Instances w/ Service Enable Outgoing Webhooks"
     description: "The count of servers with Service Enable Outgoing Webhooks enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_outgoing_webhooks} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_post_icon_override_count {
-    label: "Servers w/ Service Enable Post Icon Override"
+    label: "Instances w/ Service Enable Post Icon Override"
     description: "The count of servers with Service Enable Post Icon Override enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_post_icon_override} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_post_search_count {
-    label: "Servers w/ Service Enable Post Search"
+    label: "Instances w/ Service Enable Post Search"
     description: "The count of servers with Service Enable Post Search enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_post_search} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_post_username_override_count {
-    label: "Servers w/ Service Enable Post Username Override"
+    label: "Instances w/ Service Enable Post Username Override"
     description: "The count of servers with Service Enable Post Username Override enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_post_username_override} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_preview_features_count {
-    label: "Servers w/ Service Enable Preview Features"
+    label: "Instances w/ Service Enable Preview Features"
     description: "The count of servers with Service Enable Preview Features enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_preview_features} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_security_fix_alert_count {
-    label: "Servers w/ Service Enable Security Fix Alert"
+    label: "Instances w/ Service Enable Security Fix Alert"
     description: "The count of servers with Service Enable Security Fix Alert enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_security_fix_alert} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_svgs_count {
-    label: "Servers w/ Service Enable Svgs"
+    label: "Instances w/ Service Enable Svgs"
     description: "The count of servers with Service Enable Svgs enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_svgs} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_testing_count {
-    label: "Servers w/ Service Enable Testing"
+    label: "Instances w/ Service Enable Testing"
     description: "The count of servers with Service Enable Testing enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_testing} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_tutorial_count {
-    label: "Servers w/ Service Enable Tutorial"
+    label: "Instances w/ Service Enable Tutorial"
     description: "The count of servers with Service Enable Tutorial enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_tutorial} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_user_access_tokens_count {
-    label: "Servers w/ Service Enable User Access Tokens"
+    label: "Instances w/ Service Enable User Access Tokens"
     description: "The count of servers with Service Enable User Access Tokens enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_user_access_tokens} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_user_statuses_count {
-    label: "Servers w/ Service Enable User Statuses"
+    label: "Instances w/ Service Enable User Statuses"
     description: "The count of servers with Service Enable User Statuses enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_user_statuses} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_user_typing_messages_count {
-    label: "Servers w/ Service Enable User Typing Messages"
+    label: "Instances w/ Service Enable User Typing Messages"
     description: "The count of servers with Service Enable User Typing Messages enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_user_typing_messages} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enforce_multifactor_authentication_service_count {
-    label: "Servers w/ Service Enforce Multifactor Authentication Service"
+    label: "Instances w/ Service Enforce Multifactor Authentication Service"
     description: "The count of servers with Service Enforce Multifactor Authentication Service enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enforce_multifactor_authentication_service} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_channel_organization_count {
-    label: "Servers w/ Service Experimental Channel Organization"
+    label: "Instances w/ Service Experimental Channel Organization"
     description: "The count of servers with Service Experimental Channel Organization enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_channel_organization} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_enable_authentication_transfer_count {
-    label: "Servers w/ Service Experimental Enable Authentication Transfer"
+    label: "Instances w/ Service Experimental Enable Authentication Transfer"
     description: "The count of servers with Service Experimental Enable Authentication Transfer enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_enable_authentication_transfer} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_enable_default_channel_leave_join_messages_count {
-    label: "Servers w/ Service Experimental Enable Default Channel Leave Join Messages"
+    label: "Instances w/ Service Experimental Enable Default Channel Leave Join Messages"
     description: "The count of servers with Service Experimental Enable Default Channel Leave Join Messages enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_enable_default_channel_leave_join_messages} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_enable_hardened_mode_count {
-    label: "Servers w/ Service Experimental Enable Hardened Mode"
+    label: "Instances w/ Service Experimental Enable Hardened Mode"
     description: "The count of servers with Service Experimental Enable Hardened Mode enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_enable_hardened_mode} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_ldap_group_sync_count {
-    label: "Servers w/ Service Experimental Ldap Group Sync"
+    label: "Instances w/ Service Experimental Ldap Group Sync"
     description: "The count of servers with Service Experimental Ldap Group Sync enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_ldap_group_sync} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_limit_client_config_count {
-    label: "Servers w/ Service Experimental Limit Client Config"
+    label: "Instances w/ Service Experimental Limit Client Config"
     description: "The count of servers with Service Experimental Limit Client Config enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_limit_client_config} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: experimental_strict_csrf_enforcement_count {
-    label: "Servers w/ Service Experimental Strict Csrf Enforcement"
+    label: "Instances w/ Service Experimental Strict Csrf Enforcement"
     description: "The count of servers with Service Experimental Strict Csrf Enforcement enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_strict_csrf_enforcement} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: forward_80_to_443_count {
-    label: "Servers w/ Service Forward 80 To 443"
+    label: "Instances w/ Service Forward 80 To 443"
     description: "The count of servers with Service Forward 80 To 443 enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${forward_80_to_443} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: gfycat_api_key_count {
-    label: "Servers w/ Service Gfycat Api Key"
+    label: "Instances w/ Service Gfycat Api Key"
     description: "The count of servers with Service Gfycat Api Key enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${gfycat_api_key} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: gfycat_api_secret_count {
-    label: "Servers w/ Service Gfycat Api Secret"
+    label: "Instances w/ Service Gfycat Api Secret"
     description: "The count of servers with Service Gfycat Api Secret enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${gfycat_api_secret} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_allowed_untrusted_internal_connections_count {
-    label: "Servers w/ Service Isdefault Allowed Untrusted Internal Connections"
+    label: "Instances w/ Service Isdefault Allowed Untrusted Internal Connections"
     description: "The count of servers with Service Isdefault Allowed Untrusted Internal Connections enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_allowed_untrusted_internal_connections} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_allowed_untrusted_inteznal_connections_count {
-    label: "Servers w/ Service Isdefault Allowed Untrusted Inteznal Connections"
+    label: "Instances w/ Service Isdefault Allowed Untrusted Inteznal Connections"
     description: "The count of servers with Service Isdefault Allowed Untrusted Inteznal Connections enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_allowed_untrusted_inteznal_connections} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_allow_cors_from_count {
-    label: "Servers w/ Service Isdefault Allow Cors From"
+    label: "Instances w/ Service Isdefault Allow Cors From"
     description: "The count of servers with Service Isdefault Allow Cors From enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_allow_cors_from} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_cors_exposed_headers_count {
-    label: "Servers w/ Service Isdefault Cors Exposed Headers"
+    label: "Instances w/ Service Isdefault Cors Exposed Headers"
     description: "The count of servers with Service Isdefault Cors Exposed Headers enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_cors_exposed_headers} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_google_developer_key_count {
-    label: "Servers w/ Service Isdefault Google Developer Key"
+    label: "Instances w/ Service Isdefault Google Developer Key"
     description: "The count of servers with Service Isdefault Google Developer Key enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_google_developer_key} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_image_proxy_options_count {
-    label: "Servers w/ Service Isdefault Image Proxy Options"
+    label: "Instances w/ Service Isdefault Image Proxy Options"
     description: "The count of servers with Service Isdefault Image Proxy Options enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_image_proxy_options} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_image_proxy_type_count {
-    label: "Servers w/ Service Isdefault Image Proxy Type"
+    label: "Instances w/ Service Isdefault Image Proxy Type"
     description: "The count of servers with Service Isdefault Image Proxy Type enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_image_proxy_type} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_image_proxy_url_count {
-    label: "Servers w/ Service Isdefault Image Proxy Url"
+    label: "Instances w/ Service Isdefault Image Proxy Url"
     description: "The count of servers with Service Isdefault Image Proxy Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_image_proxy_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_read_timeout_count {
-    label: "Servers w/ Service Isdefault Read Timeout"
+    label: "Instances w/ Service Isdefault Read Timeout"
     description: "The count of servers with Service Isdefault Read Timeout enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_read_timeout} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_site_url_count {
-    label: "Servers w/ Service Isdefault Site Url"
+    label: "Instances w/ Service Isdefault Site Url"
     description: "The count of servers with Service Isdefault Site Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_site_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_tls_cert_file_count {
-    label: "Servers w/ Service Isdefault Tls Cert File"
+    label: "Instances w/ Service Isdefault Tls Cert File"
     description: "The count of servers with Service Isdefault Tls Cert File enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_tls_cert_file} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_tls_key_file_count {
-    label: "Servers w/ Service Isdefault Tls Key File"
+    label: "Instances w/ Service Isdefault Tls Key File"
     description: "The count of servers with Service Isdefault Tls Key File enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_tls_key_file} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: isdefault_write_timeout_count {
-    label: "Servers w/ Service Isdefault Write Timeout"
+    label: "Instances w/ Service Isdefault Write Timeout"
     description: "The count of servers with Service Isdefault Write Timeout enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_write_timeout} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: tls_strict_transport_count {
-    label: "Servers w/ Service Tls Strict Transport"
+    label: "Instances w/ Service Tls Strict Transport"
     description: "The count of servers with Service Tls Strict Transport enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${tls_strict_transport} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: uses_letsencrypt_count {
-    label: "Servers w/ Service Uses Letsencrypt"
+    label: "Instances w/ Service Uses Letsencrypt"
     description: "The count of servers with Service Uses Letsencrypt enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${uses_letsencrypt} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: websocket_url_count {
-    label: "Servers w/ Service Websocket Url"
+    label: "Instances w/ Service Websocket Url"
     description: "The count of servers with Service Websocket Url enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${websocket_url} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
   measure: enable_public_channels_materialization_count {
-    label: "Servers w/ Sql Enable Public Channels Materialization"
+    label: "Instances w/ Sql Enable Public Channels Materialization"
     description: "The count of servers with Sql Enable Public Channels Materialization enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_public_channels_materialization} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
@@ -8884,218 +9204,218 @@ view: server_daily_details_ext {
   }
 
   measure: trace_sql_count {
-    label: "Servers w/ Sql Trace Sql"
+    label: "Instances w/ Sql Trace Sql"
     description: "The count of servers with Sql Trace Sql enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${trace_sql} then ${server_id} else null end ;;
   }
 
   measure: custom_terms_of_service_enabled_count {
-    label: "Servers w/ Support Custom Terms Of Service Enabled"
+    label: "Instances w/ Support Custom Terms Of Service Enabled"
     description: "The count of servers with Support Custom Terms Of Service Enabled enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${custom_terms_of_service_enabled} then ${server_id} else null end ;;
   }
 
   measure: ask_community_link_enabled_count {
-    label: "Servers w/ Support Ask Community Link Enabled"
+    label: "Instances w/ Support Ask Community Link Enabled"
     description: "The count of servers with Ask Community Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${ask_community_link_enabled} then ${server_id} else null end ;;
   }
 
   measure: isdefault_about_link_count {
-    label: "Servers w/ Support Isdefault About Link"
+    label: "Instances w/ Support Isdefault About Link"
     description: "The count of servers with Support Isdefault About Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_about_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_help_link_count {
-    label: "Servers w/ Support Isdefault Help Link"
+    label: "Instances w/ Support Isdefault Help Link"
     description: "The count of servers with Support Isdefault Help Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_help_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_privacy_policy_link_count {
-    label: "Servers w/ Support Isdefault Privacy Policy Link"
+    label: "Instances w/ Support Isdefault Privacy Policy Link"
     description: "The count of servers with Support Isdefault Privacy Policy Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_privacy_policy_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_report_a_problem_link_count {
-    label: "Servers w/ Support Isdefault Report A Problem Link"
+    label: "Instances w/ Support Isdefault Report A Problem Link"
     description: "The count of servers with Support Isdefault Report A Problem Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_report_a_problem_link} then ${server_id} else null end ;;
   }
 
   measure: isdefault_support_email_count {
-    label: "Servers w/ Support Isdefault Support Email"
+    label: "Instances w/ Support Isdefault Support Email"
     description: "The count of servers with Support Isdefault Support Email enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_support_email} then ${server_id} else null end ;;
   }
 
   measure: isdefault_terms_of_service_link_count {
-    label: "Servers w/ Support Isdefault Terms Of Service Link"
+    label: "Instances w/ Support Isdefault Terms Of Service Link"
     description: "The count of servers with Support Isdefault Terms Of Service Link enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_terms_of_service_link} then ${server_id} else null end ;;
   }
 
   measure: enable_confirm_notifications_to_channel_count {
-    label: "Servers w/ Team Enable Confirm Notifications To Channel"
+    label: "Instances w/ Team Enable Confirm Notifications To Channel"
     description: "The count of servers with Team Enable Confirm Notifications To Channel enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_confirm_notifications_to_channel} then ${server_id} else null end ;;
   }
 
   measure: enable_custom_brand_count {
-    label: "Servers w/ Team Enable Custom Brand"
+    label: "Instances w/ Team Enable Custom Brand"
     description: "The count of servers with Team Enable Custom Brand enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_custom_brand} then ${server_id} else null end ;;
   }
 
   measure: enable_open_server_count {
-    label: "Servers w/ Team Enable Open Server"
+    label: "Instances w/ Team Enable Open Server"
     description: "The count of servers with Team Enable Open Server enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_open_server} then ${server_id} else null end ;;
   }
 
   measure: enable_team_creation_count {
-    label: "Servers w/ Team Enable Team Creation"
+    label: "Instances w/ Team Enable Team Creation"
     description: "The count of servers with Team Enable Team Creation enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_team_creation} then ${server_id} else null end ;;
   }
 
   measure: enable_user_creation_count {
-    label: "Servers w/ Team Enable User Creation"
+    label: "Instances w/ Team Enable User Creation"
     description: "The count of servers with Team Enable User Creation enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_user_creation} then ${server_id} else null end ;;
   }
 
   measure: enable_user_deactivation_count {
-    label: "Servers w/ Team Enable User Deactivation"
+    label: "Instances w/ Team Enable User Deactivation"
     description: "The count of servers with Team Enable User Deactivation enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_user_deactivation} then ${server_id} else null end ;;
   }
 
   measure: enable_x_to_leave_channels_from_lhs_count {
-    label: "Servers w/ Team Enable X To Leave Channels From Lhs"
+    label: "Instances w/ Team Enable X To Leave Channels From Lhs"
     description: "The count of servers with Team Enable X To Leave Channels From Lhs enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_x_to_leave_channels_from_lhs} then ${server_id} else null end ;;
   }
 
   measure: experimental_enable_automatic_replies_count {
-    label: "Servers w/ Team Experimental Enable Automatic Replies"
+    label: "Instances w/ Team Experimental Enable Automatic Replies"
     description: "The count of servers with Team Experimental Enable Automatic Replies enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_enable_automatic_replies} then ${server_id} else null end ;;
   }
 
   measure: experimental_primary_team_count {
-    label: "Servers w/ Team Experimental Primary Team"
+    label: "Instances w/ Team Experimental Primary Team"
     description: "The count of servers with Team Experimental Primary Team enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_primary_team} then ${server_id} else null end ;;
   }
 
   measure: experimental_town_square_is_hidden_in_lhs_count {
-    label: "Servers w/ Team Experimental Town Square Is Hidden In Lhs"
+    label: "Instances w/ Team Experimental Town Square Is Hidden In Lhs"
     description: "The count of servers with Team Experimental Town Square Is Hidden In Lhs enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_town_square_is_hidden_in_lhs} then ${server_id} else null end ;;
   }
 
   measure: experimental_town_square_is_read_only_count {
-    label: "Servers w/ Team Experimental Town Square Is Read Only"
+    label: "Instances w/ Team Experimental Town Square Is Read Only"
     description: "The count of servers with Team Experimental Town Square Is Read Only enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_town_square_is_read_only} then ${server_id} else null end ;;
   }
 
   measure: experimental_view_archived_channels_count {
-    label: "Servers w/ Team Experimental View Archived Channels"
+    label: "Instances w/ Team Experimental View Archived Channels"
     description: "The count of servers with Team Experimental View Archived Channels enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${experimental_view_archived_channels} then ${server_id} else null end ;;
   }
 
   measure: isdefault_custom_brand_text_count {
-    label: "Servers w/ Team Isdefault Custom Brand Text"
+    label: "Instances w/ Team Isdefault Custom Brand Text"
     description: "The count of servers with Team Isdefault Custom Brand Text enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_custom_brand_text} then ${server_id} else null end ;;
   }
 
   measure: isdefault_custom_description_text_count {
-    label: "Servers w/ Team Isdefault Custom Description Text"
+    label: "Instances w/ Team Isdefault Custom Description Text"
     description: "The count of servers with Team Isdefault Custom Description Text enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_custom_description_text} then ${server_id} else null end ;;
   }
 
   measure: isdefault_site_name_count {
-    label: "Servers w/ Team Isdefault Site Name"
+    label: "Instances w/ Team Isdefault Site Name"
     description: "The count of servers with Team Isdefault Site Name enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_site_name} then ${server_id} else null end ;;
   }
 
   measure: isdefault_user_status_away_timeout_count {
-    label: "Servers w/ Team Isdefault User Status Away Timeout"
+    label: "Instances w/ Team Isdefault User Status Away Timeout"
     description: "The count of servers with Team Isdefault User Status Away Timeout enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_user_status_away_timeout} then ${server_id} else null end ;;
   }
 
   measure: lock_teammate_name_display_count {
-    label: "Servers w/ Team Lock Teammate Name Display"
+    label: "Instances w/ Team Lock Teammate Name Display"
     description: "The count of servers with Team Lock Teammate Name Display enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${lock_teammate_name_display} then ${server_id} else null end ;;
   }
 
   measure: view_archived_channels_count {
-    label: "Servers w/ Team View Archived Channels"
+    label: "Instances w/ Team View Archived Channels"
     description: "The count of servers with Team View Archived Channels enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${view_archived_channels} then ${server_id} else null end ;;
   }
 
@@ -9114,58 +9434,58 @@ view: server_daily_details_ext {
   }
 
   measure: allow_custom_themes_count {
-    label: "Servers w/ Theme Allow Custom Themes"
+    label: "Instances w/ Theme Allow Custom Themes"
     description: "The count of servers with Theme Allow Custom Themes enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${allow_custom_themes} then ${server_id} else null end ;;
   }
 
   measure: enable_theme_selection_count {
-    label: "Servers w/ Theme Enable Theme Selection"
+    label: "Instances w/ Theme Enable Theme Selection"
     description: "The count of servers with Theme Enable Theme Selection enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable_theme_selection} then ${server_id} else null end ;;
   }
 
   measure: isdefault_default_theme_count {
-    label: "Servers w/ Theme Isdefault Default Theme"
+    label: "Instances w/ Theme Isdefault Default Theme"
     description: "The count of servers with Theme Isdefault Default Theme enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_default_theme} then ${server_id} else null end ;;
   }
 
   measure: isdefault_supported_timezones_path_count {
-    label: "Servers w/ Timezone Isdefault Supported Timezones Path"
+    label: "Instances w/ Timezone Isdefault Supported Timezones Path"
     description: "The count of servers with Timezone Isdefault Supported Timezones Path enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_supported_timezones_path} then ${server_id} else null end ;;
   }
 
   measure: enable_count {
-    label: "Servers w/ Webrtc Enable"
+    label: "Instances w/ Webrtc Enable"
     description: "The count of servers with Webrtc Enable enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${enable} then ${server_id} else null end ;;
   }
 
   measure: isdefault_stun_uri_count {
-    label: "Servers w/ Webrtc Isdefault Stun Uri"
+    label: "Instances w/ Webrtc Isdefault Stun Uri"
     description: "The count of servers with Webrtc Isdefault Stun Uri enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_stun_uri} then ${server_id} else null end ;;
   }
 
   measure: isdefault_turn_uri_count {
-    label: "Servers w/ Webrtc Isdefault Turn Uri"
+    label: "Instances w/ Webrtc Isdefault Turn Uri"
     description: "The count of servers with Webrtc Isdefault Turn Uri enabled."
     type: count_distinct
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     sql: case when ${isdefault_turn_uri} then ${server_id} else null end ;;
   }
 
@@ -9262,7 +9582,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_w_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Servers w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that have active users > 0 (from activity diagnostics telemetry) across dimensions."
     type: count_distinct
@@ -9271,7 +9591,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_7days_w_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Server >=7 Days Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 7 days old and have active users > 0 across dimensions."
     type: count_distinct
@@ -9282,8 +9602,8 @@ view: server_daily_details_ext {
   }
 
   measure: server_1days_w_active_users_count {
-    group_label: " Server Counts"
-    label: "Server >=1 Day Old w/ Active Users"
+    group_label: " Instance Counts"
+    label: "Instance >=1 Day Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 1 days old and have active users > 0 across dimensions."
     type: count_distinct
     sql: CASE WHEN datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 1 AND
@@ -9293,7 +9613,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_30days_w_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Servers >=4 Weeks Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 30 days old and have active users > 0 across dimensions."
     type: count_distinct
@@ -9302,7 +9622,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_30days_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Servers >=4 Weeks Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
     type: count_distinct
@@ -9311,7 +9631,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_60days_w_active_users_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Servers >=8 Weeks Old w/ Active Users"
     description: "Use this for counting distinct Server ID's for servers that are >= 60 days old and have active users > 0 across dimensions."
     type: count_distinct
@@ -9322,7 +9642,7 @@ view: server_daily_details_ext {
   }
 
   measure: server_60days_count {
-    group_label: " Server Counts"
+    group_label: " Instance Counts"
     label: "  Servers >=8 Weeks Old"
     description: "Use this for counting distinct Server ID's for servers that are >= 60 days old across dimensions."
     type: count_distinct
