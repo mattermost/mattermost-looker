@@ -1629,6 +1629,42 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: extract_content {
+    label: "Extract Content Enabled"
+    description: ""
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.extract_content ;;
+    hidden: no
+  }
+
+  dimension: isdefault_app_custom_url_schemes {
+    label: "Default App Custom URL Schemes Enabled"
+    description: ""
+    type: yesno
+    group_label: "Native App Configuration"
+    sql: ${TABLE}.isdefault_app_custom_url_schemes ;;
+    hidden: no
+  }
+
+  dimension: enable_remote_cluster {
+    label: "Remote Cluster Enabled"
+    description: ""
+    type: yesno
+    group_label: "Experimental Configuration"
+    sql: ${TABLE}.enable_remote_cluster ;;
+    hidden: no
+  }
+
+  dimension: archive_recursion {
+    label: "Archive Recursion Enabled"
+    description: ""
+    type: yesno
+    group_label: "File Configuration"
+    sql: ${TABLE}.archive_recursion ;;
+    hidden: no
+  }
+
   dimension: amazon_s3_sse {
   label: "Amazon S3 Sse"
     description: ""
@@ -6943,6 +6979,33 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Instance Counts"
     sql: case when ${amazon_s3_trace} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: enable_remote_cluster_count {
+    label: "Instances w/ Remote Cluster"
+    description: "The count of servers with Experimental Remote Cluster enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_remote_cluster} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: extract_content_count {
+    label: "Instances w/ Extract Content"
+    description: "The count of servers with File Extract Content enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${extract_content} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: archive_recursion_count {
+    label: "Instances w/ Archive Recursion"
+    description: "The count of servers with File Archive Recursion enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${archive_recursion} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
