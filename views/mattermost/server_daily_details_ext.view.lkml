@@ -4189,6 +4189,15 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_legacy_sidebar {
+    label: "Legacy Sidebar Enabled"
+    description: ""
+    type: yesno
+    group_label: "Service Configuration"
+    sql: ${TABLE}.enable_legacy_sidebar ;;
+    hidden: no
+  }
+
   dimension: restrict_link_previews {
     label: "Link Preview Restricted"
     description: ""
@@ -6210,10 +6219,17 @@ view: server_daily_details_ext {
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
-
+  measure: enable_legacy_sidebar_count {
+    label: "Instances w/ Legacy Sidebar"
+    description: "The count of servers with Service Legacy Sidebar enabled."
+    type: count_distinct
+    group_label: " Instance Counts"
+    sql: case when ${enable_legacy_sidebar} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
 
   measure: enable_circleci_count {
-    label: "Instances w/ CircleCI Enabled"
+    label: "Instances w/ CircleCI"
     description: "The count of servers with Plugin CircleCI Enabled."
     type: count_distinct
     group_label: " Instance Counts"
@@ -6222,8 +6238,8 @@ view: server_daily_details_ext {
   }
 
   measure: enable_diceroller_count {
-    label: "Instances w/ Plugin Dice Roller Enabled"
-    description: "The count of servers with Dice Roller enabled."
+    label: "Instances w/ Dice Roller"
+    description: "The count of servers with Plugin Dice Roller enabled."
     type: count_distinct
     group_label: " Instance Counts"
     sql: case when ${enable_diceroller} then ${server_id} else null end ;;

@@ -1950,8 +1950,10 @@ explore: server_daily_details {
   label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
   extends: [_base_account_core_explore]
+  hidden: yes
 
   join: account {
+    view_label: "SF Account Details"
     sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_one
     type: left_outer
@@ -1965,7 +1967,7 @@ explore: server_daily_details {
   }
 
   join: subscriptions {
-    view_label: "Subscriptions (BLApi)"
+    view_label: " Server Daily Details"
     sql_on: ${license_server_fact.license_id} = ${subscriptions.cws_installation} ;;
     relationship: one_to_one
     fields: [subscriptions.cws_dns]
@@ -1989,7 +1991,7 @@ explore: server_daily_details {
   }
 
   join: license_server_fact {
-    view_label: "License Details"
+    view_label: "Licenses"
     type: left_outer
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
@@ -2018,7 +2020,7 @@ explore: server_daily_details {
   }
 
   join: server_daily_details_ext {
-    view_label: " Server Daily Details"
+    view_label: " Server Daily Details Ext"
     sql_on: ${server_daily_details.logging_date} = ${server_daily_details_ext.logging_date}
       AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
