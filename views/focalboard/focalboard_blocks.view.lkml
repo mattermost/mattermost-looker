@@ -9,7 +9,7 @@ view_label: "Focalboard Blocks"
 ### SETS
 
 
-    
+
 ### DIMENSIONS
 
 
@@ -18,7 +18,7 @@ view_label: "Focalboard Blocks"
     label: "Context Request Ip"
     description: "The Context Request Ip of the instance."
     type: string
-    sql: {TABLE}.context_request_ip ;;
+    sql: ${TABLE}.context_request_ip ;;
   }
 
 
@@ -26,7 +26,7 @@ view_label: "Focalboard Blocks"
     label: "Comment"
     description: "The Comment of the instance."
     type: string
-    sql: {TABLE}.comment ;;
+    sql: ${TABLE}.comment ;;
   }
 
 
@@ -35,7 +35,7 @@ view_label: "Focalboard Blocks"
     label: "Divider"
     description: "The Divider of the instance."
     type: string
-    sql: {TABLE}.divider ;;
+    sql: ${TABLE}.divider ;;
   }
 
 
@@ -44,7 +44,7 @@ view_label: "Focalboard Blocks"
     label: "Anonymous Id"
     description: "The Anonymous Id of the instance."
     type: string
-    sql: {TABLE}.anonymous_id ;;
+    sql: ${TABLE}.anonymous_id ;;
   }
 
 
@@ -52,7 +52,7 @@ view_label: "Focalboard Blocks"
     label: "Text"
     description: "The Text of the instance."
     type: string
-    sql: {TABLE}.text ;;
+    sql: ${TABLE}.text ;;
   }
 
 
@@ -61,7 +61,7 @@ view_label: "Focalboard Blocks"
     label: "Context Library Version"
     description: "The Context Library Version of the instance."
     type: string
-    sql: {TABLE}.context_library_version ;;
+    sql: ${TABLE}.context_library_version ;;
   }
 
 
@@ -69,7 +69,7 @@ view_label: "Focalboard Blocks"
     label: "Context Ip"
     description: "The Context Ip of the instance."
     type: string
-    sql: {TABLE}.context_ip ;;
+    sql: ${TABLE}.context_ip ;;
   }
 
 
@@ -77,16 +77,16 @@ view_label: "Focalboard Blocks"
     label: "Board"
     description: "The Board of the instance."
     type: string
-    sql: {TABLE}.board ;;
+    sql: ${TABLE}.board ;;
   }
 
 
 
-  dimension: _view {
-    label: " View"
+  dimension: view {
+    label: "View"
     description: "The  View of the instance."
     type: string
-    sql: {TABLE}._view ;;
+    sql: ${TABLE}."view" ;;
   }
 
 
@@ -95,7 +95,7 @@ view_label: "Focalboard Blocks"
     label: "Event"
     description: "The Event of the instance."
     type: string
-    sql: {TABLE}.event ;;
+    sql: ${TABLE}.event ;;
   }
 
 
@@ -103,7 +103,7 @@ view_label: "Focalboard Blocks"
     label: "Image"
     description: "The Image of the instance."
     type: string
-    sql: {TABLE}.image ;;
+    sql: ${TABLE}.image ;;
   }
 
 
@@ -112,7 +112,7 @@ view_label: "Focalboard Blocks"
     label: "Context Library Name"
     description: "The Context Library Name of the instance."
     type: string
-    sql: {TABLE}.context_library_name ;;
+    sql: ${TABLE}.context_library_name ;;
   }
 
 
@@ -120,7 +120,7 @@ view_label: "Focalboard Blocks"
     label: "Event Text"
     description: "The Event Text of the instance."
     type: string
-    sql: {TABLE}.event_text ;;
+    sql: ${TABLE}.event_text ;;
   }
 
 
@@ -128,7 +128,7 @@ view_label: "Focalboard Blocks"
     label: "Card"
     description: "The Card of the instance."
     type: string
-    sql: {TABLE}.card ;;
+    sql: ${TABLE}.card ;;
   }
 
 
@@ -137,7 +137,7 @@ view_label: "Focalboard Blocks"
     label: "User Id"
     description: "The User Id of the instance."
     type: string
-    sql: {TABLE}.user_id ;;
+    sql: ${TABLE}.user_id ;;
   }
 
 
@@ -145,7 +145,7 @@ view_label: "Focalboard Blocks"
     label: "Checkbox"
     description: "The Checkbox of the instance."
     type: string
-    sql: {TABLE}.checkbox ;;
+    sql: ${TABLE}.checkbox ;;
   }
 
 
@@ -154,7 +154,7 @@ view_label: "Focalboard Blocks"
     label: "Id"
     description: "The Id of the instance."
     type: string
-    sql: {TABLE}.id ;;
+    sql: ${TABLE}.id ;;
   }
 
 
@@ -165,8 +165,8 @@ view_label: "Focalboard Blocks"
   dimension_group: logging  {
     label: "Logging "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.logging_date ;;
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.logging_date ;;
   }
 
   dimension: logging_date_dayname {
@@ -174,15 +174,15 @@ view_label: "Focalboard Blocks"
     label: "Logging Date Day Name"
     description: "The name of the day of the week that the Logging Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({logging _date}::date) ;;
-  } 
+    sql: dayname(${logging _date}::date) ;;
+  }
 
   dimension: logging_date_dayofweek {
     group_label: "Logging "
     label: "Logging Date Day of Week"
     description: "The day number within the week that the Logging Date occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {logging _date::date}) ;;
+    sql: extract(dayofweek from ${logging _date}::date) ;;
   }
 
   dimension: logging_date_dayofyear {
@@ -190,16 +190,16 @@ view_label: "Focalboard Blocks"
     label: "Logging Date Day of Year"
     description: "The week number within the year that the Logging Date occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {logging _date::date}) ;;
-  }  
+    sql: extract(weekofyear from ${logging _date}::date) ;;
+  }
 
 
 
-  dimension_group: received at {
+  dimension_group: received_at {
     label: "Received At"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.received_at ;;
+    sql: ${TABLE}.received_at ;;
             hidden: yes
   }
 
@@ -208,16 +208,16 @@ view_label: "Focalboard Blocks"
     label: "Received At Day Name"
     description: "The name of the day of the week that the Received At occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({received at_date}::date) ;;
+    sql: dayname(${received_at_date}::date) ;;
             hidden: yes
-  } 
+  }
 
   dimension: received_at_dayofweek {
     group_label: "Received At"
     label: "Received At Day of Week"
     description: "The day number within the week that the Received At occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {received at_date::date}) ;;
+    sql: extract(dayofweek from ${received_at_date}::date) ;;
             hidden: yes
   }
 
@@ -226,17 +226,17 @@ view_label: "Focalboard Blocks"
     label: "Received At Day of Year"
     description: "The week number within the year that the Received At occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {received at_date::date}) ;;
+    sql: extract(weekofyear from ${received_at_date}::date) ;;
             hidden: yes
-  }  
+  }
 
 
 
-  dimension_group: sent at {
+  dimension_group: sent_at {
     label: "Sent At"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.sent_at ;;
+    sql: ${TABLE}.sent_at ;;
             hidden: yes
   }
 
@@ -245,16 +245,16 @@ view_label: "Focalboard Blocks"
     label: "Sent At Day Name"
     description: "The name of the day of the week that the Sent At occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({sent at_date}::date) ;;
+    sql: dayname(${sent_at_date}::date) ;;
             hidden: yes
-  } 
+  }
 
   dimension: sent_at_dayofweek {
     group_label: "Sent At"
     label: "Sent At Day of Week"
     description: "The day number within the week that the Sent At occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {sent at_date::date}) ;;
+    sql: extract(dayofweek from ${sent_at_date}::date) ;;
             hidden: yes
   }
 
@@ -263,17 +263,17 @@ view_label: "Focalboard Blocks"
     label: "Sent At Day of Year"
     description: "The week number within the year that the Sent At occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {sent at_date::date}) ;;
+    sql: extract(weekofyear from ${sent_at_date}::date) ;;
             hidden: yes
-  }  
+  }
 
 
 
-  dimension_group: uuid ts {
+  dimension_group: uuid_ts {
     label: "Uuid Ts"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.uuid_ts ;;
+    sql: ${TABLE}.uuid_ts ;;
             hidden: yes
   }
 
@@ -282,16 +282,16 @@ view_label: "Focalboard Blocks"
     label: "Uuid Ts Day Name"
     description: "The name of the day of the week that the Uuid Ts occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({uuid ts_date}::date) ;;
+    sql: dayname(${uuid_ts_date}::date) ;;
             hidden: yes
-  } 
+  }
 
   dimension: uuid_ts_dayofweek {
     group_label: "Uuid Ts"
     label: "Uuid Ts Day of Week"
     description: "The day number within the week that the Uuid Ts occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {uuid ts_date::date}) ;;
+    sql: extract(dayofweek from ${uuid_ts_date}::date) ;;
             hidden: yes
   }
 
@@ -300,17 +300,17 @@ view_label: "Focalboard Blocks"
     label: "Uuid Ts Day of Year"
     description: "The week number within the year that the Uuid Ts occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {uuid ts_date::date}) ;;
+    sql: extract(weekofyear from ${uuid_ts_date}::date) ;;
             hidden: yes
-  }  
+  }
 
 
 
-  dimension_group: original timestamp {
+  dimension_group: original_timestamp {
     label: "Original Timestamp"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.original_timestamp ;;
+    sql: ${TABLE}.original_timestamp ;;
             hidden: yes
   }
 
@@ -319,16 +319,16 @@ view_label: "Focalboard Blocks"
     label: "Original Timestamp Day Name"
     description: "The name of the day of the week that the Original Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({original timestamp_date}::date) ;;
+    sql: dayname(${original_timestamp_date}::date) ;;
             hidden: yes
-  } 
+  }
 
   dimension: original_timestamp_dayofweek {
     group_label: "Original Timestamp"
     label: "Original Timestamp Day of Week"
     description: "The day number within the week that the Original Timestamp occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {original timestamp_date::date}) ;;
+    sql: extract(dayofweek from ${original_timestamp_date}::date) ;;
             hidden: yes
   }
 
@@ -337,9 +337,9 @@ view_label: "Focalboard Blocks"
     label: "Original Timestamp Day of Year"
     description: "The week number within the year that the Original Timestamp occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {original timestamp_date::date}) ;;
+    sql: extract(weekofyear from ${original_timestamp_date}::date) ;;
             hidden: yes
-  }  
+  }
 
 
 
@@ -347,7 +347,7 @@ view_label: "Focalboard Blocks"
     label: "Timestamp"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: {TABLE}.timestamp ;;
+    sql: ${TABLE}.timestamp ;;
   }
 
   dimension: timestamp_dayname {
@@ -355,15 +355,15 @@ view_label: "Focalboard Blocks"
     label: "Timestamp Day Name"
     description: "The name of the day of the week that the Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname({timestamp_date}::date) ;;
-  } 
+    sql: dayname(${timestamp_date}::date) ;;
+  }
 
   dimension: timestamp_dayofweek {
     group_label: "Timestamp"
     label: "Timestamp Day of Week"
     description: "The day number within the week that the Timestamp occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from {timestamp_date::date}) ;;
+    sql: extract(dayofweek from ${timestamp_date}::date) ;;
   }
 
   dimension: timestamp_dayofyear {
@@ -371,8 +371,8 @@ view_label: "Focalboard Blocks"
     label: "Timestamp Day of Year"
     description: "The week number within the year that the Timestamp occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from {timestamp_date::date}) ;;
-  }  
+    sql: extract(weekofyear from ${timestamp_date}::date) ;;
+  }
 
 
 
@@ -385,7 +385,7 @@ view_label: "Focalboard Blocks"
     label: "Comment (Sum)"
     description: "The sum of Comment across all instances within the grouping."
     type: sum
-    sql: {comment} ;;
+    sql: ${comment} ;;
   }
 
   measure: comment_avg {
@@ -393,7 +393,7 @@ view_label: "Focalboard Blocks"
     label: "Comment (Avg)"
     description: "The average Comment across all instances within the grouping."
     type: average
-    sql: {comment} ;;
+    sql: ${comment} ;;
   }
 
   measure: comment_median {
@@ -401,7 +401,7 @@ view_label: "Focalboard Blocks"
     label: "Comment (Avg)"
     description: "The median Comment across all instances within the grouping."
     type: median
-    sql: {comment} ;;
+    sql: ${comment} ;;
   }
 
 
@@ -411,7 +411,7 @@ view_label: "Focalboard Blocks"
     label: "Divider (Sum)"
     description: "The sum of Divider across all instances within the grouping."
     type: sum
-    sql: {divider} ;;
+    sql: ${divider} ;;
   }
 
   measure: divider_avg {
@@ -419,7 +419,7 @@ view_label: "Focalboard Blocks"
     label: "Divider (Avg)"
     description: "The average Divider across all instances within the grouping."
     type: average
-    sql: {divider} ;;
+    sql: ${divider} ;;
   }
 
   measure: divider_median {
@@ -427,7 +427,7 @@ view_label: "Focalboard Blocks"
     label: "Divider (Avg)"
     description: "The median Divider across all instances within the grouping."
     type: median
-    sql: {divider} ;;
+    sql: ${divider} ;;
   }
 
 
@@ -437,7 +437,7 @@ view_label: "Focalboard Blocks"
     label: "Text (Sum)"
     description: "The sum of Text across all instances within the grouping."
     type: sum
-    sql: {text} ;;
+    sql: ${text} ;;
   }
 
   measure: text_avg {
@@ -445,7 +445,7 @@ view_label: "Focalboard Blocks"
     label: "Text (Avg)"
     description: "The average Text across all instances within the grouping."
     type: average
-    sql: {text} ;;
+    sql: ${text} ;;
   }
 
   measure: text_median {
@@ -453,7 +453,7 @@ view_label: "Focalboard Blocks"
     label: "Text (Avg)"
     description: "The median Text across all instances within the grouping."
     type: median
-    sql: {text} ;;
+    sql: ${text} ;;
   }
 
 
@@ -463,7 +463,7 @@ view_label: "Focalboard Blocks"
     label: "Board (Sum)"
     description: "The sum of Board across all instances within the grouping."
     type: sum
-    sql: {board} ;;
+    sql: ${board} ;;
   }
 
   measure: board_avg {
@@ -471,7 +471,7 @@ view_label: "Focalboard Blocks"
     label: "Board (Avg)"
     description: "The average Board across all instances within the grouping."
     type: average
-    sql: {board} ;;
+    sql: ${board} ;;
   }
 
   measure: board_median {
@@ -479,33 +479,33 @@ view_label: "Focalboard Blocks"
     label: "Board (Avg)"
     description: "The median Board across all instances within the grouping."
     type: median
-    sql: {board} ;;
+    sql: ${board} ;;
   }
 
 
 
-  measure: _view_sum {
+  measure: view_sum {
     group_label: " View Measures"
     label: " View (Sum)"
     description: "The sum of  View across all instances within the grouping."
     type: sum
-    sql: {_view} ;;
+    sql: ${view} ;;
   }
 
-  measure: _view_avg {
+  measure: view_avg {
     group_label: " View Measures"
     label: " View (Avg)"
     description: "The average  View across all instances within the grouping."
     type: average
-    sql: {_view} ;;
+    sql: ${view} ;;
   }
 
-  measure: _view_median {
+  measure: view_median {
     group_label: " View Measures"
     label: " View (Avg)"
     description: "The median  View across all instances within the grouping."
     type: median
-    sql: {_view} ;;
+    sql: ${view} ;;
   }
 
 
@@ -515,7 +515,7 @@ view_label: "Focalboard Blocks"
     label: "Image (Sum)"
     description: "The sum of Image across all instances within the grouping."
     type: sum
-    sql: {image} ;;
+    sql: ${image} ;;
   }
 
   measure: image_avg {
@@ -523,7 +523,7 @@ view_label: "Focalboard Blocks"
     label: "Image (Avg)"
     description: "The average Image across all instances within the grouping."
     type: average
-    sql: {image} ;;
+    sql: ${image} ;;
   }
 
   measure: image_median {
@@ -531,7 +531,7 @@ view_label: "Focalboard Blocks"
     label: "Image (Avg)"
     description: "The median Image across all instances within the grouping."
     type: median
-    sql: {image} ;;
+    sql: ${image} ;;
   }
 
 
@@ -541,7 +541,7 @@ view_label: "Focalboard Blocks"
     label: "Card (Sum)"
     description: "The sum of Card across all instances within the grouping."
     type: sum
-    sql: {card} ;;
+    sql: ${card} ;;
   }
 
   measure: card_avg {
@@ -549,7 +549,7 @@ view_label: "Focalboard Blocks"
     label: "Card (Avg)"
     description: "The average Card across all instances within the grouping."
     type: average
-    sql: {card} ;;
+    sql: ${card} ;;
   }
 
   measure: card_median {
@@ -557,7 +557,7 @@ view_label: "Focalboard Blocks"
     label: "Card (Avg)"
     description: "The median Card across all instances within the grouping."
     type: median
-    sql: {card} ;;
+    sql: ${card} ;;
   }
 
 
@@ -567,7 +567,7 @@ view_label: "Focalboard Blocks"
     label: "User Id"
     description: "The distinct count of user id's within the grouping."
     type: count_distinct
-    sql: {user_id} ;;
+    sql: ${user_id} ;;
   }
 
 
@@ -577,7 +577,7 @@ view_label: "Focalboard Blocks"
     label: "Checkbox (Sum)"
     description: "The sum of Checkbox across all instances within the grouping."
     type: sum
-    sql: {checkbox} ;;
+    sql: ${checkbox} ;;
   }
 
   measure: checkbox_avg {
@@ -585,7 +585,7 @@ view_label: "Focalboard Blocks"
     label: "Checkbox (Avg)"
     description: "The average Checkbox across all instances within the grouping."
     type: average
-    sql: {checkbox} ;;
+    sql: ${checkbox} ;;
   }
 
   measure: checkbox_median {
@@ -593,7 +593,6 @@ view_label: "Focalboard Blocks"
     label: "Checkbox (Avg)"
     description: "The median Checkbox across all instances within the grouping."
     type: median
-    sql: {checkbox} ;;
+    sql: ${checkbox} ;;
   }
-
-
+}
