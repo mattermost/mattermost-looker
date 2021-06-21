@@ -3138,20 +3138,20 @@ explore: focalboard_config {
 
 explore: focalboard_server {
   fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event, focalboard_fact.focalboard_facts*]
-  view_label: "Focalboard Telemetry"
+  view_label: "Focalboard Server"
   group_label: " Product: Focalboard"
   label: "Focalboard Instance Telemtry"
   description: "Contains the Focalboard Instance configuration telemetry including the config, activity, and server diagnostic properties."
 
   join: focalboard_activity {
-    view_label: "Focalboard Telemetry"
-    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date} ;;
+    view_label: "Focalboard Activity"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Telemetry"
-    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date} ;;
+    view_label: "Focalboard Config"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
@@ -3160,6 +3160,18 @@ explore: focalboard_server {
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
     fields: [focalboard_fact.focalboard_facts*]
+  }
+
+  join: focalboard_workspaces {
+    view_label: "Focalboard Workspaces"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_blocks{
+    view_label: "Focalboard Blocks"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
+    relationship: one_to_one
   }
 }
 
@@ -3287,5 +3299,3 @@ explore: focalboard_blocks {
   label: "Focalboard Blocks"
   hidden: no
   }
-
-
