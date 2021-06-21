@@ -3273,3 +3273,11 @@ explore: server_feature_flag_details {
   label: "Feature Flags"
   hidden: yes
 }
+
+            
+explore: focalboard_workspaces {
+
+  }
+
+
+    
