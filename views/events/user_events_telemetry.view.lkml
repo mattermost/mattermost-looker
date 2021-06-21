@@ -301,7 +301,8 @@ view: user_events_telemetry {
     label: " Server ID"
     description: "The server id of the user performing the event"
     type: string
-    sql: COALESCE(${TABLE}.user_id, ${context_server}, ${context_traits_server}) ;;
+    sql: CASE WHEN REGEXP_LIKE(COALESCE(${TABLE}.user_id, ${context_traits_userid},${context_server}, ${context_traits_server}), '[A-Z0-9a-z]{26}') IS NULL THEN NULL
+          ELSE COALESCE(${TABLE}.user_id, ${context_server}, ${context_traits_server}) END ;;
     hidden: no
   }
 
