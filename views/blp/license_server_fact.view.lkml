@@ -85,7 +85,7 @@ view: license_server_fact {
     label: "Edition"
     description: ""
     type: string
-    sql: ${TABLE}.edition ;;
+    sql: COALESCE(${TABLE}.edition, 'E20 Trial') ;;
     hidden: no
   }
 
