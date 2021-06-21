@@ -3276,7 +3276,16 @@ explore: server_feature_flag_details {
 
             
 explore: focalboard_workspaces {
+  label: "Focalboard Workspaces
+  hidden: no
+  }
 
+
+    
+            
+explore: focalboard_blocks {
+  label: "Focalboard Blocks"
+  hidden: no
   }
 
 
