@@ -9,7 +9,7 @@ view_label: "Customer Conversion Cloud"
 ### SETS
 
 
-    
+
 ### DIMENSIONS
 
 
@@ -86,9 +86,8 @@ view_label: "Customer Conversion Cloud"
   dimension_group: first_active {
     label: "First Active "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.first_active_date ;;
-    ::date
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.first_active_date::date ;;
   }
 
   dimension: first_active_date_dayname {
@@ -97,8 +96,8 @@ view_label: "Customer Conversion Cloud"
     description: "The name of the day of the week that the First Active Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${first_active_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: first_active_date_dayofweek {
     group_label: "First Active "
@@ -106,7 +105,7 @@ view_label: "Customer Conversion Cloud"
     description: "The day number within the week that the First Active Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${first_active_date}::date) ;;
-    
+
   }
 
   dimension: first_active_date_dayofyear {
@@ -115,8 +114,8 @@ view_label: "Customer Conversion Cloud"
     description: "The week number within the year that the First Active Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${first_active_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -124,8 +123,7 @@ view_label: "Customer Conversion Cloud"
     label: "Last Active "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.last_active_date ;;
-    ::date
+    sql: ${TABLE}.last_active_date::date ;;
   }
 
   dimension: last_active_date_dayname {
@@ -134,8 +132,8 @@ view_label: "Customer Conversion Cloud"
     description: "The name of the day of the week that the Last Active Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${last_active_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: last_active_date_dayofweek {
     group_label: "Last Active "
@@ -143,7 +141,7 @@ view_label: "Customer Conversion Cloud"
     description: "The day number within the week that the Last Active Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${last_active_date}::date) ;;
-    
+
   }
 
   dimension: last_active_date_dayofyear {
@@ -152,8 +150,8 @@ view_label: "Customer Conversion Cloud"
     description: "The week number within the year that the Last Active Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${last_active_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -161,8 +159,7 @@ view_label: "Customer Conversion Cloud"
     label: "Paid Conversion "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.paid_conversion_date ;;
-    ::date
+    sql: ${TABLE}.paid_conversion_date::date ;;
   }
 
   dimension: paid_conversion_date_dayname {
@@ -171,8 +168,8 @@ view_label: "Customer Conversion Cloud"
     description: "The name of the day of the week that the Paid Conversion Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${paid_conversion_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: paid_conversion_date_dayofweek {
     group_label: "Paid Conversion "
@@ -180,7 +177,7 @@ view_label: "Customer Conversion Cloud"
     description: "The day number within the week that the Paid Conversion Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${paid_conversion_date}::date) ;;
-    
+
   }
 
   dimension: paid_conversion_date_dayofyear {
@@ -189,8 +186,8 @@ view_label: "Customer Conversion Cloud"
     description: "The week number within the year that the Paid Conversion Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${paid_conversion_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -246,4 +243,4 @@ view_label: "Customer Conversion Cloud"
     sql: ${cloud_installation_id} ;;
   }
 
-
+}

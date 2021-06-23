@@ -9,7 +9,7 @@ view_label: "Customer Conversion Onprem"
 ### SETS
 
 
-    
+
 ### DIMENSIONS
 
 
@@ -120,8 +120,7 @@ view_label: "Customer Conversion Onprem"
     label: "First Telemetry "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.first_telemetry_date ;;
-    ::date
+    sql: ${TABLE}.first_telemetry_date::date ;;
   }
 
   dimension: first_telemetry_date_dayname {
@@ -130,8 +129,8 @@ view_label: "Customer Conversion Onprem"
     description: "The name of the day of the week that the First Telemetry Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${first_telemetry_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: first_telemetry_date_dayofweek {
     group_label: "First Telemetry "
@@ -139,7 +138,7 @@ view_label: "Customer Conversion Onprem"
     description: "The day number within the week that the First Telemetry Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${first_telemetry_date}::date) ;;
-    
+
   }
 
   dimension: first_telemetry_date_dayofyear {
@@ -148,8 +147,8 @@ view_label: "Customer Conversion Onprem"
     description: "The week number within the year that the First Telemetry Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${first_telemetry_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -157,8 +156,7 @@ view_label: "Customer Conversion Onprem"
     label: "Paid Conversion "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.paid_conversion_date ;;
-    ::date
+    sql: ${TABLE}.paid_conversion_date::date ;;
   }
 
   dimension: paid_conversion_date_dayname {
@@ -167,8 +165,8 @@ view_label: "Customer Conversion Onprem"
     description: "The name of the day of the week that the Paid Conversion Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${paid_conversion_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: paid_conversion_date_dayofweek {
     group_label: "Paid Conversion "
@@ -176,7 +174,7 @@ view_label: "Customer Conversion Onprem"
     description: "The day number within the week that the Paid Conversion Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${paid_conversion_date}::date) ;;
-    
+
   }
 
   dimension: paid_conversion_date_dayofyear {
@@ -185,8 +183,8 @@ view_label: "Customer Conversion Onprem"
     description: "The week number within the year that the Paid Conversion Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${paid_conversion_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -194,8 +192,7 @@ view_label: "Customer Conversion Onprem"
     label: "Paid Expire "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.paid_expire_date ;;
-    ::date
+    sql: ${TABLE}.paid_expire_date::date ;;
   }
 
   dimension: paid_expire_date_dayname {
@@ -204,8 +201,8 @@ view_label: "Customer Conversion Onprem"
     description: "The name of the day of the week that the Paid Expire Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${paid_expire_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: paid_expire_date_dayofweek {
     group_label: "Paid Expire "
@@ -213,7 +210,7 @@ view_label: "Customer Conversion Onprem"
     description: "The day number within the week that the Paid Expire Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${paid_expire_date}::date) ;;
-    
+
   }
 
   dimension: paid_expire_date_dayofyear {
@@ -222,8 +219,8 @@ view_label: "Customer Conversion Onprem"
     description: "The week number within the year that the Paid Expire Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${paid_expire_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -231,8 +228,7 @@ view_label: "Customer Conversion Onprem"
     label: "Last Telemetry "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.last_telemetry_date ;;
-    ::date
+    sql: ${TABLE}.last_telemetry_date::date ;;
   }
 
   dimension: last_telemetry_date_dayname {
@@ -241,8 +237,8 @@ view_label: "Customer Conversion Onprem"
     description: "The name of the day of the week that the Last Telemetry Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${last_telemetry_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: last_telemetry_date_dayofweek {
     group_label: "Last Telemetry "
@@ -250,7 +246,7 @@ view_label: "Customer Conversion Onprem"
     description: "The day number within the week that the Last Telemetry Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${last_telemetry_date}::date) ;;
-    
+
   }
 
   dimension: last_telemetry_date_dayofyear {
@@ -259,8 +255,8 @@ view_label: "Customer Conversion Onprem"
     description: "The week number within the year that the Last Telemetry Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${last_telemetry_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -268,8 +264,7 @@ view_label: "Customer Conversion Onprem"
     label: "Trial "
     type: time
     timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.trial_date ;;
-    ::date
+    sql: ${TABLE}.trial_date::date ;;
   }
 
   dimension: trial_date_dayname {
@@ -278,8 +273,8 @@ view_label: "Customer Conversion Onprem"
     description: "The name of the day of the week that the Trial Date occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${trial_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: trial_date_dayofweek {
     group_label: "Trial "
@@ -287,7 +282,7 @@ view_label: "Customer Conversion Onprem"
     description: "The day number within the week that the Trial Date occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${trial_date}::date) ;;
-    
+
   }
 
   dimension: trial_date_dayofyear {
@@ -296,8 +291,8 @@ view_label: "Customer Conversion Onprem"
     description: "The week number within the year that the Trial Date occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${trial_date}::date) ;;
-    
-  }  
+
+  }
 
 
 
@@ -389,4 +384,4 @@ view_label: "Customer Conversion Onprem"
     sql: CASE WHEN ${hold_public} THEN {} ELSE NULL END;;
   }
 
-
+}
