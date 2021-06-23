@@ -3289,7 +3289,7 @@ explore: server_feature_flag_details {
 
 explore: focalboard_workspaces {
   label: "Focalboard Workspaces"
-  hidden: no
+  hidden: yes
   }
 
 
@@ -3297,5 +3297,22 @@ explore: focalboard_workspaces {
 
 explore: focalboard_blocks {
   label: "Focalboard Blocks"
-  hidden: no
+  hidden: yes
   }
+
+            
+explore: customer_conversion_onprem {
+  label: "Customer Conversion Onprem"
+  hidden: yes
+  }
+
+
+    
+            
+explore: customer_conversion_cloud {
+  label: "Customer Conversion Cloud"
+  hidden: yes
+  }
+
+
+    
