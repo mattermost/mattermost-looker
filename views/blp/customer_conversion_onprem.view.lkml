@@ -109,6 +109,7 @@ view_label: "Customer Conversion Onprem"
     type: string
     sql: ${TABLE}.id ;;
     hidden: yes
+    primary_key: yes
   }
 
 
@@ -305,7 +306,7 @@ view_label: "Customer Conversion Onprem"
     label: "Free To Paid"
     description: "The distinct count of servers/workspaces with Free To Paid marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${free_to_paid} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${free_to_paid} THEN ${accountid} ELSE NULL END;;
   }
 
 
@@ -315,7 +316,7 @@ view_label: "Customer Conversion Onprem"
     label: "Churned"
     description: "The distinct count of servers/workspaces with Churned marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${churned} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${churned} THEN ${accountid} ELSE NULL END;;
   }
 
 
@@ -351,7 +352,7 @@ view_label: "Customer Conversion Onprem"
     label: "Accountid Match"
     description: "The distinct count of servers/workspaces with Accountid Match marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${accountid_match} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${accountid_match} THEN ${accountid} ELSE NULL END;;
   }
 
 
@@ -361,7 +362,7 @@ view_label: "Customer Conversion Onprem"
     label: "License Key Match"
     description: "The distinct count of servers/workspaces with License Key Match marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${license_key_match} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${license_key_match} THEN ${accountid} ELSE NULL END;;
   }
 
 
@@ -371,7 +372,7 @@ view_label: "Customer Conversion Onprem"
     label: "Trial To Paid Conversion"
     description: "The distinct count of servers/workspaces with Trial To Paid Conversion marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${trial_to_paid_conversion} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${trial_to_paid_conversion} THEN ${accountid} ELSE NULL END;;
   }
 
 
@@ -381,7 +382,7 @@ view_label: "Customer Conversion Onprem"
     label: "Hold Public"
     description: "The distinct count of servers/workspaces with Hold Public marked true/enabled."
     type: count_distinct
-    sql: CASE WHEN ${hold_public} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${hold_public} THEN ${accountid} ELSE NULL END;;
   }
 
 }

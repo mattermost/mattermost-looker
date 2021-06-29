@@ -76,6 +76,7 @@ view_label: "Customer Conversion Cloud"
     type: string
     sql: ${TABLE}.id ;;
     hidden: yes
+    primary_key: yes
   }
 
 

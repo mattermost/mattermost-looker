@@ -3300,19 +3300,38 @@ explore: focalboard_blocks {
   hidden: yes
   }
 
-            
+
 explore: customer_conversion_onprem {
   label: "Customer Conversion Onprem"
   hidden: yes
   }
 
 
-    
-            
+
+
 explore: customer_conversion_cloud {
   label: "Customer Conversion Cloud"
   hidden: yes
   }
 
+explore: cloud_conversion_funnel {
+  from: dates
+  view_label: "First Active Dates"
+  extends: [server_fact]
+  fields: [customer_conversion_cloud*, server_fact*, cloud_conversion_funnel*, excludable_servers.reason]
 
-    
+  join: server_fact {
+    view_label: "Cloud: All Instances"
+    sql_on: ${cloud_conversion_funnel.date_date} = ${server_fact.customer_first_active_date} ;;
+    sql_where: ${server_fact.cloud_server} ;;
+    relationship: one_to_many
+    type: inner
+  }
+
+  join: customer_conversion_cloud {
+    view_label: "Cloud: Paid Conversions"
+    sql_on: ${server_fact.installation_id} = ${customer_conversion_cloud.cloud_installation_id} ;;
+    relationship: one_to_one
+    type: left_outer
+  }
+}
