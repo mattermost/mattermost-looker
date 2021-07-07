@@ -68,7 +68,8 @@ view: _homepage {
               </li>
             </ul>
             <br>
-            <div style="font-size: 15px;">Please reach out to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aneal@mattermost.com" target="_blank">Aneal Vallurupalli</a> for any questions.</div>
+            <div style="font-size: 15px; text-align: center;">Please reach out to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=tim@mattermost.com" target="_blank">Tim Quock</a> for any questions.</div>
+            <div style="font-size: 15px; text-align: center;"><a href="https://docs.google.com/document/d/10mChNYHOPutoTDA7Gm-XqRQYKtipt6RKaAmQofLYy58/edit?usp=sharing" target="_blank" style="@{css_link_style}">Metric Definitions (Self-Serve Analytics)</a></div>
           </div>
         </div>
       </td></tr></table>
@@ -140,7 +141,8 @@ view: _homepage {
               - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
               - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
               <br>
-              <div style="font-size: 15px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://docs.google.com/document/d/10mChNYHOPutoTDA7Gm-XqRQYKtipt6RKaAmQofLYy58/edit?usp=sharing" target="_blank" style="@{css_link_style}">Metric Definitions (Self-Serve Analytics)</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://community.mattermost.com/private-core/channels/analytics-2" target="_blank" style="@{css_link_style}">Ask Analytics Questions</a></div>
             </div>
           </div>
         </td></tr></table>
@@ -172,7 +174,8 @@ view: _homepage {
               - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
               - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
               <br>
-              <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://docs.google.com/document/d/10mChNYHOPutoTDA7Gm-XqRQYKtipt6RKaAmQofLYy58/edit?usp=sharing" target="_blank" style="@{css_link_style}">Metric Definitions (Self-Serve Analytics)</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://community.mattermost.com/private-core/channels/analytics-2" target="_blank" style="@{css_link_style}">Ask Analytics Questions</a></div>
             </div>
           </div>
         </td></tr></table>
@@ -237,7 +240,8 @@ view: _homepage {
             - <a href="https://mattermost.looker.com/browse/top" style="@{css_link_style}">Popular Content</a>
             - <a href="https://mattermost.looker.com/folders/home" style="@{css_link_style}">Shared Folders</a></div>
             <br>
-            <div style="font-size: 20px;"><a href="https://community.mattermost.com/private-core/channels/bizops" target="_blank" style="@{css_link_style}">Ask BizOps Questions</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://docs.google.com/document/d/10mChNYHOPutoTDA7Gm-XqRQYKtipt6RKaAmQofLYy58/edit?usp=sharing" target="_blank" style="@{css_link_style}">Metric Definitions (Self-Serve Analytics)</a></div>
+              <div style="font-size: 15px; text-align: center;"><a href="https://community.mattermost.com/private-core/channels/analytics-2" target="_blank" style="@{css_link_style}">Ask Analytics Questions</a></div>
           </div>
         </div>
       </td></tr></table>
