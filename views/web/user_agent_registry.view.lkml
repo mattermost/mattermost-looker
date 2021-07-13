@@ -50,6 +50,14 @@ view: user_agent_registry {
     sql:  CASE WHEN ${TABLE}.browser || ' ' || ${TABLE}.browser_version IS NULL THEN 'Other' ELSE ${browser} || ' ' || ${browser_version} END ;;
   }
 
+  dimension: browser_w_version_major{
+    label: "Browser + Version (Major)"
+    description: "The browser & browser version major used to access & browse the mattermost web property."
+    group_label: "User Agent Attributes"
+    type: string
+    sql:  CASE WHEN ${TABLE}.browser || ' ' || ${TABLE}.browser_version IS NULL THEN 'Other' ELSE ${browser} || ' ' || ${browser_version_major} END ;;
+  }
+
   dimension: operating_system {
     label: "Operating System (OS)"
     description: "The operating system of the device used to access & browse the mattermost web property."
@@ -68,12 +76,33 @@ view: user_agent_registry {
     hidden: no
   }
 
+  dimension: os_version_major {
+    label: "OS Version"
+    description: "The operating system version of the device used to access & browse the mattermost web property."
+    group_label: "User Agent Attributes"
+    type: string
+    sql:  CASE WHEN ${operating_system} = 'Chrome OS' THEN LEFT(${TABLE}.os_version, 2)
+              WHEN NULLIF(SPLIT_PART(${TABLE}.os_version, '.', 2), '') IS NULL AND NULLIF(SPLIT_PART(${TABLE}.os_version, '.', 1), '') IS NULL THEN ${TABLE}.os_version
+              ELSE SPLIT_PART(${TABLE}.os_version, '.', 1) END;;
+    hidden: no
+  }
+
+
   dimension: os_w_version {
     label: "OS + OS Version"
     description: "The operating system and OS version of the device used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
     sql:  CASE WHEN ${TABLE}.operating_system || ' ' || ${TABLE}.os_version IS NULL THEN 'Other' ELSE ${TABLE}.operating_system || ' ' || ${TABLE}.os_version END ;;
+    hidden: no
+  }
+
+  dimension: os_w_version_major{
+    label: "OS + OS Version (Major)"
+    description: "The operating system and OS version of the device used to access & browse the mattermost web property."
+    group_label: "User Agent Attributes"
+    type: string
+    sql:  CASE WHEN ${TABLE}.operating_system || ' ' || ${os_version_major} IS NULL THEN 'Other' ELSE ${TABLE}.operating_system || ' ' || ${os_version_major} END ;;
     hidden: no
   }
 
