@@ -4244,9 +4244,9 @@ view: server_daily_details_ext {
   }
 
   dimension: collapsed_threads {
-    label: "Collapsed Threads Enabled"
+    label: "Collapsed Threads Status"
     description: ""
-    type: yesno
+    type: string
     group_label: "Service Configuration"
     sql: ${TABLE}.collapsed_threads ;;
     hidden: no
@@ -9235,7 +9235,7 @@ view: server_daily_details_ext {
     description: "The count of servers with Service Collapsed Threads enabled."
     type: count_distinct
     group_label: " Service Config: Instance Counts"
-    sql: case when ${collapsed_threads} then ${server_id} else null end ;;
+    sql: case when ${collapsed_threads} IN ('default_on', 'default_off') then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
