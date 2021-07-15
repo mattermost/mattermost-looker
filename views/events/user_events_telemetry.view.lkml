@@ -148,6 +148,14 @@ view: user_events_telemetry {
     hidden: no
   }
 
+
+  dimension: valid_operating_system {
+    description: "Regex filter to reduce noise produced by invalid user agents and test servers."
+    group_label: "User Agent Attributes"
+    type: yesno
+    sql: CASE WHEN REGEXP_SUBSTR(${context_os_name}, '^[A-Za-z]') IS NOT NULL THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: context_device_type {
     group_label: "User Agent Attributes"
     label: "Device Type"
