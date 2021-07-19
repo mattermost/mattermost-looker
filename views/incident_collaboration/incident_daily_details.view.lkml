@@ -290,6 +290,20 @@ view: incident_daily_details {
     hidden: no
   }
 
+  dimension: retros_published {
+    description: ""
+    type: number
+    sql: ${TABLE}.retrospectives_published ;;
+    hidden: no
+  }
+
+  dimension: retro_updates {
+    description: ""
+    type: number
+    sql: ${TABLE}.retrospectives_updated ;;
+    hidden: no
+  }
+
   dimension: task_assignees_set {
     description: ""
     type: number
@@ -1191,6 +1205,86 @@ view: incident_daily_details {
     type: median
     group_label: "Restarted Incident Measures"
     sql: ${restarted_incident} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retros_published_sum {
+    description: "The Sum of total number of retrospectives published within the grouped dimension(s)."
+    type: sum
+    group_label: "Retrospective Measures"
+    sql: ${retros_published} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retros_published_max {
+    description: "The Max. number of retrospectives published by an instance within the grouped dimension(s)."
+    type: max
+    group_label: "Retrospective Measures"
+    sql: ${retros_published} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retros_published_min {
+    description: "The Min. number of retrospectives published by an instance within the grouped dimension(s)."
+    type: min
+    group_label: "Retrospective Measures"
+    sql: ${retros_published} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retros_published_avg {
+    description: "The Average number of retrospectives published by an instance within the grouped dimension(s)."
+    type: average
+    group_label: "Retrospective Measures"
+    sql: ${retros_published} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retros_published_median {
+    description: "The Median number of retrospectives published by an instance within the grouped dimension(s)."
+    type: median
+    group_label: "Retrospective Measures"
+    sql: ${retros_published} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retro_updates_sum {
+    description: "The Sum of total number of retrospective updates within the grouped dimension(s)."
+    type: sum
+    group_label: "Retrospective Measures"
+    sql: ${retro_updates} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retro_updates_max {
+    description: "The Max. number of retrospective updates by an instance within the grouped dimension(s)."
+    type: max
+    group_label: "Retrospective Measures"
+    sql: ${retro_updates} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retro_updates_min {
+    description: "The Min. number of retrospective updates by an instance within the grouped dimension(s)."
+    type: min
+    group_label: "Retrospective Measures"
+    sql: ${retro_updates} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retro_updates_avg {
+    description: "The Average number of retrospective updates by an instance within the grouped dimension(s)."
+    type: average
+    group_label: "Retrospective Measures"
+    sql: ${retro_updates} ;;
+    drill_fields: [incident*]
+  }
+
+  measure: retro_updates_median {
+    description: "The Median number of retrospective updates by an instance within the grouped dimension(s)."
+    type: median
+    group_label: "Retrospective Measures"
+    sql: ${retro_updates} ;;
     drill_fields: [incident*]
   }
 
