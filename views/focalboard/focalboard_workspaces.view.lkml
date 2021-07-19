@@ -251,7 +251,7 @@ view_label: "Focalboard Workspaces"
   }
 
   dimension: timestamp_dayname {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day Name"
     description: "The name of the day of the week that the Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
@@ -259,7 +259,7 @@ view_label: "Focalboard Workspaces"
   }
 
   dimension: timestamp_dayofweek {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day of Week"
     description: "The day number within the week that the Timestamp occurred on (i.e. 1-7)."
     type: number
@@ -267,7 +267,7 @@ view_label: "Focalboard Workspaces"
   }
 
   dimension: timestamp_dayofyear {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day of Year"
     description: "The week number within the year that the Timestamp occurred on (i.e. 1-52)."
     type: number
@@ -331,11 +331,12 @@ view_label: "Focalboard Workspaces"
     description: "The average Workspaces across all instances within the grouping."
     type: average
     sql: ${workspaces} ;;
+    value_format_name: decimal_2
   }
 
   measure: workspaces_median {
     group_label: "Workspaces Measures"
-    label: "Workspaces (Avg)"
+    label: "Workspaces (Median)"
     description: "The median Workspaces across all instances within the grouping."
     type: median
     sql: ${workspaces} ;;

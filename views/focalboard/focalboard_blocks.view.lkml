@@ -25,8 +25,8 @@ view_label: "Focalboard Blocks"
   dimension: comment {
     label: "Comment"
     description: "The Comment of the instance."
-    type: string
-    sql: ${TABLE}.comment ;;
+    type: number
+    sql: COALESCE(${TABLE}.comment::int, 0) ;;
   }
 
 
@@ -34,8 +34,8 @@ view_label: "Focalboard Blocks"
   dimension: divider {
     label: "Divider"
     description: "The Divider of the instance."
-    type: string
-    sql: ${TABLE}.divider ;;
+    type: number
+    sql: COALESCE(${TABLE}.divider::int, 0) ;;
   }
 
 
@@ -51,8 +51,8 @@ view_label: "Focalboard Blocks"
   dimension: text {
     label: "Text"
     description: "The Text of the instance."
-    type: string
-    sql: ${TABLE}.text ;;
+    type: number
+    sql: COALESCE(${TABLE}.text::int,0) ;;
   }
 
 
@@ -76,8 +76,8 @@ view_label: "Focalboard Blocks"
   dimension: board {
     label: "Board"
     description: "The Board of the instance."
-    type: string
-    sql: ${TABLE}.board ;;
+    type: number
+    sql: COALESCE(${TABLE}.board::int, 0) ;;
   }
 
 
@@ -85,8 +85,8 @@ view_label: "Focalboard Blocks"
   dimension: view {
     label: "View"
     description: "The  View of the instance."
-    type: string
-    sql: ${TABLE}."view" ;;
+    type: number
+    sql: COALESCE(${TABLE}._view::int,0) ;;
   }
 
 
@@ -102,8 +102,8 @@ view_label: "Focalboard Blocks"
   dimension: image {
     label: "Image"
     description: "The Image of the instance."
-    type: string
-    sql: ${TABLE}.image ;;
+    type: number
+    sql: COALESCE(${TABLE}.image::int,0) ;;
   }
 
 
@@ -127,8 +127,8 @@ view_label: "Focalboard Blocks"
   dimension: card {
     label: "Card"
     description: "The Card of the instance."
-    type: string
-    sql: ${TABLE}.card ;;
+    type: number
+    sql: COALESCE(${TABLE}.card::int, 0) ;;
   }
 
 
@@ -144,8 +144,8 @@ view_label: "Focalboard Blocks"
   dimension: checkbox {
     label: "Checkbox"
     description: "The Checkbox of the instance."
-    type: string
-    sql: ${TABLE}.checkbox ;;
+    type: number
+    sql: COALESCE(${TABLE}.checkbox::int, 0) ;;
   }
 
 
@@ -394,11 +394,12 @@ view_label: "Focalboard Blocks"
     description: "The average Comment across all instances within the grouping."
     type: average
     sql: ${comment} ;;
+    value_format_name: decimal_2
   }
 
   measure: comment_median {
     group_label: "Comment Measures"
-    label: "Comment (Avg)"
+    label: "Comment (Median)"
     description: "The median Comment across all instances within the grouping."
     type: median
     sql: ${comment} ;;
@@ -420,11 +421,12 @@ view_label: "Focalboard Blocks"
     description: "The average Divider across all instances within the grouping."
     type: average
     sql: ${divider} ;;
+    value_format_name: decimal_2
   }
 
   measure: divider_median {
     group_label: "Divider Measures"
-    label: "Divider (Avg)"
+    label: "Divider (Median)"
     description: "The median Divider across all instances within the grouping."
     type: median
     sql: ${divider} ;;
@@ -450,7 +452,7 @@ view_label: "Focalboard Blocks"
 
   measure: text_median {
     group_label: "Text Measures"
-    label: "Text (Avg)"
+    label: "Text (Median)"
     description: "The median Text across all instances within the grouping."
     type: median
     sql: ${text} ;;
@@ -472,11 +474,12 @@ view_label: "Focalboard Blocks"
     description: "The average Board across all instances within the grouping."
     type: average
     sql: ${board} ;;
+    value_format_name: decimal_2
   }
 
   measure: board_median {
     group_label: "Board Measures"
-    label: "Board (Avg)"
+    label: "Board (Median)"
     description: "The median Board across all instances within the grouping."
     type: median
     sql: ${board} ;;
@@ -498,11 +501,12 @@ view_label: "Focalboard Blocks"
     description: "The average  View across all instances within the grouping."
     type: average
     sql: ${view} ;;
+    value_format_name: decimal_2
   }
 
   measure: view_median {
     group_label: " View Measures"
-    label: " View (Avg)"
+    label: " View (Median)"
     description: "The median  View across all instances within the grouping."
     type: median
     sql: ${view} ;;
@@ -524,11 +528,12 @@ view_label: "Focalboard Blocks"
     description: "The average Image across all instances within the grouping."
     type: average
     sql: ${image} ;;
+    value_format_name: decimal_2
   }
 
   measure: image_median {
     group_label: "Image Measures"
-    label: "Image (Avg)"
+    label: "Image (Median)"
     description: "The median Image across all instances within the grouping."
     type: median
     sql: ${image} ;;
@@ -550,11 +555,12 @@ view_label: "Focalboard Blocks"
     description: "The average Card across all instances within the grouping."
     type: average
     sql: ${card} ;;
+    value_format_name: decimal_2
   }
 
   measure: card_median {
     group_label: "Card Measures"
-    label: "Card (Avg)"
+    label: "Card (Median)"
     description: "The median Card across all instances within the grouping."
     type: median
     sql: ${card} ;;
@@ -564,10 +570,18 @@ view_label: "Focalboard Blocks"
 
   measure: user_id_count {
     group_label: "Instance Counts"
-    label: "User Id"
+    label: "Instance Count"
     description: "The distinct count of user id's within the grouping."
     type: count_distinct
     sql: ${user_id} ;;
+  }
+
+  measure: block_count {
+    group_label: "Block Counts"
+    label: "Blocks"
+    description: "The distinct count of blocks within the grouped dimension."
+    type: count_distinct
+    sql:  ;;
   }
 
 
@@ -586,11 +600,12 @@ view_label: "Focalboard Blocks"
     description: "The average Checkbox across all instances within the grouping."
     type: average
     sql: ${checkbox} ;;
+    value_format_name: decimal_2
   }
 
   measure: checkbox_median {
     group_label: "Checkbox Measures"
-    label: "Checkbox (Avg)"
+    label: "Checkbox (Median)"
     description: "The median Checkbox across all instances within the grouping."
     type: median
     sql: ${checkbox} ;;
