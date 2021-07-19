@@ -799,6 +799,24 @@ view: incident_daily_details {
     drill_fields: [incident*]
   }
 
+  measure: instances_with_retros_published {
+    description: "The distinct count of instances that have published a retrospective."
+    label: "Instances w/ Retros Published"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retros_published} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_retro_updates {
+    description: "The distinct count of instances that have updated a retrospective."
+    label: "Instances w/ Retro Updates"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retro_updates} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
   measure: archived_incidents_sum {
     description: "The Sum of Archived Incidents."
     type: sum
