@@ -113,6 +113,11 @@ view: trial_requests {
     sql: ${TABLE}."USERS" ;;
   }
 
+  dimension: valid_email {
+    type: yesno
+    sql: ${TABLE}."VALID_EMAIL" ;;
+  }
+
   measure: count {
     type: count_distinct
     sql: ${license_id} ;;

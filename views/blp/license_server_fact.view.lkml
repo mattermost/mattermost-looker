@@ -46,10 +46,10 @@ view: license_server_fact {
   dimension: trial_request_type {
     label: "Trial Request Type"
     type: string
-    sql: CASE WHEN ${trial_requests.server_id} IS NOT NULL and ${trial_requests.site_url} != 'https://mattermost.com' THEN 'In-Product'
-          WHEN ${cloud_customer} THEN 'Cloud'
-          WHEN ${trial} THEN 'Website'
-          ELSE NULL END ;;
+    sql: CASE WHEN ${cloud_customer} THEN 'Cloud'
+              WHEN ${trial_requests.server_id} IS NOT NULL and ${trial_requests.site_url} != 'https://mattermost.com' and COALESCE(${trial_requests.valid_email}, TRUE) THEN 'In-Product'
+              WHEN ${trial} AND COALESCE(${trial_requests.valid_email}, TRUE) THEN 'Website'
+            ELSE NULL END ;;
   }
 
   dimension: id {
@@ -87,6 +87,14 @@ view: license_server_fact {
     type: string
     sql: COALESCE(${TABLE}.edition, 'E20 Trial') ;;
     hidden: no
+  }
+
+  dimension: edition_null {
+    label: "Edition"
+    description: ""
+    type: string
+    sql: ${TABLE}.edition ;;
+    hidden: yes
   }
 
   dimension: users {
