@@ -46,7 +46,7 @@ view: incident_daily_details {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
-    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+    sql: CASE WHEN ${license_server_fact.edition_null} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
                       WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
