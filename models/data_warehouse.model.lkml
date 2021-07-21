@@ -3184,7 +3184,7 @@ explore: incident_daily_details {
   join: license_server_fact {
     view_label: "Incident Daily Details"
     relationship: many_to_one
-    sql_on: (${license_server_fact.server_id} = ${incident_daily_details.server_id}) and (${incident_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+    sql_on: (${license_server_fact.server_id} = ${incident_daily_details.server_id}) and (${incident_daily_details.logging_date}::date BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date);;
     fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
   }
 
@@ -3316,7 +3316,10 @@ explore: customer_conversion_cloud {
 
 explore: cloud_conversion_funnel {
   from: dates
+  label: "Cloud Conversion Funnel"
+  group_label: " Product: Messaging"
   view_label: "First Active Dates"
+  description: "Contains all cloud workspaces and data for identifying paid conversion rate trends over time."
   extends: [server_fact]
   fields: [customer_conversion_cloud*, server_fact*, cloud_conversion_funnel*, excludable_servers.reason]
 

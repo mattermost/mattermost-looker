@@ -5,7 +5,7 @@ view: incident_daily_details {
 
   # SET
   set: incident {
-    fields: [license_server_fact.customer_id, license_server_fact.customer_name, server_daily_details.product_edition, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
+    fields: [license_server_fact.customer_id, license_server_fact.customer_name, product_edition, server_fact.server_version_major, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
   dimension: age_days {
@@ -22,6 +22,12 @@ view: incident_daily_details {
     style: integer
     tiers: [1,31,61,91,181,366,731]
     sql: ${age_days} ;;
+  }
+
+  measure: day_active {
+    description: "The distinct count of days where the instance had >= 1 active user within the grouped dimension. Use the Incident Collaboration Fact for all-time active days if you do not want this number to be impacted by the grouped dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${active} THEN ${logging_date} ELSE NULL END ;;
   }
 
   dimension: active {
