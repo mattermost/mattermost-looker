@@ -32,8 +32,13 @@ view: incident_response_events {
   dimension: dev_server {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
-    sql: CASE WHEN regexp_substr(${pluginversion}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL OR (COALESCE(${version_release_dates.release_date}, CURRENT_DATE + INTERVAL '1 DAY') > CURRENT_DATE AND not ${server_fact.cloud_server})
-    OR ${user_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw') OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${user_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw')
+            OR
+            (regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL
+             AND
+            regexp_substr(regexp_substr(${server_fact.version},'^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL
+            AND NOT ${server_fact.cloud_server})
+            THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: community_server {

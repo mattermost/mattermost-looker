@@ -5,7 +5,7 @@ view: incident_daily_details {
 
   # SET
   set: incident {
-    fields: [license_server_fact.customer_id, license_server_fact.customer_name, server_daily_details.product_edition, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
+    fields: [license_server_fact.customer_id, license_server_fact.customer_name, product_edition, server_fact.server_version_major, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
   dimension: age_days {
@@ -22,6 +22,12 @@ view: incident_daily_details {
     style: integer
     tiers: [1,31,61,91,181,366,731]
     sql: ${age_days} ;;
+  }
+
+  measure: day_active {
+    description: "The distinct count of days where the instance had >= 1 active user within the grouped dimension. Use the Incident Collaboration Fact for all-time active days if you do not want this number to be impacted by the grouped dimensions."
+    type: count_distinct
+    sql: CASE WHEN ${active} THEN ${logging_date} ELSE NULL END ;;
   }
 
   dimension: active {
@@ -46,10 +52,10 @@ view: incident_daily_details {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
-    sql: CASE WHEN ${license_server_fact.edition_null} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+    sql: CASE WHEN ${license_server_fact.edition_null} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition_null}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
-                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
                       ELSE COALESCE(${server_daily_details.edition}, ${server_fact.server_edition})
                       END ;;
     order_by_field: product_edition_sort
@@ -116,7 +122,13 @@ view: incident_daily_details {
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     type: yesno
     sql: CASE WHEN regexp_substr(${plugin_version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL
-      OR ${server_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw') OR regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+            OR ${server_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw')
+            OR
+            (regexp_substr(${server_fact.version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL
+             AND
+            regexp_substr(regexp_substr(${server_fact.version},'^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL
+            AND NOT ${server_fact.cloud_server})
+            THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: community_server {
