@@ -3013,7 +3013,7 @@ explore: incident_response_events {
 
   join: license_server_fact {
     view_label: "License Details"
-    sql_on: TRIM(${license_server_fact.server_id}) = TRIM(${incident_response_events.user_id}) AND ${incident_response_events.timestamp_date}::DATE BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+    sql_on: TRIM(${license_server_fact.server_id}) = TRIM(${incident_response_events.user_id}) AND ${incident_response_events.timestamp_date}::DATE BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date ;;
     relationship: many_to_one
   }
 

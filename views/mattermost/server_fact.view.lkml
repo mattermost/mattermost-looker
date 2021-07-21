@@ -52,7 +52,13 @@ sql_table_name: mattermost.server_fact ;;
     description: "Boolean that evaluates to true when the pluginversion is in alpha (i.e. not released to GA) or the server version has not yet been released."
     group_label: " Telemetry Flags"
     type: yesno
-    sql: CASE WHEN ${server_id} = 'ctjqfcwp9ig6xnfdtxz3mgk7uy' OR regexp_substr(${version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${server_id} IN  ('ctjqfcwp9ig6xnfdtxz3mgk7uy','g6mwsqa5yibutnqfggp67fbs1w', '4k15shdyrfr39m9h675xy1pssw')
+            OR
+            (regexp_substr(${version}, '^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}$') IS NULL
+             AND
+            regexp_substr(regexp_substr(${version},'^[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}.{1}[0-9]{1,2}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL
+            AND NOT ${cloud_server})
+            THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: max_mau {
