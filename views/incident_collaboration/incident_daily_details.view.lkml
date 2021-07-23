@@ -418,6 +418,12 @@ view: incident_daily_details {
     hidden: no
   }
 
+  dimension: latest_records {
+    description: "Indicates the record displayed is the latest record for each version that instance and prevents fanning out of sums, averages, etc."
+    type: yesno
+    sql: ${logging_date}::date = ${last_version_date}::date ;;
+  }
+
   dimension_group: first_active {
     description: ""
     type: time
