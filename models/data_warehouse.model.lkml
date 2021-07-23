@@ -2276,6 +2276,13 @@ explore: server_daily_details_ext {
     sql_on: (${license_server_fact.server_id} = ${server_daily_details_ext.server_id}) and (${server_daily_details_ext.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
+  join: lead {
+    view_label: "Lead (Salesforce)"
+    sql_on:  ${license_server_fact.license_email} = ${lead.email} ;;
+    relationship: many_to_one
+    fields: [lead.email, lead.name, lead.convertedaccountid, lead.existing_account__c, lead.matched_account, lead.sfid, lead.job_function, lead.convertedcontactid, lead.lead_source, lead.lead_type, lead.lead_status_combined, lead.most_recent_action]
+  }
+
   join: trial_requests {
     view_label: "  Server Daily Details Ext"
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
