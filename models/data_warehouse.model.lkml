@@ -3191,7 +3191,7 @@ explore: incident_daily_details {
   join: license_server_fact {
     view_label: "Incident Daily Details"
     relationship: many_to_one
-    sql_on: (${license_server_fact.server_id} = ${incident_daily_details.server_id}) and (${incident_daily_details.logging_date}::date BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date);;
+    sql_on: (${license_server_fact.server_id} = ${incident_daily_details.server_id}) and (${incident_daily_details.last_active_date}::date BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date);;
     fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
   }
 
