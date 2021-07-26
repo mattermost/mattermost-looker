@@ -69,10 +69,10 @@ view: server_daily_details_ext {
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
-    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+    sql: CASE WHEN ${license_server_fact.edition_null} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
                       WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
-                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
                       ELSE COALESCE(${edition}, ${server_fact.server_edition})
                       END ;;
   }
@@ -6279,11 +6279,43 @@ view: server_daily_details_ext {
     sql: SUM(${teams}) ;;
   }
 
-  measure: teams_avg {
-    description: "The average Teams per grouping."
+  measure: max_users_per_teams_avg {
+    description: "The avg. of maximum users allowed per team associated with an instance per grouping."
     group_label: "Activity Diagnostics"
     type: average
     value_format_name: decimal_1
+    sql: ${max_users_per_team} ;;
+  }
+
+  measure: max_users_per_teams_median {
+    description: "The median maximum users allowed per team associated with an instance per grouping."
+    group_label: "Activity Diagnostics"
+    type: median
+    value_format_name: decimal_0
+    sql: ${max_users_per_team} ;;
+  }
+
+  measure: teams_avg {
+    description: "The average Teams per Instance per grouping."
+    group_label: "Activity Diagnostics"
+    type: average
+    value_format_name: decimal_1
+    sql: ${teams} ;;
+  }
+
+  measure: teams_median {
+    description: "The median Teams per Instance per grouping."
+    group_label: "Activity Diagnostics"
+    type: median
+    value_format_name: decimal_1
+    sql: ${teams} ;;
+  }
+
+  measure: teams_max {
+    description: "The maximum Teams associated with an instance per grouping."
+    group_label: "Activity Diagnostics"
+    type: max
+    value_format_name: decimal_0
     sql: ${teams} ;;
   }
 
