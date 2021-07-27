@@ -146,7 +146,7 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Status & Activity Filters"
     type: yesno
     sql: ${admin_events_alltime} >= 1 OR ${invite_members_alltime} >= 1 OR ${tutorial_events_alltime} >= 1 OR ${post_events_alltime} >= 1 OR ${signup_events_alltime} >= 1 OR ${signup_email_events_alltime} >= 1 OR ${plugins_downloaded} >= 1
-    OR ${days_active}::float/(${days_active} + ${days_inactive})::float >= .3;;
+    OR ${days_active}::float/NULLIF((${days_active} + ${days_inactive}), 0)::float >= .3;;
   }
 
   # Dimensions
