@@ -27,6 +27,14 @@ sql_table_name: mattermost.server_fact ;;
                       END ;;
   }
 
+  dimension: retention_28day_flag {
+    label: " 28-Day Retention"
+    group_label: " Telemetry Flags"
+    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 700 from the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
+  }
+
   dimension: license_id_filter {
     description: "The license ID1 & ID2 or condition filter for dashboard usage."
     sql: {% condition license_all %} ${license_id} {% endcondition %} OR  {% condition license_all %} ${license_id2} {% endcondition %};;
