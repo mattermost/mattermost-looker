@@ -130,7 +130,7 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Tutorial Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
-    sql: ${admin_events_alltime} >= 1 ;;
+    sql: ${tutorial_events_alltime} >= 1 ;;
   }
 
   dimension: has_invite_events {
@@ -138,7 +138,15 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Status & Activity Filters"
     description: "Server has had >= 1 Invite Member Events during its lifetime (user-based 'api_posts_create' event)."
     type: yesno
-    sql: ${admin_events_alltime} >= 1 ;;
+    sql: ${invite_members_alltime} >= 1 ;;
+  }
+
+  dimension: engaged {
+    description: "Boolean indicating the instance users have engaged with the server or workspace beyond just standing it up and/or creating it i.e. performed any events, downloaded plugins, etc."
+    group_label: " Status & Activity Filters"
+    type: yesno
+    sql: ${admin_events_alltime} >= 1 OR ${invite_members_alltime} >= 1 OR ${tutorial_events_alltime} >= 1 OR ${post_events_alltime} >= 1 OR ${signup_events_alltime} >= 1 OR ${signup_email_events_alltime} >= 1 OR ${plugins_downloaded} >= 1
+    OR ${days_active}::float/(${days_active} + ${days_inactive})::float >= .3;;
   }
 
   # Dimensions
