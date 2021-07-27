@@ -2162,7 +2162,7 @@ view: server_daily_details_ext {
     description: "The Mattermost edition currently associated with the Mattermost server."
     type: string
     group_label: "License Configuration"
-    sql: COALESCE(${license_server_fact.edition}, ${TABLE}.license_edition) ;;
+    sql: COALESCE(${license_server_fact.edition_null}, ${TABLE}.license_edition) ;;
     hidden: no
   }
 
