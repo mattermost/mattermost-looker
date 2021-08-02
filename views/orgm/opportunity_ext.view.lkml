@@ -265,4 +265,13 @@ view: opportunity_ext {
     sql: ${new_amount} + ${expansion_w_proration_amount} ;;
   }
 
+  dimension: net_new_arr {
+    group_label: "Line Item Totals"
+    label: "Net New Arr"
+    description: "The amount of net new arr from New Business or Expansion"
+    value_format_name: usd_0
+    type: number
+    sql: ${TABLE}."NET_NEW_ARR__C" ;;
+  }
+
 }
