@@ -1144,6 +1144,15 @@ sql_table_name: mattermost.server_fact ;;
     drill_fields: [drill_set1*]
   }
 
+  measure: active_instances_28day_672_700 {
+    label: "  28-Day Active Instances"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 672nd & 700th hour from the instances first active timestamp."
+    type: count_distinct
+    sql: CASE WHEN ${retention_28day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
   measure: server_w_active_users {
     label: " Servers w/ Active Users"
     group_label: " Instance Counts"
