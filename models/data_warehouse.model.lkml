@@ -3346,11 +3346,4 @@ explore: cloud_conversion_funnel {
   }
 }
 
-            
-explore: customer_conversion_onprem {
-  label: "Customer Conversion Onprem"
-  hidden: no
-  }
 
-
-    
