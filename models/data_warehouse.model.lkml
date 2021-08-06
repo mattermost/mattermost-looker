@@ -3345,3 +3345,12 @@ explore: cloud_conversion_funnel {
     type: left_outer
   }
 }
+
+            
+explore: customer_conversion_onprem {
+  label: "Customer Conversion Onprem"
+  hidden: no
+  }
+
+
+    
