@@ -512,6 +512,15 @@ explore: lead {
     relationship: many_to_one
     fields: []
   }
+
+  join: event {
+    sql_on: ${lead.sfid} = ${event.whoid};;
+    relationship: one_to_many
+  }
+}
+
+explore: event {
+  group_label: "Salesforce"
 }
 
 explore: lead_status_hist {
@@ -573,6 +582,10 @@ explore: lead_status_hist {
     sql_on: coalesce(${opportunity.accountid},${contact.accountid},${lead.convertedaccountid}) = ${account.sfid} ;;
     relationship: many_to_one
   }
+}
+
+explore: marketing_funnel {
+  group_label: "Marketing"
 }
 
 explore: campaign {
