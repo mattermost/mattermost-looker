@@ -139,6 +139,7 @@ view: marketing_funnel {
     label: "Marketing Spend"
     type: sum
     sql: ${marketing_spend} ;;
+    value_format_name: usd_0
   }
 
   measure: webtraffic_to_lead_ratio {
