@@ -2112,6 +2112,12 @@ explore: server_fact {
     relationship: one_to_one
   }
 
+  join: onprem_clearbit {
+    view_label: "Clearbit (Self-Managed Only)"
+    sql_on: ${server_fact.server_id} = ${onprem_clearbit.server_id} ;;
+    relationship: one_to_one
+  }
+
   join: server_daily_details_ext {
     view_label: "Enabled Plugins"
     sql_on: ${server_daily_details_ext.server_id} = ${license_server_fact.server_id} AND ${server_daily_details_ext.logging_date} = ${server_fact.last_mm2_telemetry_date} ;;
@@ -3358,3 +3364,44 @@ explore: cloud_conversion_funnel {
     type: left_outer
   }
 }
+
+explore: onprem_conversion_funnel {
+  from: dates
+  label: "Self-Managed Conversion Funnel"
+  group_label: " Product: Messaging"
+  view_label: "First Active Dates"
+  description: "Contains all self-managed instances and data for identifying paid conversion rate trends over time."
+  extends: [server_fact]
+  fields: [customer_conversion_onprem*, server_fact*, onprem_conversion_funnel*, excludable_servers.reason]
+
+  join: server_fact {
+    view_label: "Self-Managed: All Instances"
+    sql_on: ${onprem_conversion_funnel.date_date} = ${server_fact.customer_first_active_date} ;;
+    sql_where: NOT ${server_fact.cloud_server} ;;
+    relationship: one_to_many
+    type: inner
+  }
+
+  join: license_server_fact {
+    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
+    relationship: one_to_many
+    type: left_outer
+    fields: []
+  }
+
+  join: customer_conversion_onprem {
+    view_label: "Self-Managed Conversions"
+    sql_on: ${license_server_fact.account_sfid} = ${customer_conversion_onprem.accountid} ;;
+    relationship: one_to_many
+    type: left_outer
+  }
+  hidden: yes
+}
+
+
+
+
+explore: onprem_clearbit {
+  label: "Onprem Clearbit"
+  hidden: no
+  }
