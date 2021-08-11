@@ -275,8 +275,8 @@ view: opportunity_ext {
   }
 
   measure: total_net_new_arr {
-    type: count_distinct
-    sql: SUM(${net_new_arr}) ;;
+    type: sum
+    sql: ${net_new_arr} ;;
   }
 
   dimension: net_new_arr_with_override {
@@ -289,8 +289,8 @@ view: opportunity_ext {
   }
 
   measure: total_net_new_arr_with_override {
-    type: count_distinct
-    sql: SUM(${net_new_arr_with_override}) ;;
+    type: sum
+    sql: ${net_new_arr_with_override} ;;
   }
 
 }
