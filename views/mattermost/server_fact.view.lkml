@@ -19,12 +19,58 @@ sql_table_name: mattermost.server_fact ;;
     label: " Product Edition"
     description: "The Mattermost SKU associated with the server on the given logging date."
     type: string
-    sql: CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+    sql: CASE WHEN ${license_server_fact.edition_null} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
                       WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
-                      WHEN ${license_server_fact.customer_id} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
-                      WHEN ${license_server_fact.customer_id} is not null and NOT COALESCE(${license_server_fact.trial}, TRUE) THEN 'E10'
-                      ELSE COALESCE(${server_edition}, ${first_server_edition})
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
                       END ;;
+    order_by_field: product_edition_sort
+  }
+
+  dimension: product_edition_sort {
+    label: " Product Edition"
+    description: "The Mattermost SKU associated with the server on the given logging date."
+    type: number
+    hidden: yes
+    sql: CASE WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'E20' then 1
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'E10' then 2
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'E20 Trial' then 3
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'E0' then 4
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'Mattermost Cloud' then 5
+              WHEN CASE WHEN ${license_server_fact.edition} IS NOT NULL AND NOT ${license_server_fact.trial} THEN ${license_server_fact.edition}
+                      WHEN ${license_server_fact.edition} = 'Mattermost Cloud' THEN 'Mattermost Cloud'
+                      WHEN ${license_server_fact.edition} IS NOT NULL AND ${license_server_fact.trial} THEN 'E20 Trial'
+                      WHEN ${license_server_fact.customer_id} is not null and NOT ${license_server_fact.trial} THEN 'E10'
+                      ELSE ${server_edition}
+                      END = 'TE' then 6
+              ELSE 7 END
+                      ;;
   }
 
   dimension: retention_28day_flag {
@@ -297,6 +343,14 @@ sql_table_name: mattermost.server_fact ;;
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server ."
     type: string
     sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' WHEN ${TABLE}.first_server_edition = 'false' THEN 'TE' ELSE NULL END;;
+  }
+
+  dimension: starter_edition {
+    group_label: " Server Editions"
+    label: "Starter Edition"
+    description: "Boolean indicating this server was on the Mattermost Starter edition at some point during it's lifetime (use for starter to trial conversion calculations)."
+    type: yesno
+    sql: CASE WHEN (${first_server_edition} = 'E0' OR ${server_edition} = 'E0') THEN TRUE ELSE FALSE END ;;
   }
 
   dimension: server_edition {

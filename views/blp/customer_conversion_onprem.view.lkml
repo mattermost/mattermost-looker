@@ -7,7 +7,9 @@ view_label: "Customer Conversion Onprem"
 
 
 ### SETS
-
+set: onprem_conversion_drill {
+  fields: [accountid, account_name, sku, paid_conversion_date,free_to_paid, trial_date, trial_to_paid_conversion, churned, servers]
+}
 
 
 ### DIMENSIONS
@@ -308,6 +310,7 @@ view_label: "Customer Conversion Onprem"
     description: "The distinct count of servers/workspaces with Free To Paid marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${free_to_paid} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
@@ -318,6 +321,7 @@ view_label: "Customer Conversion Onprem"
     description: "The distinct count of servers/workspaces with Churned marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${churned} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
@@ -364,6 +368,7 @@ view_label: "Customer Conversion Onprem"
     description: "The distinct count of servers/workspaces with Trial To Paid Conversion marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${trial_to_paid_conversion} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
