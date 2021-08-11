@@ -345,6 +345,14 @@ sql_table_name: mattermost.server_fact ;;
     sql: CASE WHEN ${TABLE}.first_server_edition = 'true' THEN 'E0' WHEN ${TABLE}.first_server_edition = 'false' THEN 'TE' ELSE NULL END;;
   }
 
+  dimension: starter_edition {
+    group_label: " Server Editions"
+    label: "Starter Edition"
+    description: "Boolean indicating this server was on the Mattermost Starter edition at some point during it's lifetime (use for starter to trial conversion calculations)."
+    type: yesno
+    sql: CASE WHEN (${first_server_edition} = 'E0' OR ${server_edition} = 'E0') THEN TRUE ELSE FALSE END ;;
+  }
+
   dimension: server_edition {
     group_label: " Server Editions"
     label: " Server Edition (Current)"

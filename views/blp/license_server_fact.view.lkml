@@ -85,7 +85,8 @@ view: license_server_fact {
     label: "Edition"
     description: ""
     type: string
-    sql: IFF(${TABLE}.edition = 'E20' AND DATEDIFF('DAY', ${start_date}::DATE, ${expire_date}::DATE) <= 45, 'E20 Trial', COALESCE(${TABLE}.edition, 'E20 Trial')) ;;
+    sql:  ${TABLE}.edition ;;
+    # --IFF(NOT ${TABLE}.trial and ${TABLE}.edition IS NULL AND ${TABLE}.opportunity_sfid IS NOT NULL AND ${TABLE}.account_sfid IS NOT NULL, 'E20', COALESCE(${TABLE}.edition, 'E20 Trial')) ;;
     hidden: no
   }
 
@@ -122,8 +123,7 @@ view: license_server_fact {
   dimension: trial {
     description: "Indicates the license is marked a trial or is <= 90 days from start to expire."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial and ${edition} not in ('Mattermost Cloud') THEN TRUE
-              WHEN COALESCE(lower(${edition}), 'None') = 'mattermost cloud' then FALSE ELSE FALSE END ;;
+    sql: CASE WHEN ${edition} = 'E20 Trial' THEN TRUE ELSE FALSE END;;
     hidden: no
   }
 
@@ -727,6 +727,16 @@ view: license_server_fact {
                 WHEN ${edition} IS NULL THEN 0
                 ELSE 0 END) = 0 THEN NULL
             ELSE NULL END;;
+  }
+
+  measure: starter_enterprise_trial_conversions {
+    label: "Starter to Enterprise Trial Conversion"
+    type: number
+    description: "The distinct count of servers that began as Starter Edition servers and converted to an Enterprise Trial after the servers initial first active date."
+    sql: COUNT(DISTINCT case when ${TABLE}.edition = 'E20 Trial' and ${issued_date}::date > ${server_fact.first_active_date}::date
+          AND (${server_fact.server_edition} = 'E0' OR ${server_fact.first_server_edition} = 'E0')
+          THEN ${server_id} ELSE NULL END);;
+    drill_fields: [licensed_server_drill*]
   }
 
 }
