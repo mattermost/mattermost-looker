@@ -274,4 +274,23 @@ view: opportunity_ext {
     sql: ${TABLE}."NET_NEW_ARR__C" ;;
   }
 
+  measure: total_net_new_arr {
+    type: sum
+    sql: ${net_new_arr} ;;
+  }
+
+  dimension: net_new_arr_with_override {
+    group_label: "Line Item Totals"
+    label: "Net New Arr with Override"
+    description: "The amount of net new arr from New Business or Expansion, including any user override"
+    value_format_name: usd_0
+    type: number
+    sql: ${TABLE}."TOTAL_NET_NEW_ARR_WITH_OVERRIDE__C" ;;
+  }
+
+  measure: total_net_new_arr_with_override {
+    type: sum
+    sql: ${net_new_arr_with_override} ;;
+  }
+
 }
