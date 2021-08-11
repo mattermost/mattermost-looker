@@ -3,6 +3,7 @@ view: opportunity_ext {
 
   dimension: opportunityid {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}."OPPORTUNITY_SFID" ;;
   }
