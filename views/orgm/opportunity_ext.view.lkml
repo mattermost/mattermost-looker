@@ -286,7 +286,7 @@ view: opportunity_ext {
     description: "The amount of net new arr from New Business or Expansion, including any user override"
     value_format_name: usd_0
     type: number
-    sql: ${TABLE}."NET_NEW_ARR_WITH_OVERRIDE" ;;
+    sql: ${TABLE}."NET_NEW_ARR_WITH_OVERRIDE__C" ;;
   }
 
   measure: total_net_new_arr_with_override {
