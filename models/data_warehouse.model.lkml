@@ -3010,28 +3010,28 @@ explore: license_server_fact {
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: "User Events Telemtry (IC)"
-  label: "User Events Telemtry (IC)"
+  view_label: " Incident Collababoration: User Events"
+  label: " Incident Collababoration: User Events"
   group_label: " Product: Incident Collaboration"
   extends: [license_server_fact]
 
   join: server_daily_details {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+    fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.edition]
   }
 
   join: server_fact {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${excludable_servers.server_id}) ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -3395,7 +3395,7 @@ explore: onprem_conversion_funnel {
     relationship: one_to_many
     type: left_outer
   }
-  hidden: yes
+  hidden: no
 }
 
 
