@@ -60,6 +60,12 @@ view: incident_response_events {
     hidden: yes
   }
 
+  dimension: attribute_source {
+    description: "The source of the attribute or property being reported on (i.e. Tasks, Incidents, Playbooks, Frontend, Notify Admins, &/or Start Trial). Can be used to identify/filter data sources of interest."
+    type: string
+    sql: INITCAP(lower(replace(split_part(${_dbt_source_relation}, '.', 3), '_', ' '))) ;;
+  }
+
   dimension: properties {
     sql: OBJECT_CONSTRUCT(*) ;;
     html:
@@ -78,9 +84,10 @@ view: incident_response_events {
   }
 
   dimension: commanderuserid {
+    label: "Commander User ID"
     description: ""
     type: string
-    sql: COALESCE(${TABLE}.commanderuserid, ${TABLE}.commanderuserid) ;;
+    sql: COALESCE(${TABLE}.commanderuserid,, ${commander_user_id}) ;;
     hidden: yes
   }
 
@@ -104,7 +111,7 @@ view: incident_response_events {
     label: "Current Status"
     description: ""
     type: string
-    sql: ${TABLE}.currentstatus ;;
+    sql: COALESCE(${TABLE}.currentstatus, ${current_status}) ;;
     hidden: no
   }
 
@@ -113,7 +120,7 @@ view: incident_response_events {
     label: "Reminder Timer (Seconds)"
     description: ""
     type: number
-    sql: ${TABLE}.remindertimerseconds ;;
+    sql: COALESCE(${TABLE}.remindertimerseconds, ${reminder_timer_seconds}) ;;
     hidden: no
   }
 
@@ -122,7 +129,7 @@ view: incident_response_events {
     label: "Reminder Timer Default (Seconds)"
     description: ""
     type: number
-    sql: ${TABLE}.remindertimedefaultseconds ;;
+    sql: COALESCE(${TABLE}.remindertimedefaultseconds, ${reminder_timer_default_seconds}, ${remindertimerdefaultseconds}) ;;
     hidden: no
   }
 
@@ -140,7 +147,7 @@ view: incident_response_events {
     label: "Use Reminder Message Template"
     description: ""
     type: yesno
-    sql: ${TABLE}.useremindermessagetemplate ;;
+    sql: COALESCE(${TABLE}.useremindermessagetemplate, ${usesremindermessagetemplate}, ${uses_reminder_message_template}) ;;
     hidden: no
   }
 
@@ -277,22 +284,24 @@ view: incident_response_events {
     description: ""
     type: yesno
     sql: ${TABLE}.public ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: serverversion {
-    label: "Server Version"
-    description: ""
+    group_label: " Server Versions"
+    label: "  Server Version"
+    description: "The Server Version of the instance that is stamped on the Incident Collaboration event as it occurs (as a telemetry property)."
     type: string
-    sql: COALESCE(${TABLE}.serverversion, ${TABLE}.server_version) ;;
+    sql: COALESCE(${TABLE}.serverversion, ${TABLE}.server_version, ${server_daily_details.version}) ;;
     hidden: no
   }
 
   dimension: serverversion_major {
-    label: "Server Version (Major)"
+    group_label: " Server Versions"
+    label: "  Server Version (Major)"
     description: ""
     type: string
-    sql: SPLIT_PART(${TABLE}.serverversion, '.', 1) || '.' || SPLIT_PART(${TABLE}.serverversion, '.', 2) ;;
+    sql: SPLIT_PART(${serverversion}, '.', 1) || '.' || SPLIT_PART(${serverversion}, '.', 2) ;;
     hidden: no
 }
 
@@ -300,7 +309,7 @@ view: incident_response_events {
     group_label: "Playbook Dimensions"
     description: ""
     type: number
-    sql: ${TABLE}.numslashcommands ;;
+    sql: COALESCE(${TABLE}.numslashcommands, ${num_slash_commands}) ;;
     hidden: no
   }
 
@@ -308,8 +317,8 @@ view: incident_response_events {
     group_label: "Playbook Dimensions"
     description: ""
     type: yesno
-    sql: ${TABLE}.ispublic ;;
-    hidden: no
+    sql:${TABLE}.ispublic ;;
+    hidden: yes
   }
 
   dimension: nummembers {
@@ -317,7 +326,7 @@ view: incident_response_events {
     label: "# of Members"
     description: ""
     type: number
-    sql: ${TABLE}.nummembers ;;
+    sql: COALESCE(${TABLE}.nummembers, ${num_members}) ;;
     hidden: no
   }
 
@@ -328,6 +337,30 @@ view: incident_response_events {
     type: string
     sql: COALESCE(${TABLE}.playbookid, ${TABLE}.playbook_id) ;;
     hidden: no
+  }
+
+  dimension: usesremindermessagetemplate {
+    label: "Usesremindermessagetemplate"
+    description: "Indicates Usesremindermessagetemplate is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.usesremindermessagetemplate ;;
+    hidden: yes
+  }
+
+  dimension: reminder_timer_seconds {
+    label: "Reminder Timer Seconds"
+    description: "The Reminder Timer Seconds of the instance."
+    type: string
+    sql: ${TABLE}.reminder_timer_seconds ;;
+    hidden: yes
+  }
+
+  dimension: remindertimerdefaultseconds {
+    label: "Remindertimerdefaultseconds"
+    description: "The Remindertimerdefaultseconds of the instance."
+    type: string
+    sql: ${TABLE}.remindertimerdefaultseconds ;;
+    hidden: yes
   }
 
   dimension: wascommander {
@@ -351,6 +384,73 @@ view: incident_response_events {
     type: yesno
     sql: ${TABLE}.wasassignee ;;
     hidden: yes
+  }
+
+  dimension: new_state {
+    label: "New State"
+    description: "The New State of the instance."
+    type: string
+    sql: ${TABLE}.new_state ;;
+  }
+
+
+  dimension: was_commander {
+    label: "Was Commander"
+    description: "Indicates Was Commander is marked true/enabled."
+    type: yesno
+    sql: COALESCE(${TABLE}.was_commander, ${wascommander}) ;;
+  }
+
+
+
+  dimension: was_assignee {
+    label: "Was Assignee"
+    description: "Indicates Was Assignee is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.was_assignee ;;
+  }
+
+
+
+  dimension: command_last_run {
+    label: "Command Last Run"
+    description: "The Command Last Run of the instance."
+    type: string
+    sql: ${TABLE}.command_last_run ;;
+  }
+
+
+
+  dimension: assignee_id {
+    label: "Assignee Id"
+    description: "The Assignee Id of the instance."
+    type: string
+    sql: ${TABLE}.assignee_id ;;
+  }
+
+
+  dimension: has_command {
+    label: "Has Command"
+    description: "Indicates Has Command is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.has_command ;;
+  }
+
+
+
+  dimension: task_id {
+    label: "Task Id"
+    description: "The Task Id of the instance."
+    type: string
+    sql: ${TABLE}.task_id ;;
+  }
+
+
+  dimension: state {
+    label: "State"
+    description: "The State of the instance."
+    type: string
+    sql: ${TABLE}.state ;;
   }
 
 
@@ -381,7 +481,7 @@ view: incident_response_events {
 
   dimension_group: timestamp {
     label: " Logging"
-    description: ""
+    description: "The date/time the incident collaboration event occurred on."
     type: time
     timeframes: [time, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.timestamp ;;
@@ -397,11 +497,364 @@ view: incident_response_events {
   }
 
 
+  dimension: context_request_ip {
+    label: "Context Request Ip"
+    description: "The Context Request Ip of the instance."
+    type: string
+    sql: ${TABLE}.context_request_ip ;;
+  }
+
+
+  dimension: incident_id {
+    label: "Incident Id"
+    description: "The Incident Id of the instance."
+    type: string
+    sql: ${TABLE}.incident_id ;;
+    hidden: yes
+  }
+
+
+  dimension_group: create_at {
+    label: "Create At"
+    description: "The Create At date/time of the playbook/incident."
+    timeframes: [date, week, month, year, time]
+    type: time
+    sql: coalesce(TO_TIMESTAMP(${TABLE}.create_at/1000)::TIMESTAMP, TO_TIMESTAMP(${createat}/1000)::TIMESTAMP) ;;
+  }
+
+
+
+  dimension: commander_user_id {
+    label: "Commander User Id"
+    description: "The Commander User Id of the instance."
+    type: string
+    sql: ${TABLE}.commander_user_id ;;
+    hidden: yes
+  }
+
+
+  dimension: user_actual_id {
+    label: "User Actual Id"
+    description: "The User Actual Id of the instance."
+    type: string
+    sql: ${TABLE}.user_actual_id ;;
+    hidden: yes
+  }
+
+
+  dimension: total_checklist_items {
+    label: "Total Checklist Items"
+    description: "The Total Checklist Items of the instance."
+    type: string
+    sql: ${TABLE}.total_checklist_items ;;
+    hidden: yes
+  }
+
+
+
+  dimension: current_status {
+    label: "Current Status"
+    description: "The Current Status of the instance."
+    type: string
+    sql: ${TABLE}.current_status ;;
+    hidden: yes
+  }
+
+
+  dimension: server_version {
+    group_label: " Server Version"
+    label: " IC Server Version"
+    description: "The Server Version of the instance that is stamped on the Incident Collaboration event as it occurs (as a telemetry property)."
+    type: string
+    sql: ${TABLE}.server_version ;;
+    hidden: yes
+  }
+
+
+  dimension: plugin_version {
+    label: "Plugin Version"
+    description: "The Plugin Version of the instance."
+    type: string
+    sql: ${TABLE}.plugin_version ;;
+    hidden: yes
+  }
+
+
+  dimension: team_id {
+    label: "Team Id"
+    description: "The Team Id of the instance."
+    type: string
+    sql: ${TABLE}.team_id ;;
+    hidden: yes
+  }
+
+
+  dimension: num_checklists {
+    label: "Num Checklists"
+    description: "The Num Checklists of the instance."
+    type: number
+    sql: ${TABLE}.num_checklists ;;
+    hidden: yes
+  }
+
+
+
+  dimension: post_id {
+    label: "Post Id"
+    description: "The Post Id of the instance."
+    type: string
+    sql: ${TABLE}.post_id ;;
+  }
+
+
+  dimension: previous_reminder {
+    label: "Previous Reminder"
+    description: "The Previous Reminder of the instance."
+    type: string
+    sql: ${TABLE}.previous_reminder ;;
+  }
+
+
+
+  dimension: reporter_user_id {
+    label: "Reporter User Id"
+    description: "The Reporter User Id of the instance."
+    type: string
+    sql: ${TABLE}.reporter_user_id ;;
+  }
+
+
+  dimension: num_timeline_events {
+    label: "Num Timeline Events"
+    description: "The Num Timeline Events of the instance."
+    type: number
+    sql: ${TABLE}.num_timeline_events ;;
+  }
+
+
+
+  dimension_group: end_at {
+    label: "End At"
+    description: "The End At date/time of the incident."
+    timeframes: [date, week, month, year, time]
+    type: time
+    sql: TO_TIMESTAMP(${TABLE}.end_at/1000)::DATE ;;
+  }
+
+
+
+  dimension: num_status_posts {
+    label: "Num Status Posts"
+    description: "The Num Status Posts of the instance."
+    type: string
+    sql: ${TABLE}.num_status_posts ;;
+  }
+
+
+
+  dimension_group: delete_at {
+    label: "Delete At"
+    description: "The Deleted At date/time of the incident or playbook."
+    timeframes: [date, week, month, year, time]
+    type: time
+    sql: TO_TIMESTAMP(${TABLE}.delete_at/1000)::DATE ;;
+  }
+
+
+
+  dimension: channel_id {
+    label: "Channel Id"
+    description: "The Channel Id of the instance."
+    type: string
+    sql: ${TABLE}.channel_id ;;
+  }
+
+
+  dimension: has_description {
+    label: "Has Description"
+    description: "Indicates Has Description is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.has_description ;;
+  }
+
+
+
+  dimension: is_public {
+    group_label: "Playbook Dimensions"
+    label: "Is Public"
+    description: "Indicates Is Public is marked true/enabled."
+    type: yesno
+    sql: coalesce(${TABLE}.is_public, ${ispublic}, ${public}) ;;
+  }
+
+
+
+  dimension: webhook_on_creation_enabled {
+    label: "Webhook On Creation Enabled"
+    description: "Indicates Webhook On Creation Enabled is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.webhook_on_creation_enabled ;;
+  }
+
+
+
+  dimension: default_commander_enabled {
+    label: "Default Commander Enabled"
+    description: "Indicates Default Commander Enabled is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.default_commander_enabled ;;
+  }
+
+
+
+  dimension: num_invited_group_i_ds {
+    label: "Num Invited Group IDs"
+    description: "The Num Invited Group IDs of the instance."
+    type: number
+    sql: ${TABLE}.num_invited_group_i_ds ;;
+  }
+
+
+
+  dimension: num_members {
+    label: "Num Members"
+    description: "The Num Members of the instance."
+    type: number
+    sql: ${TABLE}.num_members ;;
+    hidden: yes
+  }
+
+
+
+  dimension: broadcast_channel_id {
+    label: "Broadcast Channel Id"
+    description: "The Broadcast Channel Id of the instance."
+    type: string
+    sql: ${TABLE}.broadcast_channel_id ;;
+  }
+
+
+  dimension: num_signal_any_keywords {
+    label: "Num Signal Any Keywords"
+    description: "The Num Signal Any Keywords of the instance."
+    type: number
+    sql: ${TABLE}.num_signal_any_keywords ;;
+  }
+
+
+
+  dimension: signal_any_keywords_enabled {
+    label: "Signal Any Keywords Enabled"
+    description: "Indicates Signal Any Keywords Enabled is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.signal_any_keywords_enabled ;;
+  }
+
+
+
+  dimension: num_webhook_on_creation_ur_ls {
+    label: "Num Webhook On Creation URL's"
+    description: "The Num Webhook On Creation URL's of the instance."
+    type: number
+    sql: ${TABLE}.num_webhook_on_creation_ur_ls ;;
+  }
+
+
+
+  dimension: reminder_timer_default_seconds {
+    label: "Reminder Timer Default Seconds"
+    description: "The Reminder Timer Default Seconds of the instance."
+    type: number
+    sql: ${TABLE}.reminder_timer_default_seconds ;;
+    hidden: yes
+  }
+
+
+
+  dimension: num_invited_user_i_ds {
+    label: "Num Invited User IDs"
+    description: "The Num Invited User IDs of the instance."
+    type: number
+    sql: ${TABLE}.num_invited_user_i_ds ;;
+  }
+
+
+
+  dimension: announcement_channel_enabled {
+    label: "Announcement Channel Enabled"
+    description: "Indicates Announcement Channel Enabled is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.announcement_channel_enabled ;;
+  }
+
+
+
+  dimension: num_slash_commands {
+    label: "Num Slash Commands"
+    description: "The Num Slash Commands of the instance."
+    type: number
+    sql: ${TABLE}.num_slash_commands ;;
+    hidden: yes
+  }
+
+
+
+  dimension: invite_users_enabled {
+    label: "Invite Users Enabled"
+    description: "Indicates Invite Users Enabled is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.invite_users_enabled ;;
+  }
+
+
+
+  dimension: uses_reminder_message_template {
+    label: "Uses Reminder Message Template"
+    description: "Indicates Uses Reminder Message Template is marked true/enabled."
+    type: yesno
+    sql: ${TABLE}.uses_reminder_message_template ;;
+    hidden: yes
+  }
+
+
+
+  dimension: announcement_channel_id {
+    label: "Announcement Channel Id"
+    description: "The Announcement Channel Id of the instance."
+    type: string
+    sql: ${TABLE}.announcement_channel_id ;;
+  }
+
+
+  dimension: default_commander_id {
+    label: "Default Commander Id"
+    description: "The Default Commander Id of the instance."
+    type: string
+    sql: ${TABLE}.default_commander_id ;;
+  }
+
+
+  dimension: template_name {
+    label: "Template Name"
+    description: "The Template Name of the instance."
+    type: string
+    sql: ${TABLE}.template_name ;;
+  }
+
+
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
     type: count
     drill_fields: [incidents_drill*]
+  }
+
+  measure: announcement_channel_id_count {
+    group_label: "Announcement_Channel Counts"
+    label: "Announcement Channel Id"
+    description: "The distinct count of announcement channel id's within the grouping."
+    type: count_distinct
+    sql: ${announcement_channel_id} ;;
   }
 
   measure: anonymous_count {
@@ -411,6 +864,14 @@ view: incident_response_events {
     sql: ${anonymous_id} ;;
     drill_fields: [incidents_drill*]
     hidden: yes
+  }
+
+  measure: invite_users_enabled_count {
+    group_label: "Instance Counts"
+    label: "Invite Users Enabled"
+    description: "The distinct count of servers/workspaces with Invite Users Enabled marked true/enabled."
+    type: count_distinct
+    sql: CASE WHEN ${invite_users_enabled} THEN ${user_id} ELSE NULL END;;
   }
 
   measure: playbook_count {
@@ -449,6 +910,22 @@ view: incident_response_events {
     type: sum
     sql: ${nummembers} ;;
     drill_fields: [incidents_drill*]
+  }
+
+  measure: num_members_avg {
+    group_label: "Num Members Measures"
+    label: "Num Members (Avg)"
+    description: "The average Num Members per instance across all instances within the grouping."
+    type: average
+    sql: ${num_members} ;;
+  }
+
+  measure: num_members_median {
+    group_label: "Num Members Measures"
+    label: "Num Members (Median)"
+    description: "The median Num Members per instance across all instances within the grouping."
+    type: median
+    sql: ${num_members} ;;
   }
 
   measure: incidentid_count {
@@ -605,6 +1082,7 @@ view: incident_response_events {
   }
 
   measure: totalchecklistitems_sum {
+    group_label: "Checklist Item Measures"
     label: "Checklist Items Sum"
     description: "The sum of Totalchecklistitems per grouped dimension(s)."
     type: sum
@@ -613,9 +1091,28 @@ view: incident_response_events {
   }
 
   measure: checklists_sum {
-    label: "Checklists Sum"
-    description: "The sum of Playbook Totalchecklistitems per grouped dimension(s)."
+    group_label: "Checklist Measures"
+    label: "Checklists (Sum)"
+    description: "The sum of Playbook checklists per grouped dimension(s)."
     type: sum
+    sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: checklists_avg {
+    group_label: "Checklist Measures"
+    label: "Checklists (Avg)"
+    description: "The average Playbook checklists per grouped dimension(s)."
+    type: average
+    sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: checklists_median {
+    group_label: "Checklist Measures"
+    label: "Checklists (Avg)"
+    description: "The median Playbook checklists per grouped dimension(s)."
+    type: median
     sql: ${numchecklists} ;;
     drill_fields: [incidents_drill*]
   }
@@ -692,5 +1189,305 @@ view: incident_response_events {
     drill_fields: [incidents_drill*]
   }
 
+  measure: num_signal_any_keywords_sum {
+    group_label: "Num Signal Any Keywords Measures"
+    label: "Num Signal Any Keywords (Sum)"
+    description: "The sum of Num Signal Any Keywords across all instances within the grouping."
+    type: sum
+    sql: ${num_signal_any_keywords} ;;
+  }
+
+  measure: num_signal_any_keywords_avg {
+    group_label: "Num Signal Any Keywords Measures"
+    label: "Num Signal Any Keywords (Avg)"
+    description: "The average Num Signal Any Keywords across all instances within the grouping."
+    type: average
+    sql: ${num_signal_any_keywords} ;;
+  }
+
+  measure: num_signal_any_keywords_median {
+    group_label: "Num Signal Any Keywords Measures"
+    label: "Num Signal Any Keywords (Median)"
+    description: "The median Num Signal Any Keywords across all instances within the grouping."
+    type: median
+    sql: ${num_signal_any_keywords} ;;
+  }
+
+
+
+  measure: signal_any_keywords_enabled_count {
+    group_label: "Instance Counts"
+    label: "Signal Any Keywords Enabled"
+    description: "The distinct count of servers/workspaces with Signal Any Keywords Enabled marked true/enabled."
+    type: count_distinct
+    sql: CASE WHEN ${signal_any_keywords_enabled} THEN ${user_id} ELSE NULL END;;
+  }
+
+  measure: webhook_on_creation_enabled_count {
+    group_label: "Instance Counts"
+    label: "Webhook On Creation Enabled"
+    description: "The distinct count of servers/workspaces with Webhook On Creation Enabled marked true/enabled."
+    type: count_distinct
+    sql: CASE WHEN ${webhook_on_creation_enabled} THEN ${user_id} ELSE NULL END;;
+  }
+
+
+
+  measure: num_webhook_on_creation_ur_ls_sum {
+    group_label: "Num Webhook On Creation URL's Measures"
+    label: "Num Webhook On Creation URL's (Sum)"
+    description: "The sum of Num Webhook On Creation URL's across all instances within the grouping."
+    type: sum
+    sql: ${num_webhook_on_creation_ur_ls} ;;
+  }
+
+  measure: num_webhook_on_creation_ur_ls_avg {
+    group_label: "Num Webhook On Creation URL's Measures"
+    label: "Num Webhook On Creation URL's (Avg)"
+    description: "The average Num Webhook On Creation URL's across all instances within the grouping."
+    type: average
+    sql: ${num_webhook_on_creation_ur_ls} ;;
+  }
+
+  measure: num_webhook_on_creation_ur_ls_median {
+    group_label: "Num Webhook On Creation URL's Measures"
+    label: "Num Webhook On Creation URL's (Median)"
+    description: "The median Num Webhook On Creation URL's across all instances within the grouping."
+    type: median
+    sql: ${num_webhook_on_creation_ur_ls} ;;
+  }
+
+
+
+  measure: reminder_timer_default_seconds_sum {
+    group_label: "Reminder Timer Default Seconds Measures"
+    label: "Reminder Timer Default Seconds (Sum)"
+    description: "The sum of Reminder Timer Default Seconds across all instances within the grouping."
+    type: sum
+    sql: ${reminder_timer_default_seconds} ;;
+  }
+
+  measure: reminder_timer_default_seconds_avg {
+    group_label: "Reminder Timer Default Seconds Measures"
+    label: "Reminder Timer Default Seconds (Avg)"
+    description: "The average Reminder Timer Default Seconds across all instances within the grouping."
+    type: average
+    sql: ${reminder_timer_default_seconds} ;;
+  }
+
+  measure: reminder_timer_default_seconds_median {
+    group_label: "Reminder Timer Default Seconds Measures"
+    label: "Reminder Timer Default Seconds (Median)"
+    description: "The median Reminder Timer Default Seconds across all instances within the grouping."
+    type: median
+    sql: ${reminder_timer_default_seconds} ;;
+  }
+
+  measure: num_invited_group_i_ds_sum {
+    group_label: "Num Invited Group ID's Measures"
+    label: "Num Invited Group ID's (Sum)"
+    description: "The sum of Num Invited Group ID's across all instances within the grouping."
+    type: sum
+    sql: ${num_invited_group_i_ds} ;;
+  }
+
+  measure: num_invited_group_i_ds_avg {
+    group_label: "Num Invited Group ID's Measures"
+    label: "Num Invited Group ID's (Avg)"
+    description: "The average Num Invited Group ID's across all instances within the grouping."
+    type: average
+    sql: ${num_invited_group_i_ds} ;;
+  }
+
+  measure: num_invited_group_i_ds_median {
+    group_label: "Num Invited Group ID's Measures"
+    label: "Num Invited Group ID's (Median)"
+    description: "The median Num Invited Group ID's across all instances within the grouping."
+    type: median
+    sql: ${num_invited_group_i_ds} ;;
+  }
+
+  measure: num_invited_user_i_ds_sum {
+    group_label: "Num Invited User ID's Measures"
+    label: "Num Invited User ID's (Sum)"
+    description: "The sum of Num Invited User ID's across all instances within the grouping."
+    type: sum
+    sql: ${num_invited_user_i_ds} ;;
+  }
+
+  measure: num_invited_user_i_ds_avg {
+    group_label: "Num Invited User ID's Measures"
+    label: "Num Invited User ID's (Avg)"
+    description: "The average Num Invited User ID's across all instances within the grouping."
+    type: average
+    sql: ${num_invited_user_i_ds} ;;
+  }
+
+  measure: num_invited_user_i_ds_median {
+    group_label: "Num Invited User ID's Measures"
+    label: "Num Invited User ID's (Median)"
+    description: "The median Num Invited User ID's across all instances within the grouping."
+    type: median
+    sql: ${num_invited_user_i_ds} ;;
+  }
+
+
+  measure: num_status_posts_sum {
+    group_label: "Num Status Posts Measures"
+    label: "Num Status Posts (Sum)"
+    description: "The sum of Num Status Posts across all instances within the grouping."
+    type: sum
+    sql: ${num_status_posts} ;;
+  }
+
+  measure: num_status_posts_avg {
+    group_label: "Num Status Posts Measures"
+    label: "Num Status Posts (Avg)"
+    description: "The average Num Status Posts across all instances within the grouping."
+    type: average
+    sql: ${num_status_posts} ;;
+  }
+
+  measure: num_status_posts_median {
+    group_label: "Num Status Posts Measures"
+    label: "Num Status Posts (Median)"
+    description: "The median Num Status Posts across all instances within the grouping."
+    type: median
+    sql: ${num_status_posts} ;;
+  }
+
+
+
+  measure: channel_id_count {
+    group_label: "Channel Counts"
+    label: "Channel Id"
+    description: "The distinct count of channel id's within the grouping."
+    type: count_distinct
+    sql: ${channel_id} ;;
+  }
+
+
+
+  measure: has_description_count {
+    group_label: "Instance Counts"
+    label: "Has Description"
+    description: "The distinct count of servers/workspaces with Has Description marked true/enabled."
+    type: count_distinct
+    sql: CASE WHEN ${has_description} THEN ${user_id} ELSE NULL END;;
+  }
+
+
+
+  measure: is_public_count {
+    group_label: "Instance Counts"
+    label: "Is Public"
+    description: "The distinct count of servers/workspaces with Is Public marked true/enabled."
+    type: count_distinct
+    sql: CASE WHEN ${is_public} THEN ${user_id} ELSE NULL END;;
+  }
+
+  measure: post_id_count {
+    group_label: "Post Counts"
+    label: "Posts Count"
+    description: "The distinct count of post id's within the grouping."
+    type: count_distinct
+    sql: ${post_id} ;;
+  }
+
+
+
+  measure: previous_reminder_sum {
+    group_label: "Previous Reminder Measures"
+    label: "Previous Reminder (Sum)"
+    description: "The sum of Previous Reminder across all instances within the grouping."
+    type: sum
+    sql: ${previous_reminder} ;;
+  }
+
+  measure: previous_reminder_avg {
+    group_label: "Previous Reminder Measures"
+    label: "Previous Reminder (Avg)"
+    description: "The average Previous Reminder across all instances within the grouping."
+    type: average
+    sql: ${previous_reminder} ;;
+  }
+
+  measure: previous_reminder_median {
+    group_label: "Previous Reminder Measures"
+    label: "Previous Reminder (Median)"
+    description: "The median Previous Reminder across all instances within the grouping."
+    type: median
+    sql: ${previous_reminder} ;;
+  }
+
+
+
+  measure: reporter_user_id_count {
+    group_label: "User Counts"
+    label: "Reporter Users"
+    description: "The distinct count of reporter user id's within the grouping."
+    type: count_distinct
+    sql: ${reporter_user_id} ;;
+  }
+
+
+
+  measure: num_timeline_events_sum {
+    group_label: "Num Timeline Events Measures"
+    label: "Num Timeline Events (Sum)"
+    description: "The sum of Num Timeline Events across all instances within the grouping."
+    type: sum
+    sql: ${num_timeline_events} ;;
+  }
+
+  measure: num_timeline_events_avg {
+    group_label: "Num Timeline Events Measures"
+    label: "Num Timeline Events (Avg)"
+    description: "The average Num Timeline Events across all instances within the grouping."
+    type: average
+    sql: ${num_timeline_events} ;;
+  }
+
+  measure: num_timeline_events_median {
+    group_label: "Num Timeline Events Measures"
+    label: "Num Timeline Events (Median)"
+    description: "The median Num Timeline Events across all instances within the grouping."
+    type: median
+    sql: ${num_timeline_events} ;;
+  }
+
+  measure: team_id_count {
+    group_label: "Team Counts"
+    label: "Teams"
+    description: "The distinct count of team id's within the grouping."
+    type: count_distinct
+    sql: ${team_id} ;;
+  }
+
+  measure: totalchecklistitems_avg {
+    group_label: "Checklist Item Measures"
+    label: "Total Checklist Items (Avg)"
+    description: "The average Totalchecklistitems across all instances within the grouping."
+    type: average
+    sql: ${totalchecklistitems} ;;
+  }
+
+  measure: totalchecklistitems_median {
+    group_label: "Checklist Item Measures"
+    label: "Total Checklist Items (Median)"
+    description: "The median Totalchecklistitems across all instances within the grouping."
+    type: median
+    sql: ${totalchecklistitems} ;;
+  }
+
+
+
+  measure: commanderuserid_count {
+    group_label: "Commanderuserid"
+    label: "Commanderuserid"
+    description: "The distinct count of commanderuserid's within the grouping."
+    type: count_distinct
+    sql: ${commanderuserid} ;;
+  }
 
 }
