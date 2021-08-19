@@ -3405,3 +3405,12 @@ explore: onprem_clearbit {
   label: "Onprem Clearbit"
   hidden: no
   }
+
+            
+explore: user_28day_retention {
+  label: "User 28Day Retention"
+  hidden: no
+  }
+
+
+    
