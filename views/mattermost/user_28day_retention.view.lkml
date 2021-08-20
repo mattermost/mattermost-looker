@@ -2,7 +2,7 @@
 # This is the view file for the analytics.mattermost.user_28day_retention table.
 view: user_28day_retention {
 sql_table_name: mattermost.user_28day_retention ;;
-view_label: "User 28Day Retention"
+view_label: " User 28-Day Retention"
 
 
 
@@ -61,7 +61,7 @@ view_label: "User 28Day Retention"
 
   dimension: first_active_timestamp_dayname {
     group_label: "First Active Date"
-    label: "First Active Timestamp Day Name"
+    label: "First Active Day Name"
     description: "The name of the day of the week that the First Active Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${first_active_timestamp_date}::date) ;;
@@ -70,7 +70,7 @@ view_label: "User 28Day Retention"
 
   dimension: first_active_timestamp_dayofweek {
     group_label: "First Active Date"
-    label: "First Active Timestamp Day of Week"
+    label: "First Active Day of Week"
     description: "The day number within the week that the First Active Timestamp occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${first_active_timestamp_date}::date) ;;
@@ -79,7 +79,7 @@ view_label: "User 28Day Retention"
 
   dimension: first_active_timestamp_dayofyear {
     group_label: "First Active Date"
-    label: "First Active Timestamp Week of Year"
+    label: "First Active Week of Year"
     description: "The week number within the year that the First Active Timestamp occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${first_active_timestamp_date}::date) ;;
@@ -97,7 +97,7 @@ view_label: "User 28Day Retention"
 
   dimension: retained_28day_timestamp_dayname {
     group_label: "Retained 28-Day Date"
-    label: "Retained 28-Day  Timestamp Day Name"
+    label: "Retained Day Name"
     description: "The name of the day of the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${retained_28day_timestamp_date}::date) ;;
@@ -106,7 +106,7 @@ view_label: "User 28Day Retention"
 
   dimension: retained_28day_timestamp_dayofweek {
     group_label: "Retained 28-Day Date"
-    label: "Retained 28-Day Timestamp Day of Week"
+    label: "Retained Day of Week"
     description: "The day number within the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${retained_28day_timestamp_date}::date) ;;
@@ -115,7 +115,7 @@ view_label: "User 28Day Retention"
 
   dimension: retained_28day_timestamp_dayofyear {
     group_label: "Retained 28-Day Date"
-    label: "Retained 28-Day Timestamp Week of Year"
+    label: "RetainedWeek of Year"
     description: "The week number within the year that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${retained_28day_timestamp_date}::date) ;;
@@ -162,6 +162,22 @@ view_label: "User 28Day Retention"
     description: "The distinct count of servers/workspaces with Retained 28Day Users marked false."
     type: count_distinct
     sql: CASE WHEN not ${retained_28day_users} THEN ${user_id} ELSE NULL END;;
+  }
+
+  measure: retention_rate {
+    label: "28-Day User Retention Rate"
+    description: "The percentage of total Mattermost Messaging users (within the grouped dimension or as a whole) that performed an event on the 28th day (672-696 hours) from their first activity."
+    type: number
+    sql: ${retained_28day_users_count}::FLOAT/${user_id_count}::FLOAT ;;
+    value_format_name: percent_2
+  }
+
+  measure: churn_rate {
+    label: "28-Day User Churn Rate"
+    description: "The percentage of total Mattermost Messaging users (within the grouped dimension or as a whole) that did not perform an event on the 28th day (672-696 hours) from their first activity."
+    type: number
+    sql: ${not_retained_28day_users_count}::FLOAT/${user_id_count}::FLOAT ;;
+    value_format_name: percent_2
   }
 
 

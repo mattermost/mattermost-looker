@@ -3408,7 +3408,7 @@ explore: onprem_clearbit {
 
 
 explore: user_28day_retention {
-  label: "User: 28-Day Retention"
+  label: " User: 28-Day Retention"
   group_label: " Product: Messaging"
   hidden: no
 
