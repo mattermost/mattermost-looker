@@ -3408,7 +3408,7 @@ explore: onprem_clearbit {
 
 
 explore: user_28day_retention {
-  label: " User: 28-Day Retention"
+  label: " User 28-Day Retention"
   group_label: " Product: Messaging"
   hidden: no
 
@@ -3431,5 +3431,12 @@ explore: user_28day_retention {
     type: left_outer
     fields: []
 
+  }
+
+  join: excludable_servers {
+    view_label: " User 28-Day Retention"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${excludable_servers.server_id} ;;
   }
   }
