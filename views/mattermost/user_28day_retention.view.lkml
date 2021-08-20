@@ -9,30 +9,30 @@ view_label: "User 28Day Retention"
 ### SETS
 
 
-    
+
 ### DIMENSIONS
 
 
 
   dimension: server_id {
-    label: "Server Id"
-    description: "The Server Id of the instance."
+    label: "Instance Id"
+    description: "The Instance Id of the user."
     type: string
     sql: ${TABLE}.server_id ;;
   }
 
 
   dimension: user_id {
-    label: "User Id"
-    description: "The User Id of the instance."
+    label: "User ID"
+    description: "The User Id of the user."
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
 
   dimension: retained_28day_users {
-    label: "Retained 28Day Users"
-    description: "Indicates Retained 28Day Users is marked true/enabled."
+    label: "Retained 28 Days"
+    description: "Boolean: Indicates Retained 28 Day Users is marked true i.e. the user performed an event between the 672nd and 696th hour since their first active timestamp."
     type: yesno
     sql: ${TABLE}.retained_28day_users ;;
   }
@@ -41,7 +41,7 @@ view_label: "User 28Day Retention"
 
   dimension: id {
     label: "Id"
-    description: "The Id of the instance."
+    description: "The unique ID of the user and the user respective instance."
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -52,39 +52,75 @@ view_label: "User 28Day Retention"
 
 
   dimension_group: first_active_timestamp {
-    label: "First Active Timestamp"
+    label: "First Active"
     type: time
     timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.first_active_timestamp::date ;;
-    
+    sql: ${TABLE}.first_active_timestamp ;;
+
   }
 
   dimension: first_active_timestamp_dayname {
-    group_label: "First Active Timestamp"
+    group_label: "First Active Date"
     label: "First Active Timestamp Day Name"
     description: "The name of the day of the week that the First Active Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
     sql: dayname(${first_active_timestamp_date}::date) ;;
-    
-  } 
+
+  }
 
   dimension: first_active_timestamp_dayofweek {
-    group_label: "First Active Timestamp"
+    group_label: "First Active Date"
     label: "First Active Timestamp Day of Week"
     description: "The day number within the week that the First Active Timestamp occurred on (i.e. 1-7)."
     type: number
     sql: extract(dayofweek from ${first_active_timestamp_date}::date) ;;
-    
+
   }
 
   dimension: first_active_timestamp_dayofyear {
-    group_label: "First Active Timestamp"
-    label: "First Active Timestamp Day of Year"
+    group_label: "First Active Date"
+    label: "First Active Timestamp Week of Year"
     description: "The week number within the year that the First Active Timestamp occurred on (i.e. 1-52)."
     type: number
     sql: extract(weekofyear from ${first_active_timestamp_date}::date) ;;
-    
-  }  
+
+  }
+
+  dimension_group: retained_28day_timestamp {
+    label: "Retained 28-Day"
+    description: "The date/time the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe."
+    type: time
+    timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.retained_28day_timestamp ;;
+
+  }
+
+  dimension: retained_28day_timestamp_dayname {
+    group_label: "Retained 28-Day Date"
+    label: "Retained 28-Day  Timestamp Day Name"
+    description: "The name of the day of the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. Monday ,Tuesday, Wednesday)."
+    type: string
+    sql: dayname(${retained_28day_timestamp_date}::date) ;;
+
+  }
+
+  dimension: retained_28day_timestamp_dayofweek {
+    group_label: "Retained 28-Day Date"
+    label: "Retained 28-Day Timestamp Day of Week"
+    description: "The day number within the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-7)."
+    type: number
+    sql: extract(dayofweek from ${retained_28day_timestamp_date}::date) ;;
+
+  }
+
+  dimension: retained_28day_timestamp_dayofyear {
+    group_label: "Retained 28-Day Date"
+    label: "Retained 28-Day Timestamp Week of Year"
+    description: "The week number within the year that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-52)."
+    type: number
+    sql: extract(weekofyear from ${retained_28day_timestamp_date}::date) ;;
+
+  }
 
 
 
@@ -93,8 +129,8 @@ view_label: "User 28Day Retention"
 
 
   measure: server_id_count {
-    group_label: "Server Counts"
-    label: "Server Id"
+    group_label: "Instance Counts"
+    label: "Instance Count"
     description: "The distinct count of server id's within the grouping."
     type: count_distinct
     sql: ${server_id} ;;
@@ -103,8 +139,8 @@ view_label: "User 28Day Retention"
 
 
   measure: user_id_count {
-    group_label: "Instance Counts"
-    label: "User Id"
+    group_label: "User Counts"
+    label: "User Count"
     description: "The distinct count of user id's within the grouping."
     type: count_distinct
     sql: ${user_id} ;;
@@ -113,15 +149,22 @@ view_label: "User 28Day Retention"
 
 
   measure: retained_28day_users_count {
-    group_label: "Instance Counts"
-    label: "Retained 28Day Users"
-    description: "The distinct count of servers/workspaces with Retained 28Day Users marked true/enabled."
+    group_label: "User Counts"
+    label: "Retained 28 Day Users"
+    description: "The distinct count of servers/workspaces with Retained 28Day Users marked true."
     type: count_distinct
-    sql: CASE WHEN ${retained_28day_users} THEN {} ELSE NULL END;;
+    sql: CASE WHEN ${retained_28day_users} THEN ${user_id} ELSE NULL END;;
+  }
+
+  measure: not_retained_28day_users_count {
+    group_label: "User Counts"
+    label: "Not Retained 28 Day Users"
+    description: "The distinct count of servers/workspaces with Retained 28Day Users marked false."
+    type: count_distinct
+    sql: CASE WHEN not ${retained_28day_users} THEN ${user_id} ELSE NULL END;;
   }
 
 
 
-    
+
     }
-    

@@ -3403,14 +3403,32 @@ explore: onprem_conversion_funnel {
 
 explore: onprem_clearbit {
   label: "Onprem Clearbit"
-  hidden: no
+  hidden: yes
   }
 
-            
+
 explore: user_28day_retention {
-  label: "User 28Day Retention"
+  label: "User: 28-Day Retention"
   hidden: no
+
+  join: server_fact {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${server_fact.server_id} ;;
   }
 
+  join: license_server_fact {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${license_server_fact.server_id} AND ${user_28day_retention.retained_28day_timestamp_date}::date >= ${license_server_fact.issued_date}::date
+    AND ${user_28day_retention.retained_28day_timestamp_date}::date <= ${license_server_fact.expire_date}::date;;
+  }
 
-    
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+
+  }
+  }
