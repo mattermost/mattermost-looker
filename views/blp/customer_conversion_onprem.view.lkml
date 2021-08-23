@@ -65,6 +65,13 @@ set: onprem_conversion_drill {
     sql: ${TABLE}.servers ;;
   }
 
+  dimension: trial_server_id {
+    label: "Trial Server Id"
+    description: "The Server ID for the first trial license of the customer."
+    type: string
+    sql: ${TABLE}.trial_server_id ;;
+  }
+
 
 
   dimension: accountid_match {
@@ -310,6 +317,15 @@ set: onprem_conversion_drill {
     description: "The distinct count of servers/workspaces with Free To Paid marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${free_to_paid} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
+  }
+
+  measure: trial_server_count {
+    group_label: "Instance Count"
+    label: " Trial Instance Count"
+    description: "The count of distinct first trial instance id's for the customers across the grouped dimensions."
+    type: count_distinct
+    sql: ${trial_server_id} ;;
     drill_fields: [onprem_conversion_drill*]
   }
 
