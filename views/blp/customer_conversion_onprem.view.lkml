@@ -322,10 +322,19 @@ set: onprem_conversion_drill {
 
   measure: trial_server_count {
     group_label: "Instance Count"
-    label: " Trial Instance Count"
-    description: "The count of distinct first trial instance id's for the customers across the grouped dimensions."
+    label: " Trial Instances"
+    description: "The count of distinct first trial instance id's for customers across the grouped dimensions."
     type: count_distinct
     sql: ${trial_server_id} ;;
+    drill_fields: [onprem_conversion_drill*]
+  }
+
+  measure: trial_to_paid_server_count {
+    group_label: "Instance Count"
+    label: " Trial-to-Paid Instances"
+    description: "The count of distinct trial to paid conversion instance id's for customers across the grouped dimensions."
+    type: count_distinct
+    sql: case when ${trial_to_paid_conversion} then ${trial_server_id} else null end ;;
     drill_fields: [onprem_conversion_drill*]
   }
 
