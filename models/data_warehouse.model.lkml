@@ -3402,8 +3402,8 @@ explore: onprem_conversion_funnel {
   }
 
   join: customer_conversion_onprem {
-    view_label: "Self-Managed Paid Conversions"
-    sql_on: ${license_server_fact.account_sfid} = ${customer_conversion_onprem.accountid} ;;
+    view_label: "Self-Managed Trial-to-Paid Conversions"
+    sql_on: ${onprem_conversion_funnel.date_date}::date = ${customer_conversion_onprem.trial_date}::date ;;
     relationship: one_to_many
     type: left_outer
   }
