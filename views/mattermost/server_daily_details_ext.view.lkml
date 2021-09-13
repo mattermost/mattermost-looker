@@ -3293,7 +3293,7 @@ view: server_daily_details_ext {
     description: ""
     type: yesno
     group_label: "Plugin Configuration"
-    sql: ${TABLE}.enable_commattermostpluginincidentmanagement ;;
+    sql: COALESCE(${TABLE}.enable_commattermostpluginincidentmanagement, ${enable_incident_response}) ;;
     hidden: no
   }
 
