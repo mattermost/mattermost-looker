@@ -93,10 +93,18 @@ view: focalboard_server {
   }
 
   dimension: user_id {
-    label: " Server ID"
+    label: " Focalboard Instance ID"
     description: ""
     type: string
     sql: ${TABLE}.user_id ;;
+    hidden: no
+  }
+
+  dimension: server_id {
+    label: " Instance ID (Messaging)"
+    description: ""
+    type: string
+    sql: ${TABLE}.server_id ;;
     hidden: no
   }
 

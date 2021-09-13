@@ -3199,6 +3199,14 @@ explore: focalboard_server {
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: incident_daily_details {
@@ -3402,8 +3410,8 @@ explore: onprem_conversion_funnel {
   }
 
   join: customer_conversion_onprem {
-    view_label: "Self-Managed Paid Conversions"
-    sql_on: ${license_server_fact.account_sfid} = ${customer_conversion_onprem.accountid} ;;
+    view_label: "Self-Managed Trial-to-Paid Conversions"
+    sql_on: ${onprem_conversion_funnel.date_date}::date = ${customer_conversion_onprem.trial_date}::date ;;
     relationship: one_to_many
     type: left_outer
   }
