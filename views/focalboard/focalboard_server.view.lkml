@@ -93,7 +93,7 @@ view: focalboard_server {
   }
 
   dimension: user_id {
-    label: " Focalboard Instance ID"
+    label: " Instance ID (Focalboard)"
     description: ""
     type: string
     sql: ${TABLE}.user_id ;;
