@@ -2112,6 +2112,12 @@ explore: server_fact {
     relationship: one_to_one
   }
 
+  join: onprem_clearbit {
+    view_label: "Clearbit (Self-Managed Only)"
+    sql_on: ${server_fact.server_id} = ${onprem_clearbit.server_id} ;;
+    relationship: one_to_one
+  }
+
   join: server_daily_details_ext {
     view_label: "Enabled Plugins"
     sql_on: ${server_daily_details_ext.server_id} = ${license_server_fact.server_id} AND ${server_daily_details_ext.logging_date} = ${server_fact.last_mm2_telemetry_date} ;;
@@ -3004,28 +3010,28 @@ explore: license_server_fact {
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: "User Events Telemtry (IC)"
-  label: "User Events Telemtry (IC)"
+  view_label: " Incident Collababoration: User Events"
+  label: " Incident Collababoration: User Events"
   group_label: " Product: Incident Collaboration"
   extends: [license_server_fact]
 
   join: server_daily_details {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+    fields: [server_daily_details.db_type, server_daily_details.database_type_version,server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.edition]
   }
 
   join: server_fact {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
-    view_label: "User Events Telemtry (IC)"
+    view_label: " Incident Collababoration: User Events"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${excludable_servers.server_id}) ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -3193,6 +3199,14 @@ explore: focalboard_server {
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
 }
 
 explore: incident_daily_details {
@@ -3358,3 +3372,91 @@ explore: cloud_conversion_funnel {
     type: left_outer
   }
 }
+
+explore: onprem_conversion_funnel {
+  from: dates
+  label: "Self-Managed Conversion Funnel"
+  group_label: " Product: Messaging"
+  view_label: "First Active Dates"
+  description: "Contains all self-managed instances and data for identifying paid conversion rate trends over time."
+  fields: [customer_conversion_onprem*,  onprem_conversion_funnel*, excludable_servers.reason, license_server_fact*]
+
+  join: license_server_fact {
+    view_label: "Activated Trial Licenses"
+    sql_on: ${license_server_fact.issued_date}::date = ${onprem_conversion_funnel.date_date}::date and ${license_server_fact.edition} = 'E20 Trial'
+    and ${license_server_fact.server_id} IS NOT NULL;;
+    relationship: one_to_many
+    type: left_outer
+  }
+
+  join: server_fact {
+    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+
+    }
+
+  join: excludable_servers {
+    view_label: "Activated Trial Licenses"
+    sql_on: ${license_server_fact.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+
+  join: customer_conversion_onprem {
+    view_label: "Self-Managed Trial-to-Paid Conversions"
+    sql_on: ${onprem_conversion_funnel.date_date}::date = ${customer_conversion_onprem.trial_date}::date ;;
+    relationship: one_to_many
+    type: left_outer
+  }
+  hidden: no
+}
+
+
+
+
+explore: onprem_clearbit {
+  label: "Onprem Clearbit"
+  hidden: yes
+  }
+
+
+explore: user_28day_retention {
+  label: " User 28-Day Retention"
+  group_label: " Product: Messaging"
+  hidden: no
+
+  join: server_fact {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${server_fact.server_id} ;;
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${license_server_fact.server_id} AND ${user_28day_retention.retained_28day_timestamp_date}::date >= ${license_server_fact.issued_date}::date
+    AND ${user_28day_retention.retained_28day_timestamp_date}::date <= ${license_server_fact.expire_date}::date;;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+
+  }
+
+  join: excludable_servers {
+    view_label: " User 28-Day Retention"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_28day_retention.server_id} = ${excludable_servers.server_id} ;;
+  }
+  }

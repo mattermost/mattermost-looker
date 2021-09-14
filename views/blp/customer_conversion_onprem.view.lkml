@@ -7,7 +7,9 @@ view_label: "Customer Conversion Onprem"
 
 
 ### SETS
-
+set: onprem_conversion_drill {
+  fields: [accountid, account_name, sku, paid_conversion_date,free_to_paid, trial_date, trial_to_paid_conversion, churned, servers]
+}
 
 
 ### DIMENSIONS
@@ -15,8 +17,8 @@ view_label: "Customer Conversion Onprem"
 
 
   dimension: accountid {
-    label: "Account Id"
-    description: "The Salesforce Accountid of the instance."
+    label: "Accountid"
+    description: "The Accountid of the instance."
     type: string
     sql: ${TABLE}.accountid ;;
   }
@@ -24,7 +26,7 @@ view_label: "Customer Conversion Onprem"
 
   dimension: account_name {
     label: "Account Name"
-    description: "The Salesforce Account Name of the instance."
+    description: "The Account Name of the instance."
     type: string
     sql: ${TABLE}.account_name ;;
   }
@@ -32,7 +34,7 @@ view_label: "Customer Conversion Onprem"
 
   dimension: sku {
     label: "Sku"
-    description: "The SKU of the instance."
+    description: "The Sku of the instance."
     type: string
     sql: ${TABLE}.sku ;;
   }
@@ -49,7 +51,7 @@ view_label: "Customer Conversion Onprem"
 
   dimension: churned {
     label: "Churned"
-    description: "Indicates Churned is marked true."
+    description: "Indicates Churned is marked true/enabled."
     type: yesno
     sql: ${TABLE}.churned ;;
   }
@@ -58,9 +60,16 @@ view_label: "Customer Conversion Onprem"
 
   dimension: servers {
     label: "Servers"
-    description: "The Server count associated with the Salesforce Account during its lifetime."
+    description: "The Servers of the instance."
     type: string
     sql: ${TABLE}.servers ;;
+  }
+
+  dimension: trial_server_id {
+    label: "Trial Server Id"
+    description: "The Server ID for the first trial license of the customer."
+    type: string
+    sql: ${TABLE}.trial_server_id ;;
   }
 
 
@@ -70,17 +79,6 @@ view_label: "Customer Conversion Onprem"
     description: "Indicates Accountid Match is marked true/enabled."
     type: yesno
     sql: ${TABLE}.accountid_match ;;
-    hidden: yes
-  }
-
-
-
-  dimension: license_key_match {
-    label: "License Key Match"
-    description: "Indicates License Key Match is marked true/enabled."
-    type: yesno
-    sql: ${TABLE}.license_key_match ;;
-    hidden: yes
   }
 
 
@@ -96,9 +94,18 @@ view_label: "Customer Conversion Onprem"
 
   dimension: hold_public {
     label: "Hold Public"
-    description: "Indicates the Mattermost Customer is represented as an opportunity in the Salesforce Hold Public Account i.e. the customer purchased using a public domain."
+    description: "Indicates Hold Public is marked true/enabled."
     type: yesno
     sql: ${TABLE}.hold_public ;;
+  }
+
+
+
+  dimension: amount {
+    label: "Amount"
+    description: "The Amount of the instance."
+    type: string
+    sql: ${TABLE}.amount ;;
   }
 
 
@@ -108,8 +115,6 @@ view_label: "Customer Conversion Onprem"
     description: "The Id of the instance."
     type: string
     sql: ${TABLE}.id ;;
-    hidden: yes
-    primary_key: yes
   }
 
 
@@ -120,8 +125,9 @@ view_label: "Customer Conversion Onprem"
   dimension_group: first_telemetry {
     label: "First Telemetry "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_telemetry_date::date ;;
+
   }
 
   dimension: first_telemetry_date_dayname {
@@ -156,8 +162,9 @@ view_label: "Customer Conversion Onprem"
   dimension_group: paid_conversion {
     label: "Paid Conversion "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.paid_conversion_date::date ;;
+
   }
 
   dimension: paid_conversion_date_dayname {
@@ -192,8 +199,9 @@ view_label: "Customer Conversion Onprem"
   dimension_group: paid_expire {
     label: "Paid Expire "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.paid_expire_date::date ;;
+
   }
 
   dimension: paid_expire_date_dayname {
@@ -228,8 +236,9 @@ view_label: "Customer Conversion Onprem"
   dimension_group: last_telemetry {
     label: "Last Telemetry "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_telemetry_date::date ;;
+
   }
 
   dimension: last_telemetry_date_dayname {
@@ -264,8 +273,9 @@ view_label: "Customer Conversion Onprem"
   dimension_group: trial {
     label: "Trial "
     type: time
-    timeframes: [, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.trial_date::date ;;
+
   }
 
   dimension: trial_date_dayname {
@@ -307,6 +317,25 @@ view_label: "Customer Conversion Onprem"
     description: "The distinct count of servers/workspaces with Free To Paid marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${free_to_paid} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
+  }
+
+  measure: trial_server_count {
+    group_label: "Instance Count"
+    label: " Trial Instances"
+    description: "The count of distinct first trial instance id's for customers across the grouped dimensions."
+    type: count_distinct
+    sql: ${trial_server_id} ;;
+    drill_fields: [onprem_conversion_drill*]
+  }
+
+  measure: trial_to_paid_server_count {
+    group_label: "Instance Count"
+    label: " Trial-to-Paid Instances"
+    description: "The count of distinct trial to paid conversion instance id's for customers across the grouped dimensions."
+    type: count_distinct
+    sql: case when ${trial_to_paid_conversion} then ${trial_server_id} else null end ;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
@@ -317,6 +346,7 @@ view_label: "Customer Conversion Onprem"
     description: "The distinct count of servers/workspaces with Churned marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${churned} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
@@ -357,22 +387,13 @@ view_label: "Customer Conversion Onprem"
 
 
 
-  measure: license_key_match_count {
-    group_label: "Instance Counts"
-    label: "License Key Match"
-    description: "The distinct count of servers/workspaces with License Key Match marked true/enabled."
-    type: count_distinct
-    sql: CASE WHEN ${license_key_match} THEN ${accountid} ELSE NULL END;;
-  }
-
-
-
   measure: trial_to_paid_conversion_count {
     group_label: "Instance Counts"
     label: "Trial To Paid Conversion"
     description: "The distinct count of servers/workspaces with Trial To Paid Conversion marked true/enabled."
     type: count_distinct
     sql: CASE WHEN ${trial_to_paid_conversion} THEN ${accountid} ELSE NULL END;;
+    drill_fields: [onprem_conversion_drill*]
   }
 
 
@@ -385,4 +406,33 @@ view_label: "Customer Conversion Onprem"
     sql: CASE WHEN ${hold_public} THEN ${accountid} ELSE NULL END;;
   }
 
-}
+
+
+  measure: amount_sum {
+    group_label: "Amount Measures"
+    label: "Amount (Sum)"
+    description: "The sum of Amount across all instances within the grouping."
+    type: sum
+    sql: ${amount} ;;
+  }
+
+  measure: amount_avg {
+    group_label: "Amount Measures"
+    label: "Amount (Avg)"
+    description: "The average Amount across all instances within the grouping."
+    type: average
+    sql: ${amount} ;;
+  }
+
+  measure: amount_median {
+    group_label: "Amount Measures"
+    label: "Amount (Avg)"
+    description: "The median Amount across all instances within the grouping."
+    type: median
+    sql: ${amount} ;;
+  }
+
+
+
+
+    }

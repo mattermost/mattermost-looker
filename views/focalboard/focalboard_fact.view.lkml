@@ -10,6 +10,15 @@ view: focalboard_fact {
 
   # DIMENSIONS
   dimension: instance_id {
+    label: " Instance ID (Focalboard)"
+    description: ""
+    type: string
+    sql: ${TABLE}.focalboard_id ;;
+    hidden: no
+  }
+
+  dimension: instance_id_messaging {
+    label: " Instance ID (Messaging)"
     description: ""
     type: string
     sql: ${TABLE}.instance_id ;;
