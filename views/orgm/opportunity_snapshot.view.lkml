@@ -294,47 +294,62 @@ view_label: ""
     type: sum_distinct
     sql: ${new} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_expansion {
     type: sum_distinct
     sql: ${expansion} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_coterm {
     type: sum_distinct
     sql: ${coterm} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
+  }
+
+  measure: total_expansion_and_coterm {
+    type: sum_distinct
+    sql: ${expansion} + ${coterm} ;;
+    group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_loe {
     type: sum_distinct
     sql: ${loe} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_renewal {
     type: sum_distinct
     sql: ${renewal} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_multi {
     type: sum_distinct
     sql: ${multi} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_renewal_multi {
     type: sum_distinct
     sql: ${renewal_multi} ;;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 
   measure: total_monthly_billing {
     type: sum_distinct
     sql: ${monthly_billing};;
     group_label: "Amounts"
+    value_format_name: usd_0
   }
 }
