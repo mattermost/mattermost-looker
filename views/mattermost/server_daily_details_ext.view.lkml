@@ -2830,6 +2830,14 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: chimera_oauth_proxy_url {
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.chimera_oauth_proxy_url ;;
+    hidden: no
+  }
+
   dimension: enable_lowercase {
   label: "Enable Lowercase"
     description: ""
@@ -3117,6 +3125,15 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: enable_focalboard {
+    label: "Focalboard Enabled"
+    description: ""
+    type: yesno
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.enable_focalboard ;;
+    hidden: no
+  }
+
   dimension: enable_circleci {
     label: "CircleCI Enabled"
     description: ""
@@ -3141,6 +3158,15 @@ view: server_daily_details_ext {
     type: string
     group_label: "Plugin Configuration"
     sql: ${TABLE}.version_mattermost_apps ;;
+    hidden: no
+  }
+
+  dimension: version_focalboard {
+    label: "Focalboard Version"
+    description: ""
+    type: string
+    group_label: "Plugin Configuration"
+    sql: ${TABLE}.version_focalboard ;;
     hidden: no
   }
 
@@ -8239,6 +8265,15 @@ view: server_daily_details_ext {
     type: count_distinct
     group_label: " Plugin Config: Instance Counts"
     sql: case when ${is_default_marketplace_url} then ${server_id} else null end ;;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: focalboard_count {
+    label: "Instances w/ Focalboard"
+    description: "The count of servers with Plugin Focalboard enabled."
+    type: count_distinct
+    group_label: " Plugin Config: Instance Counts"
+    sql: case when ${enable_focalboard} then ${server_id} else null end ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 

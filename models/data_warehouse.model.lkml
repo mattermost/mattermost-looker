@@ -3154,16 +3154,135 @@ explore: focalboard_activity {
   label: "Focalboard Telemetry"
   group_label: " Product: Focalboard"
   hidden: yes
+
+  join: focalboard_server {
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
+    relationship: one_to_one
+    fields: []
+  }
+
+
+  join: focalboard_fact {
+    view_label: "Focalboard Instance Facts (To Date)"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: many_to_one
+  }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Config"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_workspaces {
+    view_label: "Focalboard Workspaces"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_blocks{
+    view_label: "Focalboard Blocks"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
 }
 
 explore: focalboard_config {
   label: "Focalboard Telemetry"
   group_label: " Product: Focalboard"
   hidden: yes
+
+  join: focalboard_server {
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: focalboard_fact {
+    view_label: "Focalboard Instance Facts (To Date)"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: many_to_one
+  }
+
+  join: focalboard_activity {
+    view_label: "Focalboard Activity"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_workspaces {
+    view_label: "Focalboard Workspaces"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: focalboard_blocks{
+    view_label: "Focalboard Blocks"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
 }
 
 explore: focalboard_server {
-  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event, focalboard_fact.focalboard_facts*]
+  fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event]
   view_label: "Focalboard Server"
   group_label: " Product: Focalboard"
   label: "Focalboard Instance Telemtry"
@@ -3185,7 +3304,6 @@ explore: focalboard_server {
     view_label: "Focalboard Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
-    fields: [focalboard_fact.focalboard_facts*]
   }
 
   join: focalboard_workspaces {
@@ -3206,6 +3324,27 @@ explore: focalboard_server {
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    # fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
   }
 }
 
@@ -3313,6 +3452,67 @@ explore: incident_collaboration_fact {
 explore: focalboard_fact {
   label: "Focalboard Fact"
   hidden: yes
+
+  join: focalboard_server {
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: focalboard_activity {
+    view_label: "Focalboard Activity"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+
+  join: focalboard_blocks{
+    view_label: "Focalboard Blocks"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Config"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_workspaces {
+    view_label: "Focalboard Workspaces"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: server_feature_flag_details {
@@ -3324,6 +3524,67 @@ explore: server_feature_flag_details {
 explore: focalboard_workspaces {
   label: "Focalboard Workspaces"
   hidden: yes
+
+  join: focalboard_server {
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_fact {
+    view_label: "Focalboard Instance Facts (To Date)"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: many_to_one
+  }
+
+  join: focalboard_activity {
+    view_label: "Focalboard Activity"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: focalboard_blocks{
+    view_label: "Focalboard Blocks"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Config"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
+    relationship: one_to_one
+    fields: []
+  }
+
   }
 
 
@@ -3332,6 +3593,65 @@ explore: focalboard_workspaces {
 explore: focalboard_blocks {
   label: "Focalboard Blocks"
   hidden: yes
+
+  join: focalboard_server {
+    sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date ;;
+    relationship: one_to_one
+    fields: []
+  }
+
+  join: focalboard_activity {
+    view_label: "Focalboard Activity"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: excludable_servers {
+    view_label: "Focalboard Server"
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: server_fact {
+    type: left_outer
+    sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    fields: []
+  }
+
+  join: trial_requests {
+    type: left_outer
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: focalboard_config {
+    view_label: "Focalboard Config"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
+    relationship: one_to_one
+  }
+
+  join: focalboard_fact {
+    view_label: "Focalboard Instance Facts (To Date)"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
+    relationship: many_to_one
+  }
+
+  join: focalboard_workspaces {
+    view_label: "Focalboard Workspaces"
+    sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
+    relationship: one_to_one
+  }
   }
 
 
