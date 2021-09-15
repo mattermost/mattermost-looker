@@ -4,7 +4,13 @@ view: focalboard_config {
   view_label: "Focalboard Config"
 
   # FILTERS
-
+  set: focalboard_drill {
+    fields: [timestamp_date, focalboard_server.server_id, user_id,  license_server_fact.customer_name, focalboard_workspaces.workspaces_sum,
+      focalboard_blocks.board_sum, focalboard_blocks.view_sum, focalboard_blocks.card_sum, focalboard_blocks.divider_sum, focalboard_blocks.text_sum,
+      focalboard_blocks.image_sum, focalboard_blocks.comment_sum, focalboard_blocks.divider_sum, focalboard_blocks.checkbox_sum,
+      focalboard_activity.registered_users, focalboard_activity.daily_active_users, license_server_fact.edition, focalboard_fact.first_active_date, focalboard_fact.last_active_date,
+              focalboard_fact.days_active, server_fact.first_active_date, server_fact.last_active_date ]
+  }
   # DIMENSIONS
   dimension: context_request_ip {
     description: ""
