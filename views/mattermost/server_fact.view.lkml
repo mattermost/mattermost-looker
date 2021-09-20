@@ -76,9 +76,18 @@ sql_table_name: mattermost.server_fact ;;
   dimension: retention_28day_flag {
     label: " 28-Day Retention"
     group_label: " Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 700 from the instance's first active timestamp."
+    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 696 from the instance's first active timestamp."
     type: yesno
     sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
+  }
+
+  dimension: retention_28day_users {
+    label: " 28-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 28 days since their first active date. This count indicates the users performed events between hour 672 and 696 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_28day_users, 0) ;;
+    value_format_name: decimal_0
   }
 
   dimension: license_id_filter {
@@ -1563,6 +1572,14 @@ sql_table_name: mattermost.server_fact ;;
     description: "The sum of registered users associated with all servers in the current grouping."
     type: number
     sql: sum(${max_registered_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: retained_28day_user_sum {
+    label: "28-Day Retained Users"
+    description: "The sum of users that performed events within 672 & 696 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_28day_users}) ;;
     drill_fields: [drill_set1*]
   }
 
