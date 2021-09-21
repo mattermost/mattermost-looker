@@ -158,24 +158,6 @@ view: marketing_funnel {
     hidden: yes
   }
 
-  dimension: perc_federal_new_logo {
-    type: number
-    sql:  ${TABLE}.perc_federal_new_logo ;;
-    hidden: yes
-  }
-
-  dimension: perc_commercial_new_logo {
-    type: number
-    sql:  ${TABLE}.perc_commercial_new_logo ;;
-    hidden: yes
-  }
-
-  dimension: perc_enterprise_new_logo {
-    type: number
-    sql:  ${TABLE}.perc_enterprise_new_logo ;;
-    hidden: yes
-  }
-
   dimension: federal_arr {
     type: number
     sql:  ${TABLE}.federal_arr ;;
@@ -194,39 +176,21 @@ view: marketing_funnel {
     hidden: yes
   }
 
-  dimension: federal_avg_amount {
+  dimension: federal_sum_age {
     type: number
-    sql:  ${TABLE}.federal_avg_amount ;;
+    sql:  ${TABLE}.federal_sum_age ;;
     hidden: yes
   }
 
-  dimension: commercial_avg_amount {
+  dimension: commercial_sum_age {
     type: number
-    sql:  ${TABLE}.commercial_avg_amount ;;
+    sql:  ${TABLE}.commercial_sum_age ;;
     hidden: yes
   }
 
-  dimension: enterprise_avg_amount {
+  dimension: enterprise_sum_age {
     type: number
-    sql:  ${TABLE}.enterprise_avg_amount ;;
-    hidden: yes
-  }
-
-  dimension: federal_avg_age {
-    type: number
-    sql:  ${TABLE}.federal_avg_age/30 ;;
-    hidden: yes
-  }
-
-  dimension: commercial_avg_age {
-    type: number
-    sql:  ${TABLE}.commercial_avg_age/30 ;;
-    hidden: yes
-  }
-
-  dimension: enterprise_avg_age {
-    type: number
-    sql:  ${TABLE}.enterprise_avg_age/30 ;;
+    sql:  ${TABLE}.enterprise_sum_age ;;
     hidden: yes
   }
 
@@ -488,8 +452,8 @@ view: marketing_funnel {
   }
 
   measure: total_perc_federal_new_logo {
-    type: sum
-    sql:  ${perc_federal_new_logo} ;;
+    type: number
+    sql:  1.0*${total_federal_new_logo}/${total_count_new_logo} ;;
     group_label: "New Logo"
     label: "Federal New Logo %"
     group_item_label: "Federal New %"
@@ -497,8 +461,8 @@ view: marketing_funnel {
   }
 
   measure: total_perc_commercial_new_logo {
-    type: sum
-    sql:  ${perc_commercial_new_logo} ;;
+    type: number
+    sql:  1.0*${total_commercial_new_logo}/${total_count_new_logo} ;;
     group_label: "New Logo"
     label: "Commercial New Logo %"
     group_item_label: "Commercial New %"
@@ -506,8 +470,8 @@ view: marketing_funnel {
   }
 
   measure: total_perc_enterprise_new_logo {
-    type: sum
-    sql:  ${perc_enterprise_new_logo} ;;
+    type: number
+    sql:  1.0*${total_enterprise_new_logo}/${total_count_new_logo} ;;
     group_label: "New Logo"
     label: "Enterprise New Logo %"
     group_item_label: "Enterprise New Logo %"
@@ -541,9 +505,28 @@ view: marketing_funnel {
     value_format_name: usd_0
   }
 
+
+  measure: total_federal_age {
+    type: sum
+    sql:  ${federal_sum_age} ;;
+    hidden: yes
+  }
+
+  measure: total_commercial_age {
+    type: sum
+    sql:  ${commercial_sum_age} ;;
+    hidden: yes
+  }
+
+  measure: total_enterprise_age {
+    type: sum
+    sql:  ${enterprise_sum_age} ;;
+    hidden: yes
+  }
+
   measure: average_federal_amount {
-    type: average
-    sql:  ${federal_avg_amount} ;;
+    type: number
+    sql:  ${total_federal_arr}/nullif(${total_federal_new_logo},0) ;;
     group_label: "ASP"
     label: "Federal ASP"
     group_item_label: "Federal"
@@ -551,8 +534,8 @@ view: marketing_funnel {
   }
 
   measure: average_commercial_amount {
-    type: average
-    sql:  ${commercial_avg_amount} ;;
+    type: number
+    sql:  ${total_commercial_arr}/nullif(${total_commercial_new_logo},0) ;;
     group_label: "ASP"
     label: "Commercial ASP"
     group_item_label: "Commercial"
@@ -560,8 +543,8 @@ view: marketing_funnel {
   }
 
   measure: average_enterprise_amount {
-    type: average
-    sql:  ${enterprise_avg_amount} ;;
+    type: number
+    sql:  ${total_enterprise_arr}/nullif(${total_enterprise_new_logo},0) ;;
     group_label: "ASP"
     label: "Enterprise ASP"
     group_item_label: "Enterprise"
@@ -569,8 +552,8 @@ view: marketing_funnel {
   }
 
   measure: average_federal_age {
-    type: average
-    sql:  ${federal_avg_age} ;;
+    type: number
+    sql:  (1.0*${total_federal_age}/nullif(${total_federal_new_logo},0))/30 ;;
     group_label: "Avg Sales Cycle"
     label: "Federal Avg Sales Cycle"
     group_item_label: "Federal"
@@ -578,8 +561,8 @@ view: marketing_funnel {
   }
 
   measure: average_commercial_age {
-    type: average
-    sql:  ${commercial_avg_age} ;;
+    type: number
+    sql:  (1.0*${total_commercial_age}/nullif(${total_commercial_new_logo},0))/30 ;;
     group_label: "Avg Sales Cycle"
     label: "Commercial Avg Sales Cycle"
     group_item_label: "Commercial"
@@ -587,8 +570,8 @@ view: marketing_funnel {
   }
 
   measure: average_enterprise_age {
-    type: average
-    sql:  ${enterprise_avg_age} ;;
+    type: number
+    sql:  (1.0*${total_enterprise_age}/nullif(${total_enterprise_new_logo},0))/30 ;;
     group_label: "Avg Sales Cycle"
     label: "Enterprise Avg Sales Cycle"
     group_item_label: "Enterprise"
