@@ -90,6 +90,14 @@ sql_table_name: mattermost.server_fact ;;
     value_format_name: decimal_0
   }
 
+  dimension_group: cloud_payment_method_added {
+    label: "Cloud Payment Method Added"
+    description: "The date/time the Mattermost Cloud Instance added its first payment method into our billing system."
+    type: time
+    timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.cloud_payment_method_added ;;
+  }
+
   dimension: license_id_filter {
     description: "The license ID1 & ID2 or condition filter for dashboard usage."
     sql: {% condition license_all %} ${license_id} {% endcondition %} OR  {% condition license_all %} ${license_id2} {% endcondition %};;
@@ -1210,9 +1218,18 @@ sql_table_name: mattermost.server_fact ;;
   measure: active_instances_28day_672_700 {
     label: "  28-Day Active Instances"
     group_label: " Instance Counts"
-    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 672nd & 700th hour from the instances first active timestamp."
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 672nd & 696th hour from the instances first active timestamp."
     type: count_distinct
     sql: CASE WHEN ${retention_28day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: instances_w_payment_methods {
+    label: "  Instances w/ Payment Methods"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging Cloud instances that have added a payment method to their workspace."
+    type: count_distinct
+    sql: CASE WHEN ${cloud_payment_method_added_date} is not null THEN ${server_id} ELSE NULL END;;
     drill_fields: [drill_set1*]
   }
 
