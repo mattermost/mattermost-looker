@@ -5,7 +5,7 @@ view: focalboard_fact {
 
   # FILTERS
   set: focalboard_facts{
-    fields: [weekly_active_users_max, daily_active_users_max, monthly_active_users_max, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active]
+    fields: [instance_id, instance_id_messaging, license_server_fact.customer_name, weekly_active_users_max, daily_active_users_max, monthly_active_users_max, first_active_date, last_active_date, days_active, server_fact.first_active_date, server_fact.last_active_date]
     }
 
   # DIMENSIONS

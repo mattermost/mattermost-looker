@@ -3,7 +3,14 @@ view: focalboard_activity {
   sql_table_name: focalboard.focalboard_activity ;;
   view_label: "Focalboard Activity"
 
-  # FILTERS
+  # SETS
+    set: focalboard_drill {
+      fields: [timestamp_date, focalboard_server.server_id, user_id,  license_server_fact.customer_name, focalboard_workspaces.workspaces_sum,
+        focalboard_blocks.board_sum, focalboard_blocks.view_sum, focalboard_blocks.card_sum, focalboard_blocks.divider_sum, focalboard_blocks.text_sum,
+        focalboard_blocks.image_sum, focalboard_blocks.comment_sum, focalboard_blocks.divider_sum, focalboard_blocks.checkbox_sum,
+        focalboard_activity.registered_users, focalboard_activity.daily_active_users, license_server_fact.edition, focalboard_fact.first_active_date, focalboard_fact.last_active_date,
+        focalboard_fact.days_active, server_fact.first_active_date, server_fact.last_active_date ]
+  }
 
   # DIMENSIONS
   dimension: weekly_active_users {
@@ -160,6 +167,7 @@ view: focalboard_activity {
     type: sum
     group_label: "Weekly Active Users Measures"
     sql: ${weekly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: weekly_active_users_max {
@@ -167,6 +175,7 @@ view: focalboard_activity {
     type: max
     group_label: "Weekly Active Users Measures"
     sql: ${weekly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: weekly_active_users_min {
@@ -174,6 +183,7 @@ view: focalboard_activity {
     type: min
     group_label: "Weekly Active Users Measures"
     sql: ${weekly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: weekly_active_users_avg {
@@ -181,6 +191,7 @@ view: focalboard_activity {
     type: average
     group_label: "Weekly Active Users Measures"
     sql: ${weekly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: weekly_active_users_median {
@@ -188,6 +199,7 @@ view: focalboard_activity {
     type: median
     group_label: "Weekly Active Users Measures"
     sql: ${weekly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: monthly_active_users_sum {
@@ -195,6 +207,7 @@ view: focalboard_activity {
     type: sum
     group_label: "Monthly Active Users Measures"
     sql: ${monthly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: monthly_active_users_max {
@@ -202,6 +215,7 @@ view: focalboard_activity {
     type: max
     group_label: "Monthly Active Users Measures"
     sql: ${monthly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: monthly_active_users_min {
@@ -209,6 +223,7 @@ view: focalboard_activity {
     type: min
     group_label: "Monthly Active Users Measures"
     sql: ${monthly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: monthly_active_users_avg {
@@ -216,6 +231,7 @@ view: focalboard_activity {
     type: average
     group_label: "Monthly Active Users Measures"
     sql: ${monthly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: monthly_active_users_median {
@@ -223,6 +239,7 @@ view: focalboard_activity {
     type: median
     group_label: "Monthly Active Users Measures"
     sql: ${monthly_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: anonymous_count {
@@ -246,6 +263,7 @@ view: focalboard_activity {
     type: sum
     group_label: "Registered Users Measures"
     sql: ${registered_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: registered_users_max {
@@ -253,6 +271,7 @@ view: focalboard_activity {
     type: max
     group_label: "Registered Users Measures"
     sql: ${registered_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: registered_users_min {
@@ -260,6 +279,7 @@ view: focalboard_activity {
     type: min
     group_label: "Registered Users Measures"
     sql: ${registered_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: registered_users_avg {
@@ -267,6 +287,7 @@ view: focalboard_activity {
     type: average
     group_label: "Registered Users Measures"
     sql: ${registered_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: registered_users_median {
@@ -274,6 +295,7 @@ view: focalboard_activity {
     type: median
     group_label: "Registered Users Measures"
     sql: ${registered_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: daily_active_users_sum {
@@ -281,6 +303,7 @@ view: focalboard_activity {
     type: sum
     group_label: "Daily Active Users Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: daily_active_users_max {
@@ -288,6 +311,7 @@ view: focalboard_activity {
     type: max
     group_label: "Daily Active Users Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: daily_active_users_min {
@@ -295,6 +319,7 @@ view: focalboard_activity {
     type: min
     group_label: "Daily Active Users Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: daily_active_users_avg {
@@ -302,6 +327,7 @@ view: focalboard_activity {
     type: average
     group_label: "Daily Active Users Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: daily_active_users_median {
@@ -309,6 +335,7 @@ view: focalboard_activity {
     type: median
     group_label: "Daily Active Users Measures"
     sql: ${daily_active_users} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: id_count {

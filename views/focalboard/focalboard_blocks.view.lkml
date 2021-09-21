@@ -6,8 +6,14 @@ view_label: "Focalboard Blocks"
 
 
 
-### SETS
-
+  # SETS
+  set: focalboard_drill {
+    fields: [timestamp_date, focalboard_server.server_id, user_id,  license_server_fact.customer_name, focalboard_workspaces.workspaces_sum,
+      focalboard_blocks.board_sum, focalboard_blocks.view_sum, focalboard_blocks.card_sum, focalboard_blocks.divider_sum, focalboard_blocks.text_sum,
+      focalboard_blocks.image_sum, focalboard_blocks.comment_sum, focalboard_blocks.divider_sum, focalboard_blocks.checkbox_sum,
+      focalboard_activity.registered_users, focalboard_activity.daily_active_users, license_server_fact.edition, focalboard_fact.first_active_date, focalboard_fact.last_active_date,
+      focalboard_fact.days_active, server_fact.first_active_date, server_fact.last_active_date ]
+}
 
 
 ### DIMENSIONS
@@ -386,6 +392,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Comment across all instances within the grouping."
     type: sum
     sql: ${comment} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: comment_avg {
@@ -395,6 +402,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${comment} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: comment_median {
@@ -403,6 +411,7 @@ view_label: "Focalboard Blocks"
     description: "The median Comment across all instances within the grouping."
     type: median
     sql: ${comment} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -413,6 +422,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Divider across all instances within the grouping."
     type: sum
     sql: ${divider} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: divider_avg {
@@ -422,6 +432,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${divider} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: divider_median {
@@ -430,6 +441,7 @@ view_label: "Focalboard Blocks"
     description: "The median Divider across all instances within the grouping."
     type: median
     sql: ${divider} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -440,6 +452,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Text across all instances within the grouping."
     type: sum
     sql: ${text} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: text_avg {
@@ -448,6 +461,7 @@ view_label: "Focalboard Blocks"
     description: "The average Text across all instances within the grouping."
     type: average
     sql: ${text} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: text_median {
@@ -456,6 +470,7 @@ view_label: "Focalboard Blocks"
     description: "The median Text across all instances within the grouping."
     type: median
     sql: ${text} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -466,6 +481,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Board across all instances within the grouping."
     type: sum
     sql: ${board} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: board_avg {
@@ -475,6 +491,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${board} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: board_median {
@@ -483,6 +500,7 @@ view_label: "Focalboard Blocks"
     description: "The median Board across all instances within the grouping."
     type: median
     sql: ${board} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -493,6 +511,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of  View across all instances within the grouping."
     type: sum
     sql: ${view} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: view_avg {
@@ -502,6 +521,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${view} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: view_median {
@@ -510,6 +530,7 @@ view_label: "Focalboard Blocks"
     description: "The median  View across all instances within the grouping."
     type: median
     sql: ${view} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -520,6 +541,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Image across all instances within the grouping."
     type: sum
     sql: ${image} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: image_avg {
@@ -529,6 +551,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${image} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: image_median {
@@ -537,6 +560,7 @@ view_label: "Focalboard Blocks"
     description: "The median Image across all instances within the grouping."
     type: median
     sql: ${image} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -547,6 +571,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Card across all instances within the grouping."
     type: sum
     sql: ${card} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: card_avg {
@@ -556,6 +581,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${card} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: card_median {
@@ -564,6 +590,7 @@ view_label: "Focalboard Blocks"
     description: "The median Card across all instances within the grouping."
     type: median
     sql: ${card} ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -574,6 +601,7 @@ view_label: "Focalboard Blocks"
     description: "The distinct count of user id's within the grouping."
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: block_count {
@@ -582,6 +610,7 @@ view_label: "Focalboard Blocks"
     description: "The distinct count of blocks within the grouped dimension."
     type: count_distinct
     sql:  ;;
+    drill_fields: [focalboard_drill*]
   }
 
 
@@ -592,6 +621,7 @@ view_label: "Focalboard Blocks"
     description: "The sum of Checkbox across all instances within the grouping."
     type: sum
     sql: ${checkbox} ;;
+    drill_fields: [focalboard_drill*]
   }
 
   measure: checkbox_avg {
@@ -601,6 +631,7 @@ view_label: "Focalboard Blocks"
     type: average
     sql: ${checkbox} ;;
     value_format_name: decimal_2
+    drill_fields: [focalboard_drill*]
   }
 
   measure: checkbox_median {
@@ -609,5 +640,6 @@ view_label: "Focalboard Blocks"
     description: "The median Checkbox across all instances within the grouping."
     type: median
     sql: ${checkbox} ;;
+    drill_fields: [focalboard_drill*]
   }
 }
