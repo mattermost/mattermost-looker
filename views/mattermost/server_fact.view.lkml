@@ -76,9 +76,26 @@ sql_table_name: mattermost.server_fact ;;
   dimension: retention_28day_flag {
     label: " 28-Day Retention"
     group_label: " Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 700 from the instance's first active timestamp."
+    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 696 from the instance's first active timestamp."
     type: yesno
     sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
+  }
+
+  dimension: retention_28day_users {
+    label: " 28-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 28 days since their first active date. This count indicates the users performed events between hour 672 and 696 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_28day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension_group: cloud_payment_method_added {
+    label: "Cloud Payment Method Added"
+    description: "The date/time the Mattermost Cloud Instance added its first payment method into our billing system."
+    type: time
+    timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.cloud_payment_method_added ;;
   }
 
   dimension: license_id_filter {
@@ -1201,9 +1218,18 @@ sql_table_name: mattermost.server_fact ;;
   measure: active_instances_28day_672_700 {
     label: "  28-Day Active Instances"
     group_label: " Instance Counts"
-    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 672nd & 700th hour from the instances first active timestamp."
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 672nd & 696th hour from the instances first active timestamp."
     type: count_distinct
     sql: CASE WHEN ${retention_28day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: instances_w_payment_methods {
+    label: "  Instances w/ Payment Methods"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging Cloud instances that have added a payment method to their workspace."
+    type: count_distinct
+    sql: CASE WHEN ${cloud_payment_method_added_date} is not null THEN ${server_id} ELSE NULL END;;
     drill_fields: [drill_set1*]
   }
 
@@ -1563,6 +1589,14 @@ sql_table_name: mattermost.server_fact ;;
     description: "The sum of registered users associated with all servers in the current grouping."
     type: number
     sql: sum(${max_registered_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: retained_28day_user_sum {
+    label: "28-Day Retained Users"
+    description: "The sum of users that performed events within 672 & 696 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_28day_users}) ;;
     drill_fields: [drill_set1*]
   }
 
