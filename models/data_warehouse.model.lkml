@@ -3674,8 +3674,8 @@ explore: cloud_conversion_funnel {
   group_label: " Product: Messaging"
   view_label: "First Active Dates"
   description: "Contains all cloud workspaces and data for identifying paid conversion rate trends over time."
-  extends: [server_fact]
-  fields: [customer_conversion_cloud*, server_fact*, cloud_conversion_funnel*, excludable_servers.reason]
+  extends: [server_fact, customer_conversion_cloud]
+  fields: [customer_conversion_cloud*, server_fact*, cloud_conversion_funnel*, excludable_servers.reason, license_server_fact2.customer_name, license_server_fact.customer_name]
 
   join: server_fact {
     view_label: "Cloud: All Instances"
@@ -3685,11 +3685,25 @@ explore: cloud_conversion_funnel {
     type: inner
   }
 
+  join: license_server_fact {
+    view_label: "Cloud: All Instances"
+    sql_on: ${server_fact.server_id} = ${license_server_fact.server_id} ;;
+    relationship: one_to_many
+    type: left_outer
+  }
+
   join: customer_conversion_cloud {
     view_label: "Cloud: Paid Conversions"
     sql_on: ${server_fact.installation_id} = ${customer_conversion_cloud.cloud_installation_id} ;;
     relationship: one_to_one
     type: left_outer
+  }
+
+  join: license_server_fact2 {
+    view_label: "Cloud: Paid Conversions"
+    from: license_server_fact
+    sql_on: ${customer_conversion_cloud.cloud_installation_id} = ${license_server_fact.license_id} ;;
+    relationship: one_to_many
   }
 }
 
