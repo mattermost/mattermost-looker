@@ -3702,7 +3702,7 @@ explore: cloud_conversion_funnel {
   join: license_server_fact2 {
     view_label: "Cloud: Paid Conversions"
     from: license_server_fact
-    sql_on: ${customer_conversion_cloud.cloud_installation_id} = ${license_server_fact.server_id} ;;
+    sql_on: ${customer_conversion_cloud.cloud_installation_id} = ${license_server_fact.license_id} ;;
     relationship: one_to_many
   }
 }
