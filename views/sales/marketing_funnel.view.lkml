@@ -98,6 +98,12 @@ view: marketing_funnel {
     hidden: yes
   }
 
+  dimension: federal_bdr_pipeline_amount {
+    type: number
+    sql:  ${TABLE}.federal_bdr_pipeline_amount ;;
+    hidden: yes
+  }
+
   dimension: commercial_bdr_pipeline_amount {
     type: number
     sql:  ${TABLE}.commercial_bdr_pipeline_amount ;;
@@ -125,6 +131,12 @@ view: marketing_funnel {
   dimension: enterprise_ae_created {
     type: number
     sql:  ${TABLE}.enterprise_ae_created ;;
+    hidden: yes
+  }
+
+  dimension: federal_bdr_created {
+    type: number
+    sql:  ${TABLE}.federal_bdr_created ;;
     hidden: yes
   }
 
@@ -158,6 +170,24 @@ view: marketing_funnel {
     hidden: yes
   }
 
+  dimension: federal_bdr_new_logo {
+    type: number
+    sql:  ${TABLE}.federal_bdr_new_logo ;;
+    hidden: yes
+  }
+
+  dimension: commercial_bdr_new_logo {
+    type: number
+    sql:  ${TABLE}.commercial_bdr_new_logo ;;
+    hidden: yes
+  }
+
+  dimension: enterprise_bdr_new_logo {
+    type: number
+    sql:  ${TABLE}.enterprise_bdr_new_logo ;;
+    hidden: yes
+  }
+
   dimension: federal_arr {
     type: number
     sql:  ${TABLE}.federal_arr ;;
@@ -173,6 +203,42 @@ view: marketing_funnel {
   dimension: enterprise_arr {
     type: number
     sql:  ${TABLE}.enterprise_arr ;;
+    hidden: yes
+  }
+
+  dimension: federal_bdr_arr {
+    type: number
+    sql:  ${TABLE}.federal_bdr_arr ;;
+    hidden: yes
+  }
+
+  dimension: commercial_bdr_arr {
+    type: number
+    sql:  ${TABLE}.commercial_bdr_arr ;;
+    hidden: yes
+  }
+
+  dimension: enterprise_bdr_arr {
+    type: number
+    sql:  ${TABLE}.enterprise_bdr_arr ;;
+    hidden: yes
+  }
+
+  dimension: commercial_m18_arr {
+    type: number
+    sql:  ${TABLE}.commercial_m18_arr ;;
+    hidden: yes
+  }
+
+  dimension: enterprise_m18_arr {
+    type: number
+    sql:  ${TABLE}.enterprise_m18_arr ;;
+    hidden: yes
+  }
+
+  dimension: federal_m18_arr {
+    type: number
+    sql:  ${TABLE}.federal_m18_arr ;;
     hidden: yes
   }
 
@@ -369,6 +435,15 @@ view: marketing_funnel {
     value_format_name: usd_0
   }
 
+  measure: total_federal_bdr_pipeline_amount {
+    type: sum
+    sql:  ${federal_bdr_pipeline_amount} ;;
+    group_label: "Pipeline"
+    label: "Federal BDR Pipeline Amount"
+    group_item_label: "Federal BDR Amount"
+    value_format_name: usd_0
+  }
+
   measure: total_commercial_bdr_pipeline_amount {
     type: sum
     sql:  ${commercial_bdr_pipeline_amount} ;;
@@ -419,6 +494,14 @@ view: marketing_funnel {
     group_item_label: "Commercial BDR Count"
   }
 
+  measure: total_federal_bdr_created {
+    type: sum
+    sql:  ${federal_bdr_created} ;;
+    group_label: "Pipeline"
+    label: "Federal BDR Pipeline Count"
+    group_item_label: "Federal BDR Count"
+  }
+
   measure: total_enterprise_bdr_created {
     type: sum
     sql:  ${enterprise_bdr_created} ;;
@@ -449,6 +532,30 @@ view: marketing_funnel {
     group_label: "New Logo"
     label: "Enterprise New Logo Count"
     group_item_label: "Enterprise New Logo"
+  }
+
+  measure: total_federal_bdr_new_logo {
+    type: sum
+    sql:  ${federal_bdr_new_logo} ;;
+    group_label: "New Logo"
+    label: "Federal BDR New Logo Count"
+    group_item_label: "Federal BDR New Logo"
+  }
+
+  measure: total_commercial_bdr_new_logo {
+    type: sum
+    sql:  ${commercial_bdr_new_logo} ;;
+    group_label: "New Logo"
+    label: "Commercial BDR New Logo Count"
+    group_item_label: "Commercial BDR New Logo"
+  }
+
+  measure: total_enterprise_bdr_new_logo {
+    type: sum
+    sql:  ${enterprise_bdr_new_logo} ;;
+    group_label: "New Logo"
+    label: "Enterprise BDR New Logo Count"
+    group_item_label: "Enterprise BDR New Logo"
   }
 
   measure: total_perc_federal_new_logo {
@@ -503,6 +610,88 @@ view: marketing_funnel {
     label: "Enterprise ARR"
     group_item_label: "Enterprise"
     value_format_name: usd_0
+  }
+
+  measure: total_federal_bdr_arr {
+    type: sum
+    sql:  ${federal_bdr_arr} ;;
+    group_label: "ARR"
+    label: "Federal BDR ARR"
+    group_item_label: "Federal BDR"
+    value_format_name: usd_0
+  }
+
+  measure: total_commercial_bdr_arr {
+    type: sum
+    sql:  ${commercial_bdr_arr} ;;
+    group_label: "ARR"
+    label: "Commercial BDR ARR"
+    group_item_label: "Commercial BDR"
+    value_format_name: usd_0
+  }
+
+  measure: total_enterprise_bdr_arr {
+    type: sum
+    sql:  ${enterprise_bdr_arr} ;;
+    group_label: "ARR"
+    label: "Enterprise BDR ARR"
+    group_item_label: "Enterprise BDR"
+    value_format_name: usd_0
+  }
+
+  measure: total_federal_m18_arr {
+    type: sum
+    sql:  ${federal_m18_arr} ;;
+    group_label: "ARR"
+    label: "Federal M18 ARR"
+    group_item_label: "Federal M18"
+    value_format_name: usd_0
+  }
+
+  measure: total_commercial_m18_arr {
+    type: sum
+    sql:  ${commercial_m18_arr} ;;
+    group_label: "ARR"
+    label: "Commercial M18 ARR"
+    group_item_label: "Commercial M18"
+    value_format_name: usd_0
+  }
+
+  measure: total_enterprise_m18_arr {
+    type: sum
+    sql:  ${enterprise_m18_arr} ;;
+    group_label: "ARR"
+    label: "Enterprise M18 ARR"
+    group_item_label: "Enterprise M18"
+    value_format_name: usd_0
+  }
+
+
+  measure: total_federal_m18_perc {
+    type: number
+    sql:  ${total_federal_m18_arr}/nullif(${total_federal_arr},0) ;;
+    group_label: "ARR"
+    label: "Federal M18 %"
+    group_item_label: "Federal M18 %"
+    value_format_name: percent_1
+  }
+
+  measure: total_commercial_m18_perc {
+    type: number
+    sql:  ${total_commercial_m18_arr}/nullif(${total_commercial_arr},0) ;;
+    group_label: "ARR"
+    label: "Commercial M18 %"
+    group_item_label: "Commercial M18 %"
+    value_format_name: percent_1
+  }
+
+  measure: total_enterprise_m18_perc {
+    type: number
+    sql:  ${total_enterprise_m18_arr}/nullif(${total_enterprise_arr},0) ;;
+    group_label: "ARR"
+    label: "Enterprise M18 %"
+    group_item_label: "Enterprise M18 %"
+    value_format_name: percent_1
   }
 
 
