@@ -65,7 +65,7 @@ view_label: "Mattermost Docs Feedback"
 
 
   dimension: anonymous_id {
-    label: "Anonymous Id"
+    label: "User Id"
     description: "The Anonymous Id of the Mattermost Docs user feedback record."
     type: string
     sql: ${TABLE}.anonymous_id ;;
@@ -210,6 +210,7 @@ view_label: "Mattermost Docs Feedback"
     description: "The User Id of the Mattermost Docs user feedback record."
     type: string
     sql: ${TABLE}.user_id ;;
+    hidden: yes
   }
 
 
@@ -337,7 +338,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: uuid_ts_dayofyear {
-    group_label: "Uuid Ts"
+    group_label: "Uuid Ts "
     label: "Uuid Ts Day of Year"
     description: "The week number within the year that the Uuid Ts occurred on (i.e. 1-52)."
     type: number
@@ -358,7 +359,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: sent_at_dayname {
-    group_label: "Sent At"
+    group_label: "Sent At Date"
     label: "Sent At Day Name"
     description: "The name of the day of the week that the Sent At occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
@@ -368,7 +369,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: sent_at_dayofweek {
-    group_label: "Sent At"
+    group_label: "Sent At Date"
     label: "Sent At Day of Week"
     description: "The day number within the week that the Sent At occurred on (i.e. 1-7)."
     type: number
@@ -378,7 +379,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: sent_at_dayofyear {
-    group_label: "Sent At"
+    group_label: "Sent At Date"
     label: "Sent At Day of Year"
     description: "The week number within the year that the Sent At occurred on (i.e. 1-52)."
     type: number
@@ -398,7 +399,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: timestamp_dayname {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day Name"
     description: "The name of the day of the week that the Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
@@ -407,7 +408,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: timestamp_dayofweek {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day of Week"
     description: "The day number within the week that the Timestamp occurred on (i.e. 1-7)."
     type: number
@@ -416,7 +417,7 @@ view_label: "Mattermost Docs Feedback"
   }
 
   dimension: timestamp_dayofyear {
-    group_label: "Timestamp"
+    group_label: "Timestamp Date"
     label: "Timestamp Day of Year"
     description: "The week number within the year that the Timestamp occurred on (i.e. 1-52)."
     type: number
@@ -510,7 +511,21 @@ view_label: "Mattermost Docs Feedback"
 
 ### MEASURES
 
+  measure: feedback_count {
+    label: "Feedback Count"
+    description: "The count of distinct occurrences that feedback was given within the grouped dimensions."
+    type: number
+    value_format_name: decimal_0
+    sql: count(distinct case when ${feedback} is not null then ${id} else null end) ;;
+  }
 
+  measure: rating_count {
+    label: "Rating Count"
+    description: "The count of distinct occurrences that a rating was given within the grouped dimensions."
+    type: number
+    value_format_name: decimal_0
+    sql: count(distinct case when ${rating} is not null then ${id} else null end) ;;
+  }
 
   measure: context_screen_width_sum {
     group_label: "Context Screen Width Measures"
@@ -629,11 +644,11 @@ view_label: "Mattermost Docs Feedback"
 
 
   measure: user_id_count {
-    group_label: "Instance Counts"
-    label: "User Id"
+    group_label: "User Counts"
+    label: "User Counts"
     description: "The distinct count of user id's within the grouping."
     type: count_distinct
-    sql: ${user_id} ;;
+    sql: ${anonymous_id} ;;
   }
 
 
