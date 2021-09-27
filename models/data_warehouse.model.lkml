@@ -3795,11 +3795,11 @@ explore: user_28day_retention {
   }
   }
 
-            
+
 explore: mattermost_docs_feedback {
   label: "Mattermost Docs Feedback"
+  group_label: " Website Telemetry"
   hidden: no
   }
 
 
-    
