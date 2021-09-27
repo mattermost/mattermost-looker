@@ -618,10 +618,10 @@ view: license_server_fact {
 
 
   measure: activated_license_count {
-    label: " Actived License Count"
-    description: "The distinct count of Activated Licenses per grouping."
+    label: " Activated License Count"
+    description: "The distinct count of Activated License requests per grouping."
     type: count_distinct
-    sql: case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_email} end;;
+    sql: case when ${trial_request_type} = 'In-Product' then ${server_id} else ${license_id} end;;
     filters: [is_activated: "yes"]
     drill_fields: [licensed_server_drill*]
   }
