@@ -485,7 +485,7 @@ sql_table_name: mattermost.server_fact ;;
     label: " First Active"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [hour, time, time_of_day, hour_of_day, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
   }
 
