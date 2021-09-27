@@ -3794,3 +3794,12 @@ explore: user_28day_retention {
     sql_on: ${user_28day_retention.server_id} = ${excludable_servers.server_id} ;;
   }
   }
+
+            
+explore: mattermost_docs_feedback {
+  label: "Mattermost Docs Feedback"
+  hidden: no
+  }
+
+
+    
