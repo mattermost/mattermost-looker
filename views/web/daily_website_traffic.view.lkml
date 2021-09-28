@@ -13,10 +13,18 @@ view: daily_website_traffic {
     hidden: no
   }
 
+  dimension: dbt_source_relation {
+    description: "The raw source relation this data originated from."
+    type: string
+    sql: ${TABLE}._dbt_source_relation ;;
+    hidden: yes
+  }
+
   dimension: web_property {
     description: "The Mattermost Web Property visited i.e. WWW, Integrations, Customers, Support."
     type: string
-    sql: CASE WHEN coalesce(split_part(regexp_substr(${context_page_url},
+    sql: CASE WHEN ${dbt_source_relation} = '"RAW".MM_TELEMETRY_PROD.PAGES' THEN 'In-Product'
+              WHEN coalesce(split_part(regexp_substr(${context_page_url},
                                           '^(https://|http://)([a-z0-9-]{1,20}[\.]{1}|[A-Za-z0-9-]{1,100})[A-Za-z0-9-]{0,100}[\.]{1}[a-z]{1,10}'),
                             '//', 2), '') NOT IN ('mattermost.com', 'integrations.mattermost.com', 'support.mattermost.com','customers.mattermost.com', 'docs.mattermost.com')
                             THEN 'Other'
