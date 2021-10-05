@@ -1,0 +1,317 @@
+
+# This is the view file for the analytics.events.focalboard_event_telemetry table.
+view: focalboard_event_telemetry {
+sql_table_name: events.focalboard_event_telemetry ;;
+view_label: "Focalboard Event Telemetry"
+
+
+
+### SETS
+
+
+    
+### DIMENSIONS
+
+
+
+  dimension: _dbt_source_relation {
+    label: " Dbt Source Relation"
+    description: "The  Dbt Source Relation of the instance (or user)."
+    type: string
+    sql: ${TABLE}._dbt_source_relation ;;
+  }
+
+
+  dimension: category {
+    label: "Category"
+    description: "The Category of the instance (or user)."
+    type: string
+    sql: ${TABLE}.category ;;
+  }
+
+
+  dimension: context_app_name {
+    label: "Context App Name"
+    description: "The Context App Name of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_app_name ;;
+  }
+
+
+  dimension: context_app_namespace {
+    label: "Context App Namespace"
+    description: "The Context App Namespace of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_app_namespace ;;
+  }
+
+
+  dimension: context_app_build {
+    label: "Context App Build"
+    description: "The Context App Build of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_app_build ;;
+  }
+
+
+  dimension: anonymous_id {
+    label: "Anonymous Id"
+    description: "The Anonymous Id of the instance (or user)."
+    type: string
+    sql: ${TABLE}.anonymous_id ;;
+  }
+
+
+  dimension: context_locale {
+    label: "Context Locale"
+    description: "The Context Locale of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_locale ;;
+  }
+
+
+  dimension: user_actual_id {
+    label: "User Actual Id"
+    description: "The User Actual Id of the instance (or user)."
+    type: string
+    sql: ${TABLE}.user_actual_id ;;
+  }
+
+
+  dimension: context_request_ip {
+    label: "Context Request Ip"
+    description: "The Context Request Ip of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_request_ip ;;
+  }
+
+
+  dimension: event {
+    label: "Event"
+    description: "The Event of the instance (or user)."
+    type: string
+    sql: ${TABLE}.event ;;
+  }
+
+
+  dimension: context_ip {
+    label: "Context Ip"
+    description: "The Context Ip of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_ip ;;
+  }
+
+
+  dimension: context_library_name {
+    label: "Context Library Name"
+    description: "The Context Library Name of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_library_name ;;
+  }
+
+
+  dimension: context_library_version {
+    label: "Context Library Version"
+    description: "The Context Library Version of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_library_version ;;
+  }
+
+
+  dimension: context_screen_density {
+    label: "Context Screen Density"
+    description: "The Context Screen Density of the instance."
+    type: string
+    sql: ${TABLE}.context_screen_density ;;
+  }
+
+
+
+  dimension: view_type {
+    label: "View Type"
+    description: "The View Type of the instance (or user)."
+    type: string
+    sql: ${TABLE}.view_type ;;
+  }
+
+
+  dimension: context_passed_ip {
+    label: "Context Passed Ip"
+    description: "The Context Passed Ip of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_passed_ip ;;
+  }
+
+
+  dimension: event_text {
+    label: "Event Text"
+    description: "The Event Text of the instance (or user)."
+    type: string
+    sql: ${TABLE}.event_text ;;
+  }
+
+
+  dimension: channel {
+    label: "Channel"
+    description: "The Channel of the instance (or user)."
+    type: string
+    sql: ${TABLE}.channel ;;
+  }
+
+
+  dimension: user_id {
+    label: "User Id"
+    description: "The User Id of the instance (or user)."
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+
+  dimension: id {
+    label: "Id"
+    description: "The Id of the instance (or user)."
+    type: string
+    sql: ${TABLE}.id ;;
+  }
+
+
+  dimension: type {
+    label: "Type"
+    description: "The Type of the instance (or user)."
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+
+  dimension: context_user_agent {
+    label: "Context User Agent"
+    description: "The Context User Agent of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_user_agent ;;
+  }
+
+
+  dimension: context_app_version {
+    label: "Context App Version"
+    description: "The Context App Version of the instance (or user)."
+    type: string
+    sql: ${TABLE}.context_app_version ;;
+  }
+
+
+### DATES & TIMESTAMPS
+
+
+
+  dimension_group: timestamp {
+    label: "Timestamp"
+    type: time
+    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${TABLE}.timestamp::date ;;
+    
+  } 
+
+
+
+  dimension_group: received_at {
+    label: "Received At"
+    type: time
+    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${TABLE}.received_at::date ;;
+    
+    hidden: yes
+  } 
+
+
+
+  dimension_group: uuid_ts {
+    label: "Uuid Ts"
+    type: time
+    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${TABLE}.uuid_ts::date ;;
+    
+    hidden: yes
+  } 
+
+
+
+  dimension_group: sent_at {
+    label: "Sent At"
+    type: time
+    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${TABLE}.sent_at::date ;;
+    
+    hidden: yes
+  } 
+
+
+
+  dimension_group: original_timestamp {
+    label: "Original Timestamp"
+    type: time
+    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${TABLE}.original_timestamp::date ;;
+    
+    hidden: yes
+  } 
+
+
+
+### MEASURES
+
+
+
+  measure: user_actual_id_count {
+    group_label: "User_Actual Counts"
+    label: "User Actual Id Count"
+    description: "The distinct count of User Actual Id's within the grouping."
+    type: count_distinct
+    sql: ${user_actual_id} ;;
+  }
+
+
+
+  measure: context_screen_density_sum {
+    group_label: "Context Screen Density Measures"
+    label: "Context Screen Density (Sum)"
+    description: "The sum of Context Screen Density across all instances within the grouping."
+    type: sum
+    sql: ${context_screen_density} ;;
+  }
+
+  measure: context_screen_density_avg {
+    group_label: "Context Screen Density Measures"
+    label: "Context Screen Density (Avg)"
+    description: "The average Context Screen Density across all instances within the grouping."
+    type: average
+    sql: ${context_screen_density} ;;
+  }
+
+  measure: context_screen_density_median {
+    group_label: "Context Screen Density Measures"
+    label: "Context Screen Density (Med)"
+    description: "The median Context Screen Density across all instances within the grouping."
+    type: median
+    sql: ${context_screen_density} ;;
+  }
+
+
+
+  measure: user_id_count {
+    group_label: "Instance Counts"
+    label: "User Id Count"
+    description: "The distinct count of User Id's within the grouping."
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+
+
+    
+    }
+    

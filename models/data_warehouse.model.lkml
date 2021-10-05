@@ -3812,3 +3812,11 @@ explore: focalboard_event_telemetry {
 
 
     
+            
+explore: focalboard_event_telemetry {
+  label: "Focalboard Event Telemetry"
+  hidden: no
+  }
+
+
+    
