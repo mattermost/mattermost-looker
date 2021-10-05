@@ -3803,3 +3803,12 @@ explore: mattermost_docs_feedback {
   }
 
 
+
+            
+explore: focalboard_event_telemetry {
+  label: "Focalboard Event Telemetry"
+  hidden: no
+  }
+
+
+    
