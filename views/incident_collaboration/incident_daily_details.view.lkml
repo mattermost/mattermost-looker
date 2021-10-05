@@ -131,6 +131,14 @@ view: incident_daily_details {
             THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: dev_testing_enabled {
+    label: "Developer/Testing Enabled"
+    description: "Boolean that evaluates to true when the server has resported development or testing features enabled in their configuration telemetry."
+    type: yesno
+    sql: COALESCE(${server_fact.dev_testing_enabled}, FALSE) ;;
+  }
+
+
   dimension: community_server {
     description: "Boolean indicating the server performing the event is the Mattermost Community server."
     type: yesno
