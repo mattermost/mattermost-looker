@@ -160,8 +160,8 @@ view_label: "Focalboard User Telemetry"
 
 
   dimension: user_id {
-    label: "User Id"
-    description: "The User Id of the user performing the event."
+    label: "Instance Id"
+    description: "The User Id (Instance ID) of the user performing the event."
     type: string
     sql: ${TABLE}.user_id ;;
   }
