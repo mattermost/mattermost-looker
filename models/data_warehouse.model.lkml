@@ -3718,7 +3718,7 @@ explore: onprem_conversion_funnel {
   join: license_server_fact {
     view_label: "Activated Trial Licenses"
     sql_on: ${license_server_fact.issued_date}::date = ${onprem_conversion_funnel.date_date}::date and ${license_server_fact.edition} = 'E20 Trial'
-    and ${license_server_fact.server_id} IS NOT NULL;;
+    and ${license_server_fact.server_id} IS NOT NULL and ${license_server_fact.license_activation_date}::date is not null;;
     relationship: one_to_many
     type: left_outer
   }

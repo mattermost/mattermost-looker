@@ -356,6 +356,11 @@ view_label: "Focalboard User Telemetry"
     sql: ${context_screen_density} ;;
   }
 
+  measure: count {
+    type: count
+    label: "Event Count"
+  }
+
 
 
   measure: user_id_count {
