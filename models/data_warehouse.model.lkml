@@ -3804,19 +3804,16 @@ explore: mattermost_docs_feedback {
 
 
 
-            
 explore: focalboard_event_telemetry {
-  label: "Focalboard Event Telemetry"
+  label: "Focalboard User Telemetry"
+  view_label: "Focalboard User Telemetry"
+  group_label: " Product: Focalboard"
   hidden: no
+
+  join: dates {
+    sql_on: ${focalboard_event_telemetry.timestamp_date}::date <= ${dates.date_date}::date and ${focalboard_event_telemetry.timestamp_date}::date >= ${dates.date_date}::date - interval '30 days' AND ${dates.date_date}::date <= CURRENT_DATE ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: []
   }
-
-
-    
-            
-explore: focalboard_event_telemetry {
-  label: "Focalboard Event Telemetry"
-  hidden: no
   }
-
-
-    

@@ -2,21 +2,21 @@
 # This is the view file for the analytics.events.focalboard_event_telemetry table.
 view: focalboard_event_telemetry {
 sql_table_name: events.focalboard_event_telemetry ;;
-view_label: "Focalboard Event Telemetry"
+view_label: "Focalboard User Telemetry"
 
 
 
 ### SETS
 
 
-    
+
 ### DIMENSIONS
 
 
 
   dimension: _dbt_source_relation {
     label: " Dbt Source Relation"
-    description: "The  Dbt Source Relation of the instance (or user)."
+    description: "The  Dbt Source Relation of the user performing the event."
     type: string
     sql: ${TABLE}._dbt_source_relation ;;
   }
@@ -24,7 +24,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: category {
     label: "Category"
-    description: "The Category of the instance (or user)."
+    description: "The Category of the user performing the event."
     type: string
     sql: ${TABLE}.category ;;
   }
@@ -32,7 +32,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_app_name {
     label: "Context App Name"
-    description: "The Context App Name of the instance (or user)."
+    description: "The Context App Name of the user performing the event."
     type: string
     sql: ${TABLE}.context_app_name ;;
   }
@@ -40,7 +40,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_app_namespace {
     label: "Context App Namespace"
-    description: "The Context App Namespace of the instance (or user)."
+    description: "The Context App Namespace of the user performing the event."
     type: string
     sql: ${TABLE}.context_app_namespace ;;
   }
@@ -48,7 +48,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_app_build {
     label: "Context App Build"
-    description: "The Context App Build of the instance (or user)."
+    description: "The Context App Build of the user performing the event."
     type: string
     sql: ${TABLE}.context_app_build ;;
   }
@@ -56,7 +56,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: anonymous_id {
     label: "Anonymous Id"
-    description: "The Anonymous Id of the instance (or user)."
+    description: "The Anonymous Id of the user performing the event."
     type: string
     sql: ${TABLE}.anonymous_id ;;
   }
@@ -64,15 +64,15 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_locale {
     label: "Context Locale"
-    description: "The Context Locale of the instance (or user)."
+    description: "The Context Locale of the user performing the event."
     type: string
     sql: ${TABLE}.context_locale ;;
   }
 
 
   dimension: user_actual_id {
-    label: "User Actual Id"
-    description: "The User Actual Id of the instance (or user)."
+    label: "User Id"
+    description: "The distinct User Id of the user performing the event."
     type: string
     sql: ${TABLE}.user_actual_id ;;
   }
@@ -80,7 +80,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_request_ip {
     label: "Context Request Ip"
-    description: "The Context Request Ip of the instance (or user)."
+    description: "The Context Request Ip of the user performing the event."
     type: string
     sql: ${TABLE}.context_request_ip ;;
   }
@@ -88,7 +88,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: event {
     label: "Event"
-    description: "The Event of the instance (or user)."
+    description: "The Event of the user performing the event."
     type: string
     sql: ${TABLE}.event ;;
   }
@@ -96,7 +96,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_ip {
     label: "Context Ip"
-    description: "The Context Ip of the instance (or user)."
+    description: "The Context Ip of the user performing the event."
     type: string
     sql: ${TABLE}.context_ip ;;
   }
@@ -104,7 +104,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_library_name {
     label: "Context Library Name"
-    description: "The Context Library Name of the instance (or user)."
+    description: "The Context Library Name of the user performing the event."
     type: string
     sql: ${TABLE}.context_library_name ;;
   }
@@ -112,7 +112,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_library_version {
     label: "Context Library Version"
-    description: "The Context Library Version of the instance (or user)."
+    description: "The Context Library Version of the user performing the event."
     type: string
     sql: ${TABLE}.context_library_version ;;
   }
@@ -129,7 +129,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: view_type {
     label: "View Type"
-    description: "The View Type of the instance (or user)."
+    description: "The View Type of the user performing the event."
     type: string
     sql: ${TABLE}.view_type ;;
   }
@@ -137,7 +137,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_passed_ip {
     label: "Context Passed Ip"
-    description: "The Context Passed Ip of the instance (or user)."
+    description: "The Context Passed Ip of the user performing the event."
     type: string
     sql: ${TABLE}.context_passed_ip ;;
   }
@@ -145,7 +145,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: event_text {
     label: "Event Text"
-    description: "The Event Text of the instance (or user)."
+    description: "The Event Text of the user performing the event."
     type: string
     sql: ${TABLE}.event_text ;;
   }
@@ -153,7 +153,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: channel {
     label: "Channel"
-    description: "The Channel of the instance (or user)."
+    description: "The Channel of the user performing the event."
     type: string
     sql: ${TABLE}.channel ;;
   }
@@ -161,7 +161,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: user_id {
     label: "User Id"
-    description: "The User Id of the instance (or user)."
+    description: "The User Id of the user performing the event."
     type: string
     sql: ${TABLE}.user_id ;;
   }
@@ -169,7 +169,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: id {
     label: "Id"
-    description: "The Id of the instance (or user)."
+    description: "The Id of the user performing the event."
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -177,7 +177,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: type {
     label: "Type"
-    description: "The Type of the instance (or user)."
+    description: "The Type of the user performing the event."
     type: string
     sql: ${TABLE}.type ;;
   }
@@ -185,7 +185,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_user_agent {
     label: "Context User Agent"
-    description: "The Context User Agent of the instance (or user)."
+    description: "The Context User Agent of the user performing the event."
     type: string
     sql: ${TABLE}.context_user_agent ;;
   }
@@ -193,7 +193,7 @@ view_label: "Focalboard Event Telemetry"
 
   dimension: context_app_version {
     label: "Context App Version"
-    description: "The Context App Version of the instance (or user)."
+    description: "The Context App Version of the user performing the event."
     type: string
     sql: ${TABLE}.context_app_version ;;
   }
@@ -204,13 +204,23 @@ view_label: "Focalboard Event Telemetry"
 
 
   dimension_group: timestamp {
-    label: "Timestamp"
+    label: "Event"
     type: time
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
-    sql: ${TABLE}.timestamp::date ;;
-    
-  } 
+    sql: ${TABLE}.timestamp ;;
+
+  }
+
+  dimension_group: active_user_date {
+    label: "Active User"
+    description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${dates.date_date}::date ;;
+
+  }
 
 
 
@@ -220,9 +230,9 @@ view_label: "Focalboard Event Telemetry"
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
     sql: ${TABLE}.received_at::date ;;
-    
+
     hidden: yes
-  } 
+  }
 
 
 
@@ -232,9 +242,9 @@ view_label: "Focalboard Event Telemetry"
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
     sql: ${TABLE}.uuid_ts::date ;;
-    
+
     hidden: yes
-  } 
+  }
 
 
 
@@ -244,9 +254,9 @@ view_label: "Focalboard Event Telemetry"
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
     sql: ${TABLE}.sent_at::date ;;
-    
+
     hidden: yes
-  } 
+  }
 
 
 
@@ -256,9 +266,9 @@ view_label: "Focalboard Event Telemetry"
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
     sql: ${TABLE}.original_timestamp::date ;;
-    
+
     hidden: yes
-  } 
+  }
 
 
 
@@ -267,14 +277,60 @@ view_label: "Focalboard Event Telemetry"
 
 
   measure: user_actual_id_count {
-    group_label: "User_Actual Counts"
-    label: "User Actual Id Count"
-    description: "The distinct count of User Actual Id's within the grouping."
+    group_label: "User Counts"
+    label: "User Count"
+    description: "The distinct count of User Actual Id's (User ID's) within the grouping."
     type: count_distinct
     sql: ${user_actual_id} ;;
   }
 
+  measure: daily_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Daily Active Users"
+    description: "The count of daily active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_actual_id} ELSE NULL END ;;
+  }
 
+  measure: weekly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Weekly Active Users"
+    description: "The count of Weekly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${user_actual_id} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Monthly Active Users"
+    description: "The count of monthly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_actual_id} ELSE NULL END ;;
+  }
+
+  measure: daily_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Daily Active Instances"
+    description: "The count of daily active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Weekly Active Instances"
+    description: "The count of Weekly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Monthly Active Instances"
+    description: "The count of monthly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
+  }
 
   measure: context_screen_density_sum {
     group_label: "Context Screen Density Measures"
@@ -304,14 +360,13 @@ view_label: "Focalboard Event Telemetry"
 
   measure: user_id_count {
     group_label: "Instance Counts"
-    label: "User Id Count"
-    description: "The distinct count of User Id's within the grouping."
+    label: "Instance Count"
+    description: "The distinct count of User Id's (Instance ID's) within the grouping."
     type: count_distinct
     sql: ${user_id} ;;
   }
 
 
 
-    
+
     }
-    
