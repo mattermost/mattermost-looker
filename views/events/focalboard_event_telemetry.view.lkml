@@ -160,8 +160,8 @@ view_label: "Focalboard User Telemetry"
 
 
   dimension: user_id {
-    label: "User Id"
-    description: "The User Id of the user performing the event."
+    label: "Instance Id"
+    description: "The User Id (Instance ID) of the user performing the event."
     type: string
     sql: ${TABLE}.user_id ;;
   }
@@ -354,6 +354,11 @@ view_label: "Focalboard User Telemetry"
     description: "The median Context Screen Density across all instances within the grouping."
     type: median
     sql: ${context_screen_density} ;;
+  }
+
+  measure: count {
+    type: count
+    label: "Event Count"
   }
 
 
