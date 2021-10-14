@@ -1,7 +1,7 @@
 # This is the view file for the analytics.events.incident_response_events table.
 view: incident_response_events {
   sql_table_name: events.incident_response_events ;;
-  view_label: "Incident Response Events"
+  view_label: "User Events Telemetry (Playbooks)"
 
   # DRILL SETS
   set: incidents_drill {
