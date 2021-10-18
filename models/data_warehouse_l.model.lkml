@@ -93,5 +93,6 @@ explore: user_events_telemetry {
     relationship: many_to_one
     view_label: "Monthly Active Dates"
     type: inner
+    fields: []
   }
 }
