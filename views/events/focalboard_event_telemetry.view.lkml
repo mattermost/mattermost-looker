@@ -2,7 +2,7 @@
 # This is the view file for the analytics.events.focalboard_event_telemetry table.
 view: focalboard_event_telemetry {
 sql_table_name: events.focalboard_event_telemetry ;;
-view_label: "Focalboard User Telemetry"
+view_label: "User Events Telemetry (Boards)"
 
 
 
