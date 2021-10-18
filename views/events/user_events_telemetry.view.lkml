@@ -292,7 +292,7 @@ view: user_events_telemetry {
     label: " User ID"
     description: "The unique user id of the user performing the event."
     type: string
-    sql: COALESCE(${TABLE}.user_actual_id, ${user_id}) ;;
+    sql: COALESCE(${TABLE}.user_actual_id, ${anonymous_id}) ;;
     hidden: no
   }
 
@@ -1115,7 +1115,7 @@ view: user_events_telemetry {
     label: "Daily Active Users"
     description: "The count of daily active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id}) ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_users {
@@ -1124,7 +1124,7 @@ view: user_events_telemetry {
     description: "The count of Weekly active users on the given active user date."
     type: count_distinct
     sql: CASE WHEN ${event_date}::DATE <= ${active_user_date_date}::DATE and ${event_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
-          THEN COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id}) ELSE NULL END ;;
+          THEN ${user_actual_id} ELSE NULL END ;;
   }
 
 
@@ -1133,7 +1133,7 @@ view: user_events_telemetry {
     label: "Monthly Active Users"
     description: "The count of monthly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id}) ELSE NULL END ;;
+    sql: ${user_actual_id} ;;
   }
 
   measure: daily_active_instances {

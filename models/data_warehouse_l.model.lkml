@@ -6,7 +6,6 @@ week_start_day: sunday
 explore: user_events_telemetry {
   label: "User Events Telemetry (Messaging)"
   view_label: " User Events Telemetry (Messaging)"
-  sql_always_where: ${user_events_telemetry.type} NOT IN ('api_profiles_get_by_ids', 'api_profiles_get_by_usernames');;
   group_label: " Product: Messaging"
   description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
 
