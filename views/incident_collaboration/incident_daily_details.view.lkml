@@ -432,6 +432,12 @@ view: incident_daily_details {
     sql: ${logging_date}::date = ${last_version_date}::date ;;
   }
 
+  dimension: current_record {
+    description: "Indicates the record displayed is the between the first and last version date of the instance for (reporting purposes especially active user reporting)."
+    type: yesno
+    sql: ${logging_date}::date <= ${last_version_date}::date and ${logging_date} >= ${first_version_date};;
+  }
+
   dimension_group: first_active {
     description: ""
     type: time
