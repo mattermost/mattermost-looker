@@ -3007,17 +3007,28 @@ explore: license_server_fact {
     sql_on: ${person.email} = ${license_server_fact.license_email};;
     relationship: many_to_one
   }
+
+  join: subscriptions {
+    view_label: "Stripe"
+    sql_on: COALESCE(${subscriptions.cws_installation}, ${subscriptions.license_id}) = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    type: left_outer
+  }
+}
+
+explore: subscriptions {
+  hidden: yes
 }
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
-  view_label: " Incident Collababoration: User Events"
-  label: " Incident Collababoration: User Events"
-  group_label: " Product: Incident Collaboration"
+  view_label: " User Events Telemetry (Playbooks)"
+  label: " User Events Telemetry (Playbooks)"
+  group_label: " Product: Playbooks"
   extends: [license_server_fact]
 
   join: server_daily_details {
-    view_label: " Incident Collababoration: User Events"
+    view_label: " User Events Telemetry (Playbooks)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -3025,14 +3036,14 @@ explore: incident_response_events {
   }
 
   join: server_fact {
-    view_label: " Incident Collababoration: User Events"
+    view_label: " User Events Telemetry (Playbooks)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: excludable_servers {
-    view_label: " Incident Collababoration: User Events"
+    view_label: " User Events Telemetry (Playbooks)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${excludable_servers.server_id}) ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -3063,6 +3074,7 @@ explore: incident_response_events {
     sql_on: ${incident_response_events.timestamp_date}::date <= ${dates.date_date}::date AND ${incident_response_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
     relationship: many_to_many
     type: left_outer
+    fields: []
   }
 }
 
@@ -3114,7 +3126,7 @@ explore: cloud_onboarding_flows {
 }
 
 explore: incident_response_telemetry {
-  label: "Incident Collaboration Telemetry"
+  label: "Plabyooks Telemetry"
   group_label: "Quality Assurance"
 }
 
@@ -3130,7 +3142,7 @@ explore: cloud_clearbit {
 }
 
 explore: hacktoberboard_dev {
-  label: "Focalboard Telemetry (QA/RC)"
+  label: "Boards Telemetry (QA/RC)"
   group_label: "Quality Assurance"
 }
 
@@ -3152,8 +3164,8 @@ explore: telemetry_tables {
 }
 
 explore: focalboard_activity {
-  label: "Focalboard Telemetry"
-  group_label: " Product: Focalboard"
+  label: "Boards Telemetry"
+  group_label: " Product: Boards"
   hidden: yes
 
   join: focalboard_server {
@@ -3164,13 +3176,13 @@ explore: focalboard_activity {
 
 
   join: focalboard_fact {
-    view_label: "Focalboard Instance Facts (To Date)"
+    view_label: "Boards Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3199,27 +3211,27 @@ explore: focalboard_activity {
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Config"
+    view_label: "Boards Config"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_workspaces {
-    view_label: "Focalboard Workspaces"
+    view_label: "Boards Workspaces"
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 
   join: focalboard_blocks{
-    view_label: "Focalboard Blocks"
+    view_label: "Boards Blocks"
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 }
 
 explore: focalboard_config {
-  label: "Focalboard Telemetry"
-  group_label: " Product: Focalboard"
+  label: "Boards Telemetry"
+  group_label: " Product: Boards"
   hidden: yes
 
   join: focalboard_server {
@@ -3229,25 +3241,25 @@ explore: focalboard_config {
   }
 
   join: focalboard_fact {
-    view_label: "Focalboard Instance Facts (To Date)"
+    view_label: "Boards Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
   }
 
   join: focalboard_activity {
-    view_label: "Focalboard Activity"
+    view_label: "Boards Activity"
     sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_workspaces {
-    view_label: "Focalboard Workspaces"
+    view_label: "Boards Workspaces"
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3276,7 +3288,7 @@ explore: focalboard_config {
   }
 
   join: focalboard_blocks{
-    view_label: "Focalboard Blocks"
+    view_label: "Boards Blocks"
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
@@ -3284,43 +3296,43 @@ explore: focalboard_config {
 
 explore: focalboard_server {
   fields: [ALL_FIELDS*, -focalboard_activity.event, -focalboard_activity.event_text, -focalboard_config.event]
-  view_label: "Focalboard Server"
-  group_label: " Product: Focalboard"
-  label: "Focalboard Instance Telemtry"
-  description: "Contains the Focalboard Instance configuration telemetry including the config, activity, and server diagnostic properties."
+  view_label: "Boards Server"
+  group_label: " Product: Boards"
+  label: "Boards Instance Telemtry"
+  description: "Contains the Boards Instance configuration telemetry including the config, activity, and server diagnostic properties."
 
   join: focalboard_activity {
-    view_label: "Focalboard Activity"
+    view_label: "Boards Activity"
     sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Config"
+    view_label: "Boards Config"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_fact {
-    view_label: "Focalboard Instance Facts (To Date)"
+    view_label: "Boards Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
   }
 
   join: focalboard_workspaces {
-    view_label: "Focalboard Workspaces"
+    view_label: "Boards Workspaces"
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 
   join: focalboard_blocks{
-    view_label: "Focalboard Blocks"
+    view_label: "Boards Blocks"
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3350,20 +3362,20 @@ explore: focalboard_server {
 }
 
 explore: incident_daily_details {
-  label: "Incident Daily Details"
-  group_label: " Product: Incident Collaboration"
-  description: "Contains a daily snapshot of each Mattermost Instance's Incident Collaboration usage to date (only contains instances that have performed an incident collaboration event with telemetry enabled)."
+  label: "Playbooks Daily Details"
+  group_label: " Product: Playbooks"
+  description: "Contains a daily snapshot of each Mattermost Instance's Playbooks usage to date (only contains instances that have performed an Playbooks event with telemetry enabled)."
   hidden: no
 
   join: license_server_fact {
-    view_label: "Incident Daily Details"
+    view_label: "Playbooks Daily Details"
     relationship: many_to_one
     sql_on: (${license_server_fact.server_id} = ${incident_daily_details.server_id}) and (${incident_daily_details.last_active_date}::date BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date);;
     fields: [license_server_fact.customer_name, license_server_fact.customer_id, license_server_fact.company, license_server_fact.users]
   }
 
   join: server_fact {
-    view_label: "Incident Daily Details"
+    view_label: "Playbooks Daily Details"
     sql_on: ${server_fact.server_id} = ${incident_daily_details.server_id} ;;
     relationship: many_to_one
     type: left_outer
@@ -3371,14 +3383,14 @@ explore: incident_daily_details {
   }
 
   join: excludable_servers {
-    view_label: "Incident Daily Details"
+    view_label: "Playbooks Daily Details"
     relationship: many_to_one
     sql_on: ${excludable_servers.server_id} = ${incident_daily_details.server_id} ;;
     fields: [excludable_servers.reason]
   }
 
   join: server_daily_details {
-    view_label: "Incident Daily Details"
+    view_label: "Playbooks Daily Details"
     sql_on: ${incident_daily_details.server_id} = ${server_daily_details.server_id} AND ${server_daily_details.logging_date}::DATE = ${incident_daily_details.logging_date}::DATE ;;
     relationship: one_to_one
     type: left_outer
@@ -3386,7 +3398,7 @@ explore: incident_daily_details {
   }
 
   join: incident_collaboration_fact {
-    view_label: "Incident Collaboration Facts (To Date)"
+    view_label: "Playbooks Fact (To Date)"
     sql_on: ${incident_collaboration_fact.server_id} = ${incident_daily_details.server_id} ;;
     relationship: many_to_one
     fields: [incident_collaboration_fact.incident_facts*]
@@ -3446,12 +3458,12 @@ explore: incident_daily_details {
 # }
 
 explore: incident_collaboration_fact {
-  label: "Incident Collaboration Fact"
+  label: "Playbooks Fact"
   hidden: yes
 }
 
 explore: focalboard_fact {
-  label: "Focalboard Fact"
+  label: "Boards Fact"
   hidden: yes
 
   join: focalboard_server {
@@ -3461,13 +3473,13 @@ explore: focalboard_fact {
   }
 
   join: focalboard_activity {
-    view_label: "Focalboard Activity"
+    view_label: "Boards Activity"
     sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3497,19 +3509,19 @@ explore: focalboard_fact {
 
 
   join: focalboard_blocks{
-    view_label: "Focalboard Blocks"
+    view_label: "Boards Blocks"
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Config"
+    view_label: "Boards Config"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_workspaces {
-    view_label: "Focalboard Workspaces"
+    view_label: "Boards Workspaces"
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
@@ -3523,7 +3535,7 @@ explore: server_feature_flag_details {
 
 
 explore: focalboard_workspaces {
-  label: "Focalboard Workspaces"
+  label: "Boards Workspaces"
   hidden: yes
 
   join: focalboard_server {
@@ -3532,19 +3544,19 @@ explore: focalboard_workspaces {
   }
 
   join: focalboard_fact {
-    view_label: "Focalboard Instance Facts (To Date)"
+    view_label: "Boards Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
   }
 
   join: focalboard_activity {
-    view_label: "Focalboard Activity"
+    view_label: "Boards Activity"
     sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3573,14 +3585,14 @@ explore: focalboard_workspaces {
   }
 
   join: focalboard_blocks{
-    view_label: "Focalboard Blocks"
+    view_label: "Boards Blocks"
     sql_on: ${focalboard_server.user_id} = ${focalboard_blocks.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_blocks.timestamp_date}::date  ;;
     relationship: one_to_one
     fields: []
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Config"
+    view_label: "Boards Config"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
     fields: []
@@ -3592,7 +3604,7 @@ explore: focalboard_workspaces {
 
 
 explore: focalboard_blocks {
-  label: "Focalboard Blocks"
+  label: "Boards Blocks"
   hidden: yes
 
   join: focalboard_server {
@@ -3602,13 +3614,13 @@ explore: focalboard_blocks {
   }
 
   join: focalboard_activity {
-    view_label: "Focalboard Activity"
+    view_label: "Boards Activity"
     sql_on: ${focalboard_server.user_id} = ${focalboard_activity.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_activity.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: excludable_servers {
-    view_label: "Focalboard Server"
+    view_label: "Boards Server"
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
@@ -3637,19 +3649,19 @@ explore: focalboard_blocks {
   }
 
   join: focalboard_config {
-    view_label: "Focalboard Config"
+    view_label: "Boards Config"
     sql_on: ${focalboard_server.user_id} = ${focalboard_config.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_config.timestamp_date}::date ;;
     relationship: one_to_one
   }
 
   join: focalboard_fact {
-    view_label: "Focalboard Instance Facts (To Date)"
+    view_label: "Boards Instance Facts (To Date)"
     sql_on: ${focalboard_server.user_id} = ${focalboard_fact.instance_id} ;;
     relationship: many_to_one
   }
 
   join: focalboard_workspaces {
-    view_label: "Focalboard Workspaces"
+    view_label: "Boards Workspaces"
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
@@ -3719,7 +3731,7 @@ explore: onprem_conversion_funnel {
   join: license_server_fact {
     view_label: "Activated Trial Licenses"
     sql_on: ${license_server_fact.issued_date}::date = ${onprem_conversion_funnel.date_date}::date and ${license_server_fact.edition} = 'E20 Trial'
-    and ${license_server_fact.server_id} IS NOT NULL;;
+    and ${license_server_fact.server_id} IS NOT NULL and ${license_server_fact.license_activation_date}::date is not null;;
     relationship: one_to_many
     type: left_outer
   }
@@ -3793,5 +3805,28 @@ explore: user_28day_retention {
     type: left_outer
     relationship: many_to_one
     sql_on: ${user_28day_retention.server_id} = ${excludable_servers.server_id} ;;
+  }
+  }
+
+
+explore: mattermost_docs_feedback {
+  label: "Mattermost Docs Feedback"
+  group_label: " Website Telemetry"
+  hidden: no
+  }
+
+
+
+explore: focalboard_event_telemetry {
+  label: "User Events Telemetry (Boards)"
+  view_label: "User Events Telemetry (Boards)"
+  group_label: " Product: Boards"
+  hidden: no
+
+  join: dates {
+    sql_on: ${focalboard_event_telemetry.timestamp_date}::date <= ${dates.date_date}::date and ${focalboard_event_telemetry.timestamp_date}::date >= ${dates.date_date}::date - interval '30 days' AND ${dates.date_date}::date <= CURRENT_DATE ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: []
   }
   }

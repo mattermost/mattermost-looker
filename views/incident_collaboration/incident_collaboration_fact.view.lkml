@@ -1,11 +1,11 @@
 # This is the view file for the analytics.incident_collaboration.incident_collaboration_fact table.
 view: incident_collaboration_fact {
   sql_table_name: incident_collaboration.incident_collaboration_fact ;;
-  view_label: "Incident Collaboration Fact"
+  view_label: "Playbooks Fact"
 
   # FILTERS
   set: incident_facts{
-    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active, first_product_edition]
+    fields: [current_plugin_version, users_max, daily_active_users_max, playbooks_created, incidents_reported, incidents_acknowledged, incidents_resolved, incidents_archived, first_active_date, first_active_week, first_active_month, first_active_year, last_active_date, last_active_week, last_active_month, last_active_year, days_active, first_product_edition, users_max_max, daily_active_users_max_max, first_active_min, last_active_max, days_active_max]
   }
 
   # DIMENSIONS
@@ -130,6 +130,27 @@ view: incident_collaboration_fact {
     hidden: no
   }
 
+  measure: first_active_min {
+    label: "First Active Date (Min)"
+    group_label: "First & Last Active (Min/Max)"
+    type: date
+    sql: MIN(${first_active_date}::date) ;;
+  }
+
+  measure: last_active_max {
+    group_label: "First & Last Active (Min/Max)"
+    label: "Last Active Date (Max)"
+    type: date
+    sql: MAX(${last_active_date}::date) ;;
+  }
+
+  measure: days_active_max {
+    label: "Days Active (Total)"
+    type: number
+    value_format_name: decimal_0
+    sql: DATEDIFF(DAY, ${first_active_min}, ${last_active_max}) ;;
+  }
+
   dimension_group: last_active {
   description: ""
   type: time
@@ -161,6 +182,7 @@ view: incident_collaboration_fact {
 
   measure: users_max_max {
     description: "The Max. Users Max."
+    label: "Users (Max)"
     type: max
     group_label: "Users Max Measures"
     sql: ${users_max} ;;
@@ -196,6 +218,7 @@ view: incident_collaboration_fact {
 
   measure: daily_active_users_max_max {
     description: "The Max. Daily Active Users Max."
+    label: "Daily Active Users (Max)"
     type: max
     group_label: "Daily Active Users Max Measures"
     sql: ${daily_active_users_max} ;;

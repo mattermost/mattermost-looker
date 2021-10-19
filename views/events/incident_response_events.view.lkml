@@ -1,7 +1,7 @@
 # This is the view file for the analytics.events.incident_response_events table.
 view: incident_response_events {
   sql_table_name: events.incident_response_events ;;
-  view_label: "Incident Response Events"
+  view_label: "User Events Telemetry (Playbooks)"
 
   # DRILL SETS
   set: incidents_drill {
@@ -841,12 +841,70 @@ view: incident_response_events {
     sql: ${TABLE}.template_name ;;
   }
 
+  dimension_group: active_user_date {
+    label: "Active User"
+    description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${dates.date_date}::date ;;
+
+  }
+
 
   # MEASURES
   measure: count {
     description: "Count of rows/occurrences."
     type: count
     drill_fields: [incidents_drill*]
+  }
+
+  measure: daily_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Daily Active Users"
+    description: "The count of daily active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${useractualid} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Weekly Active Users"
+    description: "The count of Weekly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${useractualid} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Monthly Active Users"
+    description: "The count of monthly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${useractualid} ELSE NULL END ;;
+  }
+
+  measure: daily_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Daily Active Instances"
+    description: "The count of daily active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Weekly Active Instances"
+    description: "The count of Weekly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Monthly Active Instances"
+    description: "The count of monthly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: announcement_channel_id_count {

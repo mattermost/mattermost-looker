@@ -1,7 +1,7 @@
 # This is the view file for the analytics.events.user_events_telemetry table.
 view: user_events_telemetry {
   sql_table_name: events.user_events_telemetry ;;
-  view_label: "User Events Telemetry"
+  view_label: "User Events Telemetry (Messaging)"
 
   set: server_drill {
     fields: [event_date, user_id, license_server_fact.customer_name, stripe_customer_dns, stripe_customer_email, category, type, user_actual_count, event_count]
@@ -292,7 +292,7 @@ view: user_events_telemetry {
     label: " User ID"
     description: "The unique user id of the user performing the event."
     type: string
-    sql: COALESCE(${TABLE}.user_actual_id, ${user_id}) ;;
+    sql: COALESCE(${TABLE}.user_actual_id, ${anonymous_id}) ;;
     hidden: no
   }
 
@@ -1057,6 +1057,16 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension_group: active_user_date {
+    label: "Active User"
+    description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${dates.date_date}::date ;;
+
+  }
+
 
   # MEASURES
   measure: count1 {
@@ -1098,6 +1108,57 @@ view: user_events_telemetry {
     type: number
     sql: COALESCE(COUNT(DISTINCT COALESCE(${user_actual_id}, ${context_traits_portal_customer_id}, ${anonymous_id})), 0) ;;
     drill_fields: [server_drill*]
+  }
+
+  measure: daily_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Daily Active Users"
+    description: "The count of daily active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN ${user_actual_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Weekly Active Users"
+    description: "The count of Weekly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${event_date}::DATE <= ${active_user_date_date}::DATE and ${event_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+          THEN ${user_actual_id} ELSE NULL END ;;
+  }
+
+
+  measure: monthly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Monthly Active Users"
+    description: "The count of monthly active users on the given active user date."
+    type: count_distinct
+    sql: ${user_actual_id} ;;
+  }
+
+  measure: daily_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Daily Active Instances"
+    description: "The count of daily active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Weekly Active Instances"
+    description: "The count of Weekly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${event_date}::DATE <= ${active_user_date_date}::DATE and ${event_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+            THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Monthly Active Instances"
+    description: "The count of monthly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: user_count {
