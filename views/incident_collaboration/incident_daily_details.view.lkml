@@ -1,7 +1,7 @@
 # This is the view file for the analytics.incident_collaboration.incident_daily_details table.
 view: incident_daily_details {
   sql_table_name: incident_collaboration.incident_daily_details ;;
-  view_label: "Incident Daily Details"
+  view_label: "Playbooks Daily Details"
 
   # SET
   set: incident {
