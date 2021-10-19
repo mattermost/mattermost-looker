@@ -1,7 +1,7 @@
 # This is the view file for the analytics.incident_collaboration.incident_daily_details table.
 view: incident_daily_details {
   sql_table_name: incident_collaboration.incident_daily_details ;;
-  view_label: "Incident Daily Details"
+  view_label: "Playbooks Daily Details"
 
   # SET
   set: incident {
@@ -430,6 +430,12 @@ view: incident_daily_details {
     description: "Indicates the record displayed is the latest record for each version that instance and prevents fanning out of sums, averages, etc."
     type: yesno
     sql: ${logging_date}::date = ${last_version_date}::date ;;
+  }
+
+  dimension: current_record {
+    description: "Indicates the record displayed is the between the first and last version date of the instance for (reporting purposes especially active user reporting)."
+    type: yesno
+    sql: ${logging_date}::date <= ${last_version_date}::date and ${logging_date} >= ${first_version_date};;
   }
 
   dimension_group: first_active {
