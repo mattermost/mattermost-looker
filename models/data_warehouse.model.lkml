@@ -1369,6 +1369,7 @@ explore: arr {
     opportunity_ext.license_min_start_date_date,opportunity_ext.license_min_start_date_month, opportunity_ext.license_min_start_date_fiscal_quarter, opportunity_ext.license_min_start_date_fiscal_year,
     opportunity_ext.license_max_end_date_date,opportunity_ext.license_max_end_date_month, opportunity_ext.license_max_end_date_fiscal_quarter, opportunity_ext.license_max_end_date_fiscal_year,
     account.account_core*,
+    account.shipping_country_code,
     opportunity.opportunity_core*,
     product2.general_product,
     product2.list_of_general_products,
