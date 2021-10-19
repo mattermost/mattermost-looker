@@ -3006,6 +3006,17 @@ explore: license_server_fact {
     sql_on: ${person.email} = ${license_server_fact.license_email};;
     relationship: many_to_one
   }
+
+  join: subscriptions {
+    view_label: "Stripe"
+    sql_on: COALESCE(${subscriptions.cws_installation}, ${subscriptions.license_id}) = ${license_server_fact.license_id};;
+    relationship: many_to_one
+    type: left_outer
+  }
+}
+
+explore: subscriptions {
+  hidden: yes
 }
 
 explore: incident_response_events {
