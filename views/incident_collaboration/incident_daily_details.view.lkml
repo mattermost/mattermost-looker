@@ -787,7 +787,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Playbooks Created."
     label: "Instances w/ Playbooks Created"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
@@ -796,7 +796,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Playbooks Created."
     label: "Instances w/ Playbooks Created/Edited"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${playbooks_created} > 0 or ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
@@ -845,7 +845,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Playbooks Edited."
     label: "Instances w/ Playbooks Edited"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
@@ -894,7 +894,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Playbooks Deleted."
     label: "Instances w/ Playbooks Deleted"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
@@ -943,7 +943,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Reported Incidents."
     label: "Instances w/ Reported Incidents"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
@@ -992,7 +992,7 @@ view: incident_daily_details {
     description: "The distinct count of instances that have Acknowledged Incidents."
     label: "Instances w/ Acknowledged Incidents"
     type: count_distinct
-    group_label: "Instance Counts"
+    group_label: "Instance Counts (All-Time)"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
