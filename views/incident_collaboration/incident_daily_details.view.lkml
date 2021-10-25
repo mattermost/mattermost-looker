@@ -784,20 +784,38 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_created {
-    description: "The distinct count of instances that have Playbooks Created."
-    label: "Instances w/ Playbooks Created"
+    description: "The distinct count of instances that have Playbooks Created on or before the given logging period."
+    label: "Instances w/ Playbooks Created (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
-  measure: instances_with_playbooks_created_edited {
-    description: "The distinct count of instances that have Playbooks Created."
-    label: "Instances w/ Playbooks Created/Edited"
+  measure: instances_with_playbooks_created_daily {
+    description: "The distinct count of instances that have Playbooks Created in the given logging period."
+    label: "Instances w/ Playbooks Created (Daily)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_created_edited {
+    description: "The distinct count of instances that have Playbooks Created on or before the given logging period."
+    label: "Instances w/ Playbooks Created/Edited (All-Time)"
+    type: count_distinct
+    group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 or ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_created_edited_daily {
+    description: "The distinct count of instances that have Playbooks Created in the given logging period."
+    label: "Instances w/ Playbooks Created/Edited (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created_daily} > 0 or ${playbooks_edited_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -842,11 +860,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_edited {
-    description: "The distinct count of instances that have Playbooks Edited."
-    label: "Instances w/ Playbooks Edited"
+    description: "The distinct count of instances that have Playbooks Edited on or before the given logging period."
+    label: "Instances w/ Playbooks Edited (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_edited_daily {
+    description: "The distinct count of instances that have Playbooks Edited in the given logging period."
+    label: "Instances w/ Playbooks Edited (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_edited_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -891,11 +918,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_deleted {
-    description: "The distinct count of instances that have Playbooks Deleted."
-    label: "Instances w/ Playbooks Deleted"
+    description: "The distinct count of instances that have Playbooks Deleted on or before the given logging period."
+    label: "Instances w/ Playbooks Deleted (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_deleted_daily {
+    description: "The distinct count of instances that have Playbooks Deleted in the given logging period."
+    label: "Instances w/ Playbooks Deleted (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_deleted_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -940,11 +976,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_reported_incidents {
-    description: "The distinct count of instances that have Reported Incidents."
-    label: "Instances w/ Reported Incidents"
+    description: "The distinct count of instances that have Reported Incidents on or before the given logging period."
+    label: "Instances w/ Reported Incidents (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_reported_incidents_daily {
+    description: "The distinct count of instances that have Reported Incidents in the given logging period."
+    label: "Instances w/ Reported Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${reported_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -989,11 +1034,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_acknowledged_incidents {
-    description: "The distinct count of instances that have Acknowledged Incidents."
-    label: "Instances w/ Acknowledged Incidents"
+    description: "The distinct count of instances that have Acknowledged Incidents on or before the given logging period."
+    label: "Instances w/ Acknowledged Incidents (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_acknowledged_incidents_daily {
+    description: "The distinct count of instances that have Acknowledged Incidents in the given logging period."
+    label: "Instances w/ Acknowledged Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${acknowledged_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -1038,38 +1092,74 @@ view: incident_daily_details {
   }
 
   measure: instances_with_archived_incidents {
-    description: "The distinct count of instances that have Archived Incidents."
-    label: "Instances w/ Archived Incidents"
+    description: "The distinct count of instances that have Archived Incidents on or before the given logging period."
+    label: "Instances w/ Archived Incidents (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
   measure: instances_with_retros_published {
-    description: "The distinct count of instances that have published a retrospective."
-    label: "Instances w/ Retros Published"
+    description: "The distinct count of instances that have published a retrospective on or before the given logging period."
+    label: "Instances w/ Retros Published (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${retros_published} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
   measure: instances_with_retro_updates {
-    description: "The distinct count of instances that have updated a retrospective."
-    label: "Instances w/ Retro Updates"
+    description: "The distinct count of instances that have updated a retrospective on or before the given logging period."
+    label: "Instances w/ Retro Updates (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${retro_updates} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
   measure: instances_with_status_updates {
-    description: "The distinct count of instances that have updated a retrospective."
-    label: "Instances w/ Status Updates"
+    description: "The distinct count of instances that have updated a retrospective on or before the given logging period."
+    label: "Instances w/ Status Updates (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${status_updates} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_archived_incidents_daily {
+    description: "The distinct count of instances that have Archived Incidents in the given logging period."
+    label: "Instances w/ Archived Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${archived_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_retros_published_daily {
+    description: "The distinct count of instances that have published a retrospective in the given logging period."
+    label: "Instances w/ Retros Published (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retros_published_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_retro_updates_daily {
+    description: "The distinct count of instances that have updated a retrospective in the given logging period."
+    label: "Instances w/ Retro Updates (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retro_updates_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_status_updates_daily {
+    description: "The distinct count of instances that have updated a retrospective in the given logging period."
+    label: "Instances w/ Status Updates (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${status_updates_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -1114,11 +1204,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_resolved_incidents {
-    description: "The distinct count of instances that have Resolved Incidents."
-    label: "Instances w/ Resolved Incidents"
+    description: "The distinct count of instances that have Resolved Incidents on or before the given logging period."
+    label: "Instances w/ Resolved Incidents (All-Time)"
     type: count_distinct
-    group_label: "Instance Counts (All-Time)"
+    group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_resolved_incidents_daily {
+    description: "The distinct count of instances that have Resolved Incidents in the given logging period."
+    label: "Instances w/ Resolved Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${resolved_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
