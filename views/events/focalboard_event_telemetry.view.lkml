@@ -135,6 +135,14 @@ view_label: "User Events Telemetry (Boards)"
   }
 
 
+  dimension: card_id {
+    label: "Card Id"
+    description: "ID of the card."
+    type: string
+    sql: ${TABLE}.card ;;
+  }
+
+
   dimension: context_passed_ip {
     label: "Context Passed Ip"
     description: "The Context Passed Ip of the user performing the event."
