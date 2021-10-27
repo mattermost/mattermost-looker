@@ -1229,6 +1229,24 @@ view: incident_daily_details {
     drill_fields: [incident*]
   }
 
+  measure: instances_with_task_assignees_set_daily {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_task_assignees_set {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (All-Time)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
   measure: resolved_incidents_sum {
     description: "The Sum of Resolved Incidents."
     type: sum
