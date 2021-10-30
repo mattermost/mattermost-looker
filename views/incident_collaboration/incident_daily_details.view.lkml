@@ -8,6 +8,14 @@ view: incident_daily_details {
     fields: [license_server_fact.customer_id, license_server_fact.customer_name, product_edition, server_fact.server_version_major, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
+  dimension: days_from_current_date_band {
+    description: "The number of days in 30 day intervals from the current date. Use for MoM comparison."
+    type: tier
+    style: integer
+    sql: datediff(day, ${logging_date}::date, CURRENT_DATE::DATE) ;;
+    tiers: [31, 61, 91, 121, 151, 181, 211, 241, 271, 301, 331, 361, 391, 421, 451, 481, 511, 541, 571, 601, 631, 661, 691, 721, 851, 881, 911, 941, 971, 1001]
+  }
+
   dimension: age_days {
     description: "The number of days from the first active date to the given logging date."
     label: "Age (Days)"
@@ -206,173 +214,388 @@ view: incident_daily_details {
   }
 
   dimension: playbooks_created {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.playbooks_created_alltime ;;
+    hidden: no
+  }
+
+  dimension: playbooks_edited {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.playbooks_edited_alltime ;;
+    hidden: no
+  }
+
+  dimension: playbooks_deleted {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.playbooks_deleted_alltime ;;
+    hidden: no
+  }
+
+  dimension: reported_incidents {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.reported_incidents_alltime ;;
+    hidden: no
+  }
+
+  dimension: acknowledged_incidents {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.acknowledged_incidents_alltime ;;
+    hidden: no
+  }
+
+  dimension: archived_incidents {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.archived_incidents_alltime ;;
+    hidden: no
+  }
+
+  dimension: resolved_incidents {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.resolved_incidents_alltime ;;
+    hidden: no
+  }
+
+  dimension: incident_contributors {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.incident_contributors_alltime ;;
+    hidden: no
+  }
+
+  dimension: status_updates {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.status_updates_alltime ;;
+    hidden: no
+  }
+
+  dimension: stages_changed {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.stages_changed_alltime ;;
+    hidden: no
+  }
+
+  dimension: timeline_events_added {
+    description: ""
+    group_label: "All-Time Dimensions"
+    type: number
+    sql: ${TABLE}.timeline_events_added_alltime ;;
+    hidden: no
+  }
+
+  dimension: commanders_changed {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.commanders_changed_alltime ;;
+    hidden: no
+  }
+
+  dimension: timeline_tab_clicks {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.timeline_tab_clicks_alltime ;;
+    hidden: no
+  }
+
+  dimension: ended_incident {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.ended_incident_alltime ;;
+    hidden: no
+  }
+
+  dimension: restarted_incident {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.restarted_incident_alltime ;;
+    hidden: no
+  }
+
+  dimension: retros_published {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.retrospectives_published_alltime ;;
+    hidden: no
+  }
+
+  dimension: retro_updates {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.retrospectives_updated_alltime ;;
+    hidden: no
+  }
+
+  dimension: task_assignees_set {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.task_assignees_set_alltime ;;
+    hidden: no
+  }
+
+  dimension: task_states_modified {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.task_states_modified_alltime ;;
+    hidden: no
+  }
+
+  dimension: tasks_added {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.tasks_added_alltime ;;
+    hidden: no
+  }
+
+  dimension: tasks_removed {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.tasks_removed_alltime ;;
+    hidden: no
+  }
+
+  dimension: tasks_renamed {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.tasks_renamed_alltime ;;
+    hidden: no
+  }
+
+  dimension: task_slash_commands_run {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.task_slash_commands_run_alltime ;;
+    hidden: no
+  }
+
+  dimension: tasks_moved {
+    group_label: "All-Time Dimensions"
+    description: ""
+    type: number
+    sql: ${TABLE}.tasks_moved_alltime ;;
+    hidden: no
+  }
+
+  dimension: playbooks_created_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.playbooks_created ;;
     hidden: no
   }
 
-  dimension: playbooks_edited {
+  dimension: playbooks_edited_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.playbooks_edited ;;
     hidden: no
   }
 
-  dimension: playbooks_deleted {
+  dimension: playbooks_deleted_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.playbooks_deleted ;;
     hidden: no
   }
 
-  dimension: reported_incidents {
+  dimension: reported_incidents_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.reported_incidents ;;
     hidden: no
   }
 
-  dimension: acknowledged_incidents {
+  dimension: acknowledged_incidents_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.acknowledged_incidents ;;
     hidden: no
   }
 
-  dimension: archived_incidents {
+  dimension: archived_incidents_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.archived_incidents ;;
     hidden: no
   }
 
-  dimension: resolved_incidents {
+  dimension: resolved_incidents_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.resolved_incidents ;;
     hidden: no
   }
 
-  dimension: incident_contributors {
+  dimension: incident_contributors_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.incident_contributors ;;
     hidden: no
   }
 
-  dimension: status_updates {
+  dimension: status_updates_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.status_updates ;;
     hidden: no
   }
 
-  dimension: stages_changed {
+  dimension: stages_changed_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.stages_changed ;;
     hidden: no
   }
 
-  dimension: timeline_events_added {
+  dimension: timeline_events_added_daily {
     description: ""
+    group_label: "Daily Dimensions"
     type: number
     sql: ${TABLE}.timeline_events_added ;;
     hidden: no
   }
 
-  dimension: commanders_changed {
+  dimension: commanders_changed_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.commanders_changed ;;
     hidden: no
   }
 
-  dimension: timeline_tab_clicks {
+  dimension: timeline_tab_clicks_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.timeline_tab_clicks ;;
     hidden: no
   }
 
-  dimension: ended_incident {
+  dimension: ended_incident_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.ended_incident ;;
     hidden: no
   }
 
-  dimension: restarted_incident {
+  dimension: restarted_incident_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.restarted_incident ;;
     hidden: no
   }
 
-  dimension: retros_published {
+  dimension: retros_published_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.retrospectives_published ;;
     hidden: no
   }
 
-  dimension: retro_updates {
+  dimension: retro_updates_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.retrospectives_updated ;;
     hidden: no
   }
 
-  dimension: task_assignees_set {
+  dimension: task_assignees_set_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.task_assignees_set ;;
     hidden: no
   }
 
-  dimension: task_states_modified {
+  dimension: task_states_modified_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.task_states_modified ;;
     hidden: no
   }
 
-  dimension: tasks_added {
+  dimension: tasks_added_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.tasks_added ;;
     hidden: no
   }
 
-  dimension: tasks_removed {
+  dimension: tasks_removed_daily_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.tasks_removed ;;
     hidden: no
   }
 
-  dimension: tasks_renamed {
+  dimension: tasks_renamed_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.tasks_renamed ;;
     hidden: no
   }
 
-  dimension: task_slash_commands_run {
+  dimension: task_slash_commands_run_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.task_slash_commands_run ;;
     hidden: no
   }
 
-  dimension: tasks_moved {
+  dimension: tasks_moved_daily {
+    group_label: "Daily Dimensions"
     description: ""
     type: number
     sql: ${TABLE}.tasks_moved ;;
     hidden: no
   }
-
   dimension: daily_active_users {
     group_label: "Active User Dimensions"
     type: number
@@ -569,20 +792,38 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_created {
-    description: "The distinct count of instances that have Playbooks Created."
-    label: "Instances w/ Playbooks Created"
+    description: "The distinct count of instances that have Playbooks Created on or before the given logging period."
+    label: "Instances w/ Playbooks Created (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
+  measure: instances_with_playbooks_created_daily {
+    description: "The distinct count of instances that have Playbooks Created in the given logging period."
+    label: "Instances w/ Playbooks Created (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
   measure: instances_with_playbooks_created_edited {
-    description: "The distinct count of instances that have Playbooks Created."
-    label: "Instances w/ Playbooks Created/Edited"
+    description: "The distinct count of instances that have Playbooks Created on or before the given logging period."
+    label: "Instances w/ Playbooks Created/Edited (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_created} > 0 or ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_created_edited_daily {
+    description: "The distinct count of instances that have Playbooks Created in the given logging period."
+    label: "Instances w/ Playbooks Created/Edited (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_created_daily} > 0 or ${playbooks_edited_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -627,11 +868,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_edited {
-    description: "The distinct count of instances that have Playbooks Edited."
-    label: "Instances w/ Playbooks Edited"
+    description: "The distinct count of instances that have Playbooks Edited on or before the given logging period."
+    label: "Instances w/ Playbooks Edited (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_edited} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_edited_daily {
+    description: "The distinct count of instances that have Playbooks Edited in the given logging period."
+    label: "Instances w/ Playbooks Edited (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_edited_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -676,11 +926,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_playbooks_deleted {
-    description: "The distinct count of instances that have Playbooks Deleted."
-    label: "Instances w/ Playbooks Deleted"
+    description: "The distinct count of instances that have Playbooks Deleted on or before the given logging period."
+    label: "Instances w/ Playbooks Deleted (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${playbooks_deleted} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_playbooks_deleted_daily {
+    description: "The distinct count of instances that have Playbooks Deleted in the given logging period."
+    label: "Instances w/ Playbooks Deleted (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${playbooks_deleted_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -725,11 +984,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_reported_incidents {
-    description: "The distinct count of instances that have Reported Incidents."
-    label: "Instances w/ Reported Incidents"
+    description: "The distinct count of instances that have Reported Incidents on or before the given logging period."
+    label: "Instances w/ Reported Incidents (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${reported_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_reported_incidents_daily {
+    description: "The distinct count of instances that have Reported Incidents in the given logging period."
+    label: "Instances w/ Reported Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${reported_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -774,11 +1042,20 @@ view: incident_daily_details {
   }
 
   measure: instances_with_acknowledged_incidents {
-    description: "The distinct count of instances that have Acknowledged Incidents."
-    label: "Instances w/ Acknowledged Incidents"
+    description: "The distinct count of instances that have Acknowledged Incidents on or before the given logging period."
+    label: "Instances w/ Acknowledged Incidents (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${acknowledged_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_acknowledged_incidents_daily {
+    description: "The distinct count of instances that have Acknowledged Incidents in the given logging period."
+    label: "Instances w/ Acknowledged Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${acknowledged_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -823,8 +1100,8 @@ view: incident_daily_details {
   }
 
   measure: instances_with_archived_incidents {
-    description: "The distinct count of instances that have Archived Incidents."
-    label: "Instances w/ Archived Incidents"
+    description: "The distinct count of instances that have Archived Incidents on or before the given logging period."
+    label: "Instances w/ Archived Incidents (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${archived_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -832,8 +1109,8 @@ view: incident_daily_details {
   }
 
   measure: instances_with_retros_published {
-    description: "The distinct count of instances that have published a retrospective."
-    label: "Instances w/ Retros Published"
+    description: "The distinct count of instances that have published a retrospective on or before the given logging period."
+    label: "Instances w/ Retros Published (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${retros_published} > 0 THEN ${server_id} ELSE NULL END ;;
@@ -841,11 +1118,56 @@ view: incident_daily_details {
   }
 
   measure: instances_with_retro_updates {
-    description: "The distinct count of instances that have updated a retrospective."
-    label: "Instances w/ Retro Updates"
+    description: "The distinct count of instances that have updated a retrospective on or before the given logging period."
+    label: "Instances w/ Retro Updates (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${retro_updates} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_status_updates {
+    description: "The distinct count of instances that have updated a retrospective on or before the given logging period."
+    label: "Instances w/ Status Updates (All-Time)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${status_updates} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_archived_incidents_daily {
+    description: "The distinct count of instances that have Archived Incidents in the given logging period."
+    label: "Instances w/ Archived Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${archived_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_retros_published_daily {
+    description: "The distinct count of instances that have published a retrospective in the given logging period."
+    label: "Instances w/ Retros Published (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retros_published_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_retro_updates_daily {
+    description: "The distinct count of instances that have updated a retrospective in the given logging period."
+    label: "Instances w/ Retro Updates (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${retro_updates_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_status_updates_daily {
+    description: "The distinct count of instances that have updated a retrospective in the given logging period."
+    label: "Instances w/ Status Updates (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${status_updates_daily} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
@@ -890,11 +1212,38 @@ view: incident_daily_details {
   }
 
   measure: instances_with_resolved_incidents {
-    description: "The distinct count of instances that have Resolved Incidents."
-    label: "Instances w/ Resolved Incidents"
+    description: "The distinct count of instances that have Resolved Incidents on or before the given logging period."
+    label: "Instances w/ Resolved Incidents (All-Time)"
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_resolved_incidents_daily {
+    description: "The distinct count of instances that have Resolved Incidents in the given logging period."
+    label: "Instances w/ Resolved Incidents (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${resolved_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_task_assignees_set_daily {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_task_assignees_set {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (All-Time)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
