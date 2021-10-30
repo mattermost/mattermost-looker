@@ -1194,51 +1194,54 @@ view: marketing_funnel {
 
   measure: total_avg_quota_achievement_assumption {
     sql: ${avg_quota_achievement_assumption} ;;
-    label: "Quota Attainment Assumption"
+    label: "Quota AttainmEnterprise Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_percent_fed_logos_assumption {
     sql: ${percent_fed_logos_assumption} ;;
-    label: "Fed Logo Attainment Assumption"
+    label: "Federal Logo AttainmEnterprise Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_percent_comm_logos_assumption {
     sql: ${percent_comm_logos_assumption} ;;
-    label: "COMM Logo Attainment Assumption"
+    label: "Commercial Logo AttainmEnterprise Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_percent_ent_logos_assumption {
     sql: ${percent_ent_logos_assumption} ;;
-    label: "ENT Logo Attainment Assumption"
+    label: "Enterprise Logo AttainmEnterprise Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_asp_fed_assumption {
     sql: ${asp_fed_assumption} ;;
-    label: "FED ASP Assumption"
+    label: "Federal ASP Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: usd_0
   }
 
   measure: total_asp_comm_assumption {
     sql: ${asp_comm_assumption} ;;
-    label: "COMM ASP Assumption"
+    label: "Commercial ASP Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: usd_0
   }
 
   measure: total_asp_ent_assumption {
     sql: ${asp_ent_assumption} ;;
-    label: "ENT ASP Assumption"
+    label: "Enterprise ASP Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: usd_0
   }
 
   measure: total_avg_sales_cyle_fed_assumption {
@@ -1250,62 +1253,65 @@ view: marketing_funnel {
 
   measure: total_avg_sales_cycle_comm_assumption {
     sql: ${avg_sales_cycle_comm_assumption} ;;
-    label: "COMM Sales Cycle Assumption"
+    label: "Commercial Sales Cycle Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_avg_sales_cycle_ent_assumption {
     sql: ${avg_sales_cycle_ent_assumption} ;;
-    label: "ENT Sales Cycle Assumption"
+    label: "Enterprise Sales Cycle Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_fed_expansion_assumption {
-    label: "FED Sales Cycle Assumption"
+    label: "Federal Sales Cycle Assumption"
     sql: ${fed_expansion_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_comm_expansion_assumption {
-    label: "COMM Expansion Assumption"
+    label: "Commercial Expansion Assumption"
     sql: ${comm_expansion_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_ent_expansion_assumption {
-    label: "ENT Expansion Assumption"
+    label: "Enterprise Expansion Assumption"
     sql: ${ent_expansion_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_comm_bdr_quota_opps_assumption {
-    label: "COMM BRD Quota Assumption"
+    label: "Commercial BRD Quota Assumption"
     sql: ${comm_bdr_quota_opps_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_bdr_quota_pipeline_assumption {
-    label: "COMM BRD Pipeline Assumption"
+    label: "Commercial BRD Pipeline Assumption"
     sql: ${comm_bdr_quota_pipeline_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_bdr_logos_assumption {
-    label: "COMM BRD Logos Assumption"
+    label: "Commercial BRD Logos Assumption"
     sql: ${comm_bdr_logos_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_bdr_new_arr_assumption {
-    label: "COMM BRD New ARR Assumption"
+    label: "Commercial BRD New ARR Assumption"
     sql: ${comm_bdr_new_arr_assumption} ;;
     type: sum
     group_label: "Key Assumptions"
@@ -1331,77 +1337,80 @@ view: marketing_funnel {
 
   measure: total_fed_ae_quota_pipeline_assumption {
     sql: ${fed_ae_quota_pipeline_assumption} ;;
-    label: "FED Pipeline Assumption"
+    label: "Federal Pipeline Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_fed_ae_quota_logos_assumption {
     sql: ${fed_ae_quota_logos_assumption} ;;
-    label: "FED New Logo Quota Assumption"
+    label: "Federal New Logo Quota Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_fed_ae_quota_arr_assumption {
     sql: ${fed_ae_quota_arr_assumption} ;;
-    label: "FED New ARR Assumption"
+    label: "Federal New ARR Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_ae_quota_opps_assumption {
     sql: ${comm_ae_quota_opps_assumption} ;;
-    label: "COMM Opportunities Assumption"
+    label: "Commercial Opportunities Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_ae_quota_pipeline_assumption {
     sql: ${comm_ae_quota_pipeline_assumption} ;;
-    label: "COMM Pipeline Quota Assumption"
+    label: "Commercial Pipeline Quota Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_comm_ae_logos_assumption {
     sql: ${comm_ae_logos_assumption} ;;
-    label: "COMM New Logo Quota Assumption"
+    label: "Commercial New Logo Quota Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_comm_ae_new_arr_assumption {
     sql: ${comm_ae_new_arr_assumption} ;;
-    label: "COMM New ARR Assumption"
+    label: "Commercial New ARR Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_ent_ae_quota_opps_assumption {
     sql: ${ent_ae_quota_opps_assumption} ;;
-    label: "ENT Opportunities Assumption"
+    label: "Enterprise Opportunities Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_ent_ae_quota_pipeline_assumption {
     sql: ${ent_ae_quota_pipeline_assumption} ;;
-    label: "ENT Pipeline Quota Assumption"
+    label: "Enterprise Pipeline Quota Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
 
   measure: total_ent_ae_logos_assumption {
     sql: ${ent_ae_logos_assumption} ;;
-    label: "ENT New Logo Quota Assumption"
+    label: "Enterprise New Logo Quota Assumption"
     type: sum
     group_label: "Key Assumptions"
+    value_format_name: percent_1
   }
 
   measure: total_ent_ae_new_arr_assumption {
     sql: ${ent_ae_new_arr_assumption} ;;
-    label: "ENT New ARR Assumption"
+    label: "Enterprise New ARR Assumption"
     type: sum
     group_label: "Key Assumptions"
   }
