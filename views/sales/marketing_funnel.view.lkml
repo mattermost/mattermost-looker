@@ -260,6 +260,328 @@ view: marketing_funnel {
     hidden: yes
   }
 
+  dimension: run_rate_assumption {
+    type: number
+    sql: ${TABLE}.RUN_RATE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: budget_assumption {
+    type: number
+    sql: ${TABLE}.BUDGET_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: cpl_assumption {
+    type: number
+    sql: ${TABLE}.CPL_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: traffic_lead_assumption {
+    type: number
+    sql: ${TABLE}.TRAFFIC_LEAD_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: lead_mql_assumption {
+    type: number
+    sql: ${TABLE}.LEAD_MQL_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: mql_sal_assumption {
+    type: number
+    sql: ${TABLE}.MQL_SAL_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: sal_sql_assumption {
+    type: number
+    sql: ${TABLE}.SAL_SQL_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: sql_opp_assumption {
+    type: number
+    sql: ${TABLE}.SQL_OPP_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: opp_newlogo_assumption {
+    type: number
+    sql: ${TABLE}.OPP_NEWLOGO_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: lead_mql_coverage_assumption {
+    type: number
+    sql: ${TABLE}.LEAD_MQL_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: mql_sal_coverage_assumption {
+    type: number
+    sql: ${TABLE}.MQL_SAL_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: sal_sql_coverage_assumption {
+    type: number
+    sql: ${TABLE}.SAL_SQL_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: sql_opp_coverage_assumption {
+    type: number
+    sql: ${TABLE}.SQL_OPP_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: opp_logo_coverage_assumption {
+    type: number
+    sql: ${TABLE}.OPP_LOGO_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: pipeline_arr_coverage_assumption {
+    type: number
+    sql: ${TABLE}.PIPELINE_ARR_COVERAGE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: avg_quota_achievement_assumption {
+    type: number
+    sql: ${TABLE}.AVG_QUOTA_ACHIEVEMENT_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: percent_fed_logos_assumption {
+    type: number
+    sql: ${TABLE}.PERCENT_FED_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: percent_comm_logos_assumption {
+    type: number
+    sql: ${TABLE}.PERCENT_COMM_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: percent_ent_logos_assumption {
+    type: number
+    sql: ${TABLE}.PERCENT_ENT_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: asp_fed_assumption {
+    type: number
+    sql: ${TABLE}.ASP_FED_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: asp_comm_assumption {
+    type: number
+    sql: ${TABLE}.ASP_COMM_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: asp_ent_assumption {
+    type: number
+    sql: ${TABLE}.ASP_ENT_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: avg_sales_cyle_fed_assumption {
+    type: number
+    sql: ${TABLE}.AVG_SALES_CYLE_FED_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: avg_sales_cycle_comm_assumption {
+    type: number
+    sql: ${TABLE}.AVG_SALES_CYCLE_COMM_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: avg_sales_cycle_ent_assumption {
+    type: number
+    sql: ${TABLE}.AVG_SALES_CYCLE_ENT_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: fed_expansion_assumption {
+    type: number
+    sql: ${TABLE}.FED_EXPANSION_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_expansion_assumption {
+    type: number
+    sql: ${TABLE}.COMM_EXPANSION_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_expansion_assumption {
+    type: number
+    sql: ${TABLE}.ENT_EXPANSION_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_bdr_quota_opps_assumption {
+    type: number
+    sql: ${TABLE}.COMM_BDR_QUOTA_OPPS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_bdr_quota_pipeline_assumption {
+    type: number
+    sql: ${TABLE}.COMM_BDR_QUOTA_PIPELINE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_bdr_logos_assumption {
+    type: number
+    sql: ${TABLE}.COMM_BDR_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_bdr_new_arr_assumption {
+    type: number
+    sql: ${TABLE}.COMM_BDR_NEW_ARR_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_fed_bdr_quota_opps_assumption {
+    type: number
+    sql: ${TABLE}.ENT_FED_BDR_QUOTA_OPPS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_fed_bdr_quota_pipeline_assumption {
+    type: number
+    sql: ${TABLE}.ENT_FED_BDR_QUOTA_PIPELINE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: fed_ae_quota_opps_assumption {
+    type: number
+    sql: ${TABLE}.FED_AE_QUOTA_OPPS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: fed_ae_quota_pipeline_assumption {
+    type: number
+    sql: ${TABLE}.FED_AE_QUOTA_PIPELINE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: fed_ae_quota_logos_assumption {
+    type: number
+    sql: ${TABLE}.FED_AE_QUOTA_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: fed_ae_quota_arr_assumption {
+    type: number
+    sql: ${TABLE}.FED_AE_QUOTA_ARR_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_ae_quota_opps_assumption {
+    type: number
+    sql: ${TABLE}.COMM_AE_QUOTA_OPPS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_ae_quota_pipeline_assumption {
+    type: number
+    sql: ${TABLE}.COMM_AE_QUOTA_PIPELINE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_ae_logos_assumption {
+    type: number
+    sql: ${TABLE}.COMM_AE_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: comm_ae_new_arr_assumption {
+    type: number
+    sql: ${TABLE}.COMM_AE_NEW_ARR_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_ae_quota_opps_assumption {
+    type: number
+    sql: ${TABLE}.ENT_AE_QUOTA_OPPS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_ae_quota_pipeline_assumption {
+    type: number
+    sql: ${TABLE}.ENT_AE_QUOTA_PIPELINE_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_ae_logos_assumption {
+    type: number
+    sql: ${TABLE}.ENT_AE_LOGOS_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
+  dimension: ent_ae_new_arr_assumption {
+    type: number
+    sql: ${TABLE}.ENT_AE_NEW_ARR_ASSUMPTION ;;
+    hidden: yes
+    group_label: "Assumption"
+  }
+
   measure: total_count_web_traffic {
     label: "Web Traffic (Unique Visitors)"
     type: sum
@@ -560,7 +882,7 @@ view: marketing_funnel {
 
   measure: total_perc_federal_new_logo {
     type: number
-    sql:  1.0*${total_federal_new_logo}/${total_count_new_logo} ;;
+    sql:  1.0*${total_federal_new_logo}/nullif(${total_count_new_logo},0) ;;
     group_label: "New Logo"
     label: "Federal New Logo %"
     group_item_label: "Federal New %"
@@ -569,7 +891,7 @@ view: marketing_funnel {
 
   measure: total_perc_commercial_new_logo {
     type: number
-    sql:  1.0*${total_commercial_new_logo}/${total_count_new_logo} ;;
+    sql:  1.0*${total_commercial_new_logo}/nullif(${total_count_new_logo},0) ;;
     group_label: "New Logo"
     label: "Commercial New Logo %"
     group_item_label: "Commercial New %"
@@ -578,7 +900,7 @@ view: marketing_funnel {
 
   measure: total_perc_enterprise_new_logo {
     type: number
-    sql:  1.0*${total_enterprise_new_logo}/${total_count_new_logo} ;;
+    sql:  1.0*${total_enterprise_new_logo}/nullif(${total_count_new_logo},0) ;;
     group_label: "New Logo"
     label: "Enterprise New Logo %"
     group_item_label: "Enterprise New Logo %"
@@ -746,7 +1068,7 @@ view: marketing_funnel {
     group_label: "Avg Sales Cycle"
     label: "Federal Avg Sales Cycle"
     group_item_label: "Federal"
-    value_format_name: decimal_1
+    value_format_name: decimal_2
   }
 
   measure: average_commercial_age {
@@ -755,7 +1077,7 @@ view: marketing_funnel {
     group_label: "Avg Sales Cycle"
     label: "Commercial Avg Sales Cycle"
     group_item_label: "Commercial"
-    value_format_name: decimal_1
+    value_format_name: decimal_2
   }
 
   measure: average_enterprise_age {
@@ -764,7 +1086,333 @@ view: marketing_funnel {
     group_label: "Avg Sales Cycle"
     label: "Enterprise Avg Sales Cycle"
     group_item_label: "Enterprise"
-    value_format_name: decimal_1
+    value_format_name: decimal_2
+  }
+
+  measure: total_run_rate_assumption {
+    sql: ${run_rate_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_budget_assumption {
+    sql: ${budget_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_cpl_assumption {
+    sql: ${cpl_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_traffic_lead_assumption {
+    sql: ${traffic_lead_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_lead_mql_assumption {
+    sql: ${lead_mql_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_mql_sal_assumption {
+    sql: ${mql_sal_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_sal_sql_assumption {
+    sql: ${sal_sql_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_sql_opp_assumption {
+    sql: ${sql_opp_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_opp_newlogo_assumption {
+    sql: ${opp_newlogo_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_lead_mql_coverage_assumption {
+    sql: ${lead_mql_coverage_assumption} ;;
+    label: "Lead:MQL Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_mql_sal_coverage_assumption {
+    sql: ${mql_sal_coverage_assumption} ;;
+    label: "MQL:SAL Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_sal_sql_coverage_assumption {
+    sql: ${sal_sql_coverage_assumption} ;;
+    label: "SAL:SQL Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_sql_opp_coverage_assumption {
+    sql: ${sql_opp_coverage_assumption} ;;
+    label: "SQL:Oppt Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_opp_logo_coverage_assumption {
+    sql: ${opp_logo_coverage_assumption} ;;
+    label: "Oppt:New Logo Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_pipeline_arr_coverage_assumption {
+    sql: ${pipeline_arr_coverage_assumption} ;;
+    label: "Pipeline:ARR Coverage Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: decimal_2
+  }
+
+  measure: total_avg_quota_achievement_assumption {
+    sql: ${avg_quota_achievement_assumption} ;;
+    label: "Quota AttainmEnterprise Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_percent_fed_logos_assumption {
+    sql: ${percent_fed_logos_assumption} ;;
+    label: "Federal Logo AttainmEnterprise Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_percent_comm_logos_assumption {
+    sql: ${percent_comm_logos_assumption} ;;
+    label: "Commercial Logo AttainmEnterprise Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_percent_ent_logos_assumption {
+    sql: ${percent_ent_logos_assumption} ;;
+    label: "Enterprise Logo AttainmEnterprise Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_asp_fed_assumption {
+    sql: ${asp_fed_assumption} ;;
+    label: "Federal ASP Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: usd_0
+  }
+
+  measure: total_asp_comm_assumption {
+    sql: ${asp_comm_assumption} ;;
+    label: "Commercial ASP Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: usd_0
+  }
+
+  measure: total_asp_ent_assumption {
+    sql: ${asp_ent_assumption} ;;
+    label: "Enterprise ASP Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: usd_0
+  }
+
+  measure: total_avg_sales_cyle_fed_assumption {
+    sql: ${avg_sales_cyle_fed_assumption} ;;
+    label: "Sales Cycle Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_avg_sales_cycle_comm_assumption {
+    sql: ${avg_sales_cycle_comm_assumption} ;;
+    label: "Commercial Sales Cycle Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_avg_sales_cycle_ent_assumption {
+    sql: ${avg_sales_cycle_ent_assumption} ;;
+    label: "Enterprise Sales Cycle Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_fed_expansion_assumption {
+    label: "Federal Sales Cycle Assumption"
+    sql: ${fed_expansion_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_comm_expansion_assumption {
+    label: "Commercial Expansion Assumption"
+    sql: ${comm_expansion_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_ent_expansion_assumption {
+    label: "Enterprise Expansion Assumption"
+    sql: ${ent_expansion_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_comm_bdr_quota_opps_assumption {
+    label: "Commercial BRD Quota Assumption"
+    sql: ${comm_bdr_quota_opps_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_bdr_quota_pipeline_assumption {
+    label: "Commercial BRD Pipeline Assumption"
+    sql: ${comm_bdr_quota_pipeline_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_bdr_logos_assumption {
+    label: "Commercial BRD Logos Assumption"
+    sql: ${comm_bdr_logos_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_bdr_new_arr_assumption {
+    label: "Commercial BRD New ARR Assumption"
+    sql: ${comm_bdr_new_arr_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_ent_fed_bdr_quota_opps_assumption {
+    sql: ${ent_fed_bdr_quota_opps_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_ent_fed_bdr_quota_pipeline_assumption {
+    sql: ${ent_fed_bdr_quota_pipeline_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_fed_ae_quota_opps_assumption {
+    sql: ${fed_ae_quota_opps_assumption} ;;
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_fed_ae_quota_pipeline_assumption {
+    sql: ${fed_ae_quota_pipeline_assumption} ;;
+    label: "Federal Pipeline Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_fed_ae_quota_logos_assumption {
+    sql: ${fed_ae_quota_logos_assumption} ;;
+    label: "Federal New Logo Quota Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_fed_ae_quota_arr_assumption {
+    sql: ${fed_ae_quota_arr_assumption} ;;
+    label: "Federal New ARR Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_ae_quota_opps_assumption {
+    sql: ${comm_ae_quota_opps_assumption} ;;
+    label: "Commercial Opportunities Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_ae_quota_pipeline_assumption {
+    sql: ${comm_ae_quota_pipeline_assumption} ;;
+    label: "Commercial Pipeline Quota Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_comm_ae_logos_assumption {
+    sql: ${comm_ae_logos_assumption} ;;
+    label: "Commercial New Logo Quota Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_comm_ae_new_arr_assumption {
+    sql: ${comm_ae_new_arr_assumption} ;;
+    label: "Commercial New ARR Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_ent_ae_quota_opps_assumption {
+    sql: ${ent_ae_quota_opps_assumption} ;;
+    label: "Enterprise Opportunities Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_ent_ae_quota_pipeline_assumption {
+    sql: ${ent_ae_quota_pipeline_assumption} ;;
+    label: "Enterprise Pipeline Quota Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+  }
+
+  measure: total_ent_ae_logos_assumption {
+    sql: ${ent_ae_logos_assumption} ;;
+    label: "Enterprise New Logo Quota Assumption"
+    type: sum
+    group_label: "Key Assumptions"
+    value_format_name: percent_1
+  }
+
+  measure: total_ent_ae_new_arr_assumption {
+    sql: ${ent_ae_new_arr_assumption} ;;
+    label: "Enterprise New ARR Assumption"
+    type: sum
+    group_label: "Key Assumptions"
   }
 
 }
