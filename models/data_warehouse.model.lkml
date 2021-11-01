@@ -3598,7 +3598,7 @@ explore: focalboard_workspaces {
     fields: []
   }
 
-  }
+}
 
 
 
@@ -3665,13 +3665,13 @@ explore: focalboard_blocks {
     sql_on: ${focalboard_server.user_id} = ${focalboard_workspaces.user_id} and ${focalboard_server.timestamp_date}::date = ${focalboard_workspaces.timestamp_date}::date  ;;
     relationship: one_to_one
   }
-  }
+}
 
 
 explore: customer_conversion_onprem {
   label: "Customer Conversion Onprem"
   hidden: yes
-  }
+}
 
 
 
@@ -3679,7 +3679,7 @@ explore: customer_conversion_onprem {
 explore: customer_conversion_cloud {
   label: "Customer Conversion Cloud"
   hidden: yes
-  }
+}
 
 explore: cloud_conversion_funnel {
   from: dates
@@ -3731,7 +3731,7 @@ explore: onprem_conversion_funnel {
   join: license_server_fact {
     view_label: "Activated Trial Licenses"
     sql_on: ${license_server_fact.issued_date}::date = ${onprem_conversion_funnel.date_date}::date and ${license_server_fact.edition} = 'E20 Trial'
-    and ${license_server_fact.server_id} IS NOT NULL and ${license_server_fact.license_activation_date}::date is not null;;
+      and ${license_server_fact.server_id} IS NOT NULL and ${license_server_fact.license_activation_date}::date is not null;;
     relationship: one_to_many
     type: left_outer
   }
@@ -3747,7 +3747,7 @@ explore: onprem_conversion_funnel {
     relationship: many_to_one
     fields: []
 
-    }
+  }
 
   join: excludable_servers {
     view_label: "Activated Trial Licenses"
@@ -3771,7 +3771,7 @@ explore: onprem_conversion_funnel {
 explore: onprem_clearbit {
   label: "Onprem Clearbit"
   hidden: yes
-  }
+}
 
 
 explore: user_28day_retention {
@@ -3789,7 +3789,7 @@ explore: user_28day_retention {
     type: left_outer
     relationship: many_to_one
     sql_on: ${user_28day_retention.server_id} = ${license_server_fact.server_id} AND ${user_28day_retention.retained_28day_timestamp_date}::date >= ${license_server_fact.issued_date}::date
-    AND ${user_28day_retention.retained_28day_timestamp_date}::date <= ${license_server_fact.expire_date}::date;;
+      AND ${user_28day_retention.retained_28day_timestamp_date}::date <= ${license_server_fact.expire_date}::date;;
   }
 
   join: trial_requests {
@@ -3806,14 +3806,14 @@ explore: user_28day_retention {
     relationship: many_to_one
     sql_on: ${user_28day_retention.server_id} = ${excludable_servers.server_id} ;;
   }
-  }
+}
 
 
 explore: mattermost_docs_feedback {
   label: "Mattermost Docs Feedback"
   group_label: " Website Telemetry"
   hidden: no
-  }
+}
 
 
 
@@ -3829,4 +3829,20 @@ explore: focalboard_event_telemetry {
     relationship: many_to_one
     fields: []
   }
+
+  join: license_server_fact {
+    view_label: "License Fact"
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
+    relationship: one_to_many
+    fields: []
   }
+
+
+  join: server_daily_details {
+    view_label: "Server Details"
+    sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
+      AND ${focalboard_event_telemetry.timestamp_date} = ${server_daily_details.logging_date};;
+    relationship: many_to_one
+    fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+}
