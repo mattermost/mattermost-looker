@@ -8,6 +8,14 @@ view: incident_daily_details {
     fields: [license_server_fact.customer_id, license_server_fact.customer_name, product_edition, server_fact.server_version_major, plugin_version_major, server_id, playbooks_created_max, playbooks_edited_max, reported_incidents_max, acknowledged_incidents_max, resolved_incidents_max, archived_incidents_max, first_active_date_max, last_active_date_max, task_slash_commands_run_max, task_assignees_set_max]
   }
 
+  dimension: days_from_current_date_band {
+    description: "The number of days in 30 day intervals from the current date. Use for MoM comparison."
+    type: tier
+    style: integer
+    sql: datediff(day, ${logging_date}::date, CURRENT_DATE::DATE) ;;
+    tiers: [31, 61, 91, 121, 151, 181, 211, 241, 271, 301, 331, 361, 391, 421, 451, 481, 511, 541, 571, 601, 631, 661, 691, 721, 851, 881, 911, 941, 971, 1001]
+  }
+
   dimension: age_days {
     description: "The number of days from the first active date to the given logging date."
     label: "Age (Days)"
@@ -1218,6 +1226,24 @@ view: incident_daily_details {
     type: count_distinct
     group_label: "Instance Counts"
     sql: CASE WHEN ${resolved_incidents_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_task_assignees_set_daily {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (Daily)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set_daily} > 0 THEN ${server_id} ELSE NULL END ;;
+    drill_fields: [incident*]
+  }
+
+  measure: instances_with_task_assignees_set {
+    description: "The distinct count of instances that have assigned tasks in the given logging period."
+    label: "Instances Assigning Tasks (All-Time)"
+    type: count_distinct
+    group_label: "Instance Counts"
+    sql: CASE WHEN ${task_assignees_set} > 0 THEN ${server_id} ELSE NULL END ;;
     drill_fields: [incident*]
   }
 
