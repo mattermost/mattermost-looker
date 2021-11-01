@@ -3831,7 +3831,7 @@ explore: focalboard_event_telemetry {
   }
 
   join: license_server_fact {
-    view_label: "License Fact"
+    view_label: "User Events Telemetry (Boards)"
     sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
     relationship: one_to_many
     fields: []
@@ -3839,7 +3839,7 @@ explore: focalboard_event_telemetry {
 
 
   join: server_daily_details {
-    view_label: "Server Details"
+    view_label: "User Events Telemetry (Boards)"
     sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
       AND ${focalboard_event_telemetry.timestamp_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
