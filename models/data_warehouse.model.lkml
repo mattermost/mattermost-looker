@@ -3841,7 +3841,7 @@ explore: focalboard_event_telemetry {
   join: server_daily_details {
     view_label: "User Events Telemetry (Boards)"
     sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
-      AND ${focalboard_event_telemetry.timestamp_date} = ${server_daily_details.logging_date};;
+      AND ${focalboard_event_telemetry.timestamp_date}::date = ${server_daily_details.logging_date}::date ;;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
   }
