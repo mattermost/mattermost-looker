@@ -137,6 +137,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: workspace_id {
     label: "Workspace Id"
+    group_label: "Block Id"
     description: "ID of the workspace."
     type: string
     sql: ${TABLE}.workspace_id ;;
@@ -145,6 +146,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: board_id {
     label: "Board Id"
+    group_label: "Block Id"
     description: "ID of the coard."
     type: string
     sql: ${TABLE}.board ;;
@@ -153,6 +155,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: view_id {
     label: "View Id"
+    group_label: "Block Id"
     description: "ID of the view."
     type: string
     sql: ${TABLE}._view ;;
@@ -161,6 +164,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: card_id {
     label: "Card Id"
+    group_label: "Block Id"
     description: "ID of the card."
     type: string
     sql: ${TABLE}.card ;;
@@ -169,6 +173,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: board_template_id {
     label: "Board template Id"
+    group_label: "Block Id"
     description: "ID of the board template."
     type: string
     sql: ${TABLE}.board_template_id ;;
@@ -177,6 +182,7 @@ view_label: "User Events Telemetry (Boards)"
 
   dimension: card_template_id {
     label: "Card template Id"
+    group_label: "Block Id"
     description: "ID of the card template."
     type: string
     sql: ${TABLE}.card_template_id ;;
