@@ -3343,7 +3343,7 @@ explore: focalboard_server {
     type: left_outer
     sql_on: ${focalboard_server.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
-    fields: []
+    fields: [server_fact.cloud_server]
   }
 
   join: license_server_fact {
@@ -3844,5 +3844,12 @@ explore: focalboard_event_telemetry {
       AND ${focalboard_event_telemetry.timestamp_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: server_fact {
+    view_label: "User Events Telemetry (Boards)"
+    sql_on: TRIM(${focalboard_event_telemetry.user_id}) = TRIM(${server_fact.server_id}) ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 }
