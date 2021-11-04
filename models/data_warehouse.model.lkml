@@ -3853,3 +3853,67 @@ explore: focalboard_event_telemetry {
     fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 }
+
+
+explore: performance_events {
+  label: " Performance Events"
+  group_label: " Product: Messaging"
+  hidden: no
+
+  join: server_daily_details {
+    view_label: " Performance Events"
+    sql_on: ${performance_events.user_id} = ${server_daily_details.server_id} AND ${performance_events.timestamp_date} = ${server_daily_details.logging_date} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_fact {
+    view_label: "Server Fact"
+    sql_on: ${performance_events.user_id} = ${server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server, server_fact.registered_users_max, server_fact.max_registered_deactivated_users]
+  }
+
+  join: excludable_servers {
+    view_label: " Performance Events"
+    sql_on: ${performance_events.user_id} = ${excludable_servers.server_id} ;;
+    relationship: many_to_one
+    fields: [excludable_servers.reason]
+  }
+
+  join: user_agent_registry {
+    view_label: " Performance Events"
+    relationship: many_to_one
+    sql_on: ${performance_events.context_useragent} = ${user_agent_registry.context_useragent} ;;
+    fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version_major, user_agent_registry.browser_w_version, user_agent_registry.os_w_version, user_agent_registry.os_w_version_major]
+  }
+
+  join: subscriptions {
+    view_label: "Stripe"
+    relationship: one_to_one
+    sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
+    fields: []
+  }
+
+  join: customers {
+    view_label: "Stripe"
+    relationship: one_to_one
+    sql_on: ${subscriptions.customer} = ${customers.id} ;;
+    fields: []
+  }
+
+  join: license_server_fact {
+    relationship: many_to_one
+    sql_on:
+          ${performance_events.user_id} = ${license_server_fact.server_id}
+          and ${performance_events.timestamp_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+  }
