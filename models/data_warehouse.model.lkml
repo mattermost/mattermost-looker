@@ -3846,3 +3846,12 @@ explore: focalboard_event_telemetry {
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
   }
 }
+
+            
+explore: performance_events {
+  label: "Performance Events"
+  hidden: no
+  }
+
+
+    
