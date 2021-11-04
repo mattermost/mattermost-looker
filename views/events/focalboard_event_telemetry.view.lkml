@@ -135,6 +135,68 @@ view_label: "User Events Telemetry (Boards)"
   }
 
 
+  dimension: workspace_id {
+    label: "Workspace Id"
+    group_label: "Block Id"
+    description: "ID of the workspace."
+    type: string
+    sql: ${TABLE}.workspace_id ;;
+  }
+
+
+  dimension: board_id {
+    label: "Board Id"
+    group_label: "Block Id"
+    description: "ID of the coard."
+    type: string
+    sql: ${TABLE}.board ;;
+  }
+
+
+  dimension: view_id {
+    label: "View Id"
+    group_label: "Block Id"
+    description: "ID of the view."
+    type: string
+    sql: ${TABLE}._view ;;
+  }
+
+
+  dimension: card_id {
+    label: "Card Id"
+    group_label: "Block Id"
+    description: "ID of the card."
+    type: string
+    sql: ${TABLE}.card ;;
+  }
+
+
+  dimension: board_template_id {
+    label: "Board template Id"
+    group_label: "Block Id"
+    description: "ID of the board template."
+    type: string
+    sql: ${TABLE}.board_template_id ;;
+  }
+
+
+  dimension: card_template_id {
+    label: "Card template Id"
+    group_label: "Block Id"
+    description: "ID of the card template."
+    type: string
+    sql: ${TABLE}.card_template_id ;;
+  }
+
+
+  dimension: share_board_enabled {
+    label: "Share board enabled"
+    description: "Is share board enabled."
+    type: string
+    sql: ${TABLE}.share_board_enabled ;;
+  }
+
+
   dimension: context_passed_ip {
     label: "Context Passed Ip"
     description: "The Context Passed Ip of the user performing the event."
