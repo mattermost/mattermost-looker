@@ -3869,7 +3869,7 @@ explore: performance_events {
   }
 
   join: version_release_dates {
-    view_label: " Performance Events"
+    view_label: "Version Release Dates"
     sql_on: ${server_fact.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
     relationship: many_to_one
     fields: [version_release_dates.release_date, version_release_dates.supported]
