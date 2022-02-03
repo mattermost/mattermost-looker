@@ -3868,6 +3868,13 @@ explore: performance_events {
     fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
   }
 
+  join: version_release_dates {
+    view_label: "Version Release Dates"
+    sql_on: ${server_fact.server_version_major} = split_part(${version_release_dates.version}, '.', 1) || '.' || split_part(${version_release_dates.version}, '.', 2) ;;
+    relationship: many_to_one
+    fields: [version_release_dates.release_date, version_release_dates.supported]
+  }
+
   join: server_fact {
     view_label: "Server Fact"
     sql_on: ${performance_events.user_id} = ${server_fact.server_id} ;;
