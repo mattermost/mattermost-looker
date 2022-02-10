@@ -2079,6 +2079,12 @@ explore: server_fact {
     relationship: one_to_many
   }
 
+  join: account {
+    view_label: "Salesforce Accounts"
+    sql_on: ${license_server_fact.account_sfid} = ${account.sfid};;
+    relationship: many_to_one
+  }
+
   join: lead {
     view_label: "Lead (Salesforce)"
     sql_on:  ${license_server_fact.license_email} = ${lead.email} ;;
@@ -2135,15 +2141,6 @@ explore: server_fact {
       server_daily_details_ext.enable_jitsi_count, server_daily_details_ext.enable_mscalendar_count, server_daily_details_ext.enable_todo_count, server_daily_details_ext.enable_skype4business_count, server_daily_details_ext.enable_giphy_count,
       server_daily_details_ext.enable_digital_ocean_count, server_daily_details_ext.enable_incident_response_count, server_daily_details_ext.enable_memes_count, server_daily_details_ext.enable_matterpoll_count,
       server_daily_details_ext.enable_channel_recommender_count, server_daily_details_ext.enable_agenda_count, server_daily_details_ext.enable_msteamsmeeting_count, server_daily_details_ext.enable_icebreaker_count]
-  }
-
-}
-
-view: salesforce_customers {
-  derived_table: {
-    sql:select distinct customer_name
-              from blp.license_server_fact lsf
-              join orgm.ACCOUNT a on lsf.account_sfid = a.sfid where type in ('Customer','Customer (Attrited)');;
   }
 }
 
