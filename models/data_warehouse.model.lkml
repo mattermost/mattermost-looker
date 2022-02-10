@@ -2116,16 +2116,12 @@ explore: server_fact {
   join: cloud_clearbit {
     view_label: "Clearbit (Cloud Only)"
     sql_on: ${server_fact.server_id} = ${cloud_clearbit.server_id} ;;
-    sql_where: ${cloud_clearbit.company_name} NOT IN (SELECT DISTINCT distinct customer_name
-    from blp.license_server_fact lsf join orgm.ACCOUNT a on lsf.account_sfid = a.sfid where type IN ('Customer','Customer (Attrited)')) ;;
     relationship: one_to_one
   }
 
   join: onprem_clearbit {
     view_label: "Clearbit (Self-Managed Only)"
     sql_on: ${server_fact.server_id} = ${onprem_clearbit.server_id} ;;
-    sql_where: ${onprem_clearbit.company_name} NOT IN (SELECT DISTINCT distinct customer_name
-    from blp.license_server_fact lsf join orgm.ACCOUNT a on lsf.account_sfid = a.sfid where type IN ('Customer','Customer (Attrited)')) ;;
     relationship: one_to_one
   }
 
