@@ -2126,7 +2126,8 @@ explore: server_fact {
     view_label: "Clearbit (Self-Managed Only)"
     sql_on: ${server_fact.server_id} = ${onprem_clearbit.server_id} ;;
     sql_where: ${onprem_clearbit.company_name} NOT IN (SELECT DISTINCT customer_name
-    from blp.license_server_fact lsf join orgm.ACCOUNT a on lsf.account_sfid = a.sfid where type IN ('Customer','Customer (Attrited)')) ;;
+    from blp.license_server_fact lsf join orgm.ACCOUNT a on lsf.account_sfid = a.sfid where type IN ('Customer','Customer (Attrited)'))
+    AND ${onprem_clearbit.company_name} != 'United States Air Force' ;;
     relationship: one_to_one
   }
 
