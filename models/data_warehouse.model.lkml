@@ -3866,9 +3866,11 @@ explore: focalboard_event_telemetry {
 
   join: account {
     view_label: "Salesforce Account"
-    sql_on: ${license_server_fact.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.account_sfid} = ${account.sfid}
+    AND ${license_server_fact.server_id} = ${server_daily_details.server_id}
+    AND ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id};;
     relationship: many_to_one
-    fields: []
+    fields: [account.name, account.sfid]
   }
 }
 
