@@ -3042,6 +3042,7 @@ explore: incident_response_events {
   group_label: " Product: Playbooks"
   extends: [license_server_fact]
 
+
   join: server_daily_details {
     view_label: " User Events Telemetry (Playbooks)"
     sql_on: TRIM(${incident_response_events.user_id}) = TRIM(${server_daily_details.server_id}) AND ${incident_response_events.timestamp_date} = ${server_daily_details.logging_date} ;;
@@ -3068,6 +3069,14 @@ explore: incident_response_events {
     view_label: "License Details"
     sql_on: TRIM(${license_server_fact.server_id}) = TRIM(${incident_response_events.user_id}) AND ${incident_response_events.timestamp_date}::DATE BETWEEN ${license_server_fact.start_date}::date AND ${license_server_fact.license_retired_date}::date ;;
     relationship: many_to_one
+  }
+
+  join: account {
+    view_label: "Salesforce Account"
+    sql_on: ${license_server_fact.account_sfid} = ${account.sfid}
+    AND TRIM(${incident_response_events.user_id}) = TRIM(${license_server_fact.server_id}) ;;
+    relationship: many_to_one
+    fields: [account.name,account.sfid]
   }
 
   join: license_current {
