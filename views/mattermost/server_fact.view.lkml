@@ -98,15 +98,6 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
-  dimension: retention_1day_users {
-    label: " 1-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained after 1 day(s) since their first active date. This count indicates the users performed events between hour 24 and 48 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_1day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
     description: "The date/time the Mattermost Cloud Instance added its first payment method into our billing system."
