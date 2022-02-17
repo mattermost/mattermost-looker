@@ -387,6 +387,12 @@ explore: account {
   }
 }
 
+explore: calls_events {
+  group_label: "Product: Calls"
+  view_label: "Calls Events Telemetry "
+  view_name: calls_events
+}
+
 explore: opportunity_snapshot {
   group_label: "Salesforce"
   view_label: "Opportunity Snapshot"

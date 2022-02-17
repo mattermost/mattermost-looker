@@ -1,5 +1,5 @@
 view: server_fact {
-sql_table_name: mattermost.server_fact ;;
+  sql_table_name: mattermost.server_fact ;;
   view_label: "Server Fact"
 
   set: drill_set1 {
@@ -158,10 +158,10 @@ sql_table_name: mattermost.server_fact ;;
     description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
-  WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
-   WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
-   WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
-    ELSE FALSE END ;;
+        WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
+         WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+         WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+          ELSE FALSE END ;;
   }
 
   dimension: has_post_events {
@@ -225,7 +225,7 @@ sql_table_name: mattermost.server_fact ;;
     group_label: " Status & Activity Filters"
     type: yesno
     sql: ${admin_events_alltime} >= 1 OR ${invite_members_alltime} >= 1 OR ${tutorial_events_alltime} >= 1 OR ${post_events_alltime} >= 1 OR ${signup_events_alltime} >= 1 OR ${signup_email_events_alltime} >= 1 OR ${plugins_downloaded} >= 1
-    OR ${days_active}::float/NULLIF((${days_active} + ${days_inactive}), 0)::float >= .3;;
+      OR ${days_active}::float/NULLIF((${days_active} + ${days_inactive}), 0)::float >= .3;;
   }
 
   # Dimensions
@@ -277,8 +277,8 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current server version, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: string
     sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-    regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
-    ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
+          regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+          ELSE regexp_substr(regexp_substr(${TABLE}.version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: server_version_major_sort
   }
 
@@ -315,8 +315,8 @@ sql_table_name: mattermost.server_fact ;;
     description: "The current server version - excluding the trailing '.' release, or if current telemetry is not available, the last recorded server version recorded for the server."
     type: number
     sql: (split_part(${server_version}, '.', 1) ||
-    CASE WHEN split_part(${server_version}, '.', 2) = '10' THEN '99'
-      ELSE split_part(${server_version}, '.', 2) || '0' END)::int ;;
+          CASE WHEN split_part(${server_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${server_version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
 
@@ -326,8 +326,8 @@ sql_table_name: mattermost.server_fact ;;
     description: "The first server version, i.e. the version logged on the server's first telemetry date, recorded for the server."
     type: string
     sql: CASE WHEN regexp_substr(regexp_substr(${TABLE}.first_server_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') IS NULL THEN
-    regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
-    ELSE regexp_substr(regexp_substr(${TABLE}.first_server_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
+          regexp_substr(${TABLE}.first_server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}')
+          ELSE regexp_substr(regexp_substr(${TABLE}.first_server_version,'[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}$') END;;
     order_by_field: first_server_version_sort
   }
 
@@ -352,15 +352,15 @@ sql_table_name: mattermost.server_fact ;;
   }
 
   dimension: first_server_version_major_sort {
-  group_label: " Server Versions"
-  label: "  First Server Version: Major"
-  description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
-  type: number
-  sql: (split_part(${first_server_version}, '.', 1) ||
-    CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
-      ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
-  hidden: yes
-}
+    group_label: " Server Versions"
+    label: "  First Server Version: Major"
+    description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
+    type: number
+    sql: (split_part(${first_server_version}, '.', 1) ||
+          CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
+            ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
+    hidden: yes
+  }
 
   dimension: first_server_edition {
     group_label: " Server Editions"
