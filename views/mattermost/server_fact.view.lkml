@@ -98,6 +98,16 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
+  dimension: retention_1day_users {
+    label: " 1-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 1 days since their first active date. This count indicates the users performed events between hour 24 and 48 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_1day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
     description: "The date/time the Mattermost Cloud Instance added its first payment method into our billing system."
@@ -159,7 +169,7 @@ view: server_fact {
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
         WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
-         WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+        WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
          WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
           ELSE FALSE END ;;
   }
