@@ -168,9 +168,9 @@ sql_table_name: mattermost.server_fact ;;
     description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
     sql: CASE WHEN datediff(DAY, ${first_active_date}, ${last_active_date}) >= 7 AND ${last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
-    WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
-    WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
-    WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
+  WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 7 AND datediff(DAY, ${first_active_date}, ${last_active_date}) >= 3) AND ${last_active_date} >= (SELECT MAX(last_active_date - INTERVAL '1 DAY') FROM mattermost.server_fact) THEN TRUE
+  WHEN (datediff(DAY, ${first_active_date}, ${last_active_date}) < 3) AND ${last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+  WHEN ${paid_license_expire_date} >= CURRENT_DATE THEN TRUE
     ELSE FALSE END ;;
   }
 
@@ -326,7 +326,7 @@ sql_table_name: mattermost.server_fact ;;
     type: number
     sql: (split_part(${server_version}, '.', 1) ||
     CASE WHEN split_part(${server_version}, '.', 2) = '10' THEN '99'
-    ELSE split_part(${server_version}, '.', 2) || '0' END)::int ;;
+      ELSE split_part(${server_version}, '.', 2) || '0' END)::int ;;
     hidden: yes
   }
 
@@ -367,8 +367,8 @@ sql_table_name: mattermost.server_fact ;;
   description: "The first server version - excluding the '.' release, i.e. the version logged on the server's first telemetry date, recorded for the server."
   type: number
   sql: (split_part(${first_server_version}, '.', 1) ||
-  CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
-  ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
+    CASE WHEN split_part(${first_server_version}, '.', 2) = '10' THEN '99'
+      ELSE split_part(${first_server_version}, '.', 2) || '0' END)::int ;;
   hidden: yes
 }
 
