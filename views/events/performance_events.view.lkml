@@ -16,7 +16,7 @@ view_label: " Performance Events"
     sql: CASE WHEN ${server_daily_details.installation_id} is not null THEN TRUE
             WHEN ${license_server_fact.cloud_customer} THEN TRUE
             WHEN ${server_fact.installation_id} is not null THEN TRUE
-            WHEN (${server_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${last_score_date}::date >= '2020-10-09'::date) THEN TRUE
+            WHEN (${user_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${timestamp_date}::date >= '2020-10-09'::date) THEN TRUE
             ELSE FALSE END ;;
   }
 
