@@ -1622,7 +1622,7 @@ view: server_fact {
     label: "1-Day Retained Users"
     description: "The sum of users that performed events within 24 & 48 hours of the instances first active timestamp across all servers in the current grouping."
     type: number
-    sql: sum(${retention_1day_users}}) ;;
+    sql: sum(${retention_1day_users}) ;;
     drill_fields: [drill_set1*]
   }
 
