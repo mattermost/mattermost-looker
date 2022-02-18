@@ -2085,12 +2085,6 @@ explore: server_fact {
     relationship: one_to_many
   }
 
-  join: account {
-    view_label: "Salesforce Accounts"
-    sql_on: ${license_server_fact.account_sfid} = ${account.sfid};;
-    relationship: many_to_one
-  }
-
   join: lead {
     view_label: "Lead (Salesforce)"
     sql_on:  ${license_server_fact.license_email} = ${lead.email} ;;

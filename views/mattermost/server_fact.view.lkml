@@ -1618,6 +1618,14 @@ view: server_fact {
     drill_fields: [drill_set1*]
   }
 
+  measure: retained_1day_user_sum {
+    label: "1-Day Retained Users"
+    description: "The sum of users that performed events within 24 & 48 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_1day_users}}) ;;
+    drill_fields: [drill_set1*]
+  }
+
   measure: server_version_list {
     label: "Server Versions"
     type: string
