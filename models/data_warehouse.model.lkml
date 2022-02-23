@@ -3957,7 +3957,7 @@ explore: performance_events {
 
 explore: 1day_retention_rate {
   from: 1day_retention_rate
-  label: " Growth Scorecard 1-day Retention Rate"
+  label: "1-day Retention Rate"
   group_label: "Growth Scorecard"
   hidden: no
   }
