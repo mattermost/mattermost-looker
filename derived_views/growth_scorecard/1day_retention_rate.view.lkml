@@ -17,7 +17,7 @@ view: 1day_retention_rate {
       ) GROUP BY first_active_date
       , retention_1day_flag
       , first_server_edition
-      ORDER BY first_active_date DESC
+      ORDER BY first_active_date
        ;;
   }
 
@@ -27,21 +27,25 @@ view: 1day_retention_rate {
   }
 
   dimension: first_active_date {
+    label: "First Active Date"
     type: date
     sql: ${TABLE}."FIRST_ACTIVE_DATE" ;;
   }
 
   dimension: retention_1_day_flag {
+    label: "1 Day Retention Flag (Yes/No)"
     type: string
     sql: ${TABLE}."RETENTION_1DAY_FLAG" ;;
   }
 
   dimension: first_server_edition {
+    label: "First Server Edition (E0/TE)"
     type: string
     sql: ${TABLE}."FIRST_SERVER_EDITION" ;;
   }
 
-  dimension: instance_count {
+  measure: instance_count {
+    label: "Instance Count"
     type: number
     sql: ${TABLE}."INSTANCE_COUNT" ;;
   }
