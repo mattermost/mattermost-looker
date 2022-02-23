@@ -46,7 +46,7 @@ view: day1_retention_rate {
     sql: ${TABLE}."FIRST_SERVER_EDITION" ;;
   }
 
-  measure: instance_count {
+  dimension: instance_count {
     label: "Instance Count"
     type: number
     sql: ${TABLE}."INSTANCE_COUNT" ;;
