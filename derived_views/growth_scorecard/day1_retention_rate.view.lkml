@@ -1,6 +1,8 @@
-view: 1day_retention_rate {
+view: day1_retention_rate {
   derived_table: {
-    sql: SELECT first_active_date
+    sql: -- This query pulls Instance counts for all Cloud servers, by first active date, along with a flag set if the instance had any activity after 1 day of being active
+      --We're trying to determine Day 1 retention rate for all new Cloud Servers created
+    SELECT first_active_date
       , retention_1day_flag
       , first_server_edition
       , COUNT(DISTINCT server_id) instance_count FROM (
@@ -32,8 +34,8 @@ view: 1day_retention_rate {
     sql: ${TABLE}."FIRST_ACTIVE_DATE" ;;
   }
 
-  dimension: retention_1_day_flag {
-    label: "1 Day Retention Flag (Yes/No)"
+  dimension: retention_1day_flag {
+    label: "Day 1 Retention Flag (Yes/No)"
     type: string
     sql: ${TABLE}."RETENTION_1DAY_FLAG" ;;
   }
@@ -51,6 +53,6 @@ view: 1day_retention_rate {
   }
 
   set: detail {
-    fields: [first_active_date, retention_1_day_flag, first_server_edition, instance_count]
+    fields: [first_active_date, retention_1day_flag, first_server_edition, instance_count]
   }
 }
