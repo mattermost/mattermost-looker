@@ -2,7 +2,7 @@ view: calls_events {
 
   sql_table_name: "EVENTS"."CALLS_EVENTS"
     ;;
-  drill_fields: [id]
+  drill_fields: [user_id]
 
   dimension: id {
     primary_key: yes
@@ -22,16 +22,19 @@ view: calls_events {
   }
 
   dimension: call_id {
+    label: "Call ID"
     type: string
     sql: ${TABLE}."CALL_ID" ;;
   }
 
   dimension: channel_id {
+    label: "Channel ID"
     type: string
     sql: ${TABLE}."CHANNEL_ID" ;;
   }
 
   dimension: channel_type {
+    label: "Channel Type"
     type: string
     sql: ${TABLE}."CHANNEL_TYPE" ;;
   }
@@ -84,8 +87,8 @@ view: calls_events {
 
   measure: total_duration {
     type: sum
-    sql: ${duration} ;;
-  }
+    sql: ${duration};;
+    }
 
   measure: average_duration {
     type: average
@@ -118,16 +121,19 @@ view: calls_events {
   }
 
   dimension: participants {
+    label: "Participants"
     type: number
     sql: ${TABLE}."PARTICIPANTS" ;;
   }
 
   dimension: plugin_build {
+    label: "Plugin Build"
     type: string
     sql: ${TABLE}."PLUGIN_BUILD" ;;
   }
 
   dimension: plugin_version {
+    label: "Plugin Version"
     type: string
     sql: ${TABLE}."PLUGIN_VERSION" ;;
   }
@@ -180,6 +186,7 @@ view: calls_events {
   }
 
   dimension: user_id {
+    label: "Instance ID"
     type: string
     sql: ${TABLE}."USER_ID" ;;
   }
@@ -198,8 +205,22 @@ view: calls_events {
     sql: ${TABLE}."UUID_TS" ;;
   }
 
+  measure: instance_count {
+    label: "Instance Count"
+    type: count_distinct
+    sql:  ${user_id};;
+    drill_fields: []
+  }
+
+  measure: call_count {
+    label: "Calls Total"
+    type: count_distinct
+    sql:  ${call_id};;
+    drill_fields: []
+  }
+
   measure: count {
     type: count
-    drill_fields: [id, context_library_name]
+    drill_fields: []
   }
 }

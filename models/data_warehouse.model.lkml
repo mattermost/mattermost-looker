@@ -391,6 +391,11 @@ explore: calls_events {
   group_label: "Product: Calls"
   view_label: "Calls Events Telemetry "
   view_name: calls_events
+
+  join: dates {
+    sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: opportunity_snapshot {
