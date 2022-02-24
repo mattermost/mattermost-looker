@@ -87,8 +87,8 @@ view: calls_events {
 
   measure: total_duration {
     type: sum
-    sql: ${duration} ;;
-  }
+    sql: ${duration};;
+    }
 
   measure: average_duration {
     type: average
