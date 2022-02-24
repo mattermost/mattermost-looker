@@ -2,11 +2,10 @@ view: day1_retention_rate {
   derived_table: {
     sql: -- This query pulls Instance counts for all Cloud servers, by first active date, along with a flag set if the instance had any activity after 1 day of being active
       --We're trying to determine Day 1 retention rate for all new Cloud Servers created
-     SELECT first_active_date
-      , first_server_edition
-      , COUNT(DISTINCT server_id) instance_count
-      , COUNT(DISTINCT CASE WHEN retention_1day_flag = 'No' THEN server_id END) instance_count_retention_flag_no
-      , COUNT(DISTINCT CASE WHEN retention_1day_flag = 'Yes' THEN server_id END) instance_count_retention_flag_yes
+     SELECT first_active_date as "first_active_date"
+      , first_server_edition as "first_server_edition"
+      , server_id as "server_id"
+      , retention_1day_flag as "retention_1day_flag"
       FROM (
       SELECT DISTINCT server_fact.server_id
       , (CASE WHEN COALESCE(server_fact.retention_1day_flag, false)  THEN 'Yes' ELSE 'No' END) AS retention_1day_flag
@@ -18,9 +17,7 @@ view: day1_retention_rate {
       OR (CASE WHEN server_fact.installation_id IS NOT NULL THEN TRUE ELSE FALSE END ) IS NULL)
       AND (server_fact.first_active_date) >= (TO_TIMESTAMP('2020-02-02'))
       AND excludable_servers.reason IS NULL
-      ) GROUP BY first_active_date
-      , first_server_edition
-      ORDER BY first_active_date
+      ) ORDER BY first_active_date
        ;;
   }
 
@@ -33,53 +30,50 @@ view: day1_retention_rate {
   dimension: first_active_date {
     label: "First Active Date"
     type: date
-    sql: ${TABLE}."FIRST_ACTIVE_DATE" ;;
-  }
-
-  dimension: instance_count_retention_flag_no {
-    label: "Instance Counts with no Day 1 retention"
-    type: number
-    sql: ${TABLE}."instance_count_retention_flag_no" ;;
-  }
-
-  dimension: instance_count_retention_flag_yes {
-    label: "Instance Counts with Day 1 retention"
-    type: number
-    sql: ${TABLE}."instance_count_retention_flag_yes" ;;
+    sql: ${TABLE}."first_active_date" ;;
   }
 
   dimension: first_server_edition {
     label: "First Server Edition (E0/TE)"
     type: string
-    sql: ${TABLE}."FIRST_SERVER_EDITION" ;;
+    sql: ${TABLE}."first_server_edition" ;;
   }
 
-  dimension: instance_count {
+  dimension: server_id {
+    label: "Server ID"
+    type: string
+    sql: ${TABLE}."server_id" ;;
+  }
+
+  dimension: retention_1day_flag {
+    label: "Boolean indicating the instance was retained after 1 day(s) since their first active date."
+    type: number
+    sql: ${TABLE}."retention_1day_flag" ;;
+  }
+
+  measure: instance_count {
     label: "Instance Count"
-    type: number
-    sql: ${TABLE}."INSTANCE_COUNT" ;;
+    group_label: " Instance Counts"
+    type: count_distinct
+    sql: ${server_id} ;;
   }
 
-  measure: m_instance_count {
-    label: "Instance Count"
-    type: number
-    sql: ${TABLE}."INSTANCE_COUNT" ;;
+  measure: active_instances_day1 {
+    label: "Day 1 Active Instances"
+    group_label: " Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${retention_1day_flag} = 'Yes' THEN ${server_id} ELSE NULL END;;
   }
 
-  measure: m_instance_count_retention_flag_no {
-    label: "Instance Counts with no Day 1 retention"
-    type: number
-    sql: ${TABLE}."instance_count_retention_flag_no" ;;
-  }
-
-  measure: m_instance_count_retention_flag_yes {
-    label: "Instance Counts with Day 1 retention"
-    type: number
-    sql: ${TABLE}."instance_count_retention_flag_yes" ;;
+  measure: inactive_instances_day1 {
+    label: "Day 1 Inactive Instances"
+    group_label: " Instance Counts"
+    type: count_distinct
+    sql: CASE WHEN ${retention_1day_flag} = 'No' THEN ${server_id} ELSE NULL END;;
   }
 
   set: detail {
-    fields: [first_active_date, first_server_edition, instance_count, instance_count_retention_flag_no, instance_count_retention_flag_yes,
-      m_instance_count, m_instance_count_retention_flag_no, m_instance_count_retention_flag_yes]
+    fields: [first_active_date, first_server_edition, server_id, retention_1day_flag, instance_count,
+      active_instances_day1, inactive_instances_day1]
   }
 }
