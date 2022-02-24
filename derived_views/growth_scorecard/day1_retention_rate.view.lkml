@@ -38,13 +38,13 @@ view: day1_retention_rate {
 
   dimension: instance_count_retention_flag_no {
     label: "Instance Counts with no Day 1 retention"
-    type: string
+    type: number
     sql: ${TABLE}."instance_count_retention_flag_no" ;;
   }
 
   dimension: instance_count_retention_flag_yes {
     label: "Instance Counts with Day 1 retention"
-    type: string
+    type: number
     sql: ${TABLE}."instance_count_retention_flag_yes" ;;
   }
 
@@ -68,13 +68,13 @@ view: day1_retention_rate {
 
   measure: m_instance_count_retention_flag_no {
     label: "Instance Counts with no Day 1 retention"
-    type: string
+    type: number
     sql: ${TABLE}."instance_count_retention_flag_no" ;;
   }
 
   measure: m_instance_count_retention_flag_yes {
     label: "Instance Counts with Day 1 retention"
-    type: string
+    type: number
     sql: ${TABLE}."instance_count_retention_flag_yes" ;;
   }
 
