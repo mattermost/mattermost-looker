@@ -350,6 +350,44 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: name {
+    label: "Name"
+    description: "The name of the event."
+    type: string
+    sql: ${TABLE}.name;;
+    hidden: no
+  }
+
+  dimension: sign_up_seqence {
+    label: "Chronological Sequence for Cloud Sign-up"
+    type: number
+    sql: CASE WHEN COALESCE(${type}, ${event}) = 'cloud_signup_b_page_visit' THEN 1
+      WHEN COALESCE(${type}, ${event}) = 'pageview_verify_email' THEN 2
+      WHEN COALESCE(${type}, ${event}) = 'enter_valid_code' THEN 3
+      WHEN COALESCE(${type}, ${event}) = 'pageview_create_workspace' and ${name} = 'pageview_company_name' THEN 4
+      WHEN COALESCE(${type}, ${event}) = 'workspace_name_valid' THEN 5
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_started' THEN 6
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_ended' THEN 7
+      ELSE NULL
+      end;;
+    hidden: no
+  }
+
+  dimension: sign_up_events_sequence {
+    label: "Event Sequence for Cloud Sign-up"
+    type: string
+    sql: CASE WHEN COALESCE(${type}, ${event}) = 'cloud_signup_b_page_visit' THEN 'Sign-Up Page'
+      WHEN COALESCE(${type}, ${event}) = 'pageview_verify_email' THEN 'Verify Email'
+      WHEN COALESCE(${type}, ${event}) = 'enter_valid_code' THEN 'Enter Valid Code'
+      WHEN COALESCE(${type}, ${event}) = 'pageview_create_workspace' and ${name} = 'pageview_company_name' THEN 'Enter Company Name'
+      WHEN COALESCE(${type}, ${event}) = 'workspace_name_valid' THEN 'Workspace Name Valid'
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_started' THEN 'Workspace Creation Started'
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_ended' THEN 'Workspace Creation Ended'
+      ELSE NULL
+      end;;
+    hidden: no
+  }
+
   dimension: context_traits_server {
     group_label: "Context Attributes"
     description: ""
