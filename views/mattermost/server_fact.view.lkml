@@ -81,6 +81,14 @@ view: server_fact {
     sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
   }
 
+  dimension: retention_1day_flag {
+    label: "1-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained after 1 days since their first active date. This metric is a flag indicating users performed events between hour 24 and 48 from the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_1day_flag, false) ;;
+  }
+
   dimension: dev_testing_enabled {
     label: "Dev/Test Mode Enabled"
     group_label: " Telemetry Flags"
