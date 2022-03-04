@@ -115,6 +115,40 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
+  dimension: retention_7day_flag {
+    label: "7-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained after 7 days since their first active date. This metric is a flag indicating users performed events between hour 168 and 192 from the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_7day_flag, false) ;;
+  }
+
+  dimension: retention_7day_users {
+    label: " 7-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 7 days since their first active date. This count indicates the users performed events between hour 168 and 192 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_7day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_14day_flag {
+    label: "14-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained after 14 days since their first active date. This metric is a flag indicating users performed events between hour 336 and 360 from the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_14day_flag, false) ;;
+  }
+
+  dimension: retention_14day_users {
+    label: " 14-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 14 days since their first active date. This count indicates the users performed events between hour 336 and 360 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_14day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
 
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
@@ -1250,6 +1284,33 @@ view: server_fact {
     drill_fields: [drill_set1*]
   }
 
+  measure: active_instances_1day_24_48 {
+    label: "  1-Day Active Instances"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 24th & 48th hour from the instances first active timestamp."
+    type: count_distinct
+    sql: CASE WHEN ${retention_1day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: active_instances_7day_168_192 {
+    label: "  7-Day Active Instances"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 24th & 48th hour from the instances first active timestamp."
+    type: count_distinct
+    sql: CASE WHEN ${retention_7day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: active_instances_14day_336_360 {
+    label: "  14-Day Active Instances"
+    group_label: " Instance Counts"
+    description: "The distinct count of all Mattermost Messaging instances with Active Usage (a user performing an action) on the instance between the 24th & 48th hour from the instances first active timestamp."
+    type: count_distinct
+    sql: CASE WHEN ${retention_14day_flag} THEN ${server_id} ELSE NULL END;;
+    drill_fields: [drill_set1*]
+  }
+
   measure: instances_w_payment_methods {
     label: "  Instances w/ Payment Methods"
     group_label: " Instance Counts"
@@ -1618,6 +1679,30 @@ view: server_fact {
     drill_fields: [drill_set1*]
   }
 
+  measure: retained_1day_user_sum {
+    label: "1-Day Retained Users"
+    description: "The sum of users that performed events within 24 & 48 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_1day_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: retained_7day_user_sum {
+    label: "7-Day Retained Users"
+    description: "The sum of users that performed events within 168 & 192 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_7day_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: retained_14day_user_sum {
+    label: "14-Day Retained Users"
+    description: "The sum of users that performed events within 336 & 360 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_14day_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
   measure: retained_28day_user_sum {
     label: "28-Day Retained Users"
     description: "The sum of users that performed events within 672 & 696 hours of the instances first active timestamp across all servers in the current grouping."
@@ -1626,11 +1711,12 @@ view: server_fact {
     drill_fields: [drill_set1*]
   }
 
-  measure: retained_1day_user_sum {
-    label: "1-Day Retained Users"
-    description: "The sum of users that performed events within 24 & 48 hours of the instances first active timestamp across all servers in the current grouping."
+  measure: user_count {
+    label: "User Count per instance"
+    group_label: "User Dimensions"
+    description: "Sum of Users per Instance"
     type: number
-    sql: sum(${retention_1day_users}) ;;
+    sql: sum(${max_active_user_count}) ;;
     drill_fields: [drill_set1*]
   }
 
