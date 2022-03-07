@@ -1712,7 +1712,7 @@ view: server_fact {
   }
 
   measure: user_count {
-    label: "User Count per instance"
+    label: "User Count"
     group_label: "User Dimensions"
     description: "Sum of Users per Instance"
     type: number
