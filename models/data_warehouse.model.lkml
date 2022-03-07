@@ -3958,3 +3958,38 @@ explore: performance_events {
     fields: []
   }
   }
+
+explore: user_retention {
+  label: " User Retention"
+  group_label: " Product: Messaging"
+  hidden: no
+
+  join: server_fact {
+    view_label: " Server Fact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_retention.server_id} = ${server_fact.server_id} ;;
+  }
+
+  join: license_server_fact {
+    view_label: " License Server Fact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_retention.server_id} = ${license_server_fact.server_id} ;;
+  }
+
+  join: trial_requests {
+    view_label: " Trial Requests"
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: []
+  }
+
+  join: excludable_servers {
+    view_label: " Excludable Servers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_retention.server_id} = ${excludable_servers.server_id} ;;
+  }
+}
