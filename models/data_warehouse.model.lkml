@@ -3958,11 +3958,3 @@ explore: performance_events {
     fields: []
   }
   }
-
-
-explore: day1_retention_rate {
-  from: day1_retention_rate
-  label: "Day 1 Retention Rate"
-  group_label: "Growth Scorecard"
-  hidden: no
-  }
