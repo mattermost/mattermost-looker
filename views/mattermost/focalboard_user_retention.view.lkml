@@ -31,8 +31,8 @@ view: focalboard_user_retention {
         label: "AGE 7 - 27"
       }
       when: {
-        sql: ${age} = 'AGE 28' ;;
-        label: "AGE 28"
+        sql: ${age} = 'AGE 28+' ;;
+        label: "AGE 28+"
       }
     }
   }
