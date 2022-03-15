@@ -396,6 +396,12 @@ explore: calls_events {
     sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
     relationship: many_to_one
   }
+
+  join: license_server_fact {
+    sql_on: ${calls_events.user_id} = ${license_server_fact.server_id} ;;
+    relationship: many_to_one
+    fields: []
+  }
 }
 
 explore: opportunity_snapshot {
@@ -3012,11 +3018,11 @@ explore: license_server_fact {
   }
 
   join: trial_requests {
+    view_label: " Trial Requests"
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
-
+    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
   }
 
   join: person {
