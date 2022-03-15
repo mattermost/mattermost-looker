@@ -3993,3 +3993,9 @@ explore: user_retention {
     sql_on: ${user_retention.server_id} = ${excludable_servers.server_id} ;;
   }
 }
+
+explore: focalboard_user_retention {
+  label: " Focalboard User Retention"
+  group_label: " Product: Boards"
+  hidden: no
+}
