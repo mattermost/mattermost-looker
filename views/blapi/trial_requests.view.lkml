@@ -1,6 +1,5 @@
 view: trial_requests {
-  sql_table_name: "BLAPI"."TRIAL_REQUESTS"
-    ;;
+  sql_table_name: "BLAPI"."TRIAL_REQUESTS";;
 
   dimension: sfid {
     hidden: yes
@@ -92,6 +91,12 @@ view: trial_requests {
     sql: ${TABLE}."SITE_URL" ;;
   }
 
+  dimension: product_type {
+    label: "Product Type"
+    type: string
+    sql: CASE WHEN ${site_url} LIKE '%mattermost.com%' THEN 'Website' ELSE 'Self-Hosted' END ;;
+  }
+
   dimension_group: start {
     type: time
     timeframes: [
@@ -122,4 +127,6 @@ view: trial_requests {
     type: count_distinct
     sql: ${license_id} ;;
   }
+
+
 }
