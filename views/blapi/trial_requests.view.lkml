@@ -94,7 +94,7 @@ view: trial_requests {
   dimension: product_type {
     label: "Product Type"
     type: string
-    sql: CASE WHEN ${site_url} LIKE '%mattermost.com%' THEN 'Website' ELSE 'Self-Hosted' END ;;
+    sql: CASE WHEN ${site_url} LIKE '%mattermost.com%' THEN 'Website' ELSE 'In-Product' END ;;
   }
 
   dimension_group: start {
