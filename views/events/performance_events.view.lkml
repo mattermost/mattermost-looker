@@ -634,6 +634,16 @@ view_label: " Performance Events"
     value_format_name: decimal_1
   }
 
+  measure: duration_p99 {
+    group_label: "Duration Measures"
+    label: "Duration (p99)"
+    description: "The 99th percentile Duration across all instances within the grouping."
+    type: percentile
+    percentile: 99
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
   measure: user_id_count {
     label: " Instance Count"
     description: "The distinct count of User Id's (Instance ID's) within the grouping."
