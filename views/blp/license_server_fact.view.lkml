@@ -223,6 +223,14 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension: customer_name_unlinked {
+    label: " Customer Name (Unlinked)"
+    description: "Customer name."
+    type: string
+    sql: ${TABLE}.customer_name ;;
+    hidden: no
+  }
+
   dimension: customer_name {
     description: "The customer name associated with the licensed customer. Coalesced license company and OrgM account name."
     type: string

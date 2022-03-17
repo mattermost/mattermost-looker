@@ -392,15 +392,27 @@ explore: calls_events {
   view_label: "Calls Events Telemetry "
   view_name: calls_events
 
-  join: dates {
-    sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
-    relationship: many_to_one
+  join: license_server_fact {
+    from: license_server_fact
+    view_label: "License Server Fact"
+    sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
+    relationship: one_to_many
+    fields: [license_server_fact.customer_name_unlinked, license_server_fact.max_edition]
   }
 
-  join: license_server_fact {
-    sql_on: ${calls_events.user_id} = ${license_server_fact.server_id} ;;
+  join: excludable_servers {
+    from: excludable_servers
+    view_label: "Server Fact"
+    sql_on: ${excludable_servers.server_id} = ${calls_events.user_id};;
+    relationship: one_to_many
+    fields: [excludable_servers.reason]
+  }
+
+  join: dates {
+    from: dates
+    view_label: " Dates"
+    sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
     relationship: many_to_one
-    fields: []
   }
 }
 
@@ -3017,14 +3029,6 @@ explore: license_server_fact {
     fields: [excludable_servers.reason]
   }
 
-  join: trial_requests {
-    view_label: " Trial Requests"
-    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
-    relationship: many_to_one
-    type: left_outer
-    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
-  }
-
   join: person {
     view_label: "Person"
     sql_on: ${person.email} = ${license_server_fact.license_email};;
@@ -3037,6 +3041,15 @@ explore: license_server_fact {
     relationship: many_to_one
     type: left_outer
   }
+
+  join: trial_requests {
+    view_label: " Trial Requests"
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
+  }
+
 }
 
 explore: subscriptions {
@@ -3899,6 +3912,9 @@ explore: performance_events {
   label: " Performance Events"
   group_label: " Product: Messaging"
   hidden: no
+  sql_always_where: ${duration} < (SELECT PERCENTILE_CONT(.95) WITHIN GROUP (ORDER BY DURATION)
+FROM EVENTS.PERFORMANCE_EVENTS) AND ${duration} > (SELECT PERCENTILE_CONT(.05) WITHIN GROUP (ORDER BY DURATION)
+FROM EVENTS.PERFORMANCE_EVENTS) ;;
 
   join: server_daily_details {
     view_label: " Performance Events"

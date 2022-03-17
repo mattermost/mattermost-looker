@@ -1,7 +1,6 @@
 view: calls_events {
 
-  sql_table_name: "EVENTS"."CALLS_EVENTS"
-    ;;
+  sql_table_name: "EVENTS"."CALLS_EVENTS";;
   drill_fields: [user_id]
 
   dimension: id {
@@ -29,6 +28,12 @@ view: calls_events {
 
   dimension: channel_id {
     label: "Channel ID"
+    type: string
+    sql: ${TABLE}."CHANNEL_ID" ;;
+  }
+
+  dimension: participant_id {
+    label: "Participant ID"
     type: string
     sql: ${TABLE}."CHANNEL_ID" ;;
   }
@@ -212,8 +217,22 @@ view: calls_events {
     drill_fields: []
   }
 
+  measure: user_count {
+    label: " Total Users"
+    type: count_distinct
+    sql:  ${participant_id};;
+    drill_fields: []
+  }
+
+  measure: last_call_started_date {
+    label: " Last Call Started Date"
+    type: date
+    sql:  MAX(CASE WHEN ${_dbt_source_relation} = '"RAW".MM_CALLS_TEST_GO.CALL_STARTED' THEN ${timestamp_date} END);;
+    drill_fields: []
+  }
+
   measure: call_count {
-    label: "Calls Total"
+    label: " Total Calls"
     type: count_distinct
     sql:  ${call_id};;
     drill_fields: []
