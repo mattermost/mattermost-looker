@@ -35,7 +35,7 @@ view: calls_events {
   dimension: participant_id {
     label: "Participant ID"
     type: string
-    sql: ${TABLE}."CHANNEL_ID" ;;
+    sql: ${TABLE}."PARTICIPANT_ID" ;;
   }
 
   dimension: channel_type {
@@ -235,6 +235,20 @@ view: calls_events {
     label: " Total Calls"
     type: count_distinct
     sql:  ${call_id};;
+    drill_fields: []
+  }
+
+  measure: weekly_active_users {
+    label: " Weekly Active Users"
+    type: count_distinct
+    sql:  CASE WHEN ${timestamp_date} BETWEEN CURRENT_DATE - 6 AND CURRENT_DATE THEN ${participant_id} END;;
+    drill_fields: []
+  }
+
+  measure: monthly_active_users {
+    label: " Monthly Active Users"
+    type: count_distinct
+    sql:  CASE WHEN ${timestamp_date} BETWEEN CURRENT_DATE - 29 AND CURRENT_DATE THEN ${participant_id} END;;
     drill_fields: []
   }
 

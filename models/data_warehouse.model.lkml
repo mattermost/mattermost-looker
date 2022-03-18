@@ -397,7 +397,7 @@ explore: calls_events {
     view_label: "License Server Fact"
     sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
     relationship: one_to_many
-    fields: [license_server_fact.customer_name_unlinked, license_server_fact.max_edition]
+    fields: [license_server_fact.customer_name_unlinked, license_server_fact.max_edition, license_server_fact.license_email]
   }
 
   join: excludable_servers {
@@ -3912,9 +3912,6 @@ explore: performance_events {
   label: " Performance Events"
   group_label: " Product: Messaging"
   hidden: no
-  sql_always_where: ${duration} < (SELECT PERCENTILE_CONT(.95) WITHIN GROUP (ORDER BY DURATION)
-FROM EVENTS.PERFORMANCE_EVENTS) AND ${duration} > (SELECT PERCENTILE_CONT(.05) WITHIN GROUP (ORDER BY DURATION)
-FROM EVENTS.PERFORMANCE_EVENTS) ;;
 
   join: server_daily_details {
     view_label: " Performance Events"
