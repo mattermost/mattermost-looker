@@ -22,18 +22,21 @@ view: calls_events {
 
   dimension: call_id {
     label: "Call ID"
+    description: "Unique Identifier of the call"
     type: string
     sql: ${TABLE}."CALL_ID" ;;
   }
 
   dimension: channel_id {
     label: "Channel ID"
+    description: "Unique Identifier of channel where call takes place"
     type: string
     sql: ${TABLE}."CHANNEL_ID" ;;
   }
 
   dimension: participant_id {
     label: "Participant ID"
+    description: "Unique Identifier of user participating in the call"
     type: string
     sql: ${TABLE}."PARTICIPANT_ID" ;;
   }
@@ -192,6 +195,7 @@ view: calls_events {
 
   dimension: user_id {
     label: "Instance ID"
+    description: "Server ID of the Instance"
     type: string
     sql: ${TABLE}."USER_ID" ;;
   }
