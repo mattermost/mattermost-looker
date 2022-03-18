@@ -225,7 +225,7 @@ view: license_server_fact {
 
   dimension: customer_name_unlinked {
     label: " Customer Name (Unlinked)"
-    description: "Customer name."
+    description: "Customer name. Created to separate Name and ID fields, which are both included in the same Salesforce customer field."
     type: string
     sql: ${TABLE}.customer_name ;;
     hidden: no

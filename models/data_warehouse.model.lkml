@@ -410,9 +410,9 @@ explore: calls_events {
 
   join: dates {
     from: dates
-    view_label: " Dates"
     sql_on: ${calls_events.timestamp_date}::date <= ${dates.date_date}::date AND ${calls_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
     relationship: many_to_one
+    fields: []
   }
 }
 
