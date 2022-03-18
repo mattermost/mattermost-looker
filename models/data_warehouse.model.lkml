@@ -397,7 +397,7 @@ explore: calls_events {
     view_label: "License Server Fact"
     sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
     relationship: one_to_many
-    fields: [license_server_fact.customer_name_unlinked, license_server_fact.max_edition, license_server_fact.license_email]
+    fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition, license_server_fact.license_email]
   }
 
   join: excludable_servers {
@@ -411,7 +411,7 @@ explore: calls_events {
   join: dates {
     from: dates
     view_label: " Dates"
-    sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
+    sql_on: ${calls_events.timestamp_date}::date <= ${dates.date_date}::date AND ${calls_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
     relationship: many_to_one
   }
 }
