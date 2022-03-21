@@ -522,6 +522,7 @@ view_label: " Performance Events"
     hidden: yes
   }
 
+
 ### DATES & TIMESTAMPS
 
 
@@ -642,7 +643,6 @@ view_label: " Performance Events"
     sql: ${duration} ;;
     value_format_name: decimal_2
   }
-
 
   measure: user_id_count {
     label: " Instance Count"

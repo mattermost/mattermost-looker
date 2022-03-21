@@ -1,7 +1,6 @@
 view: calls_events {
 
-  sql_table_name: "EVENTS"."CALLS_EVENTS"
-    ;;
+  sql_table_name: "EVENTS"."CALLS_EVENTS";;
   drill_fields: [user_id]
 
   dimension: id {
@@ -23,14 +22,23 @@ view: calls_events {
 
   dimension: call_id {
     label: "Call ID"
+    description: "Unique Identifier of the call"
     type: string
     sql: ${TABLE}."CALL_ID" ;;
   }
 
   dimension: channel_id {
     label: "Channel ID"
+    description: "Unique Identifier of channel where call takes place"
     type: string
     sql: ${TABLE}."CHANNEL_ID" ;;
+  }
+
+  dimension: participant_id {
+    label: "Participant ID"
+    description: "Unique Identifier of user participating in the call"
+    type: string
+    sql: ${TABLE}."PARTICIPANT_ID" ;;
   }
 
   dimension: channel_type {
@@ -187,6 +195,7 @@ view: calls_events {
 
   dimension: user_id {
     label: "Instance ID"
+    description: "Server ID of the Instance"
     type: string
     sql: ${TABLE}."USER_ID" ;;
   }
@@ -205,6 +214,16 @@ view: calls_events {
     sql: ${TABLE}."UUID_TS" ;;
   }
 
+  dimension_group: active_user_date {
+    label: "Active User"
+    description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
+    type: time
+    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
+    sql: ${dates.date_date}::date ;;
+
+  }
+
   measure: instance_count {
     label: "Instance Count"
     type: count_distinct
@@ -212,8 +231,22 @@ view: calls_events {
     drill_fields: []
   }
 
+  measure: user_count {
+    label: " Total Users"
+    type: count_distinct
+    sql:  ${participant_id};;
+    drill_fields: []
+  }
+
+  measure: last_call_started_date {
+    label: " Last Call Started Date"
+    type: date
+    sql:  MAX(CASE WHEN ${_dbt_source_relation} = '"RAW".MM_CALLS_TEST_GO.CALL_STARTED' THEN ${timestamp_date} END);;
+    drill_fields: []
+  }
+
   measure: call_count {
-    label: "Calls Total"
+    label: " Total Calls"
     type: count_distinct
     sql:  ${call_id};;
     drill_fields: []
@@ -222,5 +255,56 @@ view: calls_events {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: daily_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Daily Active Instances"
+    description: "The count of daily active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Weekly Active Instances"
+    description: "The count of Weekly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+      THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: monthly_active_instances {
+    group_label: "Active Instance Measures (DAI, WAI, MAI)"
+    label: "Monthly Active Instances"
+    description: "The count of monthly active instances on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
+  }
+
+  measure: daily_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Daily Active Users"
+    description: "The count of daily active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${participant_id} ELSE NULL END ;;
+  }
+
+  measure: weekly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Weekly Active Users"
+    description: "The count of Weekly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+      THEN ${participant_id} ELSE NULL END ;;
+  }
+
+
+  measure: monthly_active_users {
+    group_label: "Active User Measures (DAU, WAU, MAU)"
+    label: "Monthly Active Users"
+    description: "The count of monthly active users on the given active user date."
+    type: count_distinct
+    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${participant_id} ELSE NULL END ;;
   }
 }

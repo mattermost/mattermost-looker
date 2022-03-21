@@ -223,6 +223,14 @@ view: license_server_fact {
     hidden: no
   }
 
+  dimension: customer_name_unlinked {
+    label: " Customer Name (Unlinked)"
+    description: "Customer name. Created to separate Name and ID fields, which are both included in the same Salesforce customer field."
+    type: string
+    sql: ${TABLE}.customer_name ;;
+    hidden: no
+  }
+
   dimension: customer_name {
     description: "The customer name associated with the licensed customer. Coalesced license company and OrgM account name."
     type: string

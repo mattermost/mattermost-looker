@@ -392,13 +392,25 @@ explore: calls_events {
   view_label: "Calls Events Telemetry "
   view_name: calls_events
 
-  join: dates {
-    sql_on: ${calls_events.timestamp_date} = ${dates.date_date} ;;
-    relationship: many_to_one
+  join: license_server_fact {
+    from: license_server_fact
+    view_label: "License Server Fact"
+    sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
+    relationship: one_to_many
+    fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition, license_server_fact.license_email]
   }
 
-  join: license_server_fact {
-    sql_on: ${calls_events.user_id} = ${license_server_fact.server_id} ;;
+  join: excludable_servers {
+    from: excludable_servers
+    view_label: "Server Fact"
+    sql_on: ${excludable_servers.server_id} = ${calls_events.user_id};;
+    relationship: one_to_many
+    fields: [excludable_servers.reason]
+  }
+
+  join: dates {
+    from: dates
+    sql_on: ${calls_events.timestamp_date}::date <= ${dates.date_date}::date AND ${calls_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
     relationship: many_to_one
     fields: []
   }
@@ -3017,14 +3029,6 @@ explore: license_server_fact {
     fields: [excludable_servers.reason]
   }
 
-  join: trial_requests {
-    view_label: " Trial Requests"
-    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
-    relationship: many_to_one
-    type: left_outer
-    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
-  }
-
   join: person {
     view_label: "Person"
     sql_on: ${person.email} = ${license_server_fact.license_email};;
@@ -3037,6 +3041,15 @@ explore: license_server_fact {
     relationship: many_to_one
     type: left_outer
   }
+
+  join: trial_requests {
+    view_label: " Trial Requests"
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
+  }
+
 }
 
 explore: subscriptions {
