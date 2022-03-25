@@ -3913,7 +3913,7 @@ explore: performance_events_duration {
   hidden: no
 
   join: server_daily_details {
-    view_label: " Performance Events  (Middle 90% Duration)"
+    view_label: " Server Daily Details"
     sql_on: ${performance_events_duration.user_id} = ${server_daily_details.server_id} AND ${performance_events_duration.timestamp_date} = ${server_daily_details.logging_date} ;;
     relationship: many_to_one
     type: left_outer
@@ -3935,28 +3935,28 @@ explore: performance_events_duration {
   }
 
   join: excludable_servers {
-    view_label: " Performance Events  (Middle 90% Duration)"
+    view_label: " Excludable Servers"
     sql_on: ${performance_events_duration.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
 
   join: user_agent_registry {
-    view_label: " Performance Events  (Middle 90% Duration)"
+    view_label: " User Agent Registry"
     relationship: many_to_one
     sql_on: ${performance_events_duration.context_useragent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version_major, user_agent_registry.browser_w_version, user_agent_registry.os_w_version, user_agent_registry.os_w_version_major]
   }
 
   join: subscriptions {
-    view_label: "Stripe"
+    view_label: " Subscriptions"
     relationship: one_to_one
     sql_on: ${subscriptions.cws_installation} = ${server_fact.installation_id} ;;
     fields: []
   }
 
   join: customers {
-    view_label: "Stripe"
+    view_label: " Stripe"
     relationship: one_to_one
     sql_on: ${subscriptions.customer} = ${customers.id} ;;
     fields: []
