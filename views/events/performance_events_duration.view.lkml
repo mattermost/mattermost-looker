@@ -1,4 +1,4 @@
-# This is the view file for the analytics.events.performance_events table.
+# This is the view file for the analytics.events.performance_events_duration table.
   view: performance_events_duration {
     sql_table_name: events.performance_events_duration ;;
     view_label: " Performance Events (Middle 90% Duration)"
