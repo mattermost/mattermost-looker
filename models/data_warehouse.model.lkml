@@ -3097,7 +3097,7 @@ explore: incident_response_events {
     sql_on: ${license_server_fact.account_sfid} = ${account.sfid}
     AND TRIM(${incident_response_events.user_id}) = TRIM(${license_server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [account.name,account.sfid]
+    fields: [account.name,account.sfid, account.total_current_arr]
   }
 
   join: license_current {
@@ -3879,7 +3879,7 @@ explore: focalboard_event_telemetry {
     view_label: "User Events Telemetry (Boards)"
     sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
     relationship: one_to_many
-    fields: []
+    fields: [license_server_fact.customer_name_unlinked]
   }
 
   join: server_daily_details {
@@ -3903,7 +3903,7 @@ explore: focalboard_event_telemetry {
     AND ${license_server_fact.server_id} = ${server_daily_details.server_id}
     AND ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id};;
     relationship: many_to_one
-    fields: [account.name, account.sfid]
+    fields: [account.name, account.sfid, account.total_current_arr]
   }
 }
 
