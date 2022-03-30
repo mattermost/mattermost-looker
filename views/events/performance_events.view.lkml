@@ -264,7 +264,7 @@ view_label: " Performance Events"
   
   dimension: maxAPIResourceSize {
     label: "Max API Resource Size"
-    description: "Highest size of the api resource (encoded body size) requested during an event."
+    description: "Highest size of the api resource in bytes (encoded body size) requested during an event."
     type: number
     sql: ${TABLE}.maxAPIResourceSize ;;
   }
@@ -273,14 +273,14 @@ view_label: " Performance Events"
   dimension: longestAPIResource {
     label: "Longest API resource name"
     description: "Name of the api which took longest to download during an event."
-    type: number
+    type: string
     sql: ${TABLE}.longestAPIResource ;;
   }
 
 
   dimension: longestAPIResourceDuration {
     label: "Longest API resource duration"
-    description: "Duration of the api which took longest to download during an event."
+    description: "Duration of the api in milliseconds which took longest to download during an event."
     type: number
     sql: ${TABLE}.longestAPIResourceDuration ;;
   }
