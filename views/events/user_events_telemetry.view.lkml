@@ -361,13 +361,14 @@ view: user_events_telemetry {
   dimension: sign_up_seqence {
     label: "Chronological Sequence for Cloud Sign-up"
     type: number
-    sql: CASE WHEN COALESCE(${type}, ${event}) = 'cloud_signup_b_page_visit' THEN 1
-      WHEN COALESCE(${type}, ${event}) = 'pageview_verify_email' THEN 2
-      WHEN COALESCE(${type}, ${event}) = 'enter_valid_code' THEN 3
-      WHEN COALESCE(${type}, ${event}) = 'pageview_create_workspace' and ${name} = 'pageview_company_name' THEN 4
-      WHEN COALESCE(${type}, ${event}) = 'workspace_name_valid' THEN 5
-      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_started' THEN 6
-      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_ended' THEN 7
+    sql: CASE WHEN COALESCE(${type}, ${event}) IN ('cloud_signup_b_page_visit','cloud_signup_page_visit') THEN 1
+      WHEN COALESCE(${type}, ${event}) = 'click_start_trial' THEN 2
+      WHEN COALESCE(${type}, ${event}) = 'pageview_verify_email' THEN 3
+      WHEN COALESCE(${type}, ${event}) = 'enter_valid_code' THEN 4
+      WHEN COALESCE(${type}, ${event}) = 'pageview_create_workspace' and ${name} = 'pageview_company_name' THEN 5
+      WHEN COALESCE(${type}, ${event}) = 'workspace_name_valid' THEN 6
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_started' THEN 7
+      WHEN COALESCE(${type}, ${event}) = 'workspace_provisioning_ended' THEN 8
       ELSE NULL
       end;;
     hidden: no
@@ -376,7 +377,8 @@ view: user_events_telemetry {
   dimension: sign_up_events_sequence {
     label: "Event Sequence for Cloud Sign-up"
     type: string
-    sql: CASE WHEN COALESCE(${type}, ${event}) = 'cloud_signup_b_page_visit' THEN 'Sign-Up Page'
+    sql: CASE WHEN COALESCE(${type}, ${event}) IN ('cloud_signup_b_page_visit','cloud_signup_page_visit') THEN 'Sign-Up Page'
+      WHEN COALESCE(${type}, ${event}) = 'click_start_trial' THEN 'Click Start Trial'
       WHEN COALESCE(${type}, ${event}) = 'pageview_verify_email' THEN 'Verify Email'
       WHEN COALESCE(${type}, ${event}) = 'enter_valid_code' THEN 'Enter Valid Code'
       WHEN COALESCE(${type}, ${event}) = 'pageview_create_workspace' and ${name} = 'pageview_company_name' THEN 'Enter Company Name'
