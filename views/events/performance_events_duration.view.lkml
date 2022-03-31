@@ -258,7 +258,7 @@
       label: " Instance Id"
       description: "The User Id (Instance ID) of the user performing the event."
       type: string
-      sql: COALESCE(${TABLE}.user_id, ${TABLE}.userid) ;;
+      sql: ${TABLE}.user_id ;;
     }
 
 
