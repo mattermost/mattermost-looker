@@ -290,7 +290,7 @@ view_label: " Performance Events"
     label: " Instance Id"
     description: "The User Id (Instance ID) of the user performing the event."
     type: string
-    sql: COALESCE(${TABLE}.user_id, ${TABLE}.userid) ;;
+    sql:COALESCE(${TABLE}.user_id, ${TABLE}.userid) ;;
   }
 
 
