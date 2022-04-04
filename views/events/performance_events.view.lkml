@@ -261,7 +261,7 @@ view_label: " Performance Events"
     sql: ${TABLE}.numOfRequest ;;
   }
 
-  
+
   dimension: maxAPIResourceSize {
     label: "Max API Resource Size"
     description: "Highest size of the api resource in bytes (encoded body size) requested during an event."
@@ -673,6 +673,15 @@ view_label: " Performance Events"
     percentile: 99
     sql: ${duration} ;;
     value_format_name: decimal_2
+  }
+
+  measure: numOfRequest_avg {
+    group_label: "Number of API requests"
+    label: "Number of API requests (Avg)"
+    description: "The average num of api request across all instances within the grouping."
+    type: average
+    sql: ${numOfRequest} ;;
+    value_format_name: decimal_0
   }
 
   measure: user_id_count {
