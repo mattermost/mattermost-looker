@@ -693,6 +693,42 @@ view_label: " Performance Events"
     value_format_name: decimal_0
   }
 
+  measure: maxAPIResourceSize_avg {
+    group_label: "Max API Resource Size"
+    label: "Max API Resource Size (Avg)"
+    description: "The average max api resource size of api request across all instances within the grouping."
+    type: average
+    sql: ${maxAPIResourceSize} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: maxAPIResourceSize_median {
+    group_label: "Max API Resource Size"
+    label: "Max API Resource Size (Med)"
+    description: "The median max api resource size of api request across all instances within the grouping."
+    type: median
+    sql: ${maxAPIResourceSize} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: longestAPIResourceDuration_avg {
+    group_label: "Longest API resource duration"
+    label: "Longest API resource duration (Avg)"
+    description: "The average of api resource which took longest to download across all instances within the grouping."
+    type: average
+    sql: ${longestAPIResourceDuration} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: longestAPIResourceDuration_median {
+    group_label: "Longest API resource duration"
+    label: "Longest API resource duration (Med)"
+    description: "The median of api resource which took longest to download across all instances within the grouping."
+    type: median
+    sql: ${longestAPIResourceDuration} ;;
+    value_format_name: decimal_1
+  }
+
   measure: user_id_count {
     label: " Instance Count"
     description: "The distinct count of User Id's (Instance ID's) within the grouping."
