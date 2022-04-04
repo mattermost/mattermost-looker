@@ -269,7 +269,7 @@ view_label: " Performance Events"
 
   dimension: longestAPIResourceDuration {
     label: "Longest API resource duration"
-    description: "Duration of the api in milliseconds which took longest to download during an event."
+    description: "Duration of the api in milliseconds(ms) which took longest to download during an event."
     type: number
     sql: ${TABLE}.longestAPIResourceDuration ;;
   }
