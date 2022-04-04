@@ -684,18 +684,18 @@ view_label: " Performance Events"
   measure: maxAPIResourceSize_avg {
     group_label: "Max API Resource Size"
     label: "Max API Resource Size (Avg)"
-    description: "The average max api resource size of api request across all instances within the grouping."
+    description: "The average max api resource size (KB) of api request across all instances within the grouping."
     type: average
-    sql: ${maxAPIResourceSize} ;;
+    sql: ${maxAPIResourceSize} * 0.0009765625;;
     value_format_name: decimal_1
   }
 
   measure: maxAPIResourceSize_median {
     group_label: "Max API Resource Size"
     label: "Max API Resource Size (Med)"
-    description: "The median max api resource size of api request across all instances within the grouping."
+    description: "The median max api resource size (KB) of api request across all instances within the grouping."
     type: median
-    sql: ${maxAPIResourceSize} ;;
+    sql: ${maxAPIResourceSize} * 0.0009765625;;
     value_format_name: decimal_1
   }
 
