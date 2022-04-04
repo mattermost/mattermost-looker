@@ -6470,6 +6470,42 @@ view: server_daily_details_ext {
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 
+  measure: group_count_sum {
+    label: "Total Groups"
+    description: "The total Groups."
+    type: sum
+    group_label: " Groups Config: Groups Counts"
+    sql: ${group_count};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_member_count_sum {
+    label: "Total Group Members"
+    description: "The Total Group members."
+    type: sum
+    group_label: " Groups Config: Groups Member Counts"
+    sql: ${group_member_count};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: distinct_group_member_count_sum {
+    label: "Total Distinct Group Members"
+    description: "Total Distinct Group members."
+    type: sum
+    group_label: " Groups Config: Groups Member Counts"
+    sql: ${distinct_group_member_count};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: group_count_with_allow_reference_sum {
+    label: "Total Groups with Allow Reference"
+    description: "Total Groups with Allow Reference."
+    type: sum
+    group_label: " Groups Config: Groups Counts"
+    sql: ${group_count_with_allow_reference};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
   measure: group_count_count {
     label: "Instances w/ Groups"
     description: "The count of servers with >= 1 Groups created."

@@ -1993,7 +1993,7 @@ explore: server_daily_details {
   label: " Server Daily Details"
   description: "Contains a daily snapshot of each non-test/dev server's state. Use this to trend server counts, TEDAS/TEDAU, and age over time. Includes server version, ip, active users, registered users, operating system, Salesforce Account ID, database type, etc."
   extends: [_base_account_core_explore]
-  hidden: yes
+  hidden: no
 
   join: account {
     view_label: "SF Account Details"
@@ -2068,7 +2068,10 @@ explore: server_daily_details {
       AND ${server_daily_details.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_one
     fields: [server_daily_details_ext.active_users_daily, server_daily_details_ext.active_users_daily_band, server_daily_details_ext.active_users_monthly, server_daily_details_ext.registered_deactivated_users, server_daily_details_ext.registered_users,
-      server_daily_details_ext.registered_users_band]
+      server_daily_details_ext.registered_users_band, server_daily_details_ext.distinct_group_member_count_sum, server_daily_details_ext.group_count_sum,
+      server_daily_details_ext.group_member_count_sum, server_daily_details_ext.group_count_with_allow_reference_sum,
+      server_daily_details_ext.group_count_count, server_daily_details_ext.group_members_count,
+      server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.distinct_group_member_count]
   }
 
   join: version_release_dates {
@@ -2361,11 +2364,12 @@ explore: events_registry {
 }
 
 explore: user_events_by_date {
-  extends: [_base_account_core_explore, server_fact]
+  view_label: " User Events By Date"
   label: " User Events By Date"
   group_label: " Product: Messaging"
   description: "Contains all 'whitelist' user events by day. 1 row per user per event per day (for all 'whitelist' events performed by that user across web, desktop, and mobile). Also provides the sum of events performed for each row, which captures the total number of events performed by the user, for the given event, on the given date (must be >= 1). Use this to track and trend the volume of individual events by day, by browser, by os, etc.."
-  hidden: yes
+  extends: [_base_account_core_explore, server_fact]
+
   join: server_daily_details {
     view_label: "Server Details"
     sql_on: ${user_events_by_date.server_id} = ${server_daily_details.server_id}
@@ -2379,28 +2383,28 @@ explore: user_events_by_date {
   }
 
   join: server_fact {
-    view_label: "Server Details"
+    view_label: "Server Fact"
     sql_on: ${server_fact.server_id} = ${user_events_by_date.server_id} ;;
     relationship: many_to_one
 #     fields: [server_fact.license_all, server_fact.license_id_filter, server_fact.gitlab_install, server_fact.first_active_date, server_fact.first_active_week, server_fact.first_active_month, server_fact.first_active_year, server_fact.first_active_fiscal_quarter, server_fact.first_active_fiscal_year, server_fact.license_id, server_fact.account_sfid, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition]
   }
 
   join: events_registry {
-    view_label: " User Events By Date"
+    view_label: " Events Registry"
     sql_on: ${events_registry.event_name} = ${user_events_by_date.event_name} ;;
     relationship: many_to_one
     fields: [events_registry.event_category, events_registry.date_added_date, events_registry.last_triggered_date]
   }
 
   join: user_fact {
-    view_label: " User Events By Date"
+    view_label: " User Fact"
     sql_on: ${user_fact.user_id} = ${user_events_by_date.user_id} ;;
     relationship: many_to_one
     fields: [user_fact.first_event_name, user_fact.second_event_name, user_fact.third_event_name, user_fact.fourth_event_name, user_fact.fifth_event_name, user_fact.sixth_event_name, user_fact.seventh_event_name, user_fact.eighth_event_name, user_fact.ninth_event_name, user_fact.tenth_event_name]
   }
 
   join: user_agent_registry {
-    view_label: "User Agent Details"
+    view_label: "User Agent Registry"
     sql_on: ${user_agent_registry.context_useragent} = ${user_events_by_date.user_agent} ;;
     relationship: many_to_one
     type: left_outer
@@ -2408,7 +2412,7 @@ explore: user_events_by_date {
   }
 
   join: excludable_servers {
-    view_label: "Server Details"
+    view_label: " Excludable Servers"
     sql_on: ${user_events_by_date.server_id} =  ${excludable_servers.server_id};;
     relationship: many_to_one
     fields: [excludable_servers.reason]
@@ -3964,8 +3968,7 @@ explore: performance_events_duration {
 
   join: license_server_fact {
     relationship: many_to_one
-    sql_on:
-          ${performance_events_duration.user_id} = ${license_server_fact.server_id}
+    sql_on:${performance_events_duration.user_id} = ${license_server_fact.server_id}
           and ${performance_events_duration.timestamp_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
   }
 
@@ -3982,6 +3985,7 @@ explore: performance_events {
   label: " Performance Events"
   group_label: " Product: Messaging"
   hidden: no
+
 
   join: server_daily_details {
     view_label: " Performance Events"
