@@ -257,21 +257,21 @@ view_label: " Performance Events"
     label: "Number of API requests"
     description: "The number of api requests made by the client for an event."
     type: number
-    sql: ${TABLE}.numOfRequest ;;
+    sql: ${TABLE}.num_of_request ;;
   }
 
   dimension: maxAPIResourceSize {
     label: "Max API Resource Size"
     description: "Highest size of the api resource in bytes (encoded body size) requested during an event."
     type: number
-    sql: ${TABLE}.maxAPIResourceSize ;;
+    sql: ${TABLE}.max_api_resource_size ;;
   }
 
   dimension: longestAPIResourceDuration {
     label: "Longest API resource duration"
     description: "Duration of the api in milliseconds(ms) which took longest to download during an event."
     type: number
-    sql: ${TABLE}.longestAPIResourceDuration ;;
+    sql: ${TABLE}.longest_api_resource_duration ;;
   }
 
   dimension: user_id {
