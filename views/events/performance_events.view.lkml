@@ -684,6 +684,15 @@ view_label: " Performance Events"
     value_format_name: decimal_0
   }
 
+  measure: numOfRequest_median {
+    group_label: "Number of API requests"
+    label: "Number of API requests (Med)"
+    description: "The median num of api request across all instances within the grouping."
+    type: median
+    sql: ${numOfRequest} ;;
+    value_format_name: decimal_0
+  }
+
   measure: user_id_count {
     label: " Instance Count"
     description: "The distinct count of User Id's (Instance ID's) within the grouping."
