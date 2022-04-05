@@ -492,7 +492,6 @@ view_label: " Performance Events"
   }
 
 
-
   dimension: screen {
     label: "Screen"
     description: "The Screen attribute associated with the triggered event."
@@ -715,6 +714,26 @@ view_label: " Performance Events"
     type: median
     sql: ${longestAPIResourceDuration} ;;
     value_format_name: decimal_1
+  }
+
+  measure: duration_p5 {
+    group_label: "Duration Measures"
+    label: "Duration (p5)"
+    description: "The 5th percentile Duration across all instances within the grouping."
+    type: percentile
+    percentile: 5
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
+  measure: duration_p95 {
+    group_label: "Duration Measures"
+    label: "Duration (p95)"
+    description: "The 95th percentile Duration across all instances within the grouping."
+    type: percentile
+    percentile: 95
+    sql: ${duration} ;;
+    value_format_name: decimal_2
   }
 
   measure: user_id_count {
