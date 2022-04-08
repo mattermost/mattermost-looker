@@ -4092,3 +4092,15 @@ explore: focalboard_user_retention {
   group_label: " Product: Boards"
   hidden: no
 }
+
+explore: arr_transactions {
+  label: " ARR Transactions"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_rollforward {
+  label: " ARR Rollforward"
+  group_label: " Finance"
+  hidden: no
+}
