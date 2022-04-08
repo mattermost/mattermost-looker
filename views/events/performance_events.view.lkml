@@ -253,7 +253,26 @@ view_label: " Performance Events"
     sql: ${TABLE}.duration ;;
   }
 
+  dimension: numOfRequest {
+    label: "Number of API requests"
+    description: "The number of api requests made by the client for an event."
+    type: number
+    sql: ${TABLE}.num_of_request ;;
+  }
 
+  dimension: maxAPIResourceSize {
+    label: "Max API Resource Size"
+    description: "Highest size of the api resource in bytes (encoded body size) requested during an event."
+    type: number
+    sql: ${TABLE}.max_api_resource_size ;;
+  }
+
+  dimension: longestAPIResourceDuration {
+    label: "Longest API resource duration"
+    description: "Duration of the api in milliseconds(ms) which took longest to download during an event."
+    type: number
+    sql: ${TABLE}.longest_api_resource_duration ;;
+  }
 
   dimension: user_id {
     label: " Instance Id"
@@ -643,6 +662,60 @@ view_label: " Performance Events"
     value_format_name: decimal_2
   }
 
+  measure: numOfRequest_avg {
+    group_label: "Number of API requests"
+    label: "Number of API requests (Avg)"
+    description: "The average num of api request across all instances within the grouping."
+    type: average
+    sql: ${numOfRequest} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numOfRequest_median {
+    group_label: "Number of API requests"
+    label: "Number of API requests (Med)"
+    description: "The median num of api request across all instances within the grouping."
+    type: median
+    sql: ${numOfRequest} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: maxAPIResourceSize_avg {
+    group_label: "Max API Resource Size"
+    label: "Max API Resource Size (Avg)"
+    description: "The average max api resource size (KB) of api request across all instances within the grouping."
+    type: average
+    sql: ${maxAPIResourceSize} * 0.0009765625;;
+    value_format_name: decimal_1
+  }
+
+  measure: maxAPIResourceSize_median {
+    group_label: "Max API Resource Size"
+    label: "Max API Resource Size (Med)"
+    description: "The median max api resource size (KB) of api request across all instances within the grouping."
+    type: median
+    sql: ${maxAPIResourceSize} * 0.0009765625;;
+    value_format_name: decimal_1
+  }
+
+  measure: longestAPIResourceDuration_avg {
+    group_label: "Longest API resource duration"
+    label: "Longest API resource duration (Avg)"
+    description: "The average of api resource which took longest to download across all instances within the grouping."
+    type: average
+    sql: ${longestAPIResourceDuration} ;;
+    value_format_name: decimal_1
+  }
+
+  measure: longestAPIResourceDuration_median {
+    group_label: "Longest API resource duration"
+    label: "Longest API resource duration (Med)"
+    description: "The median of api resource which took longest to download across all instances within the grouping."
+    type: median
+    sql: ${longestAPIResourceDuration} ;;
+    value_format_name: decimal_1
+  }
+
   measure: duration_p5 {
     group_label: "Duration Measures"
     label: "Duration (p5)"
@@ -662,7 +735,6 @@ view_label: " Performance Events"
     sql: ${duration} ;;
     value_format_name: decimal_2
   }
-
 
   measure: user_id_count {
     label: " Instance Count"

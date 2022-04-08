@@ -6472,7 +6472,7 @@ view: server_daily_details_ext {
 
   measure: group_count_sum {
     label: "Total Groups"
-    description: "The total Groups."
+    description: "Total Groups."
     type: sum
     group_label: " Groups Config: Groups Counts"
     sql: ${group_count};;
@@ -6481,7 +6481,7 @@ view: server_daily_details_ext {
 
   measure: group_member_count_sum {
     label: "Total Group Members"
-    description: "The Total Group members."
+    description: "Total Group members."
     type: sum
     group_label: " Groups Config: Groups Member Counts"
     sql: ${group_member_count};;
