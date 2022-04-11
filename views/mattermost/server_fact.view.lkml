@@ -3,7 +3,9 @@ view: server_fact {
   view_label: "Server Fact"
 
   set: drill_set1 {
-    fields: [server_id, license_server_fact.customer_name, first_active_date, last_active_date, max_registered_users, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime, tutorial_events_alltime, post_events_alltime, invite_members_alltime]
+    fields: [server_id, license_server_fact.customer_name, first_active_date, last_active_date, quality_score,
+      max_registered_users, dau, current_mau, admin_events_alltime, signup_events_alltime, signup_email_events_alltime,
+      tutorial_events_alltime, post_events_alltime, invite_members_alltime]
   }
 
   set: incident_collaboration {
@@ -13,6 +15,13 @@ view: server_fact {
   filter: license_all {
     type: string
     hidden: yes
+  }
+
+
+  dimension: quality_score {
+    type: number
+    description: "Quality Score of the account"
+    sql: round(( ${post_events_alltime}/ ${max_registered_users}) * ${dau},0) ;;
   }
 
   dimension: product_edition {
