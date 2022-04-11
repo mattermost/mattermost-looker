@@ -312,13 +312,6 @@ view: arr_transactions {
   # measures
 
 
-
-  measure: total_active_arr {
-    description: "active based on license end"
-    type: sum
-    sql: ${TABLE}."ACTIVE_ARR" ;;
-  }
-
   measure: average_active_arr {
     type: average
     sql: ${TABLE}."ACTIVE_ARR" ;;
@@ -354,8 +347,18 @@ view: arr_transactions {
     drill_fields: [account_name, parent_name]
   }
 
-  measure: opportunity_won {
+  measure: newly_signed_arr {
     type: sum
-    sql: ${TABLE}."OPPORTUNITY_ARR" ;;
+    sql: ${new_arr} ;;
+  }
+
+  measure: expired_arr {
+    type: sum
+    sql: ${expire_arr};;
+  }
+
+  measure: renewed_arr {
+    type: sum
+    sql: ${renew_arr} ;;
   }
 }
