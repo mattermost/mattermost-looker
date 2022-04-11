@@ -4,10 +4,8 @@ view: arr_transactions {
 
     ;;
 
-  dimension: account_expansion {
-    type: number
-    sql: ${TABLE}."ACCOUNT_EXPANSION" ;;
-  }
+
+# dimensions
 
   dimension: account_id {
     type: string
@@ -23,6 +21,9 @@ view: arr_transactions {
     type: string
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
+
+
+
 
   # Dates and timestamps
 
