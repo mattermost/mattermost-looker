@@ -5,6 +5,18 @@ view: focalboard_user_retention {
   drill_fields: [id]
 
 
+  dimension: months_since_first_active {
+    type: string
+    sql: ROUND(MONTHS_BETWEEN(${max_original_timestamp_raw},${first_active_timestamp_raw}),0);;
+  }
+
+  dimension: month_name {
+    type: string
+    sql: ${first_active_timestamp_month_name} || ' - ' || ${first_active_timestamp_year};;
+    order_by_field: first_active_timestamp_month
+  }
+
+
   dimension: id {
     primary_key: yes
     type: string
@@ -37,6 +49,20 @@ view: focalboard_user_retention {
     }
   }
 
+  dimension_group: max_original_timestamp {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."MAX_ORIGINAL_TIMESTAMP" ;;
+  }
+
   dimension_group: first_active_timestamp {
     type: time
     timeframes: [
@@ -45,6 +71,7 @@ view: focalboard_user_retention {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -94,8 +121,8 @@ view: focalboard_user_retention {
 
   measure: user_count {
     label: " User Count"
-    type: count_distinct
-    sql:  ${user_id} ;;
+    type: number
+    sql:  COALESCE(COUNT(DISTINCT ${user_id}),0) ;;
     drill_fields: [id]
   }
 }
