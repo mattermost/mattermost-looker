@@ -88,20 +88,6 @@ view: focalboard_user_retention {
     sql: ${TABLE}."INSTALLATION_ID" ;;
   }
 
-  dimension_group: max_active_timestamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."MAX_ACTIVE_TIMESTAMP" ;;
-  }
-
   dimension: server_id {
     label: " Instance ID"
     type: string
