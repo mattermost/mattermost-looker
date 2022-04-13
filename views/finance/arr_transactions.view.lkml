@@ -4,27 +4,24 @@ view: arr_transactions {
 
     ;;
 
-  dimension: account_expansion {
-    type: number
-    sql: ${TABLE}."ACCOUNT_EXPANSION" ;;
-  }
-
-  dimension: account_id {
-    type: string
-    sql: ${TABLE}."ACCOUNT_ID" ;;
-  }
-
-  dimension: account_name {
-    type: string
-    sql: ${TABLE}."ACCOUNT_NAME" ;;
-  }
-
-  dimension: account_owner {
-    type: string
-    sql: ${TABLE}."ACCOUNT_OWNER" ;;
-  }
 
   # Dates and timestamps
+
+
+  dimension_group: report_month {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."REPORT_MONTH" ;;
+  }
 
 
   dimension_group: account_start {
@@ -42,40 +39,6 @@ view: arr_transactions {
     sql: ${TABLE}."ACCOUNT_START" ;;
   }
 
-  dimension: accountsource {
-    type: string
-    sql: ${TABLE}."ACCOUNTSOURCE" ;;
-  }
-
-  dimension: active_arr {
-    type: number
-    sql: ${TABLE}."ACTIVE_ARR" ;;
-  }
-
-
-  # measures
-
-
-  measure: total_active_arr {
-    type: sum
-    sql: ${active_arr} ;;
-  }
-
-  measure: average_active_arr {
-    type: average
-    sql: ${active_arr} ;;
-  }
-
-  dimension: arr_change {
-    type: number
-    sql: ${TABLE}."ARR_CHANGE" ;;
-  }
-
-  dimension: billing_amt {
-    type: number
-    sql: ${TABLE}."BILLING_AMT" ;;
-  }
-
   dimension_group: closing {
     type: time
     timeframes: [
@@ -91,9 +54,111 @@ view: arr_transactions {
     sql: ${TABLE}."CLOSING_DATE" ;;
   }
 
+  dimension_group: license_end {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."LICENSE_END_DATE" ;;
+  }
+
+  dimension_group: license_start {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."LICENSE_START_DATE" ;;
+  }
+
+  dimension_group: max_license {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."MAX_LICENSE" ;;
+  }
+
+
+
+# dimensions
+
+  dimension: account_id {
+    type: string
+    sql: ${TABLE}."ACCOUNT_ID" ;;
+  }
+
+  dimension: account_name {
+    type: string
+    sql: ${TABLE}."ACCOUNT_NAME" ;;
+  }
+
+  dimension: account_owner {
+    type: string
+    sql: ${TABLE}."ACCOUNT_OWNER" ;;
+  }
+
+  dimension: opportunity_id {
+    type: string
+    sql: ${TABLE}."OPPORTUNITY_ID" ;;
+  }
+
+  dimension: parent_id {
+    type: string
+    sql: ${TABLE}."PARENT_ID" ;;
+  }
+
+  dimension: parent_name {
+    type: string
+    sql: ${TABLE}."PARENT_NAME" ;;
+  }
+
+  dimension: accountsource {
+    type: string
+    sql: ${TABLE}."ACCOUNTSOURCE" ;;
+  }
+
+  dimension: arr_change {
+    type: number
+    description: "Per opportunity id the net delta in ARR"
+    sql: ${TABLE}."ARR_CHANGE" ;;
+  }
+
+  dimension: billing_amt {
+    type: number
+    sql: ${TABLE}."BILLING_AMT" ;;
+  }
+
+
+
   dimension: company_type {
     type: string
     sql: ${TABLE}."COMPANY_TYPE" ;;
+  }
+
+  dimension: account_expansion {
+    type:  number
+    sql:  ${TABLE}."ACCOUNT_EXPANSION" ;;
   }
 
   dimension: contract_expansion {
@@ -187,50 +252,6 @@ view: arr_transactions {
     sql: ${TABLE}."LICENSE_ACTIVESF" ;;
   }
 
-  dimension_group: license_end {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."LICENSE_END_DATE" ;;
-  }
-
-  dimension_group: license_start {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."LICENSE_START_DATE" ;;
-  }
-
-  dimension_group: max_license {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."MAX_LICENSE" ;;
-  }
 
   dimension: new_arr {
     type: number
@@ -247,20 +268,7 @@ view: arr_transactions {
     sql: ${TABLE}."OPPORTUNITY_ARR" ;;
   }
 
-  dimension: opportunity_id {
-    type: string
-    sql: ${TABLE}."OPPORTUNITY_ID" ;;
-  }
 
-  dimension: parent_id {
-    type: string
-    sql: ${TABLE}."PARENT_ID" ;;
-  }
-
-  dimension: parent_name {
-    type: string
-    sql: ${TABLE}."PARENT_NAME" ;;
-  }
 
   dimension: reduction_arr {
     type: number
@@ -272,20 +280,7 @@ view: arr_transactions {
     sql: ${TABLE}."RENEW_ARR" ;;
   }
 
-  dimension_group: report_month {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."REPORT_MONTH" ;;
-  }
+
 
   dimension: status_aligned {
     type: yesno
@@ -312,6 +307,16 @@ view: arr_transactions {
     sql: ${TABLE}."TYPE" ;;
   }
 
+
+
+  # measures
+
+
+  measure: average_active_arr {
+    type: average
+    sql: ${TABLE}."ACTIVE_ARR" ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [account_name, parent_name]
@@ -323,11 +328,6 @@ view: arr_transactions {
     drill_fields: [account_name, parent_name]
   }
 
-  measure: active_license_arr {
-    type: sum
-    sql: ${active_arr} ;;
-    drill_fields: [account_name, parent_name]
-  }
 
   measure: lifetime_billed {
     type: sum
@@ -345,5 +345,20 @@ view: arr_transactions {
     type: average
     sql: ${health_score} ;;
     drill_fields: [account_name, parent_name]
+  }
+
+  measure: newly_signed_arr {
+    type: sum
+    sql: ${new_arr} ;;
+  }
+
+  measure: expired_arr {
+    type: sum
+    sql: ${expire_arr};;
+  }
+
+  measure: renewed_arr {
+    type: sum
+    sql: ${renew_arr} ;;
   }
 }
