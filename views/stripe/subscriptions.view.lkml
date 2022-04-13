@@ -120,6 +120,11 @@ view: subscriptions {
     sql: ${TABLE}."QUANTITY" ;;
   }
 
+  dimension: plan {
+    type: string
+    sql: COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":current_product_id) ;;
+  }
+
   dimension_group: start {
     type: time
     timeframes: [

@@ -1995,6 +1995,14 @@ explore: server_daily_details {
   extends: [_base_account_core_explore]
   hidden: no
 
+  join: dates {
+    view_label: "Monthly Active Dates"
+    sql_on: ${user_events_telemetry.event_date}::date <= ${dates.date_date}::date AND ${user_events_telemetry.event_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
+    relationship: many_to_many
+    type: left_outer
+    fields: []
+  }
+
   join: account {
     view_label: "SF Account Details"
     sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
@@ -2085,7 +2093,7 @@ explore: server_daily_details {
     view_label: "User Events"
     sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} and ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
     relationship: one_to_many
-    fields: [user_events_telemetry.post_count, user_events_telemetry.count1, user_events_telemetry.event_count, user_events_telemetry.thread_count, user_events_telemetry.members_added_to_team_sum,
+    fields: [user_events_telemetry.active_user_date_month, user_events_telemetry.daily_active_users, user_events_telemetry.monthly_active_users, user_events_telemetry.weekly_active_users, user_events_telemetry.post_count, user_events_telemetry.count1, user_events_telemetry.event_count, user_events_telemetry.thread_count, user_events_telemetry.members_added_to_team_sum,
       user_events_telemetry.members_removed_from_team_sum, user_events_telemetry.groups_removed_from_team_sum, user_events_telemetry.batch_add_members_sum, user_events_telemetry.user_actual_count, user_events_telemetry.event_count,
       user_events_telemetry.custom_emojis_added, user_events_telemetry.post_reaction_count, user_events_telemetry.groups_added_to_team_sum, user_events_telemetry.plugin_added_count, user_events_telemetry.plugin_updates_count]
   }
