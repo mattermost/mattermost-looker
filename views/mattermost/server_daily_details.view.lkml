@@ -374,7 +374,7 @@ view: server_daily_details {
     description: "The server's IP Address."
     type: string
     sql: ${TABLE}.ip_address ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: grouping {
@@ -388,7 +388,7 @@ view: server_daily_details {
     description: "The 3 digit ISO code of the city or area that server resides in."
     type: string
     sql: ${TABLE}.location ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: active_user_count {
