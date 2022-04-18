@@ -1019,6 +1019,11 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: password_requirements {
+    type: string
+    sql: ${TABLE}.password_requirements ;;
+    hidden: no
+  }
 
   # DIMENSION GROUPS/DATES
   dimension_group: original_timestamp {
