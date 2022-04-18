@@ -2090,7 +2090,7 @@ explore: server_daily_details {
   }
 
   join: user_events_telemetry {
-    view_label: "User Events"
+    view_label: "User Events Telemetry"
     sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} and ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
     relationship: one_to_many
     fields: [user_events_telemetry.active_user_date_month, user_events_telemetry.daily_active_users, user_events_telemetry.monthly_active_users, user_events_telemetry.weekly_active_users, user_events_telemetry.post_count, user_events_telemetry.count1, user_events_telemetry.event_count, user_events_telemetry.thread_count, user_events_telemetry.members_added_to_team_sum,
