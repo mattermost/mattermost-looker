@@ -4030,6 +4030,20 @@ explore: focalboard_user_retention {
   label: " Focalboard User Retention"
   group_label: " Product: Boards"
   hidden: no
+
+  join: server_fact {
+    view_label: " Server Fact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${focalboard_user_retention.server_id} = ${server_fact.server_id} ;;
+  }
+
+  join: license_server_fact {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${focalboard_user_retention.server_id} = ${license_server_fact.server_id} ;;
+    fields: []
+  }
 }
 
 explore: arr_rollforward {
