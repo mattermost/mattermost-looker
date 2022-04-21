@@ -10,6 +10,11 @@ view: focalboard_user_retention {
     sql: ROUND(MONTHS_BETWEEN(${max_original_timestamp_raw},${first_active_timestamp_raw}),0);;
   }
 
+  dimension: weeks_since_first_active {
+    type: number
+    sql: DATEDIFF(WEEK, ${first_active_timestamp_date}, ${max_original_timestamp_date});;
+  }
+
   dimension: month_name {
     type: string
     sql: ${first_active_timestamp_month_name} || ' - ' || ${first_active_timestamp_year};;
