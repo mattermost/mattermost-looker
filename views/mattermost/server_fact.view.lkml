@@ -21,7 +21,7 @@ view: server_fact {
   dimension: quality_score {
     type: number
     description: "Quality Score of the account"
-    sql: round(( ${post_events_alltime}/ ${max_registered_users}) * ${dau},0) ;;
+    sql: round(DIV0(${post_events_alltime},${max_registered_users}) * ${dau},0) ;;
   }
 
   dimension: product_edition {
