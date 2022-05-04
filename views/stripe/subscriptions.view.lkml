@@ -121,7 +121,7 @@ view: subscriptions {
 
   dimension: plan {
     type: string
-    sql: COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":"current_product_id") ;;
+    sql: TRIM(COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":"current_product_id"),'"') ;;
   }
 
   dimension: cws_date_converted_to_paid{
