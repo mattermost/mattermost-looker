@@ -277,7 +277,7 @@ view: server_daily_details {
     label: "   Logging"
     description: "The date the server details were logged."
     type: time
-    timeframes: [date, week, day_of_week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [date, week, day_of_week, month, year, fiscal_quarter, fiscal_year, raw]
     sql: ${TABLE}.date ;;
   }
 
@@ -1248,5 +1248,13 @@ view: server_daily_details {
     type: sum
     sql: ${events} ;;
     value_format_name: decimal_0
+  }
+
+  measure: upgrade_date {
+    group_label: "Server Events"
+    label: "Minimum Logging Date"
+    description: "Minimum Logging Date"
+    type: min
+    sql: ${logging_raw};;
   }
 }

@@ -1,6 +1,5 @@
 view: subscriptions {
-  sql_table_name: "STRIPE"."SUBSCRIPTIONS"
-    ;;
+  sql_table_name: "STRIPE"."SUBSCRIPTIONS";;
   drill_fields: [id]
 
   dimension: id {
@@ -122,7 +121,17 @@ view: subscriptions {
 
   dimension: plan {
     type: string
-    sql: COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":current_product_id) ;;
+    sql: COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":"current_product_id") ;;
+  }
+
+  dimension: cws_date_converted_to_paid{
+    type: date
+    sql: to_date(${TABLE}."METADATA":"cws-date-converted-to-paid") ;;
+  }
+
+  dimension: metadata {
+    type: string
+    sql: ${TABLE}."METADATA" ;;
   }
 
   dimension_group: start {

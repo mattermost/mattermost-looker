@@ -3064,9 +3064,6 @@ explore: license_server_fact {
 
 }
 
-explore: subscriptions {
-  hidden: yes
-}
 
 explore: incident_response_events {
   description: "Contains all Incident Response events recorded by servers with Incident Response enabled. Including, but not limited to: Update/Create Playbook, Add/Remove Checklist Items, and Create/End Incident."
@@ -3995,6 +3992,18 @@ explore: user_retention {
   label: " User Retention"
   group_label: " Product: Messaging"
   hidden: no
+  fields: [ALL_FIELDS*, -user_events_telemetry.stripe_customer_email, -user_events_telemetry.stripe_customer_dns
+    , -user_events_telemetry.context_device_model, -user_events_telemetry.context_os_name, -user_events_telemetry.context_device_type
+    , -user_events_telemetry.context_os_version, -user_events_telemetry.context_device_manufacturer, -user_events_telemetry.active_user_date_date
+    , -user_events_telemetry.active_user_date_month, -user_events_telemetry.active_user_date_week, -user_events_telemetry.active_user_date_year
+    , -user_events_telemetry.active_user_date_fiscal_quarter, -user_events_telemetry.active_user_date_fiscal_year
+    , -user_events_telemetry.active_user_date_day_of_week
+    , -user_events_telemetry.active_user_date_fiscal_quarter_of_year
+    , -user_events_telemetry.active_user_date_day_of_month, -user_events_telemetry.active_user_date_month_name
+    , -user_events_telemetry.active_user_date_day_of_week_index
+    , -user_events_telemetry.active_user_date_day_of_year, -user_events_telemetry.active_user_date_week_of_year
+    , -user_events_telemetry.active_user_date_fiscal_month_num]
+
 
   join: server_fact {
     view_label: " Server Fact"
@@ -4024,6 +4033,15 @@ explore: user_retention {
     relationship: many_to_one
     sql_on: ${user_retention.server_id} = ${excludable_servers.server_id} ;;
   }
+
+  join: user_events_telemetry {
+    view_label: " User Events Telemetry"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.server_id} = ${user_events_telemetry.user_id}
+      and ${user_retention.user_id} = ${user_events_telemetry.user_actual_id} ;;
+  }
+
 }
 
 explore: focalboard_user_retention {
@@ -4056,4 +4074,38 @@ explore: arr_transactions {
   label: " ARR Transactions"
   group_label: " Finance"
   hidden: no
+}
+
+
+explore: invoices {
+  hidden: no
+  group_label: "Stripe"
+  description: "Contains all data from Stripe."
+  label: "Invoices (Stripe)"
+  view_label: "Invoices (Stripe)"
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions (Stripe)"
+    sql_on: ${invoices.subscription} = ${subscriptions_stripe.id} ;;
+    relationship: many_to_many
+  }
+
+  join: charges {
+    view_label: "Charges (Stripe)"
+    sql_on: ${charges.customer} = ${subscriptions_stripe.customer} ;;
+    relationship: many_to_many
+  }
+
+  join: invoice_line_items {
+    view_label: "Invoice Line Items (Stripe)"
+    relationship: many_to_many
+    sql_on: ${invoice_line_items.invoice} = ${invoices.id} ;;
+  }
+
+  join: customers {
+    view_label: "Customers (Stripe)"
+    sql_on: ${customers.id} = ${subscriptions_stripe.customer} ;;
+    relationship: many_to_many
+  }
 }
