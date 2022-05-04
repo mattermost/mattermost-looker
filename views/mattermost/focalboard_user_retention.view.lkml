@@ -15,6 +15,11 @@ view: focalboard_user_retention {
     sql: DATEDIFF(WEEK, ${first_active_timestamp_date}, ${max_original_timestamp_date});;
   }
 
+  dimension: days_since_first_active {
+    type: number
+    sql: DATEDIFF(DAY, ${first_active_timestamp_date}, ${max_original_timestamp_date});;
+  }
+
   dimension: month_name {
     type: string
     sql: ${first_active_timestamp_month_name} || ' - ' || ${first_active_timestamp_year};;

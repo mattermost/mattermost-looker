@@ -19,7 +19,8 @@ view: user_retention {
       week,
       month,
       quarter,
-      year
+      year,
+      hour_of_day
     ]
     sql: ${TABLE}."FIRST_ACTIVE_TIMESTAMP" ;;
   }
