@@ -4,37 +4,23 @@ view: arr_rollforward {
   sql_table_name: "FINANCE"."ARR_ROLLFORWARD"
     ;;
 
-  dimension_group: report_month {
-    type: time
-    timeframes: [
-      date,
-      year,
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: report_month {
+    type: date
+    datatype: yyyymmdd
     drill_fields: [account_name]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
-  dimension_group: fiscal_quarter {
-    type: time
-    timeframes: [
-      date,
-      year,
-    ]
-    convert_tz: no
-    datatype: date
+  dimension: fiscal_quarter {
+    datatype: yyyymmdd
+    type: date
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
-  dimension_group: fiscal_year {
-    type: time
-    timeframes: [
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    drill_fields: [fiscal_quarter_date, report_month_date]
+  dimension: fiscal_year {
+    type: date
+    datatype: yyyymmdd
+    drill_fields: [fiscal_quarter, report_month]
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
