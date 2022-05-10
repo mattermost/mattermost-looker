@@ -76,6 +76,8 @@ view: arr_rollforward {
     sql: ${TABLE}."ARR" ;;
   }
 
+
+
   dimension: expiring_arr {
     type: number
     sql: ${TABLE}."EXPIRE" ;;
@@ -103,6 +105,11 @@ view: arr_rollforward {
 
 
   # measures
+
+  measure: total_arr {
+    type: sum
+    sql: ${TABLE}."ARR" ;;
+  }
 
   measure: total_tcv {
     type: sum
