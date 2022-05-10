@@ -6,7 +6,7 @@ view: arr_rollforward {
 
   dimension: report_month {
     type: date
-    drill_fields: [account_name]
+    drill_fields: [account_name,account_owner,opportunity_owner]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
