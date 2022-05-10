@@ -4,10 +4,38 @@ view: arr_rollforward {
   sql_table_name: "FINANCE"."ARR_ROLLFORWARD"
     ;;
 
+  dimension_group: report_month {
+    type: time
+    timeframes: [
+      date,
+      year,
+    ]
+    convert_tz: no
+    datatype: date
+    drill_fields: [account_name]
+    sql: ${TABLE}."REPORT_MONTH" ;;
+  }
 
-  dimension: account_expand {
-    type: number
-    sql: ${TABLE}."ACCOUNT_EXPAND" ;;
+  dimension_group: fiscal_quarter {
+    type: time
+    timeframes: [
+      date,
+      year,
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."FISCAL_QUARTER" ;;
+  }
+
+  dimension_group: fiscal_year {
+    type: time
+    timeframes: [
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    drill_fields: [fiscal_quarter_date, report_month_date]
+    sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
   dimension: account_id {
@@ -25,9 +53,49 @@ view: arr_rollforward {
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
 
+  dimension: opportunity_owner {
+    type: string
+    sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
+  }
+
+  dimension: LTV_YR {
+    type: string
+    sql: ${TABLE}."FISCAL_YEAR_NO" ;;
+  }
+
+  dimension: TRANSACT_NO {
+    type: string
+    sql: ${TABLE}."TRANS_NO" ;;
+  }
+
   dimension: active_customer {
     type: number
-    sql: ${TABLE}."ACTIVE_CUSTOMER" ;;
+    sql: ${TABLE}."CNT_ACTIVE_CUSTOMER" ;;
+  }
+
+  dimension: license_beg {
+    type: date
+    sql: ${TABLE}."LICENSE_BEG" ;;
+  }
+
+  dimension: license_end {
+    type: date
+    sql: ${TABLE}."LICENSE_END" ;;
+  }
+
+  dimension: opportunity_tcv {
+    type: number
+    sql: ${TABLE}."TCV" ;;
+  }
+
+  dimension: opportunity_arr {
+    type: number
+    sql: ${TABLE}."ARR" ;;
+  }
+
+  dimension: expiring_arr {
+    type: number
+    sql: ${TABLE}."EXPIRE" ;;
   }
 
   dimension: arr_delta {
@@ -35,48 +103,9 @@ view: arr_rollforward {
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
-
-  # measures
-
-
-  measure: total_arr_delta {
-    type: sum
-    sql: ${arr_delta} ;;
-  }
-
-  measure: average_arr_delta {
-    type: average
-    sql: ${arr_delta} ;;
-  }
-
   dimension: beg_arr {
     type: number
     sql: ${TABLE}."BEG_ARR" ;;
-  }
-
-  dimension: check_2_amt {
-    type: number
-    sql: ${TABLE}."CHECK_2_AMT" ;;
-  }
-
-  dimension: check_amt {
-    type: number
-    sql: ${TABLE}."CHECK_AMT" ;;
-  }
-
-  dimension: churn {
-    type: number
-    sql: ${TABLE}."CHURN" ;;
-  }
-
-  dimension: contract_expand {
-    type: number
-    sql: ${TABLE}."CONTRACT_EXPAND" ;;
-  }
-
-  dimension: contraction {
-    type: number
-    sql: ${TABLE}."CONTRACTION" ;;
   }
 
   dimension: end_arr {
@@ -89,117 +118,71 @@ view: arr_rollforward {
     sql: ${TABLE}."NEW_ARR" ;;
   }
 
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-  dimension_group: refresh {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."REFRESH_DATE" ;;
+  # measures
+
+  measure: total_tcv {
+    type: sum
+    sql: ${TABLE}."TCV" ;;
+  }
+  measure: total_arr_change {
+    type: sum
+    sql: ${TABLE}."ARR_DELTA" ;;
   }
 
-  dimension: renewal_expand {
-    type: number
-    sql: ${TABLE}."RENEWAL_EXPAND" ;;
+  measure: total_new {
+    type: sum
+    sql: ${TABLE}."NEW_ARR" ;;
   }
 
-  dimension_group: report_month {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."REPORT_MONTH" ;;
-  }
-
-  dimension: resurrect_arr {
-    type: number
+  measure: total_resurrect {
+    type: sum
     sql: ${TABLE}."RESURRECT_ARR" ;;
   }
-
-  dimension: trans_no {
-    type: number
-    sql: ${TABLE}."TRANS_NO" ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [account_name]
-  }
-
-  measure: begin_arr {
-    type: min
-    sql: ${beg_arr} ;;
-    drill_fields: [account_name]
-  }
-
-  measure: max_end_arr {
-    type: max
-    sql: ${end_arr} ;;
-    drill_fields: [account_name]
-  }
-
-  measure: arr_change {
+  measure: total_expansion {
     type: sum
-    sql: ${arr_delta} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."TOTAL_EXPANSION" ;;
+  }
+  measure: total_contraction {
+    type: sum
+    sql: ${TABLE}."CONTRACTION" ;;
+  }
+  measure: total_churn {
+    type: sum
+    sql: ${TABLE}."CHURN" ;;
+  }
+  measure: total_expire {
+    type: sum
+    sql: ${TABLE}."EXPIRE" ;;
+  }
+  measure:  cnt_new {
+    type: sum
+    sql: ${TABLE}."CNT_NEW_ACCOUNT" ;;
   }
 
-  measure: resurrect {
+  measure:  cnt_resurrect {
     type: sum
-    sql: ${resurrect_arr} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."CNT_RESURRECT" ;;
   }
 
-  measure: new {
+  measure:  cnt_churn {
     type: sum
-    sql: ${new_arr} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."CNT_CHURN" ;;
   }
 
-  measure: renewal_expansion {
+  measure:  cnt_change {
     type: sum
-    sql: ${renewal_expand} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."CNT_CHANGE" ;;
   }
 
-  measure: renewal_churn {
+  measure:  cnt_expand {
     type: sum
-    sql: ${churn} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."CNT_TOTAL_EXPAND" ;;
   }
 
-  measure: renewal_contraction {
+  measure:  cnt_contraction {
     type: sum
-    sql: ${contraction} ;;
-    drill_fields: [account_name]
-  }
-
-  measure: expansion_contract {
-    type: sum
-    sql: ${contract_expand} ;;
-    drill_fields: [account_name]
-  }
-
-  measure: expansion_account {
-    type: sum
-    sql: ${account_expand} ;;
-    drill_fields: [account_name]
+    sql: ${TABLE}."CNT_CONTRACTION" ;;
   }
 
 
