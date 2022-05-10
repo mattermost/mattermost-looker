@@ -6,20 +6,17 @@ view: arr_rollforward {
 
   dimension: report_month {
     type: date
-    datatype: yyyymmdd
     drill_fields: [account_name]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
-    datatype: yyyymmdd
     type: date
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
     type: date
-    datatype: yyyymmdd
     drill_fields: [fiscal_quarter, report_month]
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
