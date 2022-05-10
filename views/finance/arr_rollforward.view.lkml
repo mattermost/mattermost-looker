@@ -6,24 +6,45 @@ view: arr_rollforward {
 
   dimension: report_month {
     type: date
-    drill_fields: [account_name,account_owner,opportunity_owner]
+    drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
     type: date
+    drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
     type: date
-    drill_fields: [fiscal_quarter, report_month]
+    drill_fields: [fiscal_quarter, report_month,account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_YEAR" ;;
+  }
+
+  dimension: industry {
+    type: string
+    sql: ${TABLE}."INDUSTRY" ;;
   }
 
   dimension: account_id {
     type: string
     sql: ${TABLE}."ACCOUNT_ID" ;;
+  }
+
+  dimension: tier {
+    type: string
+    sql: ${TABLE}."TIER" ;;
+  }
+
+  dimension: geo {
+    type: string
+    sql: ${TABLE}."GEOGRAPHY" ;;
+  }
+
+  dimension: cohort {
+    type: string
+    sql: ${TABLE}."COHORT" ;;
   }
 
   dimension: account_name {
@@ -33,21 +54,25 @@ view: arr_rollforward {
 
   dimension: account_owner {
     type: string
+    drill_fields: [account_name,tier]
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
 
   dimension: opportunity_owner {
     type: string
+    drill_fields: [account_name]
     sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
   }
 
   dimension: LTV_YR {
     type: string
+    drill_fields: [account_name]
     sql: ${TABLE}."FISCAL_YEAR_NO" ;;
   }
 
   dimension: TRANSACT_NO {
     type: string
+    drill_fields: [account_name]
     sql: ${TABLE}."TRANS_NO" ;;
   }
 
