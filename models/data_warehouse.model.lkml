@@ -4062,6 +4062,12 @@ explore: focalboard_user_retention {
     sql_on: ${focalboard_user_retention.server_id} = ${license_server_fact.server_id} ;;
     fields: []
   }
+
+  join: excludable_servers {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${focalboard_user_retention.server_id} = ${excludable_servers.server_id} ;;
+  }
 }
 
 explore: arr_rollforward {

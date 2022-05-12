@@ -121,4 +121,11 @@ view: focalboard_user_retention {
     sql:  COALESCE(COUNT(DISTINCT ${user_id}),0) ;;
     drill_fields: [id]
   }
+
+  measure: instance_count {
+    label: " Instance Count"
+    type: number
+    sql:  COALESCE(COUNT(DISTINCT ${server_id}),0) ;;
+    drill_fields: [id]
+  }
 }
