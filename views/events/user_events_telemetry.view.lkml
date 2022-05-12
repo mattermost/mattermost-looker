@@ -245,6 +245,23 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: password_requirements_cloud_signup {
+    description: "Password Requirements (Cloud Signup)"
+    group_label: "Feature Flags"
+    type: string
+    sql: SPLIT_PART(${TABLE}.feature_flags,',',1) ;;
+    hidden: no
+  }
+
+  dimension: sso {
+    description: "SSO"
+    group_label: "Feature Flags"
+    type: string
+    sql: SPLIT_PART(${TABLE}.feature_flags,',',2) ;;
+    hidden: no
+  }
+
+
   dimension: context_timezone {
     label: "Timezone"
     description: ""
