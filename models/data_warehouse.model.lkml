@@ -4076,6 +4076,12 @@ explore: arr_transactions {
   hidden: no
 }
 
+explore: arr_balance_trend {
+  label: " ARR Balance Trend"
+  group_label: " Finance"
+  hidden: no
+}
+
 
 explore: invoices {
   hidden: no
