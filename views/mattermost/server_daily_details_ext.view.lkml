@@ -5743,7 +5743,7 @@ view: server_daily_details_ext {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active user date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,7,14,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
@@ -5769,7 +5769,7 @@ view: server_daily_details_ext {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,7,14,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
