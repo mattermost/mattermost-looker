@@ -93,11 +93,13 @@ view: arr_rollforward {
 
   dimension: opportunity_tcv {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."TCV" ;;
   }
 
   dimension: opportunity_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."ARR" ;;
   }
 
@@ -105,26 +107,31 @@ view: arr_rollforward {
 
   dimension: expiring_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."EXPIRE" ;;
   }
 
   dimension: arr_delta {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
   dimension: beg_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."BEG_ARR" ;;
   }
 
   dimension: end_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."END_ARR" ;;
   }
 
   dimension: new_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."NEW_ARR" ;;
   }
 
@@ -133,41 +140,50 @@ view: arr_rollforward {
 
   measure: total_arr {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."ARR" ;;
   }
 
   measure: total_tcv {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."TCV" ;;
   }
   measure: total_arr_change {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
   measure: total_new {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."NEW_ARR" ;;
   }
 
   measure: total_resurrect {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."RESURRECT_ARR" ;;
   }
   measure: total_expansion {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."TOTAL_EXPANSION" ;;
   }
   measure: total_contraction {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."CONTRACTION" ;;
   }
   measure: total_churn {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."CHURN" ;;
   }
   measure: total_expire {
     type: sum
+    value_format: "$#,##0"
     sql: ${TABLE}."EXPIRE" ;;
   }
   measure:  cnt_new {
