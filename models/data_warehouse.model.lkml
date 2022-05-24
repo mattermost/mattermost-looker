@@ -400,9 +400,18 @@ explore: calls_events {
     fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition, license_server_fact.license_email]
   }
 
+  join: server_fact {
+    from: server_fact
+    view_label: "Server Fact"
+    sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
+    relationship: many_to_many
+    fields: [server_fact.installation_id, server_fact.installation_type, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major
+      , server_fact.dau_sum, server_fact.mau_sum]
+  }
+
   join: excludable_servers {
     from: excludable_servers
-    view_label: "Server Fact"
+    view_label: "Excludable Servers"
     sql_on: ${excludable_servers.server_id} = ${calls_events.user_id};;
     relationship: one_to_many
     fields: [excludable_servers.reason]
@@ -2126,6 +2135,13 @@ explore: server_fact {
     fields: [lead.email, lead.name, lead.convertedaccountid, lead.existing_account__c, lead.matched_account, lead.sfid, lead.job_function, lead.convertedcontactid, lead.lead_source, lead.lead_type, lead.lead_status_combined, lead.most_recent_action]
   }
 
+  join: account {
+    view_label: "Account (Salesforce)"
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
+    relationship: many_to_many
+    fields: [account.account_owner]
+  }
+
   join: trial_requests {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
@@ -2384,10 +2400,6 @@ explore: user_events_by_date {
       AND ${user_events_by_date.logging_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
-  }
-
-  join: account {
-    sql: ${server_fact.account_sfid} = ${account.sfid} ;;
   }
 
   join: server_fact {
