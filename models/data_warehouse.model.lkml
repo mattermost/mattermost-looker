@@ -4082,6 +4082,12 @@ explore: arr_balance_trend {
   hidden: no
 }
 
+explore: arr_customertype {
+  label: "Customer Deployment Type"
+  group_label: " Finance"
+  hidden: no
+}
+
 
 explore: invoices {
   hidden: no
