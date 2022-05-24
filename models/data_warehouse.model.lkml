@@ -4089,6 +4089,7 @@ explore: arr_customertype {
 
   join: arr_rollforward {
     view_label: "account activity"
+    type: inner
     sql_on: ${arr_customertype.account_id} = ${arr_rollforward.account_id};;
     relationship: one_to_many
     }
