@@ -4086,6 +4086,12 @@ explore: arr_customertype {
   label: "Customer Deployment Type"
   group_label: " Finance"
   hidden: no
+
+  join: arr_rollforward {
+    view_label: "account activity"
+    sql_on: ${arr_customertype.account_id} = ${arr_rollforward.account_id};;
+    relationship: one_to_many
+    }
 }
 
 
