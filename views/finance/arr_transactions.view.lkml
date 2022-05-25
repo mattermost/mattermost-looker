@@ -104,6 +104,7 @@ view: arr_transactions {
 # dimensions
 
   dimension: account_id {
+    primary_key:yes
     type: string
     sql: ${TABLE}."ACCOUNT_ID" ;;
   }

@@ -4,30 +4,67 @@ view: arr_rollforward {
   sql_table_name: "FINANCE"."ARR_ROLLFORWARD"
     ;;
 
+  dimension: cohort {
+    description: "Calendar month of when a new customer signed up"
+    type: string
+    sql: ${TABLE}."COHORT_MONTH" ;;
+  }
+
+  dimension: cohort_fiscal_quarter {
+    description: "Fiscal quarter of when a new customer signed up"
+    type: string
+    sql: ${TABLE}."COHORT_FISCAL_QUARTER" ;;
+  }
+
+  dimension: cohort_fiscal_year {
+    description: "Fiscal year of when a new customer signed up"
+    type: string
+    drill_fields: [cohort_fiscal_quarter, cohort,account_name]
+    sql: ${TABLE}."COHORT_FISCAL_YEAR" ;;
+  }
+
   dimension: report_month {
+    description: "Financial month for transactions"
     type: date
     drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
+    description: "Financial quarter for transactions"
     type: date
     drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
+    description: "Financial year for transactions"
     type: date
     drill_fields: [fiscal_quarter, report_month,account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
+  dimension: usage_type {
+    description: "Platform usage as DevOps or SecureMessaging as described by Finance"
+    type: string
+    sql: ${TABLE}."CUSTOMER_USAGE" ;;
+  }
+
+  dimension: company_type {
+    description: "Company size as defined by sales"
+    type: string
+    sql: ${TABLE}."co_type" ;;
+  }
+
   dimension: industry {
+    description: "Industry as categorized by sales"
     type: string
     sql: ${TABLE}."INDUSTRY" ;;
   }
 
   dimension: account_id {
+    description: "SFID at account level"
+    primary_key: yes
     type: string
     sql: ${TABLE}."ACCOUNT_ID" ;;
   }
@@ -42,11 +79,6 @@ view: arr_rollforward {
     sql: ${TABLE}."GEOGRAPHY" ;;
   }
 
-  dimension: cohort {
-    type: string
-    sql: ${TABLE}."COHORT" ;;
-  }
-
   dimension: account_name {
     type: string
     sql: ${TABLE}."ACCOUNT_NAME" ;;
@@ -54,23 +86,25 @@ view: arr_rollforward {
 
   dimension: account_owner {
     type: string
-    drill_fields: [account_name,tier]
+    drill_fields: [usage_type,tier,account_name]
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
 
   dimension: opportunity_owner {
     type: string
-    drill_fields: [account_name]
+    drill_fields: [usage_type,tier,account_name]
     sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
   }
 
   dimension: LTV_YR {
+    description: "Fiscal years after new customers have signed up"
     type: string
     drill_fields: [account_name]
     sql: ${TABLE}."FISCAL_YEAR_NO" ;;
   }
 
   dimension: TRANSACT_NO {
+    description: "Transaction counter made by customer after signing up"
     type: string
     drill_fields: [account_name]
     sql: ${TABLE}."TRANS_NO" ;;
@@ -92,12 +126,14 @@ view: arr_rollforward {
   }
 
   dimension: opportunity_tcv {
+    description: "Total contract value of an opportunity over committed period"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."TCV" ;;
   }
 
   dimension: opportunity_arr {
+    description: "Calculated ARR from TCV based on TCV/Days x 360"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."ARR" ;;
@@ -106,24 +142,28 @@ view: arr_rollforward {
 
 
   dimension: expiring_arr {
+    description: "Expiring value of arr based on original won ARR amount on day after license end"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."EXPIRE" ;;
   }
 
   dimension: arr_delta {
+    description: "ARR change by report month.  Use this field as a cumulative number for ARR outstanding"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
   dimension: beg_arr {
+    description: "Beginning ARR at the start of a reporting month at account level. Do not sum to report portfolio level.  Use cumulative ARR Delta instead"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."BEG_ARR" ;;
   }
 
   dimension: end_arr {
+    description: "Ending ARR at the end of a reporting month at account level.  Do not sum to report porfolio level.  Use cumulative ARR Delta instead"
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."END_ARR" ;;
@@ -139,49 +179,58 @@ view: arr_rollforward {
   # measures
 
   measure: total_arr {
+    description: "Sum of ARR contracted during the reporting period"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."ARR" ;;
   }
 
   measure: total_tcv {
+    description: "Sum of TCV contracted during the reporting period"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."TCV" ;;
   }
   measure: total_arr_change {
+    description: "Sum of ARR change during the reporting period including new churn expansion and contraction"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
   measure: total_new {
+    description: "New ARR signed during the reporting period"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."NEW_ARR" ;;
   }
 
   measure: total_resurrect {
+    description: "ARR from resurrected customers where previous month's ARR balance was zero"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."RESURRECT_ARR" ;;
   }
   measure: total_expansion {
+    description: "ARR expansion during period as the total of account, contract and renewal expansion"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."TOTAL_EXPANSION" ;;
   }
   measure: total_contraction {
+    description: "ARR contraction that do not result to zero ARR at end of reporting month"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."CONTRACTION" ;;
   }
   measure: total_churn {
+    description: "ARR contraction that results to zero ARR at the end of reporting month"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."CHURN" ;;
   }
   measure: total_expire {
+    description: "ARR expiration based on license end date + 1 day of previously closed and won opportunities at original amount"
     type: sum
     value_format: "$#,##0"
     sql: ${TABLE}."EXPIRE" ;;
