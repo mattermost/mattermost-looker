@@ -12,6 +12,7 @@ view: arr_customertype {
   }
 
   dimension: account_id {
+    primary_key: yes
     type: string
     sql: ${TABLE}."ACCOUNT_ID" ;;
   }
