@@ -96,10 +96,25 @@ view: arr_rollforward {
     sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
   }
 
-  dimension: LTV_YR {
-    description: "Fiscal years after new customers have signed up"
+
+  dimension: FISCAL_MO_NO {
+    description: "Fiscal months after new customers have signed up"
     type: string
     drill_fields: [account_name]
+    sql: ${TABLE}."FISCAL_MONTH_NO" ;;
+  }
+
+  dimension: FISCAL_QTR_NO {
+    description: "Fiscal quarters after new customers have signed up"
+    type: string
+    drill_fields: [FISCAL_MO_NO,account_name]
+    sql: ${TABLE}."FISCAL_QUARTER_NO" ;;
+  }
+
+  dimension: FISCAL_YR_NO {
+    description: "Fiscal years after new customers have signed up"
+    type: string
+    drill_fields: [FISCAL_QTR_NO, account_name]
     sql: ${TABLE}."FISCAL_YEAR_NO" ;;
   }
 
