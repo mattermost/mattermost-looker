@@ -99,28 +99,28 @@ view: arr_rollforward {
 
   dimension: FISCAL_MO_NO {
     description: "Fiscal months after new customers have signed up"
-    type: string
+    type: number
     drill_fields: [account_name]
     sql: ${TABLE}."FISCAL_MONTH_NO" ;;
   }
 
   dimension: FISCAL_QTR_NO {
     description: "Fiscal quarters after new customers have signed up"
-    type: string
+    type: number
     drill_fields: [FISCAL_MO_NO,account_name]
     sql: ${TABLE}."FISCAL_QUARTER_NO" ;;
   }
 
   dimension: FISCAL_YR_NO {
     description: "Fiscal years after new customers have signed up"
-    type: string
+    type: number
     drill_fields: [FISCAL_QTR_NO, account_name]
     sql: ${TABLE}."FISCAL_YEAR_NO" ;;
   }
 
   dimension: TRANSACT_NO {
     description: "Transaction counter made by customer after signing up"
-    type: string
+    type: number
     drill_fields: [account_name]
     sql: ${TABLE}."TRANS_NO" ;;
   }
