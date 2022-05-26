@@ -26,21 +26,21 @@ view: arr_rollforward {
   dimension: report_month {
     description: "Financial month for transactions"
     type: date
-    drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
+    drill_fields: [account_name,account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
     description: "Financial quarter for transactions"
     type: date
-    drill_fields: [account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
+    drill_fields: [account_name,account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
     description: "Financial year for transactions"
     type: date
-    drill_fields: [fiscal_quarter, report_month,account_name,account_owner,opportunity_owner,tier,cohort,geo,industry]
+    drill_fields: [fiscal_quarter, report_month,account_name,account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
@@ -89,13 +89,6 @@ view: arr_rollforward {
     drill_fields: [usage_type,tier,account_name]
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
-
-  dimension: opportunity_owner {
-    type: string
-    drill_fields: [usage_type,tier,account_name]
-    sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
-  }
-
 
   dimension: FISCAL_MO_NO {
     description: "Fiscal months after new customers have signed up"
