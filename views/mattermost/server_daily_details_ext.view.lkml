@@ -2585,6 +2585,24 @@ view: server_daily_details_ext {
     hidden: no
   }
 
+  dimension: ldap_group_count {
+    label: "LDAP Group Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.ldap_group_count ;;
+    hidden: no
+  }
+
+  dimension: custom_group_count {
+    label: "Custom Group Count"
+    description: ""
+    type: number
+    group_label: "Groups Configuration"
+    sql: ${TABLE}.custom_group_count ;;
+    hidden: no
+  }
+
   dimension: batch_size {
     description: ""
     type: number
@@ -5725,7 +5743,7 @@ view: server_daily_details_ext {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active user date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,7,14,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
@@ -5751,7 +5769,7 @@ view: server_daily_details_ext {
     description: "Displays the age in days of the server bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,31,61,91,181,366,731]
+    tiers: [1,7,14,31,61,91,181,366,731]
     sql: ${days_since_first_telemetry_enabled} ;;
   }
 
@@ -6503,6 +6521,24 @@ view: server_daily_details_ext {
     type: sum
     group_label: " Groups Config: Groups Counts"
     sql: ${group_count_with_allow_reference};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: ldap_group_count_sum {
+    label: "Total LDAP Groups"
+    description: "Total LDAP Groups."
+    type: sum
+    group_label: " Groups Config: Groups Counts"
+    sql: ${ldap_group_count};;
+    drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
+  }
+
+  measure: custom_group_count_sum {
+    label: "Total Custom Groups"
+    description: "Total Custom Groups."
+    type: sum
+    group_label: " Groups Config: Groups Counts"
+    sql: ${custom_group_count};;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, edition, days_since_first_telemetry_enabled, license_id, license_edition, license_users, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date]
   }
 

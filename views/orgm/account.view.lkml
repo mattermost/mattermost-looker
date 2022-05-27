@@ -288,6 +288,12 @@ view: account {
     type: string
   }
 
+  dimension: account_owner{
+    label: "Account Owner"
+    sql: ${TABLE}.account_owner_zd__c ;;
+    type: string
+  }
+
   dimension: discover_org_employee_count {
     group_label: "Employee Counts"
     sql: ${TABLE}.DiscoverOrg_Employee_Count__c ;;
