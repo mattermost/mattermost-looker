@@ -453,7 +453,7 @@ explore: task {
   }
 
   join: account {
-    sql: ${account.sfid} = ${task.accountid};;
+    sql_on: ${account.sfid} = ${task.accountid};;
     relationship: many_to_one
     fields: []
   }
@@ -2464,7 +2464,7 @@ explore: user_events_by_date_agg {
   }
 
   join: account {
-    sql: ${server_fact.account_sfid} = ${account.sfid} ;;
+    sql_on: ${server_fact.account_sfid} = ${account.sfid} ;;
   }
 
   join: server_fact {
