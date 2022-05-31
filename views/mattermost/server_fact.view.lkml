@@ -249,6 +249,27 @@ view: server_fact {
     sql: ${signup_events_alltime} >= 1 ;;
   }
 
+  dimension: boards {
+    label: "Total Boards"
+    group_label: "Boards"
+    type: number
+    sql: ${TABLE}.boards ;;
+  }
+
+  dimension: boards_views {
+    label: "Total Boards Views"
+    group_label: "Boards"
+    type: number
+    sql: ${TABLE}.boards_views ;;
+  }
+
+  dimension: boards_cards {
+    label: "Total Boards Cards"
+    group_label: "Boards"
+    type: number
+    sql: ${TABLE}.boards_cards ;;
+  }
+
   dimension: has_signup_email_events {
     label: ">= 1 Signup Email Events (All Time)"
     group_label: " Status & Activity Filters"
