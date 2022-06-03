@@ -196,6 +196,20 @@ view: invoices {
     sql: ${TABLE}."TOTAL" ;;
   }
 
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [
@@ -232,7 +246,7 @@ view: invoices {
 
   measure: total_sum {
     description: "The sum of invoice totals within each grouping."
-    type: sum_distinct
+    type: sum
     group_label: "Total Measures"
     sql: ${total} ;;
     value_format_name: usd
