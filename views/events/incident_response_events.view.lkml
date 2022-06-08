@@ -166,6 +166,24 @@ view: incident_response_events {
     hidden: no
   }
 
+  dimension: action_type {
+    label: "Action Type"
+    description: "Action Type"
+    type: string
+    sql: ${TABLE}.action_type ;;
+    hidden: no
+  }
+
+
+  dimension: trigger_type {
+    label: "Trigger Type"
+    description: "Trigger Type"
+    type: string
+    sql: ${TABLE}.trigger_type ;;
+    hidden: no
+  }
+
+
   dimension: isactive {
     description: ""
     type: yesno
