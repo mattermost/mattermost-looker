@@ -168,4 +168,10 @@ view: subscriptions {
     ]
     sql: CAST(${TABLE}."UPDATED" AS TIMESTAMP_NTZ) ;;
   }
+
+  measure: total_cloud_workspaces{
+    label: "Total Cloud Workspaces"
+    type: count_distinct
+    sql: ${cws_installation} ;;
+  }
 }
