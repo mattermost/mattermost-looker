@@ -104,6 +104,7 @@ view: arr_transactions {
 # dimensions
 
   dimension: account_id {
+    primary_key:yes
     type: string
     sql: ${TABLE}."ACCOUNT_ID" ;;
   }
@@ -140,12 +141,14 @@ view: arr_transactions {
 
   dimension: arr_change {
     type: number
+    value_format: "$#,##0"
     description: "Per opportunity id the net delta in ARR"
     sql: ${TABLE}."ARR_CHANGE" ;;
   }
 
   dimension: billing_amt {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."BILLING_AMT" ;;
   }
 
@@ -158,11 +161,13 @@ view: arr_transactions {
 
   dimension: account_expansion {
     type:  number
+    value_format: "$#,##0"
     sql:  ${TABLE}."ACCOUNT_EXPANSION" ;;
   }
 
   dimension: contract_expansion {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."CONTRACT_EXPANSION" ;;
   }
 
@@ -209,11 +214,13 @@ view: arr_transactions {
 
   dimension: ending_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."ENDING_ARR" ;;
   }
 
   dimension: expire_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."EXPIRE_ARR" ;;
   }
 
@@ -255,6 +262,7 @@ view: arr_transactions {
 
   dimension: new_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."NEW_ARR" ;;
   }
 
@@ -265,6 +273,7 @@ view: arr_transactions {
 
   dimension: opportunity_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."OPPORTUNITY_ARR" ;;
   }
 
@@ -272,11 +281,13 @@ view: arr_transactions {
 
   dimension: reduction_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."REDUCTION_ARR" ;;
   }
 
   dimension: renew_arr {
     type: number
+    value_format: "$#,##0"
     sql: ${TABLE}."RENEW_ARR" ;;
   }
 
@@ -324,6 +335,7 @@ view: arr_transactions {
 
   measure: arr_ending {
     type: sum
+    value_format: "$#,##0"
     sql: ${arr_change} ;;
     drill_fields: [account_name, parent_name]
   }
@@ -331,6 +343,7 @@ view: arr_transactions {
 
   measure: lifetime_billed {
     type: sum
+    value_format: "$#,##0"
     sql: ${billing_amt} ;;
     drill_fields: [account_name, parent_name]
   }
@@ -349,16 +362,19 @@ view: arr_transactions {
 
   measure: newly_signed_arr {
     type: sum
+    value_format: "$#,##0"
     sql: ${new_arr} ;;
   }
 
   measure: expired_arr {
     type: sum
+    value_format: "$#,##0"
     sql: ${expire_arr};;
   }
 
   measure: renewed_arr {
     type: sum
+    value_format: "$#,##0"
     sql: ${renew_arr} ;;
   }
 }

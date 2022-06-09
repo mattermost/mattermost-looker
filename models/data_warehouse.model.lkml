@@ -4094,6 +4094,25 @@ explore: arr_transactions {
   hidden: no
 }
 
+explore: arr_balance_trend {
+  label: " ARR Balance Trend"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_customertype {
+  label: "Customer Deployment Type"
+  group_label: " Finance"
+  hidden: no
+
+  join: arr_rollforward {
+    view_label: "account activity"
+    type: inner
+    sql_on: ${arr_customertype.account_id} = ${arr_rollforward.account_id};;
+    relationship: one_to_many
+    }
+}
+
 
 explore: invoices {
   hidden: no
