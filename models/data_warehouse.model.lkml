@@ -4146,3 +4146,32 @@ explore: invoices {
     relationship: many_to_many
   }
 }
+
+
+explore: feature_flag_telemetry {
+  label: "Feature Flag Telemetry"
+  group_label: "Feature Flag Telemetry"
+  hidden: no
+
+  join: server_fact {
+    view_label: "Server Fact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${feature_flag_telemetry.user_id} = ${server_fact.server_id} ;;
+  }
+
+  join: license_server_fact {
+    view_label: "License Server Fact"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${feature_flag_telemetry.user_id} = ${license_server_fact.server_id} ;;
+    fields: []
+  }
+
+  join: excludable_servers {
+    view_label: "Excludable Servers"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
+  }
+}
