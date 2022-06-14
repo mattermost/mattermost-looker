@@ -50,6 +50,12 @@ view: arr_rollforward {
     sql: ${TABLE}."CUSTOMER_USAGE" ;;
   }
 
+  dimension: bin_avg_arr {
+    description: "Bin range customer belongs to based on average ARR through customer's lifetime"
+    type: string
+    sql: ${TABLE}."BIN_AVG_ARR" ;;
+  }
+
   dimension: company_type {
     description: "Company size as defined by sales"
     type: string
