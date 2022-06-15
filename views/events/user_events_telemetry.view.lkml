@@ -249,7 +249,7 @@ view: user_events_telemetry {
     description: "Password Requirements (Cloud Signup)"
     group_label: "Feature Flags"
     type: string
-    sql: SPLIT_PART(${TABLE}.feature_flags,',',1) ;;
+    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',1),':',2)) ;;
     hidden: no
   }
 
@@ -257,10 +257,9 @@ view: user_events_telemetry {
     description: "SSO"
     group_label: "Feature Flags"
     type: string
-    sql: SPLIT_PART(${TABLE}.feature_flags,',',2) ;;
+    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',2),':',2)) ;;
     hidden: no
   }
-
 
   dimension: context_timezone {
     label: "Timezone"
