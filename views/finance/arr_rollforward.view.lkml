@@ -59,7 +59,7 @@ view: arr_rollforward {
   dimension: company_type {
     description: "Company size as defined by sales"
     type: string
-    sql: ${TABLE}."co_type" ;;
+    sql: ${TABLE}."CO_TYPE" ;;
   }
 
   dimension: industry {
