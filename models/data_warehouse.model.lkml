@@ -397,7 +397,8 @@ explore: calls_events {
     view_label: "License Server Fact"
     sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
     relationship: one_to_many
-    fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition, license_server_fact.license_email]
+    fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition
+      , license_server_fact.license_email, license_server_fact.cloud_customer]
   }
 
   join: server_fact {
@@ -405,7 +406,8 @@ explore: calls_events {
     view_label: "Server Fact"
     sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
     relationship: many_to_many
-    fields: [server_fact.installation_id, server_fact.installation_type, server_fact.first_server_edition, server_fact.first_server_version, server_fact.first_server_version_major
+    fields: [server_fact.installation_id, server_fact.installation_type, server_fact.first_server_edition
+      , server_fact.first_server_version, server_fact.first_server_version_major
       , server_fact.dau_sum, server_fact.mau_sum]
   }
 
