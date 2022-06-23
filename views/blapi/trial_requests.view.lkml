@@ -1,6 +1,10 @@
 view: trial_requests {
   sql_table_name: "BLAPI"."TRIAL_REQUESTS";;
 
+  set: trial_requests_drill {
+    fields: [server_id, name, site_name, email, site_url, start_date, end_date, users]
+  }
+
   dimension: sfid {
     hidden: yes
     type: string
@@ -126,6 +130,13 @@ view: trial_requests {
   measure: count {
     type: count_distinct
     sql: ${license_id} ;;
+    drill_fields: [trial_requests_drill*]
+  }
+
+  measure: instance_count {
+    type: count_distinct
+    sql: ${server_id} ;;
+    drill_fields: [trial_requests_drill*]
   }
 
 
