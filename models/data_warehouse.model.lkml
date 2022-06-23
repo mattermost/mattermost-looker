@@ -3073,7 +3073,6 @@ explore: license_server_fact {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: [trial_requests.server_id, trial_requests.count, trial_requests.license_id, trial_requests.product_type]
   }
 
 }
