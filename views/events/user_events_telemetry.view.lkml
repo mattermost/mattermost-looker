@@ -1041,6 +1041,19 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: oauth_provider {
+    type: string
+    sql: ${TABLE}.oauth_provider ;;
+    hidden: no
+  }
+
+  dimension: context_traits_use_oauth {
+    description: "Context Traits Use OAUTH"
+    type: string
+    sql: ${TABLE}.context_traits_use_oauth ;;
+    hidden: no
+  }
+
   # DIMENSION GROUPS/DATES
   dimension_group: original_timestamp {
   description: ""
