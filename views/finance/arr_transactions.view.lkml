@@ -336,10 +336,24 @@ view: arr_transactions {
   measure: arr_ending {
     type: sum
     value_format: "$#,##0"
+    description: "Cumulative ARR change during the period selected"
     sql: ${arr_change} ;;
     drill_fields: [account_name, parent_name]
   }
 
+  measure: tcv_signed  {
+    type:  sum
+    description: "TCV signed during the period"
+    value_format: "$#,##0"
+    sql: ${billing_amt} ;;
+  }
+
+  measure: arr_signed {
+    type: sum
+    description: "ARR signed during the period which is calculated from TCV on a 365 day basis"
+    value_format: "$#,##0"
+    sql: ${opportunity_arr} ;;
+  }
 
   measure: lifetime_billed {
     type: sum
