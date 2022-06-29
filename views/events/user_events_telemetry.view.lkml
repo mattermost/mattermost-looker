@@ -1054,6 +1054,80 @@ view: user_events_telemetry {
     hidden: no
   }
 
+
+
+  dimension: first {
+    description: "First"
+    group_label: "Selector Dimensions"
+    type: string
+    sql: ${TABLE}.first ;;
+    hidden: no
+  }
+
+  dimension: second {
+    description: "Second"
+    group_label: "Selector Dimensions"
+    type: string
+    sql: ${TABLE}.second ;;
+    hidden: no
+  }
+
+  dimension: third {
+    description: "Third"
+    group_label: "Selector Dimensions"
+    type: string
+    sql: ${TABLE}.third ;;
+    hidden: no
+  }
+
+  dimension: first_effectiveness {
+    description: "First Effectiveness"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.first_effectiveness ;;
+    hidden: yes
+  }
+
+  dimension: first_recomputations {
+    description: "First Recomputations"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.first_recomputations ;;
+    hidden: yes
+  }
+
+  dimension: second_effectiveness {
+    description: "Second Effectiveness"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.second_effectiveness ;;
+    hidden: yes
+  }
+
+  dimension: second_recomputations {
+    description: "Second Recomputations"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.second_recomputations ;;
+    hidden: yes
+  }
+
+  dimension: third_effectiveness {
+    description: "Third Effectiveness"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.third_effectiveness ;;
+    hidden: yes
+  }
+
+  dimension: third_recomputations {
+    description: "Third Recomputations"
+    group_label: "Selector Metrics"
+    type: string
+    sql: ${TABLE}.third_recomputations ;;
+    hidden: yes
+  }
+
   # DIMENSION GROUPS/DATES
   dimension_group: original_timestamp {
   description: ""
@@ -1630,6 +1704,52 @@ view: user_events_telemetry {
     description: "The date & time the event was last triggered."
     type: date_time
     sql: MAX(${TABLE}.timestamp) ;;
+  }
+
+
+  measure: first_effectiveness_avg {
+    description: "First Effectiveness Avg"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(AVG(${first_effectiveness}),2) ;;
+    hidden: no
+  }
+  measure: first_recomputations_sum {
+    description: "First Recomputations Sum"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(SUM(${first_recomputations}),2) ;;
+    hidden: no
+  }
+
+  measure: second_effectiveness_avg {
+    description: "Second Effectiveness Avg"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(AVG(${first_effectiveness}),2) ;;
+    hidden: no
+  }
+  measure: second_recomputations_sum {
+    description: "Second Recomputations Sum"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(SUM(${first_recomputations}),2) ;;
+    hidden: no
+  }
+
+  measure: third_effectiveness_avg {
+    description: "Third Effectiveness Avg"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(AVG(${first_effectiveness}),2) ;;
+    hidden: no
+  }
+  measure: third_recomputations_sum {
+    description: "Third Recomputations Sum"
+    group_label: "Selector Measures"
+    type: number
+    sql: ROUND(SUM(${first_recomputations}),2) ;;
+    hidden: no
   }
 
 
