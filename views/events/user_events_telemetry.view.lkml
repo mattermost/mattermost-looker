@@ -625,10 +625,18 @@ view: user_events_telemetry {
   }
 
   dimension: context_traits_portal_customer_id {
-    label: " Customer Portal ID"
+    label: "Context Traits Portal Customer ID"
     description: ""
     type: string
     sql: ${TABLE}.context_traits_portal_customer_id ;;
+    hidden: no
+  }
+
+  dimension: portal_customer_id {
+    label:  "Portal Customer ID"
+    description: ""
+    type: string
+    sql: ${TABLE}.portal_customer_id ;;
     hidden: no
   }
 
@@ -1344,7 +1352,7 @@ view: user_events_telemetry {
     label: " Context Traits Portal Customer Count"
     description: "The distinct count of Context Traits Portal Customers within each grouping."
     type: count_distinct
-    sql: ${context_traits_portal_customer_id} ;;
+    sql: coalesce(${context_traits_portal_customer_id}, ${portal_customer_id}) ;;
     drill_fields: [server_drill*]
   }
 
