@@ -3047,6 +3047,15 @@ explore: license_server_fact {
     type: left_outer
   }
 
+  join: server_daily_details_ext {
+    sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: one_to_many
+    type: left_outer
+    fields: [server_daily_details_ext.enable_shared_channels, server_daily_details_ext.enable_sync_with_ldap, server_daily_details_ext.feature_data_retention
+      , server_daily_details_ext.custom_service_terms_enabled_service, server_daily_details_ext.enable_compliance
+      , server_daily_details_ext.enable_commattermostpluginchannelexport ,server_daily_details_ext.advanced_logging_config]
+  }
+
   join: excludable_servers {
     view_label: "License Server Fact"
     sql_on: ${license_server_fact.server_id} = ${excludable_servers.server_id} ;;
