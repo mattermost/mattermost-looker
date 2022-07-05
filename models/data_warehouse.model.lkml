@@ -4114,6 +4114,12 @@ explore: arr_customertype {
     }
 }
 
+explore: arr_ltv_bins {
+  label: "LTV per ARR average bin"
+  group_label: "Finance"
+  hidden: no
+}
+
 
 explore: invoices {
   hidden: no
@@ -4175,4 +4181,6 @@ explore: feature_flag_telemetry {
     relationship: many_to_one
     sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
   }
+
+
 }
