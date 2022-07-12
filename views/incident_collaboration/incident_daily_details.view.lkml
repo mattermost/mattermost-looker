@@ -353,7 +353,7 @@ view: incident_daily_details {
     group_label: "All-Time Dimensions"
     description: ""
     type: number
-    sql: ${TABLE}.task_assignees_set_alltime ;;
+    sql: ${TABLE}.task_assignees_set ;;
     hidden: no
   }
 
@@ -361,7 +361,7 @@ view: incident_daily_details {
     group_label: "All-Time Dimensions"
     description: ""
     type: number
-    sql: ${TABLE}.task_states_modified_alltime ;;
+    sql: ${TABLE}.task_states_modified ;;
     hidden: no
   }
 
