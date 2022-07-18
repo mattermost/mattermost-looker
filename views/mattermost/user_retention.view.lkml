@@ -47,6 +47,11 @@ view: user_retention {
     sql: ${TABLE}."RETENTION_1DAY_FLAG" ;;
   }
 
+  dimension: retention_0_day_flag {
+    type: yesno
+    sql: ${TABLE}."RETENTION_0DAY_FLAG" ;;
+  }
+
   dimension: retention_28_day_flag {
     type: yesno
     sql: ${TABLE}."RETENTION_28DAY_FLAG" ;;
@@ -91,6 +96,15 @@ view: user_retention {
     description: "The distinct count of Users."
     type: count_distinct
     sql:  ${user_id} ;;
+    drill_fields: [id]
+  }
+
+  measure: retention_0_day_users {
+    group_label: "User Co  unts"
+    label: "Retained Day 1 Users"
+    description: "The distinct count of servers/workspaces with Retained Day 1 Users marked true."
+    type: count_distinct
+    sql: CASE WHEN ${retention_0_day_flag} THEN ${user_id} ELSE NULL END;;
     drill_fields: [id]
   }
 

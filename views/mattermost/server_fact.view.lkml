@@ -158,6 +158,23 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
+  dimension: retention_0day_flag {
+    label: "0-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the first 24 hours since their first active date. This metric is a flag indicating users performed events between hour 0 and 24 from the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_0day_flag, false) ;;
+  }
+
+  dimension: retention_0day_users {
+    label: " 0-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the first 24 hours since their first active date. This count indicates the users performed events between hour 0 and 24 hours from the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_0day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
 
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
@@ -1706,6 +1723,14 @@ view: server_fact {
     description: "The sum of registered users associated with all servers in the current grouping."
     type: number
     sql: sum(${max_registered_users}) ;;
+    drill_fields: [drill_set1*]
+  }
+
+  measure: retained_0day_user_sum {
+    label: "0-Day Retained Users"
+    description: "The sum of users that performed events within 0 & 24 hours of the instances first active timestamp across all servers in the current grouping."
+    type: number
+    sql: sum(${retention_0day_users}) ;;
     drill_fields: [drill_set1*]
   }
 
