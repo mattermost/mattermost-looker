@@ -4098,6 +4098,12 @@ explore: arr_rollforward {
   hidden: no
 }
 
+explore: arr_report {
+  label: " ARR Report"
+  group_label: " Finance"
+  hidden: no
+}
+
 explore: arr_transactions {
   label: " ARR Transactions"
   group_label: " Finance"
