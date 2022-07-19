@@ -34,39 +34,49 @@ view: arr_report {
   }
 
   dimension: arr_expired {
+    description: "The original subscription value that expired on license end date + 1"
     type: number
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."ARR_EXPIRED" ;;
   }
 
   dimension: arr_signed {
+    description: "The annualized arr value of a customer signed booking"
     type: number
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."ARR_SIGNED" ;;
   }
 
-  dimension: avg_churn {
-    type: number
+  measure: avg_churn {
+    description: "subscription customers not renewed over subscription customers with license end dates in the report period that lead to zero active arr"
+    type: average
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."AVG_CHURN" ;;
   }
 
-  dimension: avg_contract {
-    type: number
+  measure: avg_contract {
+    type: average
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."AVG_CONTRACT" ;;
   }
 
-  dimension: avg_expand {
-    type: number
+  measure: avg_expand {
+    type: average
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."AVG_EXPAND" ;;
   }
 
-  dimension: avg_new {
-    type: number
+  measure: avg_new {
+    type: average
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."AVG_NEW" ;;
+  }
+
+  measure: avg_arr {
+    description: "Ending active ARR balance over ending active customers during the period"
+    type: sum
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."END_ARR"/${TABLE}."END_CUSTOMERS" ;;
   }
 
   dimension: beg_customers {
@@ -199,6 +209,12 @@ view: arr_report {
     type: number
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."RESURRECTED" ;;
+  }
+
+  dimension: year1_inv_amt {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."YEAR1_INV_AMT" ;;
   }
 
   dimension: tcv_signed {
