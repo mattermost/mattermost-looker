@@ -4135,6 +4135,12 @@ explore: arr_ltv_bins {
   hidden: no
 }
 
+explore: purchase_orders_listing {
+  label: "Listing of PO's Created and Relevant Status"
+  group_label: "Finance"
+  hidden: no
+}
+
 
 explore: invoices {
   hidden: no
