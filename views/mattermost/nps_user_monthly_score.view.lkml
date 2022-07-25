@@ -112,7 +112,7 @@ view: nps_user_monthly_score {
     sql: CASE WHEN ${cloud_server} THEN '1000000'::int
           ELSE (split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
           CASE WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)::int < 10 THEN
-              ('0' || split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2))
+              ('0' || split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0')
             WHEN split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
             ELSE split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int
             END;;
