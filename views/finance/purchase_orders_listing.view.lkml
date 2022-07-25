@@ -10,203 +10,185 @@ view: purchase_orders_listing {
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called " Sdc Row" in Explore.
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-  dimension: po_number {
-    description: "PO ID"
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.po_number ;;
+
+  measure: absolute_net {
+    type: sum
+    sql: ${TABLE}."ABSOLUTE_NET" ;;
   }
 
-  dimension: external_id {
-    description: "External system reference"
-    type: string
-    sql: ${TABLE}.external_id ;;
-  }
-
-  dimension: requested_by {
-    description: "PO Requestor"
-    type: string
-    sql: ${TABLE}.requested_by ;;
-  }
-
-  dimension: submitted_by {
-    description: "Submission made by"
-    type: string
-    sql: ${TABLE}.submitted_by ;;
-  }
-
-  dimension: department {
-    description: "Department budget owner"
-    type: string
-    sql: ${TABLE}.dept ;;
-  }
-
-  dimension: vendor_id {
-    type: string
-    sql: ${TABLE}.vendor_id ;;
-  }
-
-  dimension: vendor_name {
-    type: string
-    sql: ${TABLE}.vendor_name ;;
-  }
-
-  dimension: po_issuedate {
-    description: "Date PO was requested"
-    type: date
-    sql: ${TABLE}.po_issue_date::date ;;
-  }
-
-  dimension: start_date {
-    description: "PO start date"
-    type:  date
-    sql: ${TABLE}.start_date::date ;;
-  }
-
-  dimension: end_date {
-    description: "PO end date"
-    type:  date
-    sql: ${TABLE}.start_date::date ;;
-  }
-
-  dimension: status {
-    description: "Active Status of PO"
-    type: string
-    sql: ${TABLE}.status ;;
+  measure: accrual_total {
+    type: sum
+    sql: ${TABLE}."ACCRUAL_TOTAL" ;;
   }
 
   dimension: approval_workflow {
-    description: "Workflow stage of PO"
     type: string
-    sql: ${TABLE}.approval_workflow ;;
+    sql: ${TABLE}."APPROVAL_WORKFLOW" ;;
   }
 
   dimension: approver_pending {
-    description: "Awaiting approval of this person"
     type: string
-    sql:${TABLE}.approver_pending ;;
-  }
-
-  dimension: location {
-    description: "Geography of spend"
-    type: string
-    sql: ${TABLE}.location ;;
+    sql: ${TABLE}."APPROVER_PENDING" ;;
   }
 
   dimension: business_unit {
-    description: "Business Unit"
     type: string
-    sql: ${TABLE}.business_unit ;;
+    sql: ${TABLE}."BUSINESS_UNIT" ;;
   }
 
-  dimension: last_approved_date {
-    description: "Last Approved Date"
-    type: date
-    sql: ${TABLE}.last_approved_date::date ;;
-  }
-
-  dimension: final_approval_date {
-    description: "Final Approved Date"
-    type: date
-    sql: ${TABLE}.final_approval_date::date ;;
+  dimension: currency_code {
+    type: string
+    sql: ${TABLE}."CURRENCY_CODE" ;;
   }
 
   dimension: days_open {
-    description: "No of days PO is open"
+    type: string
+    sql: ${TABLE}."DAYS_OPEN" ;;
+  }
+
+  dimension: days_open__de {
     type: number
-    sql: datediff(day,${po_issuedate},${final_approval_date}) ;;
+    sql: ${TABLE}."DAYS_OPEN__DE" ;;
   }
 
-  dimension: transact_currency {
-    description: "Transaction Currency"
+  dimension: debit_entries {
     type: string
-    sql: ${TABLE}.currency_code ;;
+    sql: ${TABLE}."DEBIT_ENTRIES" ;;
   }
 
-  dimension: functional_currency {
-    description: "Functional Currency"
+  dimension: account {
     type: string
-    sql: ${TABLE}.functional_currency_code ;;
+    sql: split_part(${debit_entries},':',1) ;;
   }
 
-  dimension: expense_acct {
-    description: "GL account expense is debited"
+  dimension: account_detail {
     type: string
-    sql: spit_part(${TABLE}.debit_entries,':',1) ;;
+    sql: split_part(${debit_entries},':',2) ;;
   }
 
-  dimension: expense_sub_acct {
-    description: "GL expense subaccount debited"
+  dimension: dept {
     type: string
-    sql: spit_part(${TABLE}.debit_entries,':',2) ;;
+    sql: ${TABLE}."DEPT" ;;
   }
 
-  measure: count_po_submitted {
-    description: "Count of PO's submitted during period"
-    type:  count_distinct
-    sql:${TABLE}.po_number ;;
+  dimension: end_date {
+    type: date
+    sql: ${TABLE}."END_DATE"::date ;;
   }
 
-  measure: count_po_rejected {
-    description: "Count of PO's rejected"
+  dimension: external_id {
+    type: string
+    sql: ${TABLE}."EXTERNAL_ID" ;;
+  }
+
+  dimension: final_approval_date {
+    type: date
+    sql: ${TABLE}."FINAL_APPROVAL_DATE"::date ;;
+  }
+
+  measure: functional_amount {
     type: sum
-    sql: iff(${status}='REJECTED',1,0) ;;
+    sql: ${TABLE}."FUNCTIONAL_AMOUNT" ;;
   }
 
-  measure: count_po_closed {
-    description: "Count of PO's closed"
+  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
+  # measures for this dimension, but you can also add measures of many different aggregates.
+  # Click on the type parameter to see all the options in the Quick Help panel on the right.
+
+
+  dimension: functional_currency_code {
+    type: string
+    sql: ${TABLE}."FUNCTIONAL_CURRENCY_CODE" ;;
+  }
+
+  measure: gross_amount {
     type: sum
-    sql: iff(${status}='closed',1,0) ;;
+    sql: ${TABLE}."GROSS_AMOUNT" ;;
   }
 
-  measure: count_po_open {
-    description: "Count of PO's open"
+  measure: invoice_balance {
     type: sum
-    sql: iff(${status}='open',1,0) ;;
-  }
-
-  measure: count_po_pending {
-    description: "Count of PO's pending"
-    type: sum
-    sql: iff(${status}='open',1,0) ;;
-  }
-
-  measure: po_gross_amount {
-    description: "Accrualify PO Gross Amount"
-    type:  sum
-    sql: ${TABLE}.gross_amt ;;
+    sql: ${TABLE}."INVOICE_BALANCE" ;;
   }
 
   measure: invoice_total {
     type: sum
-    sql: ${TABLE}.invoice_total ;;
+    sql: ${TABLE}."INVOICE_TOTAL" ;;
   }
 
-  measure: receiving_total {
-    type: sum
-    sql: ${TABLE}.receiving_total ;;
+  dimension: last_approved_date {
+    type: date
+    sql: ${TABLE}."LAST_APPROVED_DATE"::date ;;
   }
 
-  measure: accrual_total {
-    type:  sum
-    sql: ${TABLE}.accrual_total ;;
+  dimension: location {
+    type: string
+    sql: ${TABLE}."LOCATION" ;;
+  }
+
+  dimension: notes {
+    type: string
+    sql: ${TABLE}."NOTES" ;;
   }
 
   measure: open_po_balance {
     type: sum
-    sql: ${TABLE}.accrual_total ;;
+    sql: ${TABLE}."OPEN_PO_BALANCE" ;;
   }
 
-  measure: absolute_net {
+  dimension: po_issue_date {
+    type: date
+    sql: ${TABLE}."PO_ISSUE_DATE"::date ;;
+  }
+
+  dimension: po_number {
+    type: string
+    sql: ${TABLE}."PO_NUMBER" ;;
+  }
+
+  measure: receiving_total {
     type: sum
-    sql: ${TABLE}.absolute_net ;;
+    sql: ${TABLE}."RECEIVING_TOTAL" ;;
   }
 
+  dimension: requested_by {
+    type: string
+    sql: ${TABLE}."REQUESTED_BY" ;;
+  }
 
+  dimension: start_date {
+    type: date
+    sql: ${TABLE}."START_DATE"::date ;;
+  }
 
+  dimension: status {
+    type: string
+    sql: ${TABLE}."STATUS" ;;
+  }
 
+  dimension: submitted_by {
+    type: string
+    sql: ${TABLE}."SUBMITTED_BY" ;;
+  }
 
+  dimension: subsidiary {
+    type: string
+    sql: ${TABLE}."SUBSIDIARY" ;;
+  }
+
+  dimension: vendor_id {
+    type: string
+    sql: ${TABLE}."VENDOR_ID" ;;
+  }
+
+  dimension: vendor_name {
+    type: string
+    sql: ${TABLE}."VENDOR_NAME" ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [vendor_name]
+  }
 }

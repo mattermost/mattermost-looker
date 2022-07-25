@@ -4135,14 +4135,20 @@ explore: arr_ltv_bins {
   hidden: no
 }
 
-explore: purchase_orders_listing {
-  label: "Purchase Orders"
-  group_label: "Finance"
+explore: metrics_purchasing {
+  label: "Metrics - Purchasing"
+  group_label: " Finance"
   hidden: no
 }
 
-explore: metrics_purchasing {
-  label: "Metrics - Purchasing"
+explore: purchase_orders_listing {
+  label: "PO Detail"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: invoicing {
+  label: "Revenue Billing"
   group_label: " Finance"
   hidden: no
 }
