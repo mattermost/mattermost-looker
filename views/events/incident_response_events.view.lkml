@@ -649,6 +649,13 @@ view: incident_response_events {
     sql: ${TABLE}.num_timeline_events ;;
   }
 
+  dimension: checklist_items_with_due_date {
+    label: "Checklist Items with Due Date"
+    description: "Checklist Items with Due Date."
+    type: number
+    sql: ${TABLE}.checklist_items_with_due_date ;;
+  }
+
 
 
   dimension_group: end_at {
@@ -1172,6 +1179,15 @@ view: incident_response_events {
     description: "The sum of Playbook checklists per grouped dimension(s)."
     type: sum
     sql: ${numchecklists} ;;
+    drill_fields: [incidents_drill*]
+  }
+
+  measure: checklist_items_with_due_date_sum {
+    group_label: "Checklist Measures"
+    label: "Checklist Items with Due Date (Sum)"
+    description: "The sum of Playbook checklist items with due date per grouped dimension(s)."
+    type: sum
+    sql: ${checklist_items_with_due_date} ;;
     drill_fields: [incidents_drill*]
   }
 
