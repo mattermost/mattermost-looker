@@ -273,7 +273,7 @@ view: user_events_telemetry {
     description: "Preparing Workspace New Wording"
     group_label: "Feature Flags"
     type: string
-    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',1),':',2)) ;;
+    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',2),':',2)) ;;
     hidden: no
   }
 
