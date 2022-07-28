@@ -245,11 +245,35 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: feature_flags {
+    description: "Feature Flags"
+    group_label: "Feature Flags"
+    type: string
+    sql: ${TABLE}.feature_flags ;;
+    hidden: no
+  }
+
   dimension: password_requirements_cloud_signup {
     description: "Password Requirements (Cloud Signup)"
     group_label: "Feature Flags"
     type: string
     sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',1),':',2)) ;;
+    hidden: no
+  }
+
+  dimension: show_email_on_sso_password_page {
+    description: "Show Email on SSO Password Page"
+    group_label: "Feature Flags"
+    type: string
+    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',1),':',2)) ;;
+    hidden: no
+  }
+
+  dimension: preparing_workspace_new_wording {
+    description: "Preparing Workspace New Wording"
+    group_label: "Feature Flags"
+    type: string
+    sql: TRIM(SPLIT_PART(SPLIT_PART(${TABLE}.feature_flags,',',2),':',2)) ;;
     hidden: no
   }
 
