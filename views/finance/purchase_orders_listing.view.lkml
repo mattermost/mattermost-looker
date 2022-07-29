@@ -2,7 +2,7 @@
 view: purchase_orders_listing {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "FINANCE_ACCRUALIFY"."PURCHASE_ORDERS_LISTING"
+  sql_table_name: "FINANCE_ACCRUALIFY"."POS"
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -42,14 +42,28 @@ view: purchase_orders_listing {
     sql: ${TABLE}."CURRENCY_CODE" ;;
   }
 
-  dimension: days_open {
-    type: string
+  measure: days_open {
+    type: average
+    description: "Average Processing Days to Open PO"
     sql: ${TABLE}."DAYS_OPEN" ;;
   }
 
-  dimension: days_open__de {
-    type: number
-    sql: ${TABLE}."DAYS_OPEN__DE" ;;
+  measure: days_finance {
+    type: average
+    description: "Average Processing Days for Finance to approve after manager approval"
+    sql: ${TABLE}.days_finance ;;
+  }
+
+  measure: days_legal {
+    type: average
+    description: "Average Processing Days for Legal"
+    sql: ${TABLE}.days_legal ;;
+  }
+
+  measure: days_manager {
+    type: average
+    description: "Average Processing Days for Manager to approve after Legal approval"
+    sql: ${TABLE}.days_manager ;;
   }
 
   dimension: debit_entries {
@@ -87,6 +101,11 @@ view: purchase_orders_listing {
     sql: ${TABLE}."FINAL_APPROVAL_DATE"::date ;;
   }
 
+  dimension: finance_approval {
+    type: date
+    sql: ${TABLE}."finance_approval"::date ;;
+  }
+
   measure: functional_amount {
     type: sum
     sql: ${TABLE}."FUNCTIONAL_AMOUNT" ;;
@@ -122,10 +141,23 @@ view: purchase_orders_listing {
     sql: ${TABLE}."LAST_APPROVED_DATE"::date ;;
   }
 
+  dimension: legal_approval {
+    type: date
+    sql: ${TABLE}."legal_approval"::date ;;
+  }
+
+
   dimension: location {
     type: string
     sql: ${TABLE}."LOCATION" ;;
   }
+
+  dimension: manager_approval {
+    type: date
+    sql: ${TABLE}."manager_approval"::date ;;
+  }
+
+
 
   dimension: notes {
     type: string
