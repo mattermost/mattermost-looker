@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Invoicing"
-view: invoicing {
+# The name of this view in Looker is "Invoicingweekly"
+view: invoicingweekly {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "FINANCE_OPS"."INVOICING"
+  sql_table_name: "FINANCE_OPS"."INVOICINGWEEKLY"
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -12,12 +12,8 @@ view: invoicing {
   # This dimension will be called " Sdc Row" in Explore.
 
 
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-
-
-  dimension: amount {
+  dimension: AMOUNT {
     type: number
     value_format: "$#,##0"
     sql: ${TABLE}."AMOUNT"::number ;;
@@ -27,37 +23,36 @@ view: invoicing {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_amount {
+  measure: TOTAL_AMT {
     type: sum
     value_format: "$#,##0"
-    sql: ${amount}::number ;;
+    sql: ${AMOUNT}::number ;;
   }
 
-  dimension: fs_category {
+  dimension: FS_CATEGORY {
     type: string
     sql: ${TABLE}."FS_CATEGORY" ;;
   }
 
-  measure: total_invoiced {
-    type: sum
-    value_format: "$#,##0"
-    sql: iff(${fs_category} in ('Invoice - Self Serve','Invoice - Self Managed'),${TABLE}."AMOUNT"::number,0) ;;
+  dimension: WEEK_ENDED {
+    type: date
+    sql: ${TABLE}."FS_WEEK_ENDED"::date ;;
   }
 
-  dimension: fy_month {
-    label: "Reporting Month"
+  dimension: WEEK_NO {
+    type: number
+    sql: week(${WEEK_ENDED}) ;;
+  }
+
+  dimension: MONTH {
     type: date
     sql: ${TABLE}."FY_MONTH"::date ;;
   }
 
   dimension: FY_YEAR {
-    label: "Fiscal Year"
     type: number
+    value_format: "0"
     sql: date_part(year,${TABLE}."FY_YEAR"::date) ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
 }

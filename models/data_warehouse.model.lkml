@@ -4148,10 +4148,17 @@ explore: purchase_orders_listing {
 }
 
 explore: invoicing {
-  label: "Revenue Billing"
+  label: "Monthly Revenue Billing"
   group_label: " Finance"
   hidden: no
 }
+
+explore: invoicingweekly {
+  label: "Weekly Revenue Billing"
+  group_label: " Finance"
+  hidden: no
+}
+
 
 explore: invoices {
   hidden: no
