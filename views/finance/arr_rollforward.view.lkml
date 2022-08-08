@@ -23,24 +23,31 @@ view: arr_rollforward {
     sql: ${TABLE}."COHORT_FISCAL_YEAR" ;;
   }
 
+  dimension: account_id {
+    description: "SFID at account level"
+    primary_key: yes
+    type: string
+    sql: ${TABLE}."ACCOUNT_ID" ;;
+  }
+
   dimension: report_month {
     description: "Financial month for transactions"
     type: date
-    drill_fields: [account_name,account_owner,tier,cohort,geo,industry]
+    drill_fields: [account_name,account_id, account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."REPORT_MONTH" ;;
   }
 
   dimension: fiscal_quarter {
     description: "Financial quarter for transactions"
     type: date
-    drill_fields: [account_name,account_owner,tier,cohort,geo,industry]
+    drill_fields: [account_name,account_id, account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_QUARTER" ;;
   }
 
   dimension: fiscal_year {
     description: "Financial year for transactions"
     type: date
-    drill_fields: [fiscal_quarter, report_month,account_name,account_owner,tier,cohort,geo,industry]
+    drill_fields: [fiscal_quarter, report_month,account_name,account_id, account_owner,tier,cohort,geo,industry]
     sql: ${TABLE}."FISCAL_YEAR" ;;
   }
 
@@ -68,12 +75,7 @@ view: arr_rollforward {
     sql: ${TABLE}."INDUSTRY" ;;
   }
 
-  dimension: account_id {
-    description: "SFID at account level"
-    primary_key: yes
-    type: string
-    sql: ${TABLE}."ACCOUNT_ID" ;;
-  }
+
 
   dimension: tier {
     type: string
