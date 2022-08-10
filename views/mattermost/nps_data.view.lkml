@@ -8,6 +8,15 @@ view: nps_data {
     hidden: yes
   }
 
+  dimension: version_support_flag {
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} LIKE '%Cloud%' THEN 'Supported'
+        WHEN ${license_server_fact.edition} NOT LIKE '%Cloud%'
+        AND ${nps_data.response_date} BETWEEN ${version_release_dt.lifecycle_start_date} AND ${version_release_dt.lifecycle_end_date} THEN 'Supported'
+        ELSE 'Not Supported' END ;;
+  }
+
+
   dimension_group: response {
     type: time
     timeframes: [

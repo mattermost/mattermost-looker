@@ -1960,7 +1960,18 @@ explore: nps_data {
   group_label: " Product: Messaging"
   description: "Contains raw NPS data. Typically you will want to use 'NPS User Monthly Score' instead of this, which contains a structured version of this data that allows you to trend the aggregate NPS score, not just the score at time of submission."
   extends: [_base_account_core_explore]
-  hidden: yes
+  hidden: no
+
+  join: version_release_dt {
+    sql_on: split_part(${nps_data.server_version}, '.', 1) || '.' || split_part(${nps_data.server_version}, '.', 2) = ${version_release_dt.version}  ;;
+    relationship: many_to_one
+  }
+
+  join: license_server_fact {
+    sql_on: ${nps_data.server_id} = ${license_server_fact.server_id}  ;;
+    relationship: many_to_many
+    fields: [license_server_fact.edition, license_server_fact.server_id]
+  }
 
   join: license_overview {
     sql_on: ${nps_data.license_id} = ${license_overview.licenseid}  ;;
