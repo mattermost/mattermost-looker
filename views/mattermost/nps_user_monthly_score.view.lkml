@@ -7,6 +7,14 @@ view: nps_user_monthly_score {
     fields: [last_score_date, server_id, user_id, server_version, license_sku, promoter_type,  score, feedback, last_feedback_date, user_age, server_age]
   }
 
+  dimension: version_support_flag {
+    type: string
+    sql: CASE WHEN ${license_server_fact.edition} LIKE '%Cloud%' THEN 'Supported'
+        WHEN ${license_server_fact.edition} NOT LIKE '%Cloud%'
+        AND COALESCE(${nps_user_monthly_score.last_feedback_date},${nps_user_monthly_score.last_score_date}) BETWEEN ${version_release_dt.lifecycle_start_date} AND ${version_release_dt.lifecycle_end_date} THEN 'Supported'
+        ELSE 'Not Supported' END ;;
+  }
+
   # FILTERS
   dimension: last_day_of_month {
     type: yesno

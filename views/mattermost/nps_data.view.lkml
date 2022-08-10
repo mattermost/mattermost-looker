@@ -125,6 +125,12 @@ view: nps_data {
     sql: ${user_id} ;;
   }
 
+  measure: count_servers {
+    group_label: "Servers"
+    type: count_distinct
+    sql: ${server_id} ;;
+  }
+
   measure: count_promoters {
     group_label: "Users"
     filters: {
