@@ -104,6 +104,19 @@ view: nps_user_monthly_score {
     order_by_field: server_version_major_sort
   }
 
+  dimension: server_version_major_consolidated {
+    description: "The Mattermost server version (major) associated with the user's server at the point in time that they submitted the NPS response."
+    type: string
+    sql: CASE WHEN ${cloud_server} THEN 'Cloud'
+        WHEN SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' ||
+          split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)
+          IN ('5.12','5.13','5.14','5.15','5.16','5.17','5.18','5.19','5.20','5.21','5.22','5.23','5.24','5.25','5.26','5.27','5.28','5.29','5.30','5.31',
+          '5.32','5.33','5.34','5.35','5.36','5.37','5.38','5.39','5.40') THEN '< 6.0'
+          ELSE SPLIT_PART(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) || '.' ||
+          split_part(regexp_substr(${TABLE}.server_version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
+    hidden: no
+  }
+
   dimension: server_version_major_sort {
     group_label: " Server Versions"
     label: "  Server Version: Major (Current)"
