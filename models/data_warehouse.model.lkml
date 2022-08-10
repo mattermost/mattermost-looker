@@ -2218,6 +2218,11 @@ explore: nps_user_monthly_score {
     filters: [21days_since_release: "yes"]
   }
 
+  join: version_release_dt {
+    sql_on: split_part(${nps_user_monthly_score.server_version}, '.', 1) || '.' || split_part(${nps_user_monthly_score.server_version}, '.', 2) = ${version_release_dt.version}  ;;
+    relationship: many_to_one
+  }
+
   join: nps_feedback_classification {
     view_label: "NPS User Daily Score"
     sql_on: ${nps_feedback_classification.user_id} = ${nps_user_monthly_score.user_id}
