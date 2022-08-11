@@ -4106,9 +4106,18 @@ explore: arr_report {
 
 explore: arr_transactions {
   label: " ARR Transactions"
+  description: "For Reporting Active Outstanding ARR"
   group_label: " Finance"
   hidden: no
 }
+
+explore: arr_reporting {
+  label: " ARR Reporting"
+  group_label: " Finance"
+  description: "For Reporting ARR Activity"
+  hidden: no
+}
+
 
 explore: arr_balance_trend {
   label: " ARR Balance Trend"
