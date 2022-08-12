@@ -1,6 +1,7 @@
 # The name of this view in Looker is "Arr Transactions"
 view: arr_transactions {
   sql_table_name: "FINANCE"."ARR_TRANSACTIONS"
+  description: "Opportunity transactions that closed and expired"
 
     ;;
 
