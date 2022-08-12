@@ -63,7 +63,7 @@ view: arr_reporting {
     sql: ${TABLE}."ACTIVE_CUSTOMERS" ;;
   }
 
-  measure: arr {
+  measure: opportunity_arr {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Opportunity ARR closed won during the period"
@@ -74,6 +74,7 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "The net change in ARR during the period"
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."ARR_DELTA" ;;
   }
 
@@ -95,8 +96,15 @@ view: arr_reporting {
     type: sum
     description: "When a renewal did not happen during the month expiry occurred"
     value_format: "$#,##0;($#,##0)"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,churned]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."CHURNED" ;;
+  }
+
+  measure: churned_avg {
+    type:  number
+    description: "Average churn value"
+    value_format: "$#,##0;($#,##0)"
+    sql: div0(${churned},${cnt_churned}) ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -175,7 +183,6 @@ view: arr_reporting {
     type: date_month
     datatype: date
     description: "Fiscal Quarter Account ID first started as a paying customer"
-    drill_fields: [cohort_month,account_name,account_id]
     sql: ${TABLE}."COHORT_FISCAL_QTR" ;;
   }
 
@@ -183,14 +190,12 @@ view: arr_reporting {
     type: date_month
     description: "Fiscal Year Account ID first started as a paying customer"
     datatype: date
-    drill_fields: [cohort_fiscal_qtr,account_name,account_id]
     sql: ${TABLE}."COHORT_FISCAL_YR" ;;
   }
 
   dimension: cohort_month {
     type: date_month
     datatype: date
-    drill_fields: [account_name,account_id]
     sql: ${TABLE}."COHORT_MONTH" ;;
   }
 
@@ -208,8 +213,15 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Account ID contraction in ARR value"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,contracted]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."CONTRACTED" ;;
+  }
+
+  measure: contracted_avg {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    description: "Average contraction value"
+    sql: div0(${contracted},${cnt_contracted}) ;;
   }
 
   dimension: country {
@@ -222,28 +234,42 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Account ID expansion in ARR value"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,expanded]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."EXPANDED" ;;
+  }
+
+  measure: expanded_avg {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    description: "Average expansion value"
+    sql: div0(${expanded},${cnt_expanded}) ;;
   }
 
   measure: expired {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Account ID expansion in ARR value"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,expired]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."EXPIRE" ;;
+  }
+
+  measure: expired_avg {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    description: "Average expired amount"
+    sql: div0(${expired},${cnt_expired}) ;;
   }
 
   dimension: fiscal_month_no {
     type: number
-    drill_fields: [account_name,account_id]
+    description: "Fiscal months after account id joined"
     sql: ${TABLE}."FISCAL_MONTH_NO" ;;
   }
 
   dimension: fiscal_qtr {
     type: date_month
     description: "Fiscal quarter the closed won opportunity falls under"
-    drill_fields: [report_mo,account_name,account_id,account_owner,tier,geo,industry]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     datatype: date
     sql: ${TABLE}."FISCAL_QTR" ;;
   }
@@ -251,7 +277,6 @@ view: arr_reporting {
   dimension: fiscal_quarter_no {
     type: number
     description: "No of fiscal quarters since account id joined"
-    drill_fields: [account_name,account_id]
     sql: ${TABLE}."FISCAL_QUARTER_NO" ;;
   }
 
@@ -265,7 +290,7 @@ view: arr_reporting {
     type: date_month
     description: "Fiscal Yr of the reporting period"
     datatype: date
-    drill_fields: [fiscal_qtr,report_mo,account_name,account_id,account_owner,tier,geo,industry]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."FISCAL_YR" ;;
   }
 
@@ -306,8 +331,15 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "New Account ID ARR"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,new]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."NEW" ;;
+  }
+
+  measure: new_avg {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    description: "Total New / Total New Count"
+    sql: div0(${new}${cnt_new}) ;;
   }
 
   dimension: opportunity_description {
@@ -348,20 +380,21 @@ view: arr_reporting {
     description: "For opportunity closed won, this is the later of close month or license start month.  For expired licenses this is the expiry month"
     convert_tz: no
     datatype: date
-    drill_fields: [account_name,account_id,account_owner,tier,cohort_month,geo,industry]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."REPORT_MO" ;;
   }
 
   dimension: report_wk {
     type: date
     datatype: date
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."REPORT_WK" ;;
   }
 
   measure: renewed {
     type: sum
     value_format: "$#,##0;($#,##0)"
-    drill_fields: [account_name,account_id,account_owner,geo,industry,renewed]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."ARR_RENEWED" ;;
   }
 
@@ -369,6 +402,7 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Account IDs rengaging with Mattermost"
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."RESURRECTED" ;;
   }
 
@@ -376,6 +410,7 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Total contract value signed with account id during the period"
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."TCV" ;;
   }
 
@@ -417,6 +452,7 @@ view: arr_reporting {
 
   measure: yr1_billing {
     type: sum
+    value_format: "$#,##0;($#,##0)"
     description: "Forecasted year 1 billing for opportunity closed won based on 1 year value or actual TCV if less than a year"
     sql: ${TABLE}."YR1_BILLING" ;;
   }
