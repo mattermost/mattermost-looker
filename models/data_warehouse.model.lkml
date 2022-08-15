@@ -4114,12 +4114,6 @@ explore: arr_rollforward {
   hidden: no
 }
 
-explore: arr_report {
-  label: " ARR Report"
-  group_label: " Finance"
-  hidden: no
-}
-
 explore: arr_transactions {
   label: " ARR Transactions"
   description: "For Reporting Active Outstanding ARR"

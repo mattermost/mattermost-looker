@@ -1,243 +1,225 @@
 # The name of this view in Looker is "Arr Transactions"
 view: arr_transactions {
   sql_table_name: "FINANCE"."ARR_TRANSACTIONS"
-  description: "Opportunity transactions that closed and expired"
-
     ;;
 
+dimension: unique_key {
+  primary_key: yes
+  type: string
+  description: "Unique identifier of an arr transaction"
+  sql: ${TABLE}."UNIQUE_KEY" ;;
+}
 
-  # Dates and timestamps
+dimension: parent_name {
+  description: "Parent name of a child account"
+  type: string
+  hidden: yes
+  sql: ${TABLE}."PARENT_NAME" ;;
+}
 
+dimension: parent {
+  description: "Parent name of child account"
+  type: string
+  sql: split_part(${parent_name},'-',1) ;;
+}
 
-  dimension_group: report_month {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+dimension: parent_id {
+  description: "Parent ID of parent account name"
+  type: string
+  sql: ${TABLE}."PARENT_ID" ;;
+}
+
+dimension: account_name {
+  description: "Account name of child account"
+  type: string
+  sql: ${TABLE}."ACCOUNT_NAME" ;;
+}
+
+dimension: account_id {
+  description: "Account id of child account"
+  type: string
+  sql: ${TABLE}."ACCOUNT_ID" ;;
+}
+
+dimension: opportunity_id {
+  type: string
+  description: "Opportunity SFID of closed won ARR"
+  hidden: yes
+  sql: ${TABLE}."OPPORTUNITY_ID";;
+}
+
+dimension: opportunity_sfid {
+  type: string
+  description: "Opportunity SFID"
+  sql: iff(${opportunity_id} is null,'Expiry',${opportunity_id}) ;;
+}
+
+dimension: product {
+  type: string
+  sql: ${TABLE}."PRODUCT";;
+}
+
+dimension: plan {
+  type: string
+  hidden: yes
+  sql: ${TABLE}."PLAN" ;;
+}
+
+dimension: plan_type {
+  type: string
+  sql: upper(${plan}) ;;
+}
+
+dimension: fiscal_yr {
+  type: date_month
+  datatype: date
+  sql: ${TABLE}."FISCAL_YEAR" ;;
+}
+
+dimension: fiscal_qtr {
+  type: date_month
+  datatype: date
+  sql:${TABLE}."FISCAL_QUARTER"  ;;
+}
+
+dimension: report_mo {
+  type: date
+  datatype: date
+  sql: ${TABLE}."REPORT_MONTH" ;;
+}
+
+  dimension: report_date {
+    type: date
     datatype: date
-    sql: ${TABLE}."REPORT_MONTH" ;;
+    sql: ${TABLE}."REPORT_DATE" ;;
   }
 
-
-  dimension_group: account_start {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+  dimension: report_wk {
+    type: date
     datatype: date
-    sql: ${TABLE}."ACCOUNT_START" ;;
+    sql: ${TABLE}."REPORT_WEEK" ;;
   }
 
-  dimension_group: closing {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+  dimension: report_day {
+    type: date
+    datatype: date
+    sql: ${TABLE}."REPORT_DATE" ;;
+  }
+
+  dimension: closing_date {
+    type: date
     datatype: date
     sql: ${TABLE}."CLOSING_DATE" ;;
   }
 
-  dimension_group: license_end {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."LICENSE_END_DATE" ;;
-  }
-
-  dimension_group: license_start {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+  dimension: license_start {
+    type: date
     datatype: date
     sql: ${TABLE}."LICENSE_START_DATE" ;;
   }
 
-  dimension_group: max_license {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
+  dimension: license_end {
+    type: date
     datatype: date
-    sql: ${TABLE}."MAX_LICENSE" ;;
+    sql: ${TABLE}."LICENSE_END_DATE" ;;
   }
 
-
-
-# dimensions
-
-  dimension: account_id {
-    primary_key:yes
+  dimension: new_logo {
     type: string
-    sql: ${TABLE}."ACCOUNT_ID" ;;
+    sql: ${TABLE}."NEWLOGO" ;;
   }
 
-  dimension: account_name {
-    type: string
-    sql: ${TABLE}."ACCOUNT_NAME" ;;
-  }
-
-  dimension: account_owner {
-    type: string
-    sql: ${TABLE}."ACCOUNT_OWNER" ;;
-  }
-
-  dimension: opportunity_id {
-    type: string
-    sql: ${TABLE}."OPPORTUNITY_ID" ;;
-  }
-
-  dimension: parent_id {
-    type: string
-    sql: ${TABLE}."PARENT_ID" ;;
-  }
-
-  dimension: parent_name {
-    type: string
-    sql: ${TABLE}."PARENT_NAME" ;;
-  }
-
-  dimension: accountsource {
-    type: string
-    sql: ${TABLE}."ACCOUNTSOURCE" ;;
-  }
-
-  dimension: arr_change {
+  dimension: trans_no {
+    description: "Transaction sequence by account id based on report_month and closing date"
     type: number
-    value_format: "$#,##0"
-    description: "Per opportunity id the net delta in ARR"
-    sql: ${TABLE}."ARR_CHANGE" ;;
+    sql: ${TABLE}."TRANS_NO" ;;
   }
 
-  dimension: billing_amt {
+  dimension: opp_type {
+    description: "Opportunity type as described on salesforce"
+    type: string
+    sql: ${TABLE}."OPP_TYPE" ;;
+  }
+
+  dimension: term_months {
+    description: "Term length of license"
     type: number
-    value_format: "$#,##0"
+    sql: ${TABLE}."TERM_MONTHS" ;;
+  }
+
+  measure: tcv {
+    description: "Total Contract Value won and signed"
+    type: sum
     sql: ${TABLE}."BILLING_AMT" ;;
   }
 
+  measure: 1st_yr_bill {
+    description: "Estimated billing amount of 1st year"
+    type: sum
+    sql:  ${TABLE}."FIRST_YR_BILL" ;;
+  }
 
+  measure: opportunity_arr {
+    description: "ARR component of TCV"
+    type: sum
+    sql:  ${TABLE}."OPPORTUNITY_ARR" ;;
+  }
+
+  measure: expire_arr {
+    description: "ARR expired on license end date + 1"
+    type: sum
+    sql:  ${TABLE}."EXPIRE_ARR" ;;
+  }
+
+  measure: renew_arr {
+    description: "ARR renewed"
+    type: sum
+    sql:  ${TABLE}."RENEW_ARR" ;;
+  }
+
+  measure: arr_change {
+    description: "ARR delta as a result of the transaction.  Equal to New ARR less Expiry. Cumulative sum is outstanding ARR"
+    type: sum
+    sql:  ${TABLE}."ARR_CHANGE" ;;
+  }
+
+  dimension: ending_arr {
+    description: "Ending ARR of an account id for the period "
+    type: number
+    sql:  ${TABLE}."ENDING_ARR" ;;
+  }
+
+  measure: new_arr {
+    description: "New ARR signed for an account id for the period "
+    hidden: yes
+    type: sum
+    sql:  ${TABLE}."NEW_ARR" ;;
+  }
+
+  dimension: description {
+    description: "SFDC opportunity description"
+    type: string
+    sql: ${TABLE}."DESCRIPTION" ;;
+  }
+
+  dimension: government {
+    type: string
+    sql: ${TABLE}."GOVERNMENT" ;;
+  }
+
+  dimension: tier {
+    type: string
+    sql: ${TABLE}."CUSTOMER_TIER" ;;
+  }
 
   dimension: company_type {
     type: string
     sql: ${TABLE}."COMPANY_TYPE" ;;
   }
 
-  dimension: account_expansion {
-    type:  number
-    value_format: "$#,##0"
-    sql:  ${TABLE}."ACCOUNT_EXPANSION" ;;
-  }
-
-  dimension: contract_expansion {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."CONTRACT_EXPANSION" ;;
-  }
-
-  dimension: cosize {
+  dimension: co_size {
     type: string
     sql: ${TABLE}."COSIZE" ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}."COUNTRY" ;;
-  }
-
-  dimension: current_seats {
-    type: number
-    sql: ${TABLE}."CURRENT_SEATS" ;;
-  }
-
-  dimension: customer_tier {
-    type: string
-    sql: ${TABLE}."CUSTOMER_TIER" ;;
-  }
-
-  dimension_group: date_refreshed {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."DATE_REFRESHED" ;;
-  }
-
-  dimension: description {
-    type: string
-    sql: ${TABLE}."DESCRIPTION" ;;
-  }
-
-  dimension: ending_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."ENDING_ARR" ;;
-  }
-
-  dimension: expire_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."EXPIRE_ARR" ;;
-  }
-
-  dimension: geo {
-    type: string
-    sql: ${TABLE}."GEO" ;;
-  }
-
-  dimension: government {
-    type: yesno
-    sql: ${TABLE}."GOVERNMENT" ;;
-  }
-
-  dimension: health_score {
-    type: number
-    sql: ${TABLE}."HEALTH_SCORE" ;;
   }
 
   dimension: industry {
@@ -245,151 +227,53 @@ view: arr_transactions {
     sql: ${TABLE}."INDUSTRY" ;;
   }
 
-  dimension: is_won {
-    type: yesno
-    sql: ${TABLE}."IS_WON" ;;
-  }
-
-  dimension: license_active_calc {
-    type: yesno
-    sql: ${TABLE}."LICENSE_ACTIVE_CALC" ;;
-  }
-
-  dimension: license_activesf {
-    type: yesno
-    sql: ${TABLE}."LICENSE_ACTIVESF" ;;
-  }
-
-
-  dimension: new_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."NEW_ARR" ;;
-  }
-
-  dimension: opp_type {
+  dimension: geo {
     type: string
-    sql: ${TABLE}."OPP_TYPE" ;;
+    sql: ${TABLE}."GEO";;
   }
 
-  dimension: opportunity_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."OPPORTUNITY_ARR" ;;
-  }
-
-
-
-  dimension: reduction_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."REDUCTION_ARR" ;;
-  }
-
-  dimension: renew_arr {
-    type: number
-    value_format: "$#,##0"
-    sql: ${TABLE}."RENEW_ARR" ;;
-  }
-
-
-
-  dimension: status_aligned {
-    type: yesno
-    sql: ${TABLE}."STATUS_ALIGNED" ;;
-  }
-
-  dimension: tenure_yr {
-    type: number
-    sql: ${TABLE}."TENURE_YR" ;;
-  }
-
-  dimension: term_months {
-    type: number
-    sql: ${TABLE}."TERM_MONTHS" ;;
-  }
-
-  dimension: trans_no {
-    type: number
-    sql: ${TABLE}."TRANS_NO" ;;
-  }
-
-  dimension: type {
+  dimension: country {
     type: string
-    sql: ${TABLE}."TYPE" ;;
+    sql: ${TABLE}."COUNTRY" ;;
   }
 
-
-
-  # measures
-
-
-  measure: average_active_arr {
-    type: average
-    sql: ${TABLE}."ACTIVE_ARR" ;;
+  dimension: health_score {
+    type: string
+    sql: ${TABLE}."HEALTH_SCORE" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [account_name, parent_name]
+  dimension: account_owner {
+    type: string
+    sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
 
-  measure: arr_ending {
-    type: sum
-    value_format: "$#,##0"
-    description: "Cumulative ARR change during the period selected"
-    sql: ${arr_change} ;;
-    drill_fields: [account_name, parent_name]
+  dimension: opportunity_owner {
+    type: string
+    sql: ${TABLE}."OPPORTUNITY_OWNER" ;;
   }
 
-  measure: tcv_signed  {
-    type:  sum
-    description: "TCV signed during the period"
-    value_format: "$#,##0"
-    sql: ${billing_amt} ;;
+  dimension: account_start {
+    type: date_month
+    description: "Month Year the account id started as a paying customer of Mattermost"
+    datatype: date
+    sql: ${TABLE}."ACCOUNT_START" ;;
   }
 
-  measure: arr_signed {
-    type: sum
-    description: "ARR signed during the period which is calculated from TCV on a 365 day basis"
-    value_format: "$#,##0"
-    sql: ${opportunity_arr} ;;
+  dimension: max_license {
+    type: date_month
+    datatype: date
+    description: "Maximum license end date account id has signed up for"
+    sql: ${TABLE}."MAX_LICENSE" ;;
   }
 
-  measure: lifetime_billed {
-    type: sum
-    value_format: "$#,##0"
-    sql: ${billing_amt} ;;
-    drill_fields: [account_name, parent_name]
+  dimension: beg_tenure_yr {
+    type: number
+    description: "Tenure yr account id has with Mattermost based on license start date"
+    sql: ${TABLE}."BEG_TENURE_YR" ;;
   }
-
-  measure: years_tenure {
-    type: max
-    sql: ${tenure_yr} ;;
-    drill_fields: [account_name, parent_name]
-  }
-
-  measure: health_sc {
-    type: average
-    sql: ${health_score} ;;
-    drill_fields: [account_name, parent_name]
-  }
-
-  measure: newly_signed_arr {
-    type: sum
-    value_format: "$#,##0"
-    sql: ${new_arr} ;;
-  }
-
-  measure: expired_arr {
-    type: sum
-    value_format: "$#,##0"
-    sql: ${expire_arr};;
-  }
-
-  measure: renewed_arr {
-    type: sum
-    value_format: "$#,##0"
-    sql: ${renew_arr} ;;
+  dimension: end_tenure_yr {
+    type: number
+    description: "Tenure yr account id has with Mattermost based on license end date"
+    sql: ${TABLE}."END_TENURE_YR" ;;
   }
 }

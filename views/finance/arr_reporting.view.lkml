@@ -101,10 +101,10 @@ view: arr_reporting {
   }
 
   measure: churned_avg {
-    type:  number
+    type:  average
     description: "Average churn value"
     value_format: "$#,##0;($#,##0)"
-    sql: div0(${churned},${cnt_churned}) ;;
+    sql: ${TABLE}."CHURNED" ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -218,10 +218,10 @@ view: arr_reporting {
   }
 
   measure: contracted_avg {
-    type: number
+    type: average
     value_format: "$#,##0;($#,##0)"
     description: "Average contraction value"
-    sql: div0(${contracted},${cnt_contracted}) ;;
+    sql: ${TABLE}."CONTRACTED" ;;
   }
 
   dimension: country {
@@ -239,10 +239,10 @@ view: arr_reporting {
   }
 
   measure: expanded_avg {
-    type: number
+    type: average
     value_format: "$#,##0;($#,##0)"
     description: "Average expansion value"
-    sql: div0(${expanded},${cnt_expanded}) ;;
+    sql: ${TABLE}."EXPANDED" ;;
   }
 
   measure: expired {
@@ -254,10 +254,10 @@ view: arr_reporting {
   }
 
   measure: expired_avg {
-    type: number
+    type: average
     value_format: "$#,##0;($#,##0)"
     description: "Average expired amount"
-    sql: div0(${expired},${cnt_expired}) ;;
+    sql: ${TABLE}."EXPIRE" ;;
   }
 
   dimension: fiscal_month_no {
@@ -336,10 +336,11 @@ view: arr_reporting {
   }
 
   measure: new_avg {
-    type: number
+    type: average
     value_format: "$#,##0;($#,##0)"
-    description: "Total New / Total New Count"
-    sql: div0(${new}${cnt_new}) ;;
+    description: "New Account ID ARR"
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
+    sql: ${TABLE}."NEW" ;;
   }
 
   dimension: opportunity_description {
@@ -398,6 +399,12 @@ view: arr_reporting {
     sql: ${TABLE}."ARR_RENEWED" ;;
   }
 
+  measure: renewed_avg {
+    type: average
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."ARR_RENEWED" ;;
+  }
+
   measure: resurrected {
     type: sum
     value_format: "$#,##0;($#,##0)"
@@ -406,11 +413,23 @@ view: arr_reporting {
     sql: ${TABLE}."RESURRECTED" ;;
   }
 
+  measure: resurrected_avg {
+    type: average
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."RESURRECTED" ;;
+  }
+
   measure: tcv {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Total contract value signed with account id during the period"
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
+    sql: ${TABLE}."TCV" ;;
+  }
+
+  measure: tcv_avg {
+    type: average
+    value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."TCV" ;;
   }
 
@@ -454,6 +473,12 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Forecasted year 1 billing for opportunity closed won based on 1 year value or actual TCV if less than a year"
+    sql: ${TABLE}."YR1_BILLING" ;;
+  }
+
+  measure: yr1_billing_avg {
+    type: average
+    value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."YR1_BILLING" ;;
   }
 
