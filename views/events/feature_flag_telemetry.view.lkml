@@ -264,7 +264,7 @@ view: feature_flag_telemetry {
   dimension: plan_upgrade_button_text {
     label: "Upgrade Button Text"
     type: string
-    sql: ${TABLE}."plan_upgrade_button_text" ;;
+    sql: ${TABLE}."PLAN_UPGRADE_BUTTON_TEXT" ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
