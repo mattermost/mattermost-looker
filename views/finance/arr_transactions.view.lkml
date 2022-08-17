@@ -71,21 +71,18 @@ dimension: plan_type {
 }
 
 dimension: fiscal_yr {
-  type: date_month
-  datatype: date
-  sql: ${TABLE}."FISCAL_YEAR" ;;
+  type: string
+  sql: ${TABLE}."FISCAL_YEAR"::varchar ;;
 }
 
 dimension: fiscal_qtr {
-  type: date_month
-  datatype: date
-  sql:${TABLE}."FISCAL_QUARTER"  ;;
+  type: string
+  sql:${TABLE}."FISCAL_QUARTER"::varchar  ;;
 }
 
 dimension: report_mo {
-  type: date
-  datatype: date
-  sql: ${TABLE}."REPORT_MONTH" ;;
+  type: string
+  sql: ${TABLE}."REPORT_MONTH"::varchar ;;
 }
 
   dimension: report_date {
@@ -95,9 +92,8 @@ dimension: report_mo {
   }
 
   dimension: report_wk {
-    type: date
-    datatype: date
-    sql: ${TABLE}."REPORT_WEEK" ;;
+    type: string
+    sql: ${TABLE}."REPORT_WEEK"::varchar ;;
   }
 
   dimension: report_day {
@@ -126,6 +122,7 @@ dimension: report_mo {
 
   dimension: new_logo {
     type: string
+    description: "New Logo as defined by the first transaction of an account id/child account if part of parent id"
     sql: ${TABLE}."NEWLOGO" ;;
   }
 
@@ -172,7 +169,7 @@ dimension: report_mo {
   }
 
   measure: renew_arr {
-    description: "ARR renewed"
+    description: "ARR renewed but may include expansion or contraction"
     type: sum
     sql:  ${TABLE}."RENEW_ARR" ;;
   }
