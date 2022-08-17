@@ -180,23 +180,20 @@ view: arr_reporting {
   }
 
   dimension: cohort_fiscal_qtr {
-    type: date_month
-    datatype: date
+    type: string
     description: "Fiscal Quarter Account ID first started as a paying customer"
-    sql: ${TABLE}."COHORT_FISCAL_QTR" ;;
+    sql: ${TABLE}."COHORT_FISCAL_QTR"::varchar ;;
   }
 
   dimension: cohort_fiscal_yr {
-    type: date_month
+    type: string
     description: "Fiscal Year Account ID first started as a paying customer"
-    datatype: date
-    sql: ${TABLE}."COHORT_FISCAL_YR" ;;
+    sql: ${TABLE}."COHORT_FISCAL_YR"::varchar ;;
   }
 
   dimension: cohort_month {
-    type: date_month
-    datatype: date
-    sql: ${TABLE}."COHORT_MONTH" ;;
+    type: string
+    sql: ${TABLE}."COHORT_MONTH"::varchar ;;
   }
 
   dimension: company_size {
@@ -267,11 +264,10 @@ view: arr_reporting {
   }
 
   dimension: fiscal_qtr {
-    type: date_month
+    type: string
     description: "Fiscal quarter the closed won opportunity falls under"
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    datatype: date
-    sql: ${TABLE}."FISCAL_QTR" ;;
+    sql: ${TABLE}."FISCAL_QTR"::varchar ;;
   }
 
   dimension: fiscal_quarter_no {
@@ -287,11 +283,10 @@ view: arr_reporting {
   }
 
   dimension: fiscal_yr {
-    type: date_month
+    type: string
     description: "Fiscal Yr of the reporting period"
-    datatype: date
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    sql: ${TABLE}."FISCAL_YR" ;;
+    sql: ${TABLE}."FISCAL_YR"::varchar ;;
   }
 
   dimension: geo {
@@ -377,19 +372,16 @@ view: arr_reporting {
   }
 
   dimension: report_mo {
-    type: date
+    type: string
     description: "For opportunity closed won, this is the later of close month or license start month.  For expired licenses this is the expiry month"
-    convert_tz: no
-    datatype: date
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    sql: ${TABLE}."REPORT_MO" ;;
+    sql: ${TABLE}."REPORT_MO"::varchar ;;
   }
 
   dimension: report_wk {
-    type: date
-    datatype: date
+    type: string
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    sql: ${TABLE}."REPORT_WK" ;;
+    sql: ${TABLE}."REPORT_WK"::varchar ;;
   }
 
   measure: renewed {
