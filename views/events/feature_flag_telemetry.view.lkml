@@ -261,7 +261,7 @@ view: feature_flag_telemetry {
     sql: ${TABLE}."NORMALIZE_LDAP_D_NS" ;;
   }
 
-  dimension: plan_upgrade_buttion_text {
+  dimension: plan_upgrade_button_text {
     label: "Upgrade Button Text"
     type: string
     sql: ${TABLE}."plan_upgrade_button_text" ;;
