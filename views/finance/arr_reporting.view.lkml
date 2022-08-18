@@ -19,6 +19,12 @@ view: arr_reporting {
     sql: ${TABLE}."ABOVE30DAYS_EXPIRED" ;;
   }
 
+  dimension: child_no {
+    description: "Numeric sequence of child account created based on cohort month"
+    type:  number
+    sql: ${TABLE}."CHILD_NO" ;;
+  }
+
   dimension: account_id {
     type: string
     description: "Child Account ID or Parent ID in the absence of child accounts"
@@ -343,8 +349,9 @@ view: arr_reporting {
     sql: ${TABLE}."OPPORTUNITY_DESCRIPTION" ;;
   }
 
-  dimension: parent {
+  dimension: parent_name {
     type: string
+    drill_fields: [account_name,child_no,account_id]
     sql: ${TABLE}."PARENT" ;;
   }
 
