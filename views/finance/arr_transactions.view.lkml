@@ -29,6 +29,12 @@ dimension: parent_id {
   sql: ${TABLE}."PARENT_ID" ;;
 }
 
+dimension: child_no {
+  description: "Numeric sequence of child account created based on cohort month"
+  type:  number
+  sql: ${TABLE}."CHILD_NO" ;;
+}
+
 dimension: account_name {
   description: "Account name of child account"
   type: string
