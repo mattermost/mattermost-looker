@@ -4111,7 +4111,7 @@ explore: focalboard_user_retention {
 explore: arr_rollforward {
   label: " ARR Rollforward"
   group_label: " Finance"
-  hidden: no
+  hidden: yes
 }
 
 explore: arr_transactions {
@@ -4128,11 +4128,18 @@ explore: arr_reporting {
   hidden: no
 }
 
+explore: arr_outstanding {
+  label: " ARR Outstanding as of Report Date "
+  group_label: "Finance"
+  description: "ARR Outstanding at End of Week and Month"
+  hidden:  no
+}
+
 
 explore: arr_balance_trend {
   label: " ARR Balance Trend"
   group_label: " Finance"
-  hidden: no
+  hidden: yes
 }
 
 explore: arr_customertype {
