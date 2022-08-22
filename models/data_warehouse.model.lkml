@@ -4108,12 +4108,6 @@ explore: focalboard_user_retention {
   }
 }
 
-explore: arr_rollforward {
-  label: " ARR Rollforward"
-  group_label: " Finance"
-  hidden: yes
-}
-
 explore: arr_transactions {
   label: " ARR Transactions"
   description: "For Reporting Active Outstanding ARR"
@@ -4136,30 +4130,13 @@ explore: arr_outstanding {
 }
 
 
-explore: arr_balance_trend {
-  label: " ARR Balance Trend"
-  group_label: " Finance"
-  hidden: yes
-}
-
 explore: arr_customertype {
   label: "Customer Deployment Type"
   group_label: " Finance"
   hidden: no
 
-  join: arr_rollforward {
-    view_label: "account activity"
-    type: inner
-    sql_on: ${arr_customertype.account_id} = ${arr_rollforward.account_id};;
-    relationship: one_to_many
-    }
 }
 
-explore: arr_ltv_bins {
-  label: "LTV per ARR average bin"
-  group_label: "Finance"
-  hidden: no
-}
 
 explore: metrics_purchasing {
   label: "Metrics - Purchasing"
