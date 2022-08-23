@@ -4115,6 +4115,16 @@ explore: arr_transactions {
   hidden: no
 }
 
+explore: arr_expiry {
+  label: "ARR Expiry"
+  description: "Historical and Future ARR expiries with associated renewals"
+  group_label: " Finance"
+  hidden: no
+}
+
+
+
+
 explore: arr_reporting {
   label: " ARR Reporting"
   group_label: " Finance"
