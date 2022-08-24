@@ -4122,13 +4122,17 @@ explore: arr_expiry {
   hidden: no
 }
 
-
-
-
 explore: arr_reporting {
   label: " ARR Reporting"
   group_label: " Finance"
   description: "For Reporting ARR Activity"
+  hidden: no
+}
+
+explore: arr_cohort {
+  label: "ARR by Cohort"
+  description: "ARR activity by cohort"
+  group_label: " Finance"
   hidden: no
 }
 
