@@ -23,6 +23,13 @@ view: user_events_telemetry {
     sql: CASE WHEN ${type} = 'LHS_DM_GM_Count' THEN TRUE ELSE FALSE END ;;
   }
 
+  dimension: gaexp {
+    label: "Google Analytics A/B test tag"
+    description: "Google Analytics A/B test tag."
+    type: string
+    sql: ${TABLE}.gaexp ;;
+  }
+
   dimension: admin_team_configuration_event {
     group_label: "Event Type Filter"
     description: "Boolean indicating the event performed was an 'admin_team_config_page' event."
