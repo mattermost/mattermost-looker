@@ -32,7 +32,7 @@ view: version_release_dates {
     description: "Boolean indicating the server version is currently supported. Indicates the support status of the server on the current date (today)."
     type: yesno
     sql: CASE WHEN ${release_date}::date >= CURRENT_DATE - INTERVAL '3 MONTHS' AND ${release_date}::DATE <= CURRENT_DATE THEN TRUE
-              WHEN ${release_date}::date IN ('2021-01-16', '2021-07-16') AND ${release_date}::DATE >= CURRENT_DATE - INTERVAL '9 MONTHS' AND ${release_date}::DATE <= CURRENT_DATE THEN TRUE
+              WHEN ${release_date}::date IN ('2021-01-16', '2021-07-16','2022-01-16', '2022-07-16') AND ${release_date}::DATE >= CURRENT_DATE - INTERVAL '9 MONTHS' AND ${release_date}::DATE <= CURRENT_DATE THEN TRUE
               ELSE FALSE END ;;
     #${TABLE}.supported ;;
     hidden: no
