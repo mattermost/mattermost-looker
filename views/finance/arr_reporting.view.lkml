@@ -393,15 +393,16 @@ view: arr_reporting {
 
   measure: renewed {
     type: sum
+    description: "ARR renewed excluding expansion but reflecting contraction"
     value_format: "$#,##0;($#,##0)"
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    sql: ${TABLE}."ARR_RENEWED" ;;
+    sql: ${TABLE}."RENEWED" ;;
   }
 
   measure: renewed_avg {
     type: average
     value_format: "$#,##0;($#,##0)"
-    sql: ${TABLE}."ARR_RENEWED" ;;
+    sql: ${TABLE}."RENEWED" ;;
   }
 
   measure: resurrected {
