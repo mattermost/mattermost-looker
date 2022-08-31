@@ -4136,6 +4136,20 @@ explore: arr_cohort {
   hidden: no
 }
 
+explore: arr_vintages {
+  label: "ARR Vintages"
+  description: "ARR activity by cohort"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_evolution {
+  label: "ARR Evolution"
+  description: "NDR and Customer Retention over time"
+  group_label: " Finance"
+  hidden: no
+}
+
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
   group_label: "Finance"
