@@ -107,10 +107,10 @@ view: arr_reporting {
   }
 
   measure: churned_avg {
-    type:  average
+    type:  number
     description: "Average churn value"
     value_format: "$#,##0;($#,##0)"
-    sql: ${TABLE}."CHURNED" ;;
+    sql: div0(${churned},${cnt_churned}) ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -221,10 +221,10 @@ view: arr_reporting {
   }
 
   measure: contracted_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
     description: "Average contraction value"
-    sql: ${TABLE}."CONTRACTED" ;;
+    sql: div0(${contracted},${cnt_contracted}) ;;
   }
 
   dimension: country {
@@ -242,10 +242,10 @@ view: arr_reporting {
   }
 
   measure: expanded_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
     description: "Average expansion value"
-    sql: ${TABLE}."EXPANDED" ;;
+    sql: div0(${expanded},${cnt_expanded}) ;;
   }
 
   measure: expired {
@@ -257,10 +257,10 @@ view: arr_reporting {
   }
 
   measure: expired_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
     description: "Average expired amount"
-    sql: ${TABLE}."EXPIRE" ;;
+    sql: div0(${expired},${cnt_expired}) ;;
   }
 
   dimension: fiscal_month_no {
@@ -337,11 +337,11 @@ view: arr_reporting {
   }
 
   measure: new_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
     description: "New Account ID ARR"
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
-    sql: ${TABLE}."NEW" ;;
+    sql: round(div0(${new},${cnt_new}),0) ;;
   }
 
   dimension: opportunity_description {
@@ -400,9 +400,9 @@ view: arr_reporting {
   }
 
   measure: renewed_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
-    sql: ${TABLE}."RENEWED" ;;
+    sql: div0(${renewed},${cnt_renewed}) ;;
   }
 
   measure: resurrected {
@@ -414,9 +414,9 @@ view: arr_reporting {
   }
 
   measure: resurrected_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
-    sql: ${TABLE}."RESURRECTED" ;;
+    sql: div0(${resurrected},${cnt_resurrected}) ;;
   }
 
   measure: tcv {
@@ -428,9 +428,9 @@ view: arr_reporting {
   }
 
   measure: tcv_avg {
-    type: average
+    type: number
     value_format: "$#,##0;($#,##0)"
-    sql: ${TABLE}."TCV" ;;
+    sql: div0(${tcv},${count}) ;;
   }
 
   dimension: term {
