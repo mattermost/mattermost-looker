@@ -4165,6 +4165,12 @@ explore: arr_customertype {
 
 }
 
+explore: fact_ns_billing {
+  label: " Netsuite Billing"
+  group_label: " Finance"
+  description: "For Reporting ARR Activity"
+}
+
 
 explore: metrics_purchasing {
   label: "Metrics - Purchasing"
