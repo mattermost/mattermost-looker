@@ -16,6 +16,11 @@ view: fact_ns_billing {
     sql: ${TABLE}."ACCOUNT_ID" ;;
   }
 
+  measure: account_id_cnt {
+    type: count_distinct
+    sql: ${account_id} ;;
+  }
+
   dimension: companyname {
     type: string
     sql: ${TABLE}."COMPANYNAME" ;;
@@ -122,6 +127,12 @@ view: fact_ns_billing {
     sql: ${TABLE}."INVOICE_ID" ;;
   }
 
+  measure: invoice_cnt {
+    type: number
+    drill_fields: [periodname,invoice_date,product,domain,companyname,account_id,opportunity_id,opportunity_owner,invoice_id,usd_amount]
+    sql:  count(distinct ${invoice_id}) ;;
+  }
+
   dimension: invoice_sent {
     type: string
     sql: ${TABLE}."INVOICE_SENT" ;;
@@ -198,6 +209,11 @@ view: fact_ns_billing {
     sql: ${TABLE}."STRIPE_CHARGE_ID" ;;
   }
 
+  measure: stripe_charge_id_cnt {
+    type: count_distinct
+    sql: ${stripe_charge_id} ;;
+  }
+
   dimension: stripe_inv_id {
     type: string
     sql: ${TABLE}."STRIPE_INV_ID" ;;
@@ -220,20 +236,15 @@ view: fact_ns_billing {
   measure: total_usd_amount {
     type: sum
     value_format: "$#,##0.00"
-    drill_fields: [periodname,product,domain,companyname,account_id,opportunity_id,opportunity_owner,invoice_id,usd_amount]
+    drill_fields: [periodname,invoice_date,product,domain,companyname,account_id,opportunity_id,opportunity_owner,invoice_id,usd_amount]
     sql: ${usd_amount} ;;
   }
 
   measure: average_usd_amount {
-    type: average
+    type: number
     value_format: "$#,##0.00"
-    drill_fields: [periodname,product,domain,companyname,account_id,opportunity_id,opportunity_owner,invoice_id,usd_amount]
-    sql: ${usd_amount} ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [companyname, sfdc_name, periodname, parent_name]
+    drill_fields: [periodname,invoice_date,product,domain,companyname,account_id,opportunity_id,opportunity_owner,invoice_id,usd_amount]
+    sql: div0(${total_usd_amount},${invoice_cnt}) ;;
   }
 
   measure: average_days_open {
