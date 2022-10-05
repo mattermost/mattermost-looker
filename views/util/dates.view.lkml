@@ -9,15 +9,7 @@ view: dates {
 
   dimension_group: date {
     type: time
-    timeframes: [
-      date,
-      week,
-      month,
-      fiscal_quarter,
-      fiscal_year,
-      day_of_year,
-      day_of_month
-    ]
+    timeframes: [raw, date, week, month, fiscal_quarter, fiscal_year, day_of_year, day_of_month]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE" ;;

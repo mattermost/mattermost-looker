@@ -397,8 +397,6 @@ explore: calls_events {
     view_label: "License Server Fact"
     sql_on: ${license_server_fact.server_id} = ${calls_events.user_id};;
     relationship: one_to_many
-    fields: [license_server_fact.customer_name_unlinked, license_server_fact.edition, license_server_fact.max_edition
-      , license_server_fact.license_email, license_server_fact.cloud_customer]
   }
 
   join: server_fact {
@@ -423,6 +421,13 @@ explore: calls_events {
     from: dates
     sql_on: ${calls_events.timestamp_date}::date <= ${dates.date_date}::date AND ${calls_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
     relationship: many_to_one
+    fields: []
+  }
+
+  join: trial_requests {
+    sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
+    relationship: many_to_one
+    type: left_outer
     fields: []
   }
 }
@@ -3905,53 +3910,6 @@ explore: mattermost_docs_feedback {
   label: "Mattermost Docs Feedback"
   group_label: " Website Telemetry"
   hidden: no
-}
-
-
-
-explore: focalboard_event_telemetry {
-  label: "User Events Telemetry (Boards)"
-  view_label: "User Events Telemetry (Boards)"
-  group_label: " Product: Boards"
-  hidden: no
-
-  join: dates {
-    sql_on: ${focalboard_event_telemetry.timestamp_date}::date <= ${dates.date_date}::date and ${focalboard_event_telemetry.timestamp_date}::date >= ${dates.date_date}::date - interval '30 days' AND ${dates.date_date}::date <= CURRENT_DATE ;;
-    type: left_outer
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: license_server_fact {
-    view_label: "User Events Telemetry (Boards)"
-    sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
-    relationship: one_to_many
-    fields: [license_server_fact.customer_name_unlinked]
-  }
-
-  join: server_daily_details {
-    view_label: "User Events Telemetry (Boards)"
-    sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
-      AND ${focalboard_event_telemetry.timestamp_date}::date = ${server_daily_details.logging_date}::date ;;
-    relationship: many_to_one
-    fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
-  }
-
-  join: server_fact {
-    view_label: "User Events Telemetry (Boards)"
-    sql_on: TRIM(${focalboard_event_telemetry.user_id}) = TRIM(${server_fact.server_id}) ;;
-    relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
-  }
-
-  join: account {
-    view_label: "Salesforce Account"
-    sql_on: ${license_server_fact.account_sfid} = ${account.sfid}
-    AND ${license_server_fact.server_id} = ${server_daily_details.server_id}
-    AND ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id};;
-    relationship: many_to_one
-    fields: [account.name, account.sfid, account.total_current_arr]
-  }
 }
 
 
