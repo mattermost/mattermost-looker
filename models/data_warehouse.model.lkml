@@ -2155,7 +2155,7 @@ explore: server_fact {
 
   join: account {
     view_label: "Account (Salesforce)"
-    sql_on: ${license_server_fact.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_many
     fields: [account.account_owner]
   }
