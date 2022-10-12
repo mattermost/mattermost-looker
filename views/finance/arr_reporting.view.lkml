@@ -100,10 +100,29 @@ view: arr_reporting {
 
   measure: churned {
     type: sum
-    description: "When a renewal did not happen during the month expiry occurred"
+    description: "Gross churn before late renewals.  When a renewal did not happen during the month expiry occurred"
     value_format: "$#,##0;($#,##0)"
     drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     sql: ${TABLE}."CHURNED" ;;
+  }
+
+  measure: net_churned {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    description: "Gross churned less late renewals"
+    sql:${churned}-${late_renewal} ;;
+  }
+
+  measure: new_booking {
+    type:  number
+    description: "Gross Booking - On Time Renewals - Late Renewals"
+    sql: ${tcv}-coalesce(${renewed},0)-coalesce(${late_renewal},0) ;;
+  }
+
+  measure: net_new_booking {
+    type: number
+    description: "Gross Booking - On Time Renewals - Late Renewals - Churn"
+    sql: ${tcv}-${renewed}-${late_renewal}+${churned} ;;
   }
 
   measure: churned_avg {
@@ -122,12 +141,18 @@ view: arr_reporting {
     sql: ${TABLE}."CLOSE_DAY" ;;
   }
 
-  measure: cnt_above30_expired {
-    type: sum
-    value_format: "#,##0"
-    description: "Count of account id expiries that aged more than 30 days without renewal"
-    sql: ${TABLE}."CNT_ABOVE30_EXPIRED" ;;
+  dimension: close_date {
+      type: date
+      datatype: date
+      sql: ${TABLE}."CLOSE_DAY" ;;
   }
+
+  measure: closing_delay {
+      type: average
+      description: "Renewal closing date less license start date"
+      sql: ${TABLE}."CLOSING_DELAY" ;;
+  }
+
 
   measure: cnt_changed {
     type: sum
@@ -139,8 +164,15 @@ view: arr_reporting {
   measure: cnt_churned {
     type: sum
     value_format: "#,##0;(#,##0)"
-    description: "Account ID expiries that resulted to zero ending ARR balance during the period"
+    description: "Gross churn before late renewals. Account ID expiries that resulted to zero ending ARR balance during the period"
     sql: ${TABLE}."CNT_CHURNED" ;;
+  }
+
+  measure: cnt_net_churned {
+    type: number
+    value_format: "#,##0;(#,##0)"
+    description: "Gross churn less late renewal"
+    sql: ${cnt_churned}-${cnt_late_renewal} ;;
   }
 
   measure: cnt_contracted {
@@ -162,6 +194,13 @@ view: arr_reporting {
     value_format: "#,##0;(#,##0)"
     description: "Count of account ids that had license end date + 1 during the period "
     sql: ${TABLE}."CNT_EXPIRED" ;;
+  }
+
+  measure: cnt_late_renewal {
+    type: sum
+    value_format: "#,##0;(#,##0)"
+    description: "Count of renewals that closed after license start date"
+    sql: ${TABLE}."CNT_LATE_RENEWAL" ;;
   }
 
   measure: cnt_new {
@@ -305,6 +344,12 @@ view: arr_reporting {
     sql: ${TABLE}."GOVERNMENT" ;;
   }
 
+  measure: gross_booking {
+    type: sum
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."TCV" ;;
+  }
+
   dimension: health_score {
     type: number
     sql: ${TABLE}."HEALTH_SCORE" ;;
@@ -314,6 +359,22 @@ view: arr_reporting {
     type: string
     sql: ${TABLE}."INDUSTRY" ;;
   }
+
+  measure: late_renewal {
+    type: sum
+    value_format: "$#,##0;($#,##0)"
+    description: "Value of renewals closed <= 90 days after license start date excluding expansion and contraction"
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
+    sql: ${TABLE}."LATE_RENEWAL" ;;
+  }
+
+  measure: late_renewal_avg {
+    type:  number
+    description: "Average late renewals"
+    value_format: "$#,##0;($#,##0)"
+    sql: div0(${late_renewal},${cnt_late_renewal}) ;;
+  }
+
 
   dimension: license_beg {
     type: date
@@ -326,6 +387,13 @@ view: arr_reporting {
     type: date
     datatype: date
     sql: ${TABLE}."LICENSE_END" ;;
+  }
+
+  measure: multi_yr {
+    type: sum
+    description: "Net bookings for term > 12 months.  Negative for < 12 months"
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."MULTI_YR" ;;
   }
 
   measure: new {
