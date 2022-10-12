@@ -110,7 +110,7 @@ view: arr_reporting {
     type: number
     value_format: "$#,##0;($#,##0)"
     description: "Gross churned less late renewals"
-    sql:${churned}-${late_renewal} ;;
+    sql:${churned}+${late_renewal} ;;
   }
 
   measure: new_booking {
@@ -346,6 +346,7 @@ view: arr_reporting {
 
   measure: gross_booking {
     type: sum
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."TCV" ;;
   }

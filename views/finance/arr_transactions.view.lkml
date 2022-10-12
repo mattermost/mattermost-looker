@@ -47,6 +47,18 @@ dimension: account_id {
   sql: ${TABLE}."ACCOUNT_ID" ;;
 }
 
+measure: active_licenses {
+  description: "Active licenses per latest opportunity closed"
+  type:  sum
+  sql: ${TABLE}."ACTIVE_LICENSES" ;;
+}
+
+measure: active_arr_value {
+  description: "Latest value of active licenses per account id of current month end"
+  type: sum
+  sql: ${TABLE}."ACTIVE_ARR" ;;
+}
+
 dimension: opportunity_id {
   type: string
   description: "Opportunity SFID of closed won ARR"
