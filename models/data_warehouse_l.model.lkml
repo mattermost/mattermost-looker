@@ -3,6 +3,55 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
+
+explore: focalboard_event_telemetry {
+  label: "User Events Telemetry (Boards)"
+  view_label: "User Events Telemetry (Boards)"
+  group_label: " Product: Boards"
+  hidden: no
+
+  join: dates {
+    sql_on: ${focalboard_event_telemetry.timestamp_date} <= ${dates.date_raw}
+          and ${focalboard_event_telemetry.timestamp_date} >= ${dates.date_raw} - 30
+          AND ${dates.date_raw} <= CURRENT_DATE ;;
+    type: left_outer
+    relationship: many_to_one
+    fields: []
+  }
+
+  join: license_server_fact {
+    view_label: "User Events Telemetry (Boards)"
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
+    relationship: one_to_many
+    fields: [license_server_fact.customer_name_unlinked]
+  }
+
+  join: server_daily_details {
+    view_label: "User Events Telemetry (Boards)"
+    sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
+      AND ${focalboard_event_telemetry.timestamp_date}::date = ${server_daily_details.logging_date}::date ;;
+    relationship: many_to_one
+    fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
+  }
+
+  join: server_fact {
+    view_label: "User Events Telemetry (Boards)"
+    sql_on: TRIM(${focalboard_event_telemetry.user_id}) = TRIM(${server_fact.server_id}) ;;
+    relationship: many_to_one
+    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
+  }
+
+  join: account {
+    view_label: "Salesforce Account"
+    sql_on: ${license_server_fact.account_sfid} = ${account.sfid}
+          AND ${license_server_fact.server_id} = ${server_daily_details.server_id}
+          AND ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id};;
+    relationship: many_to_one
+    fields: [account.name, account.sfid, account.total_current_arr]
+  }
+}
+
+
 explore: user_events_telemetry {
   label: "User Events Telemetry (Messaging)"
   view_label: " User Events Telemetry (Messaging)"

@@ -271,7 +271,6 @@ view_label: "User Events Telemetry (Boards)"
     timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
     week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
     sql: ${TABLE}.timestamp ;;
-
   }
 
   dimension_group: active_user_date {
@@ -279,8 +278,9 @@ view_label: "User Events Telemetry (Boards)"
     description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
     type: time
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
-      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
-    sql: ${dates.date_date}::date ;;
+      week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year,raw]
+    convert_tz: no
+    sql: ${dates.date_raw} ;;
 
   }
 
@@ -351,7 +351,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Daily Active Users"
     description: "The count of daily active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_actual_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} = ${timestamp_date} THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_users {
@@ -359,7 +359,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Weekly Active Users"
     description: "The count of Weekly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${user_actual_id} ELSE NULL END ;;
+    sql: CASE WHEN ${timestamp_date} <= ${active_user_date_raw} and ${timestamp_date} >= ${active_user_date_raw} - 7 THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: monthly_active_users {
@@ -367,7 +367,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Monthly Active Users"
     description: "The count of monthly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_actual_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} IS NOT NULL THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: daily_active_instances {
@@ -375,7 +375,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Daily Active Instances"
     description: "The count of daily active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE = ${timestamp_date}::DATE THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} = ${timestamp_date} THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_instances {
@@ -383,7 +383,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Weekly Active Instances"
     description: "The count of Weekly active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${timestamp_date}::DATE <= ${active_user_date_date}::DATE and ${timestamp_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days' THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${timestamp_date} <= ${active_user_date_raw} and ${timestamp_date} >= ${active_user_date_raw} - 7 THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: monthly_active_instances {
@@ -391,7 +391,7 @@ view_label: "User Events Telemetry (Boards)"
     label: "Monthly Active Instances"
     description: "The count of monthly active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} IS NOT NULL THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: context_screen_density_sum {
