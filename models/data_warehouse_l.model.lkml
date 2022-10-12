@@ -29,7 +29,7 @@ explore: focalboard_event_telemetry {
   join: server_daily_details {
     view_label: "User Events Telemetry (Boards)"
     sql_on: ${focalboard_event_telemetry.user_id} = ${server_daily_details.server_id}
-      AND ${focalboard_event_telemetry.timestamp_date}::date = ${server_daily_details.logging_date}::date ;;
+      AND ${focalboard_event_telemetry.timestamp_date} = ${server_daily_details.logging_date};;
     relationship: many_to_one
     fields: [server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition2]
   }
@@ -38,7 +38,9 @@ explore: focalboard_event_telemetry {
     view_label: "User Events Telemetry (Boards)"
     sql_on: TRIM(${focalboard_event_telemetry.user_id}) = TRIM(${server_fact.server_id}) ;;
     relationship: many_to_one
-    fields: [server_fact.installation_id, server_fact.first_server_version, server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
+    fields: [server_fact.installation_id, server_fact.first_server_version,
+      server_fact.first_server_version_major, server_fact.first_server_edition,
+      server_fact.server_edition, server_fact.cloud_server, server_fact.max_registered_users]
   }
 
   join: account {
@@ -68,7 +70,7 @@ explore: user_events_telemetry {
 
   join: server_fact {
     view_label: "Server Fact"
-    sql_on: ${user_events_telemetry.user_id} = ${server_fact.server_id} ;;
+    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.retention_0day_flag, server_fact.retention_1day_flag, server_fact.retention_7day_flag,
       server_fact.retention_14day_flag, server_fact.retention_28day_flag, server_fact.installation_id, server_fact.first_server_version,
@@ -120,11 +122,16 @@ explore: user_events_telemetry {
 
   join: license_server_fact {
     relationship: many_to_one
-    sql_on: --CASE WHEN ${user_events_telemetry._dbt_source_relation2} IN ('"ANALYTICS".EVENTS.CLOUD_PORTAL_PAGEVIEW_EVENTS', '"ANALYTICS".EVENTS.PORTAL_EVENTS') THEN ${user_events_telemetry.context_traits_portal_customer_id} = ${license_server_fact.customer_id}
-          --ELSE
-          ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
-          --END
-          and ${user_events_telemetry.event_date} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} ;;
+    sql_on: CASE WHEN ${user_events_telemetry._dbt_source_relation2}
+    IN ('"ANALYTICS".EVENTS.CLOUD_PORTAL_PAGEVIEW_EVENTS', '"ANALYTICS".EVENTS.PORTAL_EVENTS')
+    THEN COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
+    = ${license_server_fact.customer_id}
+    ELSE ${user_events_telemetry.user_id} = ${license_server_fact.server_id} END
+    --or (${license_server_fact.customer_id}
+    --= COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id}))
+    --and ${user_events_telemetry.event_date} between ${license_server_fact.start_date}
+    --AND ${license_server_fact.license_retired_date}
+    ;;
   }
 
   join: trial_requests {
@@ -140,7 +147,8 @@ explore: user_events_telemetry {
   }
 
   join: dates {
-    sql_on: ${user_events_telemetry.event_date}::date <= ${dates.date_date}::date AND ${user_events_telemetry.event_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date} <= CURRENT_DATE ;;
+    sql_on: ${user_events_telemetry.event_date} <= ${dates.date_raw}
+    AND ${user_events_telemetry.event_date} >= ${dates.date_raw} - 30 AND ${dates.date_raw} <= CURRENT_DATE ;;
     relationship: many_to_one
     view_label: "Monthly Active Dates"
     type: inner
