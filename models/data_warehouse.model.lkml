@@ -2155,7 +2155,7 @@ explore: server_fact {
 
   join: account {
     view_label: "Account (Salesforce)"
-    sql_on: ${license_server_fact.account_sfid} = ${account.sfid} ;;
+    sql_on: ${license_server_fact.customer_id} = ${account.sfid} ;;
     relationship: many_to_many
     fields: [account.account_owner]
   }
@@ -4094,6 +4094,20 @@ explore: arr_cohort {
   hidden: no
 }
 
+explore: arr_vintages {
+  label: "ARR Vintages"
+  description: "ARR activity by cohort"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_evolution {
+  label: "ARR Evolution"
+  description: "NDR and Customer Retention over time"
+  group_label: " Finance"
+  hidden: no
+}
+
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
   group_label: "Finance"
@@ -4107,6 +4121,12 @@ explore: arr_customertype {
   group_label: " Finance"
   hidden: no
 
+}
+
+explore: fact_ns_billing {
+  label: " Netsuite Billing"
+  group_label: " Finance"
+  description: "Netsuite Billing Activity"
 }
 
 
