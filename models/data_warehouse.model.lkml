@@ -4168,7 +4168,7 @@ explore: arr_customertype {
 explore: fact_ns_billing {
   label: " Netsuite Billing"
   group_label: " Finance"
-  description: "For Reporting ARR Activity"
+  description: "Netsuite Billing Activity"
 }
 
 
