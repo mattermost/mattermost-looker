@@ -203,6 +203,13 @@ view: arr_reporting {
     sql: ${TABLE}."CNT_LATE_RENEWAL" ;;
   }
 
+  measure: freq_late_renewal {
+    type: number
+    value_format: "0.0%"
+    description: "Count of late renewals over expiry count"
+    sql: div0(${cnt_late_renewal},${cnt_expired})*-1 ;;
+  }
+
   measure: cnt_new {
     type: sum
     value_format: "#,##0;(#,##0)"
@@ -215,6 +222,13 @@ view: arr_reporting {
     value_format: "#,##0;(#,##0)"
     description: "Count of new account ids during the period "
     sql: ${TABLE}."CNT_RENEWED" ;;
+  }
+
+  measure: freq_renew_ontime {
+    type: number
+    value_format: "0.0%"
+    description: "Renewed within the month over expiry count"
+    sql: div0(${cnt_renewed},${cnt_expired})*-1 ;;
   }
 
   measure: cnt_resurrected {
