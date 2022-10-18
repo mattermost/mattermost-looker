@@ -201,6 +201,18 @@ view: arr_expiry {
     sql: div0((SUM(${TABLE}."RENEWED_ARR")+SUM(${TABLE}."LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
   }
 
+  measure: ontime_renewal_rate {
+    type: number
+    value_format: "0.00%"
+    sql: div0((SUM(${TABLE}."RENEWED_ARR")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
+  }
+
+  measure:late_renewal_rate {
+    type: number
+    value_format: "0.00%"
+    sql: div0((SUM(${TABLE}."LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
+  }
+
   measure: late_renew {
     type: sum
     description: "When renewal occurs after expiry month and <= 90 days after license renew start date"
