@@ -24,6 +24,7 @@ view: arr_expiry {
             ,(arr) as closed_won
             ,renewed as renewed_arr
             ,(late_renewal) as late_renew
+            ,iff(late_renew>0,late_renew+contracted,late_renew) as net_late_renew
             ,(resurrected) as resurrection
             ,(expanded) as expansion
             ,(contracted) as contraction
@@ -60,6 +61,7 @@ view: arr_expiry {
             ,sum(opportunity_arr) as closed_won
             ,iff(sum(opportunity_arr) + expired_arr> 0, expired_arr*-1,sum(opportunity_arr)) as renewed_arr
             ,sum(0) as late_renew
+            ,sum(0) as net_late_renew
             ,sum(0) as resurrection
             ,iff(sum(opportunity_arr)>abs(expired_arr) and renewed_arr>0,sum(opportunity_arr)+expired_arr,0) as expansion
             ,iff(renewed_arr*-1>expired_arr and renewed_arr >0,expired_arr + renewed_arr,0) as contraction
@@ -198,7 +200,7 @@ view: arr_expiry {
   measure: renewal_rate {
     type: number
     value_format: "0.00%"
-    sql: div0((SUM(${TABLE}."RENEWED_ARR")+SUM(${TABLE}."LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
+    sql: div0((SUM(${TABLE}."RENEWED_ARR")+SUM(${TABLE}."NET_LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
   }
 
   measure: ontime_renewal_rate {
@@ -210,7 +212,7 @@ view: arr_expiry {
   measure:late_renewal_rate {
     type: number
     value_format: "0.00%"
-    sql: div0((SUM(${TABLE}."LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
+    sql: div0((SUM(${TABLE}."NET_LATE_RENEW")),SUM(${TABLE}."EXPIRED_ARR"))*-1 ;;
   }
 
   measure: late_renew {
@@ -218,6 +220,13 @@ view: arr_expiry {
     description: "When renewal occurs after expiry month and <= 90 days after license renew start date"
     value_format: "$#,##0;($#,##0)"
     sql: ${TABLE}."LATE_RENEW" ;;
+  }
+
+  measure: net_late_renew {
+    type: sum
+    description: "Late renewal at the lower of expired amount or booked renewal (including contraction)"
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."NET_LATE_RENEW" ;;
   }
 
   measure: resurrection {
