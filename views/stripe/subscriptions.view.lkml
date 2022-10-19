@@ -1,6 +1,6 @@
 view: subscriptions {
   sql_table_name: "STRIPE"."SUBSCRIPTIONS";;
-  drill_fields: [id]
+  drill_fields: [id, cws_dns, cws_installation, status]
 
   dimension: id {
     primary_key: yes
