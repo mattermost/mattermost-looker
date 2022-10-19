@@ -427,6 +427,14 @@ view: server_daily_details {
     sql: ${user_count} ;;
   }
 
+  dimension: deactivated_user_count {
+    label: "Registered Deactivated Users"
+    group_label: " Security User Counts"
+    description: "The number of registered deactivated users logged by the Server's activity diagnostics telemetry data on the given logging date."
+    type: number
+    sql: ${server_daily_details_ext.registered_deactivated_users} ;;
+  }
+
   dimension: latest_record {
     label: "  Latest Security Telemetry Record"
     group_label: "  Telemetry Flags"
@@ -1179,12 +1187,29 @@ view: server_daily_details {
     sql: ${user_count} ;;
   }
 
+
   measure: max_user_count {
     group_label: "User Counts"
     label: "Max. Registered Users"
     description: "Use this to display the max registered user counts for all servers across the selected (grouping) dimensions."
     type: max
     sql: ${user_count} ;;
+  }
+
+  measure: total_deactivated_user_count {
+    group_label: "User Counts"
+    label: "Registered Deactivated Users"
+    description: "Use this for summing registered deactivated users across dimensions"
+    type: sum
+    sql: ${deactivated_user_count} ;;
+  }
+
+  measure: max_deactivated_user_count {
+    group_label: "User Counts"
+    label: "Max. Registered Deactivated Users"
+    description: "Use this to display the max registered deactivated user counts for all servers across the selected (grouping) dimensions."
+    type: max
+    sql: ${deactivated_user_count} ;;
   }
 
   measure: servers_w_nps_count {
