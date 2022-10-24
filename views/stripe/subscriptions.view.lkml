@@ -136,17 +136,17 @@ view: subscriptions {
 
   dimension: utm_source {
     type: string
-    sql: ${TABLE}."METADATA":"utm_source" ;;
+    sql: TRIM(${TABLE}."METADATA":"utm_source",'"') ;;
   }
 
   dimension: utm_campaign {
     type: string
-    sql: ${TABLE}."METADATA":"utm_campaign" ;;
+    sql: TRIM(${TABLE}."METADATA":"utm_campaign",'"') ;;
   }
 
   dimension: utm_medium {
     type: string
-    sql: ${TABLE}."METADATA":"utm_medium" ;;
+    sql: TRIM(${TABLE}."METADATA":"utm_medium",'"') ;;
   }
 
   dimension_group: start {
