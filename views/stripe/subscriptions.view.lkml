@@ -1,6 +1,6 @@
 view: subscriptions {
   sql_table_name: "STRIPE"."SUBSCRIPTIONS";;
-  drill_fields: [id]
+  drill_fields: [id, cws_dns, cws_installation, status]
 
   dimension: id {
     primary_key: yes
@@ -132,6 +132,21 @@ view: subscriptions {
   dimension: metadata {
     type: string
     sql: ${TABLE}."METADATA" ;;
+  }
+
+  dimension: utm_source {
+    type: string
+    sql: TRIM(${TABLE}."METADATA":"utm_source",'"') ;;
+  }
+
+  dimension: utm_campaign {
+    type: string
+    sql: TRIM(${TABLE}."METADATA":"utm_campaign",'"') ;;
+  }
+
+  dimension: utm_medium {
+    type: string
+    sql: TRIM(${TABLE}."METADATA":"utm_medium",'"') ;;
   }
 
   dimension_group: start {
