@@ -4108,6 +4108,14 @@ explore: arr_evolution {
   hidden: no
 }
 
+explore: arr_ltv {
+  label: "ARR LTV"
+  description: "ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
+
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
   group_label: "Finance"
