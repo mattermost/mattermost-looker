@@ -8,6 +8,13 @@ view: user_events_telemetry {
   }
 
   # FILTERS
+
+  dimension: caller_info {
+    description: "Caller Info"
+    type: string
+    sql: ${TABLE}.caller_info ;;
+  }
+
   dimension: reaction_event {
     group_label: "Event Type Filter"
     description: "Boolean indicating the event performed was a reaction i.e. emoji response to a post or upload."
