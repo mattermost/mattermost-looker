@@ -120,17 +120,11 @@ explore: user_events_telemetry {
 
   join: license_server_fact {
     relationship: many_to_one
-    sql_on: --CASE WHEN ${user_events_telemetry._dbt_source_relation2}
-    --IN ('"ANALYTICS".EVENTS.CLOUD_PORTAL_PAGEVIEW_EVENTS', '"ANALYTICS".EVENTS.PORTAL_EVENTS')
-    --THEN COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
-    --= ${license_server_fact.customer_id}
-    --ELSE
-    ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
-    --END
-    or (${license_server_fact.customer_id}
-    = COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id}))
-    --and ${user_events_telemetry.event_date} between ${license_server_fact.start_date}
-    --AND ${license_server_fact.license_retired_date}
+    sql_on: CASE WHEN ${user_events_telemetry._dbt_source_relation2}
+    IN ('"ANALYTICS".EVENTS.CLOUD_PORTAL_PAGEVIEW_EVENTS', '"ANALYTICS".EVENTS.PORTAL_EVENTS')
+    THEN COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
+    = ${license_server_fact.customer_id}
+    ELSE ${user_events_telemetry.user_id} = ${license_server_fact.server_id} END
     ;;
   }
 
