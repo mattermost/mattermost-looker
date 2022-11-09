@@ -4,7 +4,10 @@ view: user_events_telemetry {
   view_label: "User Events Telemetry (Messaging)"
 
   set: server_drill {
-    fields: [event_date, user_id, license_server_fact.customer_name, stripe_customer_dns, stripe_customer_email, category, type, user_actual_count, event_count]
+    fields: [event_date, context_traits_portal_customer_id, server_fact.installation_id,
+      event, type, category,
+      license_server_fact.customer_name, stripe_customer_dns, subscriptions.plan,
+      stripe_customer_email, category, type, user_actual_count, event_count, user_id]
   }
 
   # FILTERS
