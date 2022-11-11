@@ -4110,6 +4110,13 @@ explore: arr_ltv {
   hidden: no
 }
 
+explore: arr_ltv_amer {
+  label: "ARR LTV AMER"
+  description: "For Americas, ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
 
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
