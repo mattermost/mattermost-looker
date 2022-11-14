@@ -343,6 +343,13 @@ view: server_fact {
     sql: ${TABLE}.installation_id ;;
   }
 
+  dimension: storage_bytes {
+    label: "Storage in Bytes"
+    description: "The file storage used per instance, rounded with (at most) 8 trailing zeros."
+    type: number
+    sql: ${TABLE}.storage_bytes ;;
+  }
+
   dimension: cloud_server {
     label: "   Cloud Workspace"
     description: "Indicates whether the server is using Mattermost's cloud product."
