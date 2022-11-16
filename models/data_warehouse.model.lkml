@@ -4133,6 +4133,12 @@ explore: arr_customertype {
 
 }
 
+explore: funnel_opportunity {
+  label: "SALES FUNNEL"
+  group_label: " Finance"
+  hidden: no
+}
+
 explore: fact_ns_billing {
   label: " Netsuite Billing"
   group_label: " Finance"
