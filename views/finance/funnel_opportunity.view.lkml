@@ -399,9 +399,9 @@ view: funnel_opportunity {
     sql: ${TABLE}."TERM_MOS" ;;
   }
 
-  dimension: type {
+  dimension: dealtype {
     type: string
-    sql: ${TABLE}."TYPE" ;;
+    sql: ${TABLE}."DEALTYPE" ;;
   }
 
   measure: count {
