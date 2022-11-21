@@ -98,6 +98,34 @@ view: customers {
     sql: CAST(${TABLE}."UPDATED" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: cws_first_purchase_intent_wire_transfer {
+    label: "First Purchase"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN ${TABLE}."cws_first_purchase_intent_wire_transfer":"wire" = True THEN "Wire"
+      WHEN ${TABLE}."cws_first_purchase_intent_wire_transfer":"ach" = True THEN "ACH"
+      WHEN ${TABLE}."cws_first_purchase_intent_wire_transfer":"other" = True THEN "Other" ELSE null END;;
+  }
+
+  dimension: cws_renewal_self_intent_wire_transfer {
+    label: "Renewal"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN ${TABLE}."cws_renewal_self_intent_wire_transfer":"wire" = True THEN "Wire"
+      WHEN ${TABLE}."cws_renewal_self_intent_wire_transfer":"ach" = True THEN "ACH"
+      WHEN ${TABLE}."cws_renewal_self_intent_wire_transfer":"other" = True THEN "Other" ELSE null END;;
+  }
+
+  dimension: cws_monthly_sub_intent_wire_transfer {
+    label: "Monthly Subscription"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN ${TABLE}."cws_monthly_sub_intent_wire_transfer":"wire" = True THEN "Wire"
+      WHEN ${TABLE}."cws_monthly_sub_intent_wire_transfer":"ach" = True THEN "ACH"
+      WHEN ${TABLE}."cws_monthly_sub_intent_wire_transfer":"other" = True THEN "Other" ELSE null END;;
+  }
+
+
   measure: count_customers {
     label: "# of Customers"
     type: count_distinct
