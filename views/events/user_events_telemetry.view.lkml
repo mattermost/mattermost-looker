@@ -12,6 +12,27 @@ view: user_events_telemetry {
 
   # FILTERS
 
+  dimension: campaign_utm_source {
+    label: "UTM Source"
+    description: "UTM Source"
+    type: string
+    sql: ${TABLE}.campaign_utm_source ;;
+  }
+
+  dimension: campaign_utm_medium {
+    label: "UTM Medium"
+    description: "UTM Medium"
+    type: string
+    sql: ${TABLE}.campaign_utm_medium ;;
+  }
+
+  dimension: campaign_utm_campaign {
+    label: "UTM Campaign"
+    description: "UTM Campaign"
+    type: string
+    sql: ${TABLE}.campaign_utm_campaign ;;
+  }
+
   dimension: caller_info {
     description: "Caller Info"
     type: string
