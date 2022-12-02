@@ -62,6 +62,30 @@ view: arr_vintages {
     sql: ${TABLE}."ARR_OS" ;;
   }
 
+  measure: total_arr_os {
+    type: sum
+    value_format: "$#,##0;($#,##0)"
+    sql: ${arr_os};;
+  }
+
+  dimension: first_arr {
+    type: number
+    value_format: "$#,##0;($#,##0)"
+    sql: ${TABLE}."FIRST_ARR" ;;
+  }
+
+  measure: total_first_arr {
+    type: sum
+    value_format:  "$#,##0;($#,##0)"
+    sql: ${first_arr} ;;
+  }
+
+  measure:  dollar_retention {
+    type: number
+    value_format: "0.0%;(0.0%)"
+    sql: div0(${total_arr_os},${total_first_arr}) ;;
+  }
+
   measure: avg_arr {
     type: average
     value_format: "$#,##0;($#,##0)"
@@ -142,6 +166,11 @@ view: arr_vintages {
     sql: ${TABLE}."COHORT_MONTH"::varchar ;;
   }
 
+  dimension: join_month {
+    type: date_month_name
+    sql: ${TABLE}."COHORT_MONTH";;
+  }
+
   dimension: cohort_qtr_no {
     type: number
     sql: ${TABLE}."COHORT_QTR_NO" ;;
@@ -219,6 +248,22 @@ view: arr_vintages {
     sql: ${TABLE}."REPORT_MO"::varchar ;;
   }
 
+  dimension: orderbymonth {
+    type: number
+    sql: ${TABLE}."ORDERBYMONTH"  ;;
+  }
+
+  dimension: month_since_purchase {
+    type:  number
+    sql: ${TABLE}."MONTH_SINCE_PURCHASE" ;;
+  }
+
+  measure: total_initial_cohort_count {
+    type: sum
+    sql: ${TABLE}."INITIAL_COHORT_SIZE" ;;
+  }
+
+
   dimension: resurrect {
     type: number
     value_format: "$#,##0;($#,##0)"
@@ -229,4 +274,6 @@ view: arr_vintages {
     type: count
     drill_fields: [account_name]
   }
+
+
 }
