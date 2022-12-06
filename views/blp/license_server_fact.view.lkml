@@ -5,7 +5,9 @@ view: license_server_fact {
 
   # SETS
   set: licensed_server_drill {
-    fields: [server_id, customer_id, customer_name, license_id, company, edition, users, trial, issued_date, start_date, expire_date, license_activation_date, last_active_date]
+    fields: [server_id, customer_id, customer_name, license_email,
+      license_id, company, edition, users, trial, issued_date, start_date,
+      expire_date, license_activation_date, last_active_date]
   }
 
   # DIMENSIONS
@@ -131,6 +133,15 @@ view: license_server_fact {
     description: ""
     type: string
     sql: ${TABLE}.license_email ;;
+    hidden: no
+  }
+
+  dimension: email_type {
+    description: "Email Type"
+    type: string
+    sql: CASE WHEN ${license_email} like '%gmail%' THEN 'gmail'
+    WHEN ${license_email} not like '%gmail%' THEN 'company_email'
+    ELSE '-' END ;;
     hidden: no
   }
 
