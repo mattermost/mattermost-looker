@@ -419,7 +419,8 @@ explore: calls_events {
 
   join: dates {
     from: dates
-    sql_on: ${calls_events.timestamp_date}::date <= ${dates.date_date}::date AND ${calls_events.timestamp_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
+    sql_on: ${calls_events.timestamp_date} <= ${dates.date_raw} AND ${calls_events.timestamp_date} >= ${dates.date_raw} - INTERVAL '30 DAYS'
+    AND ${dates.date_raw} <= CURRENT_DATE;;
     relationship: many_to_one
     fields: []
   }
@@ -1548,7 +1549,8 @@ explore: CUSTOMERS {
   join: invoices_previous_month {
     from: INVOICES
     relationship: one_to_one
-    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id} AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
+    sql_on: ${invoices_previous_month.subscription_id} = ${INVOICES.subscription_id}
+    AND date_trunc('month', ${INVOICES.invoice_start_date}::date) - interval '1 month' = date_trunc('month', ${invoices_previous_month.invoice_start_date}::date) ;;
     fields: []
   }
 
@@ -2024,7 +2026,8 @@ explore: server_daily_details {
 
   join: dates {
     view_label: "Monthly Active Dates"
-    sql_on: ${user_events_telemetry.event_date}::date <= ${dates.date_date}::date AND ${user_events_telemetry.event_date}::date >= ${dates.date_date}::date - INTERVAL '30 DAYS' AND ${dates.date_date}::DATE <= CURRENT_DATE::DATE ;;
+    sql_on: ${user_events_telemetry.event_date} <= ${dates.date_raw}
+    AND ${user_events_telemetry.event_date} >= ${dates.date_raw} - INTERVAL '30 DAYS' AND ${dates.date_raw} <= CURRENT_DATE ;;
     relationship: many_to_many
     type: left_outer
     fields: []
@@ -2054,7 +2057,7 @@ explore: server_daily_details {
   join: nps_server_daily_score {
     view_label: "Server NPS"
     sql_on: ${nps_server_daily_score.server_id} = ${server_daily_details.server_id}
-      AND ${nps_server_daily_score.date_date}::DATE = DATE_TRUNC('day', ${server_daily_details.logging_date}::DATE);;
+      AND ${nps_server_daily_score.date_date} =  ${server_daily_details.logging_raw};;
     relationship: one_to_one
     type: left_outer
     fields: []
@@ -2063,7 +2066,7 @@ explore: server_daily_details {
   join: server_upgrades {
     view_label: " Server Daily Details"
     sql_on: ${server_upgrades.server_id} = ${server_daily_details.server_id}
-      AND ${server_upgrades.logging_date} = ${server_daily_details.logging_date};;
+      AND ${server_upgrades.logging_date} = ${server_daily_details.logging_raw};;
     relationship: one_to_one
     fields: [server_upgrades.prev_version, server_upgrades.server_edition_upgrades, server_upgrades.server_version_upgrades, server_upgrades.is_version_upgrade_date, server_upgrades.is_edition_upgrade_date]
   }
@@ -2072,7 +2075,7 @@ explore: server_daily_details {
     view_label: "Licenses"
     type: left_outer
     relationship: many_to_one
-    sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_date} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
+    sql_on: (${license_server_fact.server_id} = ${server_daily_details.server_id}) and (${server_daily_details.logging_raw} BETWEEN ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date});;
   }
 
   join: trial_requests {
@@ -2085,7 +2088,7 @@ explore: server_daily_details {
   join: server_events_by_date {
     view_label: " Server Daily Details"
     sql_on: ${server_daily_details.server_id} = ${server_events_by_date.server_id}
-      AND ${server_daily_details.logging_date} = ${server_events_by_date.logging_date};;
+      AND ${server_daily_details.logging_raw} = ${server_events_by_date.logging_date};;
     relationship: one_to_one
     fields: []
   }
@@ -2164,7 +2167,6 @@ explore: server_fact {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
   }
 
   join: excludable_servers {

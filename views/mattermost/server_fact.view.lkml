@@ -576,7 +576,7 @@ view: server_fact {
     label: "Customer First Active Telemetry"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.customer_first_active_date ;;
   }
 
@@ -584,7 +584,7 @@ view: server_fact {
     label: " First Active"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [hour, time, time_of_day, hour_of_day, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, hour, time, time_of_day, hour_of_day, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
   }
 
@@ -592,7 +592,7 @@ view: server_fact {
     label: " Last Active"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
   }
 
@@ -635,7 +635,7 @@ view: server_fact {
     description: "The first date an active user was logged on the Mattermost Messaging instance."
     label: " First Active User"
     sql: ${TABLE}.first_active_user_date ;;
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
   }
 
   dimension_group: last_active_user_activity {
@@ -643,14 +643,14 @@ view: server_fact {
     description: "The first date an active user was logged on the Mattermost Messaging instance."
     label: " Last Active User"
     sql: ${TABLE}.last_active_user_date ;;
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
   }
 
   dimension_group: first_telemetry_active {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
@@ -658,7 +658,7 @@ view: server_fact {
     label: " Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
@@ -666,7 +666,7 @@ view: server_fact {
     label: " Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_mm2_telemetry_date ;;
   }
 
@@ -674,7 +674,7 @@ view: server_fact {
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_mm2_telemetry_date ;;
   }
 

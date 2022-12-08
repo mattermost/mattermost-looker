@@ -11,9 +11,9 @@ view: server_daily_details {
   dimension: supported {
     description: "Boolean indicating the server version was supported on the given logging date. Indicates support status at a point in time."
     type: yesno
-    sql: CASE WHEN ${version_release_dates.release_date}::date >= ${logging_date}::DATE - INTERVAL '3 MONTHS' AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE
-              WHEN ${version_release_dates.release_date}::date IN ('2018-05-16','2019-04-16','2020-01-16','2020-07-16','2021-01-16', '2021-07-16') AND ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '9 MONTHS'
-                AND ${version_release_dates.release_date}::DATE <= ${logging_date} THEN TRUE
+    sql: CASE WHEN ${version_release_dates.release_date} >= ${logging_raw} - INTERVAL '3 MONTHS' AND ${version_release_dates.release_date} <= ${logging_raw} THEN TRUE
+              WHEN ${version_release_dates.release_date} IN ('2018-05-16','2019-04-16','2020-01-16','2020-07-16','2021-01-16', '2021-07-16') AND ${version_release_dates.release_date} >= ${logging_raw} - INTERVAL '9 MONTHS'
+                AND ${version_release_dates.release_date} <= ${logging_raw} THEN TRUE
               ELSE FALSE END ;;
     hidden: no
   }
@@ -118,8 +118,8 @@ view: server_daily_details {
     group_label: "Date Filters"
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each month. Useful when grouping by month to report on server states in the given month."
-    sql: CASE WHEN ${logging_date} =
-                                      CASE WHEN DATE_TRUNC('month', ${logging_date}::date + interval '1 day') = DATE_TRUNC('month', CURRENT_DATE) THEN
+    sql: CASE WHEN ${logging_raw} =
+                                      CASE WHEN DATE_TRUNC('month', ${logging_raw} + interval '1 day') = DATE_TRUNC('month', CURRENT_DATE) THEN
                                         CASE WHEN DAYOFMONTH((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) = 1
                                             THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
                                           WHEN DAYOFWEEK((SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)) < 6
@@ -139,21 +139,21 @@ view: server_daily_details {
                                             THEN (SELECT MAX(date - INTERVAL '3 DAY') FROM mattermost.server_daily_details)
                                           ELSE (SELECT MAX(date) FROM mattermost.server_daily_details) END
                                       ELSE
-                                        CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '1 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '2 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '3 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '4 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '5 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '6 DAY'
-                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY') = 4
-                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '7 DAY'
-                                          ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_date}::date)) - INTERVAL '8 DAY' END
+                                        CASE WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '1 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '1 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '2 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '2 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '3 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '3 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '4 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '4 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '5 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '5 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '6 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '6 DAY'
+                                          WHEN DAYOFWEEK(DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '7 DAY') = 4
+                                            THEN DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '7 DAY'
+                                          ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${logging_raw})) - INTERVAL '8 DAY' END
                                       END
             THEN TRUE ELSE FALSE END ;;
   }
@@ -170,8 +170,8 @@ view: server_daily_details {
     type: yesno
     description: "Filters so the logging date is equal to the last Thursday of each week. Useful when grouping by month to report on server states in the given week."
     sql: CASE WHEN ${logging_date} =
-          CASE WHEN DATE_TRUNC('week', ${logging_date}::date+interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
-          ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_date}::date)) - INTERVAL '4 DAY' END
+          CASE WHEN DATE_TRUNC('week', ${logging_raw} +interval '1 day') = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(date - INTERVAL '1 DAY') FROM mattermost.server_daily_details)
+          ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${logging_raw})) - INTERVAL '4 DAY' END
           THEN TRUE ELSE FALSE END ;;
    group_label: "Date Filters"
   }
@@ -180,7 +180,7 @@ view: server_daily_details {
     label: "  Latest Security Telemetry Record"
     description: "Boolean indicating the record captures the last (most recent) date that Security (security_update_check.go) telemetry was logged for the server."
     type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${logging_raw} = ${server_fact.last_telemetry_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
     group_label: "  Telemetry Flags"
   }
@@ -189,7 +189,7 @@ view: server_daily_details {
     label: "  First Telemetry Record"
     description: "Boolean indicating the record is the first date that the server sent Diagnostics (diagnostics.go) or Security (security_update_chech.go) telemetry data."
     type: yesno
-    sql: CASE WHEN ${logging_date} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${logging_raw} = ${server_fact.first_active_date} THEN TRUE ELSE FALSE END ;;
     hidden: no
     group_label: "  Telemetry Flags"
   }
@@ -208,10 +208,10 @@ view: server_daily_details {
     group_label: "  Telemetry Flags"
     description: "Boolean indicating the record is the last (most recent) date that Diagnostics (diagnostics.go) telemetry data was logged for the server."
     type: yesno
-    sql: CASE WHEN ${server_fact.last_mm2_telemetry_date}::DATE = CURRENT_DATE::DATE THEN
-              CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE - INTERVAL '1 DAY'
+    sql: CASE WHEN ${server_fact.last_mm2_telemetry_date}::DATE = CURRENT_DATE THEN
+              CASE WHEN ${logging_raw} = ${server_fact.last_mm2_telemetry_date}::DATE - INTERVAL '1 DAY'
                 THEN TRUE ELSE FALSE END
-          ELSE CASE WHEN ${logging_date}::DATE = ${server_fact.last_mm2_telemetry_date}::DATE THEN TRUE ELSE FALSE END
+          ELSE CASE WHEN ${logging_raw} = ${server_fact.last_mm2_telemetry_date}::DATE THEN TRUE ELSE FALSE END
           END ;;
     hidden: no
   }
@@ -261,8 +261,8 @@ view: server_daily_details {
   dimension: trailing_3_releases {
     description: "Boolean indicating the server version is on the trailing 3 releases as it relates to the logging date."
     type: yesno
-    sql: CASE WHEN ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '119 days'
-    AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${version_release_dates.release_date} >= ${logging_raw} - INTERVAL '119 days'
+    AND ${version_release_dates.release_date} <= ${logging_raw} THEN TRUE ELSE FALSE END ;;
     group_label: " Server Versions"
   }
 
@@ -450,8 +450,10 @@ view: server_daily_details {
     group_label: "  Telemetry Flags"
     description: "True when server has recently sent telemetry (w/in 5 days) and/or has a paid license w/ an expire date >= Current Date (this is an assumption that they're actively using the product, but are protected behind a firewall or airgap network). "
     type: yesno
-    sql: CASE WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) >= 7 AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
-              WHEN datediff(DAY, ${server_fact.first_active_date}, ${server_fact.last_active_date}) < 7 AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
+    sql: CASE WHEN datediff(DAY, ${server_fact.first_active_raw}, ${server_fact.last_active_raw}) >= 7
+    AND ${server_fact.last_active_date} >= (SELECT MAX(last_active_date - interval '5 day') FROM mattermost.server_fact) THEN TRUE
+              WHEN datediff(DAY, ${server_fact.first_active_raw}, ${server_fact.last_active_raw}) < 7
+              AND ${server_fact.last_active_date} = (SELECT MAX(last_active_date) FROM mattermost.server_fact) THEN TRUE
               WHEN ${server_fact.paid_license_expire_date} >= CURRENT_DATE THEN TRUE
               ELSE FALSE END ;;
     hidden: no
@@ -644,7 +646,7 @@ view: server_daily_details {
     description: "Indicates the license was the current & actively associated with the server during the logging date period in question."
     view_label: "License Server Fact"
     type: yesno
-    sql: case when ${logging_date}::date between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date}::date THEN TRUE ELSE FALSE END;;
+    sql: case when ${logging_raw} between ${license_server_fact.start_date} AND ${license_server_fact.license_retired_date} THEN TRUE ELSE FALSE END;;
     hidden: yes
   }
 
@@ -653,8 +655,8 @@ view: server_daily_details {
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: string
     order_by_field: server_status_sort
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/ Active Users'
-              when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old w/out Active Users'
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_raw}, ${logging_raw})  >= 7 then '>= 7 Days Old w/ Active Users'
+              when datediff(day, ${server_fact.first_telemetry_active_raw}, ${logging_raw})  >= 7 then '>= 7 Days Old w/out Active Users'
               when ${active_user_count} > 0 then  '< 7 Days Old w/ Active Users'
               else '< 7 Days Old w/out Active Users' end ;;
   }
@@ -663,8 +665,8 @@ view: server_daily_details {
     label: "Server Status"
     description: "Indicates whether the server is >= 7 days old w/ active user, >= 7 days old, w/ active users, or no active users."
     type: number
-    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then 1
-              when datediff(day, ${server_fact.first_telemetry_active_date}, ${logging_date})  >= 7 then 2
+    sql: case when ${active_user_count} > 0 and datediff(day, ${server_fact.first_active_raw}, ${logging_raw})  >= 7 then 1
+              when datediff(day, ${server_fact.first_telemetry_active_raw}, ${logging_raw})  >= 7 then 2
               when ${active_user_count} > 0 then  3
               else 4 end ;;
     hidden: yes
@@ -674,8 +676,8 @@ view: server_daily_details {
     label: "Server > 7 Days Status "
     description: "Indicates whether the server is >= 7 days or < 7 days old."
     type: string
-    sql: case when datediff(day, ${server_fact.first_active_date}, ${logging_date})  >= 7 then '>= 7 Days Old'
-              when datediff(day, ${server_fact.first_active_date}, ${logging_date})  < 7 then '< 7 Days Old'
+    sql: case when datediff(day, ${server_fact.first_active_raw}, ${logging_raw})  >= 7 then '>= 7 Days Old'
+              when datediff(day, ${server_fact.first_active_raw}, ${logging_raw})  < 7 then '< 7 Days Old'
               else null end ;;
   }
 
@@ -684,7 +686,7 @@ view: server_daily_details {
     label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and logging date of the record."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}::date) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_raw}, ${server_fact.first_telemetry_active_raw}, ${nps_server_daily_score.server_install_raw}), ${logging_raw}) ;;
   }
 
   dimension: months_since_first_telemetry_enabled {
@@ -692,7 +694,7 @@ view: server_daily_details {
     label: "Months Since First Telemetry Enabled"
     description: "Displays the age in months of the server. Age is calculated as months between the first active month (first date telemetry enabled) and logging month of the record."
     type: number
-    sql: datediff(month, date_trunc('month', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('month', ${logging_date}::date)::date) ;;
+    sql: datediff(month, COALESCE(${server_fact.first_active_raw}, ${server_fact.first_telemetry_active_raw}, ${nps_server_daily_score.server_install_raw}), ${logging_raw}) ;;
   }
 
   dimension: weeks_since_first_telemetry_enabled {
@@ -700,7 +702,7 @@ view: server_daily_details {
     label: "Weeks Since First Telemetry Enabled"
     description: "Displays the age in weeks of the server. Age is calculated as weeks between the first active week (first date telemetry enabled) and logging week of the record."
     type: number
-    sql: datediff(week, date_trunc('week', COALESCE(${server_fact.first_active_date}::date, ${server_fact.first_telemetry_active_date}::date, ${nps_server_daily_score.server_install_date}::date)), date_trunc('week', ${logging_date}::date)::date) ;;
+    sql: datediff(week, COALESCE(${server_fact.first_active_raw}, ${server_fact.first_telemetry_active_raw}, ${nps_server_daily_score.server_install_raw}), ${logging_raw}) ;;
   }
 
   dimension: days_since_first_telemetry_enabled_band {
@@ -717,7 +719,7 @@ view: server_daily_details {
     label: "Days Since First Telemetry Enabled"
     description: "Displays the age in days of the server. Age is calculated as days between the first active date (first date telemetry enabled) and the current date - 1 day."
     type: number
-    sql: datediff(day, COALESCE(${server_fact.first_active_date},${server_fact.first_telemetry_active_date}, ${nps_server_daily_score.server_install_date})::DATE, CURRENT_DATE - INTERVAL '1 DAY') ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_raw},${server_fact.first_telemetry_active_raw}, ${nps_server_daily_score.server_install_raw}), CURRENT_DATE() - INTERVAL '1 DAY') ;;
     hidden: yes
   }
 
@@ -735,8 +737,8 @@ view: server_daily_details {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${server_fact.first_telemetry_active_date}::date ;;
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${server_fact.first_telemetry_active_date} ;;
     hidden: yes
   }
 
@@ -744,8 +746,8 @@ view: server_daily_details {
     label: "Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${server_fact.last_telemetry_active_date}::date ;;
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
+    sql: ${server_fact.last_telemetry_active_date} ;;
     hidden: yes
   }
 
@@ -753,7 +755,7 @@ view: server_daily_details {
     label: "Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.last_mm2_telemetry_date} ;;
     hidden: yes
   }
@@ -762,7 +764,7 @@ view: server_daily_details {
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${server_fact.first_mm2_telemetry_date} ;;
     hidden: yes
   }
@@ -773,7 +775,7 @@ view: server_daily_details {
     type: number
     hidden: yes
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
-    datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date})
+    datediff(day, COALESCE(${server_fact.first_active_raw}, ${nps_server_daily_score.server_install_raw}), ${server_fact.first_paid_license_date})
     --END
     ;;
   }
@@ -784,7 +786,7 @@ view: server_daily_details {
     type: number
     hidden: yes
     sql: --CASE WHEN datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${server_fact.first_paid_license_date}) < 0 THEN 0 ELSE
-          datediff(day, COALESCE(${server_fact.customer_first_active_date}::date, ${nps_server_daily_score.server_install_date}::date), ${server_fact.customer_first_paid_license_date}::date)
+          datediff(day, COALESCE(${server_fact.customer_first_active_date}, ${nps_server_daily_score.server_install_raw}), ${server_fact.customer_first_paid_license_date})
           --END
           ;;
   }
@@ -795,7 +797,7 @@ view: server_daily_details {
     type: time
     hidden: yes
     timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
-    sql: ${server_fact.customer_first_paid_license_date}::date ;;
+    sql: ${server_fact.customer_first_paid_license_date};;
   }
 
   measure: median_days_active_to_paid {
@@ -855,7 +857,7 @@ view: server_daily_details {
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
-    sql: datediff(day, COALESCE(${server_fact.first_active_date}, ${nps_server_daily_score.server_install_date}), ${logging_date}) ;;
+    sql: datediff(day, COALESCE(${server_fact.first_active_raw}, ${nps_server_daily_score.server_install_raw}), ${logging_raw}) ;;
     hidden: yes
   }
 
@@ -980,8 +982,8 @@ view: server_daily_details {
     group_label: " Server Counts"
     description: "Use this for counting all distinct Server ID's on the latest 3 version releases across dimensions. This measure is a composite of TEDAS servers and additional data sources that logged the server on the given logging date."
     type: count_distinct
-    sql: CASE WHEN ${version_release_dates.release_date}::DATE >= ${logging_date}::DATE - INTERVAL '119 days'
-    AND ${version_release_dates.release_date}::DATE <= ${logging_date}::DATE THEN ${server_id} ELSE NULL END ;;
+    sql: CASE WHEN ${version_release_dates.release_date} >= ${logging_raw} - INTERVAL '119 days'
+    AND ${version_release_dates.release_date} <= ${logging_raw} THEN ${server_id} ELSE NULL END ;;
     drill_fields: [logging_date, server_id, license_server_fact.customer_id, license_server_fact.customer_name, version, days_since_first_telemetry_enabled, user_count, active_user_count, system_admins, server_fact.first_active_date, server_fact.last_active_date, first_security_telemetry_date, last_security_telemetry_date]
   }
 
