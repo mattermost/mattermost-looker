@@ -96,7 +96,7 @@ view: calls_events {
   measure: total_duration {
     type: sum
     sql: ${duration};;
-    }
+  }
 
   measure: average_duration {
     type: average
@@ -132,6 +132,11 @@ view: calls_events {
     label: "Participants"
     type: number
     sql: ${TABLE}."PARTICIPANTS" ;;
+  }
+
+  measure: total_participants {
+    type: sum
+    sql: ${participants};;
   }
 
   dimension: plugin_build {

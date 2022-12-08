@@ -2399,7 +2399,33 @@ explore: server_daily_details_ext {
     relationship: one_to_one
     fields: [server_feature_flag_details.feature_flags*]
   }
+
+  join: user_events_telemetry {
+    view_label: "User Events Telemetry (Messaging)"
+    sql_on: ${user_events_telemetry.user_id} = ${server_daily_details_ext.server_id} AND ${user_events_telemetry.event_date} = ${server_daily_details_ext.logging_date} ;;
+    relationship: one_to_many
+    type: left_outer
+    fields: [
+      user_events_telemetry.event_date,
+      user_events_telemetry.event_week,
+      user_events_telemetry.event,
+      user_events_telemetry.type,
+      user_events_telemetry.category,
+      user_events_telemetry.event_week_of_year,
+      user_events_telemetry.event_count,
+      user_events_telemetry.event_month,
+      user_events_telemetry.event_year,
+      user_events_telemetry.event_dayname,
+      user_events_telemetry.event_fiscal_quarter,
+      user_events_telemetry.event_fiscal_year,
+      user_events_telemetry.user_id,
+      user_events_telemetry.user_count
+    ]
+
+  }
 }
+
+
 
 explore: events_registry {
   label: "Events Registry"
@@ -4105,6 +4131,21 @@ explore: arr_evolution {
   hidden: no
 }
 
+explore: arr_ltv {
+  label: "ARR LTV"
+  description: "ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_ltv_amer {
+  label: "ARR LTV AMER"
+  description: "For Americas, ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
+
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
   group_label: "Finance"
@@ -4118,6 +4159,12 @@ explore: arr_customertype {
   group_label: " Finance"
   hidden: no
 
+}
+
+explore: funnel_opportunity {
+  label: "SALES FUNNEL"
+  group_label: " Finance"
+  hidden: no
 }
 
 explore: fact_ns_billing {

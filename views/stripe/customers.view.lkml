@@ -98,6 +98,34 @@ view: customers {
     sql: CAST(${TABLE}."UPDATED" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: cws_first_purchase_intent_wire_transfer {
+    label: "First Purchase"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN parse_json(${TABLE}."CWS_FIRST_PURCHASE_INTENT_WIRE_TRANSFER"):"wire" = True THEN 'Wire'
+      WHEN parse_json(${TABLE}."CWS_FIRST_PURCHASE_INTENT_WIRE_TRANSFER"):"ach" = True THEN 'ACH'
+      WHEN parse_json(${TABLE}."CWS_FIRST_PURCHASE_INTENT_WIRE_TRANSFER"):"other" = True THEN 'Other' ELSE null END;;
+  }
+
+  dimension: cws_renewal_self_intent_wire_transfer {
+    label: "Renewal"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN parse_json(${TABLE}."CWS_RENEWAL_SELF_INTENT_WIRE_TRANSFER"):"wire" = True THEN 'Wire'
+      WHEN parse_json(${TABLE}."CWS_RENEWAL_SELF_INTENT_WIRE_TRANSFER"):"ach" = True THEN 'ACH'
+      WHEN parse_json(${TABLE}."CWS_RENEWAL_SELF_INTENT_WIRE_TRANSFER"):"other" = True THEN 'Other' ELSE null END;;
+  }
+
+  dimension: cws_monthly_sub_intent_wire_transfer {
+    label: "Monthly Subscription"
+    group_label: "Wire Transfer Intent"
+    type: string
+    sql: CASE WHEN parse_json(${TABLE}."CWS_MONTHLY_SUB_INTENT_WIRE_TRANSFER"):"wire" = True THEN 'Wire'
+      WHEN parse_json(${TABLE}."CWS_MONTHLY_SUB_INTENT_WIRE_TRANSFER"):"ach" = True THEN 'ACH'
+      WHEN parse_json(${TABLE}."CWS_MONTHLY_SUB_INTENT_WIRE_TRANSFER"):"other" = True THEN 'Other' ELSE null END;;
+  }
+
+
   measure: count_customers {
     label: "# of Customers"
     type: count_distinct
