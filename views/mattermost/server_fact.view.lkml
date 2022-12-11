@@ -551,7 +551,7 @@ view: server_fact {
     label: "Current Customer"
     description: "Identifies whether the server is tied to a current customer based on the paid license expiration date."
     type: yesno
-    sql: CASE WHEN ${TABLE}.paid_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.paid_license_expire_date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
     hidden: yes
   }
 
@@ -559,7 +559,7 @@ view: server_fact {
     label: "Active Trial"
     description: "Identifies whether the server is tied to a currently active trial license based on the trial license expiration date."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.trial_license_expire_date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
     hidden: yes
   }
 
@@ -608,7 +608,7 @@ view: server_fact {
     group_label: "Days Active Dimensions"
     description: "The number of days between a server's first active date and last active date i.e. the age of the server, in days, since first sending telemetry to last sending telemetry."
     type: number
-    sql: datediff(days,${first_active_date}, ${last_active_date}) ;;
+    sql: datediff(days,${first_active_raw}, ${last_active_raw}) ;;
     value_format_name: decimal_0
   }
 
@@ -689,14 +689,14 @@ view: server_fact {
     label: " First Plugin Install"
     description: "The date the first plugin was manually downloaded to the server/cloud workspace."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_plugin_install_date ;;
   }
 
   dimension: days_to_first_plugin_install {
     description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user."
     type: number
-    sql: datediff(days, ${first_active_date}::date, ${first_plugin_install_date}::date) ;;
+    sql: datediff(days, ${first_active_raw}, ${first_plugin_install_raw}) ;;
     value_format_name: decimal_0
   }
 
