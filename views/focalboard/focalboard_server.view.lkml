@@ -32,7 +32,7 @@ view: focalboard_server {
     description: "Displays the age in days of the focalboard instance bucketed into groupings. Age is calculated as days between the first active date (first date telemetry enabled) and given logging date of the record."
     type: tier
     style: integer
-    tiers: [1,7,27,28]
+    tiers: [1,7,31,61,91,181,366,731]
     sql: ${age_days} ;;
   }
 
