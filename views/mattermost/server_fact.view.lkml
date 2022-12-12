@@ -175,6 +175,71 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
+  dimension: retention_1week_flag {
+    label: "Week 1 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the first week since their first active date. This metric is a flag indicating users performed events during the first week relative to the instance's first active timestamp)."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_1week_flag, false) ;;
+  }
+
+  dimension: retention_1week_users {
+    label: "Week 1 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the first week since their first active date. This count indicates the users performed events during the first week relative to the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_1week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+
+  dimension: retention_2week_flag {
+    label: "Week 2 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the second week since their first active date. This metric is a flag indicating users performed events during the second week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_2week_flag, false) ;;
+  }
+
+  dimension: retention_2week_users {
+    label: "Week 2 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the second week since their first active date. This count indicates the users performed events during the second week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_2week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_3week_flag {
+    label: "Week 3 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the third week since their first active date. This metric is a flag indicating users performed events during the third week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_3week_flag, false) ;;
+  }
+
+  dimension: retention_3week_users {
+    label: "Week 3 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the third week since their first active date. This count indicates the users performed events during the third week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_3week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_4week_flag {
+    label: "Week 4 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the fourth week since their first active date. This metric is a flag indicating users performed events during the fourth week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_4week_flag, false) ;;
+  }
+
+  dimension: retention_4week_users {
+    label: "Week 4 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the fourth week since their first active date. This count indicates the users performed events during the fourth week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_4week_users, 0) ;;
+    value_format_name: decimal_0
+  }
 
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
