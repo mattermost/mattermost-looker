@@ -54,7 +54,7 @@ view_label: " User 28-Day Retention"
   dimension_group: first_active_timestamp {
     label: "First Active"
     type: time
-    timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, time, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_timestamp ;;
 
   }
@@ -64,7 +64,7 @@ view_label: " User 28-Day Retention"
     label: "First Active Day Name"
     description: "The name of the day of the week that the First Active Timestamp occurred on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname(${first_active_timestamp_date}::date) ;;
+    sql: dayname(${first_active_timestamp_raw}) ;;
 
   }
 
@@ -73,7 +73,7 @@ view_label: " User 28-Day Retention"
     label: "First Active Day of Week"
     description: "The day number within the week that the First Active Timestamp occurred on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from ${first_active_timestamp_date}::date) ;;
+    sql: extract(dayofweek from ${first_active_timestamp_raw}) ;;
 
   }
 
@@ -82,7 +82,7 @@ view_label: " User 28-Day Retention"
     label: "First Active Week of Year"
     description: "The week number within the year that the First Active Timestamp occurred on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from ${first_active_timestamp_date}::date) ;;
+    sql: extract(weekofyear from ${first_active_timestamp_raw}) ;;
 
   }
 
@@ -90,7 +90,7 @@ view_label: " User 28-Day Retention"
     label: "Retained 28-Day"
     description: "The date/time the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe."
     type: time
-    timeframes: [time, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, time, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.retained_28day_timestamp ;;
 
   }
@@ -100,7 +100,7 @@ view_label: " User 28-Day Retention"
     label: "Retained Day Name"
     description: "The name of the day of the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. Monday ,Tuesday, Wednesday)."
     type: string
-    sql: dayname(${retained_28day_timestamp_date}::date) ;;
+    sql: dayname(${retained_28day_timestamp_raw}) ;;
 
   }
 
@@ -109,7 +109,7 @@ view_label: " User 28-Day Retention"
     label: "Retained Day of Week"
     description: "The day number within the week that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-7)."
     type: number
-    sql: extract(dayofweek from ${retained_28day_timestamp_date}::date) ;;
+    sql: extract(dayofweek from ${retained_28day_timestamp_raw}) ;;
 
   }
 
@@ -118,8 +118,7 @@ view_label: " User 28-Day Retention"
     label: "RetainedWeek of Year"
     description: "The week number within the year that the last event was performed within the 672nd - 696th hour from first active data/time retention timeframe occured on (i.e. 1-52)."
     type: number
-    sql: extract(weekofyear from ${retained_28day_timestamp_date}::date) ;;
-
+    sql: extract(weekofyear from ${retained_28day_timestamp_raw}) ;;
   }
 
 

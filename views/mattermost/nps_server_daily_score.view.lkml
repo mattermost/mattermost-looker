@@ -135,7 +135,7 @@ view: nps_server_daily_score {
   dimension_group: server_install {
     description: "The date the server was installed."
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [raw, date, week, month, year]
     sql: ${TABLE}.server_install_date ;;
     hidden: no
   }

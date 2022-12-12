@@ -1,7 +1,7 @@
 view: invoices {
   sql_table_name: "STRIPE"."INVOICES"
     ;;
-  drill_fields: [id]
+  drill_fields: [id, customer, status, subscription]
 
   dimension: id {
     primary_key: yes
