@@ -73,7 +73,8 @@ explore: user_events_telemetry {
     sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.retention_0day_flag, server_fact.retention_1day_flag, server_fact.retention_7day_flag,
-      server_fact.retention_14day_flag, server_fact.retention_28day_flag, server_fact.installation_id, server_fact.first_server_version,
+      server_fact.retention_14day_flag, server_fact.retention_28day_flag, server_fact.retention_1week_flag, server_fact.retention_2week_flag, server_fact.retention_3week_flag,
+      server_fact.retention_4week_flag, server_fact.installation_id, server_fact.first_server_version,
       server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server,
       server_fact.registered_users_max, server_fact.max_registered_deactivated_users]
   }
