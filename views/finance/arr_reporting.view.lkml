@@ -379,7 +379,7 @@ view: arr_reporting {
     type: sum
     value_format: "$#,##0;($#,##0)"
     description: "Value of renewals closed <= 90 days after license start date excluding expansion and contraction"
-    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,expanded,contracted,churned]
+    drill_fields: [report_mo,account_name,account_id,parent_id,account_owner,opportunity_description,geo,industry,tier,company_type,term,license_beg,license_end,tcv,opportunity_arr,expired,renewed,arr_delta,new,resurrected,late_renewal,expanded,contracted,churned]
     sql: ${TABLE}."LATE_RENEWAL" ;;
   }
 

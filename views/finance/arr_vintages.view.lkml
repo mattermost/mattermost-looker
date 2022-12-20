@@ -74,6 +74,11 @@ view: arr_vintages {
     sql: ${TABLE}."FIRST_ARR" ;;
   }
 
+  measure: total_first_cnt {
+    type: sum
+    sql: ${TABLE}."FIRST_CNT" ;;
+  }
+
   measure: total_first_arr {
     type: sum
     value_format:  "$#,##0;($#,##0)"
@@ -85,6 +90,13 @@ view: arr_vintages {
     value_format: "0.0%;(0.0%)"
     sql: div0(${total_arr_os},${total_first_arr}) ;;
   }
+
+  measure: count_retention {
+    type: number
+    value_format: "0.0%;(0.0%)"
+    sql:  div0(${total_active_cnt},${total_first_cnt}) ;;
+  }
+
 
   measure: avg_arr {
     type: average
