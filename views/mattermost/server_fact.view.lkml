@@ -175,6 +175,71 @@ view: server_fact {
     value_format_name: decimal_0
   }
 
+  dimension: retention_1week_flag {
+    label: "Week 1 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the first week since their first active date. This metric is a flag indicating users performed events during the first week relative to the instance's first active timestamp)."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_1week_flag, false) ;;
+  }
+
+  dimension: retention_1week_users {
+    label: "Week 1 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the first week since their first active date. This count indicates the users performed events during the first week relative to the instance's first active timestamp."
+    type: number
+    sql: COALESCE(${TABLE}.retention_1week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+
+  dimension: retention_2week_flag {
+    label: "Week 2 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the second week since their first active date. This metric is a flag indicating users performed events during the second week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_2week_flag, false) ;;
+  }
+
+  dimension: retention_2week_users {
+    label: "Week 2 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the second week since their first active date. This count indicates the users performed events during the second week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_2week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_3week_flag {
+    label: "Week 3 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the third week since their first active date. This metric is a flag indicating users performed events during the third week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_3week_flag, false) ;;
+  }
+
+  dimension: retention_3week_users {
+    label: "Week 3 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the third week since their first active date. This count indicates the users performed events during the third week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_3week_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_4week_flag {
+    label: "Week 4 Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained in the fourth week since their first active date. This metric is a flag indicating users performed events during the fourth week relative to the instance's first active timestamp."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_4week_flag, false) ;;
+  }
+
+  dimension: retention_4week_users {
+    label: "Week 4 Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained in the fourth week since their first active date. This count indicates the users performed events during the fourth week relative to the instance's first active timestamp."type: number
+    sql: COALESCE(${TABLE}.retention_4week_users, 0) ;;
+    value_format_name: decimal_0
+  }
 
   dimension_group: cloud_payment_method_added {
     label: "Cloud Payment Method Added"
@@ -551,7 +616,7 @@ view: server_fact {
     label: "Current Customer"
     description: "Identifies whether the server is tied to a current customer based on the paid license expiration date."
     type: yesno
-    sql: CASE WHEN ${TABLE}.paid_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.paid_license_expire_date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
     hidden: yes
   }
 
@@ -559,7 +624,7 @@ view: server_fact {
     label: "Active Trial"
     description: "Identifies whether the server is tied to a currently active trial license based on the trial license expiration date."
     type: yesno
-    sql: CASE WHEN ${TABLE}.trial_license_expire_date::date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
+    sql: CASE WHEN ${TABLE}.trial_license_expire_date >= CURRENT_DATE THEN TRUE ELSE FALSE END ;;
     hidden: yes
   }
 
@@ -583,7 +648,7 @@ view: server_fact {
     label: "Customer First Active Telemetry"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.customer_first_active_date ;;
   }
 
@@ -591,7 +656,7 @@ view: server_fact {
     label: " First Active"
     description: "The date the server was first active (first recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [hour, time, time_of_day, hour_of_day, date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, hour, time, time_of_day, hour_of_day, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_active_date ;;
   }
 
@@ -599,7 +664,7 @@ view: server_fact {
     label: " Last Active"
     description: "The date the server was last active (last recorded instance of server appearing server logging data: mattermost2.server - diagnostics.go or events.security - security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_active_date ;;
   }
 
@@ -608,7 +673,7 @@ view: server_fact {
     group_label: "Days Active Dimensions"
     description: "The number of days between a server's first active date and last active date i.e. the age of the server, in days, since first sending telemetry to last sending telemetry."
     type: number
-    sql: datediff(days,${first_active_date}, ${last_active_date}) ;;
+    sql: datediff(days,${first_active_raw}, ${last_active_raw}) ;;
     value_format_name: decimal_0
   }
 
@@ -642,7 +707,7 @@ view: server_fact {
     description: "The first date an active user was logged on the Mattermost Messaging instance."
     label: " First Active User"
     sql: ${TABLE}.first_active_user_date ;;
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
   }
 
   dimension_group: last_active_user_activity {
@@ -650,14 +715,14 @@ view: server_fact {
     description: "The first date an active user was logged on the Mattermost Messaging instance."
     label: " Last Active User"
     sql: ${TABLE}.last_active_user_date ;;
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
   }
 
   dimension_group: first_telemetry_active {
     label: " First Security Telemetry"
     description: "The date the server first recorded security telemetry data in the security diagnostics data (logged via security_update_check.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_telemetry_active_date ;;
   }
 
@@ -665,7 +730,7 @@ view: server_fact {
     label: " Last Security Telemetry"
     description: "The date the server last recorded security telemetry data in the security diagnostics data."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_telemetry_active_date ;;
   }
 
@@ -673,7 +738,7 @@ view: server_fact {
     label: " Last Diagnostics Telemetry"
     description: "The date the server last recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.last_mm2_telemetry_date ;;
   }
 
@@ -681,7 +746,7 @@ view: server_fact {
     label: " First Diagnostics Telemetry"
     description: "The date the server first recorded diagnostics telemetry (logged via diagnostics.go)."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_mm2_telemetry_date ;;
   }
 
@@ -689,14 +754,14 @@ view: server_fact {
     label: " First Plugin Install"
     description: "The date the first plugin was manually downloaded to the server/cloud workspace."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.first_plugin_install_date ;;
   }
 
   dimension: days_to_first_plugin_install {
     description: "The # of days between the first active date of a server/cloud workspace and date first plugin was manually installed/downloaded by a user."
     type: number
-    sql: datediff(days, ${first_active_date}::date, ${first_plugin_install_date}::date) ;;
+    sql: datediff(days, ${first_active_raw}, ${first_plugin_install_raw}) ;;
     value_format_name: decimal_0
   }
 

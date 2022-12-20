@@ -129,6 +129,11 @@ view: subscriptions {
     sql: to_date(${TABLE}."METADATA":"cws-date-converted-to-paid") ;;
   }
 
+  dimension: cws_conversion_flag {
+    type: yesno
+    sql: case when ${cws_date_converted_to_paid} is not null then true else false end ;;
+  }
+
   dimension: metadata {
     type: string
     sql: ${TABLE}."METADATA" ;;
