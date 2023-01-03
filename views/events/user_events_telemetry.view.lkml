@@ -1219,8 +1219,8 @@ view: user_events_telemetry {
     label: " Event"
   description: "The date and/or time groupings available to group the timestamps of the events performed by users."
   type: time
-    timeframes: [week, date, month, year, fiscal_quarter, fiscal_year]
-    sql: ${TABLE}.timestamp::timestamp ;;
+    timeframes: [raw, week, date, month, year, fiscal_quarter, fiscal_year]
+    sql: ${TABLE}.timestamp;;
     hidden: no
   }
 
@@ -1229,7 +1229,7 @@ view: user_events_telemetry {
     group_label: " Event Date"
     description: "The name of the day of the week that the event was performed on."
     type: string
-    sql: dayname(${TABLE}.timestamp::timestamp) ;;
+    sql: dayname(${TABLE}.timestamp) ;;
     order_by_field: event_day
   }
 
@@ -1238,7 +1238,7 @@ view: user_events_telemetry {
     group_label: " Event Date"
     description: "The number of the day of the week that the event was performed on."
     type: number
-    sql: extract(dayofweek from ${TABLE}.timestamp::timestamp)::int ;;
+    sql: extract(dayofweek from ${TABLE}.timestamp)::int ;;
     hidden: yes
   }
 
@@ -1247,7 +1247,7 @@ view: user_events_telemetry {
     group_label: " Event Date"
     description: "The number of the week in the year that the event was performed on."
     type: number
-    sql: weekiso(${TABLE}.timestamp::timestamp)::int ;;
+    sql: weekiso(${TABLE}.timestamp)::int ;;
     hidden: no
   }
 
@@ -1279,9 +1279,9 @@ view: user_events_telemetry {
     label: "Active User"
     description: "Use with Active User/Instance Dimensions to enable Daily, Weekly & Monthly active user/instance functionality with this explore."
     type: time
-    timeframes: [date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
+    timeframes: [raw, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
       week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
-    sql: ${dates.date_date}::date ;;
+    sql: ${dates.date_raw};;
 
   }
 
@@ -1333,7 +1333,7 @@ view: user_events_telemetry {
     label: "Daily Active Users"
     description: "The count of daily active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN ${user_actual_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} = ${event_date} THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_users {
@@ -1341,7 +1341,7 @@ view: user_events_telemetry {
     label: "Weekly Active Users"
     description: "The count of Weekly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${event_date}::DATE <= ${active_user_date_date}::DATE and ${event_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+    sql: CASE WHEN ${event_date} <= ${active_user_date_raw} and ${event_date} >= ${active_user_date_date} - interval '7 days'
           THEN ${user_actual_id} ELSE NULL END ;;
   }
 
@@ -1359,7 +1359,7 @@ view: user_events_telemetry {
     label: "Daily Active Instances"
     description: "The count of daily active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE = ${event_date}::DATE THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} = ${event_date} THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_instances {
@@ -1367,7 +1367,7 @@ view: user_events_telemetry {
     label: "Weekly Active Instances"
     description: "The count of Weekly active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${event_date}::DATE <= ${active_user_date_date}::DATE and ${event_date}::DATE >= ${active_user_date_date}::DATE - interval '7 days'
+    sql: CASE WHEN ${event_date} <= ${active_user_date_raw} and ${event_date} >= ${active_user_date_raw} - interval '7 days'
             THEN ${user_id} ELSE NULL END ;;
   }
 
@@ -1376,7 +1376,7 @@ view: user_events_telemetry {
     label: "Monthly Active Instances"
     description: "The count of monthly active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_date}::DATE IS NOT NULL THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_raw} IS NOT NULL THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: user_count {
