@@ -4016,7 +4016,7 @@ explore: user_retention {
     , -user_events_telemetry.context_os_version, -user_events_telemetry.context_device_manufacturer, -user_events_telemetry.active_user_date_date
     , -user_events_telemetry.active_user_date_month, -user_events_telemetry.active_user_date_week, -user_events_telemetry.active_user_date_year
     , -user_events_telemetry.active_user_date_fiscal_quarter, -user_events_telemetry.active_user_date_fiscal_year
-    , -user_events_telemetry.active_user_date_day_of_week
+    , -user_events_telemetry.active_user_date_day_of_week, -user_events_telemetry.active_user_date_raw
     , -user_events_telemetry.active_user_date_fiscal_quarter_of_year
     , -user_events_telemetry.active_user_date_day_of_month, -user_events_telemetry.active_user_date_month_name
     , -user_events_telemetry.active_user_date_day_of_week_index

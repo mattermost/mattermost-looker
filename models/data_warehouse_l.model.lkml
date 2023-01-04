@@ -3,7 +3,6 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
-
 explore: focalboard_event_telemetry {
   label: "User Events Telemetry (Boards)"
   view_label: "User Events Telemetry (Boards)"
@@ -75,7 +74,7 @@ explore: user_events_telemetry {
     fields: [server_fact.retention_0day_flag, server_fact.retention_1day_flag, server_fact.retention_7day_flag,
       server_fact.retention_14day_flag, server_fact.retention_28day_flag, server_fact.installation_id, server_fact.first_server_version,
       server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server,
-      server_fact.registered_users_max, server_fact.max_registered_deactivated_users]
+      server_fact.registered_users_max, server_fact.max_registered_deactivated_users, server_fact.server_count]
   }
 
   join: excludable_servers {
