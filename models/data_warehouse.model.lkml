@@ -4145,6 +4145,27 @@ explore: arr_ltv_amer {
   hidden: no
 }
 
+explore: arr_ltv_emea {
+  label: "ARR LTV EMEA"
+  description: "For EMEA, ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_ltv_apac {
+  label: "ARR LTV APAC"
+  description: "For APAC, ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
+explore: arr_ltv_row {
+  label: "ARR LTV ROW"
+  description: "For ROW, ARR reporting data shaped for LTV calculation purposes"
+  group_label: " Finance"
+  hidden: no
+}
+
 
 explore: arr_outstanding {
   label: " ARR Outstanding as of Report Date "
