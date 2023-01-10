@@ -12,6 +12,13 @@ view: user_events_telemetry {
 
   # FILTERS
 
+  dimension: option {
+    label: "Option"
+    description: "Deployment Option Select - Option"
+    type: string
+    sql: ${TABLE}.option ;;
+  }
+
   dimension: campaign_utm_source {
     label: "UTM Source"
     description: "UTM Source"
@@ -387,8 +394,7 @@ view: user_events_telemetry {
     label: " Server ID"
     description: "The server id of the user performing the event"
     type: string
-    sql: CASE WHEN REGEXP_LIKE(COALESCE(${TABLE}.user_id, ${context_traits_userid},${context_server}, ${context_traits_server}), '[A-Z0-9a-z]{26}') IS NULL THEN NULL
-          ELSE COALESCE(${TABLE}.user_id, ${context_server}, ${context_traits_server}) END ;;
+    sql: ${TABLE}.user_id;;
     hidden: no
   }
 
