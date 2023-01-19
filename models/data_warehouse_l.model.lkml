@@ -19,7 +19,7 @@ explore: user_events_telemetry {
 
   join: server_fact {
     view_label: "Server Fact"
-    sql_on: ${license_server_fact.server_id} = ${server_fact.server_id} ;;
+    sql_on: COALESCE(${license_server_fact.server_id},${license_server_fact2.server_id}) = ${server_fact.server_id} ;;
     relationship: many_to_one
     fields: [server_fact.retention_0day_flag, server_fact.retention_1day_flag, server_fact.retention_7day_flag,
       server_fact.retention_14day_flag, server_fact.retention_28day_flag, server_fact.retention_1week_flag, server_fact.retention_2week_flag, server_fact.retention_3week_flag,
@@ -30,7 +30,7 @@ explore: user_events_telemetry {
 
   join: excludable_servers {
     view_label: "Excludable Servers"
-    sql_on: ${server_fact.server_id} = ${excludable_servers.server_id} ;;
+    sql_on: ${user_events_telemetry.user_id} = ${excludable_servers.server_id} ;;
     relationship: many_to_one
     fields: [excludable_servers.reason]
   }
@@ -69,12 +69,18 @@ explore: user_events_telemetry {
   }
 
   join: license_server_fact {
+    from: license_server_fact
     view_label: "License Server Fact"
     relationship: many_to_one
+    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id} ;;
+  }
+
+  join: license_server_fact2 {
+    from: license_server_fact
+    relationship: many_to_one
     sql_on: COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
-          = ${license_server_fact.customer_id}
-          LEFT JOIN blp.license_server_fact as license_server_fact2 ON
-          ${user_events_telemetry.userid} = license_server_fact2.server_id ;;
+      = ${license_server_fact2.customer_id} ;;
+    fields: []
   }
 
   join: trial_requests {
