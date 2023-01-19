@@ -273,6 +273,13 @@ view_label: " Performance Events"
     type: number
     sql: ${TABLE}.longest_api_resource_duration ;;
   }
+  
+  dimension: fresh {
+    label: "Fresh"
+    description: "Whether or not a performance represents the first time something happened. Available for channel_switch and team_switch events."
+    type: string
+    sql: ${TABLE}.fresh ;;
+  }
 
   dimension: user_id {
     label: " Instance Id"
