@@ -1266,11 +1266,11 @@ view: user_events_telemetry {
   }
 
   dimension_group: received_at {
-  description: ""
+  description: "Received At"
   type: time
-  timeframes: [date, month, year]
+  timeframes: [raw, week, date, month, year, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.received_at ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension_group: channel_id_timestamp {
