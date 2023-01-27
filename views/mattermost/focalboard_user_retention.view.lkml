@@ -26,6 +26,11 @@ view: focalboard_user_retention {
     order_by_field: first_active_timestamp_month
   }
 
+  dimension: type {
+    type: string
+    sql: ${TABLE}."TYPE";;
+  }
+
 
   dimension: id {
     primary_key: yes
