@@ -9,6 +9,11 @@ view: feature_flag_telemetry {
     sql: ${TABLE}."ID" ;;
   }
 
+  dimension: REDUCE_ON_BOARDING_TASK_LIST {
+    label: "Reduce On-Boarding Task List"
+    type: string
+    sql: ${TABLE}."REDUCE_ON_BOARDING_TASK_LIST" ;;
+  }
 
   dimension: _dbt_source_relation {
     type: string
