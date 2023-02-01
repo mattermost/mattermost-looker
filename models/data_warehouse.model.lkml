@@ -4283,7 +4283,7 @@ explore: feature_flag_telemetry {
 }
 
 explore: daily_event_stats {
-  label: "Event statistics"
+  label: "Daily Event Statistics"
   group_label: "Event Registry"
   hidden: no
 }
