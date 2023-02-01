@@ -15,24 +15,11 @@ view: daily_event_stats {
     description: "Primary key, derived from date, event name table and source"
   }
 
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Event Count" in Explore.
 
   dimension: event_count {
     type: number
     sql: ${TABLE}."EVENT_COUNT" ;;
     description: "Total number of events for the given date"
-  }
-
-  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
-  # measures for this dimension, but you can also add measures of many different aggregates.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
-  measure: total_event_count {
-    type: sum
-    sql: ${event_count} ;;
-    description: "Total number of events for the whole history"
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
