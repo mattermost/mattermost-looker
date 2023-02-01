@@ -66,7 +66,7 @@ view: daily_event_stats {
   measure: total {
     type: sum
     sql: ${event_count} ;;
-    description: "Total events for the given timefame"
+    description: "Total events for the given timeframe"
   }
 
   measure: first_date {
@@ -78,7 +78,7 @@ view: daily_event_stats {
   measure: last_date {
     type:  max
     sql: ${event_date_date} ;;
-    description: "First date that this event was submitted"
+    description: "Last date that this event was submitted"
   }
 
   measure: days_since_first_seen {
