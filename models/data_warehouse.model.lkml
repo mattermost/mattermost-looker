@@ -4280,7 +4280,10 @@ explore: feature_flag_telemetry {
     relationship: many_to_one
     sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
   }
+}
 
-
-
+explore: daily_event_stats {
+  label: "Event statistics"
+  group_label: "Event Registry"
+  hidden: no
 }

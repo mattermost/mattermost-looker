@@ -82,25 +82,20 @@ view: daily_event_stats {
 
   measure: first_date {
     type:  min
-    sql: ${event_date.date} ;;
+    sql: ${event_date_date} ;;
     description: "First date that this event was submitted"
   }
 
   measure: last_date {
     type:  max
-    sql: ${event_date.date} ;;
+    sql: ${event_date_date} ;;
     description: "First date that this event was submitted"
   }
 
   measure: days_since_first_seen {
-    type: int
+    type: number
     sql:  datediff(day, ${first_date}, CURRENT_DATE()) ;;
     description: "Number of days since the date the event was first seen"
   }
 
-  measure: event_daily_average {
-    type: average
-    sql: ${event_count} / ${days_since_first_seen} ;;
-    description: "Average daily event occurences. Defined as total number of events / number of days since first encountered"
-  }
 }
