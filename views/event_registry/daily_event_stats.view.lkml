@@ -73,11 +73,13 @@ view: daily_event_stats {
     description: "Source of the event"
   }
 
+
   ## Measures
 
-  measure: count {
-    type: count
-    drill_fields: [id, event_name]
+  measure: total {
+    type: sum
+    sql: ${event_count} ;;
+    description: "Total events for the given timefame"
   }
 
   measure: first_date {
