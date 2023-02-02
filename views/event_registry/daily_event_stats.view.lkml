@@ -71,13 +71,13 @@ view: daily_event_stats {
 
   measure: first_date {
     type:  min
-    sql: ${event_date_date} ;;
+    sql: ${event_date_raw} ;;
     description: "First date that this event was submitted"
   }
 
   measure: last_date {
     type:  max
-    sql: ${event_date_date} ;;
+    sql: ${event_date_raw} ;;
     description: "Last date that this event was submitted"
   }
 
