@@ -1257,6 +1257,20 @@ view: user_events_telemetry {
     hidden: no
   }
 
+  dimension: priority {
+    label: "Priority"
+    description: "Priority of the message (empty, urgent or important)"
+    type:  string
+    sql: ${TABLE}.priority ;;
+  }
+
+  dimension: requested_ack {
+    label: "Requested Acknowledge"
+    description: "Whether the sender requested acknowledge"
+    type:  yesno
+    sql: ${TABLE}.requested_ack ;;
+  }
+
   dimension_group: uuid_ts {
   description: ""
   type: time
