@@ -257,7 +257,7 @@ view_label: " Performance Events"
     label: "Number of API requests"
     description: "The number of api requests made by the client for an event."
     type: number
-    sql: ${TABLE}.num_of_request ;;
+    sql: COALESCE(${TABLE}.num_of_request, ${TABLE}.request_count) ;;
   }
 
   dimension: maxAPIResourceSize {
