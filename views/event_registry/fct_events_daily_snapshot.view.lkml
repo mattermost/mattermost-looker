@@ -13,12 +13,16 @@ view: fct_events_daily_snapshot {
     type: string
     sql: ${TABLE}."ID" ;;
     description: "Primary key, derived from date, source and event columns"
+    # No need to show this field. event_name is more user friendly.
+    hidden: yes
   }
 
   dimension: event_id {
     type: string
     sql: ${TABLE}."EVENT_ID" ;;
     description: "Id of the event"
+    # No need to show this field. event_name is more user friendly.
+    hidden: yes
   }
 
 

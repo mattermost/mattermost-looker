@@ -13,6 +13,8 @@ view: dim_events {
     type: string
     sql: ${TABLE}."EVENT_ID" ;;
     description: "Primary key, derived from event properties."
+    # No need to show ids.
+    hidden: yes
   }
 
   dimension: event_name {
