@@ -43,7 +43,7 @@ view: dim_events {
 
   dimension: normalized_event_type {
     type: string
-    sql: COALESCE(${TABLE}."EVENT_TYPE", ${TABLE}."EVENT_NAME") ;;
+    sql: COALESCE(${event_type}, ${event_name}) ;;
     description: "Either the type of event or its name if type is not present."
   }
 
