@@ -2435,6 +2435,7 @@ explore: events_registry {
 
 explore: fct_events_daily_snapshot {
   label: "New Events Registry"
+  view_label: "Daily Events"
   group_label: " Product: Messaging"
   description: "Contains the details of all user events currently, and historically, captured on the Mattermost Messaging platform. Including the first and most recent date the event was logged."
 
