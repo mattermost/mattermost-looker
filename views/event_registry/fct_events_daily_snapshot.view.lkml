@@ -38,6 +38,8 @@ view: fct_events_daily_snapshot {
   }
 
   dimension_group: event_date {
+    group_label: "Event Date"
+    label: ""
     type: time
     timeframes: [
       raw,

@@ -2434,10 +2434,10 @@ explore: events_registry {
 }
 
 explore: fct_events_daily_snapshot {
-  label: "New Events Registry"
-  view_label: "Daily Events"
-  group_label: " Product: Messaging"
-  description: "Contains the details of all user events currently, and historically, captured on the Mattermost Messaging platform. Including the first and most recent date the event was logged."
+  label: "Daily Event Snapshot"
+  view_label: "Daily Event Snapshot"
+  group_label: "Event Registry"
+  description: "Contains the details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
 
   join: dim_events {
     view_label: "Event Details"
@@ -4293,10 +4293,4 @@ explore: feature_flag_telemetry {
     relationship: many_to_one
     sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
   }
-}
-
-explore: daily_event_stats {
-  label: "Daily Event Statistics"
-  group_label: "Event Registry"
-  hidden: no
 }
