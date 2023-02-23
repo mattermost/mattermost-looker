@@ -257,7 +257,7 @@ view_label: " Performance Events"
     label: "Number of API requests"
     description: "The number of api requests made by the client for an event."
     type: number
-    sql: ${TABLE}.num_of_request ;;
+    sql: COALESCE(${TABLE}.num_of_request, ${TABLE}.request_count) ;;
   }
 
   dimension: maxAPIResourceSize {
@@ -272,6 +272,13 @@ view_label: " Performance Events"
     description: "Duration of the api in milliseconds(ms) which took longest to download during an event."
     type: number
     sql: ${TABLE}.longest_api_resource_duration ;;
+  }
+  
+  dimension: fresh {
+    label: "Fresh"
+    description: "Whether or not a performance represents the first time something happened. Available for channel_switch and team_switch events."
+    type: string
+    sql: ${TABLE}.fresh ;;
   }
 
   dimension: user_id {

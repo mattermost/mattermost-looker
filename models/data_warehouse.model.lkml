@@ -2433,6 +2433,19 @@ explore: events_registry {
   description: "Contains the name and details of all user events currently, and historically, captured on the Mattermost Messaging platform. Including the first and most recent date the event was logged."
 }
 
+explore: fct_events_daily_snapshot {
+  label: "Daily Event Snapshot"
+  view_label: "Daily Event Snapshot"
+  group_label: "Event Registry"
+  description: "Contains the details of all user events currently, and historically, captured on the Mattermost platform. Including the first and most recent date the event was logged."
+
+  join: dim_events {
+    view_label: "Event Details"
+    sql_on: ${fct_events_daily_snapshot.event_id}  = ${dim_events.event_id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: user_events_by_date {
   view_label: " User Events By Date"
   label: " User Events By Date"
@@ -4280,7 +4293,4 @@ explore: feature_flag_telemetry {
     relationship: many_to_one
     sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
   }
-
-
-
 }

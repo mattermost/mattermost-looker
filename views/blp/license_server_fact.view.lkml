@@ -19,7 +19,7 @@ view: license_server_fact {
 
   dimension_group: last_telemetry {
     type: time
-    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    timeframes: [raw, date, week, month, year, fiscal_year, fiscal_quarter]
     sql: ${TABLE}.last_telemetry_date ;;
     hidden: yes
   }
@@ -27,7 +27,7 @@ view: license_server_fact {
   dimension_group: last_server_telemetry {
     description: "The last time the server associated with the license sent telemetry."
     type: time
-    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    timeframes: [raw, date, week, month, year, fiscal_year, fiscal_quarter]
     sql: ${TABLE}.last_server_telemetry ;;
   }
 
@@ -63,14 +63,14 @@ view: license_server_fact {
   }
 
   dimension: server_id {
-    description: ""
+    description: "Server ID"
     type: string
     sql: ${TABLE}.server_id ;;
     hidden: no
   }
 
   dimension: license_id {
-    description: ""
+    description: "License ID"
     type: string
     sql: ${TABLE}.license_id ;;
     hidden: no
@@ -85,7 +85,7 @@ view: license_server_fact {
 
   dimension: edition {
     label: "Edition"
-    description: ""
+    description: "Edition"
     type: string
     sql:  ${TABLE}.edition ;;
     # --IFF(NOT ${TABLE}.trial and ${TABLE}.edition IS NULL AND ${TABLE}.opportunity_sfid IS NOT NULL AND ${TABLE}.account_sfid IS NOT NULL, 'E20', COALESCE(${TABLE}.edition, 'E20 Trial')) ;;
@@ -130,7 +130,7 @@ view: license_server_fact {
   }
 
   dimension: license_email {
-    description: ""
+    description: "License Email"
     type: string
     sql: ${TABLE}.license_email ;;
     hidden: no
@@ -510,10 +510,10 @@ view: license_server_fact {
 
   # DIMENSION GROUPS/DATES
   dimension_group: issued {
-    label: "License Issued"
-    description: ""
+    label: "License Issued Date"
+    description: "License Issued Date"
     type: time
-    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.issued_date ;;
     hidden: no
   }
@@ -524,10 +524,10 @@ view: license_server_fact {
   }
 
   dimension_group: start {
-    label: "License Start"
-    description: ""
+    label: "License Start Date"
+    description: "License Start Date"
     type: time
-    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.start_date ;;
     hidden: no
   }
@@ -538,10 +538,10 @@ view: license_server_fact {
   }
 
   dimension_group: expire {
-    label: "License Expire"
-    description: ""
+    label: "License Expire Date"
+    description: "License Expire Dat"
     type: time
-    timeframes: [date, month, year, week, fiscal_quarter, fiscal_year]
+    timeframes: [raw, date, month, year, week, fiscal_quarter, fiscal_year]
     sql: ${TABLE}.expire_date ;;
     hidden: no
   }
@@ -570,7 +570,7 @@ view: license_server_fact {
   dimension_group: license_retired {
     description: "Value is retrieved via a windowing function that identifies the start date of the next license associated with the server, so there is no overlapping of license keys on Server logging dates."
     type: time
-    timeframes: [date, week, month, year, fiscal_year, fiscal_quarter]
+    timeframes: [raw, date, week, month, year, fiscal_year, fiscal_quarter]
     sql: ${TABLE}.license_retired_date ;;
     hidden: no
   }
