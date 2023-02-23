@@ -112,7 +112,9 @@ view: license_server_fact {
     group_label: "Cloud Filters"
     description: "Boolean indicating the license is associated with a *paying* cloud customer."
     type: yesno
-    sql:  CASE WHEN COALESCE(lower(${edition}), 'None') != 'mattermost cloud' AND COALESCE(lower(${edition}), 'None') LIKE '%cloud%' THEN TRUE ELSE FALSE END ;;
+    sql:  CASE WHEN CONTAINS(COALESCE(lower(${edition}), 'None'), 'cloud enterprise') THEN TRUE
+    WHEN CONTAINS(COALESCE(lower(${edition}), 'None'), 'cloud professional') THEN TRUE
+    ELSE FALSE END ;;
   }
 
   dimension: cloud_customer {
