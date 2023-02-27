@@ -55,6 +55,43 @@ view: subscriptions {
     sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
   }
 
+  dimension: updated_by_event_type {
+    type: yesno
+    sql: ${TABLE}."updated_by_event_type" ;;
+  }
+
+  dimension_group: ended_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."ENDED_AT" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension_group: canceled_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."CANCELED_AT" AS TIMESTAMP_NTZ) ;;
+  }
+
   dimension_group: current_period_end {
     type: time
     timeframes: [
