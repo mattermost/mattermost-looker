@@ -3104,6 +3104,13 @@ explore: license_server_fact {
     type: left_outer
   }
 
+  join: server_daily_details {
+    sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: one_to_many
+    type: left_outer
+    fields: [server_daily_details.logging_date, server_daily_details.server_id]
+  }
+
   join: server_daily_details_ext {
     sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_many
