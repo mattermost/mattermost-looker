@@ -52,8 +52,8 @@ view: INVOICES {
     description: ""
     type: string
     sql: ${TABLE}.id ;;
-    hidden: no
     primary_key: yes
+    hidden: no
     link: {
       label: "Filter Invoice Disputes Dashboard"
       url: "/dashboards/224?Invoice%20ID={{ value }}"
