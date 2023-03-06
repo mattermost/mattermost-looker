@@ -3105,19 +3105,20 @@ explore: license_server_fact {
   }
 
   join: server_daily_details {
-    sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
+    sql_on: ${server_fact.server_id} = ${server_daily_details.server_id} ;;
     relationship: one_to_many
     type: left_outer
-    fields: [server_daily_details.logging_date, server_daily_details.server_id]
+    fields: [server_daily_details.logging_date, server_daily_details.server_id, server_daily_details.system_admins]
   }
 
   join: server_daily_details_ext {
     sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_many
     type: left_outer
-    fields: [server_daily_details_ext.enable_shared_channels, server_daily_details_ext.enable_sync_with_ldap, server_daily_details_ext.feature_data_retention
+    fields: [server_daily_details_ext.logging_date, server_daily_details_ext.enable_shared_channels, server_daily_details_ext.enable_sync_with_ldap, server_daily_details_ext.feature_data_retention
       , server_daily_details_ext.custom_service_terms_enabled_service, server_daily_details_ext.enable_compliance
-      , server_daily_details_ext.enable_commattermostpluginchannelexport ,server_daily_details_ext.advanced_logging_config]
+      , server_daily_details_ext.enable_commattermostpluginchannelexport ,server_daily_details_ext.advanced_logging_config,
+      server_daily_details_ext.enable_ldap, server_daily_details_ext.group_count, server_daily_details_ext.group_count_sum]
   }
 
   join: excludable_servers {
