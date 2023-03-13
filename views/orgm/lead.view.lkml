@@ -1187,6 +1187,13 @@ view: lead {
   # Measures
   #
 
+  measure: companies {
+    sql: ${company} ;;
+    drill_fields: [lead_drill_fields*]
+    label: "# Companies"
+    type: count_distinct
+  }
+
   measure: count {
     sql: ${sfid} ;;
     drill_fields: [lead_drill_fields*]
