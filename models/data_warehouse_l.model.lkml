@@ -4,7 +4,7 @@ fiscal_month_offset: -11
 week_start_day: sunday
 
 datagroup: user_events_telemetry_default_datagroup {
-  sql_trigger: SELECT MAX(event_date) FROM events.user_events_telemetry;;
+  sql_trigger: SELECT MAX(event_date) FROM analytics.events.user_events_telemetry;;
   max_cache_age: "24 hour"
 }
 
