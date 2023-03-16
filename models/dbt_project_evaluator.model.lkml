@@ -1,5 +1,7 @@
 connection: "snowflake"
-include: "/views/marts/dbt_project_evaluator/*.view"                # include all views in the views/ folder in this project
+include: "/views/marts/dbt_project_evaluator/*.view.lkml"
+
+# include all views in the views/ folder in this project
 
 # Modeling
 
