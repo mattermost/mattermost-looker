@@ -6,6 +6,7 @@ include: "/views/marts/dbt_project_evaluator/*.view"                # include al
 explore: fct_direct_join_to_source {
   label: "Direct Join to Source"
   view_label: "Direct Join to Source"
+  hidden:  no
   # group_label: "DBT Modeling"
 }
 
