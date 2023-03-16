@@ -3,15 +3,7 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
-datagroup: user_events_telemetry_default_datagroup {
-  sql_trigger: SELECT MAX(timestamp::date) FROM analytics.events.user_events_telemetry;;
-  max_cache_age: "24 hour"
-}
-
-
-
 explore: user_events_telemetry {
-  persist_with: user_events_telemetry_default_datagroup
   label: "User Events Telemetry (Messaging)"
   view_label: " User Events Telemetry (Messaging)"
   group_label: " Product: Messaging"
