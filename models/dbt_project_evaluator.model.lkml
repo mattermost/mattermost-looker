@@ -9,6 +9,7 @@ explore: fct_direct_join_to_source {
   group_label: "DBT Modeling"
 }
 
+
 explore: fct_marts_or_intermediate_dependent_on_source {
   label: "Downstream Models Dependent on Source"
   view_label: "Downstream Models Dependent on Source"
