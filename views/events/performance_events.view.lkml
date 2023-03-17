@@ -1,7 +1,7 @@
 
 # This is the view file for the analytics.events.performance_events table.
 view: performance_events {
-sql_table_name: events.performance_events ;;
+sql_table_name: mart_web_app.eg_performance_events ;;
 view_label: " Performance Events"
 
 
@@ -273,7 +273,7 @@ view_label: " Performance Events"
     type: number
     sql: ${TABLE}.longest_api_resource_duration ;;
   }
-  
+
   dimension: fresh {
     label: "Fresh"
     description: "Whether or not a performance represents the first time something happened. Available for channel_switch and team_switch events."
@@ -285,7 +285,7 @@ view_label: " Performance Events"
     label: " Instance Id"
     description: "The User Id (Instance ID) of the user performing the event."
     type: string
-    sql:COALESCE(${TABLE}.user_id, ${TABLE}.userid) ;;
+    sql: ${TABLE}.user_id ;;
   }
 
 
@@ -423,14 +423,6 @@ view_label: " Performance Events"
     description: "The Scheme Id of the user performing the event."
     type: string
     sql: ${TABLE}.scheme_id ;;
-  }
-
-
-  dimension: warnmetricid {
-    label: "Warnmetricid"
-    description: "The Warnmetricid attribute of the triggered event."
-    type: string
-    sql: ${TABLE}.warnmetricid ;;
   }
 
 
