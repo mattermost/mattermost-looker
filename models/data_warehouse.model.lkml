@@ -2109,7 +2109,7 @@ explore: server_daily_details {
       server_daily_details_ext.registered_users_band, server_daily_details_ext.distinct_group_member_count_sum, server_daily_details_ext.group_count_sum,
       server_daily_details_ext.group_member_count_sum, server_daily_details_ext.group_count_with_allow_reference_sum,
       server_daily_details_ext.group_count_count, server_daily_details_ext.group_members_count,
-      server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.distinct_group_member_count]
+      server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.enable_shared_channels]
   }
 
   join: version_release_dates {
