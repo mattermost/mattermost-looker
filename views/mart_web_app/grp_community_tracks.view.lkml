@@ -61,6 +61,8 @@ view: grp_community_tracks {
     type: time
     timeframes: [
       raw,
+      hour,
+      hour_of_day,
       time,
       date,
       week,
@@ -82,6 +84,8 @@ view: grp_community_tracks {
     type: time
     timeframes: [
       raw,
+      hour,
+      hour_of_day,
       time,
       date,
       week,
