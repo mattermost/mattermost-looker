@@ -17,7 +17,7 @@ view: grp_community_tracks {
     sql: ${TABLE}."CATEGORY" ;;
   }
 
-  dimension_group: event {
+  dimension_group: event_date {
     description: "Date extracted from the Timestamp registered by RudderStack when the event occured refactored to clients clock skew."
     type: time
     timeframes: [
@@ -56,7 +56,7 @@ view: grp_community_tracks {
     sql: ${TABLE}."EVENT_TYPE" ;;
   }
 
-  dimension_group: received {
+  dimension_group: received_at {
     description: "Timestamp registered by RudderStack when the event was ingested (received)."
     type: time
     timeframes: [
