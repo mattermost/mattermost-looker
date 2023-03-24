@@ -3,6 +3,12 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
+explore: grp_community_tracks {
+  group_label: "Community Tracks"
+  view_label: "Community Tracks "
+  view_name: grp_community_tracks
+}
+
 explore: _base_account_explore {
   extension: required
 
