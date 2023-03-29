@@ -16,12 +16,6 @@ view: fct_issues_daily_snapshot {
     sql: ${TABLE}."ISSUE_KEY" ;;
   }
 
-  dimension: lead_time_in_days {
-    description: "The time (in days) between created and closed. "
-    type: number
-    sql: ${TABLE}."LEAD_TIME_IN_DAYS" ;;
-  }
-
   dimension: resolution {
     type: string
     sql: ${TABLE}."RESOLUTION" ;;
@@ -30,6 +24,11 @@ view: fct_issues_daily_snapshot {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
+  }
+
+  dimension: issue_type {
+    type: string
+    sql:  ${TABLE}.issue_type ;;
   }
 
   dimension: project_id {
@@ -43,6 +42,7 @@ view: fct_issues_daily_snapshot {
     type: time
     timeframes: [
       raw,
+      date,
       month,
       quarter,
       year
@@ -55,6 +55,7 @@ view: fct_issues_daily_snapshot {
     type: time
     timeframes: [
       raw,
+      date,
       month,
       quarter,
       year
@@ -62,7 +63,13 @@ view: fct_issues_daily_snapshot {
     sql: ${TABLE}."CLOSED_AT" ;;
   }
 
-    measure: average_lead_time_in_days {
+  dimension: lead_time_in_days {
+    description: "The time (in days) between created and closed. "
+    type: number
+    sql: ${TABLE}."LEAD_TIME_IN_DAYS" ;;
+  }
+
+  measure: average_lead_time_in_days {
     type: average
     sql: ${lead_time_in_days} ;;
   }
