@@ -26,6 +26,24 @@ view: dim_fix_versions {
     sql: ${TABLE}."CLOUD_RELEASE_DATE" ;;
   }
 
+  dimension_group: planned_release_date {
+    label: "Planned Release Date"
+    description: "The planned date of the release"
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."PLANNED_RELEASE_DATE" ;;
+  }
+
+
   dimension: component {
     description: "The component this release refers to"
     type: string
