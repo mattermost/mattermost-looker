@@ -74,6 +74,10 @@ view: fct_issues_daily_snapshot {
     sql: ${lead_time_in_days} ;;
   }
 
+  measure: median_lead_time_in_days {
+    type: median
+    sql: ${lead_time_in_days} ;;
+  }
 
   measure: count {
     type: count
