@@ -167,14 +167,14 @@ view: server_fact {
   }
 
   dimension: retention_28day_above_flag {
-    label: " 28-Day Retention"
+    label: " 28-Day+ Retention"
     group_label: " Telemetry Flags"
     description: "Boolean indicating the instance was retained after 28 days and above since their first active date. "
     sql: COALESCE(${TABLE}.retention_28day_above_flag, false) ;;
   }
 
   dimension: retention_28day_above_users {
-    label: " 28-Day Retained Users"
+    label: " 28-Day+ Retained Users"
     group_label: "User Event Dimensions"
     description: "Number indicating the count of instance users that were retained after 28 days and above since their first active date.  "
     sql: COALESCE(${TABLE}.retention_28day_above_users, 0) ;;
