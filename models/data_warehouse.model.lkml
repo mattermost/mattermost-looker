@@ -1503,13 +1503,6 @@ explore: ADDRESSES {
   label: "Addresses"
 }
 
-explore: CONTACT_US_REQUESTS {
-  hidden: yes
-  group_label: "Billing & Licensing"
-  description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
-  label: "Contact Us Requests"
-}
-
 explore: CREDIT_CARDS {
   hidden: yes
   group_label: "Billing & Licensing"
@@ -1590,11 +1583,6 @@ explore: CUSTOMERS {
     view_label: "Addresses (Company)"
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
     relationship: one_to_one
-  }
-
-  join: CONTACT_US_REQUESTS {
-    sql_on: ${CUSTOMERS.id} = ${CONTACT_US_REQUESTS.customer_id} ;;
-    relationship: one_to_many
   }
 
   join: USAGE_EVENTS {
