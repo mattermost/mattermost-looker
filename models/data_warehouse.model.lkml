@@ -4121,7 +4121,14 @@ explore: arr_expiry {
 explore: arr_reporting {
   label: " ARR Reporting"
   group_label: " Finance"
-  description: "For Reporting ARR Activity"
+  description: "ARR Reporting based on later of close day or license start"
+  hidden: no
+}
+
+explore: contracted_arr_reporting {
+  label: "Contracted ARR Reporting"
+  group_label: " Finance"
+  description: "ARR reporting based on close day"
   hidden: no
 }
 
