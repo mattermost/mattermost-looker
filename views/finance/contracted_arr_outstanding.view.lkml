@@ -170,10 +170,6 @@ order by close_qtr desc, arr_os desc
       ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
 
   dimension: account_name {
     type: string
@@ -258,20 +254,4 @@ order by close_qtr desc, arr_os desc
     sql: ${TABLE}."ACCOUNT_OWNER" ;;
   }
 
-  set: detail {
-    fields: [
-      account_name,
-      account_id,
-      fiscal_closing_quarter,
-      arr_os,
-      parent,
-      parent_id,
-      bin_avg_arr,
-      company_type,
-      geo,
-      industry,
-      government,
-      account_owner
-    ]
-  }
 }
