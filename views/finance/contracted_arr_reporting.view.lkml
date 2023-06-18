@@ -510,7 +510,7 @@ view: contracted_arr_reporting {
     sql: ${TABLE}."PREVIOUS_EXPIRE" ;;
   }
 
-  measure: total_preivous_expire {
+  measure: total_previous_expire {
     type: sum
     value_format: "$#,##0;($#,##0)"
     drill_fields: [close_day_date,account_name,previous_expire,account_id,account_owner,parent,tier,bin_avg_arr,tcv,geo,country,government,company_type, industry,license_beg_date,license_end_date,term]
