@@ -4126,9 +4126,16 @@ explore: arr_reporting {
 }
 
 explore: contracted_arr_reporting {
-  label: "Contracted ARR Reporting"
+  label: "Contracted ARR Activity Reporting"
   group_label: " Finance"
-  description: "ARR reporting based on close day"
+  description: "ARR activity reporting based on close day"
+  hidden: no
+}
+
+explore: contracted_arr_outstanding {
+  label: "Contracted ARR Outstanding"
+  group_label: " Finance"
+  description: "ARR outstanding reporting based on closing fiscal quarter"
   hidden: no
 }
 
