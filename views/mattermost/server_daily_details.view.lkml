@@ -374,7 +374,7 @@ view: server_daily_details {
     description: "The server's IP Address."
     type: string
     sql: ${TABLE}.ip_address ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: grouping {
