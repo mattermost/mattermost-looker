@@ -12,6 +12,7 @@ view: user_agent_registry {
 
   # DIMENSIONS
   dimension: context_useragent {
+    label: "Context User Agent"
     description: ""
     type: string
     sql: ${TABLE}.context_useragent ;;
@@ -19,6 +20,7 @@ view: user_agent_registry {
   }
 
   dimension: browser {
+    label: "Browser"
     description: "The browser used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
@@ -27,6 +29,7 @@ view: user_agent_registry {
   }
 
   dimension: browser_version {
+    label: "Browser Version"
     description: "The browser version used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
@@ -35,6 +38,7 @@ view: user_agent_registry {
   }
 
   dimension: browser_version_major {
+    label: "Browser Version Major"
     description: "The browser version used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: number
@@ -77,7 +81,7 @@ view: user_agent_registry {
   }
 
   dimension: os_version_major {
-    label: "OS Version"
+    label: "OS Version Major"
     description: "The operating system version of the device used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
@@ -107,6 +111,7 @@ view: user_agent_registry {
   }
 
   dimension: device_type {
+    label: "Device Type"
     description: "The device type used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
@@ -115,6 +120,7 @@ view: user_agent_registry {
   }
 
   dimension: device_brand {
+    label: "Device Brand"
     description: "The device brand of the device used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
@@ -123,6 +129,7 @@ view: user_agent_registry {
   }
 
   dimension: device_model {
+    label: "Device Model"
     description: "The device model of the device used to access & browse the mattermost web property."
     group_label: "User Agent Attributes"
     type: string
