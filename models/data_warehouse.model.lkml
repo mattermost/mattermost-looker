@@ -3,6 +3,12 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
+explore: grp_community_tracks {
+  group_label: "Community Tracks"
+  view_label: "Community Tracks "
+  view_name: grp_community_tracks
+}
+
 explore: _base_account_explore {
   extension: required
 
@@ -1497,13 +1503,6 @@ explore: ADDRESSES {
   label: "Addresses"
 }
 
-explore: CONTACT_US_REQUESTS {
-  hidden: yes
-  group_label: "Billing & Licensing"
-  description: "Contains all contact us requests recieved by Mattermost users, customers, and interested parties."
-  label: "Contact Us Requests"
-}
-
 explore: CREDIT_CARDS {
   hidden: yes
   group_label: "Billing & Licensing"
@@ -1584,11 +1583,6 @@ explore: CUSTOMERS {
     view_label: "Addresses (Company)"
     sql_on: ${ADDRESSES.customer_id} = ${CUSTOMERS.id} AND ${ADDRESSES.address_type} = 'company' ;;
     relationship: one_to_one
-  }
-
-  join: CONTACT_US_REQUESTS {
-    sql_on: ${CUSTOMERS.id} = ${CONTACT_US_REQUESTS.customer_id} ;;
-    relationship: one_to_many
   }
 
   join: USAGE_EVENTS {
@@ -2109,7 +2103,7 @@ explore: server_daily_details {
       server_daily_details_ext.registered_users_band, server_daily_details_ext.distinct_group_member_count_sum, server_daily_details_ext.group_count_sum,
       server_daily_details_ext.group_member_count_sum, server_daily_details_ext.group_count_with_allow_reference_sum,
       server_daily_details_ext.group_count_count, server_daily_details_ext.group_members_count,
-      server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.distinct_group_member_count]
+      server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.distinct_group_member_count, server_daily_details_ext.enable_shared_channels]
   }
 
   join: version_release_dates {
@@ -3104,13 +3098,21 @@ explore: license_server_fact {
     type: left_outer
   }
 
+  join: server_daily_details {
+    sql_on: ${server_fact.server_id} = ${server_daily_details.server_id} ;;
+    relationship: one_to_many
+    type: left_outer
+    fields: [server_daily_details.logging_date, server_daily_details.server_id, server_daily_details.system_admins]
+  }
+
   join: server_daily_details_ext {
     sql_on: ${server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: one_to_many
     type: left_outer
-    fields: [server_daily_details_ext.enable_shared_channels, server_daily_details_ext.enable_sync_with_ldap, server_daily_details_ext.feature_data_retention
+    fields: [server_daily_details_ext.logging_date, server_daily_details_ext.enable_shared_channels, server_daily_details_ext.enable_sync_with_ldap, server_daily_details_ext.feature_data_retention
       , server_daily_details_ext.custom_service_terms_enabled_service, server_daily_details_ext.enable_compliance
-      , server_daily_details_ext.enable_commattermostpluginchannelexport ,server_daily_details_ext.advanced_logging_config]
+      , server_daily_details_ext.enable_commattermostpluginchannelexport ,server_daily_details_ext.advanced_logging_config,
+      server_daily_details_ext.enable_ldap, server_daily_details_ext.group_count, server_daily_details_ext.group_count_sum]
   }
 
   join: excludable_servers {
@@ -4119,7 +4121,21 @@ explore: arr_expiry {
 explore: arr_reporting {
   label: " ARR Reporting"
   group_label: " Finance"
-  description: "For Reporting ARR Activity"
+  description: "ARR Reporting based on later of close day or license start"
+  hidden: no
+}
+
+explore: contracted_arr_reporting {
+  label: "Contracted ARR Activity Reporting"
+  group_label: " Finance"
+  description: "ARR activity reporting based on close day"
+  hidden: no
+}
+
+explore: contracted_arr_outstanding {
+  label: "Contracted ARR Outstanding"
+  group_label: " Finance"
+  description: "ARR outstanding reporting based on closing fiscal quarter"
   hidden: no
 }
 
@@ -4292,5 +4308,26 @@ explore: feature_flag_telemetry {
     type: left_outer
     relationship: many_to_one
     sql_on: ${feature_flag_telemetry.user_id} = ${excludable_servers.server_id} ;;
+  }
+}
+
+explore:  fct_issues_daily_snapshot {
+  label: "JIRA Issues - Daily Snapshot"
+  group_label: "JIRA Issues"
+
+  join: dim_projects {
+    relationship: one_to_one
+    type: inner
+    sql_on: ${fct_issues_daily_snapshot.project_id} = ${dim_projects.project_id} ;;
+  }
+
+  join: dim_labels {
+    relationship: one_to_many
+    sql_on: ${fct_issues_daily_snapshot.issue_id} = ${dim_labels.issue_id} ;;
+  }
+
+  join: dim_fix_versions {
+    relationship: one_to_many
+    sql_on: ${fct_issues_daily_snapshot.issue_id} = ${dim_fix_versions.issue_id} ;;
   }
 }

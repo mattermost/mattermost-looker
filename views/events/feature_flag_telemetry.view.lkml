@@ -9,10 +9,16 @@ view: feature_flag_telemetry {
     sql: ${TABLE}."ID" ;;
   }
 
-  dimension: REDUCE_ON_BOARDING_TASK_LIST {
+  dimension: reduce_on_boarding_task_list {
     label: "Reduce On-Boarding Task List"
     type: string
     sql: ${TABLE}."REDUCE_ON_BOARDING_TASK_LIST" ;;
+  }
+
+  dimension: send_welcome_post {
+    label: "Send Welcome Post"
+    type: string
+    sql: ${TABLE}."SEND_WELCOME_POST" ;;
   }
 
   dimension: _dbt_source_relation {

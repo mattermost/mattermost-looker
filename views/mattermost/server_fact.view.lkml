@@ -82,20 +82,103 @@ view: server_fact {
                       ;;
   }
 
-  dimension: retention_28day_flag {
-    label: " 28-Day Retention"
-    group_label: " Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 28 days since their first active date. This metric is a flag indicating users performed events between hour 672 and 696 from the instance's first active timestamp."
-    type: yesno
-    sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
+  dimension: retention_0day_flag {
+    label: "0-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained between (instance) creation time and 1 day since their first active date."
+    sql: COALESCE(${TABLE}.retention_0day_flag, false) ;;
+  }
+
+  dimension: retention_0day_users {
+    label: " 0-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained between (instance) creation time and 1 day since their first active date. "
+    type: number
+    sql: COALESCE(${TABLE}.retention_0day_users, 0) ;;
+    value_format_name: decimal_0
   }
 
   dimension: retention_1day_flag {
     label: "1-Day Retention"
     group_label: "Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 1 days since their first active date. This metric is a flag indicating users performed events between hour 24 and 48 from the instance's first active timestamp."
+    description: "Boolean indicating the instance was retained between 1 and 2 days since their first active date."
     type: yesno
     sql: COALESCE(${TABLE}.retention_1day_flag, false) ;;
+  }
+
+  dimension: retention_1day_users {
+    label: " 1-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained between 1 and 2 days since their first active date. "
+    type: number
+    sql: COALESCE(${TABLE}.retention_1day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+
+  dimension: retention_7day_flag {
+    label: "7-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained between 2 and 7 days since their first active date."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_7day_flag, false) ;;
+  }
+
+  dimension: retention_7day_users {
+    label: " 7-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained between 2 and 7 days since their first active date. "
+    type: number
+    sql: COALESCE(${TABLE}.retention_7day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+
+  dimension: retention_14day_flag {
+    label: "14-Day Retention"
+    group_label: "Telemetry Flags"
+    description: "Boolean indicating the instance was retained between 7 and 14 days since their first active date."
+    type: yesno
+    sql: COALESCE(${TABLE}.retention_14day_flag, false) ;;
+  }
+
+  dimension: retention_14day_users {
+    label: " 14-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained between 7 and 14 days since their first active date. "
+    type: number
+    sql: COALESCE(${TABLE}.retention_14day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_28day_flag {
+    label: " 28-Day Retention"
+    group_label: " Telemetry Flags"
+    description: "Boolean indicating the instance was retained between 14 and 28 days since their first active date. "
+    sql: COALESCE(${TABLE}.retention_28day_flag, false) ;;
+  }
+
+  dimension: retention_28day_users {
+    label: " 28-Day Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained between 14 and 28 days since their first active date.  "
+    sql: COALESCE(${TABLE}.retention_28day_users, 0) ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: retention_28day_above_flag {
+    label: " 28-Day+ Retention"
+    group_label: " Telemetry Flags"
+    description: "Boolean indicating the instance was retained after 28 days and above since their first active date. "
+    sql: COALESCE(${TABLE}.retention_28day_above_flag, false) ;;
+  }
+
+  dimension: retention_28day_above_users {
+    label: " 28-Day+ Retained Users"
+    group_label: "User Event Dimensions"
+    description: "Number indicating the count of instance users that were retained after 28 days and above since their first active date.  "
+    sql: COALESCE(${TABLE}.retention_28day_above_users, 0) ;;
+    value_format_name: decimal_0
   }
 
   dimension: dev_testing_enabled {
@@ -106,76 +189,7 @@ view: server_fact {
     sql: COALESCE(${TABLE}.dev_testing_enabled, false) ;;
   }
 
-  dimension: retention_28day_users {
-    label: " 28-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained after 28 days since their first active date. This count indicates the users performed events between hour 672 and 696 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_28day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: retention_1day_users {
-    label: " 1-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained after 1 days since their first active date. This count indicates the users performed events between hour 24 and 48 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_1day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: retention_7day_flag {
-    label: "7-Day Retention"
-    group_label: "Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 7 days since their first active date. This metric is a flag indicating users performed events between hour 168 and 192 from the instance's first active timestamp."
-    type: yesno
-    sql: COALESCE(${TABLE}.retention_7day_flag, false) ;;
-  }
-
-  dimension: retention_7day_users {
-    label: " 7-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained after 7 days since their first active date. This count indicates the users performed events between hour 168 and 192 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_7day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: retention_14day_flag {
-    label: "14-Day Retention"
-    group_label: "Telemetry Flags"
-    description: "Boolean indicating the instance was retained after 14 days since their first active date. This metric is a flag indicating users performed events between hour 336 and 360 from the instance's first active timestamp."
-    type: yesno
-    sql: COALESCE(${TABLE}.retention_14day_flag, false) ;;
-  }
-
-  dimension: retention_14day_users {
-    label: " 14-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained after 14 days since their first active date. This count indicates the users performed events between hour 336 and 360 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_14day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: retention_0day_flag {
-    label: "0-Day Retention"
-    group_label: "Telemetry Flags"
-    description: "Boolean indicating the instance was retained in the first 24 hours since their first active date. This metric is a flag indicating users performed events between hour 0 and 24 from the instance's first active timestamp."
-    type: yesno
-    sql: COALESCE(${TABLE}.retention_0day_flag, false) ;;
-  }
-
-  dimension: retention_0day_users {
-    label: " 0-Day Retained Users"
-    group_label: "User Event Dimensions"
-    description: "Number indicating the count of instance users that were retained in the first 24 hours since their first active date. This count indicates the users performed events between hour 0 and 24 hours from the instance's first active timestamp."
-    type: number
-    sql: COALESCE(${TABLE}.retention_0day_users, 0) ;;
-    value_format_name: decimal_0
-  }
-
-  dimension: retention_1week_flag {
+dimension: retention_1week_flag {
     label: "Week 1 Retention"
     group_label: "Telemetry Flags"
     description: "Boolean indicating the instance was retained in the first week since their first active date. This metric is a flag indicating users performed events during the first week relative to the instance's first active timestamp)."

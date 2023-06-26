@@ -39,6 +39,18 @@ view: subscriptions {
     sql: ${TABLE}."CANCEL_AT_PERIOD_END" ;;
   }
 
+  dimension_group: trial_start {
+    type: time
+    timeframes: [raw, time, date, week, month, fiscal_quarter, fiscal_year, quarter, year]
+    sql: CAST(${TABLE}."TRIAL_START" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension_group: trial_end {
+    type: time
+    timeframes: [raw, time, date, week, month, fiscal_quarter, fiscal_year, quarter, year]
+    sql: CAST(${TABLE}."TRIAL_START" AS TIMESTAMP_NTZ) ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -53,6 +65,43 @@ view: subscriptions {
       year
     ]
     sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension: updated_by_event_type {
+    type: yesno
+    sql: ${TABLE}."updated_by_event_type" ;;
+  }
+
+  dimension_group: ended_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."ENDED_AT" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension_group: canceled_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."CANCELED_AT" AS TIMESTAMP_NTZ) ;;
   }
 
   dimension_group: current_period_end {
@@ -124,7 +173,12 @@ view: subscriptions {
     sql: TRIM(COALESCE(${TABLE}."PLAN":product, ${TABLE}."METADATA":"current_product_id"),'"') ;;
   }
 
-  dimension: cws_date_converted_to_paid{
+  dimension: edition {
+    type: string
+    sql:  ${TABLE}."EDITION" ;;
+  }
+
+  dimension: cws_date_converted_to_paid {
     type: date
     sql: to_date(${TABLE}."METADATA":"cws-date-converted-to-paid") ;;
   }

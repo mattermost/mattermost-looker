@@ -1,7 +1,7 @@
 
 # This is the view file for the analytics.events.performance_events table.
 view: performance_events {
-sql_table_name: events.performance_events ;;
+sql_table_name: mart_web_app.grp_performance_events ;;
 view_label: " Performance Events"
 
 
@@ -32,16 +32,6 @@ view_label: " Performance Events"
     sql: ${TABLE}._dbt_source_relation ;;
     hidden: yes
   }
-
-
-  dimension: context_page_referrer {
-    label: "Context Page Referrer"
-    group_label: "Context/User Agent Details"
-    description: "The Context Page Referrer of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_page_referrer ;;
-  }
-
 
   dimension: channel {
     label: "Channel"
@@ -110,34 +100,6 @@ view_label: " Performance Events"
     sql: ${TABLE}.user_actual_role ;;
   }
 
-
-  dimension: context_page_url {
-    label: "Context Page Url"
-    group_label: "Context/User Agent Details"
-    description: "The Context Page Url of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_page_url ;;
-  }
-
-
-  dimension: context_os_name {
-    label: "Context Os Name"
-    group_label: "Context/User Agent Details"
-    description: "The Context Os Name of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_os_name ;;
-  }
-
-
-  dimension: context_page_title {
-    label: "Context Page Title"
-    group_label: "Context/User Agent Details"
-    description: "The Context Page Title of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_page_title ;;
-  }
-
-
   dimension: anonymous_id {
     label: "Anonymous Id"
     description: "The Anonymous Id of the user performing the event."
@@ -154,16 +116,6 @@ view_label: " Performance Events"
     type: string
     sql: ${TABLE}.context_app_build ;;
   }
-
-
-  dimension: context_page_search {
-    label: "Context Page Search"
-    group_label: "Context/User Agent Details"
-    description: "The Context Page Search of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_page_search ;;
-  }
-
 
   dimension: context_library_version {
     label: "Context Library Version"
@@ -218,26 +170,6 @@ view_label: " Performance Events"
     sql: ${TABLE}.context_screen_density ;;
   }
 
-
-
-  dimension: context_page_path {
-    label: "Context Page Path"
-    group_label: "Context/User Agent Details"
-    description: "The Context Page Path of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_page_path ;;
-  }
-
-
-  dimension: context_os_version {
-    label: "Context Os Version"
-    group_label: "Context/User Agent Details"
-    description: "The Context Os Version of the user performing the event."
-    type: string
-    sql: ${TABLE}.context_os_version ;;
-  }
-
-
   dimension: category {
     label: " Event Category"
     description: "The category of the event performed."
@@ -273,7 +205,7 @@ view_label: " Performance Events"
     type: number
     sql: ${TABLE}.longest_api_resource_duration ;;
   }
-  
+
   dimension: fresh {
     label: "Fresh"
     description: "Whether or not a performance represents the first time something happened. Available for channel_switch and team_switch events."
@@ -285,233 +217,14 @@ view_label: " Performance Events"
     label: " Instance Id"
     description: "The User Id (Instance ID) of the user performing the event."
     type: string
-    sql:COALESCE(${TABLE}.user_id, ${TABLE}.userid) ;;
+    sql: ${TABLE}.user_id ;;
   }
-
-
-  dimension: root_id {
-    label: "Root Id"
-    description: "The Root Id of the user performing the event."
-    type: string
-    sql: ${TABLE}.root_id ;;
-  }
-
-
-  dimension: post_id {
-    label: "Post Id"
-    description: "The Post Id of the user performing the event."
-    type: string
-    sql: ${TABLE}.post_id ;;
-  }
-
-
-  dimension: sort {
-    label: "Sort"
-    description: "The Sort of the user performing the event."
-    type: string
-    sql: ${TABLE}.sort ;;
-  }
-
-
-  dimension: team_id {
-    label: "Team Id"
-    description: "The Team Id of the user performing the event."
-    type: string
-    sql: ${TABLE}.team_id ;;
-  }
-
-  dimension: version {
-    label: "Version"
-    description: "The Version of the user performing the event."
-    type: string
-    sql: ${TABLE}.version ;;
-  }
-
-
-  dimension: keyword {
-    label: "Keyword"
-    description: "The Keyword of the user performing the event."
-    type: string
-    sql: ${TABLE}.keyword ;;
-  }
-
 
   dimension: count {
     label: "Count"
     description: "The Count of the instance."
     type: string
     sql: ${TABLE}.count ;;
-  }
-
-
-
-  dimension: gfyid {
-    label: "Gfyid"
-    description: "The Gfyid of the user performing the event."
-    type: string
-    sql: ${TABLE}.gfyid ;;
-  }
-
-
-  dimension: field {
-    label: "Field"
-    description: "The Field of the user performing the event."
-    type: string
-    sql: ${TABLE}.field ;;
-  }
-
-
-  dimension: plugin_id {
-    label: "Plugin Id"
-    description: "The Plugin Id of the user performing the event."
-    type: string
-    sql: ${TABLE}.plugin_id ;;
-  }
-
-
-  dimension: installed_version {
-    label: "Installed Version"
-    description: "The Installed Version of the user performing the event."
-    type: string
-    sql: ${TABLE}.installed_version ;;
-  }
-
-
-  dimension: group_constrained {
-    label: "Group Constrained"
-    description: "Indicates Group Constrained is marked true/enabled."
-    type: yesno
-    sql: ${TABLE}.group_constrained ;;
-  }
-
-
-  dimension: value {
-    label: "Value"
-    description: "The Value of the user performing the event."
-    type: string
-    sql: ${TABLE}.value ;;
-  }
-
-
-  dimension: include_deleted {
-    label: "Include Deleted"
-    description: "Indicates Include Deleted is marked true/enabled."
-    type: yesno
-    sql: ${TABLE}.include_deleted ;;
-  }
-
-
-
-  dimension: role {
-    label: "Role"
-    description: "The Role of the user performing the event."
-    type: string
-    sql: ${TABLE}.role ;;
-  }
-
-
-  dimension: privacy {
-    label: "Privacy"
-    description: "The Privacy of the user performing the event."
-    type: string
-    sql: ${TABLE}.privacy ;;
-  }
-
-
-  dimension: scheme_id {
-    label: "Scheme Id"
-    description: "The Scheme Id of the user performing the event."
-    type: string
-    sql: ${TABLE}.scheme_id ;;
-  }
-
-
-  dimension: warnmetricid {
-    label: "Warnmetricid"
-    description: "The Warnmetricid attribute of the triggered event."
-    type: string
-    sql: ${TABLE}.warnmetricid ;;
-  }
-
-
-  dimension: metric {
-    label: "Metric"
-    description: "The Metric attribute of the triggered event."
-    type: string
-    sql: ${TABLE}.metric ;;
-  }
-
-
-  dimension: error {
-    label: "Error"
-    description: "The Error attribute of the triggered event."
-    type: string
-    sql: ${TABLE}.error ;;
-  }
-
-
-  dimension: num_invitations_sent {
-    label: "Num Invitations Sent"
-    description: "The Num Invitations Sent attribute of the invite members event."
-    type: string
-    sql: ${TABLE}.num_invitations_sent ;;
-  }
-
-
-  dimension: num_invitations {
-    label: "Num Invitations"
-    description: "The Num Invitations attribute of the invite members event."
-    sql: ${TABLE}.num_invitations ;;
-  }
-
-
-
-  dimension: channel_sidebar {
-    label: "Channel Sidebar"
-    description: "Indicates Channel Sidebar is marked true/enabled."
-    type: yesno
-    sql: ${TABLE}.channel_sidebar ;;
-  }
-
-
-
-  dimension: app {
-    label: "App"
-    description: "The App associated with the triggered event."
-    type: string
-    sql: ${TABLE}.app ;;
-  }
-
-
-  dimension: method {
-    label: "Method"
-    description: "The Method associated with the triggered event."
-    type: string
-    sql: ${TABLE}.method ;;
-  }
-
-
-  dimension: remaining {
-    label: "Remaining"
-    description: "The Remaining attribute associated with the triggered event."
-    type: string
-    sql: ${TABLE}.remaining ;;
-  }
-
-
-  dimension: screen {
-    label: "Screen"
-    description: "The Screen attribute associated with the triggered event."
-    type: string
-    sql: ${TABLE}.screen ;;
-  }
-
-
-  dimension: filter {
-    label: "Filter"
-    description: "The Filter attribute associated with the triggered event."
-    type: string
-    sql: ${TABLE}.filter ;;
   }
 
   dimension: server_version {
@@ -574,17 +287,6 @@ view_label: " Performance Events"
     hidden: yes
   }
 
-
-
-  dimension_group: uuid_ts {
-    label: "Uuid Ts"
-    type: time
-    timeframes: [time, hour_of_day, hour6, date, week, month, year, fiscal_quarter, fiscal_year, day_of_week, fiscal_month_num,
-    week_of_year, day_of_year, day_of_week_index, month_name, day_of_month, fiscal_quarter_of_year]
-    sql: ${TABLE}.uuid_ts::date ;;
-
-    hidden: yes
-  }
 
   dimension_group: timestamp {
     label: " Logging"
@@ -749,66 +451,5 @@ view_label: " Performance Events"
     type: count_distinct
     sql: ${user_id} ;;
   }
-
-
-  measure: plugin_id_count {
-    group_label: "Plugin Counts"
-    label: "Plugin Id Count"
-    description: "The distinct count of Plugin Id's within the grouping."
-    type: count_distinct
-    sql: ${plugin_id} ;;
-  }
-
-
-  measure: num_invitations_sum {
-    group_label: "Num Invitations Measures"
-    label: "Num Invitations (Sum)"
-    description: "The sum of Num Invitations across all instances within the grouping."
-    type: sum
-    sql: ${num_invitations} ;;
-  }
-
-  measure: num_invitations_avg {
-    group_label: "Num Invitations Measures"
-    label: "Num Invitations (Avg)"
-    description: "The average Num Invitations across all instances within the grouping."
-    type: average
-    sql: ${num_invitations} ;;
-  }
-
-  measure: num_invitations_median {
-    group_label: "Num Invitations Measures"
-    label: "Num Invitations (Med)"
-    description: "The median Num Invitations across all instances within the grouping."
-    type: median
-    sql: ${num_invitations} ;;
-  }
-
-
-  measure: remaining_sum {
-    group_label: "Remaining Measures"
-    label: "Remaining (Sum)"
-    description: "The sum of Remaining across all instances within the grouping."
-    type: sum
-    sql: ${remaining} ;;
-  }
-
-  measure: remaining_avg {
-    group_label: "Remaining Measures"
-    label: "Remaining (Avg)"
-    description: "The average Remaining across all instances within the grouping."
-    type: average
-    sql: ${remaining} ;;
-  }
-
-  measure: remaining_median {
-    group_label: "Remaining Measures"
-    label: "Remaining (Med)"
-    description: "The median Remaining across all instances within the grouping."
-    type: median
-    sql: ${remaining} ;;
-  }
-
-
 
     }
