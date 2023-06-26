@@ -38,7 +38,7 @@ explore: user_events_telemetry {
 
   join: server_daily_details {
     view_label: "Server Daily Details"
-    sql_on: COALESCE(${license_server_fact.server_id},${license_server_fact2.server_id}) = ${server_daily_details.server_id};;
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
     relationship: many_to_one
     type: left_outer
     fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
@@ -46,7 +46,7 @@ explore: user_events_telemetry {
 
   join: server_daily_details_ext {
     view_label: "Server Daily Details Ext"
-    sql_on:  COALESCE(${license_server_fact.server_id},${license_server_fact2.server_id}) = ${server_daily_details_ext.server_id} ;;
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
     relationship: many_to_one
     type: left_outer
     fields: [server_daily_details_ext.view_default*]
