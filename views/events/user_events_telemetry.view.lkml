@@ -127,7 +127,7 @@ view: user_events_telemetry {
     description: ""
     type: string
     sql: ${TABLE}._dbt_source_relation2 ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: event_source {
@@ -257,7 +257,7 @@ view: user_events_telemetry {
     description: "The User Agent of the user performing the event."
     type: string
     sql: ${TABLE}.context_useragent ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: context_screen_height {
@@ -1353,7 +1353,7 @@ view: user_events_telemetry {
     label: "Daily Active Users"
     description: "The count of daily active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_raw} = ${event_date} THEN ${user_actual_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_date} = ${event_date} THEN ${user_actual_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_users {
@@ -1361,7 +1361,7 @@ view: user_events_telemetry {
     label: "Weekly Active Users"
     description: "The count of Weekly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${event_date} <= ${active_user_date_raw} and ${event_date} >= ${active_user_date_date} - interval '7 days'
+    sql: CASE WHEN ${event_date} <= ${active_user_date_date} and ${event_date} >= ${active_user_date_date} - interval '7 days'
           THEN ${user_actual_id} ELSE NULL END ;;
   }
 
@@ -1379,7 +1379,7 @@ view: user_events_telemetry {
     label: "Daily Active Instances"
     description: "The count of daily active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${active_user_date_raw} = ${event_date} THEN ${user_id} ELSE NULL END ;;
+    sql: CASE WHEN ${active_user_date_date} = ${event_date} THEN ${user_id} ELSE NULL END ;;
   }
 
   measure: weekly_active_instances {
@@ -1387,7 +1387,7 @@ view: user_events_telemetry {
     label: "Weekly Active Instances"
     description: "The count of Weekly active instances on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${event_date} <= ${active_user_date_raw} and ${event_date} >= ${active_user_date_raw} - interval '7 days'
+    sql: CASE WHEN ${event_date} <= ${active_user_date_date} and ${event_date} >= ${active_user_date_date} - interval '7 days'
             THEN ${user_id} ELSE NULL END ;;
   }
 
