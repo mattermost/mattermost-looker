@@ -3,18 +3,26 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
+
 explore: user_events_telemetry {
   label: "User Events Telemetry (Messaging)"
   view_label: " User Events Telemetry (Messaging)"
   group_label: " Product: Messaging"
   description: "Contains all user-level usage events telemetry on the Mattermost platform across all clients and all customer data routing and processing platforms (segment & rudderstack) since 02/01/2019."
 
-  join: server_daily_details {
-    view_label: "Server Daily Details"
-    sql_on: ${user_events_telemetry.user_id} = ${server_daily_details.server_id} AND ${user_events_telemetry.event_date} = ${server_daily_details.logging_date} ;;
+  join: license_server_fact {
+    from: license_server_fact
+    view_label: "License Server Fact"
     relationship: many_to_one
-    type: left_outer
-    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id} ;;
+  }
+
+  join: license_server_fact2 {
+    from: license_server_fact
+    relationship: many_to_one
+    sql_on: COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
+      = ${license_server_fact2.customer_id} ;;
+    fields: []
   }
 
   join: server_fact {
@@ -26,6 +34,22 @@ explore: user_events_telemetry {
       server_fact.retention_4week_flag, server_fact.installation_id, server_fact.first_server_version,
       server_fact.first_server_version_major, server_fact.first_server_edition, server_fact.cloud_server,
       server_fact.registered_users_max, server_fact.max_registered_deactivated_users, server_fact.server_count]
+  }
+
+  join: server_daily_details {
+    view_label: "Server Daily Details"
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details.server_id};;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details.database_version, server_daily_details.database_version_major, server_daily_details.database_version_major_release, server_daily_details.server_version_major, server_daily_details.version, server_daily_details.edition]
+  }
+
+  join: server_daily_details_ext {
+    view_label: "Server Daily Details Ext"
+    sql_on: ${license_server_fact.server_id} = ${server_daily_details_ext.server_id} ;;
+    relationship: many_to_one
+    type: left_outer
+    fields: [server_daily_details_ext.view_default*]
   }
 
   join: excludable_servers {
@@ -67,20 +91,7 @@ explore: user_events_telemetry {
     fields: []
   }
 
-  join: license_server_fact {
-    from: license_server_fact
-    view_label: "License Server Fact"
-    relationship: many_to_one
-    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id} ;;
-  }
 
-  join: license_server_fact2 {
-    from: license_server_fact
-    relationship: many_to_one
-    sql_on: COALESCE(${user_events_telemetry.portal_customer_id},${user_events_telemetry.context_traits_portal_customer_id})
-      = ${license_server_fact2.customer_id} ;;
-    fields: []
-  }
 
   join: trial_requests {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
