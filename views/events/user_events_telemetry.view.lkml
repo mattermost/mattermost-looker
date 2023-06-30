@@ -12,6 +12,94 @@ view: user_events_telemetry {
 
   # FILTERS
 
+  dimension: license_id {
+    label: "License Id"
+    group_label: "True Up Review"
+    description: "True Up - License Id"
+    type: string
+    sql: ${TABLE}.license_id ;;
+  }
+
+  dimension: incoming_webhooks_count {
+    label: "Incoming Webhooks Count"
+    group_label: "True Up Review"
+    description: "True Up - Incoming Webhooks Count"
+    type: string
+    sql: ${TABLE}.incoming_webhooks_count ;;
+  }
+
+  dimension: server_version {
+    label: "Server Version"
+    group_label: "True Up Review"
+    description: "True Up - Server Version"
+    type: string
+    sql: ${TABLE}.server_version ;;
+  }
+
+  dimension: customer_name {
+    label: "Customer Name"
+    group_label: "True Up Review"
+    description: "True Up - Customer Name"
+    type: string
+    sql: ${TABLE}.customer_name ;;
+  }
+
+  dimension: server_id {
+    label: "Server Id"
+    group_label: "True Up Review"
+    description: "True Up - Server Id"
+    type: string
+    sql: ${TABLE}.server_id ;;
+  }
+
+  dimension: authentication_features {
+    label: "Authentication Features"
+    group_label: "True Up Review"
+    description: "True Up - Authentication Features"
+    type: string
+    sql: ${TABLE}.authentication_features ;;
+  }
+
+  dimension: active_users {
+    label: "Active Users"
+    group_label: "True Up Review"
+    description: "True Up - Active Users"
+    type: string
+    sql: ${TABLE}.active_users ;;
+  }
+
+  dimension: total_plugins {
+    label: "Total Plugins"
+    group_label: "True Up Review"
+    description: "True Up - Total Plugins"
+    type: string
+    sql: ${TABLE}.total_plugins ;;
+  }
+
+  dimension: licensed_seats {
+    label: "Licensed Seats"
+    group_label: "True Up Review"
+    description: "True Up - Licensed Seats"
+    type: string
+    sql: ${TABLE}.licensed_seats ;;
+  }
+
+  dimension: outgoing_webhooks_count {
+    label: "Outgoing Webhooks Count"
+    group_label: "True Up Review"
+    description: "True Up - Outgoing Webhooks Count"
+    type: string
+    sql: ${TABLE}.outgoing_webhooks_count ;;
+  }
+
+  dimension: plugin_names {
+    label: "Plugin Names"
+    group_label: "True Up Review"
+    description: "True Up - Plugin Names"
+    type: string
+    sql: ${TABLE}.plugin_names ;;
+  }
+
   dimension: option {
     label: "Option"
     description: "Deployment Option Select - Option"
