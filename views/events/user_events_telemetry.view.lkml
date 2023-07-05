@@ -100,6 +100,22 @@ view: user_events_telemetry {
     sql: ${TABLE}.plugin_names ;;
   }
 
+  dimension: license_plan {
+    label: "License Plan"
+    group_label: "True Up Review"
+    description: "True Up - License Plan"
+    type: string
+    sql: ${TABLE}.license_plan ;;
+  }
+
+  dimension: server_installation_type {
+    label: "Server Installation Type"
+    group_label: "True Up Review"
+    description: "True Up - Server Installation Type"
+    type: string
+    sql: ${TABLE}.server_installation_type ;;
+  }
+
   dimension: option {
     label: "Option"
     description: "Deployment Option Select - Option"
