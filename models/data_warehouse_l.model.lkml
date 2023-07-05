@@ -14,7 +14,8 @@ explore: user_events_telemetry {
     from: license_server_fact
     view_label: "License Server Fact"
     relationship: many_to_one
-    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id} ;;
+    sql_on: ${user_events_telemetry.user_id} = ${license_server_fact.server_id}
+    or ${user_events_telemetry.license_id} = ${license_server_fact.license_id} ;;
   }
 
   join: license_server_fact2 {
