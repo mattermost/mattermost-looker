@@ -14,6 +14,11 @@ view: customers {
     sql: ${TABLE}."ACCOUNT_BALANCE" ;;
   }
 
+  dimension: name {
+    type: string
+    sql: ${TABLE}."NAME" ;;
+  }
+
   dimension: cards {
     type: string
     sql: ${TABLE}."CARDS" ;;
