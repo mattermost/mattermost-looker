@@ -8,6 +8,15 @@ view: server_fact {
       tutorial_events_alltime, post_events_alltime, invite_members_alltime]
   }
 
+  set: view_default {
+    fields: [retention_0day_flag, retention_0day_users, retention_1day_flag, retention_1day_users, retention_7day_flag, retention_7day_users, retention_14day_flag, retention_14day_users,
+retention_28day_flag, retention_28day_users, retention_28day_above_flag, retention_28day_above_users, dev_testing_enabled, retention_1week_flag, retention_1week_users,
+retention_2week_flag, retention_2week_users, retention_3week_flag, retention_3week_users, retention_4week_flag, retention_4week_users, version, first_server_version,
+account_name, company_name, license_id, days_active, enabled_plugins_max, max_disabled_plugins_bands, post_events_alltime, public_channels, private_channels, slash_commands,
+teams, bot_accounts, incoming_webhooks, outgoing_webhooks, incident_mgmt_events_alltime]
+  }
+
+
   set: incident_collaboration {
     fields: [product_edition, server_count, server_id]
   }

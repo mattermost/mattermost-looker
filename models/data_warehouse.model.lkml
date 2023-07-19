@@ -3,6 +3,45 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
+explore: customers_stripe {
+  from: customers
+  view_label: "Customers"
+  group_label: "Self-Serve"
+
+  join: subscriptions_stripe {
+    from: subscriptions
+    view_label: "Subscriptions"
+    sql_on: ${customers_stripe.id} = ${subscriptions_stripe.customer} ;;
+    relationship: one_to_many
+  }
+
+  join: subscription_items {
+    sql_on: ${subscriptions_stripe.id} = ${subscription_items.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoices {
+    sql_on: ${subscriptions_stripe.id} = ${invoices.subscription} ;;
+    relationship: one_to_many
+  }
+
+  join: invoice_line_items {
+    sql_on: ${invoices.id} = ${invoice_line_items.invoice} ;;
+    relationship: one_to_many
+  }
+
+  join: charges {
+    sql_on: ${customers_stripe.id} = ${charges.customer} AND (${charges.invoice} = ${invoices.charge} OR ${charges.invoice} IS NULL);;
+    relationship: one_to_many
+  }
+
+  join: products {
+    sql_on: ${products.id} = ${subscription_items.plan_product} OR ${products.id} = ${invoice_line_items.plan_product};;
+    relationship: many_to_one
+  }
+}
+
+
 explore: grp_community_tracks {
   group_label: "Community Tracks"
   view_label: "Community Tracks "

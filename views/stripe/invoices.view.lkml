@@ -248,7 +248,7 @@ view: invoices {
     description: "The sum of invoice totals within each grouping."
     type: sum
     group_label: "Total Measures"
-    sql: ${total} ;;
+    sql: ${total}/100.0 ;;
     value_format_name: usd
   }
 
@@ -306,7 +306,7 @@ view: invoices {
     description: "The sum of Subtotals within each grouping."
     type: sum_distinct
     group_label: "Subtotal Measures"
-    sql: ${subtotal} ;;
+    sql: ${subtotal}/100.0 ;;
     value_format_name: usd
   }
 

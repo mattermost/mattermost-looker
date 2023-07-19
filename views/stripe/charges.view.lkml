@@ -30,7 +30,7 @@ view: charges {
     type: yesno
     sql: ${TABLE}."CAPTURED" ;;
   }
-  
+
   dimension: is_fraud {
     type: yesno
     sql: ${fraud_details}!='{}';;
@@ -57,11 +57,6 @@ view: charges {
   dimension: customer {
     type: string
     sql: ${TABLE}."CUSTOMER" ;;
-  }
-  
-  dimension: customer_email {
-    type: string
-    sql: ${customers.email} ;;
   }
 
   dimension: description {
