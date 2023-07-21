@@ -64,12 +64,42 @@ view: subscriptions {
       quarter,
       year
     ]
-    sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ) ;;
+    sql: CAST(${TABLE}."CREATED" AS TIMESTAMP_NTZ ) ;;
   }
 
   dimension: updated_by_event_type {
-    type: yesno
-    sql: ${TABLE}."updated_by_event_type" ;;
+    type: string
+    sql: ${TABLE}."UPDATED_BY_EVENT_TYPE" ;;
+  }
+
+  dimension_group: license_end_date {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."LICENSE_END_DATE" AS TIMESTAMP_NTZ) ;;
+  }
+
+  dimension_group: actual_renewal_date {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      fiscal_quarter,
+      fiscal_year,
+      quarter,
+      year
+    ]
+    sql: CAST(${TABLE}."ACTUAL_RENEWAL_DATE" AS TIMESTAMP_NTZ) ;;
   }
 
   dimension_group: ended_at {
@@ -183,7 +213,12 @@ view: subscriptions {
     sql: to_date(${TABLE}."METADATA":"cws-date-converted-to-paid") ;;
   }
 
-  dimension: cws_conversion_flag {
+  dimension: cws_license_end_date {
+    type: number
+    sql: ${TABLE}."METADATA":"cws-license-end-date" ;;
+  }
+
+ dimension: cws_conversion_flag {
     type: yesno
     sql: case when ${cws_date_converted_to_paid} is not null then true else false end ;;
   }
@@ -223,6 +258,7 @@ view: subscriptions {
     ]
     sql: CAST(${TABLE}."START" AS TIMESTAMP_NTZ) ;;
   }
+
 
   dimension: status {
     type: string
