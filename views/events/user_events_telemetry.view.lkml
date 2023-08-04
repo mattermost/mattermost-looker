@@ -10,6 +10,10 @@ view: user_events_telemetry {
       stripe_customer_email, category, type, user_actual_count, event_count, user_id]
   }
 
+  set: user_drill {
+    fields: [user_actual_id, user_actual_role, event_count, post_count, post_reaction_count, root_count, user_id]
+  }
+
   # FILTERS
 
   dimension: license_id {
@@ -1458,6 +1462,7 @@ view: user_events_telemetry {
     description: "The count of daily active users on the given active user date."
     type: count_distinct
     sql: CASE WHEN ${active_user_date_date} = ${event_date} THEN ${user_actual_id} ELSE NULL END ;;
+    drill_fields: [user_drill*]
   }
 
   measure: weekly_active_users {
@@ -1467,6 +1472,7 @@ view: user_events_telemetry {
     type: count_distinct
     sql: CASE WHEN ${event_date} <= ${active_user_date_date} and ${event_date} >= ${active_user_date_date} - interval '7 days'
           THEN ${user_actual_id} ELSE NULL END ;;
+    drill_fields: [user_drill*]
   }
 
 
@@ -1476,6 +1482,7 @@ view: user_events_telemetry {
     description: "The count of monthly active users on the given active user date."
     type: count_distinct
     sql: ${user_actual_id} ;;
+    drill_fields: [user_drill*]
   }
 
   measure: daily_active_instances {
