@@ -16,6 +16,13 @@ view: plugin_events {
     hidden: no
   }
 
+  dimension: app_id {
+    description: "App ID"
+    type: string
+    sql: ${TABLE}.app_id ;;
+    hidden: no
+  }
+
   dimension: event {
     description: ""
     type: string
