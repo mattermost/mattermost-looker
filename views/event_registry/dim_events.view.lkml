@@ -45,8 +45,8 @@ view: dim_events {
 
   dimension: normalized_event_type {
     type: string
-    sql: COALESCE(${event_type}, ${event_name}) ;;
-    description: "Either the type of event or its name if type is not present."
+    sql: case when ${event_name} = 'event' and ${event_type} is not null then ${event_type} else ${event_name} end;;
+    description: "The type of event if event name is a catch-all name (like event), else the event's name."
   }
 
   dimension: source {
