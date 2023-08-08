@@ -1,6 +1,6 @@
 # The name of this view in Looker is "Dim Excludable Servers"
 view: dim_excludable_servers {
-  sql_table_name: "MART_PRODUCT"."dim_excludable_servers" ;;
+  sql_table_name: "MART_PRODUCT"."DIM_EXCLUDABLE_SERVERS" ;;
 
   label: "Excludable Servers"
 

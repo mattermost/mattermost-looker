@@ -1,6 +1,6 @@
 view: fct_active_users {
 
-  sql_table_name: "MART_PRODUCT"."fct_active_users" ;;
+  sql_table_name: "MART_PRODUCT"."FCT_ACTIVE_USERS" ;;
   label: "Telemetry Active Users"
 
 
