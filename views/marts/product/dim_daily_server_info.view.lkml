@@ -1,5 +1,5 @@
 view: dim_daily_server_info {
-  sql_table_name: "mart_product"."dim_daily_server_info" ;;
+  sql_table_name: "MART_PRODUCT"."dim_daily_server_info" ;;
   label: "Daily Server Info"
 
   ##
