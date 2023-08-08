@@ -6,14 +6,14 @@ view: dim_excludable_servers {
 
   dimension: server_id {
     type: string
-    sql: ${TABLE}."server_id" ;;
+    sql: ${TABLE}.server_id ;;
     primary_key: yes
     label: " The server's ID"
   }
 
   dimension: reasons {
     type: string
-    sql: ${TABLE}."reasons" ;;
+    sql: ${TABLE}.reasons ;;
     label: "List of reasons this server is considered for exclusion."
   }
 
