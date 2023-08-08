@@ -26,9 +26,8 @@ view: dim_daily_server_info {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."ACTIVITY_DATE" ;;
-    label: "Server Telemetry Activity date"
+    label: "Server Telemetry Activity"  # Remember that `Date` is automatically appended by looker
     description: "The date current data were captured at"
-
   }
 
   ##
@@ -41,6 +40,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."DATABASE_TYPE" ;;
     label: "Database Type"
     description: "The type of the database"
+    view_label: "- Server Metadata"
   }
 
   dimension: database_version {
@@ -48,6 +48,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."DATABASE_VERSION" ;;
     label: "Database Version"
     description: "The version of the database"
+    view_label: "- Server Metadata"
   }
 
   dimension: installation_id {
@@ -55,6 +56,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."INSTALLATION_ID" ;;
     label: "Installation ID"
     description: "The server's installation ID (if any)"
+    view_label: "- Server Metadata"
   }
 
   dimension: installation_type {
@@ -62,6 +64,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."INSTALLATION_TYPE" ;;
     label: "Installation type"
     description: "The server's installation type (if any)"
+    view_label: "- Server Metadata"
   }
 
   dimension: is_cloud {
@@ -69,6 +72,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."IS_CLOUD" ;;
     label: "Is Cloud?"
     description: "Whether this is a cloud server"
+    view_label: "- Server Metadata"
   }
 
   dimension: is_enterprise_ready {
@@ -76,6 +80,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."IS_ENTERPRISE_READY" ;;
     label: "Is Enterprise Ready?"
     description: "Whether this is an enterprise ready server"
+    view_label: "- Server Metadata"
   }
 
   dimension: operating_system {
@@ -83,6 +88,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."OPERATING_SYSTEM" ;;
     label: "Operating System"
     description: "The OS the server is installed on"
+    view_label: "- Server Metadata"
   }
 
   dimension: server_ip {
@@ -90,6 +96,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."SERVER_IP" ;;
     label: "IP Address"
     description: "The server's IP address"
+    view_label: "- Server Metadata"
   }
 
   ###
@@ -100,37 +107,35 @@ view: dim_daily_server_info {
     type: string
     sql: ${TABLE}."VERSION_FULL" ;;
     label: "Server Version"
-    view_label: "Version"
+    view_label: "- Server Version"
   }
 
   dimension: version_major {
     type: string
     sql: ${TABLE}."VERSION_MAJOR" ;;
     label: "Major Version"
-    view_label: "Version"
-
+    view_label: "- Server Version"
   }
 
   dimension: version_minor {
     type: string
     sql: ${TABLE}."VERSION_MINOR" ;;
     label: "Minor Version"
-    view_label: "Version"
+    view_label: "- Server Version"
   }
 
   dimension: version_patch {
     type: string
     sql: ${TABLE}."VERSION_PATCH" ;;
     label: "Patch Version"
-    view_label: "Version"
+    view_label: "- Server Version"
   }
-
 
   dimension: count_reported_versions {
     type: number
     sql: ${TABLE}."COUNT_REPORTED_VERSIONS" ;;
     label: "Number of reported versions"
-    view_label: "Version"
+    view_label: "- Server Version"
   }
 
   ###
@@ -142,7 +147,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."HAS_DIAGNOSTICS_DATA" ;;
     label: "Has diagnostics data?"
     description: " Whether the server queried the security update endpoint at the current date"
-    view_label: "Data Source Info"
+    view_label: "- Data Source Info"
   }
 
   dimension: has_legacy_telemetry_data {
@@ -150,7 +155,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."HAS_LEGACY_TELEMETRY_DATA" ;;
     label: "Has legacy telemetry"
     description: "Whether telemetry data were reported from legacy telemetry pipeline (Segment) at the current date"
-    view_label: "Data Source Info"
+    view_label: "- Data Source Info"
   }
 
   dimension: has_telemetry_data {
@@ -158,7 +163,7 @@ view: dim_daily_server_info {
     sql: ${TABLE}."HAS_TELEMETRY_DATA" ;;
     label: "Has telemetry?"
     description: "Whether telemetry data were reported from telemetry pipeline (Rudderstack) at the current date/"
-    view_label: "Data Source Info"
+    view_label: "- Data Source Info"
   }
 
   measure: number_of_servers {
