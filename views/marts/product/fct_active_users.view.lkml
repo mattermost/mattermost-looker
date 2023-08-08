@@ -3,6 +3,7 @@ view: fct_active_users {
   sql_table_name: "MART_PRODUCT"."FCT_ACTIVE_USERS" ;;
   label: "Telemetry Active Users"
 
+
   ###
   ### IDs and dates
   ###
@@ -86,6 +87,7 @@ view: fct_active_users {
     label: "Mobile DAU"
     description: "DAU reported from Mobile source of Rudderstack"
     view_label: "DAU"
+
   }
 
   measure: total_daily_mobile_active_users {
@@ -93,6 +95,71 @@ view: fct_active_users {
     sql: ${daily_mobile_active_users} ;;
     label: "Total Mobile DAU"
     view_label: "DAU"
+  }
+
+
+  ###
+  ### WAU
+  ###
+
+  dimension: weekly_active_users {
+    type: number
+    sql: ${TABLE}."WEEKLY_ACTIVE_USERS" ;;
+    label: "WAU"
+    description: "Number of unique user ids reported for the past 7 days"
+    view_label: "WAU"
+  }
+
+  measure: total_weekly_active_users {
+    type: sum
+    sql: ${weekly_active_users} ;;
+    label: "Total WAU"
+    view_label: "WAU"
+  }
+
+  dimension: weekly_desktop_active_users {
+    type: number
+    sql: ${TABLE}."WEEKLY_DESKTOP_ACTIVE_USERS" ;;
+    label: "Desktop/Client WAU"
+    description: "WAU reported from Rudderstack"
+    view_label: "WAU"
+  }
+
+  measure: total_weekly_desktop_active_users {
+    type: sum
+    sql: ${weekly_desktop_active_users} ;;
+    label: "Total Desktop/Client WAU"
+    view_label: "WAU"
+  }
+
+  dimension: weekly_legacy_active_users {
+    type: number
+    sql: ${TABLE}."WEEKLY_LEGACY_ACTIVE_USERS" ;;
+    label: "Legacy Desktop/Client WAU"
+    description: "WAU reported from Segment"
+    view_label: "WAU"
+  }
+
+  measure: total_weekly_legacy_active_users {
+    type: sum
+    sql: ${weekly_legacy_active_users} ;;
+    label: "Total Legacy Desktop/Client WAU"
+    view_label: "WAU"
+  }
+
+  dimension: weekly_mobile_active_users {
+    type: number
+    sql: ${TABLE}."WEEKLY_MOBILE_ACTIVE_USERS" ;;
+    label: "Mobile WAU"
+    description: "WAU reported from Mobile source of Rudderstack"
+    view_label: "WAU"
+  }
+
+  measure: total_weekly_mobile_active_users {
+    type: sum
+    sql: ${weekly_mobile_active_users} ;;
+    label: "Total Mobile WAU"
+    view_label: "WAU"
   }
 
   ###
@@ -157,70 +224,6 @@ view: fct_active_users {
     sql: ${monthly_mobile_active_users} ;;
     label: "Total Mobile MAU"
     view_label: "MAU"
-  }
-
-  ###
-  ### WAU
-  ###
-
-  dimension: weekly_active_users {
-    type: number
-    sql: ${TABLE}."WEEKLY_ACTIVE_USERS" ;;
-    label: "WAU"
-    description: "Number of unique user ids reported for the past 7 days"
-    view_label: "WAU"
-  }
-
-  measure: total_weekly_active_users {
-    type: sum
-    sql: ${weekly_active_users} ;;
-    label: "Total WAU"
-    view_label: "WAU"
-  }
-
-  dimension: weekly_desktop_active_users {
-    type: number
-    sql: ${TABLE}."WEEKLY_DESKTOP_ACTIVE_USERS" ;;
-    label: "Desktop/Client WAU"
-    description: "WAU reported from Rudderstack"
-    view_label: "WAU"
-  }
-
-  measure: total_weekly_desktop_active_users {
-    type: sum
-    sql: ${weekly_desktop_active_users} ;;
-    label: "Total Desktop/Client WAU"
-    view_label: "WAU"
-  }
-
-  dimension: weekly_legacy_active_users {
-    type: number
-    sql: ${TABLE}."WEEKLY_LEGACY_ACTIVE_USERS" ;;
-    label: "Legacy Desktop/Client WAU"
-    description: "WAU reported from Segment"
-    view_label: "WAU"
-  }
-
-  measure: total_weekly_legacy_active_users {
-    type: sum
-    sql: ${weekly_legacy_active_users} ;;
-    label: "Total Legacy Desktop/Client WAU"
-    view_label: "WAU"
-  }
-
-  dimension: weekly_mobile_active_users {
-    type: number
-    sql: ${TABLE}."WEEKLY_MOBILE_ACTIVE_USERS" ;;
-    label: "Mobile WAU"
-    description: "WAU reported from Mobile source of Rudderstack"
-    view_label: "WAU"
-  }
-
-  measure: total_weekly_mobile_active_users {
-    type: sum
-    sql: ${weekly_mobile_active_users} ;;
-    label: "Total Mobile WAU"
-    view_label: "WAU"
   }
 
 }
