@@ -1,5 +1,5 @@
 view: dim_daily_server_info {
-  sql_table_name: "MART_PRODUCT"."DIM_DAILY_SERVER_INFO" ;;
+  sql_table_name: "mart_product"."dim_daily_server_info" ;;
   label: "Daily Server Info"
 
   ##
@@ -8,14 +8,14 @@ view: dim_daily_server_info {
 
   dimension: daily_server_id {
     type: string
-    sql: ${TABLE}."DAILY_SERVER_ID" ;;
+    sql: ${TABLE}."daily_derver_id" ;;
     primary_key: yes
     hidden: yes
   }
 
   dimension: server_id {
     type: string
-    sql: ${TABLE}."SERVER_ID" ;;
+    sql: ${TABLE}."server_id" ;;
     label: "Server ID"
     description: "The Server's ID"
   }
@@ -25,7 +25,7 @@ view: dim_daily_server_info {
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."ACTIVITY_DATE" ;;
+    sql: ${TABLE}."activity_date" ;;
     label: "Server Telemetry Activity"  # Remember that `Date` is automatically appended by looker
     description: "The date current data were captured at"
   }
@@ -37,7 +37,7 @@ view: dim_daily_server_info {
 
   dimension: database_type {
     type: string
-    sql: ${TABLE}."DATABASE_TYPE" ;;
+    sql: ${TABLE}."database_type" ;;
     label: "Database Type"
     description: "The type of the database"
     view_label: "- Server Metadata"
@@ -45,7 +45,7 @@ view: dim_daily_server_info {
 
   dimension: database_version {
     type: string
-    sql: ${TABLE}."DATABASE_VERSION" ;;
+    sql: ${TABLE}."database_version" ;;
     label: "Database Version"
     description: "The version of the database"
     view_label: "- Server Metadata"
@@ -53,7 +53,7 @@ view: dim_daily_server_info {
 
   dimension: installation_id {
     type: string
-    sql: ${TABLE}."INSTALLATION_ID" ;;
+    sql: ${TABLE}."installation_id" ;;
     label: "Installation ID"
     description: "The server's installation ID (if any)"
     view_label: "- Server Metadata"
@@ -61,7 +61,7 @@ view: dim_daily_server_info {
 
   dimension: installation_type {
     type: string
-    sql: ${TABLE}."INSTALLATION_TYPE" ;;
+    sql: ${TABLE}."installation_type" ;;
     label: "Installation type"
     description: "The server's installation type (if any)"
     view_label: "- Server Metadata"
@@ -69,7 +69,7 @@ view: dim_daily_server_info {
 
   dimension: is_cloud {
     type: yesno
-    sql: ${TABLE}."IS_CLOUD" ;;
+    sql: ${TABLE}."is_cloud" ;;
     label: "Is Cloud?"
     description: "Whether this is a cloud server"
     view_label: "- Server Metadata"
@@ -77,7 +77,7 @@ view: dim_daily_server_info {
 
   dimension: is_enterprise_ready {
     type: string
-    sql: ${TABLE}."IS_ENTERPRISE_READY" ;;
+    sql: ${TABLE}."is_enterprise_ready" ;;
     label: "Is Enterprise Ready?"
     description: "Whether this is an enterprise ready server"
     view_label: "- Server Metadata"
@@ -85,7 +85,7 @@ view: dim_daily_server_info {
 
   dimension: operating_system {
     type: string
-    sql: ${TABLE}."OPERATING_SYSTEM" ;;
+    sql: ${TABLE}."operating_system" ;;
     label: "Operating System"
     description: "The OS the server is installed on"
     view_label: "- Server Metadata"
@@ -93,7 +93,7 @@ view: dim_daily_server_info {
 
   dimension: server_ip {
     type: string
-    sql: ${TABLE}."SERVER_IP" ;;
+    sql: ${TABLE}."server_ip" ;;
     label: "IP Address"
     description: "The server's IP address"
     view_label: "- Server Metadata"
@@ -105,35 +105,35 @@ view: dim_daily_server_info {
 
   dimension: version_full {
     type: string
-    sql: ${TABLE}."VERSION_FULL" ;;
+    sql: ${TABLE}."version_full" ;;
     label: "Server Version"
     view_label: "- Server Version"
   }
 
   dimension: version_major {
     type: string
-    sql: ${TABLE}."VERSION_MAJOR" ;;
+    sql: ${TABLE}."version_major" ;;
     label: "Major Version"
     view_label: "- Server Version"
   }
 
   dimension: version_minor {
     type: string
-    sql: ${TABLE}."VERSION_MINOR" ;;
+    sql: ${TABLE}."version_minor" ;;
     label: "Minor Version"
     view_label: "- Server Version"
   }
 
   dimension: version_patch {
     type: string
-    sql: ${TABLE}."VERSION_PATCH" ;;
+    sql: ${TABLE}."version_patch" ;;
     label: "Patch Version"
     view_label: "- Server Version"
   }
 
   dimension: count_reported_versions {
     type: number
-    sql: ${TABLE}."COUNT_REPORTED_VERSIONS" ;;
+    sql: ${TABLE}."count_reported_versions" ;;
     label: "Number of reported versions"
     view_label: "- Server Version"
   }
@@ -144,7 +144,7 @@ view: dim_daily_server_info {
 
   dimension: has_diagnostics_data {
     type: yesno
-    sql: ${TABLE}."HAS_DIAGNOSTICS_DATA" ;;
+    sql: ${TABLE}."has_diagnostics_data" ;;
     label: "Has diagnostics data?"
     description: " Whether the server queried the security update endpoint at the current date"
     view_label: "- Data Source Info"
@@ -152,7 +152,7 @@ view: dim_daily_server_info {
 
   dimension: has_legacy_telemetry_data {
     type: yesno
-    sql: ${TABLE}."HAS_LEGACY_TELEMETRY_DATA" ;;
+    sql: ${TABLE}."has_legacy_telemetry_data" ;;
     label: "Has legacy telemetry"
     description: "Whether telemetry data were reported from legacy telemetry pipeline (Segment) at the current date"
     view_label: "- Data Source Info"
@@ -160,7 +160,7 @@ view: dim_daily_server_info {
 
   dimension: has_telemetry_data {
     type: yesno
-    sql: ${TABLE}."HAS_TELEMETRY_DATA" ;;
+    sql: ${TABLE}."has_telemetry_data" ;;
     label: "Has telemetry?"
     description: "Whether telemetry data were reported from telemetry pipeline (Rudderstack) at the current date/"
     view_label: "- Data Source Info"
