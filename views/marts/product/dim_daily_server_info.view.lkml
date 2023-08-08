@@ -8,7 +8,7 @@ view: dim_daily_server_info {
 
   dimension: daily_server_id {
     type: string
-    sql: ${TABLE}.daily_derver_id ;;
+    sql: ${TABLE}.daily_server_id ;;
     primary_key: yes
     hidden: yes
   }
