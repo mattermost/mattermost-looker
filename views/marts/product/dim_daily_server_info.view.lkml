@@ -153,7 +153,7 @@ view: dim_daily_server_info {
   dimension: has_legacy_telemetry_data {
     type: yesno
     sql: ${TABLE}.has_legacy_telemetry_data ;;
-    label: "Has legacy telemetry"
+    label: "Has legacy telemetry?"
     description: "Whether telemetry data were reported from legacy telemetry pipeline (Segment) at the current date"
     view_label: "- Data Source Info"
   }
@@ -162,7 +162,7 @@ view: dim_daily_server_info {
     type: yesno
     sql: ${TABLE}.has_telemetry_data ;;
     label: "Has telemetry?"
-    description: "Whether telemetry data were reported from telemetry pipeline (Rudderstack) at the current date/"
+    description: "Whether telemetry data were reported from telemetry pipeline (Rudderstack) at the current date."
     view_label: "- Data Source Info"
   }
 
