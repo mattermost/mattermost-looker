@@ -39,15 +39,30 @@ view: fct_active_users {
   dimension: daily_active_users {
     type: number
     sql: ${TABLE}.daily_active_users ;;
-    label: "DAU"
-    description: "Number of unique users for current date"
+    label: "DAU (Client)"
+    description: "Number of unique users for current date, reported by client telemetry. Equals to the number of unique users that performed an action in the given calendar date."
     view_label: "1. DAU"
   }
 
   measure: total_daily_active_users {
     type: sum
     sql: ${daily_active_users} ;;
-    label: "Total DAU"
+    label: "Total DAU (Client)"
+    view_label: "1. DAU"
+  }
+
+  dimension: server_daily_active_users {
+    type: number
+    sql: ${TABLE}.server_daily_active_users ;;
+    label: "DAU (Server)"
+    description: "DAU reported by MM server activity. Defined as the number of unique users that performed an action in the 24 hours previous to sending the telemetry data."
+    view_label: "1. DAU"
+  }
+
+  measure: total_server_daily_active_users {
+    type: sum
+    sql: ${server_daily_active_users} ;;
+    label: "Total DAU (Server)"
     view_label: "1. DAU"
   }
 
@@ -104,7 +119,7 @@ view: fct_active_users {
   dimension: weekly_active_users {
     type: number
     sql: ${TABLE}.weekly_active_users ;;
-    label: "WAU"
+    label: "WAU (Client)"
     description: "Number of unique user ids reported for the past 7 days"
     view_label: "2. WAU"
   }
@@ -112,7 +127,7 @@ view: fct_active_users {
   measure: total_weekly_active_users {
     type: sum
     sql: ${weekly_active_users} ;;
-    label: "Total WAU"
+    label: "Total WAU (Client)"
     view_label: "2. WAU"
   }
 
@@ -168,15 +183,30 @@ view: fct_active_users {
   dimension: monthly_active_users {
     type: number
     sql: ${TABLE}.monthly_active_users ;;
-    label: "MAU"
-    description: "Number of unique users for the past 30 days"
+    label: "MAU (Client)"
+    description: "Number of unique users for the past 30 days, reported by client telemetry. Equals to the number of unique users that performed an action in the given date and previous 29 days."
     view_label: "3. MAU"
   }
 
   measure: total_monthly_active_users {
     type: sum
     sql: ${monthly_active_users} ;;
-    label: "Total MAU"
+    label: "Total MAU (Client)"
+    view_label: "3. MAU"
+  }
+
+  dimension: server_monthly_active_users {
+    type: number
+    sql: ${TABLE}.server_monthly_active_users ;;
+    label: "MAU (Server)"
+    description: "MAU reported by MM server activity. Defined as the number of unique users that performed an action in the 31 days previous to sending the telemetry data."
+    view_label: "3. MAU"
+  }
+
+  measure: total_server_monthly_active_users {
+    type: sum
+    sql: ${server_monthly_active_users} ;;
+    label: "Total MAU (Server)"
     view_label: "3. MAU"
   }
 
@@ -225,4 +255,38 @@ view: fct_active_users {
     view_label: "3. MAU"
   }
 
+  ###
+  ### Other server metrics
+  ###
+
+  dimension: count_registered_users {
+    type: number
+    sql: ${TABLE}.count_registered_users ;;
+    label: "Registered users"
+    description: "Total number of registered users. Includes deleted users."
+    view_label: "4. Other server reported metrics"
+  }
+
+  measure: total_count_registered_users {
+    type: sum
+    sql: ${count_registered_users} ;;
+    label: "Total Registered Users"
+    view_label: "4. Other server reported metrics"
+  }
+
+  dimension: count_registered_deactivated_users {
+    type: number
+    sql: ${TABLE}.count_registered_deactivated_users ;;
+    label: "Deactivated users"
+    description: "Total number of inactive (deleted) users."
+    view_label: "4. Other server reported metrics"
+  }
+
+
+  measure: total_count_registered_deactivated_users {
+    type: sum
+    sql: ${count_registered_deactivated_users} ;;
+    label: "Total Deactivated Users"
+    view_label: "4. Other server reported metrics"
+  }
 }
