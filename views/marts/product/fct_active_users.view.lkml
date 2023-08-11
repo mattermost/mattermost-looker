@@ -263,7 +263,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.count_registered_users ;;
     label: "Registered users"
-    description: "Total number of users, including deleted users."
+    description: "Total number of registered users. Includes deleted users."
     view_label: "4. Other server reported metrics"
   }
 
