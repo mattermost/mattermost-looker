@@ -108,7 +108,7 @@ view_label: ""
   dimension: total_net_new_arr_with_override__c {
     type: number
     sql: ${TABLE}.total_net_new_arr_with_override__c ;;
-    description: "Total Net New Arr with Override"
+    description: "Total Net New ARR with Override"
   }
 
   dimension_group: close {
