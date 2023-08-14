@@ -80,14 +80,35 @@ view_label: ""
     group_label: "Amounts"
   }
 
-
-
-
   dimension: arr_contributed {
     type: number
     sql: ${TABLE}."ARR_CONTRIBUTED__C" ;;
     label: "ARR"
     group_label: "Amounts"
+  }
+
+  dimension: cpq_renewal_arr__c {
+    type: number
+    sql: ${TABLE}.cpq_renewal_arr__c ;;
+    description: "CPQ Renewal ARR"
+  }
+
+  dimension: exit_year_arr__c {
+    type: number
+    sql: ${TABLE}.exit_year_arr__c ;;
+    description: "Exit Year ARR"
+  }
+
+  dimension: sales_forecast_category__c {
+    type: string
+    sql: ${TABLE}.sales_forecast_category__c ;;
+    description: "Sales Forecast Category"
+  }
+
+  dimension: total_net_new_arr_with_override__c {
+    type: number
+    sql: ${TABLE}.total_net_new_arr_with_override__c ;;
+    description: "Total Net New ARR with Override"
   }
 
   dimension_group: close {
@@ -350,6 +371,30 @@ view_label: ""
     type: sum_distinct
     sql: ${monthly_billing};;
     group_label: "Amounts"
+    value_format_name: usd_0
+  }
+
+  measure: cpq_renewal_arr {
+    description: "CPQ Renewal ARR"
+    label: "CPQ Renewal ARR"
+    sql: ${cpq_renewal_arr__c} ;;
+    type: sum
+    value_format_name: usd_0
+  }
+
+  measure: total_net_new_arr_with_override {
+    description: "Total Net New ARR with Override"
+    label: "Total Net New ARR with Override"
+    sql: ${total_net_new_arr_with_override__c} ;;
+    type: sum
+    value_format_name: usd_0
+  }
+
+  measure: exit_year_arr {
+    description: "Exit Year ARR"
+    label: "Exit Year ARR"
+    sql: ${exit_year_arr__c} ;;
+    type: sum
     value_format_name: usd_0
   }
 }
