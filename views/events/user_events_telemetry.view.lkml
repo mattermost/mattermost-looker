@@ -1470,7 +1470,7 @@ view: user_events_telemetry {
     label: "Weekly Active Users"
     description: "The count of Weekly active users on the given active user date."
     type: count_distinct
-    sql: CASE WHEN ${event_date} <= ${active_user_date_date} and ${event_date} >= ${active_user_date_date} - interval '7 days'
+    sql: CASE WHEN ${event_date} <= ${active_user_date_raw} and ${event_date} >= ${active_user_date_raw} - interval '7 days'
           THEN ${user_actual_id} ELSE NULL END ;;
     drill_fields: [user_drill*]
   }

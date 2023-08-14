@@ -68,7 +68,14 @@ view: opportunity {
       ce_name,
       type,
       is_monthly_billing,
-      status_wlo
+      status_wlo,
+      cpq_renewal_arr__c,
+      exit_year_arr__c,
+      sales_forecast_category__c,
+      total_net_new_arr_with_override__c,
+      exit_year_arr,
+      cpq_renewal_arr,
+      total_net_new_arr_with_override
     ]
   }
 
@@ -100,6 +107,34 @@ view: opportunity {
   #
   # Dimensions
   #
+
+
+  dimension: cpq_renewal_arr__c {
+    type: number
+    sql: ${TABLE}.cpq_renewal_arr__c ;;
+    description: "CPQ Renewal ARR"
+    hidden: yes
+  }
+
+  dimension: exit_year_arr__c {
+    type: number
+    sql: ${TABLE}.exit_year_arr__c ;;
+    description: "Exit Year ARR"
+    hidden: yes
+  }
+
+  dimension: sales_forecast_category__c {
+    type: string
+    sql: ${TABLE}.sales_forecast_category__c ;;
+    description: "Sales Forecast Category"
+  }
+
+  dimension: total_net_new_arr_with_override__c {
+    type: number
+    sql: ${TABLE}.total_net_new_arr_with_override__c ;;
+    description: "Total Net New Arr with Override"
+    hidden: yes
+  }
 
   dimension: accountid {
     type: string
@@ -973,6 +1008,30 @@ view: opportunity {
   }
 
 # Measure
+
+  measure: cpq_renewal_arr {
+    description: "CPQ Renewal ARR"
+    label: "CPQ Renewal ARR"
+    sql: ${cpq_renewal_arr__c} ;;
+    type: sum
+    value_format_name: usd_0
+  }
+
+  measure: total_net_new_arr_with_override {
+    description: "Total Net New ARR with Override"
+    label: "Total Net New ARR with Override"
+    sql: ${total_net_new_arr_with_override__c} ;;
+    type: sum
+    value_format_name: usd_0
+  }
+
+  measure: exit_year_arr {
+    description: "Exit Year ARR"
+    label: "Exit Year ARR"
+    sql: ${exit_year_arr__c} ;;
+    type: sum
+    value_format_name: usd_0
+  }
 
   measure: arr {
     description: "Annual Recurring Revenue"
