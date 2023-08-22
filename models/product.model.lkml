@@ -16,7 +16,7 @@ explore: fct_active_users {
 
 explore: fct_active_servers {
   label: "Telemetry Active Servers"
-  group_label: " [New] Active Servers"
+  group_label: "[New] Active Servers"
 
   join: dim_version {
     relationship:  many_to_one
