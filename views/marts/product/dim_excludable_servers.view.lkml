@@ -2,19 +2,22 @@
 view: dim_excludable_servers {
   sql_table_name: "MART_PRODUCT"."DIM_EXCLUDABLE_SERVERS" ;;
 
-  label: "Excludable Servers"
+  label: "Dimension: Excludable Servers"
 
   dimension: server_id {
     type: string
     sql: ${TABLE}.server_id ;;
     primary_key: yes
-    label: " The server's ID"
+    label: "Server ID"
+    description: " The server's ID"
+    hidden: yes
   }
 
   dimension: reasons {
     type: string
     sql: ${TABLE}.reasons ;;
-    label: "List of reasons this server is considered for exclusion."
+    label: "Reasons"
+    description: "List of reasons this server is considered for exclusion."
   }
 
 }
