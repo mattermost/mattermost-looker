@@ -2,7 +2,7 @@
 view: dim_excludable_servers {
   sql_table_name: "MART_PRODUCT"."DIM_EXCLUDABLE_SERVERS" ;;
 
-  label: "Excludable Servers"
+  label: "Dimension: Excludable Servers"
 
   dimension: server_id {
     type: string

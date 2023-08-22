@@ -1,6 +1,6 @@
 view: fct_active_servers {
   sql_table_name: "MART_PRODUCT"."FCT_ACTIVE_SERVERS" ;;
-  label: "Telemetry Active Servers"
+  label: "Fact: Telemetry Active Servers"
 
   ###
   ### IDs and dates
@@ -91,7 +91,7 @@ view: fct_active_servers {
     sql: ${TABLE}.has_diagnostics_data ;;
     label: "Has diagnostics data?"
     description: " Whether the server queried the security update endpoint at the current date"
-    view_label: "- Data Source Info"
+    view_label: "Metadata: Data Source Info"
   }
 
   dimension: has_legacy_telemetry_data {
@@ -99,7 +99,7 @@ view: fct_active_servers {
     sql: ${TABLE}.has_legacy_telemetry_data ;;
     label: "Has legacy telemetry?"
     description: "Whether telemetry data were reported from legacy telemetry pipeline (Segment) at the current date"
-    view_label: "- Data Source Info"
+    view_label: "Metadata: Data Source Info"
   }
 
   dimension: has_telemetry_data {
@@ -107,7 +107,7 @@ view: fct_active_servers {
     sql: ${TABLE}.has_telemetry_data ;;
     label: "Has telemetry?"
     description: "Whether telemetry data were reported from telemetry pipeline (Rudderstack) at the current date."
-    view_label: "- Data Source Info"
+    view_label: "Metadata: Data Source Info"
   }
 
 
@@ -116,8 +116,7 @@ view: fct_active_servers {
     sql: ${TABLE}."IS_MISSING_ACTIVITY_DATA" ;;
     label: "Missing activity data?"
     description: "Whether activity data were reported from telemetry pipeline (Rudderstack or Segment) at the current date."
-    view_label: "- Data Source Info"
-
+    view_label: "Metadata: Data Source Info"
   }
 
   measure: count {

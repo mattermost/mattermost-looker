@@ -2,7 +2,7 @@ view: dim_version {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
   sql_table_name: "MART_PRODUCT"."DIM_VERSION" ;;
-  label: "Server Version"
+  label: "Dimension: Server Version"
 
   ##
   ## ID
