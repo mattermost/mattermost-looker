@@ -1,7 +1,7 @@
 view: fct_active_users {
 
   sql_table_name: "MART_PRODUCT"."FCT_ACTIVE_USERS" ;;
-  label: "Telemetry Active Users"
+  label: "Fact: Telemetry Active Users"
 
 
   ###
@@ -30,6 +30,15 @@ view: fct_active_users {
     sql: ${TABLE}.activity_date ;;
     label: "Server Telemetry Activity" # Remember that `Date` is automatically appended by looker
     description: "The date current data were captured at"
+  }
+
+
+  dimension: version_id {
+    type: string
+    sql: ${TABLE}.version_id ;;
+    label: "Version ID"
+    description: "The server's version for the specific date"
+    hidden: yes
   }
 
   ###
