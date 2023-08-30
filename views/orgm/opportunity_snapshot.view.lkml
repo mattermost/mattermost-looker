@@ -279,6 +279,12 @@ view_label: ""
     drill_fields: [opportunity.name, opportunity.owner_name, opportunity.csm_name, opportunity.stagename, opportunity.created_date, opportunity.close_date, opportunity.type, total_amount_net_new, total_amount_renewal, close_date]
   }
 
+  measure: min_opportunity_snapshot {
+    type: date
+    sql: MIN(${snapshot_date}) ;;
+    label: "Min Snapshot Date"
+  }
+
   measure: total_amount {
     type: sum_distinct
     sql: ${amount} ;;
