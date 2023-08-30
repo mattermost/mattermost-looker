@@ -10,6 +10,14 @@ view: license_server_fact {
       expire_date, license_activation_date, last_active_date]
   }
 
+  set: view_default {
+    fields: [active_last_7days,last_telemetry_date, last_server_telemetry_date, id, active_paying_customer, server_id, license_id, company, edition, trial, opportunity_sfid, account_sfid, users, license_email,
+contact_sfid, account_name, stripeid, customer_id, license_customer_id, customer_name, latest_license, active_users, customer_licensed_users, monthly_active_users,
+bot_accounts, bot_posts_previous_day, direct_message_channels, incoming_webhooks, outgoing_webhooks, posts, posts_previous_day, private_channels,
+public_channels, registered_users, registered_inactive_users, slash_commands, teams, guest_accounts, issued_date,
+start_date, expire_date, license_activation_date, last_active_date, license_retired_date, ]
+  }
+
   # DIMENSIONS
   dimension: active_last_7days {
     type: yesno

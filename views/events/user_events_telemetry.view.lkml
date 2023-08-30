@@ -10,6 +10,15 @@ view: user_events_telemetry {
       stripe_customer_email, category, type, user_actual_count, event_count, user_id]
   }
 
+  set: true_up_review {
+    fields: [user_events_telemetry.active_users, user_events_telemetry.event_date, user_events_telemetry.authentication_features
+      , user_events_telemetry.customer_name, user_events_telemetry.incoming_webhooks_count
+      , user_events_telemetry.license_id, user_events_telemetry.licensed_seats
+      , user_events_telemetry.outgoing_webhooks_count, user_events_telemetry.plugin_names, user_events_telemetry.server_id
+      , user_events_telemetry.server_version, user_events_telemetry.total_plugins, user_events_telemetry.server_installation_type
+      , user_events_telemetry.license_plan, user_events_telemetry.type]
+  }
+
   set: user_drill {
     fields: [user_actual_id, user_actual_role, event_count, post_count, post_reaction_count, root_count, user_id]
   }
