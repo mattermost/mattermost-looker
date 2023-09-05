@@ -11,7 +11,7 @@ view: user_events_telemetry {
   }
 
   set: uet_true_up_review {
-    fields: [active_users, event_date, authentication_features, user_events_telemetry.customer_name,
+    fields: [active_users, event_date, authentication_features, customer_name,
       incoming_webhooks_count, license_id, licensed_seats, outgoing_webhooks_count, plugin_names, server_id, server_version,
       total_plugins, server_installation_type, license_plan, type]
   }
