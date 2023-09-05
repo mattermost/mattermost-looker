@@ -4,15 +4,17 @@ fiscal_month_offset: -11
 week_start_day: sunday
 
 explore: license_server_fact {
-  view_label: "True Up Review"
+  label: "True Up Review"
+  view_label: "License Server Fact"
   group_label: "True Up Review"
   description: "Contains all the fields for True-Up Review data"
-  fields: [view_default*]
+  fields: [license_server_fact.lsf_true_up_review*, user_events_telemetry.uet_true_up_review*]
 
   join: user_events_telemetry {
-    sql_on: ${license_server_fact.license_id} = ${user_events_telemetry.license_id} ;;
+    from: user_events_telemetry
+    view_label: "User Events Telemetry"
     relationship: many_to_one
-    fields: [true_up_review*]
+    sql_on: ${license_server_fact.license_id} = ${user_events_telemetry.license_id} ;;
   }
 }
 
