@@ -292,7 +292,7 @@ view: fct_active_users {
   measure: total_count_registered_active_users {
     type: sum
     sql: ${count_registered_active_users} ;;
-    label: "Total Active Registerd Users"
+    label: "Total Active Registered Users"
     view_label: " * Metrics. Registered Users"
   }
 }
