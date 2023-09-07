@@ -286,7 +286,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.count_registered_users - ${TABLE}.count_registered_deactivated_users;;
     label: "Active Registered Users"
-    description: "Total number of active registered users. Does not deleted users."
+    description: "Total number of active registered users. Does not include deleted users."
   }
 
   measure: total_count_registered_active_users {

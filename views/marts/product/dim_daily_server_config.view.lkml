@@ -61,7 +61,7 @@ view: dim_daily_server_config {
   dimension: is_openid_office365_enabled {
     type: yesno
     sql: ${TABLE}.is_openid_office365_enabled ;;
-    label: "Is OpenID - Google Enabled?"
+    label: "Is OpenID - Office365 Enabled?"
     view_label: "Configuration: OAuth"
   }
 
