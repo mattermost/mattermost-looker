@@ -17,6 +17,8 @@ view: dim_server_info {
     sql: ${TABLE}."HOSTING_TYPE" ;;
     label: "Hosting type"
     description: "Whether the server is an onprem or cloud installation."
+    view_label: "Server: Installation information"
+
   }
 
   dimension: installation_id {
@@ -24,5 +26,6 @@ view: dim_server_info {
     sql: ${TABLE}."INSTALLATION_ID" ;;
     label: "Installation ID"
     description: "The ID of the server's installation. Exists only if server is a cloud server."
+    view_label: "Server: Installation information"
   }
 }

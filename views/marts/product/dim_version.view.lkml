@@ -25,6 +25,7 @@ view: dim_version {
     sql: ${TABLE}.version_full ;;
     label: "Full version string"
     description: "Full semantic version. I.e. 7.8.1."
+    view_label: "Server: Version"
   }
 
 
@@ -33,6 +34,7 @@ view: dim_version {
     sql: ${TABLE}.version_major ;;
     label: "Major part"
     description: "The major part of the semantic version. I.e. for 7.8.1 it's `7`."
+    view_label: "Server: Version"
   }
 
   dimension: version_minor {
@@ -40,6 +42,7 @@ view: dim_version {
     sql: ${TABLE}.version_minor ;;
     label: "Minor part"
     description: "The minor part of the semantic version. I.e. for 7.8.1 it's `8`."
+    view_label: "Server: Version"
   }
 
   dimension: version_major_minor {
@@ -47,7 +50,7 @@ view: dim_version {
     sql: ${TABLE}.version_major_minor ;;
     label: "Major and minor part"
     description: "The major and minor part of the semantic version, concatenated using character `.`. I.e. for 7.8.1 it's `7.8`."
-
+    view_label: "Server: Version"
   }
 
 
@@ -56,6 +59,6 @@ view: dim_version {
     sql: ${TABLE}.version_patch ;;
     label: "Patch part"
     description: "The patch part of the semantic version. I.e. for 7.8.1 it's `1`."
-
+    view_label: "Server: Version"
   }
 }
