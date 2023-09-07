@@ -18,6 +18,7 @@ view: dim_excludable_servers {
     sql: ${TABLE}.reasons ;;
     label: "Reasons"
     description: "List of reasons this server is considered for exclusion."
+    view_label: "Server: Exclusion Reasons"
   }
 
 }

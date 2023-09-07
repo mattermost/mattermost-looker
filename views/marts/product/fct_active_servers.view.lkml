@@ -1,6 +1,6 @@
 view: fct_active_servers {
   sql_table_name: "MART_PRODUCT"."FCT_ACTIVE_SERVERS" ;;
-  label: "Fact: Telemetry Active Servers"
+  label: "   * Server: Telemetry Active Servers"
 
   ###
   ### IDs and dates
@@ -81,6 +81,13 @@ view: fct_active_servers {
     description: "Whether this server uses an enterprise ready build."
   }
 
+  dimension: registered_user_bin {
+    type: string
+    sql: ${TABLE}.registered_user_bin ;;
+    label: "Registered User Bucket"
+    description: "Splits server into \"buckets\" depending on the number of active registered users."
+  }
+
 
   ###
   ### Data Source info
@@ -122,5 +129,6 @@ view: fct_active_servers {
   measure: count {
     type: count
     label: "Count"
+    view_label: " * Metrics: Active Servers"
   }
 }
