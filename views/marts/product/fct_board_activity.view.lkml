@@ -1,5 +1,5 @@
 view: fct_board_activity {
-  label: "   * Server: Telemetry Boards"
+  label: "   * Server: Boards Telemetry"
   sql_table_name: "MART_PRODUCT"."FCT_BOARD_ACTIVITY" ;;
 
   dimension: daily_server_id {
@@ -21,7 +21,7 @@ view: fct_board_activity {
     datatype: date
     sql: ${TABLE}.activity_date ;;
     label: "Server Telemetry Activity" # Remember that `Date` is automatically appended by looker
-    description: "The date current data were captured at"
+    description: "The date current Board data were captured at"
   }
 
 
@@ -39,7 +39,7 @@ view: fct_board_activity {
     type: number
     sql: ${TABLE}.daily_active_users ;;
     label: "DAU (Client)"
-    description: "Number of unique users for current date, reported by client telemetry. Equals to the number of unique users that performed an action in the given calendar date."
+    description: "Number of unique users for current date, reported by Boards client telemetry. Equals to the number of unique users that performed an action in the given calendar date."
   }
 
   measure: total_daily_active_users {
@@ -136,13 +136,13 @@ view: fct_board_activity {
     type: number
     sql: ${TABLE}.count_registered_users ;;
     label: "Registered users"
-    description: "Total number of registered users. Includes deleted users."
+    description: "Total number of registered users on the Boards servers. Excludes deleted users."
   }
 
   measure: total_count_registered_users {
     type: sum
     sql: ${count_registered_users} ;;
-    label: "Total Registered Users"
+    label: "Total Board Registered Users"
     view_label: " * Metrics. Registered Users"
   }
 
@@ -155,7 +155,7 @@ view: fct_board_activity {
     type: yesno
     sql: ${TABLE}.has_client_data ;;
     label: "Has client data?"
-    description: "Whether telemetry data were reported from any client at the current date."
+    description: "Whether Boards telemetry data were reported from any client at the current date."
     view_label: "Metadata: Data Source Info"
   }
 
@@ -164,7 +164,7 @@ view: fct_board_activity {
     type: yesno
     sql: ${TABLE}.has_server_data ;;
     label: "Has server data?"
-    description: "Whether telemetry data were reported from Boards server at the current date."
+    description: "Whether Boards telemetry data were reported from Boards server at the current date."
     view_label: "Metadata: Data Source Info"
   }
 
