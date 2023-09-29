@@ -4,8 +4,8 @@ connection: "snowflake"
 include: "/views/marts/product/*.view.lkml"
 
 explore: fct_active_users {
-  label: "Telemetry Active Users"
-  group_label: "[New] Active Users"
+  label: "💻✅ Active Users"
+  group_label: "📡 Telemetry"
 
   join: dim_daily_server_info {
     relationship: one_to_one
@@ -27,8 +27,8 @@ explore: fct_active_users {
 }
 
 explore: fct_active_servers {
-  label: "Telemetry Active Servers"
-  group_label: "[New] Active Servers"
+  label: "💻✅ Active Servers"
+  group_label: "📡 Telemetry"
 
   join: dim_version {
     relationship:  many_to_one
