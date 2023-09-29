@@ -71,7 +71,7 @@ view: fct_board_activity {
     type: number
     sql: ${TABLE}.weekly_active_users ;;
     label: "WAU (Client)"
-    description: "Number of unique user ids reported for the past 7 days"
+    description: "Number of unique user ids reported for the past 7 days, reported by Boards client telemetry. Equals to the number of unique users that performed an action in the given date and previous 7 days."
   }
 
   measure: total_weekly_active_users {
@@ -103,7 +103,7 @@ view: fct_board_activity {
     type: number
     sql: ${TABLE}.monthly_active_users ;;
     label: "MAU (Client)"
-    description: "Number of unique users for the past 30 days, reported by client telemetry. Equals to the number of unique users that performed an action in the given date and previous 29 days."
+    description: "Number of unique users for the past 30 days, reported by Boards client telemetry. Equals to the number of unique users that performed an action in the given date and previous 29 days."
   }
 
   measure: total_monthly_active_users {

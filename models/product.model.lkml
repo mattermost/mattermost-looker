@@ -56,7 +56,7 @@ explore: fct_active_servers {
 }
 
 explore:fct_board_activity {
-  label: "Telemetry Active Boards"
+  label: "Telemetry Active Boards Servers"
   group_label: "[New] Active Servers"
 
 
