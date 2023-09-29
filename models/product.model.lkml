@@ -54,3 +54,27 @@ explore: fct_active_servers {
     sql_on:  ${fct_active_servers.daily_server_id} = ${dim_daily_server_config.daily_server_id} ;;
   }
 }
+
+explore:fct_board_activity {
+  label: "Telemetry Active Boards Servers"
+  group_label: "[New] Active Servers"
+
+
+  join: dim_server_info {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${fct_board_activity.server_id} = ${dim_server_info.server_id} ;;
+  }
+
+  join: dim_excludable_servers {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_board_activity.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+
+  join: dim_board_customers {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${fct_board_activity.server_id} = ${dim_board_customers.server_id} ;;
+  }
+}
