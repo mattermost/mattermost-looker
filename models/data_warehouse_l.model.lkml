@@ -3,18 +3,18 @@ include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
 
-explore: license_server_fact {
+explore: user_events_telemetry2 {
+  from: user_events_telemetry
   label: "True Up Review"
-  view_label: "License Server Fact"
+  view_label: "User Events Telemetry"
   group_label: "True Up Review"
   description: "Contains all the fields for True-Up Review data"
-  fields: [license_server_fact.lsf_true_up_review*, user_events_telemetry.uet_true_up_review*]
+  fields: [license_server_fact.lsf_true_up_review*, user_events_telemetry2.uet_true_up_review*]
 
-  join: user_events_telemetry {
-    from: user_events_telemetry
-    view_label: "User Events Telemetry"
+  join: license_server_fact {
+    view_label: "License Server Fact"
     relationship: many_to_one
-    sql_on: ${license_server_fact.license_id} = ${user_events_telemetry.license_id} ;;
+    sql_on: ${license_server_fact.license_id} = ${user_events_telemetry2.license_id} ;;
   }
 }
 
