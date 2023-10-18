@@ -295,4 +295,12 @@ view: fct_active_users {
     label: "Total Active Registered Users"
     view_label: " * Metrics. Registered Users"
   }
+
+
+  measure: count_distinct_servers {
+    type: count_distinct
+    sql: ${server_id} ;;
+    label: "Total Unique Servers"
+    view_label: " * Metrics: Server"
+  }
 }

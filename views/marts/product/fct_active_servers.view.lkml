@@ -127,8 +127,10 @@ view: fct_active_servers {
   }
 
   measure: count {
-    type: count
-    label: "Count"
+    type: count_distinct
+    sql: ${server_id} ;;
+    label: "Count Unique Servers"
+    description: "Count of distinct servers"
     view_label: " * Metrics: Active Servers"
   }
 }

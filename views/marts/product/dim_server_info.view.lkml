@@ -28,4 +28,27 @@ view: dim_server_info {
     description: "The ID of the server's installation. Exists only if server is a cloud server."
     view_label: "Server: Installation information"
   }
+
+
+  dimension_group: first_activity_date {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.first_activity_date ;;
+    label: "First Activity" # Remember that `Date` is automatically appended by looker
+    description: "The first date that activity was recorded for the current server"
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension_group: last_activity_date {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.last_activity_date ;;
+    label: "Last Activity" # Remember that `Date` is automatically appended by looker
+    description: "The first date that activity was recorded for the current server"
+    view_label: "Server: Lifecycle"
+  }
 }
