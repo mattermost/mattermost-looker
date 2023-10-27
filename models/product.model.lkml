@@ -24,6 +24,13 @@ explore: fct_active_users {
     type: full_outer
     sql_on: ${fct_active_users.version_id} = ${dim_version.version_id} ;;
   }
+
+  join: dim_excludable_servers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${fct_active_users.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+
 }
 
 explore: fct_active_servers {
@@ -43,7 +50,7 @@ explore: fct_active_servers {
   }
 
   join: dim_excludable_servers {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer
     sql_on: ${fct_active_servers.server_id} = ${dim_excludable_servers.server_id} ;;
   }
@@ -67,7 +74,7 @@ explore:fct_board_activity {
   }
 
   join: dim_excludable_servers {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer
     sql_on: ${fct_board_activity.server_id} = ${dim_excludable_servers.server_id} ;;
   }
