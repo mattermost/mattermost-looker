@@ -77,6 +77,13 @@ view: dim_fix_versions {
     sql: ${TABLE}."VERSION_MINOR" ;;
   }
 
+  dimension: version_patch {
+    label: "Patch Version"
+    description: "The patch part of the semantic version"
+    type: number
+    sql: ${TABLE}."VERSION_PATCH" ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
