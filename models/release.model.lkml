@@ -24,10 +24,10 @@ explore:  fct_issues_daily_snapshot {
     sql_on: ${fct_issues_daily_snapshot.issue_id} = ${dim_fix_versions.issue_id} ;;
   }
 
-  join: dim_release_timeframe {
-    from:  dim_fix_versions
+
+  join: dim_releases {
     view_label: "Release Timeframe"
     relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_date} > DATEADD(month, -1, ${dim_release_timeframe.planned_release_date_date})) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_release_timeframe.planned_release_date_date});;
+    sql_on: (${fct_issues_daily_snapshot.created_date} > DATEADD(month, -1, ${dim_releases.planned_release_date})) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_releases.planned_release_date});;
   }
 }

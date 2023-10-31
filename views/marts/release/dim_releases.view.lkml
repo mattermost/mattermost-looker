@@ -1,0 +1,86 @@
+view: dim_releases {
+
+  sql_table_name: "MART_RELEASE".dim_releases ;;
+
+  dimension: version {
+    type: string
+    sql: ${TABLE}.version ;;
+    primary_key: yes
+    label: "Version"
+    description: "The release's version number."
+  }
+
+
+  dimension: short_version {
+    type: string
+    sql: ${TABLE}.short_version ;;
+    label: "Short version"
+    description: "Major and minor version, prefixed with 'v'"
+  }
+
+
+
+  dimension: version_major {
+    type: string
+    sql: ${TABLE}."VERSION_MAJOR" ;;
+    label: "Major Version"
+    description: "The major part of the semantic version"
+  }
+
+  dimension: version_minor {
+    type: string
+    sql: ${TABLE}."VERSION_MINOR" ;;
+    label: "Minor Version"
+    description: "The minor part of the semantic version"
+
+  }
+
+  dimension: version_patch {
+    type: string
+    sql: ${TABLE}."VERSION_PATCH" ;;
+    label: "Patch Version"
+    description: "The patch part of the semantic version"
+  }
+
+
+  dimension_group: rc1 {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.rc1_date ;;
+    label: "RC1 Cut"
+  }
+
+
+  dimension_group: planned_release {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.planned_release_date ;;
+    label: "Planned Release"
+  }
+
+  dimension_group: actual_release {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.actual_release_date ;;
+    label: "Actual Release"
+  }
+
+  dimension: is_supported {
+    type: yesno
+    sql: ${TABLE}.is_supported ;;
+    label: "Is Supported?"
+  }
+
+
+  dimension: release_number {
+    type: number
+    sql: ${TABLE}.release_number ;;
+    hidden:  yes
+  }
+}
