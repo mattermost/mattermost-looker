@@ -25,6 +25,8 @@ explore:  fct_issues_daily_snapshot {
   }
 
 
+  # Custom dimensions reusing releases to mark version that an issue falls within its release timeframe.
+  # A release timeframe is the time from previous month to the planned release date (17th-16th).
   join: dim_release_timeframe_version {
     from: dim_releases
     view_label: "Release Timeframe"
@@ -33,6 +35,7 @@ explore:  fct_issues_daily_snapshot {
     fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version, dim_release_timeframe_version.actual_release_date, dim_release_timeframe_version.version_major, dim_release_timeframe_version.version_minor, dim_release_timeframe_version.version_patch]
   }
 
+  # Week following release is the 7 days after the actual release date.
   join: dim_week_following_release {
     from: dim_releases
     view_label: "Week Following Release"
@@ -41,6 +44,7 @@ explore:  fct_issues_daily_snapshot {
     fields: [dim_week_following_release.version, dim_week_following_release.short_version, dim_week_following_release.actual_release_date, dim_week_following_release.version_major, dim_week_following_release.version_minor, dim_week_following_release.version_patch]
   }
 
+  # Time between RC1 cut date and planned release date.
   join: dim_rc1_cut_to_release {
     from: dim_releases
     view_label: "After RC1 cut"
