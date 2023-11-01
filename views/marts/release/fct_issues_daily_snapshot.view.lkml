@@ -14,6 +14,11 @@ view: fct_issues_daily_snapshot {
   dimension: issue_key {
     type: string
     sql: ${TABLE}."ISSUE_KEY" ;;
+    # Add a link to JIRA to make it easier to open specific issues directly from Looker
+    link: {
+      label: "Open in JIRA"
+      url: "https://mattermost.atlassian.net/browse/{{ value }}"
+    }
   }
 
   dimension: resolution {
@@ -81,6 +86,6 @@ view: fct_issues_daily_snapshot {
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [issue_key, issue_type, created_date, status]
   }
 }

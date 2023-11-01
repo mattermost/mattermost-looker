@@ -26,24 +26,6 @@ view: dim_fix_versions {
     sql: ${TABLE}."CLOUD_RELEASE_DATE" ;;
   }
 
-  dimension_group: planned_release_date {
-    label: "Planned Release Date"
-    description: "The planned date of the release"
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."PLANNED_RELEASE_DATE" ;;
-  }
-
-
   dimension: component {
     description: "The component this release refers to"
     type: string
@@ -77,8 +59,25 @@ view: dim_fix_versions {
     sql: ${TABLE}."VERSION_MINOR" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
+  dimension: version_patch {
+    label: "Patch Version"
+    description: "The patch part of the semantic version"
+    type: number
+    sql: ${TABLE}."VERSION_PATCH" ;;
   }
+
+  dimension: is_on_prem_release {
+    label: "Is On-prem Fix Version?"
+    description: "Whether this fix version is an on-prem fix version"
+    type: yesno
+    sql: ${TABLE}.is_on_prem_release ;;
+  }
+
+  dimension: is_cloud_release {
+    label: "Is Cloud Fix Version?"
+    description: "Whether this fix version is a Cloud fix version"
+    type: yesno
+    sql: ${TABLE}.is_cloud_release ;;
+  }
+
 }
