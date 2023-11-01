@@ -49,7 +49,7 @@ explore:  fct_issues_daily_snapshot {
     from: dim_releases
     view_label: "After RC1 cut"
     relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_date} >= DATEADD(day, 7, ${dim_rc1_cut_to_release.rc1_date})) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_rc1_cut_to_release.planned_release_date});;
+    sql_on: (${fct_issues_daily_snapshot.created_date} >= ${dim_rc1_cut_to_release.rc1_date}) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_rc1_cut_to_release.planned_release_date});;
     fields: [dim_rc1_cut_to_release.version, dim_rc1_cut_to_release.short_version, dim_rc1_cut_to_release.actual_release_date, dim_rc1_cut_to_release.version_major, dim_rc1_cut_to_release.version_minor, dim_rc1_cut_to_release.version_patch]
   }
 }
