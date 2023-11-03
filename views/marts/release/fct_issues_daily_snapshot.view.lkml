@@ -106,6 +106,6 @@ view: fct_issues_daily_snapshot {
 
   measure: count {
     type: count
-    drill_fields: [issue_key, issue_type, created_date, status]
+    drill_fields: [issue_key, issue_type, created_date, resolution, status]
   }
 }

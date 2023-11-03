@@ -32,7 +32,7 @@ explore:  fct_issues_daily_snapshot {
     view_label: "Release Timeframe"
     relationship: many_to_one
     sql_on: ${fct_issues_daily_snapshot.release_timeframe_version} = ${dim_release_timeframe_version.version};;
-    fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version]
+    fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version, dim_release_timeframe_version.previous_release_version, dim_release_timeframe_version.next_release_version]
   }
 
   # Week following release is the 7 days after the actual release date.
