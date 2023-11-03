@@ -68,6 +68,26 @@ view: fct_issues_daily_snapshot {
     sql: ${TABLE}."CLOSED_AT" ;;
   }
 
+  # References to versions
+
+  dimension: release_timeframe_version {
+    type: string
+    description: "The version that this issue was created during its release timeframe (17th to planned release date - dates are inclusive)"
+    hidden: yes
+  }
+
+  dimension: is_created_after_rc1_cut {
+    type: yesno
+    label: "Created after RC1 is cut?"
+    description: "True if the issue has been created after RC1 cut date of the release timeframe, False if between 17th (inclusive) and RC1 cut date (exclusive)."
+  }
+
+  dimension: created_after_release_version {
+    type: string
+    description: "Reference to the version that this issue was created during the week after its actual release date (actual release date + 7 days - dates are inclusive)"
+    hidden: yes
+  }
+
   dimension: lead_time_in_days {
     description: "The time (in days) between created and closed. "
     type: number
