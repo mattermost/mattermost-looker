@@ -83,4 +83,19 @@ view: dim_releases {
     sql: ${TABLE}.release_number ;;
     hidden:  yes
   }
+
+  dimension: previous_release_version {
+    type: string
+    sql: ${TABLE}.previous_release_version ;;
+    label: "Previous release version"
+    description: "The short version (major and minor parts) of the last release before current release. Patch versions are ignored. For example, let's assume that known release versions are `7.8.0`, `7.8.1`, `7.9.0`, `7.10.0`,`8.0.0` and `8.1.0`. Previous release version of `7.9.0` is `7.8.0`, previous version of `8.0.0` is `7.10.0` etc."
+  }
+
+
+  dimension: next_release_version {
+    type: string
+    sql: ${TABLE}.next_release_version ;;
+    label: "Next release version"
+    description: "The short version (major and minor parts) of the release following the current release. Patch versions are ignored. For example, let's assume that known release versions are `7.8.0`, `7.8.1`, `7.9.0`, `7.10.0`, `8.0.0` and `8.1.0`. Next release version of `7.8.0` is `7.9.0`, next  version of `7.10.0` is `8.0.0` etc."
+  }
 }

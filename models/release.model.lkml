@@ -31,8 +31,8 @@ explore:  fct_issues_daily_snapshot {
     from: dim_releases
     view_label: "Release Timeframe"
     relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_date} > DATEADD(month, -1, ${dim_release_timeframe_version.planned_release_date})) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_release_timeframe_version.planned_release_date});;
-    fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version, dim_release_timeframe_version.actual_release_date, dim_release_timeframe_version.version_major, dim_release_timeframe_version.version_minor, dim_release_timeframe_version.version_patch]
+    sql_on: ${fct_issues_daily_snapshot.release_timeframe_version} = ${dim_release_timeframe_version.version};;
+    fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version, dim_release_timeframe_version.previous_release_version, dim_release_timeframe_version.next_release_version]
   }
 
   # Week following release is the 7 days after the actual release date.
@@ -40,16 +40,8 @@ explore:  fct_issues_daily_snapshot {
     from: dim_releases
     view_label: "Week Following Release"
     relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_date} <= DATEADD(day, 7, ${dim_week_following_release.actual_release_date})) and  (${fct_issues_daily_snapshot.created_date} > ${dim_week_following_release.actual_release_date});;
-    fields: [dim_week_following_release.version, dim_week_following_release.short_version, dim_week_following_release.actual_release_date, dim_week_following_release.version_major, dim_week_following_release.version_minor, dim_week_following_release.version_patch]
+    sql_on: (${fct_issues_daily_snapshot.created_after_release_version} = ${dim_week_following_release.version};;
+    fields: [dim_week_following_release.version, dim_week_following_release.short_version]
   }
 
-  # Time between RC1 cut date and planned release date.
-  join: dim_rc1_cut_to_release {
-    from: dim_releases
-    view_label: "After RC1 cut"
-    relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_date} >= ${dim_rc1_cut_to_release.rc1_date}) and  (${fct_issues_daily_snapshot.created_date} <= ${dim_rc1_cut_to_release.planned_release_date});;
-    fields: [dim_rc1_cut_to_release.version, dim_rc1_cut_to_release.short_version, dim_rc1_cut_to_release.actual_release_date, dim_rc1_cut_to_release.version_major, dim_rc1_cut_to_release.version_minor, dim_rc1_cut_to_release.version_patch]
-  }
 }
