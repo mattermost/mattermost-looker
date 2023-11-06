@@ -40,7 +40,7 @@ explore:  fct_issues_daily_snapshot {
     from: dim_releases
     view_label: "Week Following Release"
     relationship: many_to_one
-    sql_on: (${fct_issues_daily_snapshot.created_after_release_version} = ${dim_week_following_release.version};;
+    sql_on: ${fct_issues_daily_snapshot.created_after_release_version} = ${dim_week_following_release.version};;
     fields: [dim_week_following_release.version, dim_week_following_release.short_version]
   }
 
