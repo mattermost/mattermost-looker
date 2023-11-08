@@ -71,10 +71,18 @@ view: dim_daily_server_info {
 
 
   dimension: is_enterprise_ready {
-    type: string
+    type: yesno
     sql: ${TABLE}.is_enterprise_ready ;;
     label: "Is Enterprise Ready?"
     description: "Whether this is an enterprise ready server"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: binary_edition {
+    type: string
+    sql: ${TABLE}.binary_edition ;;
+    label: "Edition"
+    description: "Whether the server is runnign a Team Edition (TE) or Enterprise Edition (E0) version of the binary."
     view_label: "Server: Daily Info Snapshot"
   }
 
