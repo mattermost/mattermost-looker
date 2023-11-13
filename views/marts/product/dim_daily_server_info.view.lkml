@@ -71,10 +71,18 @@ view: dim_daily_server_info {
 
 
   dimension: is_enterprise_ready {
-    type: string
+    type: yesno
     sql: ${TABLE}.is_enterprise_ready ;;
     label: "Is Enterprise Ready?"
     description: "Whether this is an enterprise ready server"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: binary_edition {
+    type: string
+    sql: ${TABLE}.binary_edition ;;
+    label: "Edition"
+    description: "Whether the server is running a Team Edition (TE) or Enterprise Edition (E0) version of the binary."
     view_label: "Server: Daily Info Snapshot"
   }
 
@@ -98,6 +106,25 @@ view: dim_daily_server_info {
     type: number
     sql: ${TABLE}.count_reported_versions ;;
     label: "Number of reported versions"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+
+  dimension: age_in_days {
+    type: number
+    sql: ${TABLE}.age_in_days ;;
+    label: "Age (Days)"
+    description: "Number of days since the first telemetry received by this server."
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: server_age {
+    type: tier
+    style: integer
+    tiers: [0,31,61,91,181,366,731]
+    sql: ${age_in_days} ;;
+    label: "Age Band (Days)"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     view_label: "Server: Daily Info Snapshot"
   }
 
