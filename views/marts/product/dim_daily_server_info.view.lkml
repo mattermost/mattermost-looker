@@ -82,7 +82,7 @@ view: dim_daily_server_info {
     type: string
     sql: ${TABLE}.binary_edition ;;
     label: "Edition"
-    description: "Whether the server is runnign a Team Edition (TE) or Enterprise Edition (E0) version of the binary."
+    description: "Whether the server is running a Team Edition (TE) or Enterprise Edition (E0) version of the binary."
     view_label: "Server: Daily Info Snapshot"
   }
 
