@@ -51,4 +51,20 @@ view: dim_server_info {
     description: "The first date that activity was recorded for the current server"
     view_label: "Server: Lifecycle"
   }
+
+  dimension: first_binary_edition {
+    type: string
+    sql: ${TABLE}.first_binary_edition ;;
+    label: "First Edition"
+    description: "The first reported binary edition - can be Team Edition (TE), Enterprise Edition (E0) version of the binary or Unknown."
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension: last_binary_edition {
+    type: string
+    sql: ${TABLE}.last_binary_edition ;;
+    label: "Last Edition"
+    description: "The last reported binary edition - can be Team Edition (TE), Enterprise Edition (E0) version of the binary or Unknown."
+    view_label: "Server: Lifecycle"
+  }
 }
