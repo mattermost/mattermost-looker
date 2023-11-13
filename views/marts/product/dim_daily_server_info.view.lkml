@@ -119,12 +119,13 @@ view: dim_daily_server_info {
   }
 
   dimension: server_age {
-    label: "Age Band (Days)"
-    description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
     type: tier
     style: integer
     tiers: [0,31,61,91,181,366,731]
     sql: ${age_in_days} ;;
+    label: "Age Band (Days)"
+    description: "Displays the age in days of the server bucketed into groupings. Age is calculated from first active date (first date telemetry enabled) to logging date."
+    view_label: "Server: Daily Info Snapshot"
   }
 
   ###
