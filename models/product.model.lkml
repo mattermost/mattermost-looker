@@ -103,3 +103,20 @@ explore:fct_calls_activity {
     sql_on: ${fct_calls_activity.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 }
+
+explore: rpt_tedau_at_day_28 {
+  label: "TEDAU on day 28"
+  group_label: "[New] Active Users"
+
+  join: dim_server_info {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${rpt_tedau_at_day_28.server_id} = ${dim_server_info.server_id} ;;
+  }
+
+  join: dim_excludable_servers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${rpt_tedau_at_day_28.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+}
