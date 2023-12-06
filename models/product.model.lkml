@@ -120,3 +120,8 @@ explore: rpt_tedau_at_day_28 {
     sql_on: ${rpt_tedau_at_day_28.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 }
+
+explore: fct_notification_stats {
+  label: "Notification Stats"
+  group_label: "[New] Notifications"
+}
