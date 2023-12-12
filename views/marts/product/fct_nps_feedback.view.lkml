@@ -54,6 +54,8 @@ view: fct_nps_feedback {
   dimension: server_version {
     type: string
     sql: ${TABLE}."SERVER_VERSION" ;;
+    label: "Server Version"
+    view_label: "NPS Feedback"
   }
 
   dimension: user_email {
