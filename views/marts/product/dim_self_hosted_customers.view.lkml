@@ -43,5 +43,6 @@ view: dim_self_hosted_customers {
     sql: ${TABLE}."SERVER_ID" ;;
     label: "Server ID"
     view_label: "Self-Hosted Customer: Customer Metadata"
+    hidden: yes
   }
 }
