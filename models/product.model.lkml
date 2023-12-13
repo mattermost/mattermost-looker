@@ -5,16 +5,16 @@ include: "/views/marts/product/*.view.lkml"
 
 explore: fct_nps_feedback {
   label: "NPS Feedback"
-  group_label: "[New] NPS Feedback"
+  group_label: "[New] NPS"
 
   join: dim_cloud_customers {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer # We might not have customer telemetry for the NPS feedback server
     sql_on: ${fct_nps_feedback.server_id} = ${dim_cloud_customers.server_id} ;;
   }
 
   join: dim_self_hosted_customers {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer # We might not have customer telemetry for the NPS feedback server
     sql_on: ${fct_nps_feedback.server_id} = ${dim_self_hosted_customers.server_id} ;;
   }
