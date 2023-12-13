@@ -43,5 +43,6 @@ view: dim_cloud_customers {
     sql: ${TABLE}."SERVER_ID" ;;
     label: "Server ID"
     view_label: "Cloud Customer: Customer Metadata"
+    hidden: yes
   }
 }
