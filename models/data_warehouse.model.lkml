@@ -1176,6 +1176,7 @@ explore: form_attribution {
   label: "Marketo Forms Attribution"
 }
 
+
 explore: person {
   extension: required
   label: "Person"
@@ -1277,28 +1278,6 @@ explore: zendesk_ticket_details {
   }
 }
 
-explore: zendesk_lead_creation {
-  hidden: yes
-  from: zendesk_ticket_details
-  view_name: zendesk_ticket_details
-
-  join: account {
-    sql_on: ${account.sfid} = ${zendesk_ticket_details.account_sfid} ;;
-    relationship: many_to_one
-    fields: []
-  }
-
-  join: lead {
-    sql_on: ${zendesk_ticket_details.submitter_email} = ${lead.email} ;;
-    relationship: many_to_one
-    fields: [email,sfid,most_recent_action, most_recent_action_detail, most_recent_lead_source, most_recent_lead_source_detail]
-  }
-
-  join: dates {
-    sql_on: ${dates.date_date} >= ${zendesk_ticket_details.created_date} and ${dates.date_date} <= coalesce(${zendesk_ticket_details.solved_at_date},current_date);;
-    relationship: many_to_many
-  }
-}
 
 explore: account_monthly_arr_deltas_by_type {
   label: "Monthly Account ARR Changes"
@@ -1522,12 +1501,6 @@ explore: financial_statements {
   sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance');;
   group_label: "Finance"
   label: "Financial Statements"
-}
-
-explore: financial_model {
-  sql_always_where: CONTAINS({{ _user_attributes['data_permissions']}},'finance_only');;
-  group_label: "Finance"
-  label: "Financial Model"
 }
 
 explore: dates {
@@ -2607,18 +2580,6 @@ explore: snowflake_warehouse_cost {
   description: "Contains Snowflake spend data. Primarily for BizOps to track Snowflake cost of usage."
 }
 
-explore: licenses {
-  label: "Licenses"
-  group_label: "Billing & Licensing"
-  hidden: yes
-}
-
-explore: license_daily_details {
-  label: "License Daily Details"
-  group_label: "Billing & Licensing"
-  description: "Contains a daily snapshot of license data including aggregate measures for all servers associated with a license, Salesforce account information, # licensed users, # registered users, licensed MAU, licensed DAU, and aggregate server activity totals. You can use this to track specific customers over time or view the most up-to-date data available for trial and non-trial licenses."
-  hidden: yes
-}
 
 explore: user_fact {
   label: "User Fact"
@@ -2794,28 +2755,9 @@ explore: licenses_grouped {
   hidden: yes
 }
 
-explore: licenses_only {
-  label: "Licenses"
-  group_label: "Billing & Licensing"
-  hidden: yes
-}
-
 explore: version_release_dates {
   label: "Version Release Dates"
   hidden: yes
-}
-
-explore: hist_license_mapping {
-  label: "Legacy License Mapping"
-  view_label: "Legacy License Mapping"
-  group_label: "Billing & Licensing"
-  join: account {
-    view_label: "Legacy License Mapping"
-
-    relationship: many_to_one
-    sql_on: ${hist_license_mapping.account_sfid} = ${account.sfid} ;;
-    fields: [name, sfid]
-  }
 }
 
 explore: enterprise_license_fact {
@@ -2824,37 +2766,6 @@ explore: enterprise_license_fact {
   join: account {
     sql_on: ${account.sfid} = ${enterprise_license_fact.account_sfid} ;;
     type: full_outer
-  }
-}
-
-explore: trial_licenses {
-  label: "Trial Licenses"
-  sql_always_where: ${license_daily_details.is_trial} ;;
-  from: license_daily_details
-  view_label: "License Daily Details"
-  view_name: license_daily_details
-  extends: [license_daily_details]
-
-  join: lead {
-    view_label: "Associated Lead"
-    sql_on: lower(${license_daily_details.license_email}) = lower(${lead.email});;
-    relationship: many_to_many
-    fields: [email,sfid,lead.status,lead.status_order]
-  }
-
-  join: contact {
-    view_label: "Associated Contact"
-    sql_on: lower(${license_daily_details.license_email}) = lower(${contact.email});;
-    relationship: many_to_many
-    fields: [email,sfid]
-  }
-
-  join: owner {
-    view_label: "Associated Lead / Contact Owner"
-    from: user
-    relationship: many_to_one
-    sql_on: ${owner.sfid} = coalesce(${contact.ownerid},${lead.ownerid});;
-    fields: [name]
   }
 }
 
@@ -2926,17 +2837,6 @@ explore: daily_website_traffic {
   }
 }
 
-explore: stripe_charges {
-  label: "Stripe Charges"
-  group_label: "Finance"
-  from: charges
-  view_name: charges
-  join: customers {
-    sql_on: ${customers.id} = ${charges.customer} ;;
-    relationship: many_to_one
-    fields: []
-  }
-}
 
 explore: customers {
   view_label: "Stripe Customers"
