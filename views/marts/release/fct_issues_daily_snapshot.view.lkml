@@ -26,7 +26,7 @@ view: fct_issues_daily_snapshot {
     sql: ${TABLE}."RESOLUTION" ;;
   }
 
-  dimension: environmemnt {
+  dimension: environment {
     type: string
     sql: ${TABLE}."ENVIRONMENT" ;;
     description: "The environment that this issue refers to."
