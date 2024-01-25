@@ -26,6 +26,13 @@ view: fct_issues_daily_snapshot {
     sql: ${TABLE}."RESOLUTION" ;;
   }
 
+  dimension: environmemnt {
+    type: string
+    sql: ${TABLE}."ENVIRONMENT" ;;
+    description: "The environment that this issue refers to."
+  }
+
+
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
