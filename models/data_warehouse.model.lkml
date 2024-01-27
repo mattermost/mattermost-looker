@@ -2170,6 +2170,7 @@ explore: server_fact {
   }
 
   join: trial_requests {
+    view_label: "[DEPRECATED] Trial Requests"
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
@@ -2771,7 +2772,7 @@ explore: enterprise_license_fact {
 
 explore: in_product_trial_requests {
   group_label: " Product: Messaging"
-  label: "In Product Trial Requests"
+  label: "[DEPRECATED] In Product Trial Requests"
   from: trial_requests
 
   join: lead {
@@ -3076,7 +3077,7 @@ explore: license_server_fact {
   }
 
   join: trial_requests {
-    view_label: " Trial Requests"
+    view_label: "[DEPRECATED] Trial Requests"
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
@@ -3961,7 +3962,7 @@ explore: user_retention {
     sql_on: ${trial_requests.license_id} = ${license_server_fact.license_id} ;;
     relationship: many_to_one
     type: left_outer
-    fields: []
+    fields:[]
   }
 
   join: excludable_servers {
