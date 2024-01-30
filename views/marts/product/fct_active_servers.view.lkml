@@ -132,5 +132,6 @@ view: fct_active_servers {
     label: "Count Unique Servers"
     description: "Count of distinct servers"
     view_label: " * Metrics: Active Servers"
+    drill_fields: [server_id]
   }
 }
