@@ -67,4 +67,36 @@ view: dim_server_info {
     description: "The last reported binary edition - can be Team Edition (TE), Enterprise Edition (E0) version of the binary or Unknown."
     view_label: "Server: Lifecycle"
   }
+
+  dimension: first_count_registered_active_users {
+    type: number
+    sql: ${TABLE}.first_count_registered_active_users ;;
+    label: "Active registered users on first day"
+    description: "Number of active (not deleted) registered users, as reported on the first day that telemetry was received from the server."
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension: last_count_registered_active_users {
+    type: number
+    sql: ${TABLE}.last_count_registered_active_users ;;
+    label: "Active registered users on last day"
+    description: "Number of active (not deleted) registered users, as reported on the last day that telemetry was received from the server."
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension: last_daily_active_users {
+    type: number
+    sql: ${TABLE}.last_daily_active_users ;;
+    label: "Latest server DAU"
+    description: "Number of DAU, as reported by Mattermost server on the last day that telemetry was received from the server."
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension: last_monthly_active_users {
+    type: number
+    sql: ${TABLE}.last_monthly_active_users ;;
+    label: "Latest server MAU"
+    description: "Number of MAU, as reported by Mattermost server on the last day that telemetry was received from the server."
+    view_label: "Server: Lifecycle"
+  }
 }
