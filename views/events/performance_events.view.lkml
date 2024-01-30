@@ -135,12 +135,12 @@ view_label: " Performance Events"
   }
 
 
-  dimension: context_useragent {
-    label: "Context Useragent"
+  dimension: context_user_agent {
+    label: "Context User Agent"
     group_label: "Context/User Agent Details"
-    description: "The Context Useragent of the user performing the event."
+    description: "The Context User Agent of the user performing the event."
     type: string
-    sql: ${TABLE}.context_useragent ;;
+    sql: ${TABLE}.context_user_agent ;;
   }
 
 
