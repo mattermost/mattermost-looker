@@ -3892,7 +3892,7 @@ explore: performance_events {
   join: user_agent_registry {
     view_label: " Performance Events"
     relationship: many_to_one
-    sql_on: ${performance_events.context_useragent} = ${user_agent_registry.context_useragent} ;;
+    sql_on: ${performance_events.context_user_agent} = ${user_agent_registry.context_useragent} ;;
     fields: [user_agent_registry.browser_version_major, user_agent_registry.bot, user_agent_registry.browser, user_agent_registry.browser_version, user_agent_registry.browser_w_version_major, user_agent_registry.browser_w_version, user_agent_registry.os_w_version, user_agent_registry.os_w_version_major]
   }
 
