@@ -1933,14 +1933,14 @@ view: user_events_telemetry {
     description: "Second Effectiveness Avg"
     group_label: "Selector Measures"
     type: number
-    sql: ROUND(AVG(${first_effectiveness}),2) ;;
+    sql: ROUND(AVG(${second_effectiveness}),2) ;;
     hidden: no
   }
   measure: second_recomputations_sum {
     description: "Second Recomputations Sum"
     group_label: "Selector Measures"
     type: number
-    sql: ROUND(SUM(${first_recomputations}),2) ;;
+    sql: ROUND(SUM(${second_recomputations}),2) ;;
     hidden: no
   }
 
@@ -1948,14 +1948,14 @@ view: user_events_telemetry {
     description: "Third Effectiveness Avg"
     group_label: "Selector Measures"
     type: number
-    sql: ROUND(AVG(${first_effectiveness}),2) ;;
+    sql: ROUND(AVG(${third_effectiveness}),2) ;;
     hidden: no
   }
   measure: third_recomputations_sum {
     description: "Third Recomputations Sum"
     group_label: "Selector Measures"
     type: number
-    sql: ROUND(SUM(${first_recomputations}),2) ;;
+    sql: ROUND(SUM(${third_recomputations}),2) ;;
     hidden: no
   }
 
