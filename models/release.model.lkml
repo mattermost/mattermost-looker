@@ -50,7 +50,7 @@ explore:  fct_issues_daily_snapshot {
     view_label: "Release Window"
     relationship: many_to_many
     # Note that this might result in issues being counted for multiple releases if releases with overlapping release dates exist.
-    sql_on: ${fct_issues_daily_snapshot.created_date} >= ${dim_release_window.rc1_date} and ${fct_issues_daily_snapshot.created_date} < ${dim_release_window.actual_release_date} ;;
+    sql_on: ${fct_issues_daily_snapshot.created_date} >= if(${dim_release_window.rc1_date} > ${dim_release_window.release_start_date}, ${dim_release_window.release_start_date}, ${dim_release_window.rc1_date})  and ${fct_issues_daily_snapshot.created_date} < ${dim_release_window.actual_release_date} ;;
   }
 
 }
