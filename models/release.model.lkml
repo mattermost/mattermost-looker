@@ -44,4 +44,13 @@ explore:  fct_issues_daily_snapshot {
     fields: [dim_week_following_release.version, dim_week_following_release.short_version]
   }
 
+  # Custom dimension, using releases to join on release date range window.
+  join: dim_release_window {
+    from: dim_releases
+    view_label: "Release Window"
+    relationship: many_to_many
+    # Note that this might result in issues being counted for multiple releases if releases with overlapping release dates exist.
+    sql_on: ${fct_issues_daily_snapshot.created_date} >= least(${dim_release_window.rc1_date}, ${dim_release_window.release_start_date})  and ${fct_issues_daily_snapshot.created_date} < ${dim_release_window.actual_release_date} ;;
+  }
+
 }

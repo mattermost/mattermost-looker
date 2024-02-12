@@ -42,6 +42,16 @@ view: dim_releases {
     description: "The patch part of the semantic version"
   }
 
+  dimension_group: release_start {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.release_start_date ;;
+    label: "Release Start"
+  }
+
+
 
   dimension_group: rc1 {
     type: time
