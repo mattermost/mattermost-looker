@@ -300,7 +300,12 @@ view_label: " Performance Events"
 
 ### MEASURES
 
-
+  measure: event_count {
+    label: "Event Count"
+    description: "The distinct count of event Id's within the grouping."
+    type: count_distinct
+    sql: ${id} ;;
+  }
 
   measure: user_actual_id_count {
     label: " User Count"
