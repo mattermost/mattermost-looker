@@ -136,4 +136,12 @@ view: dim_excludable_servers {
     view_label: "Server: Exclusion Reasons"
   }
 
+  dimension: company_scorecard_exclusions {
+    type: yesno
+    sql: ${has_reason_active_users__registered_users} or ${has_reason_community} or ${has_reason_invalid_server_id} or ${has_reason_internal_email} or ${has_reason_custom_build_version_format} or ${has_reason_no_stripe_installation_found} or ${has_reason_ran_tests} or ${has_reason_restricted_ip} or ${has_reason_test_server};;
+    label: "Company Scorecard Exclusions"
+    description: "A combination of exclusion reasons which applies to company scorecard data"
+    view_label: "Server: Exclusion Reasons"
+  }
+
 }
