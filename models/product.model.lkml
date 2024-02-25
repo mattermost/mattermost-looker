@@ -3,6 +3,23 @@ connection: "snowflake"
 # Limit include only to the ones really needed by this explore
 include: "/views/marts/product/*.view.lkml"
 
+explore: fct_nps_score {
+  label: "NPS Score"
+  group_label: "[New] NPS Score"
+
+  join: dim_cloud_customers {
+    relationship: many_to_one
+    type: left_outer # We might not have customer telemetry for the NPS Score server
+    sql_on: ${fct_nps_score.server_id} = ${dim_cloud_customers.server_id} ;;
+  }
+
+  join: dim_self_hosted_customers {
+    relationship: many_to_one
+    type: left_outer # We might not have customer telemetry for the NPS Score server
+    sql_on: ${fct_nps_score.server_id} = ${dim_self_hosted_customers.server_id} ;;
+  }
+}
+
 explore: fct_nps_feedback {
   label: "NPS Feedback"
   group_label: "[New] NPS"
