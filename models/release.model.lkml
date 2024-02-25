@@ -25,16 +25,6 @@ explore:  fct_issues_daily_snapshot {
   }
 
 
-  # Custom dimensions reusing releases to mark version that an issue falls within its release timeframe.
-  # A release timeframe is the time from previous month to the planned release date (17th-16th).
-  join: dim_release_timeframe_version {
-    from: dim_releases
-    view_label: "Release Timeframe"
-    relationship: many_to_one
-    sql_on: ${fct_issues_daily_snapshot.release_timeframe_version} = ${dim_release_timeframe_version.version};;
-    fields: [dim_release_timeframe_version.version, dim_release_timeframe_version.short_version, dim_release_timeframe_version.previous_release_version, dim_release_timeframe_version.next_release_version]
-  }
-
   # Week following release is the 7 days after the actual release date.
   join: dim_week_following_release {
     from: dim_releases
@@ -42,6 +32,15 @@ explore:  fct_issues_daily_snapshot {
     relationship: many_to_one
     sql_on: ${fct_issues_daily_snapshot.created_after_release_version} = ${dim_week_following_release.version};;
     fields: [dim_week_following_release.version, dim_week_following_release.short_version]
+  }
+
+  # Custom dimension, using releases to join on release date range window.
+  join: dim_release_window {
+    from: dim_releases
+    view_label: "Release Window"
+    relationship: many_to_many
+    # Note that this might result in issues being counted for multiple releases if releases with overlapping release dates exist.
+    sql_on: ${fct_issues_daily_snapshot.created_date} >= least(${dim_release_window.rc1_date}, ${dim_release_window.release_start_date})  and ${fct_issues_daily_snapshot.created_date} < ${dim_release_window.planned_release_date} ;;
   }
 
 }

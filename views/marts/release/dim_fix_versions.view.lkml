@@ -80,4 +80,71 @@ view: dim_fix_versions {
     sql: ${TABLE}.is_cloud_release ;;
   }
 
+  dimension_group: release_start_date {
+    label: "Release start date"
+    description: "The start date for the release."
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."RELEASE_START_DATE" ;;
+  }
+
+  dimension_group: rc1_date {
+    label: "RC1 cut date"
+    description: "Date that RC1 was cut."
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."RC1_DATE" ;;
+  }
+
+  dimension_group: planned_release_date {
+    label: "Planned release date"
+    description: "The planned date for the release."
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."PLANNED_RELEASE_DATE" ;;
+  }
+
+  dimension_group: actual_release_date {
+    label: "Actual release date"
+    description: "The date the release was actually cut."
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."ACTUAL_RELEASE_DATE" ;;
+  }
 }
