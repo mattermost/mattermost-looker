@@ -18,6 +18,12 @@ explore: fct_nps_score {
     type: left_outer # We might not have customer telemetry for the NPS Score server
     sql_on: ${fct_nps_score.server_id} = ${dim_self_hosted_customers.server_id} ;;
   }
+
+  join: dim_excludable_servers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${fct_nps_score.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
 }
 
 explore: fct_nps_feedback {
@@ -34,6 +40,12 @@ explore: fct_nps_feedback {
     relationship: many_to_one
     type: left_outer # We might not have customer telemetry for the NPS feedback server
     sql_on: ${fct_nps_feedback.server_id} = ${dim_self_hosted_customers.server_id} ;;
+  }
+
+  join: dim_excludable_servers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${fct_nps_feedback.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 }
 

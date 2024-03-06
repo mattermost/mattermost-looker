@@ -1,8 +1,8 @@
 view: fct_nps_score {
   label: "NPS Score"
   view_label: "NPS Score"
-  sql_table_name: dbt_cloud_pr_226810_1399.FCT_NPS_SCORE ;;
-  drill_fields: [id, server_id, server_version, user_role]
+  sql_table_name: MART_PRODUCT.FCT_NPS_SCORE ;;
+  drill_fields: [id, server_id, server_version]
 
   dimension: id {
     primary_key: yes
@@ -299,13 +299,6 @@ view: fct_nps_score {
     sql: ${TABLE}."SERVER_VERSION" ;;
   }
 
-  dimension: user_role {
-    type: string
-    label: "User Role"
-    view_label: "NPS Score"
-    sql: ${TABLE}."USER_ROLE" ;;
-  }
-
   measure: count {
     type: count
     label: "Count"
@@ -317,7 +310,7 @@ view: fct_nps_score {
     type: number
     label: "Daily NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_promoters}/${total_nps_users}) - (${total_detractors}/${total_nps_users})),2) ;;
+    sql: round(100 * ((${total_promoters}/NULLIF(${total_nps_users},0)) - (${total_detractors}/NULLIF(${total_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
@@ -325,7 +318,7 @@ view: fct_nps_score {
     type: number
     label: "Daily User NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_user_promoters}/${total_user_nps_users}) - (${total_user_detractors}/${total_user_nps_users})),2) ;;
+    sql: round(100 * ((${total_user_promoters}/NULLIF(${total_user_nps_users},0)) - (${total_user_detractors}/NULLIF(${total_user_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
@@ -333,7 +326,8 @@ view: fct_nps_score {
     type: number
     label: "Daily Team Admin NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_team_admin_promoters}/${total_team_admin_nps_users}) - (${total_team_admin_detractors}/${total_team_admin_nps_users})),2) ;;
+    sql: round(100 * ((${total_team_admin_promoters}/NULLIF(${total_team_admin_nps_users},0))
+    - (${total_team_admin_detractors}/NULLIF(${total_team_admin_nps_users},0))),2) ;;
 
     drill_fields: [id]
   }
@@ -342,7 +336,8 @@ view: fct_nps_score {
     type: number
     label: "Daily System Admin NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_system_admin_promoters}/${total_system_admin_nps_users}) - (${total_system_admin_detractors}/${total_system_admin_nps_users})),2) ;;
+    sql: round(100 * ((${total_system_admin_promoters}/NULLIF(${total_system_admin_nps_users},0))
+    - (${total_system_admin_detractors}/NULLIF(${total_system_admin_nps_users},0))),2) ;;
 
     drill_fields: [id]
   }
@@ -379,8 +374,8 @@ view: fct_nps_score {
     type: number
     label: "Quarterly Trailing NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_quarterly_promoters}/${total_quarterly_nps_users})
-      -(${total_quarterly_detractors}/${total_quarterly_nps_users})),2) ;;
+    sql: round(100 * ((${total_quarterly_promoters}/NULLIF(${total_quarterly_nps_users},0))
+      -(${total_quarterly_detractors}/NULLIF(${total_quarterly_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
@@ -388,8 +383,8 @@ view: fct_nps_score {
     type: number
     label: "Quarterly Trailing User NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_user_quarterly_promoters}/${total_user_quarterly_nps_users})
-    -(${total_user_quarterly_detractors}/${total_user_quarterly_nps_users})),2) ;;
+    sql: round(100 * ((${total_user_quarterly_promoters}/NULLIF(${total_user_quarterly_nps_users},0))
+    -(${total_user_quarterly_detractors}/NULLIF(${total_user_quarterly_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
@@ -397,8 +392,8 @@ view: fct_nps_score {
     type: number
     label: "Quarterly Trailing Team Admin NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_team_admin_quarterly_promoters}/${total_team_admin_quarterly_nps_users})
-    -(${total_team_admin_quarterly_detractors}/${total_team_admin_quarterly_nps_users})),2) ;;
+    sql: round(100 * ((${total_team_admin_quarterly_promoters}/NULLIF(${total_team_admin_quarterly_nps_users},0))
+    -(${total_team_admin_quarterly_detractors}/NULLIF(${total_team_admin_quarterly_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
@@ -406,8 +401,8 @@ view: fct_nps_score {
     type: number
     label: "Quarterly Trailing System Admin NPS Score"
     view_label: "NPS Score"
-    sql: round(100 * ((${total_system_admin_quarterly_promoters}/${total_system_admin_quarterly_nps_users})
-    -(${total_system_admin_quarterly_detractors}/${total_system_admin_quarterly_nps_users})),2) ;;
+    sql: round(100 * ((${total_system_admin_quarterly_promoters}/NULLIF(${total_system_admin_quarterly_nps_users}, 0) )
+    -(${total_system_admin_quarterly_detractors}/NULLIF(${total_system_admin_quarterly_nps_users},0)),2) ;;
     drill_fields: [id]
   }
 
