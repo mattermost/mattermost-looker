@@ -1694,13 +1694,6 @@ explore: CUSTOMERS {
 
 }
 
-explore: FEATURES {
-  hidden: yes
-  group_label: "Billing & Licensing"
-  description: "Contains a list of features provided by varioius Mattermost SKU's."
-  label: "Features"
-}
-
 explore: INVOICES {
   group_label: "Billing & Licensing"
   description: "Contains all invoices for Mattermost Cloud customers."
