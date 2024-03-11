@@ -138,7 +138,15 @@ view: dim_excludable_servers {
 
   dimension: company_scorecard_exclusions {
     type: yesno
-    sql: ${has_reason_active_users__registered_users} or ${has_reason_community} or ${has_reason_invalid_server_id} or ${has_reason_internal_email} or ${has_reason_custom_build_version_format} or ${has_reason_no_stripe_installation_found} or ${has_reason_ran_tests} or ${has_reason_restricted_ip} or ${has_reason_test_server};;
+    sql: ((${has_reason_active_users__registered_users} <> 'Yes' OR ${has_reason_active_users__registered_users} IS NULL) AND
+    (${has_reason_community} <> 'Yes' OR ${has_reason_community} IS NULL) AND
+    (${has_reason_invalid_server_id} <> 'Yes' OR  ${has_reason_invalid_server_id} IS NULL) AND
+    (${has_reason_internal_email} <> 'Yes' OR ${has_reason_internal_email} IS NULL) AND
+    (${has_reason_custom_build_version_format} <> 'Yes' OR ${has_reason_custom_build_version_format} IS NULL) AND
+    (${has_reason_no_stripe_installation_found} <> 'Yes' OR ${has_reason_no_stripe_installation_found} IS NULL) AND
+    (${has_reason_ran_tests} <> 'Yes' OR ${has_reason_ran_tests} IS NULL) AND
+    (${has_reason_restricted_ip} <> 'Yes' OR ${has_reason_restricted_ip} IS NULL) AND
+    (${has_reason_test_server} <> 'Yes' OR ${has_reason_test_server} IS NULL));;
     label: "Company Scorecard Exclusions"
     description: "A combination of exclusion reasons which applies to company scorecard data"
     view_label: "Server: Exclusion Reasons"
