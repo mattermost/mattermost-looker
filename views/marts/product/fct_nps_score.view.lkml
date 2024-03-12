@@ -402,7 +402,7 @@ view: fct_nps_score {
     label: "Quarterly Trailing System Admin NPS Score"
     view_label: "NPS Score"
     sql: round(100 * ((${total_system_admin_quarterly_promoters}/NULLIF(${total_system_admin_quarterly_nps_users}, 0) )
-    -(${total_system_admin_quarterly_detractors}/NULLIF(${total_system_admin_quarterly_nps_users},0)),2) ;;
+    -(${total_system_admin_quarterly_detractors}/NULLIF(${total_system_admin_quarterly_nps_users},0))),2) ;;
     drill_fields: [id]
   }
 
