@@ -67,13 +67,6 @@ view: fct_active_servers {
     description: "Number of distinct versions reported by the server for the given date. Uses information from multiple telemetry sources. Values > 1 indicate an upgrade/downgrade."
   }
 
-  dimension: is_cloud {
-    type: yesno
-    sql: ${TABLE}.is_cloud ;;
-    label: "Is Cloud?"
-    description: "Whether this is a cloud server"
-  }
-
   dimension: is_enterprise_ready {
     type: string
     sql: ${TABLE}.is_enterprise_ready ;;
