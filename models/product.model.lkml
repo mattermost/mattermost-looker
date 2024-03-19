@@ -181,19 +181,19 @@ explore: fct_feature_daily_snapshot {
   join: dim_excludable_servers {
     relationship: many_to_one
     type: left_outer
-    sql_on: ${fct_feature_daily_snapshot.server_id}.server_id} = ${dim_excludable_servers.server_id} ;;
+    sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 
 
   join: dim_cloud_customers {
     relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS Score server
+    type: left_outer
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_cloud_customers.server_id} ;;
   }
 
   join: dim_self_hosted_customers {
     relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS Score server
+    type: left_outer
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_self_hosted_customers.server_id} ;;
   }
 }
