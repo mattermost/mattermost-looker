@@ -122,7 +122,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_guest_accounts_users_monthly {
     type: number
-    sql: ${TABLE}.count_guest_accounts_users_daily ;;
+    sql: ${TABLE}.count_guest_accounts_users_monthly ;;
     label: "# of Guest Accounts Unique Users (Monthly)"
     description: "The number of unique users related to Guest Account feature  for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
