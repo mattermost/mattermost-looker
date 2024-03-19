@@ -52,7 +52,7 @@ view: fct_feature_daily_snapshot {
     type: number
     sql: ${TABLE}.count_custom_ug_users_daily ;;
     label: "# of Custom User Group Unique Users (Daily)"
-    description: "The number of unique uusers related to Message Acknowledgement feature for the current day."
+    description: "The number of unique users related to Message Acknowledgement feature for the current day."
     group_label: "* Features: Telemetry Information"
   }
 
@@ -82,14 +82,14 @@ view: fct_feature_daily_snapshot {
 
   measure: total_count_custom_ug_users_daily {
     type: sum
-    sql: ${count_custom_ug_events_monthly} ;;
+    sql: ${count_custom_ug_users_daily} ;;
     label: "Total # of Custom User Group Users (Daily) "
     group_label: "* Metrics: Paid features"
   }
 
   measure: total_count_custom_ug_users_monthly {
     type: sum
-    sql: ${count_custom_ug_events_monthly} ;;
+    sql: ${count_custom_ug_users_monthly} ;;
     label: "Total # of Custom User Group Users (Monthly) "
     group_label: "* Metrics: Paid features"
   }
@@ -116,7 +116,7 @@ view: fct_feature_daily_snapshot {
     type: number
     sql: ${TABLE}.count_guest_accounts_users_daily ;;
     label: "# of Guest Accounts Unique Users (Daily)"
-    description: "The number of unique uusers related to Guest Account feature for the current day."
+    description: "The number of unique users related to Guest Account feature for the current day."
     group_label: "* Features: Telemetry Information"
   }
 
