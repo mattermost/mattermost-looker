@@ -1,19 +1,18 @@
 view: fct_feature_daily_snapshot {
-  sql_table_name: "MART_PRODUCT"."FCT_FEATURE_DAILY_SNAPSHOT" ;;
-
+  sql_table_name: "MART_PRODUCT".fct_feature_daily_snapshot ;;
 
   ## Keys
 
   dimension: daily_server_id {
     type: string
-    sql: ${TABLE}."DAILY_SERVER_ID" ;;
+    sql: ${TABLE}.daily_server_id ;;
     primary_key: yes
     hidden: yes
   }
 
   dimension: server_id {
     type: string
-    sql: ${TABLE}."SERVER_ID" ;;
+    sql: ${TABLE}.server_id ;;
     label: "Server ID"
     description: "The server's unique id."
     group_label: "* Features: Telemetry Information"
@@ -24,7 +23,7 @@ view: fct_feature_daily_snapshot {
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."ACTIVITY_DATE" ;;
+    sql: ${TABLE}.activity_date ;;
     description: "The date that the events for each feature were counted."
     group_label: "* Features: Telemetry Information"
   }
@@ -35,7 +34,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_events_daily {
     type: number
-    sql: ${TABLE}."COUNT_CUSTOM_UG_EVENTS_DAILY" ;;
+    sql: ${TABLE}.count_custom_ug_events_daily;;
     label: "# of Custom User Group Events (Daily)"
     description: "The number of events related to Custom user groups feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -43,7 +42,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_events_monthly {
     type: number
-    sql: ${TABLE}."COUNT_CUSTOM_UG_EVENTS_MONTHLY" ;;
+    sql: ${TABLE}.count_custom_ug_events_monthly;;
     label: "# of Custom User Group Events (Monthly)"
     description: "The number of events related to Message Acknowledgement feature for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
@@ -51,7 +50,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_users_daily {
     type: number
-    sql: ${TABLE}."COUNT_CUSTOM_UG_USERS_DAILY" ;;
+    sql: ${TABLE}.count_custom_ug_users_daily ;;
     label: "# of Custom User Group Unique Users (Daily)"
     description: "The number of unique uusers related to Message Acknowledgement feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -59,7 +58,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_users_monthly {
     type: number
-    sql: ${TABLE}."COUNT_CUSTOM_UG_USERS_MONTHLY" ;;
+    sql: ${TABLE}.count_custom_ug_users_monthly ;;
     label: "# of Custom User Group Unique Users (Monthly)"
     description: "The number of unique users related to Message Acknowledgement feature for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
@@ -99,7 +98,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_guest_accounts_events_daily {
     type: number
-    sql: ${TABLE}."COUNT_GUEST_ACCOUNTS_EVENTS_DAILY" ;;
+    sql: ${TABLE}.count_guest_accounts_events_daily ;;
     label: "# of Guest Account Events (Daily)"
     description: "The number of events related to Guest Accounts feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -107,7 +106,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_guest_accounts_events_monthly {
     type: number
-    sql: ${TABLE}."COUNT_GUEST_ACCOUNTS_EVENTS_MONTHLY" ;;
+    sql: ${TABLE}.count_guest_accounts_events_monthly ;;
     label: "# of Guest Account Events (Monthly)"
     description: "The number of events related to Guest Accounts feature  for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
@@ -115,7 +114,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_guest_accounts_users_daily {
     type: number
-    sql: ${TABLE}."COUNT_GUEST_ACCOUNTS_USERS_DAILY" ;;
+    sql: ${TABLE}.count_guest_accounts_users_daily ;;
     label: "# of Guest Accounts Unique Users (Daily)"
     description: "The number of unique uusers related to Guest Account feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -123,7 +122,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_guest_accounts_users_monthly {
     type: number
-    sql: ${TABLE}."COUNT_GUEST_ACCOUNTS_USERS_MONTHLY" ;;
+    sql: ${TABLE}.count_guest_accounts_users_daily ;;
     label: "# of Guest Accounts Unique Users (Monthly)"
     description: "The number of unique users related to Guest Account feature  for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
@@ -163,7 +162,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_message_ack_events_daily {
     type: number
-    sql: ${TABLE}."COUNT_MESSAGE_ACK_EVENTS_DAILY" ;;
+    sql: ${TABLE}.count_message_ack_events_daily ;;
     label: "# of Message Ack Events (Daily)"
     description: "The number of events related to Message Ack feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -171,7 +170,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_message_ack_events_monthly {
     type: number
-    sql: ${TABLE}."COUNT_MESSAGE_ACK_EVENTS_MONTHLY" ;;
+    sql: ${TABLE}.count_message_ack_events_monthly ;;
     label: "# of Message Ack Events (Monthly)"
     description: "The number of events related to Message Ack feature  for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
@@ -180,7 +179,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_message_ack_users_daily {
     type: number
-    sql: ${TABLE}."COUNT_MESSAGE_ACK_USERS_DAILY" ;;
+    sql: ${TABLE}.count_message_ack_users_daily ;;
     label: "# of Message Ack Unique Users (Daily)"
     description: "The number of unique users related to Message Ack feature for the current day."
     group_label: "* Features: Telemetry Information"
@@ -188,7 +187,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_message_ack_users_monthly {
     type: number
-    sql: ${TABLE}."COUNT_MESSAGE_ACK_USERS_MONTHLY" ;;
+    sql: ${TABLE}.count_message_ack_users_monthly ;;
     label: "# of Message Ack Unique Users (Monthly)"
     description: "The number of unique users related to Message Ack feature  for the current day and past 29 days."
     group_label: "* Features: Telemetry Information"
