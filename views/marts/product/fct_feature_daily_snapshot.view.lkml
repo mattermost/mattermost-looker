@@ -335,14 +335,14 @@ view: fct_feature_daily_snapshot {
   measure: total_count_unknown_features_events_monthly {
     type: sum
     sql: ${count_unknown_features_events_monthly} ;;
-    label: "Total # of Events for not Known Features. (Daily)"
+    label: "Total # of Events for not Known Features. (Monthly)"
     view_label: "* Features: Unknown features (aggregated)"
   }
 
   measure: total_count_unknown_features_users_daily {
     type: sum
     sql: ${count_unknown_features_users_daily} ;;
-    label: "Total # of Unique Users of not Known Features. (Monthly)"
+    label: "Total # of Unique Users of not Known Features. (Daily)"
     view_label: "* Features: Unknown features (aggregated)"
   }
 
