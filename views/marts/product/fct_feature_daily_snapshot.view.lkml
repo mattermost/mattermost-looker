@@ -245,7 +245,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_known_features_users_daily {
     type: number
-    sql: ${TABLE}.count_known_features_events_daily ;;
+    sql: ${TABLE}.count_known_features_users_daily ;;
     label: "# of Unique Users for Known Features (Daily)"
     description: "The number of unique users captured the current day performing an action that can be mapped to any known feature."
     view_label: "* Features: Known features (aggregated)"
@@ -253,7 +253,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_known_features_users_monthly {
     type: number
-    sql: ${TABLE}.count_known_features_events_monthly ;;
+    sql: ${TABLE}.count_known_features_users_monthly ;;
     label: "# of Unique Users for Known Features (Monthly)"
     description: "The number of unique users captured the current day and past 29 days performing an action that can be mapped to any known feature."
     view_label: "* Features: Known features (aggregated)"
