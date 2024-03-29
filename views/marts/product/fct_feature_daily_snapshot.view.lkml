@@ -461,4 +461,14 @@ view: fct_feature_daily_snapshot {
     label: "Total Active Registered Users"
     view_label: "* Metrics: Active Users"
   }
+
+
+  measure: count_distinct_servers {
+    type: count_distinct
+    sql: ${server_id} ;;
+    label: "Count Unique Servers"
+    description: "Count of distinct servers"
+    view_label: " * Metrics: Active Users"
+    drill_fields: [server_id, count_known_features_events_daily, count_known_features_users_daily, count_unknown_features_events_daily, count_unknown_features_users_daily, client_daily_active_users, server_daily_active_users]
+  }
 }
