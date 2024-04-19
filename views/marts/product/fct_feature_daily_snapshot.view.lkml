@@ -225,6 +225,72 @@ view: fct_feature_daily_snapshot {
     view_label: "* Features: Message Acknowledgment"
   }
 
+
+  ### Playbooks
+
+  dimension: count_playbook_events_daily {
+    type: number
+    sql: ${TABLE}.count_playbook_events_daily ;;
+    label: "# of Playbooks Events (Daily)"
+    description: "The number of events related to Playbooks for the current day."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbook_events_monthly {
+    type: number
+    sql: ${TABLE}.count_playbook_events_monthly ;;
+    label: "# of Playbooks Events (Monthly)"
+    description: "The number of events related to Playbooks for the current day and past 29 days."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbook_users_daily {
+    type: number
+    sql: ${TABLE}.count_playbook_users_daily ;;
+    label: "# of Playbooks Unique Users (Daily)"
+    description: "The number of unique users related to Playbooks for the current day."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbook_users_monthly {
+    type: number
+    sql: ${TABLE}.count_playbook_users_monthly ;;
+    label: "# of Playbooksk Unique Users (Monthly)"
+    description: "The number of unique users related to Playbooks for the current day and past 29 days."
+    view_label: "* Features: Playbooks"
+  }
+
+
+  ### Playbooks - metrics
+
+  measure: total_count_playbook_events_daily {
+    type: sum
+    sql: ${count_playbook_events_daily} ;;
+    label: "Total # of Playbooks Events (Daily)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbook_events_monthly {
+    type: sum
+    sql: ${count_playbook_events_monthly} ;;
+    label: "Total # of Playbooks Events (Monthly)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbook_users_daily {
+    type: sum
+    sql: ${count_message_ack_users_daily} ;;
+    label: "Total # of Playbooks Users (Daily)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbook_users_monthly {
+    type: sum
+    sql: ${count_playbook_users_monthly} ;;
+    label: "Total # of Playbooks Users (Monthly)"
+    view_label: "* Features: Playbooks"
+  }
+
   ### Known feature aggregates per server/date
 
   dimension: count_known_features_events_daily {
