@@ -430,7 +430,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: client_monthly_active_users {
     type: number
-    sql: ${TABLE}.client_daily_active_users ;;
+    sql: ${TABLE}.client_monthly_active_users ;;
     label: "MAU (Client)"
     description: "DAU reported by MM client activity. Defined as the number of unique users that performed an action for the given server on the given date and previous 29 days, as counted based on user events originating from the user's client."
     view_label: "* Metrics: Active Users"
