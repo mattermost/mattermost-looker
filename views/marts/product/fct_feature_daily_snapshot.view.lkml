@@ -279,7 +279,7 @@ view: fct_feature_daily_snapshot {
 
   measure: total_count_playbook_users_daily {
     type: sum
-    sql: ${count_message_ack_users_daily} ;;
+    sql: ${count_playbook_users_daily} ;;
     label: "Total # of Playbooks Users (Daily)"
     view_label: "* Features: Playbooks"
   }
