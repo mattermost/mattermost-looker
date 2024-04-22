@@ -2,6 +2,7 @@ connection: "snowflake"
 
 # Limit include only to the ones really needed by this explore
 include: "/views/marts/product/*.view.lkml"
+include: "/views/marts/sales/*.view.lkml"
 
 explore: fct_nps_score {
   label: "NPS Score"
@@ -196,4 +197,9 @@ explore: fct_feature_daily_snapshot {
     type: left_outer
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_self_hosted_customers.server_id} ;;
   }
+}
+
+explore: fct_in_product_trial_requests {
+  label: "In-app Trial Requests"
+  group_label: "[New] Trial Requests"
 }
