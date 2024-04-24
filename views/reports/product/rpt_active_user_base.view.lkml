@@ -55,7 +55,7 @@ view: rpt_active_user_base {
 
   dimension: client_monthly_active_users {
     type: number
-    sql: ${TABLE}."CLIENT_MONTHLY_ACTIVE_USERS" ;;
+    sql: ${TABLE}.client_monthly_active_users ;;
     label: "MAU (Client)"
     description: "Number of unique users for the past 30 days, reported by client telemetry. Equals to the number of unique users that performed an action in the given date and previous 29 days."
     view_label: " * Server: Active Users"
@@ -63,7 +63,7 @@ view: rpt_active_user_base {
 
   measure: total_client_monthly_active_users {
     type: sum
-    sql: ${client_daily_active_users} ;;
+    sql: ${client_monthly_active_users} ;;
     label: "Total MAU (Client)"
     view_label: " * Server: Active Users"
   }
@@ -269,7 +269,7 @@ view: rpt_active_user_base {
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}. last_license_telemetry_date;;
+    sql: ${TABLE}.last_license_telemetry_date;;
     label: "Last License Telemetry"
     description: "The last date that license data was available for the current server ID over telemetry."
     view_label: "Metadata"
