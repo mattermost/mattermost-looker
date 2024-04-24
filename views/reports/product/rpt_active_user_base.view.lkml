@@ -204,7 +204,7 @@ view: rpt_active_user_base {
   dimension: contact_email {
     type: string
     sql: ${TABLE}.contact_email ;;
-    description: "The name of the company that this license has been issued for."
+    description: " The email to be used for contacting the license's holder, as it appears in license data."
     view_label: "Customer: Information"
   }
 
