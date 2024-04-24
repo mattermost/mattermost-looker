@@ -3,6 +3,7 @@ connection: "snowflake"
 # Limit include only to the ones really needed by this explore
 include: "/views/marts/product/*.view.lkml"
 include: "/views/marts/sales/*.view.lkml"
+include: "/views/reports/product/*.view.lkml"
 
 explore: fct_nps_score {
   label: "NPS Score"
@@ -202,4 +203,9 @@ explore: fct_feature_daily_snapshot {
 explore: fct_in_product_trial_requests {
   label: "In-app Trial Requests"
   group_label: "[New] Trial Requests"
+}
+
+explore: rpt_active_user_base {
+  label: "Active User Base"
+  group_label: "[New] Active Users"
 }
