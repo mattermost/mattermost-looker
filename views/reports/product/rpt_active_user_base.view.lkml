@@ -16,6 +16,7 @@ view: rpt_active_user_base {
 
   measure: count_distinct_servers {
     type: count_distinct
+    sql: ${server_id} ;;
     drill_fields: [server_id, company_name, contact_email, sku, cloud_plan_name]
     label: "Total Unique Servers"
     view_label: " * Metrics: Server"
