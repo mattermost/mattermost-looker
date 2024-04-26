@@ -101,20 +101,6 @@ view: fct_active_users {
     view_label: "  * Metrics. DAU"
   }
 
-  dimension: daily_mobile_active_users {
-    type: number
-    sql: ${TABLE}.daily_mobile_active_users ;;
-    label: "Mobile DAU"
-    description: "DAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_daily_mobile_active_users {
-    type: sum
-    sql: ${daily_mobile_active_users} ;;
-    label: "Total Mobile DAU"
-    view_label: "  * Metrics. DAU"
-  }
-
 
   ###
   ### WAU
@@ -159,20 +145,6 @@ view: fct_active_users {
     type: sum
     sql: ${weekly_legacy_active_users} ;;
     label: "Total Legacy Desktop/Client WAU"
-    view_label: "  * Metrics. WAU"
-  }
-
-  dimension: weekly_mobile_active_users {
-    type: number
-    sql: ${TABLE}.weekly_mobile_active_users ;;
-    label: "Mobile WAU"
-    description: "WAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_weekly_mobile_active_users {
-    type: sum
-    sql: ${weekly_mobile_active_users} ;;
-    label: "Total Mobile WAU"
     view_label: "  * Metrics. WAU"
   }
 
@@ -233,20 +205,6 @@ view: fct_active_users {
     type: sum
     sql: ${monthly_legacy_active_users} ;;
     label: "Total Legacy Desktop/Client MAU"
-    view_label: "  * Metrics. MAU"
-  }
-
-  dimension: monthly_mobile_active_users {
-    type: number
-    sql: ${TABLE}.monthly_mobile_active_users ;;
-    label: "Mobile MAU"
-    description: "MAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_monthly_mobile_active_users {
-    type: sum
-    sql: ${monthly_mobile_active_users} ;;
-    label: "Total Mobile MAU"
     view_label: "  * Metrics. MAU"
   }
 
