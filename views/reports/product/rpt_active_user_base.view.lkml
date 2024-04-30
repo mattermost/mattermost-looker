@@ -33,6 +33,13 @@ view: rpt_active_user_base {
     description: "Last recorded IP address for the server. IP address may originate either from security update endpoint or telemetry."
   }
 
+  dimension: last_known_ip_country {
+    type: string
+    sql: ${TABLE}.last_known_ip_country;;
+    label: "Country (Approximation - GeoIP)"
+    description: "Approximation of the country based on the last recorded IP address via telemetry. Uses GeoLite2 Dataset from MaxMind."
+  }
+
 
   ###
   ### Active Users
