@@ -48,14 +48,14 @@ view: fct_active_users {
   dimension: daily_active_users {
     type: number
     sql: ${TABLE}.daily_active_users ;;
-    label: "DAU (Client)"
+    label: "DAU (Client & Legacy)"
     description: "Number of unique users for current date, reported by client telemetry. Equals to the number of unique users that performed an action in the given calendar date."
   }
 
   measure: total_daily_active_users {
     type: sum
     sql: ${daily_active_users} ;;
-    label: "Total DAU (Client)"
+    label: "Total DAU (Client & Legacy)"
     view_label: "  * Metrics. DAU"
   }
 
@@ -76,28 +76,28 @@ view: fct_active_users {
   dimension: daily_desktop_active_users {
     type: number
     sql: ${TABLE}.daily_desktop_active_users ;;
-    label: "Desktop DAU"
-    description: "Desktop DAU reported by telemetry."
+    label: "Desktop DAU (Client & Legacy)"
+    description: "Desktop DAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_daily_desktop_active_users {
     type: sum
     sql: ${daily_desktop_active_users} ;;
-    label: "Total Desktop DAU"
+    label: "Total Desktop DAU (Client & Legacy)"
     view_label: "  * Metrics. DAU"
   }
 
   dimension: daily_webapp_active_users {
     type: number
     sql: ${TABLE}.daily_webapp_active_users ;;
-    label: "Webapp DAU"
-    description: "Webapp DAU reported by telemetry."
+    label: "Webapp DAU (Client & Legacy)"
+    description: "Webapp DAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_daily_webapp_active_users {
     type: sum
     sql: ${daily_webapp_active_users} ;;
-    label: "Total Webapp DAU"
+    label: "Total Webapp DAU (Client & Legacy)"
     view_label: "  * Metrics. DAU"
   }
 
@@ -105,7 +105,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.daily_client_desktop_active_users ;;
     label: "Client Desktop DAU"
-    description: "Client DAU reported by Rudderstack telemetry."
+    description: "Client Desktop DAU reported by Rudderstack telemetry."
   }
 
   measure: total_daily_client_desktop_active_users {
@@ -119,7 +119,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.daily_legacy_desktop_active_users ;;
     label: "Legacy Desktop DAU"
-    description: "Desktop DAU reported by Segment telemetry."
+    description: "Legacy Desktop DAU reported by Segment telemetry."
   }
 
   measure: total_daily_legacy_desktop_active_users {
@@ -133,7 +133,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.daily_client_webapp_active_users ;;
     label: "Client Webapp DAU"
-    description: "Webapp DAU reported by Rudderstack telemetry."
+    description: "Client Webapp DAU reported by Rudderstack telemetry."
   }
 
   measure: total_daily_client_webapp_active_users {
@@ -164,42 +164,56 @@ view: fct_active_users {
   dimension: weekly_active_users {
     type: number
     sql: ${TABLE}.weekly_active_users ;;
-    label: "WAU (Client)"
+    label: "WAU (Client & Legacy)"
     description: "Number of unique user ids reported for the past 7 days"
   }
 
   measure: total_weekly_active_users {
     type: sum
     sql: ${weekly_active_users} ;;
-    label: "Total WAU (Client)"
+    label: "Total WAU (Client & Legacy)"
+    view_label: "  * Metrics. WAU"
+  }
+
+  dimension: server_weekly_active_users {
+    type: number
+    sql: ${TABLE}.server_weekly_active_users ;;
+    label: "WAU (Server)"
+    description: "WAU reported by MM server activity. Defined as the number of unique users that performed an action in the past 7 days previous to sending the telemetry data."
+  }
+
+  measure: total_server_weekly_active_users {
+    type: sum
+    sql: ${server_weekly_active_users} ;;
+    label: "Total WAU (Server)"
     view_label: "  * Metrics. WAU"
   }
 
   dimension: weekly_desktop_active_users {
     type: number
     sql: ${TABLE}.weekly_desktop_active_users ;;
-    label: "Desktop WAU"
-    description: "Desktop WAU reported by telemetry."
+    label: "Desktop WAU (Client & Legacy)"
+    description: "Desktop WAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_weekly_desktop_active_users {
     type: sum
     sql: ${weekly_desktop_active_users} ;;
-    label: "Total Desktop WAU"
+    label: "Total Desktop WAU (Client & Legacy)"
     view_label: "  * Metrics. WAU"
   }
 
   dimension: weekly_webapp_active_users {
     type: number
     sql: ${TABLE}.weekly_webapp_active_users ;;
-    label: "Webapp WAU"
-    description: "Webapp WAU reported by telemetry."
+    label: "Webapp WAU (Client & Legacy)"
+    description: "Webapp WAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_weekly_webapp_active_users {
     type: sum
     sql: ${weekly_webapp_active_users} ;;
-    label: "Total Webapp WAU"
+    label: "Total Webapp WAU (Client & Legacy)"
     view_label: "  * Metrics. WAU"
   }
 
@@ -207,7 +221,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.weekly_client_desktop_active_users ;;
     label: "Client Desktop WAU"
-    description: "Client WAU reported by Rudderstack telemetry."
+    description: "Client Desktop WAU reported by Rudderstack telemetry."
   }
 
   measure: total_weekly_client_desktop_active_users {
@@ -221,7 +235,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.weekly_legacy_desktop_active_users ;;
     label: "Legacy Desktop WAU"
-    description: "Desktop WAU reported by Segment telemetry."
+    description: "Legacy Desktop WAU reported by Segment telemetry."
   }
 
   measure: total_weekly_legacy_desktop_active_users {
@@ -235,7 +249,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.weekly_client_webapp_active_users ;;
     label: "Client Webapp WAU"
-    description: "Webapp WAU reported by Rudderstack telemetry."
+    description: "Client Webapp WAU reported by Rudderstack telemetry."
   }
 
   measure: total_weekly_client_webapp_active_users {
@@ -249,7 +263,7 @@ view: fct_active_users {
     type: number
     sql: ${TABLE}.weekly_legacy_webapp_active_users ;;
     label: "Legacy Webapp WAU"
-    description: "WAU reported by Segment telemetry."
+    description: "Legacy WAU reported by Segment telemetry."
   }
 
   measure: total_weekly_legacy_webapp_active_users {
@@ -266,14 +280,14 @@ view: fct_active_users {
   dimension: monthly_active_users {
     type: number
     sql: ${TABLE}.monthly_active_users ;;
-    label: "MAU (Client)"
+    label: "MAU (Client & Legacy)"
     description: "Number of unique users for the past 30 days, reported by client telemetry. Equals to the number of unique users that performed an action in the given date and previous 29 days."
   }
 
   measure: total_monthly_active_users {
     type: sum
     sql: ${monthly_active_users} ;;
-    label: "Total MAU (Client)"
+    label: "Total MAU (Client & Legacy)"
     view_label: "  * Metrics. MAU"
   }
 
@@ -294,22 +308,22 @@ view: fct_active_users {
   dimension: monthly_desktop_active_users {
     type: number
     sql: ${TABLE}.monthly_desktop_active_users ;;
-    label: "Desktop MAU"
-    description: "Desktop MAU reported by telemetry."
+    label: "Desktop MAU (Client & Legacy)"
+    description: "Desktop MAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_monthly_desktop_active_users {
     type: sum
     sql: ${monthly_desktop_active_users} ;;
-    label: "Total Desktop MAU"
+    label: "Total Desktop MAU (Client & Legacy)"
     view_label: "  * Metrics. MAU"
   }
 
   dimension: monthly_webapp_active_users {
     type: number
     sql: ${TABLE}.monthly_webapp_active_users ;;
-    label: "Webapp MAU"
-    description: "Webapp MAU reported by telemetry."
+    label: "Webapp MAU (Client & Legacy)"
+    description: "Webapp MAU reported by Rudderstack & Segment telemetry."
   }
 
   measure: total_monthly_webapp_active_users {
