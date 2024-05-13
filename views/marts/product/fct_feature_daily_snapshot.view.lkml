@@ -225,6 +225,72 @@ view: fct_feature_daily_snapshot {
     view_label: "* Features: Message Acknowledgment"
   }
 
+
+  ### Playbooks
+
+  dimension: count_playbooks_events_daily {
+    type: number
+    sql: ${TABLE}.count_playboosk_events_daily ;;
+    label: "# of Playbooks Events (Daily)"
+    description: "The number of events related to Playbooks for the current day."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbooks_events_monthly {
+    type: number
+    sql: ${TABLE}.count_playbooks_events_monthly ;;
+    label: "# of Playbooks Events (Monthly)"
+    description: "The number of events related to Playbooks for the current day and past 29 days."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbooks_users_daily {
+    type: number
+    sql: ${TABLE}.count_playbooks_users_daily ;;
+    label: "# of Playbooks Unique Users (Daily)"
+    description: "The number of unique users related to Playbooks for the current day."
+    view_label: "* Features: Playbooks"
+  }
+
+  dimension: count_playbooks_users_monthly {
+    type: number
+    sql: ${TABLE}.count_playbooks_users_monthly ;;
+    label: "# of Playbooksk Unique Users (Monthly)"
+    description: "The number of unique users related to Playbooks for the current day and past 29 days."
+    view_label: "* Features: Playbooks"
+  }
+
+
+  ### Playbooks - metrics
+
+  measure: total_count_playbooks_events_daily {
+    type: sum
+    sql: ${count_playbooks_events_daily} ;;
+    label: "Total # of Playbooks Events (Daily)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbooks_events_monthly {
+    type: sum
+    sql: ${count_playbooks_events_monthly} ;;
+    label: "Total # of Playbooks Events (Monthly)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbooks_users_daily {
+    type: sum
+    sql: ${count_playbooks_users_daily} ;;
+    label: "Total # of Playbooks Users (Daily)"
+    view_label: "* Features: Playbooks"
+  }
+
+  measure: total_count_playbooks_users_monthly {
+    type: sum
+    sql: ${count_playbooks_users_monthly} ;;
+    label: "Total # of Playbooks Users (Monthly)"
+    view_label: "* Features: Playbooks"
+  }
+
   ### Known feature aggregates per server/date
 
   dimension: count_known_features_events_daily {
@@ -364,7 +430,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: client_monthly_active_users {
     type: number
-    sql: ${TABLE}.client_daily_active_users ;;
+    sql: ${TABLE}.client_monthly_active_users ;;
     label: "MAU (Client)"
     description: "DAU reported by MM client activity. Defined as the number of unique users that performed an action for the given server on the given date and previous 29 days, as counted based on user events originating from the user's client."
     view_label: "* Metrics: Active Users"

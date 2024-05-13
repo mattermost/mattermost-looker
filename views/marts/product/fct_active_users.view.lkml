@@ -108,7 +108,7 @@ view: fct_active_users {
     description: "Client DAU reported by Rudderstack telemetry."
   }
 
-  measure: total_client_daily_desktop_active_users {
+  measure: total_daily_client_desktop_active_users {
     type: sum
     sql: ${daily_client_desktop_active_users} ;;
     label: "Total Client Desktop DAU"
@@ -156,21 +156,6 @@ view: fct_active_users {
     label: "Total Legacy Webapp DAU"
     view_label: "  * Metrics. DAU"
   }
-
-  dimension: daily_mobile_active_users {
-    type: number
-    sql: ${TABLE}.daily_mobile_active_users ;;
-    label: "Mobile DAU"
-    description: "DAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_daily_mobile_active_users {
-    type: sum
-    sql: ${daily_mobile_active_users} ;;
-    label: "Total Mobile DAU"
-    view_label: "  * Metrics. DAU"
-  }
-
 
   ###
   ### WAU
@@ -225,7 +210,7 @@ view: fct_active_users {
     description: "Client WAU reported by Rudderstack telemetry."
   }
 
-  measure: total_client_weekly_desktop_active_users {
+  measure: total_weekly_client_desktop_active_users {
     type: sum
     sql: ${weekly_client_desktop_active_users} ;;
     label: "Total Client Desktop WAU"
@@ -271,20 +256,6 @@ view: fct_active_users {
     type: sum
     sql: ${weekly_legacy_webapp_active_users} ;;
     label: "Total Legacy Webapp WAU"
-    view_label: "  * Metrics. WAU"
-  }
-
-  dimension: weekly_mobile_active_users {
-    type: number
-    sql: ${TABLE}.monthly_mobile_active_users ;;
-    label: "Mobile WAU"
-    description: "WAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_weekly_mobile_active_users {
-    type: sum
-    sql: ${weekly_mobile_active_users} ;;
-    label: "Total Mobile WAU"
     view_label: "  * Metrics. WAU"
   }
 
@@ -351,8 +322,8 @@ view: fct_active_users {
   dimension: monthly_client_desktop_active_users {
       type: number
       sql: ${TABLE}.monthly_client_desktop_active_users ;;
-      label: "Client Webapp MAU"
-      description: "Client Webapp MAU reported by Rudderstack telemetry."
+      label: "Client Desktop MAU"
+      description: "Client Desktop MAU reported by Rudderstack telemetry."
     }
 
   measure: total_monthly_client_desktop_active_users {
@@ -403,20 +374,6 @@ view: fct_active_users {
     label: "Total Legacy Webapp MAU"
     view_label: "  * Metrics. MAU"
     }
-
-  dimension: monthly_mobile_active_users {
-    type: number
-    sql: ${TABLE}.monthly_mobile_active_users ;;
-    label: "Mobile MAU"
-    description: "MAU reported from Mobile source of Rudderstack"
-  }
-
-  measure: total_monthly_mobile_active_users {
-    type: sum
-    sql: ${monthly_mobile_active_users} ;;
-    label: "Total Mobile MAU"
-    view_label: "  * Metrics. MAU"
-  }
 
   ###
   ### Other server metrics
