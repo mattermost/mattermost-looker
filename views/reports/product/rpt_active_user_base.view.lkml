@@ -40,6 +40,26 @@ view: rpt_active_user_base {
     description: "Approximation of the country based on the last recorded IP address via telemetry. Uses GeoLite2 Dataset from MaxMind."
   }
 
+  dimension: installation_type {
+    type: string
+    sql: ${TABLE}.installation_type;;
+    label: "Installation Type"
+    description: "The type of installation for this server. Values can be `deb_package`, `docker`, `gitlab_omnibus`, `kubernetes-operator`, `manual, `omnibus` or null."
+  }
+
+  dimension: binary_edition {
+    type: string
+    sql: ${TABLE}.binary_edition;;
+    label: "Binary Edition"
+    description: "The \"flavour\" of the server binary. Either Team Edition (TE) or Enterprise Edition (E0)."
+  }
+
+  dimension: age_in_days {
+    type: number
+    sql: ${TABLE}.age_in_days;;
+    label: "Server Age (Days)"
+    description: "Number of days since the first telemetry received from the server."
+  }
 
   ###
   ### Active Users
@@ -216,6 +236,68 @@ view: rpt_active_user_base {
     view_label: "Customer: Information"
   }
 
+
+  ###
+  ### OAuth configuration
+  ###
+
+  dimension: is_office365_enabled {
+    type: yesno
+    sql: ${TABLE}.is_office365_enabled ;;
+    label: "Office365?"
+    description: "Whether Office 365 OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+  dimension: is_google_enabled {
+    type: yesno
+    sql: ${TABLE}.is_google_enabled ;;
+    label: "Google?"
+    description: "Whether Google OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+    dimension: is_gitlab_enabled {
+    type: yesno
+    sql: ${TABLE}.is_gitlab_enabled ;;
+    label: "Gitlab?"
+    description: "Whether GitlabOAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+  dimension: is_openid_enabled {
+    type: yesno
+    sql: ${TABLE}.is_openid_enabled ;;
+    label: "OpenID?"
+    description: "Whether OpenID OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+  dimension: is_openid_google_enabled {
+    type: yesno
+    sql: ${TABLE}.is_openid_enabled ;;
+    label: "OpenID - Google?"
+    description: "Whether OpenID with Google OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+  dimension: is_openid_gitlab_enabled {
+    type: yesno
+    sql: ${TABLE}.is_openid_gitlab_enabled ;;
+    label: "OpenID - Gitlab?"
+    description: "Whether OpenID with Gitlab OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+  dimension: is_openid_office365_enabled {
+    type: yesno
+    sql: ${TABLE}.is_openid_office365_enabled ;;
+    label: "OpenID - Office365?"
+    description: "Whether OpenID with Office365 OAuth is enabled"
+    view_label: "Server Configuration: OAuth"
+  }
+
+
   ###
   ### Metadata
   ###
@@ -260,14 +342,14 @@ view: rpt_active_user_base {
     view_label: "Metadata"
   }
 
-  dimension_group: last_known_server_ip {
+  dimension_group: last_known_server_info_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.last_known_server_ip_date ;;
-    label: "Last Known IP"
-    description: "Date that the last known server IP was recorded."
+    label: "Last Known Server Info"
+    description: "Date that the last known server information (IP, installation type, binary edition, age) was recorded."
     view_label: "Metadata"
 
   }
@@ -280,6 +362,17 @@ view: rpt_active_user_base {
     sql: ${TABLE}.last_license_telemetry_date;;
     label: "Last License Telemetry"
     description: "The last date that license data was available for the current server ID over telemetry."
+    view_label: "Metadata"
+  }
+
+  dimension_group: last_known_oauth_info {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.last_known_oauth_info_date;;
+    label: "Last Known OAuth Config"
+    description: "The last date that OAuth server configuration was recorded via telemetry."
     view_label: "Metadata"
   }
 }
