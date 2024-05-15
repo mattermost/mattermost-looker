@@ -46,7 +46,7 @@ view: dim_daily_server_config {
 
   dimension: is_openid_gitlab_enabled {
     type: yesno
-    sql: ${TABLE}.is_open_id_gitlab_enabled ;;
+    sql: ${TABLE}.is_openid_gitlab_enabled ;;
     label: "Is OpenID - Gitlab Enabled?"
     view_label: "Configuration: OAuth"
   }
