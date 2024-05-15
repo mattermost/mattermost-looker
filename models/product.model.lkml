@@ -79,6 +79,12 @@ explore: fct_active_users {
     sql_on: ${fct_active_users.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 
+  join: dim_daily_server_config {
+    relationship: one_to_one
+    type: left_outer
+    sql_on:  ${fct_active_users.daily_server_id} = ${dim_daily_server_config.daily_server_id} ;;
+  }
+
 }
 
 explore: fct_active_servers {
