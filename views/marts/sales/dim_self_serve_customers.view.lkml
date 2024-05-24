@@ -22,6 +22,7 @@ view: dim_self_serve_customers {
   }
 
   dimension: customer_id {
+    primary_key:  yes
     type: string
     sql: ${TABLE}."CUSTOMER_ID" ;;
   }

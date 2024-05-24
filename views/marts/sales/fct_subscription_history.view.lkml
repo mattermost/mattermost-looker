@@ -79,6 +79,7 @@ view: fct_subscription_history {
 
   dimension: subscription_history_event_id {
     type: string
+    primary_key:  yes
     sql: ${TABLE}."SUBSCRIPTION_HISTORY_EVENT_ID" ;;
   }
 
