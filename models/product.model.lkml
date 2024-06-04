@@ -223,3 +223,20 @@ explore: fct_inapp_trial_requests  {
   group_label: "[New] Trial Requests"
 
 }
+
+explore: fct_subscription_history {
+  label: "Cloud Subscription History (360)"
+  group_label: "[New] Cloud 360"
+
+  join: dim_self_serve_customers {
+    relationship: many_to_one
+    type:  left_outer
+    sql_on:  ${fct_subscription_history.customer_id} = ${dim_self_serve_customers.customer_id} ;;
+  }
+
+  join: dim_installation_summary {
+    relationship: many_to_one
+    type:  left_outer
+    sql_on:  ${fct_subscription_history.cws_installation} = ${dim_installation_summary.installation_id} ;;
+  }
+}
