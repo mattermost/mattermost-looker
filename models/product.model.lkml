@@ -218,8 +218,8 @@ explore: rpt_active_user_base {
   group_label: "[New] Active Users"
 }
 
-explore: fct_inapp_trial_requests  {
-  label: "On-prem Trial Requests"
+explore: fct_onprem_trial_requests_history  {
+  label: "On-prem Trial Request History"
   group_label: "[New] Trial Requests"
 
 }

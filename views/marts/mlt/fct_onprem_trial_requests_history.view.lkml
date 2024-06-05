@@ -1,5 +1,4 @@
-# The name of this view in Looker is "Fct Inapp Trial Requests"
-view: fct_inapp_trial_requests {
+view: fct_onprem_trial_requests_history {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
   sql_table_name: "MART_MLT".fct_onprem_trial_requests_history ;;
@@ -46,7 +45,7 @@ view: fct_inapp_trial_requests {
   dimension: company_name {
     type: string
     sql: ${TABLE}.company_name ;;
-    label: "Company name"
+    label: "Company Name"
     description: "The name of the company requesting the trial."
   }
 
@@ -74,7 +73,7 @@ view: fct_inapp_trial_requests {
   dimension: request_source {
     type: string
     sql: ${TABLE}.request_source ;;
-    label: "Request source"
+    label: "Request Source"
     description: "Whether this trial request is originating from In-app or from Mattermost website."
   }
 
@@ -95,7 +94,7 @@ view: fct_inapp_trial_requests {
   dimension: num_users {
     type: number
     sql: ${TABLE}.num_users ;;
-    label: "Number of users"
+    label: "Number of Users"
     description: "The number of users."
   }
 
@@ -117,7 +116,7 @@ view: fct_inapp_trial_requests {
   dimension: is_last_trial {
     type: yesno
     sql: ${TABLE}.is_last_trial ;;
-    label: "Is last trial?"
+    label: "Is Last Trial?"
     description: "Whether this is the first trial (in chronological order) requested by this email."
   }
 
@@ -213,7 +212,7 @@ view: fct_inapp_trial_requests {
     sql: ${TABLE}.contact_email ;;
     label: "Contact Email"
     description: "The contact email, as filled in in the input box in the trial request form. Prefer trial email."
-    view_label: "* Trial Request: Source data"
+    view_label: " * Trial Request: Source data"
   }
 
   dimension: email {
@@ -221,7 +220,7 @@ view: fct_inapp_trial_requests {
     sql: ${TABLE}.email ;;
     label: "Email"
     description: "Used for backwards compatibility. Should be the same with contact email if contact email is not null. Prefer trial email."
-    view_label: "* Trial Request: Source data"
+    view_label: " * Trial Request: Source data"
   }
 
 
@@ -233,8 +232,8 @@ view: fct_inapp_trial_requests {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: CAST(${TABLE}.first_trial_start_at AS TIMESTAMP_NTZ) ;;
-    label: "First trial started at"
-    view_label: " # History: Summary"
+    label: "First Trial Started At"
+    view_label: " * History: Summary"
     description: "The start date of the first trial (in chronological order) for the current email."
   }
 
@@ -242,8 +241,8 @@ view: fct_inapp_trial_requests {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: CAST(${TABLE}.last_trial_start_at AS TIMESTAMP_NTZ) ;;
-    label: "Last trial started at"
-    view_label: " # History: Summary"
+    label: "Last Trial Started At"
+    view_label: " * History: Summary"
     description: "The start date of the latest trial (in chronological order) for the current email."
   }
 
@@ -251,7 +250,7 @@ view: fct_inapp_trial_requests {
     type: number
     sql: ${TABLE}.total_trial_requests ;;
     label: "Total Trial Requests"
-    view_label: " # History: Summary"
+    view_label: " * History: Summary"
     description: "The total number of trial requests for the current email."
   }
 
@@ -263,15 +262,15 @@ view: fct_inapp_trial_requests {
     type: sum
     sql: ${num_users} ;;
     label: "Total number of users"
-    view_label: " * Metrics: trial requests"
+    view_label: " * Metrics: Trial Requests"
   }
 
 
 
   measure: count {
     type: count
-    drill_fields: [trial_request_id, trial_email, name, company_name, site_name, country_name]
+    drill_fields: [trial_request_id, start_at_date, trial_email, name, company_name, site_name, country_name]
     label: "Count Trial Requests"
-    view_label: " * Metrics: trial requests"
+    view_label: " * Metrics: Trial Requests"
   }
 }
