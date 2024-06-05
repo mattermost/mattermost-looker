@@ -2,7 +2,7 @@
 view: fct_inapp_trial_requests {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "MART_MLT".fct_inapp_trial_requests ;;
+  sql_table_name: "MART_MLT".fct_onprem_trial_requests_history ;;
   label: "  * Trial Request: On-prem"
 
 
@@ -47,7 +47,7 @@ view: fct_inapp_trial_requests {
     type: string
     sql: ${TABLE}.company_name ;;
     label: "Company name"
-    description: "The name of the company requesting the tria.l"
+    description: "The name of the company requesting the trial."
   }
 
   dimension: company_size_bucket {
@@ -61,7 +61,7 @@ view: fct_inapp_trial_requests {
     type: string
     sql: ${TABLE}.country_name ;;
     label: "Country"
-    description: "The name of the country, as filled in in the trial request from."
+    description: "The name of the country, as filled in in the trial request form."
   }
 
   dimension: name {
@@ -143,6 +143,65 @@ view: fct_inapp_trial_requests {
     description: "Date when trial ends at."
   }
 
+  ###
+  ### Company type
+  ###
+
+  dimension: marked_as_smb {
+    type: yesno
+    sql: ${TABLE}.marked_as_smb;;
+    label: "Marked as SMB?"
+    description: "Whether a lead with company type equals to SMB for the same email exists."
+  }
+
+  dimension: marked_as_enterprise {
+    type: yesno
+    sql: ${TABLE}.marked_as_enterprise;;
+    label: "Marked as Enterprise?"
+    description: "Whether a lead with company type equals to Enterprise for the same email exists."
+  }
+
+  dimension: marked_as_midmarket {
+    type: yesno
+    sql: ${TABLE}.marked_as_midmarket;;
+    label: "Marked as Midmarket?"
+    description: "Whether a lead with company type equals to Midmarket for the same email exists."
+  }
+
+  dimension: marked_as_federal {
+    type: yesno
+    sql: ${TABLE}.marked_as_federal;;
+    label: "Marked as Federal?"
+    description: "Whether a lead with company type equals to Federal for the same email exists."
+  }
+
+  dimension: marked_as_academic {
+    type: yesno
+    sql: ${TABLE}.marked_as_academic;;
+    label: "Marked as Academic?"
+    description: "Whether a lead with company type equals to Academic for the same email exists."
+  }
+
+  dimension: marked_as_mme {
+    type: yesno
+    sql: ${TABLE}.marked_as_mme;;
+    label: "Marked as MME?"
+    description: "Whether a lead with company type equals to MME for the same email exists."
+  }
+
+  dimension: marked_as_non_profit {
+    type: yesno
+    sql: ${TABLE}.marked_as_non_profit;;
+    label: "Marked as Non-Profit?"
+    description: "Whether a lead with company type equals to Non-Profit for the same email exists."
+  }
+
+  dimension: num_company_types {
+    type: number
+    sql: ${TABLE}.num_company_types;;
+    label: "Number of Company Types"
+    description: "The number of different company types that are matching the current trial request."
+  }
 
   ###
   ### Extra dimensions
@@ -153,7 +212,7 @@ view: fct_inapp_trial_requests {
     type: string
     sql: ${TABLE}.contact_email ;;
     label: "Contact Email"
-    description: "The contact email, as filled in in the input box in the trial request form Prefer trial email."
+    description: "The contact email, as filled in in the input box in the trial request form. Prefer trial email."
     view_label: "* Trial Request: Source data"
   }
 
