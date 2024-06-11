@@ -71,7 +71,7 @@ view: dim_daily_server_info {
 
 
   dimension: is_enterprise_ready {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_enterprise_ready ;;
     label: "Is Enterprise Ready?"
     description: "Whether this is an enterprise ready server"
