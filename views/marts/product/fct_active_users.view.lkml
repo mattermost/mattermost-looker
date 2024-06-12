@@ -441,5 +441,6 @@ view: fct_active_users {
     sql: ${server_id} ;;
     label: "Total Unique Servers"
     view_label: " * Metrics: Server"
+    drill_fields: [server_id]
   }
 }
