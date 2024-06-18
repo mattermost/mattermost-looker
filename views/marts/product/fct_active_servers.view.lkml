@@ -68,7 +68,7 @@ view: fct_active_servers {
   }
 
   dimension: is_enterprise_ready {
-    type: string
+    type: yesno
     sql: ${TABLE}.is_enterprise_ready ;;
     label: "Is enterprise ready?"
     description: "Whether this server uses an enterprise ready build."
