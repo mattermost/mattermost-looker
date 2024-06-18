@@ -226,6 +226,72 @@ view: fct_feature_daily_snapshot {
   }
 
 
+  ### Message Priority
+
+  dimension: count_message_priority_events_daily {
+    type: number
+    sql: ${TABLE}.count_message_priority_events_daily ;;
+    label: "# of Message Priority Events (Daily)"
+    description: "The number of events related to Message Priority feature for the current day."
+    view_label: "* Features: Message Priority"
+  }
+
+  dimension: count_message_priority_events_monthly {
+    type: number
+    sql: ${TABLE}.count_message_priority_events_monthly ;;
+    label: "# of Message Priority Events (Monthly)"
+    description: "The number of events related to Message Priority feature  for the current day and past 29 days."
+    view_label: "* Features: Message Priority"
+  }
+
+  dimension: count_message_priority_users_daily {
+    type: number
+    sql: ${TABLE}.count_message_priority_users_daily ;;
+    label: "# of Message Priority Unique Users (Daily)"
+    description: "The number of unique users related to Message Priority feature for the current day."
+    view_label: "* Features: Message Priority"
+  }
+
+  dimension: count_message_priority_users_monthly {
+    type: number
+    sql: ${TABLE}.count_message_priority_users_monthly ;;
+    label: "# of Message Priority Unique Users (Monthly)"
+    description: "The number of unique users related to Message Priority feature  for the current day and past 29 days."
+    view_label: "* Features: Message Priority"
+  }
+
+
+  ### Message Ack - metrics
+
+  measure: total_count_message_priority_events_daily {
+    type: sum
+    sql: ${count_message_priority_events_daily} ;;
+    label: "Total # of Message Priority Events (Daily)"
+    view_label: "* Features: Message Priority"
+  }
+
+  measure: total_count_message_priority_events_monthly {
+    type: sum
+    sql: ${count_message_priority_events_monthly} ;;
+    label: "Total # of Message Priority Events (Monthly)"
+    view_label: "* Features: Message Priority"
+  }
+
+  measure: total_count_message_priority_users_daily {
+    type: sum
+    sql: ${count_message_priority_users_daily} ;;
+    label: "Total # of Message Priority Users (Daily)"
+    view_label: "* Features: Message Priority"
+  }
+
+  measure: total_count_message_priority_users_monthly {
+    type: sum
+    sql: ${count_message_priority_users_monthly} ;;
+    label: "Total # of Message Priority Users (Monthly)"
+    view_label: "* Features: Message Priority"
+  }
+
+
   ### Playbooks
 
   dimension: count_playbooks_events_daily {
