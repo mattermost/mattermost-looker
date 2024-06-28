@@ -248,7 +248,7 @@ explore: fct_downloads {
   join: dim_ip_daily_summary{
     relationship: many_to_one
     type:  left_outer
-    sql_on:  ${fct_downloads.daily_ip_id} = ${dim_ip_daily_summary.first_download_timestamp_date} ;;
+    sql_on:  ${fct_downloads.daily_ip_id} = ${dim_ip_daily_summary.daily_ip_id} ;;
 
   }
 }
