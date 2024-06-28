@@ -240,3 +240,15 @@ explore: fct_subscription_history {
     sql_on:  ${fct_subscription_history.cws_installation} = ${dim_installation_summary.installation_id} ;;
   }
 }
+
+explore: fct_downloads {
+  label: "Successful Downloads"
+  group_label: "[New] Downloads"
+
+  join: dim_ip_daily_summary{
+    relationship: many_to_one
+    type:  left_outer
+    sql_on:  ${fct_downloads.daily_ip_id} = ${dim_ip_daily_summary.daily_ip_id} ;;
+
+  }
+}
