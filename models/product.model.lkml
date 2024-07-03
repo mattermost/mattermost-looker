@@ -213,6 +213,12 @@ explore: fct_trial_request_history {
   group_label: "[New] Trial Requests"
 }
 
+# To deprecate in favor of fct_trial_request_history
+explore: fct_in_product_trial_requests {
+  label: "Latest In-app Trial Requests"
+  group_label: "[New] Trial Requests"
+}
+
 explore: rpt_active_user_base {
   label: "Active User Base"
   group_label: "[New] Active Users"
