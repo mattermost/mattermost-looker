@@ -208,20 +208,14 @@ explore: fct_feature_daily_snapshot {
   }
 }
 
-explore: fct_in_product_trial_requests {
-  label: "Latest In-app Trial Requests"
+explore: fct_trial_request_history {
+  label: "Trial Request History"
   group_label: "[New] Trial Requests"
 }
 
 explore: rpt_active_user_base {
   label: "Active User Base"
   group_label: "[New] Active Users"
-}
-
-explore: fct_onprem_trial_requests_history  {
-  label: "On-prem Trial Request History"
-  group_label: "[New] Trial Requests"
-
 }
 
 explore: fct_subscription_history {
