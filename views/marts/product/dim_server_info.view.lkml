@@ -100,22 +100,4 @@ view: dim_server_info {
     view_label: "Server: Lifecycle"
   }
 
-
-  measure: sum_last_count_registered_active_users {
-    type: sum
-    sql: ${last_count_registered_active_users} ;;
-    label: "Total Active Registered Users"
-    description: "Sum of last registered active users"
-    view_label: " * Metrics: Lifecycle"
-    drill_fields: [server_id, last_count_registered_active_users, last_monthly_active_users]
-  }
-
-  measure: sum_last_monthly_active_users {
-    type: sum
-    sql: ${last_monthly_active_users} ;;
-    label: "Total MAU"
-    description: "Sum of last MAU"
-    view_label: " * Metrics: Lifecycle"
-    drill_fields: [server_id, last_count_registered_active_users, last_monthly_active_users]
-  }
 }
