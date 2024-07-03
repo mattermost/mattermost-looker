@@ -1,7 +1,6 @@
 connection: "snowflake"
 
 # Limit include only to the ones really needed by this explore
-include: "/views/marts/mlt/*.view.lkml"
 include: "/views/marts/product/*.view.lkml"
 include: "/views/marts/sales/*.view.lkml"
 include: "/views/reports/product/*.view.lkml"
