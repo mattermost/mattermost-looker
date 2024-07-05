@@ -297,7 +297,7 @@ view: fct_feature_daily_snapshot {
   dimension: count_playbooks_events_daily {
     type: number
     sql: ${TABLE}.count_playbooks_events_daily ;;
-    label: "# of Play`books Events (Daily)"
+    label: "# of Playbooks Events (Daily)"
     description: "The number of events related to Playbooks for the current day."
     view_label: "* Features: Playbooks"
   }
