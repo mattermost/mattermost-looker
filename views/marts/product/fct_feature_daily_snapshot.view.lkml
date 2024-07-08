@@ -296,7 +296,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_playbooks_events_daily {
     type: number
-    sql: ${TABLE}.count_playboosk_events_daily ;;
+    sql: ${TABLE}.count_playbooks_events_daily ;;
     label: "# of Playbooks Events (Daily)"
     description: "The number of events related to Playbooks for the current day."
     view_label: "* Features: Playbooks"
@@ -355,6 +355,73 @@ view: fct_feature_daily_snapshot {
     sql: ${count_playbooks_users_monthly} ;;
     label: "Total # of Playbooks Users (Monthly)"
     view_label: "* Features: Playbooks"
+  }
+
+
+
+  ### Calls
+
+  dimension: count_calls_events_daily {
+    type: number
+    sql: ${TABLE}.count_calls_events_daily ;;
+    label: "# of Calls Events (Daily)"
+    description: "The number of events related to Calls for the current day."
+    view_label: "* Features: Calls"
+  }
+
+  dimension: count_calls_events_monthly {
+    type: number
+    sql: ${TABLE}.count_calls_events_monthly ;;
+    label: "# of Calls Events (Monthly)"
+    description: "The number of events related to Calls for the current day and past 29 days."
+    view_label: "* Features: Calls"
+  }
+
+  dimension: count_calls_users_daily {
+    type: number
+    sql: ${TABLE}.count_calls_users_daily ;;
+    label: "# of Calls Unique Users (Daily)"
+    description: "The number of unique users related to Calls for the current day."
+    view_label: "* Features: Calls"
+  }
+
+  dimension: count_calls_users_monthly {
+    type: number
+    sql: ${TABLE}.count_calls_users_monthly ;;
+    label: "# of Calls Unique Users (Monthly)"
+    description: "The number of unique users related to Calls for the current day and past 29 days."
+    view_label: "* Features: Calls"
+  }
+
+
+  ### Calls - metrics
+
+  measure: total_count_calls_events_daily {
+    type: sum
+    sql: ${count_calls_events_daily} ;;
+    label: "Total # of Calls Events (Daily)"
+    view_label: "* Features: Calls"
+  }
+
+  measure: total_count_calls_events_monthly {
+    type: sum
+    sql: ${count_calls_events_monthly} ;;
+    label: "Total # of Calls Events (Monthly)"
+    view_label: "* Features: Calls"
+  }
+
+  measure: total_count_calls_users_daily {
+    type: sum
+    sql: ${count_calls_users_daily} ;;
+    label: "Total # of Calls Users (Daily)"
+    view_label: "* Features: Calls"
+  }
+
+  measure: total_count_calls_users_monthly {
+    type: sum
+    sql: ${count_calls_users_monthly} ;;
+    label: "Total # of Calls Users (Monthly)"
+    view_label: "* Features: Calls"
   }
 
   ### Known feature aggregates per server/date
