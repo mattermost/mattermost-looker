@@ -194,6 +194,11 @@ explore: fct_feature_daily_snapshot {
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 
+  join: dim_server_info {  
+    relationship: many_to_one  
+    type: full_outer  
+    sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_server_info.server_id} ;;  
+  }
 
   join: dim_cloud_customers {
     relationship: many_to_one
