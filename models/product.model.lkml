@@ -249,6 +249,10 @@ explore: fct_downloads {
     relationship: many_to_one
     type:  left_outer
     sql_on:  ${fct_downloads.daily_ip_id} = ${dim_ip_daily_summary.daily_ip_id} ;;
-
   }
+}
+
+explore: dim_latest_server_customer_info {
+  label: "Latest Server Customer Info"
+  group_label: "[New] Licenses"
 }
