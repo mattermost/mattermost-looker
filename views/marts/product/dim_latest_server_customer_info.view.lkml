@@ -23,6 +23,11 @@ view: dim_latest_server_customer_info {
     sql: ${TABLE}.company_name ;;
   }
 
+  dimension: sku {
+    type: string
+    sql: ${TABLE}.sku ;;
+  }
+
   dimension_group: expires {
     description: "The timestamp that the license expires."
     type: time
