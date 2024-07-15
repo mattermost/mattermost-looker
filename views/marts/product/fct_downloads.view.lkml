@@ -223,12 +223,49 @@ view: fct_downloads {
   ### Metrics
   ###
 
+  ### Total downloads
   measure: download_count {
     label: "Total Downloads"
     description: "The total number of downloads performed"
     type: count
     drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
   }
+
+  ### Break down per download type
+  measure: enterprise_download_count {
+    label: "Total Enterprise Downloads"
+    description: "The total number of enterprise downloads performed"
+    filters: {
+      field: download_type
+      value: "enterprise"
+    }
+    type: count
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+  }
+
+  measure: team_download_count {
+    label: "Total TE Downloads"
+    description: "The total number of team edition downloads performed"
+    filters: {
+      field: download_type
+      value: "team"
+    }
+    type: count
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+  }
+
+  measure: desktop_download_count {
+    label: "Total Desktop Downloads"
+    description: "The total number of desktop application downloads performed"
+    filters: {
+      field: download_type
+      value: "desktop"
+    }
+    type: count
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+  }
+
+  ### Unique downloads
 
   measure: unique_download_ip_count {
     label: "Total Distinct IPs"
@@ -238,9 +275,82 @@ view: fct_downloads {
     sql: ${client_ip} ;;
   }
 
+  measure: unique_enterprise_download_ip_count {
+    label: "Total Distinct IPs for Enterprise"
+    description: "The total number of distinct IPs requesting a download of Enterprise"
+    filters: {
+      field: download_type
+      value: "enterprise"
+    }
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_ip} ;;
+  }
+
+  measure: unique_team_download_ip_count {
+    label: "Total Distinct IPs for TE"
+    description: "The total number of distinct IPs requesting a download of Team Edition"
+    filters: {
+      field: download_type
+      value: "team"
+    }
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_ip} ;;
+  }
+
+  measure: unique_desktop_download_ip_count {
+    label: "Total Distinct IPs for Desktop"
+    description: "The total number of distinct IPs requesting a download of Desktop Client"
+    filters: {
+      field: download_type
+      value: "desktop"
+    }
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_ip} ;;
+  }
+
+
   measure: unique_download_client_count {
     label: "Total Distinct Clients"
     description: "The total number of distinct clients requesting a download"
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_fingerprint} ;;
+  }
+
+  measure: unique_enterprise_download_client_count {
+    label: "Total Distinct Clients for Enterprise"
+    description: "The total number of distinct clients requesting a download of Enterprise version"
+    filters: {
+      field: download_type
+      value: "desktop"
+    }
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_fingerprint} ;;
+  }
+
+  measure: unique_team_download_client_count {
+    label: "Total Distinct Clients for TE"
+    description: "The total number of distinct clients requesting a download of Team Edition"
+    filters: {
+      field: download_type
+      value: "team"
+    }
+    type: count_distinct
+    drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
+    sql: ${client_fingerprint} ;;
+  }
+
+  measure: unique_desktop_download_client_count {
+    label: "Total Distinct Clients for Desktop"
+    description: "The total number of distinct clients requesting a download of Desktop Client"
+    filters: {
+      field: download_type
+      value: "desktop"
+    }
     type: count_distinct
     drill_fields: [log_at_time, client_ip, uri, download_type, version, referrer_url, user_agent]
     sql: ${client_fingerprint} ;;
@@ -252,4 +362,6 @@ view: fct_downloads {
     type: average
     sql: ${response_bytes} ;;
   }
+
+
 }
