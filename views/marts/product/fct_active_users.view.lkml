@@ -435,7 +435,48 @@ view: fct_active_users {
     view_label: " * Metrics. Registered Users"
   }
 
+  measure: total_count_public_channels {
+    type: sum
+    sql: ${count_public_channels} ;;
+    label: "Total Public Channels"
+    view_label: " * Metrics. Users Output"
+  }
+ 
+  measure: total_count_private_channels {
+    type: sum
+    sql: ${count_private_channels} ;;
+    label: "Total Private Channels"
+    view_label: " * Metrics. Users Output"
+  }
 
+  measure: total_count_teams {
+    type: sum
+    sql: ${count_teams} ;;
+    label: "Total Teams"
+    view_label: " * Metrics. Users Output"
+  }  
+
+  measure: total_count_slash_commands {
+    type: sum
+    sql: ${count_slash_commands} ;;
+    label: "Total Slash Commands"
+    view_label: " * Metrics. Users Output"
+  }
+
+  measure: total_count_direct_message_channels {
+    type: sum
+    sql: ${count_direct_message_channels} ;;
+    label: "Total DMs"
+    view_label: " * Metrics. Users Output"
+  }  
+  
+  measure: total_count_posts {
+    type: sum
+    sql: ${count_posts} ;;
+    label: "Total Posts"
+    view_label: " * Metrics. Users Output"
+  }
+  
   measure: count_distinct_servers {
     type: count_distinct
     sql: ${server_id} ;;
