@@ -434,6 +434,13 @@ view: fct_active_users {
     label: "Total Active Registered Users"
     view_label: " * Metrics. Registered Users"
   }
+  
+  dimension: count_public_channels {
+    type: number
+    sql: ${TABLE}.count_public_channels;;
+    label: "Number of Public Channels"
+    description: "Total number of Public Channels."
+  }
 
   measure: total_count_public_channels {
     type: sum
@@ -442,11 +449,25 @@ view: fct_active_users {
     view_label: " * Metrics. Users Output"
   }
  
+  dimension: count_private_channels {
+    type: number
+    sql: ${TABLE}.count_private_channels;;
+    label: "Number of Private Channels"
+    description: "Total number of Private Channels."
+  }
+
   measure: total_count_private_channels {
     type: sum
     sql: ${count_private_channels} ;;
     label: "Total Private Channels"
     view_label: " * Metrics. Users Output"
+  }
+
+  dimension: count_teams {
+    type: number
+    sql: ${TABLE}.count_teams;;
+    label: "Number of Teams"
+    description: "Total number of Teams."
   }
 
   measure: total_count_teams {
@@ -456,11 +477,25 @@ view: fct_active_users {
     view_label: " * Metrics. Users Output"
   }  
 
+  dimension: count_slash_commands {
+    type: number
+    sql: ${TABLE}.count_slash_commands;;
+    label: "Number of Slash Comamnds"
+    description: "Total number of Slash Comamnds."
+  }
+
   measure: total_count_slash_commands {
     type: sum
     sql: ${count_slash_commands} ;;
     label: "Total Slash Commands"
     view_label: " * Metrics. Users Output"
+  }
+
+  dimension: count_direct_message_channels {
+    type: number
+    sql: ${TABLE}.count_direct_message_channels;;
+    label: "Number of DMs"
+    description: "Total number of DMs."
   }
 
   measure: total_count_direct_message_channels {
@@ -470,6 +505,13 @@ view: fct_active_users {
     view_label: " * Metrics. Users Output"
   }  
   
+  dimension: count_posts {
+    type: number
+    sql: ${TABLE}.count_posts;;
+    label: "Number of posts"
+    description: "Total number of posts."
+  }
+
   measure: total_count_posts {
     type: sum
     sql: ${count_posts} ;;
