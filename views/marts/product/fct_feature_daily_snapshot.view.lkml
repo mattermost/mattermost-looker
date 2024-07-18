@@ -424,6 +424,73 @@ view: fct_feature_daily_snapshot {
     view_label: "* Features: Calls"
   }
 
+
+
+  ### Copilot
+
+  dimension: count_copilot_events_daily {
+    type: number
+    sql: ${TABLE}.count_copilot_events_daily ;;
+    label: "# of Copilot Events (Daily)"
+    description: "The number of events related to Copilot for the current day."
+    view_label: "* Features: Copilot"
+  }
+
+  dimension: count_copilot_events_monthly {
+    type: number
+    sql: ${TABLE}.count_copilot_events_monthly ;;
+    label: "# of Copilot Events (Monthly)"
+    description: "The number of events related to Copilot for the current day and past 29 days."
+    view_label: "* Features: Copilot"
+  }
+
+  dimension: count_copilot_users_daily {
+    type: number
+    sql: ${TABLE}.count_copilot_users_daily ;;
+    label: "# of Copilot Unique Users (Daily)"
+    description: "The number of unique users related to Copilot for the current day."
+    view_label: "* Features: Copilot"
+  }
+
+  dimension: count_copilot_users_monthly {
+    type: number
+    sql: ${TABLE}.count_copilot_users_monthly ;;
+    label: "# of Copilot Unique Users (Monthly)"
+    description: "The number of unique users related to Copilot for the current day and past 29 days."
+    view_label: "* Features: Copilot"
+  }
+
+
+  ### Copilot - metrics
+
+  measure: total_count_copilot_events_daily {
+    type: sum
+    sql: ${count_copilot_events_daily} ;;
+    label: "Total # of Copilot Events (Daily)"
+    view_label: "* Features: Copilot"
+  }
+
+  measure: total_count_copilot_events_monthly {
+    type: sum
+    sql: ${count_copilot_events_monthly} ;;
+    label: "Total # of Copilot Events (Monthly)"
+    view_label: "* Features: Copilot"
+  }
+
+  measure: total_count_copilot_users_daily {
+    type: sum
+    sql: ${count_copilot_users_daily} ;;
+    label: "Total # of Copilot Users (Daily)"
+    view_label: "* Features: Copilot"
+  }
+
+  measure: total_count_copilot_users_monthly {
+    type: sum
+    sql: ${count_copilot_users_monthly} ;;
+    label: "Total # of Copilot Users (Monthly)"
+    view_label: "* Features: Copilot"
+  }
+
   ### Known feature aggregates per server/date
 
   dimension: count_known_features_events_daily {
