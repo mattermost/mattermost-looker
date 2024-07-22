@@ -58,7 +58,7 @@ view: dim_latest_server_customer_info {
 
   dimension: source {
     type: string
-    description: The source of the license data. Can be 'Stripe' (for cloud) or one of `CWS`, `Legacy`, `CWS and Legacy` (for Self-Hosted)
+    description: The source of the license data. Can be 'Stripe' (for Cloud) or one of `CWS`, `Legacy`, `CWS and Legacy` (for Self-Hosted)
     sql: ${TABLE}."SOURCE" ;;
   }
 }
