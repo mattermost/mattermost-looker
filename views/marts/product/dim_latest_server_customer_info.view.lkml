@@ -19,7 +19,7 @@ view: dim_latest_server_customer_info {
   }
 
   dimension: licensed_seats {
-    type: string
+    type: number
     sql: ${TABLE}.licensed_seats ;;
   }
 
@@ -52,7 +52,7 @@ view: dim_latest_server_customer_info {
   }
   
   dimension: is_trial_license {
-    type: string
+    type: yesno
     sql: ${TABLE}.is_trial_license ;;
   }
 
@@ -60,6 +60,4 @@ view: dim_latest_server_customer_info {
     type: string
     sql: ${TABLE}."SOURCE" ;;
   }
-  
-  
 }
