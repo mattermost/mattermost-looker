@@ -13,6 +13,16 @@ view: dim_latest_server_customer_info {
     sql: ${TABLE}.license_id ;;
   }
 
+  dimension: license_name {
+    type: string
+    sql: ${TABLE}.license_name ;;
+  }
+
+  dimension: licensed_seats {
+    type: string
+    sql: ${TABLE}.licensed_seats ;;
+  }
+
   dimension: installation_id {
     type: string
     sql: ${TABLE}.installation_id ;;
@@ -50,4 +60,6 @@ view: dim_latest_server_customer_info {
     type: string
     sql: ${TABLE}."SOURCE" ;;
   }
+  
+  
 }
