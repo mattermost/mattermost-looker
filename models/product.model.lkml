@@ -252,3 +252,8 @@ explore: fct_downloads {
 
   }
 }
+
+explore: grp_copilot_tracks {
+  label: "Copilot events"
+  group_label: "[New] Active Users"
+}
