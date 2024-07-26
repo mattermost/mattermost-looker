@@ -152,4 +152,23 @@ view: dim_excludable_servers {
     view_label: "Server: Exclusion Reasons"
   }
 
+dimension: all_exclusions {
+    type: yesno
+    sql: ((${has_reason_active_users__registered_users} <> 'Yes' OR ${has_reason_active_users__registered_users} IS NULL) AND
+    (${has_reason_community} <> 'Yes' OR ${has_reason_community} IS NULL) AND
+    (${has_reason_invalid_server_id} <> 'Yes' OR  ${has_reason_invalid_server_id} IS NULL) AND
+    (${has_reason_internal_email} <> 'Yes' OR ${has_reason_internal_email} IS NULL) AND
+    (${has_reason_custom_build_version_format} <> 'Yes' OR ${has_reason_custom_build_version_format} IS NULL) AND
+    (${has_reason_no_stripe_installation_found} <> 'Yes' OR ${has_reason_no_stripe_installation_found} IS NULL) AND
+    (${has_reason_ran_tests} <> 'Yes' OR ${has_reason_ran_tests} IS NULL) AND
+    (${has_reason_restricted_ip} <> 'Yes' OR ${has_reason_restricted_ip} IS NULL) AND
+    (${has_reason_test_server} <> 'Yes' OR ${has_reason_test_server} IS NULL);;
+    (${has_reason_single_day_security_only} <> 'Yes' OR ${has_reason_single_day_security_only} IS NULL);;
+    (${has_reason_single_day_server_side_telemetry_only} <> 'Yes' OR ${has_reason_single_day_server_side_telemetry_only} IS NULL);;
+    (${has_reason_single_day_user_telemetry_only} <> 'Yes' OR ${has_reason_single_day_user_telemetry_only} IS NULL);;
+    (${has_reason_single_day_telemetry_only} <> 'Yes' OR ${has_reason_single_day_telemetry_only} IS NULL));;
+    label: "All Exclusions"
+    description: "All available exclusion reasons"
+    view_label: "Server: Exclusion Reasons"
+  }
 }
