@@ -138,7 +138,7 @@ view: dim_excludable_servers {
 
   dimension: has_no_reason {
     type: yesno
-    sql:  has_any_reason is null ;;
+    sql:  ${has_no_reason} is null ;;
     label: "No reason"
     description: "Whether the server has reported no reason for exclusion"
     view_label: "Server: Exclusion Reasons"
