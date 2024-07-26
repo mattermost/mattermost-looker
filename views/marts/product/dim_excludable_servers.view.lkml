@@ -138,7 +138,7 @@ view: dim_excludable_servers {
 
   dimension: has_no_reason {
     type: yesno
-    sql:  not(${has_reason_single_day_security_only} or ${has_reason_custom_build_version_format} or ${has_reason_single_day_server_side_telemetry_only} or ${has_reason_single_day_telemetry_only} or ${has_reason_ran_tests} or ${has_reason_active_users__registered_users} or ${has_reason_no_stripe_installation_found} or ${has_reason_single_day_user_telemetry_only} or ${has_reason_restricted_ip} or ${has_reason_invalid_server_id} or ${has_reason_internal_email} or ${has_reason_test_server} or ${has_reason_community});;
+    sql:  has_any_reason is null ;;
     label: "No reason"
     description: "Whether the server has reported no reason for exclusion"
     view_label: "Server: Exclusion Reasons"
