@@ -138,7 +138,7 @@ view: dim_excludable_servers {
 
   dimension: has_any_reason_wrapper {
     type: yesno
-    sql:  sql: CASE WHEN ${has_any_reason} IS NOT NULL THEN FALSE ELSE TRUE END ;;
+    sql:  CASE WHEN ${has_any_reason} IS NOT NULL THEN FALSE ELSE TRUE END ;;
     label: "Any reason wrapper"
     description: "If the server has reported any reason for exclusion, exclude, otherwise return everything"
     view_label: "Server: Exclusion Reasons"
