@@ -48,7 +48,7 @@ view: dim_server_info {
     datatype: date
     sql: ${TABLE}.last_activity_date ;;
     label: "Last Activity" # Remember that `Date` is automatically appended by looker
-    description: "The first date that activity was recorded for the current server"
+    description: "The last date that activity was recorded for the current server"
     view_label: "Server: Lifecycle"
   }
 
