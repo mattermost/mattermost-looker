@@ -136,6 +136,14 @@ view: dim_excludable_servers {
     view_label: "Server: Exclusion Reasons"
   }
 
+  dimension: has_no_reason {
+    type: yesno
+    sql:  ${has_any_reason} is null ;;
+    label: "No reason"
+    description: "Whether the server has reported no reason for exclusion"
+    view_label: "Server: Exclusion Reasons"
+  }
+
   dimension: company_scorecard_exclusions {
     type: yesno
     sql: ((${has_reason_active_users__registered_users} <> 'Yes' OR ${has_reason_active_users__registered_users} IS NULL) AND
@@ -151,5 +159,4 @@ view: dim_excludable_servers {
     description: "A combination of exclusion reasons which applies to company scorecard data"
     view_label: "Server: Exclusion Reasons"
   }
-
 }
