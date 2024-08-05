@@ -127,4 +127,23 @@ view: fct_active_servers {
     view_label: " * Metrics: Active Servers"
     drill_fields: [server_id]
   }
+
+  # filters
+  dimension: last_day_of_month {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the month."
+    sql: CASE WHEN ${activity_date} =
+                                      CASE WHEN DATE_TRUNC('month', ${activity_date}::date) = DATE_TRUNC('month', CURRENT_DATE) THEN (SELECT MAX(activity_date) FROM "MART_PRODUCT"."FCT_ACTIVE_SERVERS")
+                                        ELSE DATEADD(MONTH, 1, DATE_TRUNC('month',${activity_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
+
+  dimension: last_day_of_week {
+    type: yesno
+    description: "Filters so the logging date is equal to the last day of the week."
+    sql: CASE WHEN ${activity_date} =
+                                      CASE WHEN DATE_TRUNC('week', ${activity_date}::date) = DATE_TRUNC('week', CURRENT_DATE) THEN (SELECT MAX(activity_date) FROM "MART_PRODUCT"."FCT_ACTIVE_SERVERS")
+                                        ELSE DATEADD(WEEK, 1, DATE_TRUNC('week',${activity_date}::date)) - INTERVAL '1 DAY' END
+          THEN TRUE ELSE FALSE END ;;
+  }
 }
