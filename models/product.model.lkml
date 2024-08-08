@@ -1,6 +1,7 @@
 connection: "snowflake"
 
 # Limit include only to the ones really needed by this explore
+include: "/views/marts/common/*.view.lkml"
 include: "/views/marts/mlt/*.view.lkml"
 include: "/views/marts/product/*.view.lkml"
 include: "/views/marts/sales/*.view.lkml"
@@ -57,6 +58,13 @@ explore: fct_active_users {
   label: "Telemetry Active Users"
   group_label: "[New] Active Users"
 
+  join: dim_date {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_active_users.activity_raw} = ${dim_date.date_day_raw} ;;
+    view_label: "Activity Date: Details"
+  }
+
   join: dim_daily_server_info {
     relationship: one_to_one
     type: left_outer # Telemetry might not have been submitted from server at a given time
@@ -98,6 +106,13 @@ explore: fct_active_users {
 explore: fct_active_servers {
   label: "Telemetry Active Servers"
   group_label: "[New] Active Servers"
+
+  join: dim_date {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_active_servers.activity_raw} = ${dim_date.date_day_raw} ;;
+    view_label: "Activity Date: Details"
+  }
 
   join: dim_version {
     relationship:  many_to_one
