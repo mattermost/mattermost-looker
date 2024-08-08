@@ -87,6 +87,12 @@ explore: fct_active_users {
     sql_on:  ${fct_active_users.daily_server_id} = ${dim_daily_server_config.daily_server_id} ;;
   }
 
+  join: dim_daily_license {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_active_users.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
+  }
+
 }
 
 explore: fct_active_servers {
@@ -115,6 +121,12 @@ explore: fct_active_servers {
     relationship: one_to_one
     type: left_outer
     sql_on:  ${fct_active_servers.daily_server_id} = ${dim_daily_server_config.daily_server_id} ;;
+  }
+
+  join: dim_daily_license {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_active_servers.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
@@ -256,4 +268,21 @@ explore: fct_downloads {
 explore: grp_copilot_tracks {
   label: "Copilot events"
   group_label: "[New] Active Users"
+}
+
+explore: fct_licenses {
+  label: "Known Licenses"
+  group_label: "[New] Active Servers"
+
+  join: bdg_license_server{
+    relationship: many_to_many
+    type: left_outer
+    sql_on:  ${fct_licenses.license_id} = ${bdg_license_server.license_id} ;;
+  }
+
+  join: dim_server_info {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${bdg_license_server.server_id} = ${dim_server_info.server_id} ;;
+  }
 }
