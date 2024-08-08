@@ -107,6 +107,12 @@ explore: fct_active_servers {
   label: "Telemetry Active Servers"
   group_label: "[New] Active Servers"
 
+  join: dim_daily_server_info {
+    relationship: one_to_one
+    type: left_outer # Telemetry might not have been submitted from server at a given time
+    sql_on: ${fct_active_servers.daily_server_id} = ${dim_daily_server_info.daily_server_id} ;;
+  }
+  
   join: dim_date {
     relationship: one_to_one
     type: left_outer
