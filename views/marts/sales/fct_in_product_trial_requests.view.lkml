@@ -115,9 +115,9 @@ view: fct_in_product_trial_requests {
     sql: ${TABLE}.last_name ;;
     label: "Last Name"
     description: "The user's last name. This value may originate from:
-      - Last name (if directly provided).
-      - By splitting the name string on first space and keeping the second part.
-      - If none of the above are available, the first 40 characters of the 'username' part of the email.
+    - Last name (if directly provided).
+    - By splitting the name string on first space and keeping the second part.
+    - If none of the above are available, the first 40 characters of the 'username' part of the email.
     "
     view_label: "Company: Information"
   }
