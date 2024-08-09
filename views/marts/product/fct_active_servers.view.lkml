@@ -60,6 +60,13 @@ view: fct_active_servers {
   ### Facts
   ###
 
+  dimension: daily_active_users {
+    type: number
+    sql: ${TABLE}.daily_active_users ;;
+    label: "Number of daily active users"
+    description: "Number of unique users for current date, reported by server telemetry."
+  }
+
   dimension: count_reported_versions {
     type: number
     sql: ${TABLE}.count_reported_versions ;;
