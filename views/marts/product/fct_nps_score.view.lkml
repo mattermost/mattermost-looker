@@ -22,13 +22,6 @@ view: fct_nps_score {
     sql: ${TABLE}."ACTIVITY_DATE" ;;
   }
 
-  dimension: nps_score {
-    type: number
-    label: "NPS Score"
-    view_label: "NPS Score"
-    sql: ${TABLE}."NPS_SCORE" ;;
-  }
-
   dimension: count_user_nps_users_daily {
     type: number
     label: "Count User NPS Users Daily"
