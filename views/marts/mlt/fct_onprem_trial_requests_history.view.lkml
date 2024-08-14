@@ -32,7 +32,7 @@ view: fct_onprem_trial_requests_history {
 
   dimension: trial_email {
     type: string
-    sql: ${TABLE}."TRIAL_EMAIL" ;;
+    sql: ${TABLE}.trial_email ;;
   }
 
   dimension: email_domain {
