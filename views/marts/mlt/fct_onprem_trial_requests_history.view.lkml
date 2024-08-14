@@ -223,31 +223,6 @@ view: fct_onprem_trial_requests_history {
     view_label: " * Trial Request: Source data"
   }
 
-  dimension: stripe_product_id {
-    type: string
-    sql: ${TABLE}.stripe_product_id ;;
-    label: "Product Id (from Stripe)"
-    description: "Product id"
-    view_label: " * Trial Request: Source data"
-  }
-
-  dimension: converted_to_paid_at {
-    type: time
-    timeframes: [raw, date, week, month, quarter, year]
-    sql: ${TABLE}.converted_to_paid_at ;;
-    label: "Email"
-    description: "The timestamp when the subscription was converted to paid status."
-    view_label: " * Trial Request: Source data"
-  }
-
-  dimension: status {
-    type: string
-    sql: ${TABLE}.status ;;
-    label: "Status (from Stripe)"
-    description: "The status of the subscription."
-    view_label: " * Trial Request: Source data"
-  }
-
   ###
   ### Metadata related to all trial request history from current email.
   ###
@@ -288,8 +263,6 @@ view: fct_onprem_trial_requests_history {
     label: "Total number of users"
     view_label: " * Metrics: Trial Requests"
   }
-
-
 
   measure: count {
     type: count
