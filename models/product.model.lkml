@@ -257,6 +257,12 @@ explore: fct_onprem_trial_requests_history  {
 
 }
 
+explore: fct_trial_requests_history  {
+  label: "Trial Request History"
+  group_label: "[New] Trial Requests"
+
+}
+
 explore: fct_subscription_history {
   label: "Cloud Subscription History (360)"
   group_label: "[New] Cloud 360"
