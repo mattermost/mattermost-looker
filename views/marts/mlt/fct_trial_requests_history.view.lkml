@@ -1,8 +1,8 @@
-view: fct_onprem_trial_requests_history {
+view: fct_trial_requests_history {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "MART_MLT".fct_onprem_trial_requests_history ;;
-  label: "  * Trial Request: On-prem"
+  sql_table_name: "MART_MLT".fct_trial_request_history ;;
+  label: "  * Trial Requests"
 
 
   ###
@@ -49,39 +49,32 @@ view: fct_onprem_trial_requests_history {
     description: "The name of the company requesting the trial."
   }
 
-  dimension: company_size_bucket {
+  dimension: first_name {
     type: string
-    sql: ${TABLE}.company_size_bucket ;;
-    label: "Company Size (Bucket)"
-    description: "Company size, belonging in one of the following buckets: 1-50, 50-100, 100-500, 500-1000, 1000-2500, 2500+."
+    sql: ${TABLE}.first_name ;;
+    label: "First Name"
+    description: "The first name of the user who requested the trial."
   }
 
-  dimension: country_name {
+  dimension: last_name {
     type: string
-    sql: ${TABLE}.country_name ;;
-    label: "Country"
-    description: "The name of the country, as filled in in the trial request form."
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
-    label: "Name"
-    description: "The display name of the user who requested the trial."
+    sql: ${TABLE}.last_name ;;
+    label: "Last Name"
+    description: "The last name of the user who requested the trial."
   }
 
   dimension: request_source {
     type: string
     sql: ${TABLE}.request_source ;;
     label: "Request Source"
-    description: "Whether this trial request is originating from In-app or from Mattermost website."
+    description: "Whether this trial request is originating from In-app or from Mattermost website. For Cloud it is 'Stripe'"
   }
 
-  dimension: site_name {
+  dimension: request_type {
     type: string
-    sql: ${TABLE}.site_name ;;
-    label: "Site Name"
-    description: "The name of the Mattermost installation, as defined in the administrator view."
+    sql: ${TABLE}.request_type ;;
+    label: "Request Type"
+    description: "For Self-Hosted it is 'in-product'. For Cloud it is 'cloud'"
   }
 
   dimension: site_url {
@@ -91,39 +84,17 @@ view: fct_onprem_trial_requests_history {
     description: "The URL of the installation set via the system console in Mattermost by the user, or https://mattermost.com if trial was requested from mattermost.com/trial."
   }
 
-  dimension: num_users {
-    type: number
-    sql: ${TABLE}.num_users ;;
-    label: "Number of Users"
-    description: "The number of users."
-  }
-
-
-  dimension: is_valid_trial_email {
-    type: yesno
-    sql: ${TABLE}.is_valid_trial_email ;;
-    label: "Is Valid Email?"
-    description: "Whether the current email is valid. Emails are considered valid if they match format `%_@__%.__%`` and don't contain any of the characters `'\/()&$^!`."
-  }
-
-  dimension: is_first_trial {
-    type: yesno
-    sql: ${TABLE}.is_first_trial ;;
-    label: "Is First Trial?"
-    description: "Whether this is the first trial (in chronological order) requested by this email."
-  }
-
-  dimension: is_last_trial {
-    type: yesno
-    sql: ${TABLE}.is_last_trial ;;
-    label: "Is Last Trial?"
-    description: "Whether this is the first trial (in chronological order) requested by this email."
-  }
-
-
   ###
   ### Dates for the current trial
   ###
+
+  dimension_group: created_at {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    sql: CAST(${TABLE}.start_at AS TIMESTAMP_NTZ) ;;
+    label: "Created At"
+    description: "Date when trial was created at. Note that trials start as soon as the trial request is created, making this date similar to trial start timestamp."
+  }
 
   dimension_group: start_at {
     type: time
@@ -134,7 +105,7 @@ view: fct_onprem_trial_requests_history {
   }
 
 
-  dimension_group: end {
+  dimension_group: end_at {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: CAST(${TABLE}.end_at AS TIMESTAMP_NTZ) ;;
@@ -215,14 +186,38 @@ view: fct_onprem_trial_requests_history {
     view_label: " * Trial Request: Source data"
   }
 
-  dimension: email {
+  dimension: user_email {
     type: string
-    sql: ${TABLE}.email ;;
-    label: "Email"
-    description: "Used for backwards compatibility. Should be the same with contact email if contact email is not null. Prefer trial email."
+    sql: ${TABLE}.user_email ;;
+    label: "User Email"
+    description: "The user email (not available for Cloud)"
     view_label: " * Trial Request: Source data"
   }
 
+  dimension: stripe_product_id {
+    type: string
+    sql: ${TABLE}.stripe_product_id ;;
+    label: "Product Id (from Stripe)"
+    description: "Product id"
+    view_label: " * Trial Request: Source data"
+  }
+
+  dimension: converted_to_paid_at {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    sql: ${TABLE}.converted_to_paid_at ;;
+    label: "Email"
+    description: "The timestamp when the subscription was converted to paid status."
+    view_label: " * Trial Request: Source data"
+  }
+
+  dimension: status {
+    type: string
+    sql: ${TABLE}.status ;;
+    label: "Status (from Stripe)"
+    description: "The status of the subscription."
+    view_label: " * Trial Request: Source data"
+  }
 
   ###
   ### Metadata related to all trial request history from current email.
@@ -246,27 +241,10 @@ view: fct_onprem_trial_requests_history {
     description: "The start date of the latest trial (in chronological order) for the current email."
   }
 
-  dimension: total_trial_requests {
-    type: number
-    sql: ${TABLE}.total_trial_requests ;;
-    label: "Total Trial Requests"
-    view_label: " * History: Summary"
-    description: "The total number of trial requests for the current email."
-  }
-
-
   ###
   ### Measures
   ###
-  measure: total_num_users {
-    type: sum
-    sql: ${num_users} ;;
-    label: "Total number of users"
-    view_label: " * Metrics: Trial Requests"
-  }
-
-
-
+  
   measure: count {
     type: count
     drill_fields: [trial_request_id, start_at_date, trial_email, name, company_name, site_name, country_name]

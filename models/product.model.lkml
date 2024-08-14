@@ -254,7 +254,11 @@ explore: rpt_active_user_base {
 explore: fct_onprem_trial_requests_history  {
   label: "On-prem Trial Request History"
   group_label: "[New] Trial Requests"
+}
 
+explore: fct_trial_requests_history  {
+  label: "Trial Request History"
+  group_label: "[New] Trial Requests"
 }
 
 explore: fct_subscription_history {
