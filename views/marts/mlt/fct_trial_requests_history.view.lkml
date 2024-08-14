@@ -93,7 +93,7 @@ view: fct_trial_requests_history {
     timeframes: [raw, date, week, month, quarter, year]
     sql: CAST(${TABLE}.start_at AS TIMESTAMP_NTZ) ;;
     label: "Created At"
-    description: "Date when trial was created at. Note that trials start as soon as the trial request is created, making this date similar to trial creation timestamp."
+    description: "Date when trial was created at. Note that trials start as soon as the trial request is created, making this date similar to trial start timestamp."
   }
 
   dimension_group: start_at {

@@ -223,6 +223,7 @@ view: fct_onprem_trial_requests_history {
     view_label: " * Trial Request: Source data"
   }
 
+
   ###
   ### Metadata related to all trial request history from current email.
   ###
@@ -263,6 +264,8 @@ view: fct_onprem_trial_requests_history {
     label: "Total number of users"
     view_label: " * Metrics: Trial Requests"
   }
+
+
 
   measure: count {
     type: count
