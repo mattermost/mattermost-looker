@@ -35,15 +35,6 @@ view: fct_active_servers {
     hidden: yes
   }
 
-
-  dimension: installation_id {
-    type: string
-    sql: ${TABLE}.installation_id ;;
-    label: "Installation ID"
-    description: "The id of the installation. Exists only for cloud installations."
-  }
-
-
   ###
   ### Other dimensions (degenerate etc)
   ###
