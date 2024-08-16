@@ -1,7 +1,7 @@
 view: fct_trial_requests_history {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: "MART_MLT".fct_trial_request_history ;;
+  sql_table_name: "MART_PRODUCT".fct_trial_request_history ;;
   label: "  * Trial Requests"
 
 
