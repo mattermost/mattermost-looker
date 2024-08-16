@@ -30,7 +30,7 @@ view: dim_version {
 
 
   dimension: version_major {
-    type: string
+    type: number
     sql: ${TABLE}.version_major ;;
     label: "Major part"
     description: "The major part of the semantic version. I.e. for 7.8.1 it's `7`."
@@ -38,7 +38,7 @@ view: dim_version {
   }
 
   dimension: version_minor {
-    type: string
+    type: number
     sql: ${TABLE}.version_minor ;;
     label: "Minor part"
     description: "The minor part of the semantic version. I.e. for 7.8.1 it's `8`."
@@ -55,7 +55,7 @@ view: dim_version {
 
 
   dimension: version_patch {
-    type: string
+    type: number
     sql: ${TABLE}.version_patch ;;
     label: "Patch part"
     description: "The patch part of the semantic version. I.e. for 7.8.1 it's `1`."

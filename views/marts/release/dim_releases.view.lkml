@@ -21,14 +21,14 @@ view: dim_releases {
 
 
   dimension: version_major {
-    type: string
+    type: number
     sql: ${TABLE}."VERSION_MAJOR" ;;
     label: "Major Version"
     description: "The major part of the semantic version"
   }
 
   dimension: version_minor {
-    type: string
+    type: number
     sql: ${TABLE}."VERSION_MINOR" ;;
     label: "Minor Version"
     description: "The minor part of the semantic version"
@@ -36,7 +36,7 @@ view: dim_releases {
   }
 
   dimension: version_patch {
-    type: string
+    type: number
     sql: ${TABLE}."VERSION_PATCH" ;;
     label: "Patch Version"
     description: "The patch part of the semantic version"
