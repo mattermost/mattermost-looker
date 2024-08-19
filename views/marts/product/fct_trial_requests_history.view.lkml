@@ -24,6 +24,12 @@ view: fct_trial_requests_history {
     description: "The id of the server where the trial request originates from."
   }
 
+  dimension: installation_id {
+    type: string
+    sql: ${TABLE}.installation_id ;;
+    label: "Installation ID"
+    description: "The ID of the server's installation. Exists only if server is a cloud server."
+  }
 
   ###
   ### Basic trial information
