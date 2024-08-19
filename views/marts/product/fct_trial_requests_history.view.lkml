@@ -212,7 +212,7 @@ view: fct_trial_requests_history {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: ${TABLE}.converted_to_paid_at ;;
-    label: "Email"
+    label: "Converted to Paid Date (from Stripe)"
     description: "The timestamp when the subscription was converted to paid status."
     view_label: " * Trial Request: Source data"
   }
