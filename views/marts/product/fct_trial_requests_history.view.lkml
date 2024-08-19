@@ -253,7 +253,7 @@ view: fct_trial_requests_history {
   
   measure: count {
     type: count
-    drill_fields: [trial_request_id, start_at_date, trial_email, name, company_name, site_name, country_name]
+    drill_fields: [trial_request_id, start_at_date, trial_email, name, company_name, site_name, country_name, server_id, installation_id]
     label: "Count Trial Requests"
     view_label: " * Metrics: Trial Requests"
   }
