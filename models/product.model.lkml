@@ -259,6 +259,12 @@ explore: fct_onprem_trial_requests_history  {
 explore: fct_trial_requests_history  {
   label: "Trial Request History"
   group_label: "[New] Trial Requests"
+
+  join: dim_excludable_servers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${fct_trial_requests_history.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
 }
 
 explore: fct_subscription_history {
