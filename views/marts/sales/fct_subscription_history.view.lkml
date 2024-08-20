@@ -111,5 +111,6 @@ view: fct_subscription_history {
   }
   measure: count {
     type: count
+    drill_fields: [cws_installation, product_id, status]
   }
 }
