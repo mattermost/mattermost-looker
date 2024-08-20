@@ -24,6 +24,28 @@ view: fct_subscription_history {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+ dimension: converted_to_paid_at {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    sql: ${TABLE}.converted_to_paid_at ;;
+    label: "Converted to Paid Date (from Stripe)"
+    description: "The timestamp when the subscription was converted to paid status."
+  }
+
+  dimension: product_id {
+    type: string
+    sql: ${TABLE}.product_id ;;
+    label: "Product Id (from Stripe)"
+    description: "Product id"
+  }
+
+  dimension: current_product_id {
+    type: string
+    sql: ${TABLE}.current_product_id ;;
+    label: "Current Product Id (from Stripe)"
+    description: "Current Product id"
+  }
+
   dimension: customer_id {
     type: string
     sql: ${TABLE}."CUSTOMER_ID" ;;
