@@ -7,16 +7,10 @@ view: fct_subscription_history {
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
-    # Here's what a typical dimension looks like in LookML.
-    # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Billing Type" in Explore.
-
   dimension: billing_type {
     type: string
     sql: ${TABLE}."BILLING_TYPE" ;;
   }
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: created {
     type: time
@@ -89,10 +83,13 @@ view: fct_subscription_history {
 
   measure: total_licensed_seats {
     type: sum
-    sql: ${licensed_seats} ;;  }
+    sql: ${licensed_seats} ;;  
+  }
+
   measure: average_licensed_seats {
     type: average
-    sql: ${licensed_seats} ;;  }
+    sql: ${licensed_seats} ;;  
+  }
 
   dimension: status {
     type: string
@@ -112,5 +109,6 @@ view: fct_subscription_history {
   measure: count {
     type: count
     drill_fields: [cws_installation, product_id, status]
+    label: "Total subscriptions"
   }
 }
