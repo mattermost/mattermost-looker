@@ -6,7 +6,7 @@ view: fct_subscription_history {
 
   dimension: subscription_id {
     type: string
-    sql: ${TABLE}.subscriptions_id ;;
+    sql: ${TABLE}.subscription_id ;;
   }
 
   dimension: subscription_history_event_id {
@@ -54,7 +54,7 @@ view: fct_subscription_history {
     label: "Product Name (from Stripe)"
     description: "Product name"
   }
-  
+
   dimension: customer_id {
     type: string
     sql: ${TABLE}."CUSTOMER_ID" ;;
