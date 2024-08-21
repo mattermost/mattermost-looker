@@ -7,12 +7,12 @@ view: fct_subscription_history {
   dimension: subscription_id {
     type: string
     sql: ${TABLE}.subscriptions_id ;;
-    primary_key: yes
   }
 
   dimension: subscription_history_event_id {
     type: string
     sql: ${TABLE}.subscription_history_event_id ;;
+    primary_key : yes
   }
 
   dimension: billing_type {
@@ -48,6 +48,13 @@ view: fct_subscription_history {
     description: "Current Product id"
   }
 
+  dimension: product_name {
+    type: string
+    sql: ${TABLE}.product_name ;;
+    label: "Product Name (from Stripe)"
+    description: "Product name"
+  }
+  
   dimension: customer_id {
     type: string
     sql: ${TABLE}."CUSTOMER_ID" ;;
@@ -103,7 +110,7 @@ view: fct_subscription_history {
     type: string
     sql: ${TABLE}."STATUS" ;;
   }
-
+  
   measure: count {
     type: count
     drill_fields: [subscription_id, cws_installation, product_id, cws_dns, status]
