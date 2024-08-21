@@ -4,10 +4,15 @@ view: fct_subscription_history {
   # to be used for all fields in this view.
   sql_table_name: "MART_SALES"."FCT_SUBSCRIPTION_HISTORY" ;;
 
+  dimension: subscription_id {
+    type: string
+    sql: ${TABLE}.subscriptions_id ;;
+    primary_key: yes
+  }
+
   dimension: subscription_history_event_id {
     type: string
     sql: ${TABLE}.subscription_history_event_id ;;
-    primary_key: yes
   }
 
   dimension: billing_type {
@@ -99,10 +104,6 @@ view: fct_subscription_history {
     sql: ${TABLE}."STATUS" ;;
   }
 
-  dimension: subscription_id {
-    type: string
-    sql: ${TABLE}."SUBSCRIPTION_ID" ;;
-  }
   measure: count {
     type: count
     drill_fields: [subscription_id, cws_installation, product_id, cws_dns, status]
