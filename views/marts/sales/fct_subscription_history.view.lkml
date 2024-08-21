@@ -4,15 +4,10 @@ view: fct_subscription_history {
   # to be used for all fields in this view.
   sql_table_name: "MART_SALES"."FCT_SUBSCRIPTION_HISTORY" ;;
 
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
-
-  dimension_group: subscriptin_history_id {
+  dimension: subscription_history_event_id {
     type: string
-    sql: ${TABLE}.subscription_history_id ;;
+    sql: ${TABLE}.subscription_history_event_id ;;
     primary_key: yes
-    hidden: yes
-    description: "Subscription History Id"
   }
 
   dimension: billing_type {
@@ -102,12 +97,6 @@ view: fct_subscription_history {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
-  }
-
-  dimension: subscription_history_event_id {
-    type: string
-    primary_key:  yes
-    sql: ${TABLE}."SUBSCRIPTION_HISTORY_EVENT_ID" ;;
   }
 
   dimension: subscription_id {
