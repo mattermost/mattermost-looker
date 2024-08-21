@@ -7,6 +7,14 @@ view: fct_subscription_history {
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
+  dimension_group: subscriptin_history_id {
+    type: string
+    sql: ${TABLE}.subscription_history_id ;;
+    primary_key: yes
+    hidden: yes
+    description: "Subscription History Id"
+  }
+
   dimension: billing_type {
     type: string
     sql: ${TABLE}."BILLING_TYPE" ;;
