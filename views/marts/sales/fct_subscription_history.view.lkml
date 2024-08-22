@@ -124,6 +124,6 @@ view: fct_subscription_history {
   measure: count {
     type: count
     drill_fields: [subscription_id, cws_installation, product_id, cws_dns, status]
-    label: "Total subscriptions"
+    label: "Total subscription history items"
   }
 }
