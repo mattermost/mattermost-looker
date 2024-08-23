@@ -126,11 +126,19 @@ view: dim_excludable_servers {
     view_label: "Server: Exclusion Reasons"
   }
 
+  dimension: has_reason_country {
+    type: yesno
+    sql: ${TABLE}.has_reason_country ;;
+    label: "Excluded Country"
+    description: "Whether the server's last IP is located in a country that exists in blacklisted countries."
+    view_label: "Server: Exclusion Reasons"
+  }
+
   # Aggregate all reasons in order to help users that want to select all of them
 
   dimension: has_any_reason {
     type: yesno
-    sql:  ${has_reason_single_day_security_only} or ${has_reason_custom_build_version_format} or ${has_reason_single_day_server_side_telemetry_only} or ${has_reason_single_day_telemetry_only} or ${has_reason_ran_tests} or ${has_reason_active_users__registered_users} or ${has_reason_no_stripe_installation_found} or ${has_reason_single_day_user_telemetry_only} or ${has_reason_restricted_ip} or ${has_reason_invalid_server_id} or ${has_reason_internal_email} or ${has_reason_test_server} or ${has_reason_community};;
+    sql:  ${has_reason_single_day_security_only} or ${has_reason_custom_build_version_format} or ${has_reason_single_day_server_side_telemetry_only} or ${has_reason_single_day_telemetry_only} or ${has_reason_ran_tests} or ${has_reason_active_users__registered_users} or ${has_reason_no_stripe_installation_found} or ${has_reason_single_day_user_telemetry_only} or ${has_reason_restricted_ip} or ${has_reason_invalid_server_id} or ${has_reason_internal_email} or ${has_reason_test_server} or ${has_reason_community} or ${has_reason_country};;
     label: "Any reason"
     description: "Whether the server has reported any reason for exclusion"
     view_label: "Server: Exclusion Reasons"

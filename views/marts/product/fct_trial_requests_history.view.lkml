@@ -208,7 +208,7 @@ view: fct_trial_requests_history {
     view_label: " * Trial Request: Source data"
   }
 
-  dimension: converted_to_paid_at {
+  dimension_group: converted_to_paid_at {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: ${TABLE}.converted_to_paid_at ;;
@@ -250,10 +250,10 @@ view: fct_trial_requests_history {
   ###
   ### Measures
   ###
-  
+
   measure: count {
     type: count
-    drill_fields: [trial_request_id, start_at_date, trial_email, name, company_name, site_name, country_name, server_id, installation_id]
+    drill_fields: [trial_request_id, start_at_date, trial_email, company_name, server_id, installation_id]
     label: "Count Trial Requests"
     view_label: " * Metrics: Trial Requests"
   }
