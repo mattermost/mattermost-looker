@@ -10,17 +10,6 @@ view_label: " Performance Events"
 
 ### FILTERS
 
-  dimension: cloud_server {
-    type: yesno
-    description: "Boolean indicating the event was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN ${server_daily_details.installation_id} is not null THEN TRUE
-            WHEN ${license_server_fact.cloud_customer} THEN TRUE
-            WHEN ${server_fact.installation_id} is not null THEN TRUE
-            WHEN (${user_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${timestamp_date}::date >= '2020-10-09'::date) THEN TRUE
-            ELSE FALSE END ;;
-  }
-
-
 ### DIMENSIONS
 
 
@@ -29,7 +18,7 @@ view_label: " Performance Events"
     label: " Dbt Source Relation"
     description: "The  Dbt Source Relation of the user performing the event."
     type: string
-    sql: ${TABLE}._dbt_source_relation ;;
+    sql: ${TABLE}._source_relation ;;
     hidden: yes
   }
 
@@ -225,39 +214,6 @@ view_label: " Performance Events"
     description: "The Count of the instance."
     type: string
     sql: ${TABLE}.count ;;
-  }
-
-  dimension: server_version {
-    description: "The Mattermost server version associated with the user's server at the point in time that they submitted the performance event."
-    type: string
-    sql: CASE WHEN ${cloud_server} THEN 'Cloud' ELSE ${TABLE}.version END ;;
-    hidden: no
-    order_by_field: server_version_major_sort
-  }
-
-  dimension: server_version_major {
-    description: "The Mattermost server version (major) associated with the user's server at the point in time that they submitted the performance event."
-    type: string
-    sql: CASE WHEN ${cloud_server} THEN 'Cloud'
-          ELSE SPLIT_PART(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          '.' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) END ;;
-    hidden: no
-    order_by_field: server_version_major_sort
-  }
-
-  dimension: server_version_major_sort {
-    group_label: " Server Versions"
-    label: "  Server Version: Major (Current)"
-    description: "Sorting of major server version."
-    type: number
-    sql: CASE WHEN ${cloud_server} THEN '1000000'::int
-          ELSE (split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 1) ||
-          CASE WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2)::int < 10 THEN
-              ('0' || split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2))
-            WHEN split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) = '10' THEN '99'
-            ELSE split_part(regexp_substr(${TABLE}.version,'^[0-9]{0,}[.]{1}[0-9[{0,}[.]{1}[0-9]{0,}[.]{1}[0-9]{0,}'), '.', 2) || '0' END)::int
-            END;;
-    hidden: yes
   }
 
 
