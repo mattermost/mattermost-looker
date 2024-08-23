@@ -27,6 +27,15 @@ view: fct_subscription_history {
     timeframes: [raw, time, date, week, month, quarter, year]
     sql: ${TABLE}."CREATED_AT" ;;
   }
+ 
+  dimension_group: subscription_created_at {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: ${TABLE}.subscription_created_at ;;
+    label: "Subscription Created At"
+    group_label: "From Stripe"
+    description: "The timestamp when the subscription was created."
+  }
 
  dimension_group: converted_to_paid_at {
     type: time
