@@ -10,17 +10,6 @@ view_label: " Performance Events"
 
 ### FILTERS
 
-  dimension: cloud_server {
-    type: yesno
-    description: "Boolean indicating the event was from a Mattermost Cloud workspace (vs. a server using Mattermost's on-prem offering)."
-    sql: CASE WHEN ${server_daily_details.installation_id} is not null THEN TRUE
-            WHEN ${license_server_fact.cloud_customer} THEN TRUE
-            WHEN ${server_fact.installation_id} is not null THEN TRUE
-            WHEN (${user_id} = '93mykbogbjfrbbdqphx3zhze5c' AND ${timestamp_date}::date >= '2020-10-09'::date) THEN TRUE
-            ELSE FALSE END ;;
-  }
-
-
 ### DIMENSIONS
 
 
