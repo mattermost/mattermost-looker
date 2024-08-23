@@ -265,6 +265,12 @@ explore: fct_trial_requests_history  {
     type: left_outer
     sql_on: ${fct_trial_requests_history.server_id} = ${dim_excludable_servers.server_id} ;;
   }
+
+  join: dim_installation_summary {
+    relationship: many_to_one
+    type:  left_outer
+    sql_on:  ${fct_trial_requests_history.installation_id} = ${dim_installation_summary.installation_id} ;;
+  }
 }
 
 explore: fct_subscription_history {
