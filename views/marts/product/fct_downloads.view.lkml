@@ -169,21 +169,21 @@ view: fct_downloads {
   }
 
   dimension: version_major {
-    type: string
+    type: number
     sql: ${TABLE}.version_major ;;
     label: "Major"
     group_label: "Version"
   }
 
   dimension: version_minor {
-    type: string
+    type: number
     sql: ${TABLE}.version_minor ;;
     label: "Minor"
     group_label: "Version"
   }
 
   dimension: version_patch {
-    type: string
+    type: number
     sql: ${TABLE}.version_patch ;;
     label: "Patch"
     group_label: "Version"
