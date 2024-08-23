@@ -34,7 +34,7 @@ view: fct_subscription_history {
     sql: ${TABLE}.subscription_created_at ;;
   }
 
- dimension: converted_to_paid_at {
+ dimension_group: converted_to_paid_at {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     sql: ${TABLE}.converted_to_paid_at ;;
@@ -103,7 +103,7 @@ view: fct_subscription_history {
     sql: CAST(${TABLE}."LICENSE_END_AT" AS TIMESTAMP_NTZ) ;;
     group_label: "From Stripe"
   }
-  
+
   dimension: licensed_seats {
     type: number
     sql: ${TABLE}."LICENSED_SEATS" ;;
@@ -114,19 +114,19 @@ view: fct_subscription_history {
 
   measure: total_licensed_seats {
     type: sum
-    sql: ${licensed_seats} ;;  
+    sql: ${licensed_seats} ;;
   }
 
   measure: average_licensed_seats {
     type: average
-    sql: ${licensed_seats} ;;  
+    sql: ${licensed_seats} ;;
   }
 
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
   }
-  
+
   measure: count {
     type: count
     drill_fields: [subscription_id, cws_installation, product_id, cws_dns, status]
