@@ -100,4 +100,19 @@ view: dim_server_info {
     view_label: "Server: Lifecycle"
   }
 
+  dimension: last_server_ip {
+    type: string
+    sql: ${TABLE}.last_server_ip ;;
+    label: "Latest server IP"
+    description: "Last reported server IP via telemetry."
+    view_label: "Server: Lifecycle"
+  }
+
+  dimension: last_known_ip_country {
+    type: string
+    sql: ${TABLE}.last_known_ip_country ;;
+    label: "Country"
+    description: "The name of the country, as extracted by the last reported IP using geolocation database."
+    view_label: "Server: Lifecycle"
+  }
 }
