@@ -102,9 +102,29 @@
         sql: ${TABLE}.QUERY_TAG ;;
       }
 
+      dimension: query_tag_pr_id {
+        type: string
+        sql: TRY_PARSE_JSON(${query_tag}):dbt_cloud_pr_id::varchar ;;
+        label: "Pull Request"
+        group_label: "Query Tag Extras"
+      }
+
+      dimension: query_tag_project_id {
+        type: string
+        sql: TRY_PARSE_JSON(${query_tag}):dbt_cloud_project_id::varchar ;;
+        label: "Project"
+        group_label: "Query Tag Extras"
+      }
+
       dimension: query_text {
         type: string
         sql: ${TABLE}.QUERY_TEXT ;;
+      }
+
+      dimension: merge_table {
+        type: string
+        sql: case when ${query_type} = 'MERGE' then split_part(query_text, ' ', 3) else null end ;;
+        description: "Extract table name from merge queries."
       }
 
       dimension: query_type {
