@@ -31,7 +31,7 @@ explore:  fct_issues_daily_snapshot {
     view_label: "Week Following Release"
     relationship: many_to_one
     sql_on: ${fct_issues_daily_snapshot.created_after_release_version} = ${dim_week_following_release.version};;
-    fields: [dim_week_following_release.version, dim_week_following_release.short_version]
+    fields: [dim_week_following_release.version, dim_week_following_release.short_version, dim_week_following_release.version_major, dim_week_following_release.version_minor]
   }
 
   # Custom dimension, using releases to join on release date range window.
