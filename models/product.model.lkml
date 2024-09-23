@@ -5,7 +5,7 @@ include: "/views/marts/common/*.view.lkml"
 include: "/views/marts/mlt/*.view.lkml"
 include: "/views/marts/product/*.view.lkml"
 include: "/views/marts/sales/*.view.lkml"
-include: "/views/reports/product/*.view.lkml"
+include: "/views/reports/**/*.view.lkml"
 
 
 explore: fct_nps_score {
@@ -112,7 +112,7 @@ explore: fct_active_servers {
     type: left_outer # Telemetry might not have been submitted from server at a given time
     sql_on: ${fct_active_servers.daily_server_id} = ${dim_daily_server_info.daily_server_id} ;;
   }
-  
+
   join: dim_date {
     relationship: one_to_one
     type: left_outer
@@ -316,4 +316,10 @@ explore: fct_licenses {
     type: left_outer
     sql_on: ${bdg_license_server.server_id} = ${dim_server_info.server_id} ;;
   }
+}
+
+
+explore: rpt_won_opportunities {
+  label: "[New] Closed Won Opportunities"
+  group_label: "[New] Salesforce reports"
 }
