@@ -149,6 +149,15 @@ view: rpt_won_opportunities {
   # License information
   #
 
+  dimension: license_id {
+    type: string
+    sql: ${TABLE}.license_id ;;
+    label: "License ID"
+    description: "The license's ID, as reported from the opportunity."
+    group_label: "License"
+  }
+
+
   dimension_group: expire {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
@@ -211,4 +220,48 @@ view: rpt_won_opportunities {
     description: "List of servers reporting the license defined in the current opportunity."
     group_label: "Metadata"
   }
+
+  dimension: days_since_last_license_telemetry {
+    type: number
+    sql:${TABLE}.days_since_last_license_telemetry ;;
+    label: "Days since last license telemetry"
+    description: "Number of days since the last telemetry data was received for the license associated with the opportunity."
+    group_label: "Metadata"
+  }
+
+
+  dimension: has_user_activity {
+    type: yesno
+    sql: ${TABLE}.has_user_activity ;;
+    label: "User Activity Reported?"
+    description: "Whether any user activity has been reported for the license via telemetry.."
+    group_label: "Metadata"
+  }
+
+  dimension: active_servers {
+    type: string
+    sql: ${TABLE}.active_servers ;;
+    label: "Active related servers"
+    description: "The ids of the servers associated with the license that have reported user activity."
+    group_label: "Metadata"
+  }
+
+  dimension: days_since_last_user_activity {
+    type: number
+    sql:${TABLE}.days_since_last_user_activity ;;
+    label: "Days since last user activity"
+    description: "Number of days since the last user activity was reported for the license via telemetry."
+    group_label: "Metadata"
+  }
+
+
+  dimension: max_last_monthly_active_users {
+    type: number
+    sql:${TABLE}.max_last_monthly_active_users ;;
+    label: "Max MAU (across servers)"
+    description: "The maximum number of active users reported for the license in the last month by any of the active servers."
+    group_label: "Metadata"
+  }
+
+
 }
