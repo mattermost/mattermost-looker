@@ -239,10 +239,10 @@ explore: fct_feature_daily_snapshot {
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_self_hosted_customers.server_id} ;;
   }
 
-  join: dim_daily_server_info {
+  join: dim_daily_license {
     relationship: one_to_one
-    type: left_outer # Telemetry might not have been submitted from server at a given time
-    sql_on: ${fct_feature_daily_snapshot.daily_server_id} = ${dim_daily_server_info.daily_server_id} ;;
+    type: left_outer
+    sql_on: ${fct_feature_daily_snapshot.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
