@@ -227,7 +227,6 @@ explore: fct_feature_daily_snapshot {
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 
-
   join: dim_cloud_customers {
     relationship: many_to_one
     type: left_outer
@@ -238,6 +237,12 @@ explore: fct_feature_daily_snapshot {
     relationship: many_to_one
     type: left_outer
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_self_hosted_customers.server_id} ;;
+  }
+
+  join: dim_daily_license {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_feature_daily_snapshot.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
