@@ -161,6 +161,12 @@ view: fct_licenses {
     view_label: "License: Source Data"
   }
 
+  dimension: salesforce_account_arr {
+    type: number
+    sql: ${TABLE}.salesforce_account_arr ;;
+    description: "Arr (Salesforce)"
+    view_label: "License: Source Data"
+  }
 
   ### Telemetry data
 
@@ -223,7 +229,6 @@ view: fct_licenses {
     description: "Whether the license was found in Telemetry data."
     view_label: "License: Metadata"
   }
-
 
   ###
   ### Measures
