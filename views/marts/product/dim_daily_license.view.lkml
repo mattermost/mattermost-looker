@@ -10,13 +10,11 @@ view: dim_daily_license {
     hidden: yes
   }
 
-
   dimension: license_id {
     type: string
     sql: ${TABLE}.license_id ;;
     description: "The license's unique identifier."
   }
-
 
   dimension: company_name {
     type: string
@@ -42,7 +40,6 @@ view: dim_daily_license {
     description: "The SKU for the license or `Unknown` if it's not known (i.e. in legacy licenses)."
   }
 
-
   dimension: license_name {
     type: string
     sql: ${TABLE}.license_name ;;
@@ -62,11 +59,17 @@ view: dim_daily_license {
     description: "Whether the license is a trial license or not."
   }
 
-
   dimension: has_license_expired {
     type: yesno
     sql: ${TABLE}.has_license_expired ;;
     label: "Has license expired?"
+  }
+
+  dimension: salesforce_account_arr {
+    type: number
+    sql: ${TABLE}.salesforce_account_arr ;;
+    label: "Arr (Salesforce)"
+    description: "Arr (Salesforce)"
   }
 
   ### Dates
