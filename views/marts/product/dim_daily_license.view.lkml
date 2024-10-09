@@ -68,7 +68,7 @@ view: dim_daily_license {
   dimension: salesforce_account_arr {
     type: number
     sql: ${TABLE}.salesforce_account_arr ;;
-    label: "Arr (Salesforce)?"
+    label: "Arr (Salesforce)"
     description: "Arr (Salesforce)"
   }
 
