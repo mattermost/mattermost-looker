@@ -17,6 +17,12 @@ explore: fct_nps_score {
     type: left_outer
     sql_on: ${fct_nps_score.server_id} = ${dim_excludable_servers.server_id} ;;
   }
+
+  join: dim_version {
+    relationship:  many_to_one
+    type: full_outer
+    sql_on: ${fct_nps_score.version_id} = ${dim_version.version_id} ;;
+  }
 }
 
 explore: fct_nps_feedback {
@@ -27,6 +33,12 @@ explore: fct_nps_feedback {
     relationship: many_to_one
     type: left_outer
     sql_on: ${fct_nps_feedback.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+
+  join: dim_version {
+    relationship:  many_to_one
+    type: full_outer
+    sql_on: ${fct_nps_feedback.version_id} = ${dim_version.version_id} ;;
   }
 }
 

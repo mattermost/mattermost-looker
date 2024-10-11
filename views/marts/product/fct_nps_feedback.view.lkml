@@ -51,11 +51,10 @@ view: fct_nps_feedback {
     view_label: "NPS Feedback: Metadata"
   }
 
-  dimension: server_version {
+ dimension: version_id {
     type: string
-    sql: ${TABLE}."SERVER_VERSION" ;;
-    label: "Server Version"
-    view_label: "NPS Feedback"
+    sql: ${TABLE}.version_id ;;
+    hidden: yes
   }
 
   dimension: user_email {

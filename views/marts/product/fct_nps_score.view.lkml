@@ -285,13 +285,12 @@ view: fct_nps_score {
     sql: ${TABLE}."SERVER_ID" ;;
   }
 
-  dimension: server_version {
+  dimension: version_id {
     type: string
-    label: "Server Version"
-    view_label: "NPS Score"
-    sql: ${TABLE}."SERVER_VERSION" ;;
+    sql: ${TABLE}.version_id ;;
+    hidden: yes
   }
-
+  
   measure: count {
     type: count
     label: "Count"
