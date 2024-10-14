@@ -1,4 +1,4 @@
-connection: "snowflake_l"
+connection: "snowflake"
 include: "/**/**/*.view.lkml"
 fiscal_month_offset: -11
 week_start_day: sunday
