@@ -793,6 +793,13 @@ view: dim_daily_server_config {
     label: "Channel Recommender Enabled"
   }
 
+  dimension: enable_msteams_sync {
+    type: yesno
+    sql: ${TABLE}.enable_msteams_sync ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Teams Sync Enabled"
+  }
+
   dimension: enable_msteams_meetings {
     type: yesno
     sql: ${TABLE}.enable_msteams_meetings ;;
