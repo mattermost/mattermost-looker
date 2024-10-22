@@ -20,50 +20,50 @@ view: dim_daily_server_config {
   dimension: is_gitlab_enabled {
     type: yesno
     sql: ${TABLE}.is_gitlab_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is Gitlab Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_google_enabled {
     type: yesno
     sql: ${TABLE}.is_google_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is Google Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_office365_enabled {
     type: yesno
     sql: ${TABLE}.is_office365_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is Office365 Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_openid_enabled {
     type: yesno
     sql: ${TABLE}.is_openid_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is OpenID Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_openid_gitlab_enabled {
     type: yesno
     sql: ${TABLE}.is_openid_gitlab_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is OpenID - Gitlab Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_openid_google_enabled {
     type: yesno
     sql: ${TABLE}.is_openid_google_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is OpenID - Google Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   dimension: is_openid_office365_enabled {
     type: yesno
     sql: ${TABLE}.is_openid_office365_enabled ;;
+    group_label: "Configuration: OAuth"
     label: "Is OpenID - Office365 Enabled?"
-    view_label: "Configuration: OAuth"
   }
 
   # from config_ldap
