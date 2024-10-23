@@ -60,7 +60,7 @@ view: rpt_docs_feedback {
   dimension: ua_browser_family {
     type: string
     sql: ${TABLE}.ua_browser_family ;;
-    label: "Family"
+    label: "Browser Family"
     group_label: "Browser"
     description: "The family of the browser, as extracted from the user agent."
   }
@@ -107,13 +107,11 @@ view: rpt_docs_feedback {
 
   dimension: page_path {
     type: string
-    sql: ${TABLE}."page_path" ;;
+    sql: ${TABLE}.page_path ;;
     label: "Path"
     group_label: "Page"
     description: "The path to the page where the feedback was submitted from."
   }
-
-
 
   dimension: page_title {
     type: string
@@ -144,7 +142,7 @@ view: rpt_docs_feedback {
   dimension: referring_domain {
     type: string
     sql: ${TABLE}.referring_domain ;;
-    label: "Referrer"
+    label: "Referrer's domain"
     group_label: "Referrer"
     description: "The domain of the referrer to the current page."
   }
@@ -152,7 +150,7 @@ view: rpt_docs_feedback {
   dimension: initial_referrer {
     type: string
     sql: ${TABLE}.initial_referrer ;;
-    label: "Referrer"
+    label: "Initial Referrer"
     group_label: "Referrer"
     description: "The initial referrer to the current page."
   }
@@ -160,7 +158,7 @@ view: rpt_docs_feedback {
   dimension: initial_referring_domain {
     type: string
     sql: ${TABLE}.initial_referring_domain ;;
-    label: "Referrer"
+    label: "Inital Referrer's Domain"
     group_label: "Referrer"
     description: "The domain of the initial referrer to the current page."
   }
@@ -170,7 +168,7 @@ view: rpt_docs_feedback {
   dimension: utm_campaign_name {
     type: string
     sql: ${TABLE}.utm_campaign_name ;;
-    label: "Medium"
+    label: "Campaign"
     group_label: "UTM Properties"
     description: "Name of the campaign."
   }
