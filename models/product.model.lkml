@@ -12,22 +12,16 @@ explore: fct_nps_score {
   label: "NPS Score"
   group_label: "[New] NPS Score"
 
-  join: dim_cloud_customers {
-    relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS Score server
-    sql_on: ${fct_nps_score.server_id} = ${dim_cloud_customers.server_id} ;;
-  }
-
-  join: dim_self_hosted_customers {
-    relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS Score server
-    sql_on: ${fct_nps_score.server_id} = ${dim_self_hosted_customers.server_id} ;;
-  }
-
   join: dim_excludable_servers {
     relationship: many_to_one
     type: left_outer
     sql_on: ${fct_nps_score.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+
+  join: dim_version {
+    relationship:  many_to_one
+    type: full_outer
+    sql_on: ${fct_nps_score.version_id} = ${dim_version.version_id} ;;
   }
 }
 
@@ -35,22 +29,16 @@ explore: fct_nps_feedback {
   label: "NPS Feedback"
   group_label: "[New] NPS"
 
-  join: dim_cloud_customers {
-    relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS feedback server
-    sql_on: ${fct_nps_feedback.server_id} = ${dim_cloud_customers.server_id} ;;
-  }
-
-  join: dim_self_hosted_customers {
-    relationship: many_to_one
-    type: left_outer # We might not have customer telemetry for the NPS feedback server
-    sql_on: ${fct_nps_feedback.server_id} = ${dim_self_hosted_customers.server_id} ;;
-  }
-
   join: dim_excludable_servers {
     relationship: many_to_one
     type: left_outer
     sql_on: ${fct_nps_feedback.server_id} = ${dim_excludable_servers.server_id} ;;
+  }
+
+  join: dim_version {
+    relationship:  many_to_one
+    type: full_outer
+    sql_on: ${fct_nps_feedback.version_id} = ${dim_version.version_id} ;;
   }
 }
 
@@ -227,17 +215,10 @@ explore: fct_feature_daily_snapshot {
     sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_excludable_servers.server_id} ;;
   }
 
-
-  join: dim_cloud_customers {
-    relationship: many_to_one
+  join: dim_daily_license {
+    relationship: one_to_one
     type: left_outer
-    sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_cloud_customers.server_id} ;;
-  }
-
-  join: dim_self_hosted_customers {
-    relationship: many_to_one
-    type: left_outer
-    sql_on: ${fct_feature_daily_snapshot.server_id} = ${dim_self_hosted_customers.server_id} ;;
+    sql_on: ${fct_feature_daily_snapshot.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 

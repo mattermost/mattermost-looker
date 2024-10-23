@@ -175,20 +175,6 @@ view: fct_active_users {
     view_label: "  * Metrics. WAU"
   }
 
-  dimension: server_weekly_active_users {
-    type: number
-    sql: ${TABLE}.server_weekly_active_users ;;
-    label: "WAU (Server)"
-    description: "WAU reported by MM server activity. Defined as the number of unique users that performed an action in the past 7 days previous to sending the telemetry data."
-  }
-
-  measure: total_server_weekly_active_users {
-    type: sum
-    sql: ${server_weekly_active_users} ;;
-    label: "Total WAU (Server)"
-    view_label: "  * Metrics. WAU"
-  }
-
   dimension: weekly_desktop_active_users {
     type: number
     sql: ${TABLE}.weekly_desktop_active_users ;;
