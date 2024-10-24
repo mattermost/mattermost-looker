@@ -304,3 +304,8 @@ explore: rpt_won_opportunities {
   label: "[New] Closed Won Opportunities"
   group_label: "[New] Salesforce reports"
 }
+
+explore: rpt_docs_feedback {
+  label: "[New] Feedback"
+  group_label: "[New] Mattermost Documentation"
+}
