@@ -116,22 +116,6 @@ view: fct_active_servers {
     view_label: "Metadata: Data Source Info"
   }
 
-  dimension: is_feature_shared_channels_enabled {
-    type: yesno
-    sql: ${TABLE}.is_feature_shared_channels_enabled ;;
-    label: "Is shared channels feature enabled?"
-    description: "Whether the shared channels feature has been enabled at the server."
-    view_label: "Metadata: Data Source Info"
-  }
-
-  dimension: is_feature_remote_cluster_service_enabled {
-    type: yesno
-    sql: ${TABLE}.is_feature_remote_cluster_service_enabled ;;
-    label: "Is remote cluster feature enabled?"
-    description: "Whether the remote cluster feature has been enabled at the server."
-    view_label: "Metadata: Data Source Info"
-  }
-
   measure: count {
     type: count_distinct
     sql: ${server_id} ;;
