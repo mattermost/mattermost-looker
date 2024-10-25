@@ -124,168 +124,161 @@ view: dim_daily_license {
     type: yesno
     sql: ${TABLE}.is_feature_advanced_logging_enabled ;;
     label: "Is advanced logging feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_cloud_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_cloud_enabled ;;
     label: "Is cloud feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_cluster_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_cluster_enabled ;;
     label: "Is clustering feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_compliance_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_compliance_enabled ;;
     label: "Is compliance feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_custom_permissions_schemes_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_custom_permissions_schemes_enabled ;;
     label: "Are custom permissions schemes enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_data_retention_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_data_retention_enabled ;;
     label: "Is data retention feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_elastic_search_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_data_retention_enabled ;;
     label: "Is ElasticSearch feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_email_notification_contents_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_email_notification_contents_enabled ;;
     label: "Is Email Notification contents feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_enterprise_plugins_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_enterprise_plugins_enabled ;;
     label: "Is Enterprise Plugins feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_future_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_future_enabled ;;
-    label: "Is Fuutres feature enabled?"
-    view_label: "Metadata: Data Source Info"
-  }
-
-  dimension: is_feature_future_enabled {
-    type: yesno
-    sql: ${TABLE}.is_feature_future_enabled ;;
-    label: "Is Fuutres feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    label: "Is Futures feature enabled?"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_google_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_google_enabled ;;
     label: "Is Google feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_guest_accounts_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_guest_accounts_enabled ;;
     label: "Is Guest Accounts feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_guest_accounts_permissions_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_guest_accounts_permissions_enabled ;;
     label: "Is Guest Accounts Permissions feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_id_loaded_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_id_loaded_enabled ;;
     label: "Is Id loaded feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_ldap_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_ldap_enabled ;;
     label: "Is LDAP feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
   
   dimension: is_feature_ldap_groups_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_ldap_groups_enabled ;;
     label: "Is LDAP Groups feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_lock_teammate_name_display_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_lock_teammate_name_display_enabled ;;
     label: "Is Lock Teammate Display Name feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_message_export_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_message_export_enabled ;;
     label: "Is Message Export feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_metrics_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_metrics_enabled ;;
     label: "Is Metrics feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_mfa_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_mfa_enabled ;;
     label: "Is MFA feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_mhpns_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_mhpns_enabled ;;
     label: "Is MHPNS feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_office365_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_office365_enabled ;;
     label: "Is Office365 feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_openid_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_openid_enabled ;;
     label: "Is OpenId feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_remote_cluster_service_enabled {
@@ -293,14 +286,14 @@ view: dim_daily_license {
     sql: ${TABLE}.is_feature_remote_cluster_service_enabled ;;
     label: "Is remote cluster feature enabled?"
     description: "Whether the remote cluster feature has been enabled at the server."
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_saml_enabled {
     type: yesno
     sql: ${TABLE}.is_feature_saml_enabled ;;
     label: "Is SAML feature enabled?"
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   dimension: is_feature_shared_channels_enabled {
@@ -308,7 +301,7 @@ view: dim_daily_license {
     sql: ${TABLE}.is_feature_shared_channels_enabled ;;
     label: "Is shared channels feature enabled?"
     description: "Whether the shared channels feature has been enabled at the server."
-    view_label: "Metadata: Data Source Info"
+    view_label: "License: Feature configuration"
   }
 
   ###
