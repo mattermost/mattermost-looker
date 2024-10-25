@@ -164,7 +164,7 @@ view: dim_daily_license {
 
   dimension: is_feature_elastic_search_enabled {
     type: yesno
-    sql: ${TABLE}.is_feature_data_retention_enabled ;;
+    sql: ${TABLE}.is_feature_elastic_search_enabled ;;
     label: "Is ElasticSearch feature enabled?"
     view_label: "License: Feature configuration"
   }
