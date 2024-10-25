@@ -23,6 +23,12 @@ explore: fct_nps_score {
     type: full_outer
     sql_on: ${fct_nps_score.version_id} = ${dim_version.version_id} ;;
   }
+
+  join: dim_daily_license {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_nps_score.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
+  }
 }
 
 explore: fct_nps_feedback {
@@ -39,6 +45,12 @@ explore: fct_nps_feedback {
     relationship:  many_to_one
     type: full_outer
     sql_on: ${fct_nps_feedback.version_id} = ${dim_version.version_id} ;;
+  }
+
+  join: dim_daily_license {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${fct_nps_feedback.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
@@ -88,7 +100,6 @@ explore: fct_active_users {
     type: left_outer
     sql_on: ${fct_active_users.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
-
 }
 
 explore: fct_active_servers {
