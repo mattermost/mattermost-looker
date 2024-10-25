@@ -27,7 +27,7 @@ explore: fct_nps_score {
   join: dim_daily_license {
     relationship: one_to_one
     type: left_outer
-    sql_on: ${fct_nps_score.server_id} = ${dim_daily_license.daily_server_id} ;;
+    sql_on: ${fct_nps_score.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
@@ -50,7 +50,7 @@ explore: fct_nps_feedback {
   join: dim_daily_license {
     relationship: one_to_one
     type: left_outer
-    sql_on: ${fct_nps_feedback.server_id} = ${dim_daily_license.daily_server_id} ;;
+    sql_on: ${fct_nps_feedback.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
 }
 
