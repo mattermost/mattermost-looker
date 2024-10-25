@@ -11,6 +11,12 @@ view: fct_nps_score {
     type: string
     sql: ${TABLE}."ID" ;;
   }
+   
+  dimension: daily_server_id {
+    type: string
+    sql: ${TABLE}.daily_server_id ;;
+    hidden: yes
+  }
 
   dimension_group: activity_date {
     type: time
