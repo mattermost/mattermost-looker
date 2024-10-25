@@ -3,6 +3,13 @@ view: fct_nps_feedback {
   label: "NPS Feedback"
   sql_table_name: "MART_PRODUCT"."FCT_NPS_FEEDBACK" ;;
 
+  dimension: daily_server_id {
+    type: string
+    sql: ${TABLE}.daily_server_id ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: feedback {
     type: string
     sql: ${TABLE}."FEEDBACK" ;;
