@@ -66,8 +66,7 @@ view: dim_daily_server_config {
     label: "Is OpenID - Office365 Enabled?"
   }
 
-  # from config_ldap
-   
+  # from config_ldap  
   dimension: connection_security_ldap {
     type: string
     sql: ${TABLE}.connection_security_ldap ;;
@@ -469,26 +468,6 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Automatic Prepackaged Plugins"
   }
-  
-  dimension: is_default_marketplace_url {
-    type: yesno
-    sql: ${TABLE}.is_default_marketplace_url ;;
-    group_label: "Configuration: Plugin"
-    label: "Is Default Marketplace URL"
-  }
-  
-  dimension: require_plugin_signature {
-    type: yesno
-    sql: ${TABLE}.require_plugin_signature ;;
-    group_label: "Configuration: Plugin"
-    label: "Require Plugin Signature"
-  }
-
-  dimension: signature_public_key_files {
-    type: number
-    sql: ${TABLE}.signature_public_key_files ;;
-    group_label: "Configuration: Plugin"
-  }
 
   dimension: enable_plugin {
     type: yesno
@@ -532,6 +511,20 @@ view: dim_daily_server_config {
     label: "Bitbucket Enabled"
   }
 
+  dimension: enable_channel_export {
+    type: yesno
+    sql: ${TABLE}.enable_channel_export ;;
+    group_label: "Configuration: Plugin"
+    label: "Channel Export Enabled"
+  }
+  
+  dimension: enable_circleci {
+    type: yesno
+    sql: ${TABLE}.enable_circleci ;;
+    group_label: "Configuration: Plugin"
+    label: "CircleCI Enabled"
+  }
+
   dimension: enable_confluence {
     type: yesno
     sql: ${TABLE}.enable_confluence ;;
@@ -546,11 +539,32 @@ view: dim_daily_server_config {
     label: "Custom User Attributes Enabled"
   }
 
+  dimension: enable_diceroller {
+    type: yesno
+    sql: ${TABLE}.enable_diceroller ;;
+    group_label: "Configuration: Plugin"
+    label: "Dice Roller Enabled"
+  }
+
+  dimension: enable_digitalocean {
+    type: yesno
+    sql: ${TABLE}.enable_digitalocean ;;
+    group_label: "Configuration: Plugin"
+    label: "Digital Ocean Enabled"
+  }
+
   dimension: enable_focalboard {
     type: yesno
     sql: ${TABLE}.enable_focalboard ;;
     group_label: "Configuration: Plugin"
     label: "Focalboard Enabled"
+  }
+  
+  dimension: enable_giphy {
+    type: yesno
+    sql: ${TABLE}.enable_giphy ;;
+    group_label: "Configuration: Plugin"
+    label: "Giphy Enabled"
   }
 
   dimension: enable_github {
@@ -574,6 +588,27 @@ view: dim_daily_server_config {
     label: "Health Check Enabled"
   }
 
+  dimension: enable_icebreaker {
+    type: yesno
+    sql: ${TABLE}.enable_icebreaker ;;
+    group_label: "Configuration: Plugin"
+    label: "Icebreaker Enabled"
+  }
+  
+  dimension: enable_incident_management {
+    type: yesno
+    sql: ${TABLE}.enable_incident_management ;;
+    group_label: "Configuration: Plugin"
+    label: "Incident Management Enabled"
+  }
+
+  dimension: enable_incident_response {
+    type: yesno
+    sql: ${TABLE}.enable_incident_response ;;
+    group_label: "Configuration: Plugin"
+    label: "Incident Response Enabled"
+  }
+
   dimension: enable_jenkins {
     type: yesno
     sql: ${TABLE}.enable_jenkins ;;
@@ -581,6 +616,13 @@ view: dim_daily_server_config {
     label: "Jenkins Enabled"
   }
   
+  dimension: enable_jespino_recommend {
+    type: yesno
+    sql: ${TABLE}.enable_jespino_recommend ;;
+    group_label: "Configuration: Plugin"
+    label: "Channel Recommender Enabled"
+  }
+
   dimension: enable_jira {
     type: yesno
     sql: ${TABLE}.enable_jira ;;
@@ -602,13 +644,27 @@ view: dim_daily_server_config {
     label: "Marketplace Enabled"
   }
   
-  dimension: enable_mattermostprofanityfilter {
+  dimension: enable_materpoll {
     type: yesno
-    sql: ${TABLE}.enable_mattermostprofanityfilter ;;
+    sql: ${TABLE}.enable_materpoll ;;
     group_label: "Configuration: Plugin"
-    label: "Profanity Filter Enabled"
+    label: "Matterpoll Enabled"
   }
-  
+
+  dimension: enable_mattermost_apps {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_apps ;;
+    group_label: "Configuration: Plugin"
+    label: "Mattermost Apps Enabled"
+  }
+
+  dimension: enable_mattermost_agenda {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_agenda ;;
+    group_label: "Configuration: Plugin"
+    label: "Agenda Enabled"
+  }
+
   dimension: enable_mattermost_plugin_azure_devops {
     type: yesno
     sql: ${TABLE}.enable_mattermost_plugin_azure_devops ;;
@@ -616,23 +672,51 @@ view: dim_daily_server_config {
     label: "Azure Devops Enabled"
   }
 
-  dimension: enable_mattermost_plugin_hackerone {
+  dimension: enable_mattermost_calls {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_calls ;;
+    group_label: "Configuration: Plugin"
+    label: "Calls Enabled"
+  }
+
+  dimension: enable_mattermost_hackerone {
     type: yesno
     sql: ${TABLE}.enable_mattermost_plugin_hackerone ;;
     group_label: "Configuration: Plugin"
     label: "HackerOne Enabled"
   }
 
-  dimension: enable_mattermost_plugin_servicenow {
+  dimension: enable_mattermost_msteams_meetings {
     type: yesno
-    sql: ${TABLE}.enable_mattermost_plugin_servicenow ;;
+    sql: ${TABLE}.enable_mattermost_msteams_meetings ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Teams Meetings Enabled"
+  }
+
+  dimension: enable_mattermost_msteams_sync {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_msteams_sync ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Teams Sync Enabled"
+  }
+
+  dimension: enable_mattermost_profanityfilter {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_profanityfilter ;;
+    group_label: "Configuration: Plugin"
+    label: "Profanity Filter Enabled"
+  }
+  
+  dimension: enable_mattermost_servicenow {
+    type: yesno
+    sql: ${TABLE}.enable_mattermost_servicenow ;;
     group_label: "Configuration: Plugin"
     label: "ServiceNow Enabled"
   }
   
-  dimension: enable_mattermost_plugin_servicenow_virtual_agent {
+  dimension: enable_mattermost_servicenow_virtual_agent {
     type: yesno
-    sql: ${TABLE}.enable_mattermost_plugin_servicenow_virtual_agent ;;
+    sql: ${TABLE}.enable_mattermost_servicenow_virtual_agent ;;
     group_label: "Configuration: Plugin"
     label: "ServiceNow Virtual Agent Enabled"
   }
@@ -728,97 +812,24 @@ view: dim_daily_server_config {
     label: "Zoom Enabled"
   }
   
-  dimension: enable_giphy {
+  dimension: is_default_marketplace_url {
     type: yesno
-    sql: ${TABLE}.enable_giphy ;;
+    sql: ${TABLE}.is_default_marketplace_url ;;
     group_label: "Configuration: Plugin"
-    label: "Giphy Enabled"
-  }
-
-  dimension: enable_digital_ocean {
-    type: yesno
-    sql: ${TABLE}.enable_digital_ocean ;;
-    group_label: "Configuration: Plugin"
-    label: "Digital Ocean Enabled"
-  }
-
-  dimension: enable_agenda {
-    type: yesno
-    sql: ${TABLE}.enable_commattermostagenda ;;
-    group_label: "Configuration: Plugin"
-    label: "Agenda Enabled"
-  }
-
-  dimension: enable_mattermost_apps {
-    type: yesno
-    sql: ${TABLE}.enable_mattermost_apps ;;
-    group_label: "Configuration: Plugin"
-    label: "Mattermost Apps Enabled"
-  }
-
-  dimension: enable_incident_management {
-    type: yesno
-    sql: ${TABLE}.enable_incident_management ;;
-    group_label: "Configuration: Plugin"
-    label: "Incident Management Enabled"
-    hidden: yes
-  }
-
-  dimension: enable_incident_response {
-    type: yesno
-    sql: ${TABLE}.enable_incident_response ;;
-    group_label: "Configuration: Plugin"
-    label: "Incident Response Enabled"
-    hidden: yes
+    label: "Is Default Marketplace URL"
   }
   
-  dimension: enable_materpoll {
+  dimension: require_plugin_signature {
     type: yesno
-    sql: ${TABLE}.enable_materpoll ;;
+    sql: ${TABLE}.require_plugin_signature ;;
     group_label: "Configuration: Plugin"
-    label: "Matterpoll Enabled"
+    label: "Require Plugin Signature"
   }
 
-  dimension: enable_diceroller {
-    type: yesno
-    sql: ${TABLE}.enable_diceroller ;;
+  dimension: signature_public_key_files {
+    type: number
+    sql: ${TABLE}.signature_public_key_files ;;
     group_label: "Configuration: Plugin"
-    label: "Dice Roller Enabled"
-  }
-  
-  dimension: enable_comgithubjespinorecommend {
-    type: yesno
-    sql: ${TABLE}.enable_comgithubjespinorecommend ;;
-    group_label: "Configuration: Plugin"
-    label: "Channel Recommender Enabled"
-  }
-
-  dimension: enable_msteams_sync {
-    type: yesno
-    sql: ${TABLE}.enable_msteams_sync ;;
-    group_label: "Configuration: Plugin"
-    label: "MS Teams Sync Enabled"
-  }
-
-  dimension: enable_msteams_meetings {
-    type: yesno
-    sql: ${TABLE}.enable_msteams_meetings ;;
-    group_label: "Configuration: Plugin"
-    label: "MS Teams Meetings Enabled"
-  }
-  
-  dimension: enable_commattermostpluginchannelexport {
-    type: yesno
-    sql: ${TABLE}.enable_commattermostpluginchannelexport ;;
-    group_label: "Configuration: Plugin"
-    label: "Channel Export Enabled"
-  }
-
-  dimension: enable_circleci {
-    type: yesno
-    sql: ${TABLE}.enable_circleci ;;
-    group_label: "Configuration: Plugin"
-    label: "CircleCI Enabled"
   }
 
   dimension: version_alertmanager {
@@ -849,11 +860,67 @@ view: dim_daily_server_config {
     label: "AWS SNS Version"
   }
 
+  dimension: version_bitbucket {
+    type: string
+    sql: ${TABLE}.version_bitbucket ;;
+    group_label: "Configuration: Plugin"
+    label: "Bitbucket Version"
+  }
+
+  dimension: version_channel_export {
+    type: string
+    sql: ${TABLE}.version_channel_export ;;
+    group_label: "Configuration: Plugin"
+    label: "Channel Export Version"
+  }
+
+  dimension: version_circleci {
+    type: string
+    sql: ${TABLE}.version_circleci ;;
+    group_label: "Configuration: Plugin"
+    label: "CircleCI Version"
+  }
+
+  dimension: version_confluence {
+    type: string
+    sql: ${TABLE}.version_confluence ;;
+    group_label: "Configuration: Plugin"
+    label: "Confluence Version"
+  }
+
   dimension: version_custom_user_attributes {
     type: string
     sql: ${TABLE}.version_custom_user_attributes ;;
     group_label: "Configuration: Plugin"
     label: "Custom User Attributes Version"
+  }
+
+  dimension: version_diceroller {
+    type: string
+    sql: ${TABLE}.version_diceroller ;;
+    group_label: "Configuration: Plugin"
+    label: "Dice Roller Version"
+  }
+
+  dimension: version_digitalocean {
+    type: string
+    sql: ${TABLE}.version_digitalocean ;;
+    group_label: "Configuration: Plugin"
+    label: "Digital Ocean Version"
+  }
+
+  dimension: version_focalboard {
+    type: string
+    sql: ${TABLE}.version_focalboard ;;
+    group_label: "Configuration: Plugin"
+    label: "Focalboard Version"
+  }
+
+  dimension: version_giphy {
+    type: string
+    sql: ${TABLE}.version_giphy ;;
+    group_label: "Configuration: Plugin"
+    label: "Giphy Version"
   }
 
   dimension: version_github {
@@ -870,11 +937,39 @@ view: dim_daily_server_config {
     label: "Gitlab Version"
   }
 
+  dimension: version_icebreaker {
+    type: string
+    sql: ${TABLE}.version_icebreaker ;;
+    group_label: "Configuration: Plugin"
+    label: "Icebreaker Version"
+  }
+  
+  dimension: version_incident_management {
+    type: string
+    sql: ${TABLE}.version_incident_management ;;
+    group_label: "Configuration: Plugin"
+    label: "Incident Management Version"
+  }
+
+  dimension: version_incident_response {
+    type: string
+    sql: ${TABLE}.version_incident_response ;;
+    group_label: "Configuration: Plugin"
+    label: "Incident Management Version"
+  }
+
   dimension: version_jenkins {
     type: string
     sql: ${TABLE}.version_jenkins ;;
     group_label: "Configuration: Plugin"
     label: "Jenkins Version"
+  }
+
+  dimension: version_jespino_recommend {
+    type: string
+    sql: ${TABLE}.version_jespinorecommend ;;
+    group_label: "Configuration: Plugin"
+    label: "Channel Recommender Version"
   }
 
   dimension: version_jira {
@@ -884,11 +979,123 @@ view: dim_daily_server_config {
     label: "Jira Version"
   }
 
+  dimension: version_jitsi {
+    type: string
+    sql: ${TABLE}.version_jitsi ;;
+    group_label: "Configuration: Plugin"
+    label: "Jitsi Version"
+  }
+
+  dimension: version_matterpoll {
+    type: string
+    sql: ${TABLE}.version_matterpoll ;;
+    group_label: "Configuration: Plugin"
+    label: "Matterpoll Version"
+  }
+
+  dimension: version_mattermost_agenda {
+    type: string
+    sql: ${TABLE}.version_mattermost_agenda ;;
+    group_label: "Configuration: Plugin"
+    label: "Agenda Version"
+  }
+
+  dimension: version_mattermost_apps {
+    type: string
+    sql: ${TABLE}.version_mattermost_apps ;;
+    group_label: "Configuration: Plugin"
+    label: "Mattermost Apps Version"
+  }
+
+  dimension: version_mattermost_azure_devops {
+    type: string
+    sql: ${TABLE}.version_mattermost_azure_devops ;;
+    group_label: "Configuration: Plugin"
+    label: "Mattermost Azure DevOps Version"
+  }
+
+  dimension: version_mattermost_calls {
+    type: string
+    sql: ${TABLE}.version_mattermost_calls ;;
+    group_label: "Configuration: Plugin"
+    label: "Mattermost Calls Version"
+  }
+
+  dimension: version_mattermost_hackerone {
+    type: string
+    sql: ${TABLE}.version_mattermost_hackerone ;;
+    group_label: "Configuration: Plugin"
+    label: "Mattermost HackerOne Version"
+  }
+
+  dimension: version_mattermost_msteams_meetings {
+    type: string
+    sql: ${TABLE}.version_mattermost_msteams_meetings ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Teams Meetings Version"
+  }
+
+  dimension: version_mattermost_msteams_sync {
+    type: string
+    sql: ${TABLE}.version_mattermost_msteams_sync ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Teams Sync Version"
+  }
+
+  dimension: version_mattermost_profanityfilter {
+    type: string
+    sql: ${TABLE}.version_mattermost_profanityfilter ;;
+    group_label: "Configuration: Plugin"
+    label: "Profanity Filter Version"
+  }
+
+  dimension: version_mattermost_servicenow {
+    type: string
+    sql: ${TABLE}.version_mattermost_servicenow ;;
+    group_label: "Configuration: Plugin"
+    label: "ServiceNow Version"
+  }
+
+  dimension: version_mattermost_servicenow_virtual_agent {
+    type: string
+    sql: ${TABLE}.version_mattermost_servicenow_virtual_agent ;;
+    group_label: "Configuration: Plugin"
+    label: "ServiceNow Virtual Agent Version"
+  }
+
+  dimension: version_memes {
+    type: string
+    sql: ${TABLE}.version_memes ;;
+    group_label: "Configuration: Plugin"
+    label: "Memes Version"
+  }
+
+  dimension: version_mscalendar {
+    type: string
+    sql: ${TABLE}.version_mscalendar ;;
+    group_label: "Configuration: Plugin"
+    label: "MS Calendar Version"
+  }
+
   dimension: version_nps {
     type: string
     sql: ${TABLE}.version_nps ;;
     group_label: "Configuration: Plugin"
     label: "NPS Version"
+  }
+
+  dimension: version_skype4business {
+    type: string
+    sql: ${TABLE}.version_skype4business ;;
+    group_label: "Configuration: Plugin"
+    label: "Skype4Business Version"
+  }
+  
+  dimension: version_todo {
+    type: string
+    sql: ${TABLE}.version_todo ;;
+    group_label: "Configuration: Plugin"
+    label: "ToDo Version"
   }
 
   dimension: version_webex {
@@ -910,153 +1117,6 @@ view: dim_daily_server_config {
     sql: ${TABLE}.version_zoom ;;
     group_label: "Configuration: Plugin"
     label: "Zoom Version"
-  }
-
-  dimension: version_giphy {
-    type: string
-    sql: ${TABLE}.version_giphy ;;
-    group_label: "Configuration: Plugin"
-    label: "Giphy Version"
-  }
-
-  dimension: version_digital_ocean {
-    type: string
-    sql: ${TABLE}.version_digital_ocean ;;
-    group_label: "Configuration: Plugin"
-    label: "Digital Ocean Version"
-  }
-
-  dimension: version_confluence {
-    type: string
-    sql: ${TABLE}.version_confluence ;;
-    group_label: "Configuration: Plugin"
-    label: "Confluence Version"
-  }
-
-  dimension: version_mscalendar {
-    type: string
-    sql: ${TABLE}.version_mscalendar ;;
-    group_label: "Configuration: Plugin"
-    label: "MS Calendar Version"
-  }
-
-  dimension: version_incident_management {
-    type: string
-    sql: ${TABLE}.version_incident_management ;;
-    group_label: "Configuration: Plugin"
-    label: "Incident Management Version"
-  }
-
-  dimension: version_incident_response {
-    type: string
-    sql: ${TABLE}.version_incident_response ;;
-    group_label: "Configuration: Plugin"
-    label: "Incident Management Version"
-  }
-
-  dimension: version_todo {
-    type: string
-    sql: ${TABLE}.version_todo ;;
-    group_label: "Configuration: Plugin"
-    label: "ToDo Version"
-  }
-
-  dimension: version_memes {
-    type: string
-    sql: ${TABLE}.version_memes ;;
-    group_label: "Configuration: Plugin"
-    label: "Memes Version"
-  }
-
-  dimension: version_jitsi {
-    type: string
-    sql: ${TABLE}.version_jitsi ;;
-    group_label: "Configuration: Plugin"
-    label: "Jitsi Version"
-  }
-
-  dimension: version_skype4business {
-    type: string
-    sql: ${TABLE}.version_skype4business ;;
-    group_label: "Configuration: Plugin"
-    label: "Skype4Business Version"
-  }
-  
-  dimension: version_mattermostprofanityfilter {
-    type: string
-    sql: ${TABLE}.version_mattermostprofanityfilter ;;
-    group_label: "Configuration: Plugin"
-    label: "Profanity Filter Version"
-  }
-
-  dimension: version_matterpoll {
-    type: string
-    sql: ${TABLE}.version_matterpoll ;;
-    group_label: "Configuration: Plugin"
-    label: "Matterpoll Version"
-  }
-
-  dimension: version_comgithubjespinorecommend {
-    type: string
-    sql: ${TABLE}.version_comgithubjespinorecommend ;;
-    group_label: "Configuration: Plugin"
-    label: "Channel Recommender Version"
-  }
-
-  dimension: version_agenda {
-    type: string
-    sql: ${TABLE}.version_commattermostagenda ;;
-    group_label: "Configuration: Plugin"
-    label: "Agenda Version"
-  }
-
-  dimension: version_msteams_meetings {
-    type: string
-    sql: ${TABLE}.version_msteams_meetings ;;
-    group_label: "Configuration: Plugin"
-    label: "MS Teams Meetings Version"
-  }
-
-  dimension: version_commattermostpluginchannelexport {
-    type: string
-    sql: ${TABLE}.version_commattermostpluginchannelexport ;;
-    group_label: "Configuration: Plugin"
-    label: "Channel Export Version"
-  }
-
-  dimension: version_comnilsbrinkmannicebreaker {
-    type: string
-    sql: ${TABLE}.version_comnilsbrinkmannicebreaker ;;
-    group_label: "Configuration: Plugin"
-    label: "Icebreaker Version"
-  }
-
-  dimension: version_mattermost_apps {
-    type: string
-    sql: ${TABLE}.version_mattermost_apps ;;
-    group_label: "Configuration: Plugin"
-    label: "Mattermost Apps Version"
-  }
-
-  dimension: version_circleci {
-    type: string
-    sql: ${TABLE}.version_circleci ;;
-    group_label: "Configuration: Plugin"
-    label: "CircleCI Version"
-  }
-
-  dimension: version_diceroller {
-    type: string
-    sql: ${TABLE}.version_diceroller ;;
-    group_label: "Configuration: Plugin"
-    label: "Dice Roller Version"
-  }
-  
-  dimension: version_focalboard {
-    type: string
-    sql: ${TABLE}.version_focalboard ;;
-    group_label: "Configuration: Plugin"
-    label: "Focalboard Version"
   }
 
   #from config_service
@@ -1863,5 +1923,1094 @@ view: dim_daily_server_config {
     type: string
     sql: ${TABLE}.web_server_mode ;;
     group_label: "Configuration: Service"
+  }
+
+  # Measures
+
+  # from config_oauth
+  measure: is_gitlab_enabled_count {
+    type: count_distinct
+    sql: case when ${is_gitlab_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth"
+    label: "Instances w/ Gitlab"
+  }
+
+  measure: is_google_enabled_count {
+    type: count_distinct
+    sql: case when ${is_google_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ Google"
+  }
+
+  measure: is_office365_enabled_count {
+    type: count_distinct
+    sql: case when ${is_office365_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ Office 365"
+  }
+
+  measure: is_openid_enabled_count {
+    type: count_distinct
+    sql: case when ${is_openid_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ OpenId"
+  }
+
+  measure: is_openid_gitlab_enabled_count {
+    type: count_distinct
+    sql: case when ${is_gitlab_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ OpenId Gitlab"
+  }
+
+  measure: is_openid_google_enabled_count {
+    type: count_distinct
+    sql: case when ${is_openid_google_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ OpenId Google"
+  }
+
+  measure: is_openid_office365_enabled_count {
+    type: count_distinct
+    sql: case when ${is_openid_office365_enabled} then ${server_id} else null end ;;
+    group_label: "Configuration: OAuth - Instance Counts"
+    label: "Instances w/ OpenId Office365"
+  }
+
+  # from config_ldap 
+  
+  measure: enable_ldap_count {
+    type: count_distinct
+    sql: case when ${enable_ldap} then ${server_id} else null end ;;
+    group_label: "Configuration: LDAP - Instance Counts"
+    label: "Instances w/ LDAP Enabled"
+  }
+
+  measure: enable_admin_filter_count {
+    type: count_distinct
+    sql: case when ${enable_admin_filter} then ${server_id} else null end ;;
+    group_label: "Configuration: LDAP - Instance Counts"
+    label: "Instances w/ LDAP Admin Filter"
+  }
+
+  measure: enable_sync_count {
+    type: count_distinct
+    sql: case when ${enable_sync} then ${server_id} else null end ;;
+    group_label: "Configuration: LDAP - Instance Counts"
+    label: "Instances w/ LDAP Sync"
+  }
+
+  # from config_saml
+  measure: enable_saml_count {
+    type: count_distinct
+    sql: case when ${enable_saml} then ${server_id} else null end ;;
+    group_label: "Configuration: SAML - Instance Counts"
+    label: "Instances w/ SAML Enabled"
+  }
+
+  measure: enable_admin_attribute_count {
+    type: count_distinct
+    sql: case when ${enable_admin_attribute} then ${server_id} else null end ;;
+    group_label: "Configuration: SAML - Instance Counts"
+    label: "Instances w/ SAML Enabled"
+  }
+
+  measure: enable_sync_with_ldap_count {
+    type: count_distinct
+    sql: case when ${enable_sync_with_ldap} then ${server_id} else null end ;;
+    group_label: "Configuration: SAML - Instance Counts"
+    label: "Instances w/ SAML Sync with LDAP"
+  }
+
+  measure: enable_sync_with_ldap_include_auth_count {
+    type: count_distinct
+    sql: case when ${enable_sync_with_ldap_include_auth} then ${server_id} else null end ;;
+    group_label: "Configuration: SAML - Instance Counts"
+    label: "Instances w/ SAML Sync With LDAP Include Auth"
+  }
+
+  measure: encrypt_saml_count {
+    type: count_distinct
+    sql: case when ${encrypt_saml} then ${server_id} else null end ;;
+    group_label: "Configuration: SAML - Instance Counts"
+    label: "Instances w/ SAML Encrypt Enabled"
+  }
+
+  #from config_plugin
+  
+  measure: allow_insecure_download_url_count  {
+    type: count_distinct
+    sql: case when ${allow_insecure_download_url} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Insecure Download Enabled"
+  }
+
+  measure: automatic_prepackaged_plugins_count  {
+    type: count_distinct
+    sql: case when ${automatic_prepackaged_plugins} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Prepackaged Plugins Enabled"
+  }
+
+  measure: enable_plugin_count  {
+    type: count_distinct
+    sql: case when ${enable_plugin} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Plugin Enabled"
+  }
+
+  measure: enable_alertmanager_count  {
+    type: count_distinct
+    sql: case when ${enable_alertmanager} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Alert Manager Enabled"
+  }
+
+  measure: enable_antivirus_count  {
+    type: count_distinct
+    sql: case when ${enable_antivirus} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Antivirus Enabled"
+  }
+
+  measure: enable_autolink_count  {
+    type: count_distinct
+    sql: case when ${enable_autolink} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Autolink Enabled"
+  }
+
+  measure: enable_aws_sns_count  {
+    type: count_distinct
+    sql: case when ${enable_aws_sns} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ AWS SNS Enabled"
+  }
+
+  measure: enable_bitbucket_count  {
+    type: count_distinct
+    sql: case when ${enable_bitbucket} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Bitbucket Enabled"
+  }
+
+  measure: enable_channel_export_count  {
+    type: count_distinct
+    sql: case when ${enable_channel_export} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Channel Export Enabled"
+  }
+  
+  measure: enable_circleci_count  {
+    type: count_distinct
+    sql: case when ${enable_circleci} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ CircleCI Enabled"
+  }
+
+  measure: enable_confluence_count  {
+    type: count_distinct
+    sql: case when ${enable_confluence} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Confluence Enabled"
+  }
+
+  measure: enable_custom_user_attributes_count  {
+    type: count_distinct
+    sql: case when ${enable_custom_user_attributes} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Custom User Attributes Enabled"
+  }
+
+  measure: enable_diceroller_count  {
+    type: count_distinct
+    sql: case when ${enable_diceroller} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Diceroller Enabled"
+  }
+
+  measure: enable_digitalocean_count  {
+    type: count_distinct
+    sql: case when ${enable_digitalocean} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ DigitalOcean Enabled"
+  }
+
+  measure: enable_focalboard_count  {
+    type: count_distinct
+    sql: case when ${enable_focalboard} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Focalboard Enabled"
+  }
+  
+  measure: enable_giphy_count  {
+    type: count_distinct
+    sql: case when ${enable_giphy} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Giphy Enabled"
+  }
+
+  measure: enable_github_count  {
+    type: count_distinct
+    sql: case when ${enable_github} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Github Enabled"
+  }
+
+  measure: enable_gitlab_count  {
+    type: count_distinct
+    sql: case when ${enable_gitlab} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Gitlab Enabled"
+  }
+  
+  measure: enable_health_check_count  {
+    type: count_distinct
+    sql: case when ${enable_health_check} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Health Check Enabled"
+  }
+
+  measure: enable_icebreaker_count  {
+    type: count_distinct
+    sql: case when ${enable_icebreaker} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Icebreaker Enabled"
+  }
+  
+  measure: enable_incident_management_count  {
+    type: count_distinct
+    sql: case when ${enable_incident_management} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Incident Management Enabled"
+  }
+
+  measure: enable_incident_response_count  {
+    type: count_distinct
+    sql: case when ${enable_incident_response} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Incident Response Enabled"
+  }
+
+  measure: enable_jenkins_count  {
+    type: count_distinct
+    sql: case when ${enable_jenkins} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Jenkins Enabled"
+  }
+  
+  measure: enable_jespino_recommend_count  {
+    type: count_distinct
+    sql: case when ${enable_jespino_recommend} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Channel Recommender Enabled"
+  }
+
+  measure: enable_jira_count  {
+    type: count_distinct
+    sql: case when ${enable_jira} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Jira Enabled"
+  }
+
+  measure: enable_jitsi_count  {
+    type: count_distinct
+    sql: case when ${enable_jitsi} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Jitsi Enabled"
+  }
+  
+  measure: enable_marketplace_count  {
+    type: count_distinct
+    sql: case when ${enable_marketplace} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Marketplace Enabled"
+  }
+  
+  measure: enable_materpoll_count  {
+    type: count_distinct
+    sql: case when ${enable_materpoll} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Matterpoll Enabled"
+  }
+
+  measure: enable_mattermost_apps_count  {
+    type: count_distinct
+    sql: case when ${enable_mattermost_apps} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Mattermost Apps Enabled"
+  }
+
+  measure: enable_mattermost_agenda_count  {
+    type: count_distinct
+    sql: case when ${enable_mattermost_agenda} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Agenda Enabled"
+  }
+
+  measure: enable_mattermost_plugin_azure_devops_count  {
+    type: count_distinct
+    sql: case when ${enable_mattermost_plugin_azure_devops} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Azure DevOps Enabled"
+  }
+
+  measure: enable_mattermost_calls_count  {
+    type: count_distinct
+    sql: case when ${enable_mattermost_calls} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Calls Enabled"
+  }
+
+  measure: enable_mattermost_hackerone_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_hackerone} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ HackerOne Enabled"
+  }
+
+  measure: enable_mattermost_msteams_meetings_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_msteams_meetings} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ MS Teams Meetings Enabled"
+  }
+
+  measure: enable_mattermost_msteams_sync_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_msteams_sync} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ MS Teams Sync Enabled"
+  }
+
+  measure: enable_mattermost_profanityfilter_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_profanityfilter} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Profanity Filter Enabled"
+  }
+  
+  measure: enable_mattermost_servicenow_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_servicenow} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ ServiceNow Enabled"
+  }
+  
+  measure: enable_mattermost_servicenow_virtual_agent_count {
+    type: count_distinct
+    sql: case when ${enable_mattermost_servicenow_virtual_agent} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ ServiceNow VirtualAgent Enabled"
+  }
+
+  measure: enable_memes_count {
+    type: count_distinct
+    sql: case when ${enable_memes} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Memes Enabled"
+  }
+
+  measure: enable_mscalendar_count {
+    type: count_distinct
+    sql: case when ${enable_mscalendar} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ MS Calendar Enabled"
+  }
+
+  measure: enable_nps_count {
+    type: count_distinct
+    sql: case when ${enable_nps} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ NPS Enabled"
+  }
+
+  measure: enable_nps_survey_count {
+    type: count_distinct
+    sql: case when ${enable_nps_survey} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ NPS Survey Enabled"
+  }
+
+  measure: enable_playbooks_count {
+    type: count_distinct
+    sql: case when ${enable_playbooks} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Playbooks Enabled"
+  }
+
+  measure: enable_remote_marketplace_count {
+    type: count_distinct
+    sql: case when ${enable_remote_marketplace} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Remote Marketplace Enabled"
+  }
+
+  measure: enable_set_default_theme_count {
+    type: count_distinct
+    sql: case when ${enable_set_default_theme} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Default Theme Set"
+  }
+
+  measure: enable_skype4business_count {
+    type: count_distinct
+    sql: case when ${enable_skype4business} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Skype4Business Enabled"
+  }
+
+  measure: enable_todo_count {
+    type: count_distinct
+    sql: case when ${enable_todo} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ ToDo Enabled"
+  }
+
+  measure: enable_uploads_count {
+    type: count_distinct
+    sql: case when ${enable_uploads} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Uploads Enabled"
+  }
+  
+  measure: enable_webex_count {
+    type: count_distinct
+    sql: case when ${enable_webex} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ WebEx Enabled"
+  }
+
+  measure: enable_welcome_bot_count {
+    type: count_distinct
+    sql: case when ${enable_welcome_bot} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ WelcomeBot Enabled"
+  }
+  
+  measure: enable_zoom_count {
+    type: count_distinct
+    sql: case when ${enable_zoom} then ${server_id} else null end ;;
+    group_label: "Configuration: Plugin - Instance Counts"
+    label: "Instances w/ Zoom Enabled"
+  }
+
+  #from config_service
+
+  measure: allow_cookies_for_subdomains_count {
+    type: count_distinct
+    sql: case when ${allow_cookies_for_subdomains} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Allow Cookies for Subdomains Enabled"
+  }
+ 
+  measure: allow_persistent_notifications_count {
+    type: count_distinct
+    sql: case when ${allow_persistent_notifications} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Allow Persistent Notifications"
+  }
+
+  measure: allow_persistent_notifications_for_guests_count {
+    type: count_distinct
+    sql: case when ${allow_persistent_notifications_for_guests} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Allow Persistent Notifications For Guests"
+  }
+
+  measure: allow_synced_drafts_count {
+    type: count_distinct
+    sql: case when ${allow_synced_drafts} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Allow Synced Drafts"
+  }
+
+  measure: close_unused_direct_messages_count {
+    type: count_distinct
+    sql: case when ${close_unused_direct_messages} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Close Unused Direct Messages"
+  }
+
+  measure: cors_allow_credentials_count {
+    type: count_distinct
+    sql: case when ${cors_allow_credentials} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Cors Allow Credentials"
+  }
+
+  measure: cors_debug_count {
+    type: count_distinct
+    sql: case when ${cors_debug} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Cors Debug"
+  }
+
+  measure: custom_cert_header_count {
+    type: count_distinct
+    sql: case when ${custom_cert_header} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Custom Cert Header"
+  }
+
+  measure: default_team_name_count {
+    type: count_distinct
+    sql: case when ${default_team_name} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Default Team Name"
+  }
+
+  measure: developer_flags_count {
+    type: count_distinct
+    sql: case when ${developer_flags} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Developer Flags"
+  }
+
+  measure: disable_bots_when_owner_is_deactivated_count {
+    type: count_distinct
+    sql: case when ${disable_bots_when_owner_is_deactivated} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Disable Bots When Owner Is Deactivated"
+  }
+
+  measure: disable_legacy_mfa_count {
+    type: count_distinct
+    sql: case when ${disable_legacy_mfa} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Disable Legacy MFA"
+  }
+  
+  measure: enable_apiv3_count {
+    type: count_distinct
+    sql: case when ${enable_apiv3} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Apiv3"
+  }
+  
+  measure: enable_api_channel_deletion_count {
+    type: count_distinct
+    sql: case when ${enable_api_channel_deletion} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable API Channel Deletion"
+  }
+
+  measure: enable_api_post_deletion_count {
+    type: count_distinct
+    sql: case when ${enable_api_post_deletion} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable API Post Deletion"
+  }
+
+  measure: enable_api_team_deletion_count {
+    type: count_distinct
+    sql: case when ${enable_api_team_deletion} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable API Team Deletion"
+  }
+
+  measure: enable_api_trigger_admin_notification_count {
+    type: count_distinct
+    sql: case when ${enable_api_trigger_admin_notification} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable API Trigger Admin Notification"
+  }
+  
+  measure: enable_api_user_deletion_count {
+    type: count_distinct
+    sql: case when ${enable_api_user_deletion} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable API User Deletion"
+  }
+
+  measure: enable_bot_account_creation_count {
+    type: count_distinct
+    sql: case when ${enable_bot_account_creation} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Bot Account Creation"
+  }
+
+  measure: enable_channel_viewed_messages_service_count {
+    type: count_distinct
+    sql: case when ${enable_channel_viewed_messages_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Channel Viewed Messages Service"
+  }
+
+   measure: enable_commands_service_count {
+    type: count_distinct
+    sql: case when ${enable_commands_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Commands Service"
+  }
+
+  measure: enable_custom_emoji_service_count {
+    type: count_distinct
+    sql: case when ${enable_custom_emoji_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Custom Emoji Service"
+  }
+
+  measure: enable_developer_service_count {
+    type: count_distinct
+    sql: case when ${enable_developer_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Developer Service"
+  }
+
+   measure: enable_email_invitations_count {
+    type: count_distinct
+    sql: case when ${enable_email_invitations} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Email Invitations"
+  }
+
+  measure: enable_emoji_picker_service_count {
+    type: count_distinct
+    sql: case when ${enable_emoji_picker_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Emoji Picker Service"
+  }
+
+  measure: enable_file_search_count {
+    type: count_distinct
+    sql: case when ${enable_file_search} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ File Search Enabled"
+  }
+
+  measure: enable_gif_picker_count {
+    type: count_distinct
+    sql: case when ${enable_gif_picker} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Gif Picker"
+  }
+
+  measure: enable_incoming_webhooks_service_count {
+    type: count_distinct
+    sql: case when ${enable_incoming_webhooks_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Incoming Webhooks Service"
+  }
+
+  measure: enable_insecure_outgoing_connections_service_count {
+    type: count_distinct
+    sql: case when ${enable_insecure_outgoing_connections_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Insecure Outgoing Connections Service"
+  }
+
+   measure: enable_latex_count {
+    type: count_distinct
+    sql: case when ${enable_latex} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Latex"
+  }
+
+   measure: enable_legacy_sidebar_count {
+    type: count_distinct
+    sql: case when ${enable_legacy_sidebar} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Legacy Sidebar Enabled"
+  }
+
+  measure: enable_link_previews_count {
+    type: count_distinct
+    sql: case when ${enable_link_previews} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Link Preview Enabled"
+  }
+
+  measure: enable_local_mode_count {
+    type: count_distinct
+    sql: case when ${enable_local_mode} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Local Mode Enabled"
+  }
+
+  measure: enable_multifactor_authentication_service_count {
+    type: count_distinct
+    sql: case when ${enable_multifactor_authentication_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Multifactor Authentication Service"
+  }
+
+  measure: enable_oauth_service_provider_service_count {
+    type: count_distinct
+    sql: case when ${enable_oauth_service_provider_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable OAuth Service Provider Service"
+  }
+
+  measure: enable_onboarding_flow_count {
+    type: count_distinct
+    sql: case when ${enable_onboarding_flow} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Onboarding Flow"
+  }
+
+  measure: enable_only_admin_integrations_service_count {
+    type: count_distinct
+    sql: case when ${enable_only_admin_integrations_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Only Admin Integrations Service"
+  }
+
+  measure: enable_opentracing_count {
+    type: count_distinct
+    sql: case when ${enable_opentracing} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Open Tracing"
+  }
+
+  measure: enable_outgoing_oauth_connections_count {
+    type: count_distinct
+    sql: case when ${enable_outgoing_oauth_connections} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Outgoing Oauth Connections"
+  }
+
+   measure: enable_outgoing_webhooks_count {
+    type: count_distinct
+    sql: case when ${enable_outgoing_webhooks} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Outgoing Webhooks"
+  }
+  
+  measure: enable_permalink_previews_count {
+    type: count_distinct
+    sql: case when ${enable_permalink_previews} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Permalink Previews"
+  }
+
+  measure: enable_post_icon_override_count {
+    type: count_distinct
+    sql: case when ${enable_post_icon_override} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Post Icon Override"
+  }
+
+  measure: enable_post_search_count {
+    type: count_distinct
+    sql: case when ${enable_post_search} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Post Search"
+  }
+
+  measure: enable_post_username_override_count {
+    type: count_distinct
+    sql: case when ${enable_post_username_override} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Post Username Override"
+  }
+
+   measure: enable_preview_features_count {
+    type: count_distinct
+    sql: case when ${enable_preview_features} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Preview Features"
+  }
+
+   measure: enable_security_fix_alert_count {
+    type: count_distinct
+    sql: case when ${enable_security_fix_alert} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Security Fix Alert"
+  }
+
+  measure: enable_svgs_count {
+    type: count_distinct
+    sql: case when ${enable_svgs} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable SVG's"
+  }
+
+  measure: enable_testing_count {
+    type: count_distinct
+    sql: case when ${enable_testing} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Testing"
+  }
+
+  measure: enable_tutorial_count {
+    type: count_distinct
+    sql: case when ${enable_tutorial} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable Tutorial"
+  }
+
+  measure: enable_user_access_tokens_count {
+    type: count_distinct
+    sql: case when ${enable_user_access_tokens} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable User Access Tokens"
+  }
+
+  measure: enable_user_statuses_count {
+    type: count_distinct
+    sql: case when ${enable_user_statuses} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable User Statuses"
+  }
+
+  measure: enable_user_typing_messages_count {
+    type: count_distinct
+    sql: case when ${enable_user_typing_messages} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enable User Typing Messages"
+  }
+
+  measure: enforce_multifactor_authentication_service_count {
+    type: count_distinct
+    sql: case when ${enforce_multifactor_authentication_service} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Enforce Multifactor Authentication Service"
+  }
+
+  measure: experimental_channel_organization_count {
+    type: count_distinct
+    sql: case when ${experimental_channel_organization} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Channel Organization"
+  }
+
+  measure: experimental_data_prefetch_count {
+    type: count_distinct
+    sql: case when ${experimental_data_prefetch} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Data Prefetch"
+  }
+
+  measure: experimental_enable_authentication_transfer_count {
+    type: count_distinct
+    sql: case when ${experimental_enable_authentication_transfer} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Enable Authentication Transfer"
+  }
+
+  measure: experimental_enable_default_channel_leave_join_messages_count {
+    type: count_distinct
+    sql: case when ${experimental_enable_default_channel_leave_join_messages} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Enable Default Channel Leave Join Messages"
+  }
+
+  measure: experimental_enable_hardened_mode_count {
+    type: count_distinct
+    sql: case when ${experimental_enable_hardened_mode} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Enable Hardened Mode"
+  }
+
+  measure: experimental_ldap_group_sync_count {
+    type: count_distinct
+    sql: case when ${experimental_ldap_group_sync} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental LDAP Group Sync"
+  }
+
+  measure: experimental_limit_client_config_count {
+    type: count_distinct
+    sql: case when ${experimental_limit_client_config} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Limit Client Config"
+  }
+
+  measure: experimental_strict_csrf_enforcement_count {
+    type: count_distinct
+    sql: case when ${experimental_strict_csrf_enforcement} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Experimental Strict Csrf Enforcement"
+  }
+
+  measure: extend_session_length_with_activity_count {
+    type: count_distinct
+    sql: case when ${extend_session_length_with_activity} then ${server_id} else null end ;;
+    group_label: "Configuration: Service"group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Extend Session Length w/ Activity"
+  }
+
+  measure: forward_80_to_443_count{
+    type: count_distinct
+    sql: case when ${forward_80_to_443} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Forward 80 To 443"
+  }
+
+  measure: gfycat_api_key_count {
+    type: count_distinct
+    sql: case when ${gfycat_api_key} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Gfycat Api Key"
+  }
+
+  measure: gfycat_api_secret_count {
+    type: count_distinct
+    sql: case when ${gfycat_api_secret} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Gfycat Api Secret"
+  }
+
+  measure: isdefault_allowed_untrusted_internal_connections_count {
+    type: count_distinct
+    sql: case when ${isdefault_allowed_untrusted_internal_connections} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Allowed Untrusted Internal Connections"
+  }
+
+  measure: isdefault_allow_cors_from_count {
+    type: count_distinct
+    sql: case when ${isdefault_allow_cors_from} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Allow Cors From"
+  }
+
+  measure: isdefault_cors_exposed_headers_count {
+    type: count_distinct
+    sql: case when ${isdefault_cors_exposed_headers} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Cors Exposed Headers"
+  }
+
+  measure: isdefault_google_developer_key_count {
+    type: count_distinct
+    sql: case when ${isdefault_google_developer_key} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Google Developer Key"
+  }
+
+  measure: isdefault_idle_timeout_count {
+    type: count_distinct
+    sql: case when ${isdefault_idle_timeout} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Idle Timeout"
+  }
+
+  measure: isdefault_image_proxy_options_count {
+    type: count_distinct
+    sql: case when ${isdefault_image_proxy_options} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Image Proxy Options"
+  }
+
+  measure: isdefault_image_proxy_type_count {
+    type: count_distinct
+    sql: case when ${isdefault_image_proxy_type} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Image Proxy Type"
+  }
+
+  measure: isdefault_image_proxy_url_count {
+    type: count_distinct
+    sql: case when ${isdefault_image_proxy_url} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Image Proxy URL"
+  }
+
+  measure: isdefault_read_timeout_count {
+    type: count_distinct
+    sql: case when ${isdefault_read_timeout} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Read Timeout"
+  }
+
+  measure: isdefault_site_url_count {
+    type: count_distinct
+    sql: case when ${isdefault_site_url} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Site URL"
+  }
+
+  measure: isdefault_tls_cert_file_count {
+    type: count_distinct
+    sql: case when ${isdefault_tls_cert_file} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault TLS Cert File"
+  }
+
+  measure: isdefault_tls_key_file_count {
+    type: count_distinct
+    sql: case when ${isdefault_tls_key_file} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault TLS Key File"
+  }
+
+  measure: isdefault_write_timeout_count {
+    type: count_distinct
+    sql: case when ${isdefault_write_timeout} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Isdefault Write Timeout"
+  }
+
+  measure: login_with_certificate_count {
+    type: count_distinct
+    sql: case when ${login_with_certificate} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: managed_resource_paths_count {
+    type: count_distinct
+    sql: case when ${managed_resource_paths} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Managed Resource Paths Enabled"
+  }
+
+  measure: post_priority_count {
+    type: count_distinct
+    sql: case when ${post_priority} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: restrict_link_previews_count {
+    type: count_distinct
+    sql: case when ${restrict_link_previews} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Link Preview Restricted"
+  }
+
+  measure: self_hosted_expansion_count {
+    type: count_distinct
+    sql: case when ${self_hosted_expansion} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: self_hosted_purchase_count {
+    type: count_distinct
+    sql: case when ${self_hosted_purchase} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: skip_login_page_count {
+    type: count_distinct
+    sql: case when ${skip_login_page} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: terminate_sessions_on_password_change_count {
+    type: count_distinct
+    sql: case when ${terminate_sessions_on_password_change} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+  }
+
+  measure: thread_auto_follow_count {
+    type: count_distinct
+    sql: case when ${thread_auto_follow} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Thread Autofollow Enabled"
+  }
+
+  measure: tls_strict_transport_count {
+    type: count_distinct
+    sql: case when ${tls_strict_transport} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ TLS Strict Transport"
+  }
+
+  measure: uses_letsencrypt_count {
+    type: count_distinct
+    sql: case when ${uses_letsencrypt} then ${server_id} else null end ;;
+    group_label: "Configuration: Service - Instance Counts"
+    label: "Instances w/ Uses Letsencrypt"
   }
 }
