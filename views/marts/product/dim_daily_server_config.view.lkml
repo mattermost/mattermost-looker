@@ -644,9 +644,9 @@ view: dim_daily_server_config {
     label: "Marketplace Enabled"
   }
   
-  dimension: enable_materpoll {
+  dimension: enable_matterpoll {
     type: yesno
-    sql: ${TABLE}.enable_materpoll ;;
+    sql: ${TABLE}.enable_matterpoll ;;
     group_label: "Configuration: Plugin"
     label: "Matterpoll Enabled"
   }
