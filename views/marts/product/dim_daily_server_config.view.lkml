@@ -16,6 +16,12 @@ view: dim_daily_server_config {
     hidden: yes
   }
 
+  dimension: server_id {
+    type: string
+    sql: ${TABLE}.server_id ;;
+    hidden: yes
+  }
+
   # from config_oauth
   dimension: is_gitlab_enabled {
     type: yesno
