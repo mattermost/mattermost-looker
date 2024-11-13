@@ -174,7 +174,7 @@ explore:fct_board_activity {
   }
 }
 
-explore:fct_calls_activity {
+explore: fct_calls_activity {
   label: "Telemetry Active Calls Servers"
   group_label: "[New] Active Servers"
 
@@ -186,7 +186,7 @@ explore:fct_calls_activity {
   }
 
   join: dim_excludable_servers {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer
     sql_on: ${fct_calls_activity.server_id} = ${dim_excludable_servers.server_id} ;;
   }
