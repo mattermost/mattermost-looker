@@ -1,7 +1,7 @@
 view: fct_nps_feedback {
 
   label: "NPS Feedback"
-  sql_table_name: "MART_PRODUCT"."FCT_NPS_FEEDBACK" ;;
+  sql_table_name: "MART_PRODUCT".fct_nps_feedback ;;
 
   dimension: daily_server_id {
     type: string
