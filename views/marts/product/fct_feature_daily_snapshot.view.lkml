@@ -292,6 +292,137 @@ view: fct_feature_daily_snapshot {
   }
 
 
+  ### Scheduled posts
+
+  dimension: count_scheduled_posts_events_daily {
+    type: number
+    sql: ${TABLE}.count_scheduled_posts_events_daily ;;
+    label: "# of Scheduled Posts Events (Daily)"
+    description: "The number of events related to Scheduled Posts feature for the current day."
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  dimension: count_scheduled_posts_events_monthly {
+    type: number
+    sql: ${TABLE}.count_scheduled_posts_events_monthly ;;
+    label: "# of Scheduled Posts Events (Monthly)"
+    description: "The number of events related to Scheduled Posts feature  for the current day and past 29 days."
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  dimension: count_scheduled_posts_users_daily {
+    type: number
+    sql: ${TABLE}.count_scheduled_posts_users_daily ;;
+    label: "# of Scheduled Posts Unique Users (Daily)"
+    description: "The number of unique users related to Scheduled Posts feature for the current day."
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  dimension: count_scheduled_posts_users_monthly {
+    type: number
+    sql: ${TABLE}.count_scheduled_posts_users_monthly ;;
+    label: "# of Scheduled Posts Unique Users (Monthly)"
+    description: "The number of unique users related to Scheduled Posts feature  for the current day and past 29 days."
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  ### Scheduled Posts - metrics
+
+  measure: total_count_scheduled_posts_events_daily {
+    type: sum
+    sql: ${count_scheduled_posts_events_daily} ;;
+    label: "Total # of Scheduled Posts Events (Daily)"
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  measure: total_count_scheduled_posts_events_monthly {
+    type: sum
+    sql: ${count_scheduled_posts_events_monthly} ;;
+    label: "Total # of Scheduled Posts Events (Monthly)"
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  measure: total_count_scheduled_posts_users_daily {
+    type: sum
+    sql: ${count_scheduled_posts_users_daily} ;;
+    label: "Total # of Scheduled Posts Users (Daily)"
+    view_label: "* Features: Scheduled Posts"
+  }
+
+  measure: total_count_scheduled_posts_users_monthly {
+    type: sum
+    sql: ${count_scheduled_posts_users_monthly} ;;
+    label: "Total # of Scheduled Posts Users (Monthly)"
+    view_label: "* Features: Scheduled Posts"
+  }
+
+
+
+  ### Read-only Channels
+
+  dimension: count_read_only_channels_events_daily {
+    type: number
+    sql: ${TABLE}.count_read_only_channels_events_daily ;;
+    label: "# of Read-only Channels Events (Daily)"
+    description: "The number of events related to Read-only Channels feature for the current day."
+    view_label: "* Features: Read-only Channels"
+  }
+
+  dimension: count_read_only_channels_events_monthly {
+    type: number
+    sql: ${TABLE}.count_read_only_channels_events_monthly ;;
+    label: "# of Read-only Channels Events (Monthly)"
+    description: "The number of events related to Read-only Channels feature  for the current day and past 29 days."
+    view_label: "* Features: Read-only Channels"
+  }
+
+  dimension: count_read_only_channels_users_daily {
+    type: number
+    sql: ${TABLE}.count_read_only_channels_users_daily ;;
+    label: "# of Read-only Channels Unique Users (Daily)"
+    description: "The number of unique users related to Read-only Channels feature for the current day."
+    view_label: "* Features: Read-only Channels"
+  }
+
+  dimension: count_read_only_channels_users_monthly {
+    type: number
+    sql: ${TABLE}.count_read_only_channels_users_monthly ;;
+    label: "# of Read-only Channels Unique Users (Monthly)"
+    description: "The number of unique users related to Read-only Channels feature  for the current day and past 29 days."
+    view_label: "* Features: Read-only Channels"
+  }
+
+  ### Read-only Channels - metrics
+
+  measure: total_count_read_only_channels_events_daily {
+    type: sum
+    sql: ${count_read_only_channels_events_daily} ;;
+    label: "Total # of Read-only Channels Events (Daily)"
+    view_label: "* Features: Read-only Channels"
+  }
+
+  measure: total_count_read_only_channels_events_monthly {
+    type: sum
+    sql: ${count_read_only_channels_events_monthly} ;;
+    label: "Total # of Read-only Channels Events (Monthly)"
+    view_label: "* Features: Read-only Channels"
+  }
+
+  measure: total_count_read_only_channels_users_daily {
+    type: sum
+    sql: ${count_read_only_channels_users_daily} ;;
+    label: "Total # of Read-only Channels Users (Daily)"
+    view_label: "* Features: Read-only Channels"
+  }
+
+  measure: total_count_read_only_channels_users_monthly {
+    type: sum
+    sql: ${count_read_only_channels_users_monthly} ;;
+    label: "Total # of Read-only Channels Users (Monthly)"
+    view_label: "* Features: Read-only Channels"
+  }
+
+
   ### Playbooks
 
   dimension: count_playbooks_events_daily {
