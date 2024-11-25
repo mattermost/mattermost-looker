@@ -2,7 +2,7 @@ view: fct_nps_score {
   label: "NPS Score"
   view_label: "NPS Score"
   sql_table_name: MART_PRODUCT.FCT_NPS_SCORE ;;
-  drill_fields: [id, server_id, server_version]
+  drill_fields: [id, server_id, dim_version.version_full]
 
   dimension: id {
     primary_key: yes
@@ -11,7 +11,7 @@ view: fct_nps_score {
     type: string
     sql: ${TABLE}."ID" ;;
   }
-   
+
   dimension: daily_server_id {
     type: string
     sql: ${TABLE}.daily_server_id ;;
@@ -296,7 +296,7 @@ view: fct_nps_score {
     sql: ${TABLE}.version_id ;;
     hidden: yes
   }
-  
+
   measure: count {
     type: count
     label: "Count"

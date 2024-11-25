@@ -72,7 +72,7 @@ view: dim_daily_server_config {
     label: "Is OpenID - Office365 Enabled?"
   }
 
-  # from config_ldap  
+  # from config_ldap
   dimension: connection_security_ldap {
     type: string
     sql: ${TABLE}.connection_security_ldap ;;
@@ -100,7 +100,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: LDAP"
     label: "Enable Sync"
   }
-  
+
   dimension: isdefault_email_attribute_ldap {
     type: yesno
     sql: ${TABLE}.isdefault_email_attribute_ldap ;;
@@ -260,7 +260,7 @@ view: dim_daily_server_config {
     sql: ${TABLE}.segment_dedupe_id_ldap ;;
     group_label: "Configuration: LDAP"
   }
- 
+
   dimension: skip_certificate_verification {
     type: yesno
     sql: ${TABLE}.skip_certificate_verification ;;
@@ -274,7 +274,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: LDAP"
     label: "Sync Interval (minutes)"
   }
-  
+
   # from config_saml
 
   dimension: enable_saml {
@@ -460,7 +460,7 @@ view: dim_daily_server_config {
   }
 
   #from config_plugin
-  
+
   dimension: allow_insecure_download_url {
     type: yesno
     sql: ${TABLE}.allow_insecure_download_url ;;
@@ -523,7 +523,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Channel Export Enabled"
   }
-  
+
   dimension: enable_circleci {
     type: yesno
     sql: ${TABLE}.enable_circleci ;;
@@ -565,7 +565,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Focalboard Enabled"
   }
-  
+
   dimension: enable_giphy {
     type: yesno
     sql: ${TABLE}.enable_giphy ;;
@@ -586,7 +586,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Gitlab Enabled"
   }
-  
+
   dimension: enable_health_check {
     type: yesno
     sql: ${TABLE}.enable_health_check ;;
@@ -600,7 +600,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Icebreaker Enabled"
   }
-  
+
   dimension: enable_incident_management {
     type: yesno
     sql: ${TABLE}.enable_incident_management ;;
@@ -621,7 +621,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Jenkins Enabled"
   }
-  
+
   dimension: enable_jespino_recommend {
     type: yesno
     sql: ${TABLE}.enable_jespino_recommend ;;
@@ -642,14 +642,14 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Jitsi Enabled"
   }
-  
+
   dimension: enable_marketplace {
     type: yesno
     sql: ${TABLE}.enable_marketplace ;;
     group_label: "Configuration: Plugin"
     label: "Marketplace Enabled"
   }
-  
+
   dimension: enable_matterpoll {
     type: yesno
     sql: ${TABLE}.enable_matterpoll ;;
@@ -712,14 +712,14 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Profanity Filter Enabled"
   }
-  
+
   dimension: enable_mattermost_servicenow {
     type: yesno
     sql: ${TABLE}.enable_mattermost_servicenow ;;
     group_label: "Configuration: Plugin"
     label: "ServiceNow Enabled"
   }
-  
+
   dimension: enable_mattermost_servicenow_virtual_agent {
     type: yesno
     sql: ${TABLE}.enable_mattermost_servicenow_virtual_agent ;;
@@ -796,7 +796,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Uploads Enabled"
   }
-  
+
   dimension: enable_webex {
     type: yesno
     sql: ${TABLE}.enable_webex ;;
@@ -810,21 +810,21 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Welcome Bot Enabled"
   }
-  
+
   dimension: enable_zoom {
     type: yesno
     sql: ${TABLE}.enable_zoom ;;
     group_label: "Configuration: Plugin"
     label: "Zoom Enabled"
   }
-  
+
   dimension: is_default_marketplace_url {
     type: yesno
     sql: ${TABLE}.is_default_marketplace_url ;;
     group_label: "Configuration: Plugin"
     label: "Is Default Marketplace URL"
   }
-  
+
   dimension: require_plugin_signature {
     type: yesno
     sql: ${TABLE}.require_plugin_signature ;;
@@ -851,7 +851,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Antivirus Version"
   }
-  
+
   dimension: version_autolink {
     type: string
     sql: ${TABLE}.version_autolink ;;
@@ -949,7 +949,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Icebreaker Version"
   }
-  
+
   dimension: version_incident_management {
     type: string
     sql: ${TABLE}.version_incident_management ;;
@@ -1096,7 +1096,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "Skype4Business Version"
   }
-  
+
   dimension: version_todo {
     type: string
     sql: ${TABLE}.version_todo ;;
@@ -1110,7 +1110,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin"
     label: "WebEx Version"
   }
-  
+
   dimension: version_welcome_bot {
     type: string
     sql: ${TABLE}.version_welcome_bot ;;
@@ -1126,7 +1126,7 @@ view: dim_daily_server_config {
   }
 
   #from config_service
-  
+
   dimension: allow_cookies_for_subdomains {
     type: yesno
     sql: ${TABLE}.allow_cookies_for_subdomains ;;
@@ -1140,7 +1140,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Allow Edit Post"
   }
- 
+
   dimension: allow_persistent_notifications {
     type: yesno
     sql: ${TABLE}.allow_persistent_notifications ;;
@@ -1182,13 +1182,13 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Collapsed Threads Status"
   }
-  
+
   dimension: connection_security_service {
     type: string
     sql: ${TABLE}.connection_security_service ;;
     group_label: "Configuration: Service"
   }
-  
+
   dimension: cors_allow_credentials {
     type: yesno
     sql: ${TABLE}.cors_allow_credentials ;;
@@ -1237,14 +1237,14 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Disable Legacy MFA"
   }
-  
+
   dimension: enable_apiv3 {
     type: yesno
     sql: ${TABLE}.enable_apiv3 ;;
     group_label: "Configuration: Service"
     label: "Enable Apiv3"
   }
-  
+
   dimension: enable_api_channel_deletion {
     type: yesno
     sql: ${TABLE}.enable_api_channel_deletion ;;
@@ -1272,7 +1272,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Enable API Trigger Admin Notification"
   }
-  
+
   dimension: enable_api_user_deletion {
     type: yesno
     sql: ${TABLE}.enable_api_user_deletion ;;
@@ -1433,7 +1433,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Enable Outgoing Webhooks"
   }
-  
+
   dimension: enable_permalink_previews {
     type: yesno
     sql: ${TABLE}.enable_permalink_previews ;;
@@ -1732,7 +1732,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Managed Resource Paths Enabled"
   }
-  
+
   dimension: maximum_login_attempts {
     type: number
     sql: ${TABLE}.maximum_login_attempts ;;
@@ -1780,7 +1780,7 @@ view: dim_daily_server_config {
     sql: ${TABLE}.persistent_notification_max_recipients ;;
     group_label: "Configuration: Service"
   }
-  
+
   dimension: post_edit_time_limit {
     type: number
     sql: ${TABLE}.post_edit_time_limit ;;
@@ -1792,7 +1792,7 @@ view: dim_daily_server_config {
     sql: ${TABLE}.post_priority ;;
     group_label: "Configuration: Service"
   }
- 
+
   dimension: refresh_post_stats_run_time {
     type: string
     sql: ${TABLE}.refresh_post_stats_run_time ;;
@@ -1811,7 +1811,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service"
     label: "Link Preview Restricted"
   }
-  
+
   dimension: restrict_post_delete {
     type: string
     sql: ${TABLE}.restrict_post_delete ;;
@@ -1829,7 +1829,7 @@ view: dim_daily_server_config {
     sql: ${TABLE}.self_hosted_purchase ;;
     group_label: "Configuration: Service"
   }
- 
+
   dimension: session_cache_in_minutes {
     type: number
     sql: ${TABLE}.session_cache_in_minutes ;;
@@ -1853,7 +1853,7 @@ view: dim_daily_server_config {
     sql: ${TABLE}.session_length_mobile_in_hours ;;
     group_label: "Configuration: Service"
   }
-  
+
   dimension: session_length_sso_in_days {
     type: number
     sql: ${TABLE}.session_length_sso_in_days ;;
@@ -1983,8 +1983,8 @@ view: dim_daily_server_config {
     label: "Instances w/ OpenId Office365"
   }
 
-  # from config_ldap 
-  
+  # from config_ldap
+
   measure: enable_ldap_count {
     type: count_distinct
     sql: case when ${enable_ldap} then ${server_id} else null end ;;
@@ -2043,7 +2043,7 @@ view: dim_daily_server_config {
   }
 
   #from config_plugin
-  
+
   measure: allow_insecure_download_url_count  {
     type: count_distinct
     sql: case when ${allow_insecure_download_url} then ${server_id} else null end ;;
@@ -2106,7 +2106,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Channel Export Enabled"
   }
-  
+
   measure: enable_circleci_count  {
     type: count_distinct
     sql: case when ${enable_circleci} then ${server_id} else null end ;;
@@ -2148,7 +2148,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Focalboard Enabled"
   }
-  
+
   measure: enable_giphy_count  {
     type: count_distinct
     sql: case when ${enable_giphy} then ${server_id} else null end ;;
@@ -2169,7 +2169,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Gitlab Enabled"
   }
-  
+
   measure: enable_health_check_count  {
     type: count_distinct
     sql: case when ${enable_health_check} then ${server_id} else null end ;;
@@ -2183,7 +2183,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Icebreaker Enabled"
   }
-  
+
   measure: enable_incident_management_count  {
     type: count_distinct
     sql: case when ${enable_incident_management} then ${server_id} else null end ;;
@@ -2204,7 +2204,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Jenkins Enabled"
   }
-  
+
   measure: enable_jespino_recommend_count  {
     type: count_distinct
     sql: case when ${enable_jespino_recommend} then ${server_id} else null end ;;
@@ -2225,17 +2225,17 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Jitsi Enabled"
   }
-  
+
   measure: enable_marketplace_count  {
     type: count_distinct
     sql: case when ${enable_marketplace} then ${server_id} else null end ;;
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Marketplace Enabled"
   }
-  
+
   measure: enable_materpoll_count  {
     type: count_distinct
-    sql: case when ${enable_materpoll} then ${server_id} else null end ;;
+    sql: case when ${enable_matterpoll} then ${server_id} else null end ;;
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Matterpoll Enabled"
   }
@@ -2295,14 +2295,14 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Profanity Filter Enabled"
   }
-  
+
   measure: enable_mattermost_servicenow_count {
     type: count_distinct
     sql: case when ${enable_mattermost_servicenow} then ${server_id} else null end ;;
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ ServiceNow Enabled"
   }
-  
+
   measure: enable_mattermost_servicenow_virtual_agent_count {
     type: count_distinct
     sql: case when ${enable_mattermost_servicenow_virtual_agent} then ${server_id} else null end ;;
@@ -2379,7 +2379,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ Uploads Enabled"
   }
-  
+
   measure: enable_webex_count {
     type: count_distinct
     sql: case when ${enable_webex} then ${server_id} else null end ;;
@@ -2393,7 +2393,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Plugin - Instance Counts"
     label: "Instances w/ WelcomeBot Enabled"
   }
-  
+
   measure: enable_zoom_count {
     type: count_distinct
     sql: case when ${enable_zoom} then ${server_id} else null end ;;
@@ -2409,7 +2409,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Allow Cookies for Subdomains Enabled"
   }
- 
+
   measure: allow_persistent_notifications_count {
     type: count_distinct
     sql: case when ${allow_persistent_notifications} then ${server_id} else null end ;;
@@ -2486,14 +2486,14 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Disable Legacy MFA"
   }
-  
+
   measure: enable_apiv3_count {
     type: count_distinct
     sql: case when ${enable_apiv3} then ${server_id} else null end ;;
     group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Enable Apiv3"
   }
-  
+
   measure: enable_api_channel_deletion_count {
     type: count_distinct
     sql: case when ${enable_api_channel_deletion} then ${server_id} else null end ;;
@@ -2521,7 +2521,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Enable API Trigger Admin Notification"
   }
-  
+
   measure: enable_api_user_deletion_count {
     type: count_distinct
     sql: case when ${enable_api_user_deletion} then ${server_id} else null end ;;
@@ -2682,7 +2682,7 @@ view: dim_daily_server_config {
     group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Enable Outgoing Webhooks"
   }
-  
+
   measure: enable_permalink_previews_count {
     type: count_distinct
     sql: case when ${enable_permalink_previews} then ${server_id} else null end ;;
@@ -2833,7 +2833,7 @@ view: dim_daily_server_config {
   measure: extend_session_length_with_activity_count {
     type: count_distinct
     sql: case when ${extend_session_length_with_activity} then ${server_id} else null end ;;
-    group_label: "Configuration: Service"group_label: "Configuration: Service - Instance Counts"
+    group_label: "Configuration: Service - Instance Counts"
     label: "Instances w/ Extend Session Length w/ Activity"
   }
 
