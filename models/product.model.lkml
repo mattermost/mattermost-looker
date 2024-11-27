@@ -48,7 +48,7 @@ explore: fct_nps_feedback {
   }
 
   join: dim_daily_license {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer
     sql_on: ${fct_nps_feedback.daily_server_id} = ${dim_daily_license.daily_server_id} ;;
   }
@@ -298,7 +298,7 @@ explore: fct_licenses {
   group_label: "[New] Active Servers"
 
   join: bdg_license_server{
-    relationship: many_to_many
+    relationship: one_to_many
     type: left_outer
     sql_on:  ${fct_licenses.license_id} = ${bdg_license_server.license_id} ;;
   }
