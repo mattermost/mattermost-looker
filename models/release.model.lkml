@@ -9,7 +9,7 @@ explore:  fct_issues_daily_snapshot {
   group_label: "JIRA Issues"
 
   join: dim_projects {
-    relationship: one_to_one
+    relationship: many_to_one
     type: inner
     sql_on: ${fct_issues_daily_snapshot.project_id} = ${dim_projects.project_id} ;;
   }
