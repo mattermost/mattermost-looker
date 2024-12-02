@@ -49,7 +49,31 @@ view: dim_daily_server_info {
     type: string
     sql: ${TABLE}.database_version ;;
     label: "Database Version"
-    description: "The version of the database"
+    description: "The version string of the database, as reported via telemetry"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: database_version_semver {
+    type: string
+    sql: ${TABLE}.database_version ;;
+    label: "Database Semantic Version"
+    description: "The semantic part of the version of the database"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: database_version_major {
+    type: number
+    sql: ${TABLE}.database_version_major ;;
+    label: "Database Version - Major"
+    description: "The major part of the version of the database"
+    view_label: "Server: Daily Info Snapshot"
+  }
+
+  dimension: database_version_minor {
+    type: number
+    sql: ${TABLE}.database_version_minor ;;
+    label: "Database Version - Minor"
+    description: "The minor part of the version of the database"
     view_label: "Server: Daily Info Snapshot"
   }
 
