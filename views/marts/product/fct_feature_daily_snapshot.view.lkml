@@ -35,7 +35,7 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_events_daily {
     type: number
-    sql: ${TABLE}.count_custom_ug_events_daily;;
+    sql: ${TABLE}.count_custom_groups_events_daily;;
     label: "# of Custom User Group Events (Daily)"
     description: "The number of events related to Custom user groups feature for the current day."
     view_label: "* Features: Custom User Groups"
@@ -43,25 +43,25 @@ view: fct_feature_daily_snapshot {
 
   dimension: count_custom_ug_events_monthly {
     type: number
-    sql: ${TABLE}.count_custom_ug_events_monthly;;
+    sql: ${TABLE}.count_custom_groups_events_monthly;;
     label: "# of Custom User Group Events (Monthly)"
-    description: "The number of events related to Message Acknowledgement feature for the current day and past 29 days."
+    description: "The number of events related to  Custom user groups feature for the current day and past 29 days."
     view_label: "* Features: Custom User Groups"
   }
 
   dimension: count_custom_ug_users_daily {
     type: number
-    sql: ${TABLE}.count_custom_ug_users_daily ;;
+    sql: ${TABLE}.count_custom_groups_users_daily ;;
     label: "# of Custom User Group Unique Users (Daily)"
-    description: "The number of unique users related to Message Acknowledgement feature for the current day."
+    description: "The number of unique users related to  Custom user groups feature for the current day."
     view_label: "* Features: Custom User Groups"
   }
 
   dimension: count_custom_ug_users_monthly {
     type: number
-    sql: ${TABLE}.count_custom_ug_users_monthly ;;
+    sql: ${TABLE}.count_custom_groups_users_monthly ;;
     label: "# of Custom User Group Unique Users (Monthly)"
-    description: "The number of unique users related to Message Acknowledgement feature for the current day and past 29 days."
+    description: "The number of unique users related to  Custom user groups feature for the current day and past 29 days."
     view_label: "* Features: Custom User Groups"
   }
 
@@ -357,6 +357,70 @@ view: fct_feature_daily_snapshot {
   }
 
 
+    ### Passive keywords
+
+    dimension: count_passive_keywords_events_daily {
+      type: number
+      sql: ${TABLE}.count_passive_keywords_events_daily;;
+      label: "# of Passive Keywords Events (Daily)"
+      description: "The number of events related to Passive keywords feature for the current day."
+      view_label: "* Features: Passive keywords"
+    }
+
+    dimension: count_passive_keywords_events_monthly {
+      type: number
+      sql: ${TABLE}.count_passive_keywords_events_monthly;;
+      label: "# of Passive Keywords Events (Monthly)"
+      description: "The number of events related to Passive Keywords feature for the current day and past 29 days."
+      view_label: "* Features: Passive keywords"
+    }
+
+    dimension: count_passive_keywords_users_daily {
+      type: number
+      sql: ${TABLE}.count_passive_keywords_users_daily ;;
+      label: "# of Passive Keywords Unique Users (Daily)"
+      description: "The number of unique users related to Passive Keywords feature for the current day."
+      view_label: "* Features: Passive keywords"
+    }
+
+    dimension: count_passive_keywords_users_monthly {
+      type: number
+      sql: ${TABLE}.count_passive_keywords_users_monthly ;;
+      label: "# of Passive Keywords Unique Users (Monthly)"
+      description: "The number of unique users related to Passive Keywords feature for the current day and past 29 days."
+      view_label: "* Features: Passive keywords"
+    }
+
+    ### Passive keywords - metrics
+
+    measure: total_count_passive_keywords_events_daily {
+      type: sum
+      sql: ${count_passive_keywords_events_daily} ;;
+      label: "Total # of Passive Keywords Events (Daily)"
+      view_label: "* Features: Passive keywords"
+    }
+
+    measure: total_count_passive_keywords_events_monthly {
+      type: sum
+      sql: ${count_passive_keywords_events_monthly} ;;
+      label: "Total # of Passive Keywords Events (Monthly)"
+      view_label: "* Features: Passive keywords"
+    }
+
+    measure: total_count_passive_keywords_users_daily {
+      type: sum
+      sql: ${count_passive_keywords_users_daily} ;;
+      label: "Total # of Passive Keywords Users (Daily)"
+      view_label: "* Features: Passive keywords"
+    }
+
+    measure: total_count_passive_keywords_users_monthly {
+      type: sum
+      sql: ${count_passive_keywords_users_monthly} ;;
+      label: "Total # of Passive Keywords Users (Monthly)"
+      view_label: "* Features: Passive keywords"
+    }
+
 
   ### Read-only Channels
 
@@ -420,6 +484,71 @@ view: fct_feature_daily_snapshot {
     sql: ${count_read_only_channels_users_monthly} ;;
     label: "Total # of Read-only Channels Users (Monthly)"
     view_label: "* Features: Read-only Channels"
+  }
+
+
+  ### Shared Channels
+
+  dimension: count_shared_channels_events_daily {
+    type: number
+    sql: ${TABLE}.count_shared_channels_events_daily;;
+    label: "# of Shared Channels Events (Daily)"
+    description: "The number of events related to Shared Channels feature for the current day."
+    view_label: "* Features: Shared Channels"
+  }
+
+  dimension: count_shared_channels_events_monthly {
+    type: number
+    sql: ${TABLE}.count_shared_channels_events_monthly;;
+    label: "# of Shared Channels Events (Monthly)"
+    description: "The number of events related to Shared Channels feature for the current day and past 29 days."
+    view_label: "* Features: Shared Channels"
+  }
+
+  dimension: count_shared_channels_users_daily {
+    type: number
+    sql: ${TABLE}.count_shared_channels_users_daily ;;
+    label: "# of Shared Channels Unique Users (Daily)"
+    description: "The number of unique users related to Shared Channels feature for the current day."
+    view_label: "* Features: Shared Channels"
+  }
+
+  dimension: count_shared_channels_users_monthly {
+    type: number
+    sql: ${TABLE}.count_shared_channels_users_monthly ;;
+    label: "# of Shared Channels Unique Users (Monthly)"
+    description: "The number of unique users related to Shared Channels feature for the current day and past 29 days."
+    view_label: "* Features: Shared Channels"
+  }
+
+  ### Shared Channels - metrics
+
+  measure: total_count_shared_channels_events_daily {
+    type: sum
+    sql: ${count_shared_channels_events_daily} ;;
+    label: "Total # of Shared Channels Events (Daily)"
+    view_label: "* Features: Shared Channels"
+  }
+
+  measure: total_count_shared_channels_events_monthly {
+    type: sum
+    sql: ${count_shared_channels_events_monthly} ;;
+    label: "Total # of Shared Channels Events (Monthly)"
+    view_label: "* Features: Shared Channels"
+  }
+
+  measure: total_count_shared_channels_users_daily {
+    type: sum
+    sql: ${count_shared_channels_users_daily} ;;
+    label: "Total # of Shared Channels Users (Daily)"
+    view_label: "* Features: Shared Channels"
+  }
+
+  measure: total_count_shared_channels_users_monthly {
+    type: sum
+    sql: ${count_shared_channels_users_monthly} ;;
+    label: "Total # of Shared Channels Users (Monthly)"
+    view_label: "* Features: Shared Channels"
   }
 
 
