@@ -366,6 +366,25 @@ view: grp_performance_events {
 
   # Common percentile measures
 
+
+  measure: duration_min {
+    group_label: "Duration Measures"
+    label: "Duration (Min)"
+    description: "The minimum Duration across all instances within the grouping."
+    type: min
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
+  measure: duration_max {
+    group_label: "Duration Measures"
+    label: "Duration (Max)"
+    description: "The minimum Duration across all instances within the grouping."
+    type: max
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
   measure: duration_avg {
     group_label: "Duration Measures"
     label: "Duration (Avg)"
@@ -390,6 +409,27 @@ view: grp_performance_events {
     description: "The 5th percentile Duration across all instances within the grouping."
     type: percentile
     percentile: 5
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
+  measure: duration_p25 {
+    group_label: "Duration Measures"
+    label: "Duration (p25)"
+    description: "The 25th percentile Duration across all instances within the grouping."
+    type: percentile
+    percentile: 25
+    sql: ${duration} ;;
+    value_format_name: decimal_2
+  }
+
+
+  measure: duration_p75 {
+    group_label: "Duration Measures"
+    label: "Duration (p75)"
+    description: "The 75th percentile Duration across all instances within the grouping."
+    type: percentile
+    percentile: 75
     sql: ${duration} ;;
     value_format_name: decimal_2
   }
