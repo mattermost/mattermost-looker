@@ -163,7 +163,7 @@ view: grp_performance_events {
   dimension: context_screen_density {
     type: number
     sql: ${TABLE}.context_screen_density ;;
-    label: "Screen Desnsity"
+    label: "Screen Density"
     description: "Density of the device’s screen."
     group_label: "Client Info"
   }
