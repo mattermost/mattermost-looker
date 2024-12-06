@@ -360,7 +360,7 @@ view: grp_performance_events {
     type: count_distinct
     sql: ${user_id} ;;
     label: " Instance Count"
-    description: "The distinct count of Server Id'swithin the grouping."
+    description: "The distinct count of Server Id's within the grouping."
     group_label: "Event Details"
   }
 
@@ -422,7 +422,6 @@ view: grp_performance_events {
     sql: ${duration} ;;
     value_format_name: decimal_2
   }
-
 
   measure: duration_p75 {
     group_label: "Duration Measures"
