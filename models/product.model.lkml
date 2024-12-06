@@ -320,3 +320,22 @@ explore: rpt_docs_feedback {
   label: "[New] Feedback"
   group_label: "[New] Mattermost Documentation"
 }
+
+explore: grp_performance_events {
+  label: "[New] Performance events"
+  group_label: "[New] Active Servers"
+
+  join: dim_user_agent {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${grp_performance_events.context_user_agent} = ${dim_user_agent.raw_user_agent} ;;
+  }
+
+  join: dim_server_info {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${grp_performance_events.user_id} = ${dim_server_info.server_id} ;;
+  }
+
+
+}
