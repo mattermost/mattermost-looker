@@ -316,6 +316,11 @@ explore: rpt_won_opportunities {
   group_label: "[New] Salesforce reports"
 }
 
+explore: rpt_current_customers {
+  label: "[New] Active Customers"
+  group_label: "[New] Salesforce reports"
+}
+
 explore: rpt_docs_feedback {
   label: "[New] Feedback"
   group_label: "[New] Mattermost Documentation"
