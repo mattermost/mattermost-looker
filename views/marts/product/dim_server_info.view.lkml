@@ -115,4 +115,12 @@ view: dim_server_info {
     description: "The name of the country, as extracted by the last reported IP using geolocation database."
     view_label: "Server: Lifecycle"
   }
+
+  dimension: company_name {
+    type: string
+    sql: ${TABLE}.company_name ;;
+    label: "Company Name"
+    description: "The company name, as it appears on the latest reported license."
+    view_label: "Server: Lifecycle"
+  }
 }
